@@ -1,0 +1,51 @@
+module
+    kind es6
+    $
+        var md = {
+            name: 'docx',
+        };
+
+    const H2_Size = 28
+    const Big_Size = 24
+    const Normal_Size = 24
+    const P_spacing_before = 20 * 72 * 0.05
+    const P_spacing_before_h2 = 20 * 72 * 0.2
+    const P_spacing_after = 20 * 72 * 0.025
+    const P_spacing_after_h2 = 20 * 72 * 0.1
+    
+    v08/examples/plugin(&md)
+        $append imports
+            var wizziTools = require('wizzi-tools')
+
+        $override requireWizzi
+            var wizzi = require('../../../wizzi/dist/index')
+
+        $append plugins
+            [ items
+                $$ @ './index.js'
+                @ './wizzi.plugin.docx/dist/index.js'
+                @ './wizzi-core/dist/index.js'
+            @ pluginsBaseFolder
+                _ path.resolve
+                    @ __dirname
+                    @ '..'
+                    @ '..'
+                    @ '..'
+
+        _ loadModelAndGenerateArtifact
+            _ path.join
+                @ __dirname
+                @ 'ittf'
+                @ 'Anna.docx.ittf'
+            {
+                @ category "Tutti a tavola"
+            @ 'docx/document'
+            f_cb( artifactText )
+                _ file.write
+                    _ path.join
+                        @ __dirname
+                        @ 'dist'
+                        @ 'first.docx.js'
+                    @ artifactText
+
+        

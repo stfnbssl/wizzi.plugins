@@ -1,0 +1,129 @@
+module
+    kind es6
+
+    var path = require('path')
+    var fs = require('fs')
+    var async = require('async')
+    var wizzi = null
+    var wizziUtils = require('wizzi-utils')
+    var verify = wizziUtils.verify
+    var file = wizziUtils.file
+    var mocks = wizziUtils.mocks
+    var mtree = require('wizzi-mtree')
+    var errors = wizziUtils.exampleErrors
+    var stringify = require('json-stringify-safe')
+
+    var ctx
+        {
+            { sequences
+            { htmls
+            { source            
+    
+    _ executeExtract
+        [
+            @ 'Tutti a tavola'
+            @ 'NpL-NpM'
+            @ 'Famiglia'
+            @ 'Bambino'
+            @ 'Pediatra'
+            @ 'Temi caldi'
+            @ 'Giochi-Movimento'
+        @ ctx
+
+    foreach sequence in Object.keys(ctx.sequences)
+        log sequence, ctx.htmls[sequence]
+
+    var json 
+        _ buildTestJson
+            @ ctx
+
+    _ file.write
+        _ path.join
+            @ __dirname
+            @ 'ittf'
+            @ 'extracted'
+            @ 'Test.detail.json'
+        _ stringify
+            @ json
+            @ null
+            @ 4
+
+    function executeExtract
+        param categories
+        param ctx
+        
+        foreach cat in categories
+            var context
+                _ file.readJSON
+                    _ path.join
+                        @ __dirname
+                        @ 'dist'
+                        @ 'beba'
+                        @ 'test'
+                        @ cat + '.docx.json'
+
+            foreach item in context.items
+                foreach child in item.TestoJson.children
+                    var itemctx
+                        {
+                            [ spath
+                            [ shtml
+                            @ counter 0
+                    _ extractDeep
+                        @ child
+                        @ itemctx
+                    set ctx.sequences[itemctx.spath.join('_')] = true
+                    set ctx.htmls[itemctx.spath.join('_')] = itemctx.shtml.join('') 
+                    set ctx.source[itemctx.spath.join('_')] = item.Categoria + ' / ' + item.Titolo + ' / ' + item.url
+
+    function extractDeep
+        param node
+        param ctx
+        if node.name == '+' || node.name == '++'
+            return
+        _ ctx.spath.push(node.name)
+        if node.name == 'br'
+            _ ctx.shtml.push('<br />')
+        else
+            _ ctx.shtml.push('<' + node.name + '>')
+        if node.value && node.value.length > 0
+            set ctx.counter++
+            _ ctx.spath.push('(value' + ctx.counter + ')')
+            _ ctx.shtml.push('value ' + ctx.counter)
+        foreach child in node.children
+            _ extractDeep
+                @ child
+                @ ctx
+
+        if node.name != 'br'
+            _ ctx.shtml.push('</' + node.name + '>')
+
+    function buildTestJson
+        param ctx
+        var ret = {}
+        set ret.category = "Test"
+        var items = []
+        set ret.items = items
+        var i = 1;
+        foreach sequence in Object.keys(ctx.sequences)
+            var Testo = ctx.htmls[sequence] 
+            var Abstract = ctx.htmls[sequence] + ' in ' + ctx.source[sequence] 
+            var newItem
+                {
+                    @ NWS_ID 433 
+                    @ NWS_FK_TNW_ID 4 
+                    @ NWS_FK_TCL_ID 1 
+                    @ NWS_FK_TPN_ID 2 
+                    @ SettimanaDal "X"
+                    @ SettimanaAl "X" 
+                    @ Testo Testo
+                    @ Abstract Abstract
+                    @ Titolo "X mesi" 
+                    @ sort i++
+                    @ Categoria "Test"
+                    @ url "https://cosie.lepida.it/backoffice/news/gestione/433"
+                    @ User "Bax"
+                    @ NewsOrGuida "guida"
+            _ ret.items.push
+                @ newItem
+        return ret                

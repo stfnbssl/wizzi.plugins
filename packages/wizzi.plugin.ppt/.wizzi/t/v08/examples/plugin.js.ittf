@@ -1,0 +1,297 @@
+$group
+    $params &md
+    var path = require('path')
+    var fs = require('fs')
+    var async = require('async')
+    var wizzi = null
+    var wizziUtils = require('wizzi-utils')
+    var verify = wizziUtils.verify
+    var file = wizziUtils.file
+    var mocks = wizziUtils.mocks
+    var mtree = require('wizzi-mtree')
+    var errors = wizziUtils.exampleErrors
+    var stringify = require('json-stringify-safe')
+    $hook imports
+    function executeExample
+        $hook
+    function createWizziFactory
+        param globalContext
+        param callback
+        if wizzi == null
+            $$ Override this to use the version under development
+            $virtual requireWizzi
+                # The wizzi package will be the npm version from wizzi/node_modules
+                set wizzi = require('wizzi')
+        log '"wizzi" package version', wizzi.version
+        _ wizzi.fsnoaclFactory
+            {
+                { plugins
+                    $hook plugins
+                @ globalContext globalContext || {}
+            @ callback
+    function loadMTree
+        param ittfDocumentUri
+        param context
+        param callback
+        _ createWizziFactory
+            {
+            f_cb( wf )
+                _ wf.loadMTree
+                    @ ittfDocumentUri
+                    @ context
+                    @ callback
+    function loadMTreeDebugInfo
+        param ittfDocumentUri
+        param context
+        param callback
+        _ createWizziFactory
+            {
+            f_cb( wf )
+                _ wf.loadMTreeDebugInfo
+                    @ ittfDocumentUri
+                    @ context
+                    @ callback
+    function loadWizziModel
+        param ittfDocumentUri
+        param context
+        param callback
+        var fi = fileInfoByPath(ittfDocumentUri)
+        _ createWizziFactory
+            {
+            f_cb( wf )
+                _ wf.loadModel
+                    @ fi.schema
+                    @ ittfDocumentUri
+                    {
+                        @ mTreeBuildUpContext context
+                        @ globalContext {}
+                    @ callback
+    function loadWizziModelAndSaveToJson
+        param ittfDocumentUri
+        param context
+        param outputFolder
+        param callback
+        var fi = fileInfoByPath(ittfDocumentUri)
+        _ loadWizziModel
+            @ ittfDocumentUri
+            @ context
+            f_cb( model )
+                _ file.write
+                    _ path.join
+                        @ outputFolder
+                        @ fi.basename + '.json'
+                    _ stringify
+                        @ model.toJson()
+                        @ null
+                        @ 4
+                r_cb( )
+    function loadModelAndGenerateArtifact
+        param ittfDocumentUri
+        param context
+        param artifactName
+        param callback
+        var fi = fileInfoByPath(ittfDocumentUri)
+        _ createWizziFactory
+            {
+            f_cb( wf )
+                _ wf.loadModelAndGenerateArtifact
+                    @ ittfDocumentUri
+                    {
+                        @ modelRequestContext context
+                        @ artifactRequestContext {}
+                    @ artifactName
+                    @ callback
+    function loadModelAndGenerateArtifactFromText
+        param ittfContent
+        param context
+        param artifactName
+        param callback
+        _ createWizziFactory
+            {
+            f_cb( wf )
+                _ wf.loadModelAndGenerateArtifactFromText
+                    @ ittfContent
+                    {
+                        @ modelRequestContext context
+                        @ artifactRequestContext {}
+                    @ artifactName
+                    @ callback
+    function loadModelAndTransform
+        param ittfDocumentUri
+        param context
+        param transformName
+        param callback
+        var fi = fileInfoByPath(ittfDocumentUri)
+        _ createWizziFactory
+            {
+            f_cb( wf )
+                _ loadWizziModel
+                    @ ittfDocumentUri
+                    @ context
+                    f_cb( model )
+                        _ wf.transformModel
+                            @ model
+                            @ transformName
+                            @ context
+                            @ callback
+    function executeWizziJob
+        param ittfDocumentUri
+        param context
+        param callback
+        _ createWizziFactory
+            {
+            f_cb( wf )
+                _ wf.executeJob
+                    {
+                        @ name path.basename(ittfDocumentUri)
+                        @ path ittfDocumentUri
+                        @ productionOptions
+                            _ wizzi.productionOptions
+                                {
+                                    @ indentSpaces 4
+                                    @ basedir __dirname
+                                    @ verbose 2
+                        @ modelContext context || {}
+                        @ jobContext {}
+                    @ callback
+    function executeWizziJob_2
+        param wfjobDocumentUri
+        param options
+        set options = options || {}
+        set options.plugins = options.plugins || []
+        set options.globalContext = options.globalContext || {}
+        var jobPlugins
+            [
+                @ 'wizzi-core'
+                @ 'wizzi-meta'
+                @ 'wizzi-js'
+                @ 'wizzi-web'
+        foreach item in options.plugins
+            _ jobPlugins.push(item)
+        if wizzi == null
+            set wizzi = require('wizzi')
+        _ wizzi.executeWizziJob
+            {
+                @ user 'stefi'
+                @ role 'admin'
+                @ storeKind 'filesystem'
+                { config
+                    @ wfBaseFolder 'c:/my/wizzi/v5'
+                    @ plugins jobPlugins
+                { job
+                    @ name 'example ' + wfjobDocumentUri
+                    @ ittfDocumentUri wfjobDocumentUri
+                    @ productionOptions
+                        _ wizzi.productionOptions
+                            {
+                                @ indentSpaces 4
+                                @ basedir __dirname
+                                @ verbose 2
+                    @ globalContext options.globalContext
+            function
+                param err
+                if err
+                    _ wizzi.printWizziJobError('${md.name}', err)
+    function executeGenerateModelTypes
+        param wfschemaIttfDocumentUri
+        param outputPackagePath
+        param wfschemaName
+        param mTreeBuildUpContext
+        param callback
+        _ createWizziFactory
+            {
+            f_cb( wf )
+                _ wf.generateModelTypes
+                    @ wfschemaIttfDocumentUri
+                    @ outputPackagePath
+                    @ wfschemaName
+                    @ mTreeBuildUpContext
+                    @ callback
+    function getIttfFilesBySchema
+        param srcpath
+        param schema
+        return
+            _ fs.readdirSync
+                @ srcpath
+                ._ filter
+                    =>
+                        param file
+                        return
+                            &&
+                                _ fs.lstatSync(path.join(srcpath, file)).isFile()
+                                _ verify.endsWith
+                                    @ file
+                                    iif schema === 'ittf'
+                                        then '.ittf'
+                                        else '.' + schema + '.ittf'
+    function fileInfoByPath
+        param filePath
+        param baseFolder
+        if typeof baseFolder === 'undefined'
+            set baseFolder = path.dirname(filePath)
+        set filePath = normalize(filePath)
+        var basename = path.basename(filePath)
+        var dirname = path.dirname(filePath)
+        var relFolder
+            iif path.dirname(filePath).length > baseFolder.length
+                then path.dirname(filePath).substr(baseFolder.length + 1)
+                else ''
+        var fileUri
+            _ filePath.substr
+        var ss = basename.split('.')
+        if ss[ss.length-1] === 'ittf'
+            var name = ss.slice(0, ss.length-2).join('.')
+            var schema = ss[ss.length-2]
+            var mime = DEFAULT_MIME[schema] || schema
+            return
+                {
+                    @ name name
+                    @ basename basename
+                    @ isIttfDocument true
+                    @ isFragment filePath.indexOf('/t/') > -1
+                    @ schema schema
+                    @ mime mime
+                    @ relFolder relFolder
+                    @ fullPath filePath
+                    @ destBasename name + '.' + mime
+                    @ destRelPath
+                        iif relFolder.length > 0
+                            then relFolder + '/' + name + '.' + mime
+                            else name + '.' + mime
+        else
+            return
+                {
+                    @ name ss.slice(0, ss.length-1).join('.')
+                    @ basename basename
+                    @ isIttfDocument false
+                    @ schema null
+                    @ mime ss[ss.length-1]
+                    @ relFolder relFolder
+                    @ fullPath filePath
+                    @ destBasename basename
+                    @ destRelPath
+                        iif relFolder.length > 0
+                            then relFolder + '/' + basename
+                            else basename
+    var DEFAULT_MIME
+        {
+            @ css 'css'
+            @ graphql 'graphql'
+            @ html 'html'
+            @ ittf 'ittf'
+            @ js 'js'
+            @ json 'json'
+            @ md 'md'
+            @ scss 'scss'
+            @ text 'text'
+            @ ts 'ts'
+            @ vtt 'vtt'
+            @ vue 'vue'
+            @ xml 'xml'
+            @ yaml 'yaml'
+    function normalize
+        param filepath
+        return verify.replaceAll(filepath, '\\', '/')
+    set module.exports = executeExample
+    if require.main === module
+        _ executeExample()

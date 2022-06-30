@@ -1,0 +1,332 @@
+wfschema ppt
+    $
+        var md = {
+        };
+    
+    preserve-tags true
+    mtree-is-preprocessed true
+    unknown-element-replacer text
+    
+    e node
+        r node/s
+    
+    e comment : node
+        tag # 
+
+    e ppt : node
+        is-root
+        a author
+        a company
+        a revision
+        a subject
+        a title
+        a_flag( rtlMode , rtl-mode )
+
+    e shading : node
+    e highlight : node
+    e center : node
+
+    #
+    #
+    # Common properties
+    #
+    e xname : node
+        tag name
+    e xtype : node
+        tag type
+    e width : node
+    e w : node
+    e height : node
+    e h : node
+    e fill : node
+    e size : node
+    e x : node
+    e y : node
+    e path : node
+
+    #
+    #
+    # Slide
+    #
+    e slide : node        
+    e number : node        
+
+    #
+    #
+    # links
+    #
+    e link : node
+    e href : node
+    e slideHref : node
+        tag slide-href
+    e title : node
+
+    #
+    #
+    # Styles
+    #
+    e defaultStyleDef : node
+        tag default-style-def
+    e styleDef : node
+        tag style-def
+    e styles : node
+    e style : node
+
+    #
+    #
+    # Layout
+    #
+    e layout : node
+        # LAYOUT_16x9 (default) : 10 x 5.625 inches
+        # LAYOUT_16x10          : 10 x 6.25 inches
+        # LAYOUT_4x3            : 10 x 7.5 inches
+        # LAYOUT_WIDE           : 13.3 x 7.5 inches
+        # <custom> see layoutDef
+
+    e layoutDef : node
+        tag layout-def
+        # name (wzName), width, height
+
+    e pageMargins : node
+        tag page-margins
+        # [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
+        m wzinitialize
+            var ss = this.wzName.split(/[\s,]+/)
+            set this.wzName = ss.join(',')
+
+    e margin : node
+        m wzinitialize
+            var ss = this.wzName.split(/[\s,]+/)
+            if ss.length == 1
+                set this.wzName = ss[0] + ',' + ss[0] + ',' + ss[0] + ',' + ss[0] 
+            elif ss.length == 2
+                set this.wzName = ss[0] + ',' + ss[1] + ',' + ss[0] + ',' + ss[1] 
+            elif ss.length == 3
+                set this.wzName = ss[0] + ',' + ss[1] + ',' + ss[2] + ',0'
+            else
+                set this.wzName = ss[0] + ',' + ss[1] + ',' + ss[2] + ',' + ss[3]
+            log 'margin', this.wzName
+
+    #
+    #
+    # Tables
+    #
+    e table : node
+    e tr : node
+    e td : node
+    e layout : node
+        # noBorders
+        # headerLineOnly
+        # lightHorizontalLines
+    e colW : node
+        tag col-w
+    e rowH : node
+        tag row-h
+    # cells
+    e autoPageCharWeight : node
+        tag auto-page-char-weight
+        # Auto-paging line weight
+        # - adjusts how many lines are used before slides wrap
+        # - range: -1.0 to 1.0
+        # @see https://gitbrent.github.io/PptxGenJS/docs/api-tables.html
+    e autoPageLineWeight : node
+        tag auto-page-line-weight
+	# border : node
+    e colspan : node
+    e rowspan : node
+	# fill
+    # margin
+
+    #
+    #
+    # Columns
+    #
+    e columns : node
+    e columnGap : node
+        tag column-gap
+
+    #
+    #
+    # Text
+    #
+    e text : node
+        tag +
+    
+    e emphasisMark : node
+    
+    e strike : node
+    
+    e doubleStrike : node
+    
+    e superScript : node
+    
+    e subScript : node
+    
+    e smallCaps : node
+    
+    e allCaps : node
+    
+    e smallCaps : node
+
+    e font : node
+        # string: name of the font
+    
+    e fontSize : node
+        tag font-size
+        # number: size of the font in pt
+    
+    e fontFeatures : node
+        tag font-features
+        # string[]: array of advanced typographic features supported in TTF fonts (supported features depend on font file)
+    
+    e lineHeight : node
+        tag line-height
+        # number: the line height (default: 1)
+
+    e bold : node
+        tag b
+    e boldProp : node
+        tag bold
+    
+    e italic : node
+        tag i
+    
+    e italicProp : node
+        tag italic
+    
+    e underline : node
+        tag u
+    e underlineProp : node
+        tag underline
+    
+    e align : node
+        # string: (‘left’ or ‘center’ or ‘right’) the alignment of the text
+
+    e alignment : node
+        # string: (‘left’ or ‘center’ or ‘right’) the alignment of the text
+    
+    e valign : node
+        # string: (‘top’ or ‘middle’ or ‘bottom’) the vertical alignment of the text
+
+    e valignment : node
+        # string: (‘top’ or ‘middle’ or ‘bottom’) the vertical alignment of the text
+
+    e charSpacing : node
+        tag char-spacing
+        # number: size of the letter spacing in pt
+
+    e characterSpacing : node
+        tag character-spacing
+        # number: size of the letter spacing in pt
+    
+    e color : node
+        # string: the color of the text (color name e.g., ‘blue’ or hexadecimal color e.g., ‘#ff5500’)
+    
+    e bkgd : node
+    e background : node
+        # string the background color of the text
+    
+    e markerColor : node
+        tag marker-color
+        # string: the color of the bullets in a buletted list
+    
+    e decoration : node
+        # string: the text decoration to apply (‘underline’ or ‘lineThrough’ or ‘overline’)
+    
+    e decorationStyle : node
+        tag decoration-style
+        # string: the style of the text decoration (‘dashed’ or ‘dotted’ or ‘double’ or ‘wavy’)
+
+    e noWrap : node
+        tag no-wrap
+
+    #
+    #
+    # Html-like text paragraph
+    #
+    e h1 : node
+    e h2 : node
+
+    #
+    #
+    # Paragraph
+    #
+    e p : node
+        # has no "p" or "+/text" child nodes
+    e pStack : node
+        # has "p" or '+/text' child nodes
+        tag p-stack
+    e break : node
+        tag br
+
+    #
+    #
+    # Lists
+    #
+    e ul : node
+    e ol : node
+    e bullet : node
+    e bulletObj : node
+        tag bullet-obj
+    e code : node
+    e indent : node
+    e indentLevel : node
+        tag indent-level
+    e charCode : node
+        tag char-code
+    e characterCode : node
+        tag character-code
+
+    #
+    #
+    # Images
+    #
+    e image : node
+    # e hyperlink : node
+    e placeholder : node
+        # string // 'body' | 'title' | etc.
+    e rotate : node
+        # rotation (degrees) - range: -360 to 360
+    e rounding : node
+        # Enable image rounding - boolean
+	e sizing : node
+        # type: 'contain' | 'cover' | 'crop'
+        # w h x y
+
+    e imageDef : node
+        a src
+        a title
+        tag image-def
+    
+    e imageRef : node
+        tag image-ref
+
+    #
+    #
+    # Border
+    #
+    e border : node
+    e top : node
+    e right : node
+    e bottom : node
+    e left : node
+    e pt : node
+
+    #
+    #
+    # Shadow
+    #
+    e shadow : node
+    # type: 'outer' | 'inner' | 'none' (*)
+    e opacity : node
+        # (0-100%)" in PPT
+    e blur : node
+        # range: 0-100
+    e angle : node
+        # (degrees) - range: 0-359
+    e offset : node 
+        # shadow offset (points) - range: 0-200
+    # color
+
+    $include ppt/shapes
+	

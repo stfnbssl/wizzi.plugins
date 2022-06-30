@@ -1,0 +1,78 @@
+module
+    kind es6
+    $
+        var md = {
+            name: 'docx',
+        };
+
+    v08/examples/plugin(&md)
+        $append imports
+            var wizzi = require('../../../wizzi-tools/dist/index')
+
+        $override requireWizzi
+            var wizzi = require('../../../wizzi/dist/index')
+
+        $append plugins
+            [ items
+                $$ @ './index.js'
+                @ './wizzi.plugin.docx/dist/index.js'
+                @ './wizzi-core/dist/index.js'
+            @ pluginsBaseFolder
+                _ path.resolve
+                    @ __dirname
+                    @ '..'
+                    @ '..'
+                    @ '..'
+
+        var context
+            _ file.readJSON
+                _ path.join
+                    @ __dirname
+                    @ 'dist'
+                    @ 'beba'
+                    @ 'test'
+                    @ 'Bambino.docx.json'
+
+        _ loadMTree
+            _ path.join
+                @ __dirname
+                @ 'ittf'
+                @ 'first.docx.ittf'
+            {
+                @ beba context
+            f_cb_throw( mtree )
+                _ file.write
+                    _ path.join
+                        @ __dirname
+                        @ 'dist'
+                        @ 'first.docx.debug.buildup.ittf'
+                    _ mtree.toIttf
+                _ loadMTreeDebugInfo
+                    _ path.join
+                        @ __dirname
+                        @ 'ittf'
+                        @ 'first.docx.ittf'
+                    {
+                        @ beba context
+                    f_cb_throw( debugInfo )
+                        _ file.write
+                            _ path.join
+                                @ __dirname
+                                @ 'dist'
+                                @ 'first.docx.dubug.info.js'
+                            @ debugInfo.mTreeBuildUpScript
+                        _ loadModelAndGenerateArtifact
+                            _ path.join
+                                @ __dirname
+                                @ 'ittf'
+                                @ 'first.docx.ittf'
+                            {
+                                @ beba context
+                            @ 'docx/document'
+                            f_cb_throw( artifactText )
+                                _ file.write
+                                    _ path.join
+                                        @ __dirname
+                                        @ 'dist'
+                                        @ 'first.docx.js'
+                                    @ artifactText

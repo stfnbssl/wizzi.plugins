@@ -1,0 +1,15 @@
+$group
+    $params elname, prop, type|num
+
+    $
+        var quote = type == 'string' ? '"' : '';
+        var value = type == 'true' ? 'true' : 'respace(model.wzName)';
+        var openPar = "(";
+    
+    async-md( ${elname} )
+        var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node
+        $if type == 'array'
+            _ ctx.w(pdfParent + '.${prop} = [' + ${value} + '];')
+        $else
+            _ ctx.w(pdfParent + '.${prop} = ${quote}' + ${value} + '${quote};')
+        r_cb()

@@ -1,0 +1,44 @@
+$group
+    
+    function buildImageDefs
+        param imagesCtx
+        param indent
+        param sb
+
+        foreach image in imagesCtx.images
+            _ buildIttfLine
+                @ 'image-def'
+                @ image.name
+                @ indent
+                @ sb
+            _ buildIttfLine
+                @ 'src'
+                @ image.src
+                @ indent + 1
+                @ sb
+            _ buildIttfLine
+                @ 'title'
+                @ image.title
+                @ indent + 1
+                @ sb
+
+    function buildArticleImages
+        param item
+        param indent
+        param sb
+
+        if item.images && item.images.length > 0
+
+            _ buildPara
+                @ item.value
+                @ 'images'
+                @ indent
+                @ sb
+
+            foreach image in item.images
+                log 'buildArticleImages, image', image
+                _ buildIttfLine
+                    @ 'image-ref'
+                    @ image.name
+                    @ indent + 1
+                    @ sb

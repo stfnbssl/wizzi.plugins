@@ -1,0 +1,46 @@
+module
+    kind es6
+    $
+        var md = {
+        }
+    v08/root/index(&md)
+        $append model-transform-artifacts
+            # window(s) vars must be declared even if empty
+            var window_modelFactories
+                {
+                    @ 'docx' require('./lib/wizzi/models/docx-factory.g')
+            var window_artifactGenerators
+                {
+                    @ 'docx/document' require('./lib/artifacts/docx/document/gen/main')
+            var window_transformers
+                {
+                    @ 'docx/extended' require('./lib/artifacts/docx/extended/trans/main')
+            var window_schemaDefinitions
+                {
+        @ provides
+            {
+                @ schemas
+                    [
+                        @ 'docx'
+                @ modelTransformers
+                    [
+                        @ 'docx/extended'
+                @ artifactGenerators
+                    [
+                        @ 'docx/document'
+        @ provides
+            {
+                @ schemas
+                    [
+                        $foreach schema in wzCtx.Schemas
+                            @ '${schema.name}'
+                @ modelTransformers
+                    [
+                        $foreach schema in wzCtx.Schemas
+                            $foreach trans in schema.modelTransformers
+                                @ '${schema.name}/${trans.name}'
+                @ artifactGenerators
+                    [
+                        $foreach schema in wzCtx.Schemas
+                            $foreach artifact in schema.artifactGenerators
+                                @ '${schema.name}/${artifact.name}'

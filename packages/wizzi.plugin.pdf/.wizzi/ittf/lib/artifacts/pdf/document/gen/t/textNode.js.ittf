@@ -1,0 +1,19 @@
+$group
+    $params elname
+
+    $ var openPar = "(";
+    async-md( ${elname} )
+
+        pdfNode.js( txt )
+        _ ctx.w('const ' + pdfNode + ' = {};')
+        _ ctx.w(pdfNode + '.text = "' + respace(model.wzName) + '";')
+        $hook
+       
+        _ md.genItems
+            @ model.nodes
+            @ ctx
+            @ noindent
+            a_cb()
+                _ ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');')
+                _ ctx.values.pdfStack.pop()
+                r_cb()

@@ -1,0 +1,9 @@
+$group
+    $params functionName
+    set mdfs['${functionName}']
+        function
+            param node
+            param state
+            log 'before, node.n is', node.n
+            $hook
+            log 'after, node.n is', node.n

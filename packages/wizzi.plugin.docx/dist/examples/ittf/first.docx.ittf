@@ -1,0 +1,130 @@
+docx first
+
+    $
+        var H2_Size = 42;
+        var Big_Size = 30;
+        var Normal_Size = 22;
+        var P_spacing_before = 20 * 72 * 0.05;
+        var P_spacing_before_h2 = 20 * 72 * 0.3;
+        var P_spacing_after = 20 * 72 * 0.025;
+        var P_spacing_after_h2 = 20 * 72 * 0.05;
+    
+    styles
+        default
+            style-def heading1
+                run
+                    size 56
+                    bold
+
+            style-def heading2
+                run
+                    size 38
+                    bold
+
+            style-def heading3
+                run
+                    size 24
+                    bold
+                    italic
+
+	$function apply_Style
+        $param apath
+        $if apath.indexOf('h2') > -1 || apath.indexOf('h1') > -1 || apath.indexOf('h3') > -1
+            size ${H2_Size}
+        $elif apath.indexOf('big') > -1
+            size ${Big_Size}
+        $else
+            size ${Normal_Size}
+        $if apath.indexOf('strong') > -1
+            bold true
+
+	$function emit_H2
+		$param node
+        $param apath
+
+        $if node.value && node.value.length > 0
+            + ${node.value}
+                $_ apply_Style
+                    $@ apath
+            $foreach nodeChild in node.children
+                $_ itemText
+                    $@ nodeChild
+                    $@ apath
+        $else
+            $foreach nodeChild in node.children
+                $_ itemText
+                    $@ nodeChild
+                    $@ apath
+
+    $function itemText
+		$param node
+        $param apath
+        $ apath.push(node.name)
+        $if node.name == 'p'
+            p
+                spacing
+                    before ${P_spacing_before}
+                    after ${P_spacing_after}
+                $foreach nodeChild in node.children
+                    $_ itemText
+                        $@ nodeChild
+                        $@ apath
+        $elif node.name == 'h2' || node.name == 'h1' || node.name == 'h3'
+            $if apath.indexOf('p') < 0 && apath.indexOf('li') < 0
+                p
+                    $_ emit_H2
+                        $@ node
+                        $@ apath
+            $else
+                $_ emit_H2
+                    $@ node
+                    $@ apath
+        $elif node.name == 'strong'
+            $if node.value && node.value.length > 0
+                + ${node.value}
+                    $_ apply_Style
+                        $@ apath
+                $foreach nodeChild in node.children
+                    $_ itemText
+                        $@ nodeChild
+                        $@ apath
+            $else
+                $foreach nodeChild in node.children
+                    $_ itemText
+                        $@ nodeChild
+                        $@ apath
+        $elif node.name == 'big'
+            $if node.value && node.value.length > 0
+                + ${node.value}
+                    $_ apply_Style
+                        $@ apath
+                $foreach nodeChild in node.children
+                    $_ itemText
+                        $@ nodeChild
+                        $@ apath
+            $else
+                $foreach nodeChild in node.children
+                    $_ itemText
+                        $@ nodeChild
+                        $@ apath
+        $elif node.name == '+' || node.name == '++' || node.name == 'span'
+            + ${node.value}
+                $_ apply_Style
+                    $@ apath
+        $else
+            ${node.name} ${node.value}
+
+    section
+        h1 ${beba.category}
+        $foreach item in beba.items
+            $if item.Categoria == "Bambino"
+                h2 ${item.Titolo}
+                h3 Dalla settimana ${item.SettimanaDal} alla ${item.SettimanaAl}
+                p ${item.Abstract}
+                $$ p ${_.replace(_.replace(item.Testo,'"','\\"'),'\n','')}
+                p Url ${item.url}
+                $foreach child in item.TestoJson.children
+                    $$ $ _.log("A0", child_index, '/', child_count)
+                    $_ itemText
+                        $@ child
+                        $@ []
