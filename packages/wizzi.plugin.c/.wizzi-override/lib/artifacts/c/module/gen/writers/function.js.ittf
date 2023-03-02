@@ -1,0 +1,35 @@
+﻿module
+    kind es6
+    
+    statements-writer(wizzi.plugins.c.lib.artifacts.module.gen.writers.debug)
+
+        $append imports
+                
+        statement( xfunction
+            var rtype = model.rtype || 'void'
+            _ ctx.write(rtype + ' ' + name + '(')
+            var param_count = 0
+            iife next
+                var param = model.params[param_count++]
+                if !param
+                    _ ctx.write(')')
+                    _ ctx.w(' {')
+                    return
+                        _ body
+                if param_count > 1
+                    _ ctx.write(', ')
+                _ ctx.write(param.wzName)
+                _ next
+            function body
+                _ mainWriter.genItems
+                    @ model.statements
+                    @ ctx
+                    {
+                        @ indent true
+                    a_cb()
+                        _ ctx.w('}')
+                        r_cb()
+
+        statement( xreturn
+            _ ctx.w(mainWriter.withSemicolon('return ' + name))
+            r_cb()

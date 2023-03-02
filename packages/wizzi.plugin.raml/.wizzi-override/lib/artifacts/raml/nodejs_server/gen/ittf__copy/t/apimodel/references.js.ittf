@@ -1,0 +1,90 @@
+﻿$group
+
+	var isRemotePtr
+        function 
+            param refDetails
+            return ['relative', 'remote'].indexOf(refDetails.type) > -1
+
+	var addReference
+        function 
+            param cacheEntry
+            param defPathOrPtr
+            param refPathOrPtr
+            param results
+            param omitError
+
+            var result = true
+            
+			var defPath
+                iif _.isArray(defPathOrPtr)
+                    then defPathOrPtr
+                    else 
+                        _ JsonRefs.pathFromPtr(defPathOrPtr)
+            
+			var defPtr
+                iif _.isArray(defPathOrPtr)
+                    then 
+                        _ JsonRefs.pathToPtr(defPathOrPtr)
+                    else defPathOrPtr
+            
+			var refPath
+                iif _.isArray(refPathOrPtr)
+                    then refPathOrPtr
+                    else 
+                        _ JsonRefs.pathFromPtr(refPathOrPtr)
+            var refPtr
+                iif _.isArray(refPathOrPtr)
+                    then 
+                        _ JsonRefs.pathToPtr(refPathOrPtr)
+                    else refPathOrPtr
+            
+			var code
+            var def
+            var displayId
+            var i
+            var msgPrefix
+            var type
+            
+			set def = cacheEntry.definitions[defPtr]
+            
+			set type = defPath[0]
+            
+			set code = type === 'securityDefinitions' 
+				\ ? 'SECURITY_DEFINITION' 
+				\ : type.substring(0, (type.length - 1)).toUpperCase()
+            
+			set displayId = defPtr
+            
+			set msgPrefix = type === 'securityDefinitions' 
+				\ ? 'Security definition' 
+				\ : code.charAt(0) + code.substring(1).toLowerCase()
+            
+			if ((['authorizations', 'securityDefinitions'].indexOf(defPath[0]) > - (1)) && (defPath[2] === 'scopes'))
+                set code += '_SCOPE'
+                set msgPrefix += ' scope'
+            
+			if (_.isUndefined(def) && (['AUTHORIZATION_SCOPE', 'SECURITY_DEFINITION_SCOPE'].indexOf(code) === - (1)))
+                for i = 1; i < defPath.length; i++
+                    var pPath = defPath.slice(0, (defPath.length - i))
+                    var pPtr = JsonRefs.pathToPtr(pPath)
+                    var pDef = cacheEntry.definitions[pPtr]
+                    if ! (_.isUndefined(pDef))
+                        set def = pDef
+                        break 
+            
+			if _.isUndefined(def)
+                if !omitError
+                    _ createErrorOrWarning
+                        @ 'UNRESOLVABLE_' + code
+                        @ msgPrefix + ' could not be resolved: ' + displayId
+                        @ refPath
+                        @ results.errors
+                set result = false
+            
+			else 
+                
+				if _.isUndefined(def.references)
+                    set def.references = []
+                _ def.references.push(refPtr)
+            
+			return result

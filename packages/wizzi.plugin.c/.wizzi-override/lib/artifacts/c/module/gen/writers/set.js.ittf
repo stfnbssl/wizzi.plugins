@@ -1,0 +1,46 @@
+﻿module
+    kind es6
+    
+    statements-writer(wizzi.plugins.c.lib.artifacts.module.gen.writers.set)
+
+        $append imports
+                
+        statement( set
+            var child
+                _ mainWriter.getFirstChildren
+                    @ model
+                    [
+                        @ 'call'
+                        @ 'object'
+                        @ 'array'
+            if child
+                _ ctx.write(name + ' = ')
+                _ mainWriter.genItem
+                    @ child
+                    @ ctx
+                    a_cb()
+                        _ ctx.w(';')
+                        r_cb()
+            else
+                _ ctx.w
+                    _ mainWriter.withSemicolon
+                        @ name
+                r_cb()
+
+        statement( call
+            _ ctx.write(name + '(')
+            _ mainWriter.genItems
+                @ model.statements
+                @ ctx
+                {
+                    @ sep ', '
+                a_cb()
+                    if mainWriter.isTopStatement(model)
+                        _ ctx.w(');')
+                    else
+                        _ ctx.write(')')
+                    r_cb()
+
+        statement( argProp
+            _ ctx.write(name)
+            r_cb()

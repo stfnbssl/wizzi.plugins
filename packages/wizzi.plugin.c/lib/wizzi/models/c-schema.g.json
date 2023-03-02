@@ -1,0 +1,916 @@
+{
+  "name": "c",
+  "preserveTags": true,
+  "requires": [],
+  "exportTos": [],
+  "elements": [
+    {
+      "name": "statement",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "//"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "//"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        }
+      ],
+      "derived": [
+        {
+          "name": "codeline",
+          "tags": [
+            "codeline"
+          ]
+        },
+        {
+          "name": "multilinecomment",
+          "tags": [
+            "/*"
+          ]
+        },
+        {
+          "name": "plusline",
+          "tags": [
+            "+"
+          ]
+        },
+        {
+          "name": "xfunction",
+          "tags": [
+            "function"
+          ]
+        },
+        {
+          "name": "xreturn",
+          "tags": [
+            "return"
+          ]
+        },
+        {
+          "name": "set",
+          "tags": [
+            "set"
+          ]
+        },
+        {
+          "name": "call",
+          "tags": [
+            "_"
+          ]
+        },
+        {
+          "name": "argProp",
+          "tags": [
+            "@"
+          ]
+        },
+        {
+          "name": "xif",
+          "tags": [
+            "if"
+          ]
+        },
+        {
+          "name": "elif",
+          "tags": [
+            "elif"
+          ]
+        },
+        {
+          "name": "xelse",
+          "tags": [
+            "else"
+          ]
+        },
+        {
+          "name": "xfor",
+          "tags": [
+            "for"
+          ]
+        },
+        {
+          "name": "xwhile",
+          "tags": [
+            "while"
+          ]
+        },
+        {
+          "name": "xdo",
+          "tags": [
+            "do"
+          ]
+        },
+        {
+          "name": "xswitch",
+          "tags": [
+            "switch"
+          ]
+        },
+        {
+          "name": "xcase",
+          "tags": [
+            "case"
+          ]
+        },
+        {
+          "name": "xdefault",
+          "tags": [
+            "default"
+          ]
+        },
+        {
+          "name": "label",
+          "tags": [
+            "label"
+          ]
+        },
+        {
+          "name": "log",
+          "tags": [
+            "log"
+          ]
+        },
+        {
+          "name": "info",
+          "tags": [
+            "info"
+          ]
+        },
+        {
+          "name": "success",
+          "tags": [
+            "success"
+          ]
+        },
+        {
+          "name": "warn",
+          "tags": [
+            "warn"
+          ]
+        },
+        {
+          "name": "error",
+          "tags": [
+            "error"
+          ]
+        }
+      ],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "A statement line node with unlimited depth.",
+        "Is the schema base node.",
+        "In itself works as a comment line."
+      ]
+    },
+    {
+      "name": "codeline",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "codeline"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "//"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "c",
+      "super": null,
+      "isRoot": true,
+      "tags": [
+        "c"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "//"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "multilinecomment",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "/*"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "//"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "plusline",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "+"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "//"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "param",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "param"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "xfunction",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "function"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "rtype",
+          "type": "string",
+          "tags": [
+            "rtype"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "return type"
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "name": "param",
+          "role": "params",
+          "tags": [
+            "param"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "//"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "xreturn",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "return"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "//"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "set",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "set"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "//"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "call",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "_"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "//"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "argProp",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "@"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "//"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "xif",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "if"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "//"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "",
+        "ittf:",
+        "if a === b",
+        "elif a === c",
+        "else",
+        "js:",
+        "if ( a === b ) {",
+        "}",
+        "else if ( a === c ) {",
+        "}",
+        "else {",
+        "}",
+        ""
+      ]
+    },
+    {
+      "name": "elif",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "elif"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "//"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "ittf",
+        "see 'if' element"
+      ]
+    },
+    {
+      "name": "xelse",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "else"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "//"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "ittf",
+        "see 'if' element"
+      ]
+    },
+    {
+      "name": "xfor",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "for"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "//"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "ittf",
+        "for ...",
+        ""
+      ]
+    },
+    {
+      "name": "xwhile",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "while"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "//"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "ittf",
+        "while ...",
+        ""
+      ]
+    },
+    {
+      "name": "xdo",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "do"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "//"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "ittf",
+        "do ...",
+        ""
+      ]
+    },
+    {
+      "name": "xswitch",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "switch"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "//"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "ittf",
+        "switch ...",
+        "case ...",
+        "default ...",
+        ""
+      ]
+    },
+    {
+      "name": "xcase",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "case"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "//"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "ittf",
+        "see switch",
+        ""
+      ]
+    },
+    {
+      "name": "xdefault",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "default"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "//"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "ittf",
+        "see switch",
+        ""
+      ]
+    },
+    {
+      "name": "label",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "label"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "//"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "ittf",
+        "label LABEL",
+        ""
+      ]
+    },
+    {
+      "name": "log",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "log"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "//"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "info",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "info"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "//"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "success",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "success"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "//"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "warn",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "warn"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "//"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "error",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "error"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "//"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    }
+  ]
+}

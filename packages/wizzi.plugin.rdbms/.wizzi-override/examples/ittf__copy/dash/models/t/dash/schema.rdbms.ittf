@@ -1,0 +1,71 @@
+﻿$group
+
+	t_pk( schema, userName, projectName, schemaName )
+
+		document
+			kind json-meta-data
+			path
+				segment {userName}
+				segment {projectName}
+				segment wizzi
+				segment schemas
+				segment {schemaName}
+				segment {schemaName}.meta.json
+
+		document
+			kind ittf
+			path
+				segment {userName}
+				segment {projectName}
+				segment wizzi
+				segment schemas
+				segment {schemaName}
+				segment {schemaName}.wizzischema.ittf
+
+	rDef( schema, schemaModel, schemaModel, one-to-one )
+		
+		#
+			# A schema has a one-to-one relation with its model.
+			# The model of a schema is a referenced by 
+			# a column of type "document" in the schema table. 
+		many-is-document
+
+		rCol( userName, userName )
+		rCol( projectName, projectName )
+		rCol( schemaName, schemaName )
+		
+	rDef( schema, schemaFragment, schemaFragments )
+		
+		#
+			# The schema IttfDocument may have many fragments
+		
+		rCol( userName, userName )
+		rCol( projectName, projectName )
+		rCol( schemaName, schemaName )
+
+	rDef( schema, schemaContextModel, schemaContextModels )
+		
+		#
+			# The schema WizziModel may be built using contextModels
+
+		rCol( userName, userName )
+		rCol( projectName, projectName )
+		rCol( schemaName, schemaName )
+
+	rDef( schema, schemaContextFragment, schemaContextFragments )
+		
+		#
+			# The schema contextModels may have many fragments
+
+		rCol( userName, userName )
+		rCol( projectName, projectName )
+		rCol( schemaName, schemaName )
+
+	rDef( schema, artifact, artifacts )
+		
+		#
+			# A schema may have many artifacts.
+
+		rCol( userName, userName )
+		rCol( projectName, projectName )
+		rCol( schemaName, schemaName )

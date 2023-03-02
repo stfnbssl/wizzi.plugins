@@ -1,0 +1,44 @@
+﻿module
+    kind es6
+
+    $
+        var md = {
+            name: 'regexp_examples_step_1',
+            description: 'How to use the `regexp` Wizzi Model Type to test regular expressions',
+            level: 0,
+            step: 1
+        }
+
+    example_step( &md )
+
+        var wizziFactoryConfig
+            {
+                @ plugins
+                    {
+                        [ items
+                            @ './index'
+                        @ pluginsBaseFolder
+                            _ path.resolve
+                                @ __dirname
+                                @ '..'
+        +
+        loadMTree( 1, first.regexp.ittf, print:dump )
+            loadModel_with_config( 1, first.regexp.ittf, save;print:json )
+                # loog 'wizziModel.executables', Object.keys(wizziModel.executables)
+                # loog 'wizziModel.elements', Object.keys(wizziModel.elements)
+                var results = wizziModel.execTests()
+                foreach r in results
+                    var e = r.expected
+                    var ie = r.isExpected
+                    delete r.expected
+                    delete r.isExpected
+                    _ printValue('test', r, 'dashes')
+                    if ie
+                        success 'OK'
+                    elif ie === null
+                        warn 'unknown expected value'
+                    else
+                        error '*****', 'ERROR', 'expected', e
+                if step_callback
+                    _ step_callback
+                        @ null

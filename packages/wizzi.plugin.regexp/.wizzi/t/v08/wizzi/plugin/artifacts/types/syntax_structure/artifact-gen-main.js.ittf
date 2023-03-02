@@ -1,0 +1,424 @@
+$group
+    +
+    const noindent
+        {
+            @ indent false
+    +
+    async-md( sample )
+        set ctx.values.docxStack = []
+        set ctx.values.docxCounter = 0
+        set ctx.values.docxMainObject = 'docx_MainObject'
+        set ctx.values.mainObjectCreated = false
+        var docxNode = "docx_doc_" + (++ctx.values.docxCounter)
+        _ ctx.values.docxStack.push(docxNode)
+        set ctx.values.docxMainInternalObject = docxNode
+        _ ctx.w('const fs = require("fs");')
+        _ ctx.w('const docx = require("docx");')
+        _ ctx.w('')
+        _ ctx.w('const ' + docxNode + ' = {};')
+        _ md.genItems
+            @ model.nodes
+            @ ctx
+            @ noindent
+            a_cb()
+                _ ctx.w('')
+                _ ctx.w('docx.Packer.toBuffer(' + ctx.values.docxMainObject + ').then((buffer) => {')
+                _ ctx.w('    fs.writeFileSync("My Document.docx", buffer);')
+                _ ctx.w('    console.log("DONE written")')
+                _ ctx.w('});')
+                r_cb()
+    +
+    async-md( section )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        var docxNode = "docx_sect_" + (++ctx.values.docxCounter)
+        _ ctx.values.docxStack.push(docxNode)
+        _ ctx.w('const ' + docxNode + ' = { properties: {}, children: [] };')
+        _ md.genItems
+            @ model.nodes
+            @ ctx
+            @ noindent
+            a_cb()
+                if ctx.values.mainObjectCreated == false
+                    _ ctx.w('const ' + ctx.values.docxMainObject + ' = new docx.Document(' + ctx.values.docxMainInternalObject + ');')
+                    set ctx.values.mainObjectCreated = true
+                _ ctx.w(ctx.values.docxMainObject + '.addSection(' + docxNode + ');')
+                _ ctx.values.docxStack.pop()
+                r_cb()
+    +
+    async-md( p )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        var docxNode = "docx_p_" + (++ctx.values.docxCounter)
+        _ ctx.values.docxStack.push(docxNode)
+        _ ctx.w('const ' + docxNode + ' = {};')
+        _ ctx.w(docxNode + '.children = [];')
+        _ ctx.w(docxNode + '.tabStops = [];')
+        if !verify.isEmpty(model.wzName)
+            _ ctx.w(docxNode + '.text = "' + model.wzName + '";')
+        _ md.genItems
+            @ model.nodes
+            @ ctx
+            @ noindent
+            a_cb()
+                _ ctx.w('const ' + docxNode + 'Obj = new docx.Paragraph(' + docxNode + ');')
+                _ ctx.w(docxParent + '.children.push(' + docxNode + 'Obj);')
+                _ ctx.values.docxStack.pop()
+                r_cb()
+    +
+    async-md( h1 )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        var docxNode = "docx_par_" + (++ctx.values.docxCounter)
+        _ ctx.values.docxStack.push(docxNode)
+        _ ctx.w('const ' + docxNode + ' = {};')
+        _ ctx.w(docxNode + '.text = "' + model.wzName + '";')
+        _ ctx.w(docxNode + '.heading = docx.HeadingLevel.HEADING_1;')
+        _ md.genItems
+            @ model.nodes
+            @ ctx
+            @ noindent
+            a_cb()
+                _ ctx.w('const ' + docxNode + 'Obj = new docx.Paragraph(' + docxNode + ');')
+                _ ctx.w(docxParent + '.children.push(' + docxNode + 'Obj);')
+                _ ctx.values.docxStack.pop()
+                r_cb()
+    +
+    async-md( h2 )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        var docxNode = "docx_par_" + (++ctx.values.docxCounter)
+        _ ctx.values.docxStack.push(docxNode)
+        _ ctx.w('const ' + docxNode + ' = {};')
+        _ ctx.w(docxNode + '.text = "' + model.wzName + '";')
+        _ ctx.w(docxNode + '.heading = docx.HeadingLevel.HEADING_2;')
+        _ md.genItems
+            @ model.nodes
+            @ ctx
+            @ noindent
+            a_cb()
+                _ ctx.w('const ' + docxNode + 'Obj = new docx.Paragraph(' + docxNode + ');')
+                _ ctx.w(docxParent + '.children.push(' + docxNode + 'Obj);')
+                _ ctx.values.docxStack.pop()
+                r_cb()
+    async-md( text )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        var docxNode = "docx_txt_" + (++ctx.values.docxCounter)
+        _ ctx.values.docxStack.push(docxNode)
+        _ ctx.w('const ' + docxNode + ' = {};')
+        _ ctx.w(docxNode + '.text = "' + model.wzName + '";')
+        _ md.genItems
+            @ model.nodes
+            @ ctx
+            @ noindent
+            a_cb()
+                _ ctx.w('const ' + docxNode + 'Obj = new docx.TextRun(' + docxNode + ');')
+                _ ctx.w(docxParent + '.children.push(' + docxNode + 'Obj);')
+                _ ctx.values.docxStack.pop()
+                r_cb()
+    async-md( bold )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        var docxNode = "docx_txt_" + (++ctx.values.docxCounter)
+        _ ctx.values.docxStack.push(docxNode)
+        _ ctx.w('const ' + docxNode + ' = {};')
+        _ ctx.w(docxNode + '.text = "' + model.wzName + '";')
+        _ ctx.w(docxParent + '.bold = true;')
+        _ md.genItems
+            @ model.nodes
+            @ ctx
+            @ noindent
+            a_cb()
+                _ ctx.w('const ' + docxNode + 'Obj = new docx.TextRun(' + docxNode + ');')
+                _ ctx.w(docxParent + '.children.push(' + docxNode + 'Obj);')
+                _ ctx.values.docxStack.pop()
+                r_cb()
+    async-md( italic )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        var docxNode = "docx_txt_" + (++ctx.values.docxCounter)
+        _ ctx.values.docxStack.push(docxNode)
+        _ ctx.w('const ' + docxNode + ' = {};')
+        _ ctx.w(docxNode + '.text = "' + model.wzName + '";')
+        _ ctx.w(docxParent + '.italic = true;')
+        _ md.genItems
+            @ model.nodes
+            @ ctx
+            @ noindent
+            a_cb()
+                _ ctx.w('const ' + docxNode + 'Obj = new docx.TextRun(' + docxNode + ');')
+                _ ctx.w(docxParent + '.children.push(' + docxNode + 'Obj);')
+                _ ctx.values.docxStack.pop()
+                r_cb()
+    async-md( boldProp )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        _ ctx.w(docxParent + '.bold = ' + true + ';')
+        r_cb()
+    async-md( italicProp )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        _ ctx.w(docxParent + '.italic = ' + true + ';')
+        r_cb()
+    async-md( emphasisMark )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        _ ctx.w(docxParent + '.emphasisMark = ' + true + ';')
+        r_cb()
+    async-md( strike )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        _ ctx.w(docxParent + '.strike = ' + true + ';')
+        r_cb()
+    async-md( doubleStrike )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        _ ctx.w(docxParent + '.doubleStrike = ' + true + ';')
+        r_cb()
+    async-md( superScript )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        _ ctx.w(docxParent + '.superScript = ' + true + ';')
+        r_cb()
+    async-md( subScript )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        _ ctx.w(docxParent + '.subScript = ' + true + ';')
+        r_cb()
+    async-md( smallCaps )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        _ ctx.w(docxParent + '.smallCaps = ' + true + ';')
+        r_cb()
+    async-md( allCaps )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        _ ctx.w(docxParent + '.allCaps = ' + true + ';')
+        r_cb()
+    async-md( xbreak )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        _ ctx.w(docxParent + '.break = ' + true + ';')
+        r_cb()
+    async-md( size )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        _ ctx.w(docxParent + '.size = ' + model.wzName + ';')
+        r_cb()
+    async-md( color )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        _ ctx.w(docxParent + '.color = "' + model.wzName + '";')
+        r_cb()
+    async-md( fill )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        _ ctx.w(docxParent + '.fill = "' + model.wzName + '";')
+        r_cb()
+    async-md( xname )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        _ ctx.w(docxParent + '.name = "' + model.wzName + '";')
+        r_cb()
+    async-md( highlight )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        _ ctx.w(docxParent + '.highlight = "' + model.wzName + '";')
+        r_cb()
+    async-md( style )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        _ ctx.w(docxParent + '.style = "' + model.wzName + '";')
+        r_cb()
+    async-md( next )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        _ ctx.w(docxParent + '.next = "' + model.wzName + '";')
+        r_cb()
+    async-md( basedOn )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        _ ctx.w(docxParent + '.basedOn = "' + model.wzName + '";')
+        r_cb()
+    async-md( xtype )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        if model.wzParent.wzElement == 'shading'
+            _ ctx.w(docxParent + '.type = docx.ShadingType.' + model.wzName + ';')
+        elif model.wzParent.wzElement == 'width'
+            _ ctx.w(docxParent + '.type = docx.WidthType.' + model.wzName + ';')
+        elif model.wzParent.wzElement == 'tabStop'
+            _ ctx.w(docxParent + '.type = docx.TabStopType.' + model.wzName + ';')
+        elif model.wzParent.wzElement == 'underline'
+            _ ctx.w(docxParent + '.type = docx.UnderlineType.' + model.wzName + ';')
+        else
+            _ ctx.w(docxParent + '.type = "' + model.wzName + '";')
+        r_cb()
+    async-md( position )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        if model.wzParent.wzElement == 'tabStop'
+            if verify.isNumber(model.wzName)
+                _ ctx.w(docxParent + '.position = ' + model.wzName + ';')
+            else
+                _ ctx.w(docxParent + '.position = docx.TabStopPosition.' + model.wzName + ';')
+        else
+            _ ctx.w(docxParent + '.position = ' + model.wzName + ';')
+        r_cb()
+    +
+    async-md( font )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        var docxNode = "docx_fnt_" + (++ctx.values.docxCounter)
+        _ ctx.values.docxStack.push(docxNode)
+        _ ctx.w('const ' + docxNode + ' = {};')
+        _ md.genItems
+            @ model.nodes
+            @ ctx
+            @ noindent
+            a_cb()
+                _ ctx.w(docxParent + '.font = ' + docxNode + ';')
+                _ ctx.values.docxStack.pop()
+                r_cb()
+    +
+    async-md( shading )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        var docxNode = "docx_shd_" + (++ctx.values.docxCounter)
+        _ ctx.values.docxStack.push(docxNode)
+        _ ctx.w('const ' + docxNode + ' = {};')
+        _ md.genItems
+            @ model.nodes
+            @ ctx
+            @ noindent
+            a_cb()
+                _ ctx.w(docxParent + '.shading = ' + docxNode + ';')
+                _ ctx.values.docxStack.pop()
+                r_cb()
+    async-md( table )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        var docxNode = "docx_table_" + (++ctx.values.docxCounter)
+        _ ctx.values.docxStack.push(docxNode)
+        _ ctx.w('const ' + docxNode + ' = {};')
+        _ ctx.w(docxNode + '.rows = [];')
+        _ md.genItems
+            @ model.nodes
+            @ ctx
+            @ noindent
+            a_cb()
+                _ ctx.w('const ' + docxNode + 'Obj = new docx.Table(' + docxNode + ');')
+                _ ctx.w(docxParent + '.children.push(' + docxNode + 'Obj);')
+                _ ctx.values.docxStack.pop()
+                r_cb()
+    async-md( tr )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        var docxNode = "docx_tr_" + (++ctx.values.docxCounter)
+        _ ctx.values.docxStack.push(docxNode)
+        _ ctx.w('const ' + docxNode + ' = {};')
+        _ ctx.w(docxNode + '.children = [];')
+        _ ctx.w(docxNode + '.layout = docx.TableLayoutType.FIXED;')
+        _ md.genItems
+            @ model.nodes
+            @ ctx
+            @ noindent
+            a_cb()
+                _ ctx.w('const ' + docxNode + 'Obj = new docx.TableRow(' + docxNode + ');')
+                _ ctx.w(docxParent + '.rows.push(' + docxNode + 'Obj);')
+                _ ctx.values.docxStack.pop()
+                r_cb()
+    async-md( td )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        var docxNode = "docx_td_" + (++ctx.values.docxCounter)
+        _ ctx.values.docxStack.push(docxNode)
+        _ ctx.w('const ' + docxNode + ' = {};')
+        _ ctx.w(docxNode + '.children = [];')
+        _ md.genItems
+            @ model.nodes
+            @ ctx
+            @ noindent
+            a_cb()
+                _ ctx.w('const ' + docxNode + 'Obj = new docx.TableCell(' + docxNode + ');')
+                _ ctx.w(docxParent + '.children.push(' + docxNode + 'Obj);')
+                _ ctx.values.docxStack.pop()
+                r_cb()
+    async-md( width )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        var docxNode = "docx_width_" + (++ctx.values.docxCounter)
+        _ ctx.values.docxStack.push(docxNode)
+        _ ctx.w('const ' + docxNode + ' = {};')
+        _ md.genItems
+            @ model.nodes
+            @ ctx
+            @ noindent
+            a_cb()
+                _ ctx.w(docxParent + '.width = ' + docxNode + ';')
+                _ ctx.values.docxStack.pop()
+                r_cb()
+    async-md( underline )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        var docxNode = "docx_underline_" + (++ctx.values.docxCounter)
+        _ ctx.values.docxStack.push(docxNode)
+        _ ctx.w('const ' + docxNode + ' = {};')
+        _ md.genItems
+            @ model.nodes
+            @ ctx
+            @ noindent
+            a_cb()
+                _ ctx.w(docxParent + '.underline = ' + docxNode + ';')
+                _ ctx.values.docxStack.pop()
+                r_cb()
+    async-md( styles )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        var docxNode = "docx_styles_" + (++ctx.values.docxCounter)
+        _ ctx.values.docxStack.push(docxNode)
+        _ ctx.w('const ' + docxNode + ' = {};')
+        _ md.genItems
+            @ model.nodes
+            @ ctx
+            @ noindent
+            a_cb()
+                _ ctx.w(docxParent + '.styles = ' + docxNode + ';')
+                _ ctx.values.docxStack.pop()
+                r_cb()
+    async-md( xdefault )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        var docxNode = "docx_xdefault_" + (++ctx.values.docxCounter)
+        _ ctx.values.docxStack.push(docxNode)
+        _ ctx.w('const ' + docxNode + ' = {};')
+        _ md.genItems
+            @ model.nodes
+            @ ctx
+            @ noindent
+            a_cb()
+                _ ctx.w(docxParent + '.default = ' + docxNode + ';')
+                _ ctx.values.docxStack.pop()
+                r_cb()
+    async-md( run )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        var docxNode = "docx_run_" + (++ctx.values.docxCounter)
+        _ ctx.values.docxStack.push(docxNode)
+        _ ctx.w('const ' + docxNode + ' = {};')
+        _ md.genItems
+            @ model.nodes
+            @ ctx
+            @ noindent
+            a_cb()
+                _ ctx.w(docxParent + '.run = ' + docxNode + ';')
+                _ ctx.values.docxStack.pop()
+                r_cb()
+    async-md( tabStop )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        var docxNode = "docx_tabStop_" + (++ctx.values.docxCounter)
+        _ ctx.values.docxStack.push(docxNode)
+        _ ctx.w('const ' + docxNode + ' = {};')
+        _ md.genItems
+            @ model.nodes
+            @ ctx
+            @ noindent
+            a_cb()
+                _ ctx.w(docxParent + '.tabStops.push(' + docxNode + ');')
+                _ ctx.values.docxStack.pop()
+                r_cb()
+    async-md( styleDef )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        var docxNode = "docx_styleDef_" + (++ctx.values.docxCounter)
+        _ ctx.values.docxStack.push(docxNode)
+        _ ctx.w('const ' + docxNode + ' = {};')
+        if model.wzParent.wzElement == 'paragraphStyles'
+            _ ctx.w(docxNode + '.id = "' + model.wzName + '";')
+        _ md.genItems
+            @ model.nodes
+            @ ctx
+            @ noindent
+            a_cb()
+                if model.wzParent.wzElement == 'xdefault'
+                    _ ctx.w(docxParent + '.' + model.wzName + ' = ' + docxNode + ';')
+                else
+                    _ ctx.w(docxParent + '.push(' + docxNode + ');')
+                _ ctx.values.docxStack.pop()
+                r_cb()
+    async-md( paragraphStyles )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        var docxNode = "docx_paragraphStyles_" + (++ctx.values.docxCounter)
+        _ ctx.values.docxStack.push(docxNode)
+        _ ctx.w('const ' + docxNode + ' = [];')
+        _ md.genItems
+            @ model.nodes
+            @ ctx
+            @ noindent
+            a_cb()
+                _ ctx.w(docxParent + '.paragraphStyles = ' + docxNode + ';')
+                _ ctx.values.docxStack.pop()
+                r_cb()

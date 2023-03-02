@@ -1,0 +1,134 @@
+$group
+    $*
+        This file contains 
+        the functions for parsing the command-line arguments 
+        and the main function.
+    *$
+    /*
+        The sample "accept" winsock server implementation
+        see https://github.com/microsoft/Windows-classic-samples/tree/main/Samples/Win7Samples/netds/winsock/accept
+    +
+    #include <errno.h>
+    #include <stdlib.h>
+    #include <winsock2.h>   // for Winsock API
+    #include <windows.h>    // for Win32 APIs and types
+    #include <wspiapi.h>    // for IPv6 support
+    #include <ws2tcpip.h>   // for IPv6 support
+    #include <strsafe.h>    // for safe versions of string functions
+    #include <stdio.h>      // for printing to stdout.
+    +
+    /*
+        This is the number of clients that can be accomodated in the FD_SETs that are used in the select command. 
+        In spite of the name referring to the max number of clients, 
+        the actual number of clients that will be accomodated will be a little less 
+        because the select will also include the server interfaces on which the app is listening.
+        If you want to increase this value, first undefine FD_SETSIZE and redefine FD_SETSIZE to the required value before including winsock2.h
+    #define MAX_CLIENTS             FD_SETSIZE
+    +
+    /*
+        This is the default size of the data buffer that'll be used in recv each time. 
+        In real apps, this value will be much higher.
+    #define RECV_DATA_SIZE          4096
+    +
+    // Different types of accepts that are supported by the server.
+    // This flag indicates the server to use select() and do a non-blocking accept with single thread.
+    // const BYTE NON_BLOCKING_ACCEPT = 1;
+    #define NON_BLOCKING_ACCEPT 1
+    // This flag indicates the server to use WSAAsyncSelect() to get Window messages and call accept on receiving FD_ACCEPT event.
+    // const BYTE ASYNC_SELECT_ACCEPT = 2;
+    #define ASYNC_SELECT_ACCEPT 2
+    +
+    /*
+        This is the message that'll be sent to the server by winsock if  any of the registered socket events happen in the AsyncSelect case.
+        Any value above the WM_USER can be used to avoid collision with the standard Windows messages.
+    #define WM_USER_ASYNCSELECT_MSG     WM_USER + 1
+    +
+    // default values for various command-line options
+    // The default address family to bind to.
+    #define DEFAULT_ADDRESS_FAMILY          AF_UNSPEC
+    +
+    // The default interface to listen to.
+    #define DEFAULT_INTERFACE               NULL
+    +
+    // The default port to listen to.
+    #define DEFAULT_PORT                    "7243"
+    +
+    // The default type of accept to be done.
+    #define DEFAULT_TYPE_OF_ACCEPT          NON_BLOCKING_ACCEPT
+    +
+    $include accept-structures
+    +
+    // g_AcceptContext will hold all the global variables used across all the files.
+    AcceptContext g_AcceptContext;
+    +
+    $include ./socket-info
+    $include ./async-socket
+    $include ./async-select-process
+    $include ./create-hidden-window
+    $include ./async-select-accept-main
+    $include ./non-blocking-accept-main
+    $include ./accept-arguments
+    +
+    /*
+        This function is the entry point for this program.
+        Based on the command-line arguments, it invokes the suitable functions.
+    function main
+        param int argc
+        param char *argv[]
+        rtype int __cdecl
+        // holds the return value from this function.
+        // 0 indicates success, non-zero indicates failure.
+        int retVal;
+        +
+        WSADATA wsaData;
+        +
+        info "Entering main()\n"
+        +
+        /*
+            parse and validate the given arguments and determine if we should continue the execution or return error.
+        if ParseArguments(argc, argv) == FALSE
+            // error input. return a non-zero error code.
+            retVal = 1;
+            goto CLEANUP;
+        +
+        // call WSAStartup before calling any of the Winsock API functions.
+        retVal = WSAStartup(MAKEWORD(2,2), &wsaData);
+        if retVal != 0
+            error "WSAStartup failed. Error = %d\n", retVal
+            goto CLEANUP;
+        +
+        /*
+            Depending on the command-line options given, 
+            create one or more listening sockets on the requested interface(s).
+        CreateListeningSockets ();
+        +
+        // Depending on the type of accept requested, call the suitable function.
+        switch g_AcceptContext.typeOfAccept
+            case NON_BLOCKING_ACCEPT
+                NonBlockingAcceptMain ();
+                break;
+            case ASYNC_SELECT_ACCEPT
+                AsyncSelectAcceptMain ();
+                break;
+            default:
+                // some error. return a non-zero error code.
+                retVal = 1;
+                break;
+        /*
+            we may not come here as per the current implementation 
+            since the XXXAcceptMain functions themselves are waiting forever for connections or data. 
+            But in case we add a timeout option in future
+            we might come here and so we'll cleanup everything properly.
+        +
+        /*
+            Close all the listening sockets and remove them from the global list. 
+            In case there are some accepted sockets still in the list, (due to some error), 
+            they'll also be closed as well.
+        DestroyListeningSockets ();
+        +
+        // Inform Winsock that we're done with all the Winsock APIs.
+        WSACleanup ();
+        +
+        label CLEANUP
+            info "Exiting main()\n"
+            return retVal;

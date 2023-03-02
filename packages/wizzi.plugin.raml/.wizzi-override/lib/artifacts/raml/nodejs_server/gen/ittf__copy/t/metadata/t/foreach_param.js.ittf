@@ -1,0 +1,15 @@
+﻿foreach item in ramlMetadata.operationParameters
+				
+	var path = item.path
+	var parameter = item.schema
+	var pName = parameter.name
+	var pType
+        _ spec.getParameterType
+			@ parameter
+    var pIn = parameter.in
+	var pDefaultValue = parameter.default
+	var parsableBody = spec.isModelType(pType) || ['array', 'object'].indexOf(pType) > -1
+
+	debug 'parameter %s type %s in %s default %s parseableBody %s', pName, pType, pIn, pDefaultValue, parsableBody
+
+	$hook

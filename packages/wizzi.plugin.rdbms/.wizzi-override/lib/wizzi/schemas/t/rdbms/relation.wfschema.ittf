@@ -1,0 +1,121 @@
+﻿$group
+
+	e_tag( relation, r )
+		
+		a_tag( oneTableName, one )
+		
+		a_tag( oneRoleInternal, one-role )
+		
+		a_tag( manyTableName, many )
+		
+		a_tag( manyRoleInternal, many-role )
+		
+		a_tag( cardinality, cardinality, one-to-many )
+			restrict
+				enum one-to-many
+				enum one-to-one
+        
+		a_flag( manyTableIsDocument, many-is-document )
+
+		a_flag( parentIsProxy, parent-is-proxy )
+		
+		constraint( ParentInsert, parent-insert, none )
+		constraint( ParentUpdate, parent-update, restrict )
+		constraint( ParentDelete, parent-delete, restrict )
+        constraint( ChildInsert, child-insert, restrict )
+        constraint( ChildUpdate, child-update, restrict )
+        constraint( ChildDelete, child-delete, restrict )
+		
+		r relationColumn/s
+
+		m wzverify
+			if !this.oneTable()
+				_ ctx.addError('In relation ' + this.wzName + ' oneTable not found: ' + this.oneTableName)
+			if !this.manyTableIsDocument
+				if !this.manyTable()
+					_ ctx.addError('In relation ' + this.wzName + ' manyTable not found: ' + this.manyTableName)
+		
+		m oneRole
+			return isEmpty(this.oneRoleInternal) ? this.oneTable().wzName : this.oneRoleInternal
+		
+		m manyRole
+			return isEmpty(this.manyRoleInternal) ? this.oneTable().namePlural : this.manyRoleInternal
+		
+		m oneTable
+			return this.wzParent.getTable(this.oneTableName) 
+		
+		m manyTable
+			return this.wzParent.getTable(this.manyTableName)
+        
+		m oneColumns
+			reduce( this.relationColumns )
+				var tc = this.oneTable().getTableColumnByName(item.oneColumnName)
+				if tc == null
+					_ this.error("Column " + item.oneColumnName + " not found in table " + this.oneTable().wzName + " in relation " + this.wzName)
+				_ memo.push(tc)
+
+		m manyColumns
+			reduce( this.relationColumns )
+				var tc = this.manyTable().getTableColumnByName(item.manyColumnName)
+				if tc == null
+					_ this.error("Column " + item.manyColumnName + " not found in table " + this.manyTable().wzName + " in relation " + this.wzName)
+				_ memo.push(tc)
+
+		m manyArguments
+            return tableHelper.ArgumentsToString(manyColumns);
+        
+		m manyParameters
+			return tableHelper.ParametersToString(manyColumns);
+        
+		m childParameters_aka_Properties
+            return tableHelper.ParametersToString_aka_Properties(manyColumns);
+        
+		m childParametersToStringInstance
+			param instance
+            return tableHelper.ParametersToStringInstance(manyColumns, instance);
+        
+		m filterChild
+			param instance
+			reduce( this.relationColumns )
+				if memo.length > 0
+					_ memo.push(' && ')
+				_ memo.push(instance + "." + item.manyColumnName + " == " + item.manyTableColumn.argumentName)
+
+		m oneManyKeys
+			var ret = [], check = {}
+			foreach item in this.oneTable().keyColumns()
+				_ ret.push(item)
+				set check[item.wzName] = true
+			foreach item in this.manyTable().keyColumns()
+				if !check[item.wzName]
+					_ ret.push(item)
+					set check[item.wzName] = true
+			return ret
+
+	e_tag( relationColumn, c )
+		a_tag( oneColumnName, one )
+		a_tag( manyColumnName, many )
+
+		m wzinitialize
+			set this.relation = this.wzParent
+
+		m wzverify
+			if !this.oneColumn()
+				_ ctx.addError('In relation ' + this.wzParent.wzName + ' oneColumn not found in oneTable: ' + this.oneColumnName)
+			if !this.relation.manyTableIsDocument
+				if !this.manyColumn()
+					_ ctx.addError('In relation ' + this.wzParent.wzName + ' manyColumn not found in manyTable: ' + this.manyColumnName)
+
+		m oneColumn
+			if this.wzParent.oneTable()
+				return this.wzParent.oneTable().getTableColumn(this.oneColumnName) 
+			else
+				return null;
+
+		m manyColumn
+			if this.wzParent.manyTable()
+				return this.wzParent.manyTable().getTableColumn(this.manyColumnName) 
+			else
+				return null;
+
+

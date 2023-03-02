@@ -1,0 +1,91 @@
+﻿module
+	kind jsfile
+
+	import util
+	import async
+	var _ = require('lodash-compat')
+    var debug = require('debug')('wizzi-raml-nodejs-server')
+
+	wz-iife application
+		
+		wz-require connect
+		wz-require http
+
+		var app = connect()
+
+		wz-function start
+			param api
+
+			var serverPort = api.serverPort
+			
+			_ middleware.initialize
+				@ api
+				function 
+					param err
+					param middleware
+					if err
+						error 'Application middleware initialization error', err
+						return
+					_ app.use
+						@ middleware.metadata
+					_ app.use
+						@ middleware.validator
+					_ app.use
+						@ middleware.router
+					_ app.use
+						@ middleware.discovery
+					_ http.createServer(app)
+						._ listen
+							@ serverPort
+							function 
+								_ console.log('Your server is listening on port %d (http://localhost:%d)', serverPort, serverPort)
+								_ console.log('Api discovery is available on http://localhost:%d/docs', serverPort)
+
+	$include options/index
+	$include common/index
+	$include parsers/index
+	$include metadata/index
+	$include validation/index
+	$include router/index
+	$include discovery/index
+
+	wz-iife middleware
+		wz-function initialize
+			param wizziRamlApi
+			param callback
+
+			info 'before metadata'
+			_ metadata.initialize
+				@ wizziRamlApi
+				f-cb( metadataMiddleware)
+					info 'before validator'
+					_ validation.initialize
+						@ wizziRamlApi
+						f-cb( validatorMiddleware)
+							info 'before router'
+							_ router.initialize
+								@ wizziRamlApi
+								f-cb( routerMiddleware)
+									info 'before discovery'
+									_ discovery.initialize
+										@ wizziRamlApi
+										f-cb( discoveryMiddleware)
+											_ callback
+												@ null
+												{
+													@ metadata metadataMiddleware
+													@ validator validatorMiddleware
+													@ router routerMiddleware
+													@ discovery discoveryMiddleware
+			
+	wz-iife api
+		wz-function create
+			return
+				{
+					$include wizzi_raml_object/index
+
+	_ application.start
+		_ api.create
+
+
+

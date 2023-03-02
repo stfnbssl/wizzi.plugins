@@ -1,0 +1,26 @@
+﻿$group
+	$params &element, &ctx
+
+	# resource_${element.wzName}
+	h2panel( ${ctx.resourcePath}, /${element.wzName} )
+		table( 50 )
+			tr_prop( displayName, ${element.displayName} )
+			tr_prop( label, ${element.description} )
+		comments( &element )
+		$if element.uriParameters.length > 0
+			panel( uriParameters )
+				table( 100 )
+					$foreach param in element.uriParameters
+						tr
+							td ${param.wzName}
+								. panel 
+									table( 100, false )
+										$foreach f in param.getFacets()
+											tr
+												td ${f.name}
+												td ${f.value}
+
+
+		
+		methods( &element )
+		$hook

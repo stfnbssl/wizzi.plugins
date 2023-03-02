@@ -1,0 +1,54 @@
+module
+    kind es6
+    $
+        var md = {
+            name: 'raml',
+        };
+    v08/examples/plugin( &md )
+        $append plugins
+            [ items
+                @ './index.js'
+            @ pluginsBaseFolder
+                _ path.resolve
+                    @ __dirname
+                    @ '..'
+        _ executeGenerateModules
+            [
+                @ 'first'
+            a_cb_no_throw( result )
+                if err
+                    error 'raml.examples.executeGenerateModules.err', err
+                    error 'raml.examples.executeGenerateModules.err.toString()', err.toString()
+                    if err.inner
+                        error 'raml.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
+                else
+        function executeGenerateModules
+            param modules
+            param callback
+            _ async.mapSeries
+                @ modules
+                =>
+                    param module
+                    param callback
+                    log 'raml.example.executeGenerateModules.module: ' + module
+                    var ittfDocumentUri
+                        _ path.join
+                            @ __dirname
+                            @ 'ittf'
+                            @ module + '.raml.ittf'
+                    var outputPath
+                        _ path.join
+                            @ __dirname
+                            @ 'results'
+                            @ module + '.raml.html'
+                    _ loadModelAndGenerateArtifact
+                        @ ittfDocumentUri
+                        {
+                        @ 'raml/document'
+                        a_cb( artifactText )
+                            log 'raml.example.executeGenerateModules.outputPath: ' + outputPath
+                            _ file.write
+                                @ outputPath
+                                @ artifactText
+                            r_cb( artifactText )
+                @ callback

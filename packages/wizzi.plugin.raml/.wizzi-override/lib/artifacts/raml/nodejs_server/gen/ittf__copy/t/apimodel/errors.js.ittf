@@ -1,0 +1,29 @@
+﻿$group
+
+	var createUnusedErrorOrWarning
+        function 
+            param val
+            param codeSuffix
+            param msgPrefix
+            param path
+            param dest
+            _ createErrorOrWarning
+				@ 'UNUSED_' + codeSuffix
+				@ msgPrefix + ' is defined but is not used: ' + val
+				@ path
+				@ dest
+
+	var createErrorOrWarning
+        function 
+            param code
+            param message
+            param path
+            param dest
+            _ dest.push
+                { 
+                    @ code code
+                    @ message message
+                    @ path path
+
+    
+

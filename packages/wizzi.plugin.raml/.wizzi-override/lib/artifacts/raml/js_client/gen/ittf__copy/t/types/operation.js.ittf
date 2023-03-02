@@ -1,0 +1,965 @@
+﻿$group
+
+	# url.indexOf( '.{format}')
+	# helpers.simpleRef
+
+	wz-require helpers
+		from ../helpers
+	wz-require Model
+		from ./model
+	wz-require WizziRamlHttp
+		from '../http'
+    wz-require Q
+		from q
+
+    wz-class Operation
+		# param parent // is the resource from raml
+		#     basePath
+		#     host
+		#     timeout
+		#     enableCookies
+		#     parameterMacro:Function
+		#     modelPropertyMacro
+		#     supportedSubmitMethods
+		#     options
+		#         client
+		#         requestInterceptor
+		#         responseInterceptor
+		# param args // is the operation from raml
+		#     security (authorizations)
+		#     consumes
+		#     produces
+		#     deprecated
+		#     description
+		#     parameters
+		#     responses
+		#     schemes
+		#     security
+		#     summary
+		# param scheme // example 'http' (default)
+		# param definitions // are definitions of schemas for resolving $ref
+		ctor
+            param parent
+            param scheme
+            param operationId
+            param httpMethod
+            param path
+            param args
+            param definitions
+            param models
+            param clientAuthorizations
+            
+			var errors
+                [ 
+            set parent = parent || {}
+            set args = args || {}
+            if parent && parent.options
+                set this.client = parent.options.client || null
+                set this.requestInterceptor = parent.options.requestInterceptor || null
+                set this.responseInterceptor = parent.options.responseInterceptor || null
+            set this.authorizations = args.security
+            set this.basePath = parent.basePath || '/'
+            set this.clientAuthorizations = clientAuthorizations
+            set this.consumes = args.consumes || parent.consumes || ['application/json']
+            set this.produces = args.produces || parent.produces || ['application/json']
+            set this.deprecated = args.deprecated
+            set this.description = args.description
+            set this.host = parent.host
+            set this.method = httpMethod || errors.push('Operation ' + operationId + ' is missing method.')
+            set this.models = models || {}
+            set this.nickname = operationId || errors.push('Operation ' + operationId + ' must have a nickname.')
+            set this.operation = args
+            set this.operations =
+                { 
+            set this.parameters = args !== null ? (args.parameters || []) : {}
+            set this.parent = parent
+            set this.path = path || errors.push('Operation ' + this.nickname + ' is missing path.')
+            set this.responses = args.responses || {}
+            set this.scheme = scheme || parent.scheme || 'http'
+            set this.schemes = args.schemes || parent.schemes
+            set this.security = args.security || parent.security
+            set this.summary = args.summary || ''
+            set this.timeout = parent.timeout
+            set this.type = null
+            set this.enableCookies = parent.enableCookies
+            var key
+            if !this.host
+                if typeof (window) !== 'undefined'
+                    set this.host = window.location.host
+                else 
+                    set this.host = 'localhost'
+            set this.parameterMacro =
+                op|| 
+                    set parent.parameterMacro
+                    function 
+                        param operation
+                        param parameter
+                        return parameter.default
+            set this.inlineModels = []
+            if this.basePath !== '/' && this.basePath.slice(-1) === '/'
+                set this.basePath = this.basePath.slice(0, -1)
+            if typeof (this.deprecated) === 'string'
+                switch this.deprecated.toLowerCase()
+                    case 'true'
+                    case 'yes'
+                    case '1'
+                        set this.deprecated = true
+                        break 
+                    case 'false'
+                    case 'no'
+                    case '0'
+                    case null
+                        set this.deprecated = false
+                        break 
+                    default 
+                        set this.deprecated = Boolean(this.deprecated)
+            var 
+                decl i
+                decl model
+            if definitions
+                for key in definitions
+                    set model = new Model(key, definitions[key], this.models, parent.modelPropertyMacro)
+                    if model
+                        set this.models[key] = model
+            else 
+                set definitions =
+                    { 
+            foreach param in this.parameters
+                var d
+                set param.default = this.parameterMacro(this, param)
+                if param.type === 'array'
+                    set param.isList = true
+                    set param.allowMultiple = true
+                var innerType = this.getType(param)
+                if innerType && innerType.toString().toLowerCase() === 'boolean'
+                    set param.allowableValues =
+                        { 
+                    set param.isList = true
+                    set param['enum'] = [true, false]
+                for key in param
+                    _ helpers.extractExtensions(key, param)
+                if typeof (param['x-example']) !== 'undefined'
+                    set d = param['x-example']
+                    set param.default = d
+                if param['x-examples']
+                    set d = param['x-examples'].default
+                    if typeof (d) !== 'undefined'
+                        set param.default = d
+                var enumValues = param['enum'] || param.items && param.items['enum']
+                if typeof (enumValues) !== 'undefined'
+                    var id
+                    set param.allowableValues =
+                        { 
+                    set param.allowableValues.values = []
+                    set param.allowableValues.descriptiveValues = []
+                    for id = 0; id < enumValues.length; id++
+                        var value = enumValues[id]
+                        var isDefault = ((value === param.default) || ((((value + '')) === param.default)))
+                        _ param.allowableValues.values.push(value)
+                        _ param.allowableValues.descriptiveValues.push
+                            { 
+                                @ value (value + '')
+                                @ isDefault isDefault
+                if param.type === 'array'
+                    set innerType = [innerType]
+                    if typeof (param.allowableValues) === 'undefined'
+                        set delete (param.isList)
+                        set delete (param.allowMultiple)
+                set param.modelSignature =
+                    { 
+                        @ type innerType
+                        @ definitions this.models
+                set param.signature = this.getModelSignature(innerType, this.models).toString()
+                set param.sampleJSON = this.getModelSampleJSON(innerType, this.models)
+                set param.responseClassSignature = param.signature
+            
+			var 
+                decl keyname
+                decl defaultResponseCode
+                decl response
+                decl responses = this.responses
+            
+			if responses['200']
+                set response = responses['200']
+                set defaultResponseCode = '200'
+            elif responses['201']
+                set response = responses['201']
+                set defaultResponseCode = '201'
+            elif responses['202']
+                set response = responses['202']
+                set defaultResponseCode = '202'
+            elif responses['203']
+                set response = responses['203']
+                set defaultResponseCode = '203'
+            elif responses['204']
+                set response = responses['204']
+                set defaultResponseCode = '204'
+            elif responses['205']
+                set response = responses['205']
+                set defaultResponseCode = '205'
+            elif responses['206']
+                set response = responses['206']
+                set defaultResponseCode = '206'
+            elif responses['default']
+                set response = responses['default']
+                set defaultResponseCode = 'default'
+            
+			for keyname in responses
+                _ helpers.extractExtensions(keyname, responses)
+                if typeof (keyname) === 'string' && keyname.indexOf('x-') === - 1
+                    var responseObject = responses[keyname]
+                    if typeof (responseObject) === 'object' && typeof (responseObject.headers) === 'object'
+                        var headers = responseObject.headers
+                        for var headerName in headers
+                            var header = headers[headerName]
+                            if typeof (header) === 'object'
+                                for var headerKey in header
+                                    _ helpers.extractExtensions(headerKey, header)
+            
+			if response
+                for keyname in response
+                    _ helpers.extractExtensions(keyname, response)
+            
+			if response && response.schema
+                var resolvedModel
+                    _ this.resolveModel
+                        @ response.schema
+                        @ definitions
+                
+				var successResponse
+                
+				set delete responses[defaultResponseCode]
+                
+				if resolvedModel
+                    set this.successResponse =
+                        { 
+                    set successResponse = this.successResponse[defaultResponseCode] = resolvedModel
+                elif !response.schema.type || response.schema.type === 'object' || response.schema.type === 'array'
+                    set this.successResponse =
+                        { 
+                    set successResponse = this.successResponse[defaultResponseCode] = new Model(undefined, (response.schema || {}), this.models, parent.modelPropertyMacro)
+                else 
+                    set this.successResponse =
+                        { 
+                    set successResponse = this.successResponse[defaultResponseCode] = response.schema
+                
+				if successResponse
+                    set successResponse.vendorExtensions = response.vendorExtensions
+                    if response.description
+                        set successResponse.description = response.description
+                    if response.examples
+                        set successResponse.examples = response.examples
+                    if response.headers
+                        set successResponse.headers = response.headers
+                set this.type = response
+            
+			if errors.length > 0
+                if this.resource && this.resource.api && this.resource.api.fail
+                    _ this.resource.api.fail(errors)
+            return this
+
+		m isDefaultArrayItemValue
+            param value
+            param param
+            if param.default && Array.isArray(param.default)
+                return param.default.indexOf(value) !== - (1)
+            return value === param.default
+
+		m getType
+            param param
+            var type = param.type
+            var format = param.format
+            var isArray = false
+            var str
+            if type === 'integer' && format === 'int32'
+                set str = 'integer'
+            elif type === 'integer' && format === 'int64'
+                set str = 'long'
+            elif type === 'integer'
+                set str = 'integer'
+            elif type === 'string'
+                if format === 'date-time'
+                    set str = 'date-time'
+                elif format === 'date'
+                    set str = 'date'
+                else 
+                    set str = 'string'
+            elif type === 'number' && format === 'float'
+                set str = 'float'
+            elif type === 'number' && format === 'double'
+                set str = 'double'
+            elif type === 'number'
+                set str = 'double'
+            elif type === 'boolean'
+                set str = 'boolean'
+            elif type === 'array'
+                set isArray = true
+                if param.items
+                    set str = this.getType(param.items)
+            elif type === 'file'
+                set str = 'file'
+            if param.$ref
+                set str = helpers.simpleRef(param.$ref)
+            var schema = param.schema
+            if schema
+                var ref = schema.$ref
+                if ref
+                    set ref = helpers.simpleRef(ref)
+                    if isArray
+                        return 
+                            [ 
+                                @ ref
+                    else 
+                        return ref
+                else 
+                    if schema.type === 'object'
+                        return this.addInlineModel(schema)
+                    return this.getType(schema)
+            if isArray
+                return 
+                    [ 
+                        @ str
+            else 
+                return str
+
+		m addInlineModel
+            param schema
+            var len = this.inlineModels.length
+            var model
+                _ this.resolveModel
+                    @ schema
+                    { 
+            if model
+                _ this.inlineModels.push(model)
+                return ('Inline Model ' + len)
+            return null
+
+		m getInlineModel
+            param inlineStr
+            if /^Inline Model \d+$/.test(inlineStr)
+                var id
+                    _ parseInt
+                        _ inlineStr.substr
+                            @ 'Inline Model'.length
+                            ._ trim()
+                        @ 10
+                var model = this.inlineModels[id]
+                return model
+            return null
+
+		m resolveModel
+            param schema
+            param definitions
+            if typeof (schema.$ref) !== 'undefined'
+                var ref = schema.$ref
+                if ref.indexOf('#/definitions/') === 0
+                    set ref = ref.substring('#/definitions/'.length)
+                if definitions[ref]
+                    return 
+                        new Model
+                            @ ref
+                            @ definitions[ref]
+                            @ this.models
+                            @ this.parent.modelPropertyMacro
+            elif schema && typeof (schema) === 'object') && (schema.type === 'object' || _.isUndefined(schema.type))
+                return 
+                    new Model
+                        @ undefined
+                        @ schema
+                        @ this.models
+                        @ this.parent.modelPropertyMacro
+            return null
+    
+		m help
+            param dontPrint
+            var out = this.nickname + ': ' + this.summary + '\n'
+            foreach param in this.parameters
+                var typeInfo = param.signature
+                set out += '\n  * ' + param.name + ' (' + typeInfo + '): ' + param.description
+            if typeof (dontPrint) === 'undefined'
+                _ helpers.log(out)
+            return out
+
+		m getModelSignature
+            param type
+            param definitions
+            var 
+                decl isPrimitive
+                decl listType
+            if type instanceof Array
+                set listType = true
+                set type = type[0]
+            if typeof (type) === 'undefined'
+                set type = 'undefined'
+                set isPrimitive = true
+            elif definitions[type]
+                set type = definitions[type]
+                set isPrimitive = false
+            elif this.getInlineModel(type)
+                set type = this.getInlineModel(type)
+                set isPrimitive = false
+            else 
+                set isPrimitive = true
+            if isPrimitive
+                if listType
+                    return 'Array[' + type + ']'
+                else 
+                    return type.toString()
+            else 
+                if listType
+                    return 'Array[' + type.getMockSignature() + ']'
+                else 
+                    return type.getMockSignature()
+    
+		m supportHeaderParams
+            return true
+    
+		m supportedSubmitMethods
+            return this.parent.supportedSubmitMethods
+    
+		m getHeaderParams
+            param args
+            
+			var headers
+                _ this.setContentTypes
+                    @ args
+                    { 
+            var headerParamsByLowerCase
+                { 
+            foreach param in this.parameters
+                if param.in === 'header'
+                    set headerParamsByLowerCase[param.name.toLowerCase()] = param
+            for var arg in args
+                var headerParam = headerParamsByLowerCase[arg.toLowerCase()]
+                if typeof (headerParam) !== 'undefined'
+                    var value = args[arg]
+                    if Array.isArray(value)
+                        set value = value.toString()
+                    set headers[headerParam.name] = value
+            return headers
+    
+		m urlify
+            param args
+            param maskPasswords
+            
+			var formParams
+                { 
+            var requestUrl = this.path.replace(/#.*/, '')
+            var querystring = ''
+            foreach param in this.parameters
+                
+				if typeof(args[param.name]) !== 'undefined'
+                    var isPassword
+                    if param.type === 'string' && param.format === 'password' && maskPasswords
+                        set isPassword = true
+                    if param.in === 'path'
+                        var reg
+                            new RegExp('\{' + param.name + '\}', 'gi')
+                        var value = args[param.name]
+                        if Array.isArray(value)
+                            set value = this.encodePathCollection(param.collectionFormat, param.name, value, isPassword)
+                        else 
+                            if typeof (param['x-escape']) === 'undefined' || param['x-escape'] === true
+                                set value = this.encodePathParam(value, isPassword)
+                        set requestUrl = requestUrl.replace(reg, value)
+                    elif param.in === 'query' && typeof(args[param.name]) !== 'undefined'
+                        if querystring === '' && requestUrl.indexOf('?') < 0
+                            set querystring += '?'
+                        else 
+                            set querystring += '&'
+                        if typeof (param.collectionFormat) !== 'undefined'
+                            var qp = args[param.name]
+                            if Array.isArray(qp)
+                                set querystring += this.encodeQueryCollection(param.collectionFormat, param.name, qp, isPassword)
+                            else 
+                                set querystring += this.encodeQueryKey(param.name) + '=' + this.encodeQueryParam(args[param.name], isPassword)
+                        else 
+                            set querystring += this.encodeQueryKey(param.name) + '=' + this.encodeQueryParam(args[param.name], isPassword)
+                    elif param.in === 'formData'
+                        set formParams[param.name] = args[param.name]
+                
+				elif param.in === 'query' && typeof(args[param.name]) === 'undefined' && param.allowEmptyValue === true
+                    if querystring === '' && requestUrl.indexOf('?') < 0
+                        set querystring += '?'
+                    else 
+                        set querystring += '&'
+                    if typeof (param.collectionFormat) !== 'undefined' || param.type === 'array'
+                        var qp
+                        var collectionFormat = param.collectionFormat || 'multi'
+                        if Array.isArray(qp)
+                            set querystring += this.encodeQueryCollection(collectionFormat, param.name, qp, isPassword)
+                        else 
+                            set querystring += this.encodeQueryCollection(collectionFormat, param.name, [qp], isPassword)
+                    else 
+                        set querystring += this.encodeQueryKey(param.name) + '=' + this.encodeQueryParam('', isPassword)
+            
+			var url = this.scheme + '://' + this.host
+            
+			if this.basePath !== '/'
+                set url += this.basePath
+            
+			return url + requestUrl + querystring
+    
+		m getMissingParams
+            param args
+            var missingParams
+                [ 
+            var i
+            foreach param in this.parameters
+                if param.required === true
+                    if typeof (args[param.name]) === 'undefined'
+                        set missingParams = param.name
+            return missingParams
+    
+		m getBody
+            param headers
+            param args
+            param opts
+            var 
+                decl formParams
+                    { 
+                decl hasFormParams
+                decl param
+                decl body
+                decl key
+                decl value
+                decl hasBody = false
+            
+			foreach param in this.parameters
+                if typeof (args[param.name]) !== 'undefined'
+                    var isPassword
+                    if ((param.type === 'string') && (param.format === 'password'))
+                        set isPassword = 'password'
+                    if param.in === 'body'
+                        set body = args[param.name]
+                    elif param.in === 'formData'
+                        set formParams[param.name] =
+                            { 
+                                @ param param
+                                @ value args[param.name]
+                                @ password isPassword
+                        set hasFormParams = true
+                else 
+                    if param.in === 'body'
+                        set hasBody = true
+            if (hasBody && (typeof (body) === 'undefined'))
+                var contentType = headers['Content-Type']
+                if (contentType && (contentType.indexOf('application/json') === 0))
+                    set body = '{}'
+            var isMultiPart = false
+            if (headers['Content-Type'] && (headers['Content-Type'].indexOf('multipart/form-data') >= 0))
+                set isMultiPart = true
+            if hasFormParams && ! (isMultiPart)
+                var encoded = ''
+                for key in formParams
+                    set param = formParams[key].param
+                    set value = formParams[key].value
+                    var password
+                    if opts && opts.maskPasswords
+                        set password = formParams[key].password
+                    if typeof (value) !== 'undefined'
+                        if Array.isArray(value)
+                            if encoded !== ''
+                                set encoded += '&'
+                            set encoded += this.encodeQueryCollection(param.collectionFormat, key, value, password)
+                        else 
+                            if encoded !== ''
+                                set encoded += '&'
+                            set encoded += (((encodeURIComponent(key) + '=')) + mask(encodeURIComponent(value), password))
+                set body = encoded
+            elif isMultiPart
+                var bodyParam
+                if typeof (FormData) === 'function'
+                    set bodyParam = new FormData()
+                    set bodyParam.type = 'formData'
+                    for key in formParams
+                        set param = formParams[key].param
+                        set value = args[key]
+                        if typeof (value) !== 'undefined'
+                            if {}.toString.apply(value) === '[object File]'
+                                _ bodyParam.append(key, value)
+                            elif ((value.type === 'file') && value.value)
+                                _ bodyParam.append
+                                    @ key
+                                    @ value.value
+                            else 
+                                if Array.isArray(value)
+                                    if param.collectionFormat === 'multi'
+                                        _ bodyParam.delete(key)
+                                        for var v in value
+                                            _ bodyParam.append
+                                                @ key
+                                                @ value[v]
+                                    else 
+                                        _ bodyParam.append
+                                            @ key
+                                            _ this.encodeQueryCollection
+                                                @ param.collectionFormat
+                                                @ key
+                                                @ value
+                                                ._ split('=')
+                                                    ._ slice(1)
+                                                        ._ join('=')
+                                else 
+                                    _ bodyParam.append(key, value)
+                    set body = bodyParam
+                else 
+                    set bodyParam =
+                        { 
+                    for key in formParams
+                        set value = args[key]
+                        if Array.isArray(value)
+                            var delimeter
+                            var format = (param.collectionFormat || 'multi')
+                            if format === 'ssv'
+                                set delimeter = ' '
+                            elif format === 'pipes'
+                                set delimeter = '|'
+                            elif format === 'tsv'
+                                set delimeter = '\t'
+                            elif format === 'multi'
+                                set bodyParam[key] = value
+                                break 
+                            else 
+                                set delimeter = ','
+                            var data
+                            _ value.forEach
+                                function 
+                                    param v
+                                    if data
+                                        set data += delimeter
+                                    else 
+                                        set data = ''
+                                    set data += v
+                            set bodyParam[key] = data
+                        else 
+                            set bodyParam[key] = value
+                    set body = bodyParam
+                set headers['Content-Type'] = 'multipart/form-data'
+            return body
+    
+		m getModelSampleJSON
+            param type
+            param models
+            var 
+                decl listType
+                decl sampleJson
+                decl innerType
+            set models = (models || {})
+            set listType = type instanceof Array
+            set innerType = listType ? type[0] : type
+            if models[innerType]
+                set sampleJson = models[innerType].createJSONSample()
+            elif this.getInlineModel(innerType)
+                set sampleJson = this.getInlineModel(innerType).createJSONSample()
+            if sampleJson
+                set sampleJson = listType ? [sampleJson] : sampleJson
+                if typeof (sampleJson) === 'string'
+                    return sampleJson
+                elif _.isObject(sampleJson)
+                    var t = sampleJson
+                    if ((sampleJson instanceof Array) && (sampleJson.length > 0))
+                        set t = sampleJson[0]
+                    if (t.nodeName && (typeof (t) === 'Node'))
+                        var xmlString
+                            new XMLSerializer()
+                                ._ serializeToString(t)
+                        return this.formatXml(xmlString)
+                    else 
+                        return JSON.stringify(sampleJson, null, 2)
+                else 
+                    return sampleJson
+    
+		m execute
+            param arg1
+            param arg2
+            param arg3
+            param arg4
+            param parent
+            var args = arg1 || {}
+            var 
+                decl opts
+                    { 
+                decl success
+                decl error
+                decl deferred
+                decl timeout
+            
+			if _.isObject(arg2)
+                set opts = arg2
+                set success = arg3
+                set error = arg4
+            
+			set timeout = typeof (opts.timeout) !== 'undefined' ? opts.timeout : this.timeout
+            
+			if this.client
+                set opts.client = this.client
+            if !(opts.requestInterceptor) && this.requestInterceptor
+                set opts.requestInterceptor = this.requestInterceptor
+            if !(opts.responseInterceptor) && this.responseInterceptor
+                set opts.responseInterceptor = this.responseInterceptor
+            
+			if typeof (arg2) === 'function'
+                set success = arg2
+                set error = arg3
+            
+			if this.parent.usePromise
+                set deferred = Q.defer()
+            else 
+                set success = success || this.parent.defaultSuccessCallback || helpers.log
+                set error = error || this.parent.defaultErrorCallback || helpers.log
+            
+            if typeof (opts.enableCookies) === 'undefined'
+                set opts.enableCookies = this.enableCookies
+            
+			var missingParams = this.getMissingParams(args)
+            
+			if missingParams.length > 0
+                var message = ('missing required params: ' + missingParams)
+                _ helpers.fail(message)
+                if this.parent.usePromise
+                    _ deferred.reject(message)
+                    return deferred.promise
+                else 
+                    _ error(message, parent)
+                    return 
+                        { 
+            var allHeaders = this.getHeaderParams(args)
+            var contentTypeHeaders = this.setContentTypes(args, opts)
+            var 
+                decl headers
+                    { 
+                decl attrname
+            for attrname in allHeaders
+                set headers[attrname] = allHeaders[attrname]
+            for attrname in contentTypeHeaders
+                set headers[attrname] = contentTypeHeaders[attrname]
+            var body = this.getBody(contentTypeHeaders, args, opts)
+            var url
+                _ this.urlify
+                    @ args
+                    @ opts.maskPasswords
+            
+			if url.indexOf('.{format}') > 0
+                if headers
+                    var format = (headers.Accept || headers.accept)
+                    if (format && (format.indexOf('json') > 0))
+                        set url = url.replace('.{format}', '.json')
+                    elif (format && (format.indexOf('xml') > 0))
+                        set url = url.replace('.{format}', '.xml')
+            
+			var obj
+                { 
+                    @ url url
+                    @ method this.method.toUpperCase()
+                    @ body body
+                    @ enableCookies opts.enableCookies
+                    @ deferred deferred
+                    @ headers headers
+                    @ clientAuthorizations opts.clientAuthorizations
+                    @ operation this
+                    @ connectionAgent this.connectionAgent
+                    @ on
+                        { 
+                            @ response
+                                function 
+                                    param response
+                                    if deferred
+                                        _ deferred.resolve(response)
+                                        return deferred.promise
+                                    else 
+                                        return success(response, parent)
+                            @ error
+                                function 
+                                    param response
+                                    if deferred
+                                        _ deferred.reject(response)
+                                        return deferred.promise
+                                    else 
+                                        return error(response, parent)
+            
+			if timeout
+                set obj.timeout = timeout
+            
+			_ this.clientAuthorizations.apply
+                @ obj
+                @ this.operation.security
+            
+			if opts.mock === true
+                if opts.requestInterceptor
+                    _ opts.requestInterceptor.apply(obj)
+                return obj
+            else 
+                return 
+                    new SwaggerHttp()
+                        ._ execute(obj, opts)
+    
+		m setContentTypes
+            param args
+            param opts
+            
+			var allDefinedParams = this.parameters
+            var body
+            var consumes = args.parameterContentType || itemByPriority(this.consumes, ['application/json'])
+            var accepts = opts.responseContentType || itemByPriority(this.produces, ['application/json'])
+            
+			var definedFileParams
+                [ 
+            var definedFormParams
+                [ 
+            var headers
+                { 
+            
+			foreach param in allDefinedParams
+                if param.in === 'formData'
+                    if param.type === 'file'
+                        _ definedFileParams.push(param)
+                    else 
+                        _ definedFormParams.push(param)
+                elif param.in === 'header' && opts
+                    var key = param.name
+                    var headerValue = opts[param.name]
+                    if typeof (opts[param.name]) !== 'undefined'
+                        set headers[key] = headerValue
+                elif param.in === 'body' && typeof (args[param.name]) !== 'undefined'
+                    set body = args[param.name]
+            
+			var hasBody = body || definedFileParams.length || definedFormParams.length
+            
+			if this.method === 'post' || this.method === 'put' || this.method === 'patch' || ((this.method === 'delete' || this.method === 'get') && hasBody)
+                if opts.requestContentType
+                    set consumes = opts.requestContentType
+                if definedFormParams.length > 0
+                    set consumes = undefined
+                    if opts.requestContentType
+                        set consumes = opts.requestContentType
+                    elif definedFileParams.length > 0
+                        set consumes = 'multipart/form-data'
+                    else 
+                        if this.consumes && this.consumes.length > 0
+                            for var c in this.consumes
+                                var chk = this.consumes[c]
+                                if chk.indexOf('application/x-www-form-urlencoded') === 0 || chk.indexOf('multipart/form-data' === 0
+                                    set consumes = chk
+                    if typeof (consumes) === 'undefined'
+                        set consumes = 'application/x-www-form-urlencoded'
+            else 
+                set consumes = null
+            
+			if consumes && this.consumes
+                if this.consumes.indexOf(consumes) === -1
+                    _ helpers.log('server doesn\'t consume ' + consumes + ', try ' + JSON.stringify(this.consumes)
+            if !this.matchesAccept(accepts)
+                _ helpers.log('server can\'t produce ' + accepts)
+            if (consumes && body !== '') || consumes === 'application/x-www-form-urlencoded'
+                set headers['Content-Type'] = consumes
+            elif this.consumes && this.consumes.length > 0 && this.consumes[0] === 'application/x-www-form-urlencoded'
+                set headers['Content-Type'] = this.consumes[0]
+            if accepts
+                set headers.Accept = accepts
+            return headers
+		
+		m matchesAccept
+            param accepts
+            if !accepts || !this.produces
+                return true
+            return this.produces.indexOf(accepts) !== -1 || this.produces.indexOf('*/*') !== -1
+    
+		m encodePathCollection
+            param type
+            param name
+            param value
+            param maskPasswords
+            var encoded = ''
+            var i
+            var separator = ''
+            if type === 'ssv'
+                set separator = '%20'
+            elif type === 'tsv'
+                set separator = '%09'
+            elif type === 'pipes'
+                set separator = '|'
+            else 
+                set separator = ','
+            for i = 0; i < value.length; i++
+                if i === 0
+                    set encoded = this.encodeQueryParam(value[i], maskPasswords)
+                else 
+                    set encoded += (separator + this.encodeQueryParam(value[i], maskPasswords))
+            return encoded
+    
+		m encodeQueryCollection
+            param type
+            param name
+            param value
+            param maskPasswords
+            var encoded = ''
+            var i
+            set type = type || 'default'
+            if type === 'default' || type === 'multi'
+                for i = 0; i < value.length; i++
+                    if i > 0
+                        set encoded += '&'
+                    set encoded += this.encodeQueryKey(name) + '=' + mask(this.encodeQueryParam(value[i]), maskPasswords)
+            else 
+                var separator = ''
+                if type === 'csv'
+                    set separator = ','
+                elif type === 'ssv'
+                    set separator = '%20'
+                elif type === 'tsv'
+                    set separator = '%09'
+                elif type === 'pipes'
+                    set separator = '|'
+                elif type === 'brackets'
+                    for i = 0; i < value.length; i++
+                        if i !== 0
+                            set encoded += '&'
+                        set encoded += this.encodeQueryKey(name) + '[]=' + mask(this.encodeQueryParam(value[i]), maskPasswords)
+                if separator !== ''
+                    for i = 0; i < value.length; i++
+                        if i === 0
+                            set encoded = this.encodeQueryKey(name) + '=' + this.encodeQueryParam(value[i])
+                        else 
+                            set encoded += separator + this.encodeQueryParam(value[i])
+            return encoded
+		
+		m encodeQueryKey
+            param arg
+            return 
+                _ encodeURIComponent(arg)
+                    ._ replace('%5B', '[')
+                        ._ replace('%5D', ']')
+                            ._ replace('%24', '$')
+    
+		m encodeQueryParam
+            param arg
+            param maskPasswords
+            if maskPasswords
+                return "******"
+            if arg !== undefined && arg !== null
+                return encodeURIComponent(arg)
+            else 
+                return ''
+		
+		m encodePathParam
+            param pathParam
+            param maskPasswords
+            return encodeURIComponent(pathParam, maskPasswords)
+    
+		function itemByPriority
+			param col
+			param itemPriority
+			if _.isEmpty(itemPriority)
+				return col[0]
+			for var i = 0, len = itemPriority.length; i < len; i++
+				if col.indexOf(itemPriority[i]) > - (1)
+					return itemPriority[i]
+			return col[0]
+
+        function 
+            param value
+            param format
+            if typeof (format) === 'string' && format === 'password'
+                return '******'
+            return value

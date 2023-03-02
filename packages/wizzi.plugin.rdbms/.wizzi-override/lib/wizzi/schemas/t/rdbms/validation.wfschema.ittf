@@ -1,0 +1,49 @@
+﻿$group
+
+	e_tag( validationError, validation-error )
+		# A schema level default error message for a validation rule
+		# The wzName references the wzElement of the rule.
+
+		a message
+			# The text of the message. May contain {param} strings for
+			# parameter substitution.
+
+		r param/s
+
+	e validation : rdbmsitem
+		# The base element for a table column validation rule.
+		is-abstract
+
+		a message
+			# Overrides the default validation-error message of the rule.
+
+	e required : validation
+		# A value is required
+
+	e minValue : validation
+		tag min-value
+
+	e maxValue : validation
+		tag max-value
+
+	e minLength : validation
+		tag min-length
+
+	e maxLength : validation
+		tag max-length
+
+	e regexp : validation
+
+	e match : validation
+		# The column value must match the value of the column
+		# indicated by the wzName
+
+	e restrict : validation
+		# The column value must be one of an enumeration of valid values.
+
+		r zenum/s
+			# Enumeration of allowed values
+
+	e_tag( zenum, enum )
+		# An allowed value in a restrict validation rule.
+

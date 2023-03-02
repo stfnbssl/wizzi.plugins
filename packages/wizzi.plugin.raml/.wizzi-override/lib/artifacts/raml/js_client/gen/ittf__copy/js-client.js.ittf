@@ -1,0 +1,38 @@
+﻿module
+	kind jsfile
+
+	wz-iife application
+		
+		wz-function start
+
+	$include common/index
+	$include types/index
+			
+	wz-iife api
+		wz-function create
+			return
+				{
+					$include wizzi_raml_object/index
+
+	_ application.start
+		_ api.create
+
+
+
+
+
+	var deprecationWrapper
+        function 
+            param url
+            param options
+            _ helpers.log('This is deprecated, use "new SwaggerClient" instead.')
+            return 
+                new SwaggerClient(url, options)
+
+    set module.exports = SwaggerClient
+    set SwaggerClient.ApiKeyAuthorization = auth.ApiKeyAuthorization
+    set SwaggerClient.PasswordAuthorization = auth.PasswordAuthorization
+    set SwaggerClient.CookieAuthorization = auth.CookieAuthorization
+    set SwaggerClient.SwaggerApi = deprecationWrapper
+    set SwaggerClient.SwaggerClient = deprecationWrapper
+    set SwaggerClient.SchemaMarkup = require('./lib/schema-markup')

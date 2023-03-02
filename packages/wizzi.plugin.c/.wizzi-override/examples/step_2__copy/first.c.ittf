@@ -1,0 +1,25 @@
+﻿c 
+
+    #include <stdio.h>      // for printing to stdout.
+
+    function Sum
+        param int a
+        param int b
+        rtype int
+        return a + b;
+
+    function main
+        rtype int
+        int i = 1;
+        int a, b, c;
+        set a = i
+        set b = 2
+        set c
+            _ Sum
+                @ a
+                @ b
+        success "%d + %d = %d", a, b, c
+        goto STOP;
+
+        label STOP
+            return 0;

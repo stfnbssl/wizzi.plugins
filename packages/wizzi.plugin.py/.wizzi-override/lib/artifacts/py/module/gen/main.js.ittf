@@ -1,0 +1,38 @@
+module
+    kind es6
+    $
+        var md = {
+            schema: 'py',
+            name: 'module',
+            checkSchema: true,
+            preprocess: false,
+            mainStart: true,
+            mainFinish: true,
+        }
+    gen( &md )
+        $append imports
+            var writers = require('./writers/index')
+
+        $append main
+            
+            var item_count = 0
+            iife next
+                var item = model.statements[item_count++]
+                if !item
+                    return
+                        _ terminate_gen
+                            @ model
+                            @ ctx
+                _ writers.gen
+                    @ item
+                    @ ctx
+                    a_cb()
+                        _ next
+
+        function mainStart
+            param model
+            param ctx
+        
+        function mainFinish
+            param model
+            param ctx

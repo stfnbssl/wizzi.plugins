@@ -1,0 +1,21 @@
+module
+	kind jsfile
+	+
+	#
+		# JsonModel ${rdbms.wzName} context
+	+
+	class ${rdbms.wzName}Context
+		ctor
+			param baseUri
+			set this.baseUri = baseUri
+		+
+		$foreach table in rdbms.tables
+			m get${table.name}Uri
+				var uri
+					_ path.join
+						@ this.baseUri
+						$foreach item in table.keyColumns()
+							@ ${item.name}
+				return uri
+	
+	set module.exports = ${rdbms.wzName}Context

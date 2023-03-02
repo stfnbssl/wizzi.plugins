@@ -1,0 +1,55 @@
+module
+    kind es6
+    $
+        var md = {
+            name: 'svg',
+        };
+    v08/examples/plugin( &md )
+        $append plugins
+            [ items
+                @ './index.js'
+                @ 'wizzi-js'
+            @ pluginsBaseFolder
+                _ path.resolve
+                    @ __dirname
+                    @ '..'
+        _ executeGenerateModules
+            [
+                @ 'first'
+            a_cb_no_throw( result )
+                if err
+                    error 'svg.examples.executeGenerateModules.err', err
+                    error 'svg.examples.executeGenerateModules.err.toString()', err.toString()
+                    if err.inner
+                        error 'svg.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
+                else
+        function executeGenerateModules
+            param modules
+            param callback
+            _ async.mapSeries
+                @ modules
+                =>
+                    param module
+                    param callback
+                    log 'svg.example.executeGenerateModules.module: ' + module
+                    var ittfDocumentUri
+                        _ path.join
+                            @ __dirname
+                            @ 'ittf'
+                            @ module + '.svg.ittf'
+                    var outputPath
+                        _ path.join
+                            @ __dirname
+                            @ 'results'
+                            @ module + '.svg'
+                    _ loadModelAndGenerateArtifact
+                        @ ittfDocumentUri
+                        {
+                        @ 'svg/document'
+                        a_cb( artifactText )
+                            log 'svg.example.executeGenerateModules.outputPath: ' + outputPath
+                            _ file.write
+                                @ outputPath
+                                @ artifactText
+                            r_cb( artifactText )
+                @ callback

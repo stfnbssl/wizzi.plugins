@@ -1,0 +1,102 @@
+﻿$group
+
+	var processRequestParameters
+        function 
+            param ramlMetadata
+            param pathKeys
+            param pathMatch
+            param req
+            param res
+            param next
+            
+			var contentType = req.headers['content-type']
+			
+			debug '  processRequestParameters contentType %s pathKeys %s pathMatch : %s', 
+				\ contentType,
+				\ util.inspect(pathKeys, { depth: 3}) , 
+				\ pathMatch
+			
+			var
+				decl requestParsers = []
+				decl multiPartFields = []
+				decl parser
+
+			foreach_param( )
+			
+				if ['body', 'form', 'formData'].indexOf(pIn) > -1
+
+					if pType.toLowerCase() === 'file'
+                        _ multiPartFields.push
+                            { 
+                                @ name pName
+                                @ maxCount 1
+					
+					elif contentType && contentType.split(';')[0] === 'multipart/form-data'
+						set parser
+							_ parsers.makeMultiPartParser
+								_ parsers.realMultiPartParser.array()
+					
+					elif pIn !== 'body' || parsableBody
+                        set parser = parsers.bodyParser
+						debug 'request parser bodyParser'
+                    
+					else 
+                        set parser = parsers.textBodyParser
+						debug 'request parser textBodyParser'
+
+                elif pIn === 'query'
+					set parser = parsers.queryParser
+					debug 'request parser queryParser'
+
+				elif pIn === 'uri'
+					debug 'TODO request parser uriParser'
+
+				else
+					debug 'TODO error'
+				
+				debug "parser %s %s", parser, requestParsers.indexOf(parser)
+				if parser && requestParsers.indexOf(parser) === -1
+					_ requestParsers.push(parser)
+
+			if multiPartFields.length
+				_ requestParsers.push
+					_ parsers.makeMultiPartParser
+						_ parsers.realMultiPartParser.fields(multiPartFields)
+
+			debug 'requestParsers.length', requestParsers.length
+			
+			_ async.map
+                @ requestParsers
+                function 
+                    param parser
+                    param callback
+                    _ parser(req, res, callback)
+                function 
+                    param err
+                    if err
+                        return next(err)
+					
+					foreach_param( )
+						
+						var originalValue = getParameterValue(parameter, pathKeys, pathMatch, req, debug)
+						
+						_ debug('      originalValue: %s', originalValue)
+
+						var value
+							_ convertParameterValue
+								@ originalValue
+								@ _.isUndefined(parameter.schema) ? parameter : parameter.schema
+								@ pType
+								@ pIn
+                            
+						_ debug('      Value: %s', value)
+                            
+						set ramlMetadata.params[parameter.name] =
+                            { 
+                                @ path path
+                                @ schema parameter
+                                @ originalValue originalValue
+                                @ value value
+
+			return next()
+

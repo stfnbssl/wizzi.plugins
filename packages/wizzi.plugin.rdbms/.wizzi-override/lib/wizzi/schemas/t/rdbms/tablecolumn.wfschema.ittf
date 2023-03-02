@@ -1,0 +1,185 @@
+﻿$group
+
+	e_tag( tableColumn, c )
+
+		# A table column.
+		# The wzName is the ddl/sql name.
+
+		a domain
+			# The column data type
+			is-datatype
+            default string
+			restrict
+				enum string
+				enum boolean
+				enum integer
+				enum float
+				enum date
+				enum document
+
+		a description
+			# A description of the column.
+			# Is used in forms as an help-block
+        
+		a_tag( defaultValue, default )
+			# The column default value
+
+		a_tag( idGenerator, id-generator )
+		a_tag( idSeed, id-seed )
+		a_tag( idStep, id-step )
+
+		a_tag( sqlName, sql-name )
+			# The DDL sql name of the column
+			# Optional. The default is the wzName.
+
+		a label
+			# A text used on views to label the column.
+			# Is used in forms as a placeholder.
+			# Optional. The default is the wzName.
+
+		a_tag( referenceLabel, reference-label )
+			# A text used on list views as column heading when the column is on the many side of the relation.
+			# Optional. The default is the label.
+
+		a_tag( listHeading, list-heading )
+			# A text used on list views as column heading.
+			# Optional. The default is the wzName.
+
+		a_flag( isProxy, is-proxy )
+			# Insert this column in a sintetic view of a table row. Used for view-lists.
+			# Optional. The default is false.
+		
+		a_flag( isInsertParam, is-insert-param )
+			# Add this column to the parameters of the (api) insert method of a row.
+			# The default parameters of the insert method are the primaryKey columns.
+			# Optional. The default is false.
+
+		a format
+			# The column display format used on forms
+			default none
+			restrict
+				enum none
+				enum password
+				enum datetime
+				enum datetime-local
+				enum date
+				enum month
+				enum date
+				enum time
+				enum week
+				enum number
+				enum email
+				enum url
+				enum search
+				enum tel
+				enum color
+				enum hcheckboxes
+				enum vcheckboxes
+
+		a_tag( enumReference, enum-reference )
+		a_tag( calculatedOnInsert, on-insert )
+		a_tag( calculatedOnUpdate, on-update )
+
+		r validation/s
+			# Table column validation rules.
+
+		# TODO r enum/s
+		# TODO r lookUp/s
+
+		m wzinitialize
+			set this.table = this.wzParent
+			var name = this.wzName;
+			# name always lower case
+			set this.name = this.wzName
+			set this.sqlName = isEmpty(this.sqlName) ? this.wzName : this.sqlName
+			set this.label = isEmpty(this.label) ? this.wzName : this.label
+			set this.referenceLabel = isEmpty(this.referenceLabel) ? this.label : this.referenceLabel
+			set this.listHeading = isEmpty(this.listHeading) ? this.label : this.listHeading
+			set this.argumentName = this.wzName.substr(0, 1).toLowerCase() + this.wzName.substr(1)
+			set this.fieldName = "_" + this.wzName.substr(0, 1) + this.wzName.substr(1)
+        
+        
+		m isKey
+			if this.table.primaryKey()
+				foreach item in this.table.primaryKey().indexColumns
+					if item.wzName === this.wzName
+						return true
+			return false
+        
+		m isListProxyItem
+            return this.isProxy || this.isKey() || this.isReference() || this.nameLower == "name";
+        
+		m referenceTable
+			foreach r in this.table.oneRelations
+				foreach rc in r.relationColumns
+					if rc.manyColumnName == this.wzName
+						return r.oneTable()
+            return null
+		
+		m isReference
+            return this.referenceTable() != null;
+        
+		m isIdentity
+            return this.idGenerator != null && this.idGenerator.toLowerCase() === NameTable.Identity; // TODO
+        
+		m isAutomaticOnUpdate
+            return this.calculatedValueOnUpdate != null || this.idGenerator != null || this.canUpdate == false;
+        
+		m hasDefaultValue
+            return this.defaultValue != null;
+        
+		m isRequired
+			return _.find(this.validations, function(item){ return item.wzTag === 'required'; });
+		
+		m setIsRequired
+			if this.isRequired()
+				return
+			var item = new md.Required(null, this.wzSourceLineInfo);
+			set item.wzTag = "required";
+			set item.wzParent = this;
+			set this.validations.Add(item);
+        
+		m isViewIndexProxy
+			if this.isProxy
+				return true;
+			if this.wzName != null && (this.nameLower == "name" || this.nameLower == "id")
+				return true;
+			if this.table.hasCmbLabel() && this.table.cmbLabel().gettableColumnByName(this.wzName) != null
+				return true;
+            return false;
+        
+		m jsDefaultValue
+		
+			require isEmpty
+				kind function
+		
+			if isEmpty(this.defaultValue)
+				if this.domain === 'integer' || this.domain === 'float'
+					return "0"
+				elif this.domain === 'boolean'
+                    return "false"
+                else
+                    return "null"
+            else
+                if this.domain === 'string'
+                    return '"' + this.defaultValue + '"';
+				elif this.domain === 'boolean'
+					return this.defaultValue == null ? "false" : this.defaultValue.ToLowerCase();
+				elif this.domain === 'date' && this.defaultValue.toLowerCase() === "today"
+					return "new Date().getTime()";
+				else
+					return this.defaultValue;
+		
+		m listEditControlName
+            return "fc_" + this.table.nameLower + "Edit_" + this.nameLower;
+
+
+		m canUpdate
+			return this.isKey == false && 
+				\ isEmpty(this.idGenerator) &&
+				\ isEmpty(this.calculatedOnInsert) &&
+				\ isEmpty(this.calculatedOnUpdate)
+
+		m canInsert
+			return isEmpty(this.idGenerator) &&
+				\ isEmpty(this.calculatedOnInsert)

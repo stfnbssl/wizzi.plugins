@@ -1,0 +1,930 @@
+{
+    "wzElement": "regexp",
+    "wzName": "css",
+    "nodes": [
+        {
+            "wzElement": "regexpElement",
+            "wzTag": "e",
+            "wzName": "sign",
+            "nodes": [
+                {
+                    "wzElement": "bar",
+                    "wzTag": "|",
+                    "wzName": "",
+                    "nodes": [
+                        {
+                            "wzElement": "colon",
+                            "wzTag": ":",
+                            "wzName": "+",
+                            "nodes": []
+                        },
+                        {
+                            "wzElement": "colon",
+                            "wzTag": ":",
+                            "wzName": "-",
+                            "nodes": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "wzElement": "regexpElement",
+            "wzTag": "e",
+            "wzName": "integer",
+            "nodes": [
+                {
+                    "wzElement": "ampersand",
+                    "wzTag": "&",
+                    "wzName": "",
+                    "nodes": [
+                        {
+                            "wzElement": "questionMark",
+                            "wzTag": "?",
+                            "wzName": "<sign>",
+                            "nodes": []
+                        },
+                        {
+                            "wzElement": "plus",
+                            "wzTag": "+",
+                            "wzName": "0-9",
+                            "nodes": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "wzElement": "regexpElement",
+            "wzTag": "e",
+            "wzName": "float-strict",
+            "nodes": [
+                {
+                    "wzElement": "ampersand",
+                    "wzTag": "&",
+                    "wzName": "",
+                    "nodes": [
+                        {
+                            "wzElement": "questionMark",
+                            "wzTag": "?",
+                            "wzName": "<sign>",
+                            "nodes": []
+                        },
+                        {
+                            "wzElement": "questionMark",
+                            "wzTag": "?",
+                            "wzName": "",
+                            "nodes": [
+                                {
+                                    "wzElement": "plus",
+                                    "wzTag": "+",
+                                    "wzName": "0-9",
+                                    "nodes": []
+                                }
+                            ]
+                        },
+                        {
+                            "wzElement": "colon",
+                            "wzTag": ":",
+                            "wzName": ".",
+                            "nodes": []
+                        },
+                        {
+                            "wzElement": "plus",
+                            "wzTag": "+",
+                            "wzName": "0-9",
+                            "nodes": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "wzElement": "regexpElement",
+            "wzTag": "e",
+            "wzName": "float",
+            "nodes": [
+                {
+                    "wzElement": "bar",
+                    "wzTag": "|",
+                    "wzName": "",
+                    "nodes": [
+                        {
+                            "wzElement": "capDollar",
+                            "wzTag": "^$",
+                            "wzName": "<integer>",
+                            "nodes": []
+                        },
+                        {
+                            "wzElement": "capDollar",
+                            "wzTag": "^$",
+                            "wzName": "<float-strict>",
+                            "nodes": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "wzElement": "executableRegExp",
+            "wzTag": "re",
+            "wzName": "params",
+            "nodes": [
+                {
+                    "wzElement": "ampersand",
+                    "wzTag": "&",
+                    "wzName": "",
+                    "nodes": [
+                        {
+                            "wzElement": "paren",
+                            "wzTag": "(",
+                            "wzName": "",
+                            "nodes": [
+                                {
+                                    "wzElement": "plus",
+                                    "wzTag": "+",
+                                    "wzName": "<word>",
+                                    "nodes": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "alpha,beta,gamma",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "alpha,beta,gamma",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "wzElement": "executableRegExp",
+            "wzTag": "re",
+            "wzName": "sign",
+            "nodes": [
+                {
+                    "wzElement": "capDollar",
+                    "wzTag": "^$",
+                    "wzName": "<sign>",
+                    "nodes": []
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "+",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "+",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "+a",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "+",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "a",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "null",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "wzElement": "executableRegExp",
+            "wzTag": "re",
+            "wzName": "integer",
+            "nodes": [
+                {
+                    "wzElement": "capDollar",
+                    "wzTag": "^$",
+                    "wzName": "<integer>",
+                    "nodes": []
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "234",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "234",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "3d",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "null",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "+d3",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "null",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "-34",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "-34",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "wzElement": "executableRegExp",
+            "wzTag": "re",
+            "wzName": "float-strict",
+            "nodes": [
+                {
+                    "wzElement": "capDollar",
+                    "wzTag": "^$",
+                    "wzName": "<float-strict>",
+                    "nodes": []
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "10.5",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "10.5",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": ".3",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": ".3",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "-20",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "null",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": ".",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "null",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "12.",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "null",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "a.1",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "null",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "23.a",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "null",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "wzElement": "executableRegExp",
+            "wzTag": "re",
+            "wzName": "float",
+            "nodes": [
+                {
+                    "wzElement": "colon",
+                    "wzTag": ":",
+                    "wzName": "<float>",
+                    "nodes": []
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "10.5",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "10.5",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": ".3",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": ".3",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "-20",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "-20",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "-.3",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "-.3",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": ".",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "null",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "12.",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "null",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "a.1",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "null",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "23.a",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "null",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "wzElement": "executableRegExp",
+            "wzTag": "re",
+            "wzName": "grouping (",
+            "nodes": [
+                {
+                    "wzElement": "ampersand",
+                    "wzTag": "&",
+                    "wzName": "",
+                    "nodes": [
+                        {
+                            "wzElement": "paren",
+                            "wzTag": "(",
+                            "wzName": "foo",
+                            "nodes": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "foo bar",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "foo",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "wzElement": "executableRegExp",
+            "wzTag": "re",
+            "wzName": "quantifier {n}",
+            "nodes": [
+                {
+                    "wzElement": "ampersand",
+                    "wzTag": "&",
+                    "wzName": "",
+                    "nodes": [
+                        {
+                            "wzElement": "colon",
+                            "wzTag": ":",
+                            "wzName": "a",
+                            "nodes": []
+                        },
+                        {
+                            "wzElement": "graph",
+                            "wzTag": "{",
+                            "wzName": "2",
+                            "nodes": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "candy is bad",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "null",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "caandy is good",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "aa",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "wzElement": "executableRegExp",
+            "wzTag": "re",
+            "wzName": "quantifier {n,}",
+            "nodes": [
+                {
+                    "wzElement": "ampersand",
+                    "wzTag": "&",
+                    "wzName": "",
+                    "nodes": [
+                        {
+                            "wzElement": "colon",
+                            "wzTag": ":",
+                            "wzName": "a",
+                            "nodes": []
+                        },
+                        {
+                            "wzElement": "graph",
+                            "wzTag": "{",
+                            "wzName": "2,",
+                            "nodes": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "candy is bad",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "null",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "caaaaaandy is very good",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "aaaaaa",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "wzElement": "executableRegExp",
+            "wzTag": "re",
+            "wzName": "quantifier {n,n}",
+            "nodes": [
+                {
+                    "wzElement": "ampersand",
+                    "wzTag": "&",
+                    "wzName": "",
+                    "nodes": [
+                        {
+                            "wzElement": "colon",
+                            "wzTag": ":",
+                            "wzName": "a",
+                            "nodes": []
+                        },
+                        {
+                            "wzElement": "graph",
+                            "wzTag": "{",
+                            "wzName": "2,3",
+                            "nodes": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "candy is bad",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "null",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "caaady is very good",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "aaa",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "caaaaady is too good",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "aaa,aa",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "wzElement": "executableRegExp",
+            "wzTag": "re",
+            "wzName": "assert (?= 2",
+            "nodes": [
+                {
+                    "wzElement": "ampersand",
+                    "wzTag": "&",
+                    "wzName": "",
+                    "nodes": [
+                        {
+                            "wzElement": "colon",
+                            "wzTag": ":",
+                            "wzName": "Jack",
+                            "nodes": []
+                        },
+                        {
+                            "wzElement": "parenQuestionMarkEqual",
+                            "wzTag": "(?=",
+                            "wzName": "",
+                            "nodes": [
+                                {
+                                    "wzElement": "bar",
+                                    "wzTag": "|",
+                                    "wzName": "",
+                                    "nodes": [
+                                        {
+                                            "wzElement": "colon",
+                                            "wzTag": ":",
+                                            "wzName": "Sprat",
+                                            "nodes": []
+                                        },
+                                        {
+                                            "wzElement": "colon",
+                                            "wzTag": ":",
+                                            "wzName": "Frost",
+                                            "nodes": []
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "This JackSprat is great",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "Jack",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "This Jack Sprat is so so",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "null",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "This JackFrost is great too",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "Jack",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "wzElement": "executableRegExp",
+            "wzTag": "re",
+            "wzName": "assert (?! 2",
+            "nodes": [
+                {
+                    "wzElement": "ampersand",
+                    "wzTag": "&",
+                    "wzName": "",
+                    "nodes": [
+                        {
+                            "wzElement": "colon",
+                            "wzTag": ":",
+                            "wzName": "Jack",
+                            "nodes": []
+                        },
+                        {
+                            "wzElement": "parenQuestionMarkExlamationPoint",
+                            "wzTag": "(?!",
+                            "wzName": "",
+                            "nodes": [
+                                {
+                                    "wzElement": "bar",
+                                    "wzTag": "|",
+                                    "wzName": "",
+                                    "nodes": [
+                                        {
+                                            "wzElement": "colon",
+                                            "wzTag": ":",
+                                            "wzName": "Sprat",
+                                            "nodes": []
+                                        },
+                                        {
+                                            "wzElement": "colon",
+                                            "wzTag": ":",
+                                            "wzName": "Frost",
+                                            "nodes": []
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "This JackSprat was great",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "null",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "This Jack Sprat was so so",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "Jack",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "This JackFrost was great too",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "null",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "test",
+                    "wzTag": "test",
+                    "wzName": "This Jack Nool was bad",
+                    "nodes": [
+                        {
+                            "wzElement": "expected",
+                            "wzTag": "expected",
+                            "wzName": "Jack",
+                            "separator": ",",
+                            "nodes": []
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

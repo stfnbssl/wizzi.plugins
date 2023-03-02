@@ -1,0 +1,22 @@
+wfschema org
+    
+    export-to json
+    
+    e org
+        is-root
+        r item/s
+        r ittfPanel/s
+    
+    e item
+        r item/s
+        a value
+    
+    e profile : item
+
+    e task : item
+
+    e unit : item
+
+    e ittfPanel
+        tag ittf-panel
+        has-mtree-data

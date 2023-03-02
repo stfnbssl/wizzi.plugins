@@ -1,0 +1,72 @@
+﻿$group
+
+	e resource : ramlItem
+		
+		# Resources are identified by their relative URI, which MUST begin with a slash (/).
+		# A resource defined as a root-level property is called a top-level resource. 
+		# Its property's key is the resource's URI relative to the baseUri. 
+		# A resource defined as a child property of another resource is called a nested resource, 
+		# and its property's key is its URI relative to its parent resource's URI.
+		
+		tag /
+
+		a displayName
+			# The displayName attribute provides a friendly name to the resource and can be used by documentation generation tools. The displayName key is OPTIONAL.
+			# If the displayName attribute is not defined for a resource, documentation tools SHOULD refer to the resource by its property key (i.e. its relative URI, e.g., "/jobs"), which acts as the resource's name.
+
+		a description
+			# Each resource, whether top-level or nested, MAY contain a description property that briefly describes the resource. 
+			# It is RECOMMENDED that all the API definition's resources includes the description property.
+
+		a_flag( routerHandleSubpaths, router-handle-subpaths )
+			# This is taken from Swagger: https://github.com/apigee-127/swagger-tools/blob/master/docs/Middleware.md
+			# By setting this property to true, it indicates to Swagger Router that it should match and route 
+			# all requests to not only the specified path, but also any undeclared subpaths requested that do not match
+			# an explicitly defined path in the Swagger. While you cannot specify wildcards (in Swagger) in wizzi Raml, 
+			# this would be the equivalent of wildcarding the end of the path something like /pets/**. 
+
+		r uriParameter/s
+		r method/s
+		r resource/s
+		r comment/s
+
+		m wzinitialize
+			set this.name = '/' + this.wzName
+
+			set this.parameters
+				[
+			foreach item in this.uriParameters
+				set item.in = 'uri'
+				_ this.parameters.push(item)
+
+		m getComments
+			return initComments(this.comments)
+
+		m getData
+			param resCtx
+			_ resCtx.paths.push(this.wzName)
+			set this.paths = _.cloneDeep(resCtx.paths)
+			set this.path = '/' + resCtx.paths.join('/') 
+			set this.expressPath = this._expressPath(this.path)
+			_ resCtx.resources.push(this)
+			foreach r in this.resources
+				_ r.getData(resCtx)
+			_ resCtx.paths.pop()
+
+		m _expressPath
+			param path
+
+			var basePath = this.wzRoot().baseUri
+			set basePath = parseurl({url: (basePath || '/')}).pathname || '/'
+			set basePath = basePath.replace(/%7B/g, ':').replace(/%7D/g, '')
+			if basePath.charAt(0) !== '/'
+				set basePath = ('/' + basePath)
+			if basePath.charAt((basePath.length - 1)) !== '/'
+				set basePath = (basePath + '/')
+			if path.charAt(0) === '/'
+				set path = path.substring(1)
+			return basePath + path.replace(/{/g, ':').replace(/}/g, '')
+
+	e uriParameter : namedParameter
+		tag uri-param
+	

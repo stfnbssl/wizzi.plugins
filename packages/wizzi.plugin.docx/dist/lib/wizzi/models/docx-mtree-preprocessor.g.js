@@ -1,22 +1,23 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.7
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi.plugin.docx\.wizzi\ittf\lib\wizzi\models\docx-mtree-preprocessor.g.js.ittf
-    utc time: Mon, 01 Mar 2021 21:35:48 GMT
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@0.7.9
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.docx\.wizzi\lib\wizzi\models\docx-mtree-preprocessor.g.js.ittf
+    utc time: Fri, 01 Jul 2022 14:55:54 GMT
 */
 'use strict';
 module.exports = function(mTree, context) {
     var state = {
         mTree: mTree, 
         parent: null
-    };
+     };
     var i, i_items=mTree.nodes[0].children, i_len=mTree.nodes[0].children.length, item;
     for (i=0; i<i_len; i++) {
         item = mTree.nodes[0].children[i];
         traverse(item, state);
     }
     return mTree;
-};
+}
+;
 function traverse(node, state) {
     if (preprocessNode(node, state)) {
         return ;
@@ -30,8 +31,9 @@ function traverse(node, state) {
     state.parent = saveParent;
 }
 function preprocessNode(node, state) {
+    
+    // TODO
     if (node.n === 'xxx') {
-        // TODO
     }
     var i, i_items=node.children, i_len=node.children.length, child;
     for (i=0; i<i_len; i++) {
@@ -65,7 +67,8 @@ function descendentNameIsOneOf(node, names) {
                 return true;
             }
         }
-        found = descendentNameIsOneOf(child, names);
+        found = descendentNameIsOneOf(child, names)
+        ;
         if (found) {
             return true;
         }

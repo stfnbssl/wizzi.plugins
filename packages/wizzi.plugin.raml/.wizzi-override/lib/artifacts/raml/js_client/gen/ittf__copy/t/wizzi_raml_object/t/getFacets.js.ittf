@@ -1,0 +1,6 @@
+﻿$foreach f in faceted.getFacets()
+	$params &faceted
+	$if f.facetType === 'string'
+		@ "${f.name}" '${f.value}'
+	$else
+		@ "${f.name}" ${f.value}

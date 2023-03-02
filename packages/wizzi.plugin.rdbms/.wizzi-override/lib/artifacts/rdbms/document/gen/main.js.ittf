@@ -1,0 +1,32 @@
+module
+    kind es6
+    $
+        var md = {
+            plugin: 'wizzi.plugin.rdbms',
+            name: 'document',
+            schema: 'rdbms',
+            checkSchema: true,
+            isAsync: true,
+        };
+    gen( &md )
+        $append imports
+        $append main
+            _ md.rdbms
+                @ model
+                @ ctx
+                a_cb( )
+                    if ctx.artifactGenerationErrors.length > 0
+                        r_cb_err( ctx.artifactGenerationErrors )
+                    else
+                        # generation OK
+                        r_cb( ctx )
+        async-md( rdbms )
+            _ ctx.w('<rdbms>')
+            _ md.genItems
+                @ model.items
+                @ ctx
+                {
+                    @ indent true
+                a_cb()
+                    _ ctx.w('</rdbms>')
+                    r_cb()

@@ -1,0 +1,58 @@
+﻿$group
+
+	e responses : ramlItem
+
+		# Responses MUST be a map of one or more HTTP status codes, 
+		# where each status code itself is a map that describes that status code.
+		# Each response MAY contain a body property, which conforms to the same structure
+		# as request body properties (see Body). 
+		# Responses that can return more than one response code 
+		# MAY therefore have multiple bodies defined.
+		# For APIs without a priori knowledge of the response types for their responses, 
+		# "*slash*" MAY be used to indicate that responses that do not matching other defined data types MUST be accepted. 
+		# Processing applications MUST match the most descriptive media type first if "*slash*" is used.
+
+		r responseStatus/es
+
+	e responseStatus : ramlItem
+		tag status
+
+		a description
+
+		r body
+			one-to-one
+		
+		r header/s
+
+		m wzinitialize
+			if !this.name
+				set this.name = this.wzName
+
+		m getMediaTypes
+			var ret = []
+			if isObject(this.body)
+				foreach item in this.body.mediaTypes
+					_ ret.push(item)
+			return ret
+
+	e Status200 : responseStatus
+		tag 200
+		m wzinitialize
+			set this.name = '200'
+
+	e Status201 : responseStatus
+		tag 201
+		m wzinitialize
+			set this.name = '201'
+
+	e Status204 : responseStatus
+		tag 204
+		m wzinitialize
+			set this.name = '204'
+
+	e Status400 : responseStatus
+		tag 400
+		m wzinitialize
+			set this.name = '400'
+
+	

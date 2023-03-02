@@ -1,0 +1,53 @@
+module
+    kind es6
+    $
+        var md = {
+            name: 'ppt',
+        };
+    v08/examples/plugin(&md)
+        $append plugins
+            [ items
+                @ './index.js'
+            @ pluginsBaseFolder
+                _ path.resolve
+                    @ __dirname
+                    @ '..'
+        _ executeGenerateModules
+            [
+                @ 'first'
+            a_cb_no_throw( result )
+                if err
+                    log 'ppt.examples.executeGenerateModules.err', err
+                    log 'ppt.examples.executeGenerateModules.err.toString()', err.toString()
+                    if err.inner
+                        log 'ppt.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
+                else
+                    log 'ppt.examples.executeGenerateModules.result', result
+        function executeGenerateModules
+            param modules
+            param callback
+            _ async.mapSeries
+                @ modules
+                =>
+                    param module
+                    param callback
+                    var ittfDocumentUri
+                        _ path.join
+                            @ __dirname
+                            @ 'ittf'
+                            @ module + '.ppt.ittf'
+                    var outputPath
+                        _ path.join
+                            @ __dirname
+                            @ 'dist'
+                            @ module + '.ppt.js'
+                    _ loadModelAndGenerateArtifact
+                        @ ittfDocumentUri
+                        {
+                        @ 'ppt/document'
+                        a_cb( artifactText )
+                            _ file.write
+                                @ outputPath
+                                @ artifactText
+                            r_cb( artifactText )
+                @ callback

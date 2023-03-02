@@ -1,0 +1,35 @@
+wfschema c
+
+    e statement
+		# A statement line node with unlimited depth.
+		# Is the schema base node.
+		# In itself works as a comment line.
+		tag //
+		r statement/s
+        any codeline/statements
+
+	e codeline : statement
+
+    e c
+		is-root
+        r statement/s
+        any codeline/statements
+
+	e multilinecomment : statement
+        tag /*
+
+	e plusline : statement
+        tag +
+
+	e param
+
+    e function : statement
+        a rtype
+            # return type
+        r param/s
+	
+    e return : statement
+
+    $include c/set
+    $include c/control
+    $include c/debug

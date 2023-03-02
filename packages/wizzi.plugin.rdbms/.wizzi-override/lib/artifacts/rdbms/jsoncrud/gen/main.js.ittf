@@ -1,0 +1,39 @@
+﻿module
+	kind jsfile
+
+	var util = require('util')
+	var path = require('path')
+	var wizzi = require('wizzi')
+	var thisWizziPackage = require('../../../../../index')
+
+	var md = module.exports = {}
+	var myname = 'rdbms.jsoncrud.main'
+
+	set md.gen
+		function
+			param model
+			param ctx
+			param callback
+
+			_ wizzi.fsFactory
+				{
+					{ plugins
+						[ items
+							@ 'wizzi-core'
+							@ 'wizzi-js'
+				a_cb( wf )
+					_ wf.loadModelAndGenerateArtifact
+						_ path.join
+							@ __dirname
+							@ 'ittf'
+							@ 'jsoncrud.js.ittf'
+						{
+							{ modelRequestContext
+								@ rdbms model
+							@ artifactRequestContext {}
+						@ 'js/module'
+						a_cb( artifactText )
+							# loog 'jsoncrud.artifactText', artifactText
+							_ ctx.w(artifactText)
+							r_cb( ctx )
+

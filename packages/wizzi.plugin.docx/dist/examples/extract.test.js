@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.7
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi.plugin.docx\.wizzi\ittf\examples\extract.test.js.ittf
-    utc time: Mon, 01 Mar 2021 21:35:47 GMT
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@0.7.9
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.docx\.wizzi\examples\extract.test.js.ittf
+    utc time: Fri, 01 Jul 2022 14:55:46 GMT
 */
 'use strict';
 var path = require('path');
@@ -19,14 +19,14 @@ var stringify = require('json-stringify-safe');
 var ctx = {
     sequences: {
         
-    }, 
+     }, 
     htmls: {
         
-    }, 
+     }, 
     source: {
         
-    }
-};
+     }
+ };
 executeExtract([
     'Tutti a tavola', 
     'NpL-NpM', 
@@ -62,7 +62,7 @@ function executeExtract(categories, ctx) {
                         
                     ], 
                     counter: 0
-                };
+                 };
                 extractDeep(child, itemctx)
                 ctx.sequences[itemctx.spath.join('_')] = true;
                 ctx.htmls[itemctx.spath.join('_')] = itemctx.shtml.join('');
@@ -122,7 +122,7 @@ function buildTestJson(ctx) {
             url: "https://cosie.lepida.it/backoffice/news/gestione/433", 
             User: "Bax", 
             NewsOrGuida: "guida"
-        };
+         };
         ret.items.push(newItem)
     }
     return ret;

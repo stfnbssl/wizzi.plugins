@@ -1,0 +1,41 @@
+{
+    "name": "wizzi.plugin.raml",
+    "version": "0.0.1",
+    "description": "wizzi.plugin.raml",
+    "author": {
+        "name": "Stefano Bassoli",
+        "email": "stfn.bssl@gmail.com"
+    },
+    "github": {
+        "userid": "stfnbssl"
+    },
+    "license": {
+        "name": "MIT",
+        "copy": "copy 2022"
+    },
+    "Build": {
+        "isWizziPlugin": true,
+        "utils": {
+            "useStringifySafe": true,
+            "useObjectInspect": true
+        }
+    },
+    "Schemas": [
+        {
+            "name": "raml",
+            "title": "raml wizzi schema",
+            "builtin": false,
+            "modelTransformers": [
+                {
+                    "name": "extended"
+                }
+            ],
+            "artifactGenerators": [
+                {
+                    "name": "document"
+                }
+            ],
+            "includes": []
+        }
+    ]
+}

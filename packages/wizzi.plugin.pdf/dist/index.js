@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.7
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi.plugin.pdf\.wizzi\ittf\root\index.js.ittf
-    utc time: Mon, 15 Mar 2021 12:41:28 GMT
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@0.7.9
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.pdf\.wizzi\root\index.js.ittf
+    utc time: Fri, 01 Jul 2022 16:41:51 GMT
 */
 'use strict';
 
@@ -17,13 +17,13 @@ md.name = '.index';
 // window(s) vars must be declared even if empty
 var window_modelFactories = {
     'pdf': require('./lib/wizzi/models/pdf-factory.g')
-};
+ };
 var window_artifactGenerators = {
     'pdf/document': require('./lib/artifacts/pdf/document/gen/main')
-};
+ };
 var window_transformers = {
     'pdf/extended': require('./lib/artifacts/pdf/extended/trans/main')
-};
+ };
 var window_schemaDefinitions = {};
 
 //
@@ -155,7 +155,7 @@ function error(errorName, method, message, innerError) {
             method: md.name + '.' + method, 
             sourcePath: __filename, 
             inner: innerError
-        });
+         });
 }
 
 module.exports = {
@@ -169,7 +169,7 @@ module.exports = {
         artifactGenerators: [
             'pdf/document'
         ]
-    }, 
+     }, 
     provides: {
         schemas: [
             'Pdf'
@@ -180,7 +180,7 @@ module.exports = {
         artifactGenerators: [
             'Pdf/document'
         ]
-    }, 
+     }, 
     createFactoryPlugin: function(wizziPackage, options, callback) {
         var plugin = new FactoryPlugin(wizziPackage, this.provides);
         plugin.initialize(options, function(err, notUsed) {
@@ -190,5 +190,5 @@ module.exports = {
             return callback(null, plugin);
         })
     }
-};
+ };
 

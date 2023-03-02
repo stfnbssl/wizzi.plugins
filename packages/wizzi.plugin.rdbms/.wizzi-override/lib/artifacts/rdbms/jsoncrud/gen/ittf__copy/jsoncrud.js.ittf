@@ -1,0 +1,26 @@
+module
+	kind jsfile
+
+	$include utils
+
+	$foreach t in rdbms.tables
+
+		#
+			# Table ${t.wzName}
+			#
+
+		var ${t.wzName}
+			function
+				param persister
+				set this.persister = persister
+
+		$include jsonList
+		$include jsonFind
+		$include jsonInsert
+		$include jsonUpdate
+		$include jsonDelete
+
+	set module.exports
+		{
+			$foreach t in rdbms.tables
+				@ "${t.wzName}" ${t.wzName}

@@ -1,0 +1,30 @@
+﻿$group
+
+	e_tag( index, ndx )
+
+		# A table index
+		# The wzName is the ddl/sql name.
+
+		a_flag( isPrimary, is-primary )
+        
+		a_flag( isUnique, is-unique )
+		
+		r indexColumn/s
+		
+		m wzinitialize
+			set this.table = this.wzParent
+			foreach item in this.indexColumns
+				set item.tableColumn = this.table.getTableColumn(item.wzName)
+
+	e_tag( indexColumn, c )
+
+		# An index column
+		# The wzName is the ddl/sql name.
+		
+		a sort
+			default asc
+			restrict
+				enum asc
+				enum desc
+
+

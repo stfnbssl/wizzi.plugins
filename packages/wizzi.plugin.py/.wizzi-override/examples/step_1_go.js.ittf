@@ -1,0 +1,55 @@
+﻿module
+    kind es6
+
+    $
+        var md = {
+            name: 'py_examples_step_1',
+            description: 'First `py` Wizzi Model',
+            level: 0,
+            step: 1
+        }
+
+    example_step( &md )
+        $append imports
+            const spawn = require("child_process").spawn;
+
+        _ wizzi.fsFactory
+            {
+                @ plugins
+                    {
+                        [ items
+                            @ './index'
+                        @ pluginsBaseFolder
+                            _ path.resolve
+                                @ __dirname
+                                @ '..'
+            a_cb_throw( wf )
+                _ wf.loadModelAndGenerateArtifact
+                    _ path.join
+                        @ __dirname
+                        @ 'step_1'
+                        @ 'first.py.ittf'
+                    {
+                        @ modelRequestContext {}
+                        @ artifactRequestContext {}
+                    @ 'py/module'
+                    a_cb_throw( artifactText )
+                        info artifactText
+                        const resultScriptPath
+                            _ path.join
+                                @ __dirname
+                                @ 'step_1'
+                                @ 'result'
+                                @ 'step${md.step}.py'
+                        _ fsfile.write
+                            @ resultScriptPath
+                            @ artifactText
+                        const pythonProcess = spawn('python',[resultScriptPath$*, arg1, arg2, ...*$])
+                        _ pythonProcess.stdout.on
+                            @ 'data'
+                            function
+                                param data
+                                _ printValue
+                                    @ 'python std.out'
+                                    _ data.toString
+                                    @ 'dashes'

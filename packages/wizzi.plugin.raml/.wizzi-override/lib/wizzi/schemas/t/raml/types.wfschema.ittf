@@ -1,0 +1,291 @@
+﻿$group
+
+	e schema : ramlItem
+		tag types
+		r typeItem/s
+	
+	e typeItem : ramlItem
+		is-abstract
+		a title
+		a type
+			default any
+			restrict
+				enum any
+				enum object
+				enum array
+				enum union
+				enum external
+				enum string
+				enum number
+				enum integer
+				enum boolean
+				enum string
+				enum datetime
+				enum datetime-only
+				enum date-only
+				enum time-only
+				enum file
+				enum nil
+		a isScalar
+			type boolean
+			default false
+	
+	e any : typeItem
+	
+		m getFacets
+			var ret = []
+			addFacet( type, string )
+			addFacet( title, string )
+			return ret
+
+	e object : any
+		a super 
+		a_tag( minProperties, min-properties )
+			# The minimum number of properties allowed for instances of this type.
+		a_tag( maxProperties, max-properties )
+			# The maximum number of properties allowed for instances of this type.
+		a_tag( additionalProperties, additional-properties )
+			# A Boolean that indicates if an object instance has additional properties.
+			type boolean
+			default true
+		a discriminator
+			# Determines the concrete type of an individual object at runtime when, 
+			# for example, payloads contain ambiguous types due to unions or inheritance. 
+			# The value must match the name of one of the declared properties of a type. 
+			# Unsupported practices are inline type declarations and 
+			# using discriminator with non-scalar properties.
+		a_tag( discriminatorValue, discriminator-value )
+			# Identifies the declaring type. Requires including a discriminator facet
+			# in the type declaration. 
+			# A valid value is an actual value that might identify the type of 
+			# an individual object and is unique in the hierarchy of the type. 
+			# Inline type declarations are not supported.
+			default wzName
+
+		r propert-y/ies
+			# The properties that instances of this type can or must have.
+
+		m wzinitialize
+			set this.type = 'object'
+			set this.name = this.wzName
+
+		m getFacets
+			var ret = []
+			addFacet( type, string )
+			addFacet( title, string )
+			addFacet( minProperties, integer )
+			addFacet( maxProperties, integer )
+			addFacet( additionalProperties, boolean )
+			addFacet( discriminator, string )
+			return ret
+	
+	e property
+		tag @
+		a_tag( displayName, label )
+		a_tag( isRequired, is-required )
+			type boolean
+			default true
+		a type
+			default string
+			restrict
+				enum number
+				enum boolean
+				enum string
+				enum date-only
+				enum time-only
+				enum datetime-only
+				enum datetime
+				enum file
+				enum integer
+				enum nil
+		
+		m getFacets
+			var ret = []
+			addFacet( type, string )
+			addFacet( displayName, string )
+			addFacet( isRequired, boolean )
+			return ret
+
+	$foreach item in ['number','boolean','string','datetime','file','integer','nil']
+		e ${item}Property : property
+			tag ${item}
+			m wzinitialize
+				set this.type = "${item}"
+
+	e dateOnlyProperty : property
+		tag date-only
+		m wzinitialize
+			set this.type = "date-only"
+
+	e timeOnlyProperty : property
+		tag time-only
+		m wzinitialize
+			set this.type = "time-only"
+
+	e datetimeOnlyProperty : property
+		tag datetime-only
+		m wzinitialize
+			set this.type = "datetime-only"
+
+	e array : any
+		m wzinitialize
+			set this.type = 'array'
+			set this.name = this.wzName
+
+	e external : any 
+		m wzinitialize
+			set this.type = 'external'
+			set this.name = this.wzName
+
+	e union : any 
+		m wzinitialize
+			set this.type = 'union'
+			set this.name = this.wzName
+		r typeItem/s
+
+	e scalar : any
+		is-abstract
+		m wzinitialize
+			set this.isScalar = true
+
+	e string : scalar
+		m wzinitialize
+			set this.type = 'string'
+			set this.name = this.wzName
+
+	e number : scalar
+		a minimum
+			# The minimum value of the parameter. Applicable only to parameters of type number or integer.
+			type integer
+		a maximum
+			# The maximum value of the parameter. Applicable only to parameters of type number or integer.
+			type integer
+		a format
+			# The format of the value. 
+			default float
+			restrict 
+				enum int32
+				enum int64
+				enum int
+				enum long
+				enum float
+				enum double
+				enum int16
+				enum int8
+		a multipleOf
+			# A numeric instance is valid against "multipleOf" if the result of dividing the instance by this keyword's value is an integer.
+
+		m wzinitialize
+			if this.type === 'any'
+				set this.type = 'number'
+				set this.name = this.wzName
+
+		m getFacets
+			var ret = []
+			addFacet( type, string )
+			addFacet( title, string )
+			addFacet( minimum, integer )
+			addFacet( maximum, integer )
+			addFacet( format, string )
+			addFacet( multipleOf, string )
+			return ret
+
+	e integer : number
+		# A subset of JSON numbers that are positive and negative multiples of 1. The integer type inherits its facets from the number type.
+		m wzinitialize
+			set this.type = 'integer'
+			set this.name = this.wzName
+
+	e boolean : scalar
+		# A JSON boolean without any additional facets.
+		m wzinitialize
+			set this.type = 'boolean'
+			set this.name = this.wzName
+
+	e dateOnly : scalar
+		tag date-only
+		# The "full-date" notation of RFC3339, namely yyyy-mm-dd. Does not support time or time zone-offset notation.
+		m wzinitialize
+			set this.type = 'date-only'
+			set this.name = this.wzName
+	
+	e timeOnly : scalar
+		tag time-only
+		# The "partial-time" notation of RFC3339, namely hh:mm:ss[.ff...]. Does not support date or time zone-offset notation.
+		m wzinitialize
+			set this.type = 'time-only'
+			set this.name = this.wzName
+	
+	e dateTimeOnly : scalar
+		tag datetime-only
+		# Combined date-only and time-only with a separator of "T", namely yyyy-mm-ddThh:mm:ss[.ff...]. Does not support a time zone offset.
+		m wzinitialize
+			set this.type = 'datetime-only'
+			set this.name = this.wzName
+	
+	e datetime : scalar
+		# 	A timestamp in one of the following formats: if the format is omitted or set to rfc3339, uses the "date-time" notation of RFC3339; if format is set to rfc2616, uses the format defined in RFC2616.
+		a format
+			# The additional facet format MUST be available only when the type equals datetime, and the value MUST be either rfc3339 or rfc2616. Any other values are invalid.
+			default none
+			restrict
+				enum none
+				enum rfc3339
+				enum rfc2616
+		
+		m wzinitialize
+			set this.type = 'datetime'
+			set this.name = this.wzName
+
+		m getFacets
+			var ret = []
+			var ret = []
+			addFacet( type, string )
+			addFacet( title, string )
+			addFacet( format, string )
+			return ret
+
+	e file : scalar
+		# The ​file​ type can constrain the content to send through forms. When this type is used in the context of web forms it SHOULD be represented as a valid file upload in JSON format. File content SHOULD be a base64-encoded string.
+		a minLength
+			# Specifies the minimum number of bytes for a parameter value. The value MUST be equal to or greater than 0.
+			type integer
+			default 0
+		a  maxLength
+			# Specifies the maximum number of bytes for a parameter value. The value MUST be equal to or greater than 0.
+			type integer
+			default 2147483647
+		
+		r fileType/s
+			# A list of valid content-type strings for the file. The file type *slash* MUST be a valid value.
+
+		m wzinitialize
+			set this.type = 'file'
+			set this.name = this.wzName
+
+		m getFacets
+			var ret = []
+			addFacet( type, string )
+			addFacet( title, string )
+			addFacet( minLength, integer )
+			addFacet( maxLength, integer )
+			return ret
+
+	e fileType
+		# A valid content-type strings for the file. The file type *slash* MUST be a valid value.
+
+	e nil : scalar
+		# In RAML, the type nil is a scalar type that allows only nil data values. 
+		# Specifically, in YAML it allows only YAML's null (or its equivalent representations, such as ~), 
+		# in JSON it allows only JSON's null, and in XML it allows only XML's xsi:nil. 
+		# In headers, URI parameters, and query parameters, the nil type only allows 
+		# the string value "nil" (case-sensitive); and in turn an instance having 
+		# the string value "nil" (case-sensitive), when described with the nil type, deserializes to a nil value.	
+
+		m wzinitialize
+			set this.type = 'nil'
+			set this.name = this.wzName
+
+
+
+

@@ -1,0 +1,67 @@
+﻿$group
+
+	$$ TODO spec
+
+	var validateValue
+        function 
+            param req
+            param schema
+            param path
+            param val
+            param location
+            param callback
+
+            var document = req.wizziRaml.wizziRamlApi
+            var isModel = spec.isModelParameter(schema)
+            # set val = mHelpers.convertValue(val, schema, spec.getParameterType(schema), location)
+            try 
+                _ validators.validateSchemaConstraints(schema, path, val)
+            catch err
+                return callback(err)
+            
+			if isModel
+                if _.isString(val)
+                    try 
+                        set val = JSON.parse(val)
+                    catch err
+                        set err.failedValidation = true
+                        set err.message = 'Value expected to be an array/object but is not'
+                        throw err
+                _ async.map
+                    iif schema.type === 'array'
+                        then val
+                        else 
+                            [ 
+                                @ val
+                    function 
+                        param aVal
+                        param callback
+                        try 
+                            _ validators.validateAgainstSchema
+                                iif schema.schema
+                                    then 
+                                        set schema.schema
+                                    else schema
+                                @ val
+                            _ callback()
+                        catch err
+                            _ callback(err)
+                    function 
+                        param err
+                        param allResults
+                        if err
+							return callback(err)
+                        _ _.each
+                            @ allResults
+                            function 
+                                param results
+                                if results && errors.getErrorCount(results) > 0
+                                    set err = new Error('Failed schema validation')
+                                    set err.code = 'SCHEMA_VALIDATION_FAILED'
+                                    set err.errors = results.errors
+                                    set err.warnings = results.warnings
+                                    set err.failedValidation = true
+                                    return false
+            else 
+                _ callback()
+

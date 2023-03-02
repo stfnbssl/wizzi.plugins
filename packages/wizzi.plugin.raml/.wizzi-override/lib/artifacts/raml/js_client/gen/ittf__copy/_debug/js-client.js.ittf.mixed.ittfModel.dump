@@ -1,0 +1,72 @@
+  module  ids: 1 13
+    kind jsfile ids: 2 14
+    wz-iife application ids: 3 15
+      wz-function start ids: 4 16
+    $group  ids: 25 27
+      $group  ids: 29 80
+        wz-iife helpers ids: 30 81
+          wz-require isPlainObject ids: 31 82
+            from lodash-compat/lang/isPlainObject ids: 32 83
+          wz-require indexOf ids: 33 84
+            from lodash-compat/array/indexOf ids: 34 85
+          wz-function __bind ids: 35 86
+            param fn ids: 36 87
+            param me ids: 37 88
+            return  ids: 38 89
+              function  ids: 39 90
+                return fn.apply(me, arguments) ids: 40 91
+          wz-function log ids: 41 92
+            if console && process.env.NODE_ENV !== 'test' ids: 42 93
+              _ console.log ids: 43 94
+                _ Array.prototype.slice.call(arguments)[0] ids: 44 95
+          wz-function fail ids: 45 96
+            param message ids: 46 97
+            _ log(message) ids: 47 98
+          wz-function optionHtml ids: 48 99
+            param label ids: 49 100
+            param value ids: 50 101
+            return '<tr><td class="optionName">' + label + ':</td><td>' + value + '</td></tr>' ids: 51 102
+          wz-var resolveSchema ids: 52 103
+            function  ids: 53 104
+              param schema ids: 54 105
+              if _.isPlainObject(schema.schema) ids: 55 106
+                set schema = resolveSchema(schema.schema) ids: 56 107
+              return schema ids: 57 108
+          wz-function simpleRef ids: 58 109
+            param name ids: 59 110
+            if typeof (name) === 'undefined' ids: 60 111
+              return null ids: 61 112
+            if name.indexOf('#/definitions/') === 0 ids: 62 113
+              return  ids: 63 114
+                _ name.substring ids: 64 115
+                  @ '#/definitions/'.length ids: 65 116
+            else  ids: 66 117
+              return name ids: 67 118
+          wz-function extractExtensions ids: 68 119
+            param keyname ids: 69 120
+            param obj ids: 70 121
+            param value ids: 71 122
+            if !keyname || !obj ids: 72 123
+              return  ids: 73 124
+            if typeof (keyname) === 'string' && keyname.indexOf('x-') === 0 ids: 74 125
+              set obj.vendorExtensions = obj.vendorExtensions || {} ids: 75 126
+              if value ids: 76 127
+                set obj.vendorExtensions[keyname] = value ids: 77 128
+              else  ids: 78 129
+                set obj.vendorExtensions[keyname] = obj[keyname] ids: 79 130
+    wz-iife api ids: 6 18
+      wz-function create ids: 7 19
+        return  ids: 8 20
+          {  ids: 9 21
+            $group  ids: 131 141
+              @ apis ids: 132 142
+                {  ids: 133 143
+              @ apisArray ids: 134 144
+                [  ids: 135 145
+              @ title '${raml.title}' ids: 136 146
+              @ version '${raml.version}' ids: 137 147
+              @ protocols '${raml.protocols}' ids: 138 148
+              @ baseUri '${raml.baseUri}' ids: 139 149
+              @ serverPort '${raml.port}' ids: 140 150
+    _ application.start ids: 11 23
+      _ api.create ids: 12 24

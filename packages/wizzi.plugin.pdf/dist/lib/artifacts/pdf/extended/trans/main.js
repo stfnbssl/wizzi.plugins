@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.7
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi.plugin.pdf\.wizzi\ittf\lib\artifacts\pdf\extended\trans\main.js.ittf
-    utc time: Mon, 15 Mar 2021 12:41:29 GMT
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@0.7.9
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.pdf\.wizzi\lib\artifacts\pdf\extended\trans\main.js.ittf
+    utc time: Fri, 01 Jul 2022 16:42:17 GMT
 */
 'use strict';
 var util = require('util');
@@ -26,7 +26,8 @@ md.trans = function(model, ctx, callback) {
         return callback(ex);
     } 
     callback(null, transformedModel);
-};
+}
+;
 
 //
 function error(errorName, method, message, model, innerError) {
@@ -35,5 +36,5 @@ function error(errorName, method, message, model, innerError) {
             method: '/lib/artifacts/sample/extended/trans/main.' + method, 
             sourcePath: __filename, 
             inner: innerError
-        });
+         });
 }

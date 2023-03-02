@@ -1,0 +1,23 @@
+$group
+
+    set functors.profile
+        function
+            param parent
+            param resultObj
+            var profileObj
+                {
+                    @ id parent.wzName
+                    [ tasks
+            var newitems = []
+            foreach child in parent.items
+                if child.wzElement == "task"
+                    # ...
+                else
+                    _ newitems.push
+                        @ child
+            _ resultObj.profiles.push
+                @ profileObj
+            foreach child in newitems
+                _ doitem
+                    @ child
+                    @ resultObj

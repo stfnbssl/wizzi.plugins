@@ -1,0 +1,20 @@
+$group
+
+	set ${t.wzName}Table.prototype.findOne
+		function
+			param search_obj
+		
+			return
+				_ this.persister.findOne
+					@ '${t.wzName}'
+					@ search_obj)
+
+	set ${t.wzName}Table.prototype.find
+		function
+			param search_obj
+		
+			return
+				_ this.persister.find
+					@ '${t.wzName}'
+					@ search_obj)
+

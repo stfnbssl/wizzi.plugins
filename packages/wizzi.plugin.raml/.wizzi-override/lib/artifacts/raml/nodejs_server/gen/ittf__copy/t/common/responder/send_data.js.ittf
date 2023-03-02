@@ -1,0 +1,25 @@
+﻿$group
+
+    wz-function sendData
+        param res
+        param data
+        param encoding
+        param skipped
+
+        if !(data instanceof Buffer) && !(_.isString(data))
+			set data = JSON.stringify(data)
+            
+		if skipped
+            if _.isUndefined(res.getHeader('content-type'))
+                _ debug
+                    @ '    Validation: skipped (Cached response for \'%d\')'
+                    @ res.statusCode
+            else 
+                _ debug
+                    @ '    Validation: skipped (No response definition)'
+                    @ res.statusCode
+        else 
+            _ debug('    Validation: succeeded')
+            
+		_ res.end(data, encoding)
+    

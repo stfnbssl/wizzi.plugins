@@ -1,0 +1,176 @@
+﻿regexp css
+
+	e sign
+		|
+			: +
+			: -
+
+	e integer
+		&
+			? <sign>
+			+ 0-9
+
+	e float-strict
+		&
+			? <sign>
+			?
+				+ 0-9
+			: .
+			+ 0-9
+
+	e float
+		|
+			^$ <integer>
+			^$ <float-strict>
+
+	re params
+		&
+			(
+				+ <word>
+		test alpha,beta,gamma
+			expected alpha,beta,gamma
+
+	re sign
+		^$ <sign>
+		test +
+			expected +
+		test +a
+			expected +
+		test a
+			expected null
+
+	re integer
+		^$ <integer>
+		test 234
+			expected 234
+		test 3d
+			expected null
+		test +d3
+			expected null
+		test -34
+			expected -34
+
+	re float-strict
+		^$ <float-strict>
+		test 10.5
+			expected 10.5
+		test .3
+			expected .3
+		test -20
+			expected null
+		test .
+			expected null
+		test 12.
+			expected null
+		test a.1
+			expected null
+		test 23.a
+			expected null
+
+	re float
+		: <float>
+		test 10.5
+			expected 10.5
+		test .3
+			expected .3
+		test -20
+			expected -20
+		test -.3
+			expected -.3
+		test .
+			expected null
+		test 12.
+			expected null
+		test a.1
+			expected null
+		test 23.a
+			expected null
+
+	
+	re grouping (
+		&
+			( foo
+		test foo bar 
+			expected foo
+
+	re quantifier {n}
+		&
+			: a
+			{ 2
+		test candy is bad
+			expected null
+		test caandy is good
+			expected aa
+
+	re quantifier {n,}
+		&
+			: a
+			{ 2,
+		test candy is bad
+			expected null
+		test caaaaaandy is very good
+			expected aaaaaa
+
+	re quantifier {n,n}
+		&
+			: a
+			{ 2,3
+		test candy is bad
+			expected null
+		test caaady is very good
+			expected aaa
+		test caaaaady is too good 
+			expected aaa,aa
+
+	re assert (?= 2
+		&
+			: Jack
+			(?=
+				|
+					: Sprat
+					: Frost
+		test This JackSprat is great
+			expected Jack
+		test This Jack Sprat is so so
+			expected null
+		test This JackFrost is great too
+			expected Jack
+
+	re assert (?! 2
+		&
+			: Jack
+			(?!
+				|
+					: Sprat
+					: Frost
+		test This JackSprat was great
+			expected null
+		test This Jack Sprat was so so
+			expected Jack
+		test This JackFrost was great too
+			expected null
+		test This Jack Nool was bad
+			expected Jack
+
+	$*
+    re cho45 
+		flags ig
+		&
+			(: foo
+				+ a-z
+			blank
+			(: foo
+				+ a-z
+			blank
+			(: bar
+				+ a-z
+		test aaa bbb ccc
+			expected
+				{
+					[ foo
+						: 'aaa'
+						: 'bbb'
+					[ bar
+						: 'ccc'
+
+    *$

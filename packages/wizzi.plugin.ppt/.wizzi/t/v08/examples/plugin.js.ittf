@@ -35,7 +35,7 @@ $group
         param callback
         _ createWizziFactory
             {
-            f_cb( wf )
+            a_cb( wf )
                 _ wf.loadMTree
                     @ ittfDocumentUri
                     @ context
@@ -46,7 +46,7 @@ $group
         param callback
         _ createWizziFactory
             {
-            f_cb( wf )
+            a_cb( wf )
                 _ wf.loadMTreeDebugInfo
                     @ ittfDocumentUri
                     @ context
@@ -58,7 +58,7 @@ $group
         var fi = fileInfoByPath(ittfDocumentUri)
         _ createWizziFactory
             {
-            f_cb( wf )
+            a_cb( wf )
                 _ wf.loadModel
                     @ fi.schema
                     @ ittfDocumentUri
@@ -75,7 +75,7 @@ $group
         _ loadWizziModel
             @ ittfDocumentUri
             @ context
-            f_cb( model )
+            a_cb( model )
                 _ file.write
                     _ path.join
                         @ outputFolder
@@ -93,7 +93,7 @@ $group
         var fi = fileInfoByPath(ittfDocumentUri)
         _ createWizziFactory
             {
-            f_cb( wf )
+            a_cb( wf )
                 _ wf.loadModelAndGenerateArtifact
                     @ ittfDocumentUri
                     {
@@ -108,7 +108,7 @@ $group
         param callback
         _ createWizziFactory
             {
-            f_cb( wf )
+            a_cb( wf )
                 _ wf.loadModelAndGenerateArtifactFromText
                     @ ittfContent
                     {
@@ -124,11 +124,11 @@ $group
         var fi = fileInfoByPath(ittfDocumentUri)
         _ createWizziFactory
             {
-            f_cb( wf )
+            a_cb( wf )
                 _ loadWizziModel
                     @ ittfDocumentUri
                     @ context
-                    f_cb( model )
+                    a_cb( model )
                         _ wf.transformModel
                             @ model
                             @ transformName
@@ -140,7 +140,7 @@ $group
         param callback
         _ createWizziFactory
             {
-            f_cb( wf )
+            a_cb( wf )
                 _ wf.executeJob
                     {
                         @ name path.basename(ittfDocumentUri)
@@ -200,7 +200,7 @@ $group
         param callback
         _ createWizziFactory
             {
-            f_cb( wf )
+            a_cb( wf )
                 _ wf.generateModelTypes
                     @ wfschemaIttfDocumentUri
                     @ outputPackagePath

@@ -1,0 +1,34 @@
+﻿$group
+
+	$*
+	require
+		$
+			var name = 'xxx';
+			var level = 'y';
+			var steps = ['a', 'b', ...];
+	*$
+
+	import async
+
+	var samples
+		[
+			$foreach step in steps
+				@ require('./step_${step}_go')
+
+	function execute
+		param callback
+		_ async.series
+			@ samples
+			a_cb_throw()
+				var msg = '${name} - Level ${level} samples - done.'
+				log msg
+				if callback
+					return
+						_ callback
+							@ null
+							@ msg
+
+	set module.exports = execute
+
+	if typeof require != 'undefined' && require.main==module
+		_ execute

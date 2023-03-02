@@ -1,0 +1,56 @@
+﻿module
+	kind jsfile
+
+	var util = require('util')
+	var path = require('path')
+	var wizzi = require('wizzi')
+
+	var md = module.exports = {}
+	var myname = 'rdbms.jsonmodel_persister.main'
+
+	set md.gen
+		function
+			param model
+			param ctx
+			param callback
+
+			$*
+			var ittfDocumentPath = path.join(__dirname, 'ittf', 'jsonmodel_persister.js.ittf')
+			_ wizzi.wizzi.ittf.loadModel
+				@ ittfDocumentPath
+				{
+					@ table model.table
+					@ request
+						{
+				function
+					param err
+					param result
+					if err
+						throw new Error(err)
+					_ ctx.w(result.toIttf())
+					_ callback(null, ctx)
+			*$
+
+			_ wizzi.fsFactory
+				{
+					{ plugins
+						[ items
+							@ 'wizzi-core'
+							@ 'wizzi-js'
+				a_cb( wf )
+					_ wf.loadModelAndGenerateArtifact
+						_ path.join
+							@ __dirname
+							@ 'ittf'
+							@ 'jsonmodel_persister.js.ittf'
+						{
+							{ modelRequestContext
+								@ table model.table
+							@ artifactRequestContext {}
+						@ 'js/module'
+						a_cb( artifactText )
+							# loog 'jsoncrud.artifactText', artifactText
+							_ ctx.w(artifactText)
+							r_cb( ctx )
+
+

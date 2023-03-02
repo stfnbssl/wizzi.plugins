@@ -1,0 +1,487 @@
+wfschema regexp
+
+	export-to json
+
+	e node
+		# A tree node with unlimited depth.
+		# Is the schema base node.
+		# In itself works as a comment line.
+		tag ###
+		r node/s
+
+		m toRegExp
+			param sb
+			foreach item in this.nodes
+				_ item.toRegExp(sb)
+
+		m getRegExpString
+			var sb = []
+			_ this.toRegExp(sb)
+			return sb.join('')
+
+	e regexp : node
+		is-root
+
+		m wzInitialize
+			set this.elements = {}
+			set this.executables = {}
+
+		m exec
+			param name
+			param string
+			if this.executables[name]
+				_ this.executables[name].exec(string)
+			else
+				log 'Executable not found: ', name
+
+		m execTests
+			var results = []
+			for var k in this.executables
+				# loog 'execTests.executable', k
+				foreach r in this.executables[k].execTests()
+					_ results.push(r)
+			return results
+
+	e_tag( executableRegExp, re, node )
+		a flags
+			default gi
+		a_flag( named )
+
+		r test/s
+
+		m wzInitialize
+			var root = this.wzRoot()
+			if root.executables[this.wzName]
+				throw new Error('Duplicated executableRegExp: ' + this.wzName)
+			set root.executables[this.wzName] = this
+
+		m exec
+			param string
+			var re = this.toRegExp()
+			# var result = string.match(re)
+			var result = re.exec(string)
+			return result
+
+		m execTests
+			var results = []
+			foreach t in this.tests
+				# loog 'execTests.executableRegExp', t.wzName
+				var r = this.exec(t.wzName)
+				_ results.push
+					{
+						@ name this.wzName
+						@ regexp this.__regexp
+						@ string t.wzName
+						@ result
+							iif this.named
+								then r.captures
+								else r
+						@ expected t.expected
+						@ isExpected
+							_ t.isExpected
+								iif this.named
+									then r.captures
+									else r
+			return results
+
+		m toRegExp
+			if !this.__regexp
+				var sb = []
+				foreach item in this.nodes
+					_ item.toRegExp(sb)
+				set this.__regexp = sb.join('')
+			#
+				return
+					new RegExp(this.__regexp, this.flags)
+			#
+			if this.named
+				return
+					_ verify.namedRegExp
+						new RegExp(this.__regexp, this.flags)
+			else
+				return 
+					_ verify.getAllRegExp
+						new RegExp(this.__regexp, this.flags)
+
+	e_tag( regexpElement, e, node )
+		# composable element of a regexp
+
+		m wzInitialize
+			var root = this.wzRoot()
+			if root.elements[this.wzName]
+				throw new Error('Duplicated regexpElement: ' + this.wzName)
+			set root.elements[this.wzName] = this
+
+	e test : node
+		
+
+		m wzInitialize
+			set this.expected = null
+			if this.nodes.length === 1 && this.nodes[0].wzElement === 'expected'
+				set this.expected = this.nodes[0].toValue()
+
+		m isExpected
+			param results
+			if this.expected == null
+				return null
+			if !results
+				if this.expected === 'null'
+					return true
+				else
+					return false
+			if verify.isArray(this.expected)
+				if results.length != this.expected.length
+					return false
+				for var i=0; i<results.length; i++
+					if results[i] !== this.expected[i]
+						return false
+				return true
+			else
+				# loog 'res', JSON.stringify(results)
+				# loog 'exp', JSON.stringify(this.expected) 
+				return JSON.stringify(results) === JSON.stringify(this.expected) 
+
+	e expected : node
+		a separator
+			default ,
+
+		m toValue
+			# loog 'expected', this
+			if verify.isEmpty(this.wzName)
+				if this.nodes.length === 0
+					return null
+				else
+					# loog 'expected is object'
+					return this.nodes[0].toValue().value
+			else
+				if this.wzName === 'null'
+					return this.wzName
+				return this.wzName.trim().split(this.separator)
+
+	e_tag( bracket, [, node )
+		# one required group of juxtaposed components
+		# juxtaposed: separated by whitespaces
+
+		m toRegExp
+			param sb
+			foreach item in this.nodes
+				if i > 0
+					_ sb.push(' ')
+				_ item.toRegExp(sb)
+		
+		m toValue
+			var ret 
+				{
+					@ name this.wzName
+					@ value []
+			foreach item in this.nodes
+				var v = item.toValue()
+				_ ret.value.push
+					@ v.name + ( v.value ? ' ' + v.value : '' )
+			return ret
+	
+	e_tag( bracketQuestionMark, [?, node )
+		# one optional group of juxtaposed components
+		# juxtaposed: separated by whitespaces
+	
+	e_tag( bracketPlus, [+, node )
+		# at least one or many groups of juxtaposed components
+		# juxtaposed: separated by whitespaces
+
+	e_tag( bracketHashmark, [#, node )
+		# zero or many groups of comma separated juxtaposed components
+		# juxtaposed: separated by whitespaces
+	
+	e_tag( ampersand, &, node )
+		# one required group of joined components
+		# joined: (no juxtaposed) without separators
+	
+	e_tag( ampersandQuestionmark, [&?, node )
+		# one optional group of joined components
+		# joined: (no juxtaposed) without separators
+	
+	e_tag( ampersandPlus, [&+, node )
+		# at least one or many groups of joined components
+		# for completness of symbols but has no sense, has the same meaning of `ampersand`
+		# joined: (no juxtaposed) without separators
+
+	e_tag( ampersand, [&#, node )
+		# at least one or many groups of comma separated joined components
+		# joined: (no juxtaposed) without separators
+
+	e_tag( asterix, *, node )
+		m toRegExp
+			param sb
+			_ nodeToRegExp
+				@ this
+				@ sb
+				@ '*'
+
+	e_tag( plus, +, node )
+		# at least one or many groups of juxtaposed components
+		m toRegExp
+			param sb
+			_ nodeToRegExp
+				@ this
+				@ sb
+				@ '+'
+
+	e_tag( questionMark, ?, node )
+		m toRegExp
+			param sb
+			var s = getReFromName(this)
+			_ nodeToRegExp
+				@ this
+				@ sb
+				@ '?'
+
+	e_tag( colon, :, node )
+		m toRegExp
+			param sb
+			var s = getReFromName(this)
+			if verify.isNotEmpty(s)
+				_ sb.push(s)
+			else
+				_ sb.push('unknown colon wzName: ' + this.wzName)
+
+		m toValue
+			var v = verify.parseNameValue(this.wzName)
+			return 
+				{
+					@ name v.name()
+					@ value v.value()
+	
+	e_tag( doubleColon, ::, node )
+	
+	e_tag( bar, \|, node )
+		m toRegExp
+			param sb
+			var l = this.nodes[0].getRegExpString()
+			var r = this.nodes[1].getRegExpString()
+			_ sb.push(enclose(l))
+			_ sb.push('|')
+			_ sb.push(enclose(r))
+	
+	e_tag( doubleBar, ||, node )
+	
+	e_tag( doubleAmpersand, &&, node )
+
+	e_tag( paren, (, node )
+		# (x) - Matches x and remembers the match. These are called capturing groups.
+
+		m toRegExp
+			param sb
+			var s = getReFromName(this)
+			if verify.isNotEmpty(s)
+				_ sb.push('(' + s + ')')
+			else
+				set s = getReFromChildren(this)
+				if verify.isNotEmpty(s)
+					_ sb.push('(' + s + ')')
+
+	e_tag( graph, {, node )
+		# Quantifier
+		# x{n}   - Where n is a positive integer. Matches exactly n occurrences of the preceding item x.
+		# x{n,}	 - Where n is a positive integer. Matches at least n occurrences of the preceding item x.
+		# x{n,m} - Where n and m are positive integers. Matches at least n and at most m occurrences of the preceding item x.
+		
+		m toRegExp
+			param sb
+			var s = getReFromChildren(this)
+			if verify.isNotEmpty(s)
+				_ sb.push(s)
+			_ sb.push('{' + this.wzName + '}')
+
+		m toValue
+			var ret 
+				{
+					@ name this.wzName
+					@ value {}
+			foreach item in this.nodes
+				var v = item.toValue()
+				set ret.value[v.name] = v.value
+			# loog 'graph.toValue.ret', ret
+			return ret
+
+	e_tag( parenQuestionMarkEqual, (?=, node )
+		# Assertion
+		# x(?=y) Matches x only if x is followed by y.
+		
+		m toRegExp
+			param sb
+			_ nodeToRegExp
+				@ this
+				@ sb
+				@ '(?='
+
+	e_tag( parenQuestionMarkExlamationPoint, (?!, node )
+		# Assertion
+		# x(?!y) Matches x only if x is not followed by y.
+
+		m toRegExp
+			param sb
+			_ nodeToRegExp
+				@ this
+				@ sb
+				@ '(?!'
+
+	e_tag( parenColon, (:, node )
+		# Named captures
+		# x(?!y) Matches x only if x is not followed by y.
+
+		m toRegExp
+			param sb
+			var s = getReFromChildren(this)
+			_ sb.push
+				@ '(:' + '<' + this.wzName + '>' + s + ')'
+
+	e_tag( bracketCap, [^, node )
+		# A negated or complemented character set
+
+		m toRegExp
+			param sb
+			_ sb.push('[^')
+			if verify.isEmpty(this.wzName) === false
+				_ sb.push(this.wzName)
+			else
+				foreach item in this.nodes
+					_ item.toRegExp(sb)
+			_ sb.push(']')
+		
+	e_tag( capDollar, ^$, node )
+		m toRegExp
+			param sb
+			_ sb.push('^')
+			var s = getReFromName(this)
+			if verify.isNotEmpty(s)
+				_ sb.push(s)
+			else
+				foreach item in this.nodes
+					_ item.toRegExp(sb)
+			_ sb.push('$')
+
+	e blank : node
+		m toRegExp
+			param sb
+			var num = verify.isNumber(this.wzName) ? verify.convert(this.wzName, 'integer') : 1
+			_ sb.push(new Array(num + 1).join(' '))
+
+	declare
+		var builtInElements
+			{
+				@ space '\\s'
+				@ 'not-space' '\\S'
+				@ word '\\w'
+				@ 'not-word' '\\W'
+				@ digit '\\d'
+				@ 'not-digit' '\\D'
+				@ 'word-boundary' '\\b'
+				@ 'not-word-boundary' '\\B'
+				@ tab '\\t'
+				@ crlf '\\r\\f'
+				@ 'carriage-return' '\\r'
+				@ 'form-feed' '\\f'
+	
+	m escape
+		param text
+		return verify.escapeRegExp(text)
+		
+	m getElement
+		param root
+		param wzName
+		if verify.isEmpty(wzName)
+			return null
+		var re = /\<(\w+\-?\w+)\>/g;
+		var match = re.exec(wzName);
+		# loog 'match', re, wzName, match
+		if match != null
+			var elName = match[1]
+			if builtInElements[elName]
+				return
+					[
+						@ match[0]
+						@ builtInElements[elName]
+						@ 'builtIn'
+			var el = root.elements[elName]
+			# loog 'getElement', elName, el.wzTag, el.wzName
+			return
+				[
+					@ match[0]
+					@ el
+		else
+			# loog 'getElement not found: ' + wzName
+			return null
+
+	m getReFromName
+		param node
+		var s = node.wzName
+		if verify.isEmpty(s)
+			return null
+		if s.indexOf('<') < 0 && s.indexOf('-') > -1 && s.length === 3
+			return '[' + escape(s) + ']'
+		else
+			var el = getElement(node.wzRoot(), s)
+			if el === null
+				return escape(s)
+			else
+				if el.length > 2 && el[2] === 'builtIn'
+					return 
+						_ verify.replaceAll
+							@ s
+							@ el[0]
+							@ el[1]
+				else
+					var sb = []
+					_ el[1].toRegExp(sb)
+					return
+						_ verify.replaceAll
+							@ s
+							@ el[0]
+							_ sb.join('')
+	m getReFromChildren
+		param node
+		var sb = []
+		foreach item in node.nodes
+			_ item.toRegExp(sb)
+		return sb.join('')
+
+	m nodeToRegExp
+		param node
+		param sb
+		param tag
+		var s = getReFromName(node)
+		if verify.isNotEmpty(s)
+			if tag[0] === '('
+				_ sb.push(tag + s + ')')
+			else
+				_ sb.push(enclose(s) + tag)
+		else
+			set s = getReFromChildren(node)
+			if verify.isNotEmpty(s)
+				if tag[0] === '('
+					_ sb.push(tag + s + ')')
+				else
+					_ sb.push(enclose(s) + tag)
+
+	m enclose
+		param s
+		if numchars(s) < 2 ||
+			\b (s[0] === '(' && s.substr(-1) === ')') ||
+			\b (s[0] === '[' && s.substr(-1) === ']') ||
+			\b (s[0] === '^' && s.substr(-1) === '$')
+			return s
+		else
+			if s.indexOf('[') > -1 && s.indexOf(']') > -1
+				return '(?:' + s + ')'
+			else
+				return '[' + s + ']'
+	
+	m numchars
+		param s
+		if verify.isEmpty(s)
+			return 0
+		var count = 0
+		for var i=0; i<s.length; i++
+			if s[i] != '\\'
+				set count++
+		return count

@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.7
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi.plugin.ppt\.wizzi\ittf\root\index.js.ittf
-    utc time: Wed, 17 Mar 2021 09:59:11 GMT
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@0.7.9
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ppt\.wizzi\root\index.js.ittf
+    utc time: Fri, 01 Jul 2022 16:43:01 GMT
 */
 'use strict';
 
@@ -17,13 +17,13 @@ md.name = '.index';
 // window(s) vars must be declared even if empty
 var window_modelFactories = {
     'ppt': require('./lib/wizzi/models/ppt-factory.g')
-};
+ };
 var window_artifactGenerators = {
     'ppt/document': require('./lib/artifacts/ppt/document/gen/main')
-};
+ };
 var window_transformers = {
     'ppt/extended': require('./lib/artifacts/ppt/extended/trans/main')
-};
+ };
 var window_schemaDefinitions = {};
 
 //
@@ -155,7 +155,7 @@ function error(errorName, method, message, innerError) {
             method: md.name + '.' + method, 
             sourcePath: __filename, 
             inner: innerError
-        });
+         });
 }
 
 module.exports = {
@@ -169,7 +169,7 @@ module.exports = {
         artifactGenerators: [
             'ppt/document'
         ]
-    }, 
+     }, 
     provides: {
         schemas: [
             'ppt'
@@ -180,7 +180,7 @@ module.exports = {
         artifactGenerators: [
             'ppt/document'
         ]
-    }, 
+     }, 
     createFactoryPlugin: function(wizziPackage, options, callback) {
         var plugin = new FactoryPlugin(wizziPackage, this.provides);
         plugin.initialize(options, function(err, notUsed) {
@@ -190,5 +190,5 @@ module.exports = {
             return callback(null, plugin);
         })
     }
-};
+ };
 

@@ -1,0 +1,803 @@
+{
+  "name": "py",
+  "preserveTags": true,
+  "requires": [],
+  "exportTos": [],
+  "elements": [
+    {
+      "name": "statement",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "#"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        }
+      ],
+      "derived": [
+        {
+          "name": "codeline",
+          "tags": [
+            "codeline"
+          ]
+        },
+        {
+          "name": "py",
+          "tags": [
+            "py"
+          ]
+        },
+        {
+          "name": "xfunction",
+          "tags": [
+            "function"
+          ]
+        },
+        {
+          "name": "ctor",
+          "tags": [
+            "ctor"
+          ]
+        },
+        {
+          "name": "destructor",
+          "tags": [
+            "del"
+          ]
+        },
+        {
+          "name": "method",
+          "tags": [
+            "m"
+          ]
+        },
+        {
+          "name": "property",
+          "tags": [
+            "p"
+          ]
+        },
+        {
+          "name": "xreturn",
+          "tags": [
+            "return"
+          ]
+        },
+        {
+          "name": "xclass",
+          "tags": [
+            "class"
+          ]
+        },
+        {
+          "name": "base",
+          "tags": [
+            "base"
+          ]
+        },
+        {
+          "name": "get",
+          "tags": [
+            "get"
+          ]
+        },
+        {
+          "name": "xnew",
+          "tags": [
+            "new"
+          ]
+        }
+      ],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "A statement line node with unlimited depth.",
+        "Is the schema base node.",
+        "In itself works as a comment line."
+      ]
+    },
+    {
+      "name": "codeline",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "codeline"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "py",
+      "super": "statement",
+      "isRoot": true,
+      "tags": [
+        "py"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "param",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "param"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "xfunction",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "function"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "param",
+          "role": "params",
+          "tags": [
+            "param"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [
+        {
+          "name": "ctor",
+          "tags": [
+            "ctor"
+          ]
+        },
+        {
+          "name": "destructor",
+          "tags": [
+            "del"
+          ]
+        },
+        {
+          "name": "method",
+          "tags": [
+            "m"
+          ]
+        },
+        {
+          "name": "property",
+          "tags": [
+            "p"
+          ]
+        }
+      ],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "xreturn",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "return"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "xclass",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "class"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "super",
+          "type": "string",
+          "tags": [
+            "super"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "extends",
+          "type": "string",
+          "tags": [
+            "extends"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "findCtor",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "_.find(this.statements, function(item) { return item.wzElement === 'ctor' })",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "wzInitialize",
+          "isStatic": false,
+          "isKnownMethod": true,
+          "params": [],
+          "statements": [
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.modelState = ctx.modelState || {}",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.modelState.hasClasses = true",
+              "statements": []
+            },
+            {
+              "tag": "if",
+              "name": "xif",
+              "value": "this.extends && this.extends.length > 0",
+              "statements": [
+                {
+                  "tag": "set",
+                  "name": "set",
+                  "value": "this.super = this.extends",
+                  "statements": []
+                }
+              ]
+            },
+            {
+              "tag": "else",
+              "name": "xelse",
+              "value": "",
+              "statements": [
+                {
+                  "tag": "var",
+                  "name": "xvar",
+                  "value": "tokens = this.wzName.split(':')",
+                  "statements": []
+                },
+                {
+                  "tag": "if",
+                  "name": "xif",
+                  "value": "tokens.length == 2",
+                  "statements": [
+                    {
+                      "tag": "set",
+                      "name": "set",
+                      "value": "this.wzName = tokens[0]",
+                      "statements": []
+                    },
+                    {
+                      "tag": "set",
+                      "name": "set",
+                      "value": "this.super = tokens[1]",
+                      "statements": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "comments": [
+            "loog 'wizzi-js.model.class.modelState', ctx.modelState"
+          ]
+        }
+      ],
+      "comments": [
+        "A Python class",
+        "",
+        "ittf",
+        "class Horse",
+        "super Animal",
+        "ctor",
+        "string name",
+        "required",
+        "{ options",
+        "boolean canSpeakLikeAHuman",
+        "required",
+        "set this.name = name",
+        "set this.options = options",
+        "m sayHello",
+        "if this.options.canSpeakLikeAHuman",
+        "success 'Hello i am ' + this.name",
+        "else",
+        "success 'Hii i am ' + this.name",
+        ""
+      ]
+    },
+    {
+      "name": "ctor",
+      "super": "xfunction",
+      "isRoot": false,
+      "tags": [
+        "ctor"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "base",
+          "role": "bases",
+          "tags": [
+            "base"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "param",
+          "role": "params",
+          "tags": [
+            "param"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "xfunction",
+          "comments": []
+        },
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "getBaseArgs",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "var",
+              "name": "xvar",
+              "value": "ret = []",
+              "statements": []
+            },
+            {
+              "tag": "foreach",
+              "name": "foreach",
+              "value": "item in this.bases",
+              "statements": [
+                {
+                  "tag": "_",
+                  "name": "call",
+                  "value": "ret.push(item.wzName)",
+                  "statements": []
+                }
+              ]
+            },
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "ret",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": [
+        "",
+        "ittf",
+        "class Horse",
+        "super Animal",
+        "ctor",
+        "string name",
+        "base name",
+        ""
+      ]
+    },
+    {
+      "name": "destructor",
+      "super": "xfunction",
+      "isRoot": false,
+      "tags": [
+        "del"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "param",
+          "role": "params",
+          "tags": [
+            "param"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "xfunction",
+          "comments": []
+        },
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "",
+        "ittf",
+        "class Horse",
+        "super Animal",
+        "ctor",
+        "string name",
+        "base name",
+        "del",
+        "print 'die'"
+      ]
+    },
+    {
+      "name": "base",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "base"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "",
+        "ittf",
+        "see 'ctor' element example"
+      ]
+    },
+    {
+      "name": "method",
+      "super": "xfunction",
+      "isRoot": false,
+      "tags": [
+        "m"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "static",
+          "type": "boolean",
+          "tags": [
+            "static"
+          ],
+          "default": "false",
+          "defaultWhenDeclared": "true",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "async",
+          "type": "boolean",
+          "tags": [
+            "async"
+          ],
+          "default": "false",
+          "defaultWhenDeclared": "true",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "param",
+          "role": "params",
+          "tags": [
+            "param"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "xfunction",
+          "comments": []
+        },
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "ittf",
+        "class Foo",
+        "m sayHello",
+        "string name",
+        "success 'Hello ' + name"
+      ]
+    },
+    {
+      "name": "property",
+      "super": "xfunction",
+      "isRoot": false,
+      "tags": [
+        "p"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "static",
+          "type": "boolean",
+          "tags": [
+            "static"
+          ],
+          "default": "false",
+          "defaultWhenDeclared": "true",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "param",
+          "role": "params",
+          "tags": [
+            "param"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "xfunction",
+          "comments": []
+        },
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "ittf",
+        "class Foo",
+        "p options"
+      ]
+    },
+    {
+      "name": "get",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "get"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "es6 - Defines a getter on a new object in the object initializer",
+        "reference https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Functions/get",
+        "",
+        "ittf",
+        "var obj",
+        "{",
+        "@ log ['test']",
+        "get latest",
+        "if this.log.length == 0",
+        "return undefined",
+        "return this.log[this.log.length - 1]",
+        ""
+      ]
+    },
+    {
+      "name": "xnew",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "new"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "ittf:",
+        "var h",
+        "new Hello",
+        "var j",
+        "new Hello",
+        "function",
+        "param p",
+        "+ ...",
+        "js:",
+        "var h = new Hello();",
+        "var j = new Hello(function(p) { ... });"
+      ]
+    }
+  ]
+}

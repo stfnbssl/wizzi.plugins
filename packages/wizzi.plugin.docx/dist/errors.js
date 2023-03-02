@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.7
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi.plugin.docx\.wizzi\ittf\root\errors.js.ittf
-    utc time: Mon, 01 Mar 2021 21:35:47 GMT
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@0.7.9
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.docx\.wizzi\root\errors.js.ittf
+    utc time: Fri, 01 Jul 2022 14:55:33 GMT
 */
 'use strict';
 
@@ -22,7 +22,7 @@ class WizziPluginError extends Error {
         this.data = {
             model, 
             ...other||{}
-        };
+         };
         Error.captureStackTrace(this, this.constructor);
         if (model) {
             this.errorLines = [
@@ -64,7 +64,7 @@ class InternalWizziPluginError extends WizziPluginError {
         super(error.message);
         this.data = {
             error
-        };
+         };
     }
 }
 md.InternalWizziPluginError = InternalWizziPluginError;

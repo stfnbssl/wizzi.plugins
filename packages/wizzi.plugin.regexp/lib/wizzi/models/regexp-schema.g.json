@@ -1,0 +1,1409 @@
+{
+  "name": "regexp",
+  "preserveTags": true,
+  "requires": [],
+  "exportTos": [
+    "json"
+  ],
+  "elements": [
+    {
+      "name": "node",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "###"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "###"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        }
+      ],
+      "derived": [
+        {
+          "name": "regexp",
+          "tags": [
+            "regexp"
+          ]
+        },
+        {
+          "name": "executableRegExp",
+          "tags": [
+            "re"
+          ]
+        },
+        {
+          "name": "regexpElement",
+          "tags": [
+            "e"
+          ]
+        },
+        {
+          "name": "test",
+          "tags": [
+            "test"
+          ]
+        },
+        {
+          "name": "expected",
+          "tags": [
+            "expected"
+          ]
+        },
+        {
+          "name": "bracket",
+          "tags": [
+            "["
+          ]
+        },
+        {
+          "name": "bracketQuestionMark",
+          "tags": [
+            "[?"
+          ]
+        },
+        {
+          "name": "bracketPlus",
+          "tags": [
+            "[+"
+          ]
+        },
+        {
+          "name": "bracketHashmark",
+          "tags": [
+            "[#"
+          ]
+        },
+        {
+          "name": "ampersand",
+          "tags": [
+            "&"
+          ]
+        },
+        {
+          "name": "ampersandQuestionmark",
+          "tags": [
+            "[&?"
+          ]
+        },
+        {
+          "name": "ampersandPlus",
+          "tags": [
+            "[&+"
+          ]
+        },
+        {
+          "name": "ampersand",
+          "tags": [
+            "[&#"
+          ]
+        },
+        {
+          "name": "asterix",
+          "tags": [
+            "*"
+          ]
+        },
+        {
+          "name": "plus",
+          "tags": [
+            "+"
+          ]
+        },
+        {
+          "name": "questionMark",
+          "tags": [
+            "?"
+          ]
+        },
+        {
+          "name": "colon",
+          "tags": [
+            ":"
+          ]
+        },
+        {
+          "name": "doubleColon",
+          "tags": [
+            "::"
+          ]
+        },
+        {
+          "name": "bar",
+          "tags": [
+            "|"
+          ]
+        },
+        {
+          "name": "doubleBar",
+          "tags": [
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "name": "doubleAmpersand",
+          "tags": [
+            "&&"
+          ]
+        },
+        {
+          "name": "paren",
+          "tags": [
+            "("
+          ]
+        },
+        {
+          "name": "graph",
+          "tags": [
+            "{"
+          ]
+        },
+        {
+          "name": "parenQuestionMarkEqual",
+          "tags": [
+            "(?="
+          ]
+        },
+        {
+          "name": "parenQuestionMarkExlamationPoint",
+          "tags": [
+            "(?!"
+          ]
+        },
+        {
+          "name": "parenColon",
+          "tags": [
+            "(:"
+          ]
+        },
+        {
+          "name": "bracketCap",
+          "tags": [
+            "[^"
+          ]
+        },
+        {
+          "name": "capDollar",
+          "tags": [
+            "^$"
+          ]
+        },
+        {
+          "name": "blank",
+          "tags": [
+            "blank"
+          ]
+        }
+      ],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "toRegExp",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "sb"
+          ],
+          "statements": [
+            {
+              "tag": "foreach",
+              "name": "foreach",
+              "value": "item in this.nodes",
+              "statements": [
+                {
+                  "tag": "_",
+                  "name": "call",
+                  "value": "item.toRegExp(sb)",
+                  "statements": []
+                }
+              ]
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "getRegExpString",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "var",
+              "name": "xvar",
+              "value": "sb = []",
+              "statements": []
+            },
+            {
+              "tag": "_",
+              "name": "call",
+              "value": "this.toRegExp(sb)",
+              "statements": []
+            },
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "sb.join('')",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": [
+        "A tree node with unlimited depth.",
+        "Is the schema base node.",
+        "In itself works as a comment line."
+      ]
+    },
+    {
+      "name": "regexp",
+      "super": "node",
+      "isRoot": true,
+      "tags": [
+        "regexp"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "###"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "wzInitialize",
+          "isStatic": false,
+          "isKnownMethod": true,
+          "params": [],
+          "statements": [
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "this.elements = {}",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "this.executables = {}",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "exec",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "name",
+            "string"
+          ],
+          "statements": [
+            {
+              "tag": "if",
+              "name": "xif",
+              "value": "this.executables[name]",
+              "statements": [
+                {
+                  "tag": "_",
+                  "name": "call",
+                  "value": "this.executables[name].exec(string)",
+                  "statements": []
+                }
+              ]
+            },
+            {
+              "tag": "else",
+              "name": "xelse",
+              "value": "",
+              "statements": [
+                {
+                  "tag": "log",
+                  "name": "log",
+                  "value": "'Executable not found: ', name",
+                  "statements": []
+                }
+              ]
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "execTests",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "var",
+              "name": "xvar",
+              "value": "results = []",
+              "statements": []
+            },
+            {
+              "tag": "for",
+              "name": "xfor",
+              "value": "var k in this.executables",
+              "statements": [
+                {
+                  "tag": "foreach",
+                  "name": "foreach",
+                  "value": "r in this.executables[k].execTests()",
+                  "statements": [
+                    {
+                      "tag": "_",
+                      "name": "call",
+                      "value": "results.push(r)",
+                      "statements": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "results",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": []
+    },
+    {
+      "name": "executableRegExp",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "re"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "###"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "regexpElement",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "e"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "###"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "test",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "test"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "###"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "wzInitialize",
+          "isStatic": false,
+          "isKnownMethod": true,
+          "params": [],
+          "statements": [
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "this.expected = null",
+              "statements": []
+            },
+            {
+              "tag": "if",
+              "name": "xif",
+              "value": "this.nodes.length === 1 && this.nodes[0].wzElement === 'expected'",
+              "statements": [
+                {
+                  "tag": "set",
+                  "name": "set",
+                  "value": "this.expected = this.nodes[0].toValue()",
+                  "statements": []
+                }
+              ]
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "isExpected",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "results"
+          ],
+          "statements": [
+            {
+              "tag": "if",
+              "name": "xif",
+              "value": "this.expected == null",
+              "statements": [
+                {
+                  "tag": "return",
+                  "name": "xreturn",
+                  "value": "null",
+                  "statements": []
+                }
+              ]
+            },
+            {
+              "tag": "if",
+              "name": "xif",
+              "value": "!results",
+              "statements": [
+                {
+                  "tag": "if",
+                  "name": "xif",
+                  "value": "this.expected === 'null'",
+                  "statements": [
+                    {
+                      "tag": "return",
+                      "name": "xreturn",
+                      "value": "true",
+                      "statements": []
+                    }
+                  ]
+                },
+                {
+                  "tag": "else",
+                  "name": "xelse",
+                  "value": "",
+                  "statements": [
+                    {
+                      "tag": "return",
+                      "name": "xreturn",
+                      "value": "false",
+                      "statements": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "if",
+              "name": "xif",
+              "value": "verify.isArray(this.expected)",
+              "statements": [
+                {
+                  "tag": "if",
+                  "name": "xif",
+                  "value": "results.length != this.expected.length",
+                  "statements": [
+                    {
+                      "tag": "return",
+                      "name": "xreturn",
+                      "value": "false",
+                      "statements": []
+                    }
+                  ]
+                },
+                {
+                  "tag": "for",
+                  "name": "xfor",
+                  "value": "var i=0; i<results.length; i++",
+                  "statements": [
+                    {
+                      "tag": "if",
+                      "name": "xif",
+                      "value": "results[i] !== this.expected[i]",
+                      "statements": [
+                        {
+                          "tag": "return",
+                          "name": "xreturn",
+                          "value": "false",
+                          "statements": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "tag": "return",
+                  "name": "xreturn",
+                  "value": "true",
+                  "statements": []
+                }
+              ]
+            },
+            {
+              "tag": "else",
+              "name": "xelse",
+              "value": "",
+              "statements": [
+                {
+                  "tag": "return",
+                  "name": "xreturn",
+                  "value": "JSON.stringify(results) === JSON.stringify(this.expected)",
+                  "statements": []
+                }
+              ]
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": []
+    },
+    {
+      "name": "expected",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "expected"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "separator",
+          "type": "string",
+          "tags": [
+            "separator"
+          ],
+          "default": ",",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "###"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "toValue",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "if",
+              "name": "xif",
+              "value": "verify.isEmpty(this.wzName)",
+              "statements": [
+                {
+                  "tag": "if",
+                  "name": "xif",
+                  "value": "this.nodes.length === 0",
+                  "statements": [
+                    {
+                      "tag": "return",
+                      "name": "xreturn",
+                      "value": "null",
+                      "statements": []
+                    }
+                  ]
+                },
+                {
+                  "tag": "else",
+                  "name": "xelse",
+                  "value": "",
+                  "statements": [
+                    {
+                      "tag": "return",
+                      "name": "xreturn",
+                      "value": "this.nodes[0].toValue().value",
+                      "statements": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "else",
+              "name": "xelse",
+              "value": "",
+              "statements": [
+                {
+                  "tag": "if",
+                  "name": "xif",
+                  "value": "this.wzName === 'null'",
+                  "statements": [
+                    {
+                      "tag": "return",
+                      "name": "xreturn",
+                      "value": "this.wzName",
+                      "statements": []
+                    }
+                  ]
+                },
+                {
+                  "tag": "return",
+                  "name": "xreturn",
+                  "value": "this.wzName.trim().split(this.separator)",
+                  "statements": []
+                }
+              ]
+            }
+          ],
+          "comments": [
+            "loog 'expected', this"
+          ]
+        }
+      ],
+      "comments": []
+    },
+    {
+      "name": "bracket",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "["
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "###"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "bracketQuestionMark",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "[?"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "###"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "bracketPlus",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "[+"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "###"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "bracketHashmark",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "[#"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "###"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "ampersand",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "&"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "###"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "ampersandQuestionmark",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "[&?"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "###"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "ampersandPlus",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "[&+"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "###"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "ampersand",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "[&#"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "###"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "asterix",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "*"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "###"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "plus",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "+"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "###"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "questionMark",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "?"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "###"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "colon",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        ":"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "###"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "doubleColon",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "::"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "###"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "bar",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "|"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "###"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "doubleBar",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "",
+        "",
+        ""
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "###"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "doubleAmpersand",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "&&"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "###"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "paren",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "("
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "###"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "graph",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "{"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "###"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "parenQuestionMarkEqual",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "(?="
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "###"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "parenQuestionMarkExlamationPoint",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "(?!"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "###"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "parenColon",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "(:"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "###"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "bracketCap",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "[^"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "###"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "capDollar",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "^$"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "###"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "blank",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "blank"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "###"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "toRegExp",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "sb"
+          ],
+          "statements": [
+            {
+              "tag": "var",
+              "name": "xvar",
+              "value": "num = verify.isNumber(this.wzName) ? verify.convert(this.wzName, 'integer') : 1",
+              "statements": []
+            },
+            {
+              "tag": "_",
+              "name": "call",
+              "value": "sb.push(new Array(num + 1).join(' '))",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": []
+    }
+  ]
+}

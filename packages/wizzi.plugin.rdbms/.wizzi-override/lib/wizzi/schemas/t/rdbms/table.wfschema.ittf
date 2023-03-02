@@ -1,0 +1,325 @@
+﻿$group
+
+	e table : rdbmsitem
+
+		# A table is a set of columns and rows.
+		# The wzName is the ddl/sql name.
+
+		a label
+			# A text used on views to label the table.
+			# Optional. The default is the wzName.
+		
+		a_tag( namePlural, plural )
+			# The plural form of the wzName. Used to name collection objects.
+			# Optional. The default is calculated by inflector::pluralize.
+		
+		a_tag( labelPlural, label-plural )
+			# The plural form of the label attribute. Used on views to label collections.
+			# Optional. The default is calculated by inflector::pluralize.
+
+		a description
+			# A description of the table
+
+		r tableColumn/s
+			# Table columns
+		
+		r index/es
+			# Table indexes
+
+		r document/s
+			# Table documents
+
+		m wzinitialize
+			
+			require inflection
+				kind module
+			require isEmpty
+				kind function
+			require format
+				kind function
+
+			var name = this.wzName;
+			# name always lower case
+			set this.name = name.toLowerCase()
+			set this.nameCap = inflection.capitalize(name)
+			set this.sqlName = isEmpty(this.sqlName) ? name : this.sqlName
+			# label as declared in IttfDocument
+			set this.label = isEmpty(this.label) ? this.wzName : this.label
+			# name always lower case
+			set this.namePlural = isEmpty(this.namePlural) ? inflection.pluralize(name) : this.namePlural.toLowerCase()
+			set this.namePluralCap = inflection.capitalize(this.namePlural)
+			# label as declared in IttfDocument
+			set this.labelPlural = isEmpty(this.labelPlural) ? inflection.pluralize(this.wzName) : this.labelPlural
+
+		m primaryKey
+			return _.find(this.indexes, 
+				\ function(item){ return item.isPrimary; });
+		
+		m keyColumns
+			var pk = this.primaryKey()
+			if pk
+				reduce( pk.indexColumns )
+					_ memo.push(item.tableColumn)
+			else
+				return []
+		m keyName
+			var kcols = this.keyColumns();
+			return kcols && kcols.length == 1 ? kcols[0].wzName : 'Unknown';
+		
+		m notKeyColumns
+			var keycols = this.keyColumns()
+			filter( this.tableColumns )
+				return keycols.indexOf(item) < 0 
+        
+		m insertColumns
+			filter( this.tableColumns )
+				return item.canInsert() == true
+
+		m insertParameters
+			filter( this.tableColumns )
+				return (item.isInsertParam === true || item.isKey()) && item.canInsert()
+        
+		m updateSetColumns
+			return _.filter(this.notKeyColumns(), function(item){ return item.canUpdate(); }) 
+        
+		m updateWhereColumns
+			filter( this.tableColumns )
+				return item.canUpdate()
+        
+		m textColumns
+			filter( this.tableColumns )
+				return item.domain == 'string' 
+        
+		m proxyColumns
+			filter( this.tableColumns )
+				return item.isProxy 
+		
+		m lookUps
+			reduce( this.tableColumns )
+				foreach l in item.lookUps
+					_ memo.push(l)
+        
+		m enumReferences
+			reduce( this.tableColumns )
+				if item.enumReference != null
+					_ memo.push(item)
+        
+		m tableColumnArguments
+			return tableHelper.ArgumentsToString(this.tableColumns);
+        
+		m keyArguments
+			return tableHelper.ArgumentsToString(this.keyColumns());
+        
+		m keyParameters
+			return tableHelper.ParametersToString(this.keyColumns());
+        
+		m keyParametersToStringTrace
+			return tableHelper.ParametersToStringTrace(this.keyColumns());
+        
+		m keyTestValues
+			param separator
+			return tableHelper.TestValuesToString(this.keyColumns(), separator);
+        
+		m keyParametersInstance
+			param instance
+			return tableHelper.ParametersToStringInstance(this.keyColumns(), instance);
+        
+		m keyParametersInstanceToStringTrace
+			param instance
+			return tableHelper.ParametersInstanceToStringTrace(this.keyColumns(), instance);
+        
+        
+		$* this was for CSharp
+		m insertArguments
+			var s = tableHelper.ArgumentsToString(this.insertColumns());
+			return this.primaryKeyIsIdentity() ? s += ", out int identity" : s;
+
+		m insertParameters
+			var s = tableHelper.ParametersToString(this.insertColumns());
+			return this.primaryKeyIsIdentity() ? s += ", out identity" : s;
+        
+		m insertParametersToStringTrace
+            return tableHelper.ParametersToStringTrace(this.insertColumns());
+        
+		m insertArgumentsController
+            return tableHelper.ArgumentsControllerToString(this.insertColumns());
+        
+		m updateArguments
+            return tableHelper.ArgumentsToString(this.updateWhereColumns());
+        
+		m updateArgumentsController
+            return tableHelper.ArgumentsControllerToString(this.updateWhereColumns());
+		*$
+        
+		m oneRelations
+			
+			reduce( this.wzParent.relations )
+				if item.manyTableName === this.wzName
+					_ memo.push(item)
+        
+		m oneRelationsUnique
+			reduce( this.wzParent.relations )
+				if item.manyTableName === this.wzName && 
+					\ _.find(memo, function(item2) { item2.oneTable.wzName === item.oneTable.wzName }) == null
+					_ memo.push(item)
+		
+		m oneRelationsProxy
+			return _.filter(this.oneRelations(), function(item) { return item.parentIsProxy; } ) 
+        
+		m oneKeys
+			return ['oneKeys_TODO']
+		
+		m manyRelations
+			reduce( this.wzParent.relations )
+				if item.oneTableName === this.wzName && item.manyTable() != null
+					_ memo.push(item)
+        
+		m childProxyRelations
+			reduce( this.wzParent.relations )
+				if item.oneTableName === this.wzName && item.parentIsProxy
+					_ memo.push(item)
+        
+		m oneTables
+			reduce( this.oneRelations() )
+				_ memo.push(this.wzParent.getTable(item.oneTableName))
+        
+		m manyTables
+			reduce( this.manyRelations() )
+				if item.manyTable()
+					_ memo.push(item.manyTable())
+        
+		m hasOneTables
+			return this.oneRelations().length > 0;
+        
+		m hasManyTables
+			return this.manyRelations().length > 0;
+        
+		m keySqlColumnsToString
+			param separator
+			param quoted
+			return tableHelper.SqlColumnsToString(this.keyColumns(), separator, quoted);
+        
+		m keyPropertiesToString
+			param separator
+			param prefix
+			return tableHelper.PropertiesToString(this.keyColumns(), separator, prefix);
+        
+		m sqlColumnsToString
+			param separator
+			param quoted
+			return tableHelper.SqlColumnsToString(this.tableColumns, separator, quoted);
+        
+		m keyFieldsToString
+			param separator
+			return tableHelper.FieldsToString(this.keyColumns(), separator);
+        
+		m insertFieldsToString
+			param separator
+			return tableHelper.FieldsToString(this.insertColumns(), separator);
+        
+		m updateWhereFieldsToString
+			param separator
+			return tableHelper.FieldsToString(this.updateWhereColumns(), separator);
+        
+		m updateSetSqlColumnsToString
+			param separator
+			param quoted
+			return tableHelper.SqlColumnsToString(this.updateSetColumns(), separator, quoted);
+		
+		m updateWhereSqlColumnsToString
+			param separator
+			param quoted
+			return tableHelper.SqlColumnsToString(this.updateWhereColumns(), separator, quoted);
+        
+		m textColumnsParametersInstance
+			param instance
+			return tableHelper.ParametersToStringInstance(this.textColumns(), instance);
+        
+		m concatTextColumns
+			param instance
+			param separator
+			return tableHelper.ConcatTextInstance(this.textColumns(), instance, separator);
+        
+		m columnsTestValues
+			param separator
+			return tableHelper.TestValuesToString(this.tableColumns, separator);
+        
+		m insertFieldsTestValues
+			param separator
+			return tableHelper.TestValuesToString(this.insertColumns(), separator);
+        
+		m updateWhereTestValues
+			param separator
+			return tableHelper.TestValuesToString(this.updateWhereColumns(), separator);
+		
+		m getTableColumnByName
+			param name
+			param caseSensitive
+            var name = caseSensitive ? name : name.toLowerCase()
+			foreach item in this.tableColumns
+				if caseSensitive ? item.wzName === name : item.wzName.toLowerCase() === name
+					return item
+			return null
+        
+		m keyColumnsToAndCondition
+			param columntemplate
+			param booloperator
+			param values
+			return tableHelper.ColumnsToAndCondition(this.keyColumns(), booloperator, columntemplate, values)
+        
+		m cmbLabel
+			foreach item in this.labels
+				if item.wzName.toLowerCase() === "cmb" 
+					return item
+			return null
+        
+		m hasCmbLabel
+			return this.cmbLabel() != null
+
+		m testInfo
+			param ctx
+			set ctx.primaryKey = this.primaryKey()
+			set ctx.keyColumns = this.keyColumns()
+			set ctx.keyName = this.keyName()
+			set ctx.notKeyColumns = this.notKeyColumns()
+			set ctx.insertParameters = this.insertParameters()
+			set ctx.updateSetColumns = this.updateSetColumns()
+			set ctx.updateWhereColumns = this.updateWhereColumns()
+			set ctx.textColumns = this.textColumns()
+			set ctx.proxyColumns = this.proxyColumns()
+			# TODO set ctx.lookUps = this.lookUps()
+			# TODO set ctx.enumReferences = this.enumReferences()
+			set ctx.tableColumnArguments = this.tableColumnArguments()
+			set ctx.keyArguments = this.keyArguments()
+			set ctx.keyParameters = this.keyParameters()
+			set ctx.keyParametersToStringTrace = this.keyParametersToStringTrace()
+			set ctx.keyTestValues = this.keyTestValues()
+			set ctx.keyParametersInstance = this.keyParametersInstance("instance")
+			set ctx.keyParametersInstanceToStringTrace = this.keyParametersInstanceToStringTrace('instance')
+			# TODO set ctx.insertArguments = this.insertArguments()
+			set ctx.oneRelations = this.oneRelations()
+			set ctx.oneRelationsUnique = this.oneRelationsUnique()
+			set ctx.oneRelationsProxy = this.oneRelationsProxy
+			set ctx.oneKeys = this.oneKeys()
+			set ctx.manyRelations = this.manyRelations()
+			set ctx.childProxyRelations = this.childProxyRelations()
+			set ctx.oneTables = this.oneTables()
+			set ctx.manyTables = this.manyTables()
+			set ctx.hasOneTables = this.hasOneTables
+			set ctx.hasManyTables = this.hasManyTables()
+			set ctx.keySqlColumnsToString = this.keySqlColumnsToString(' - ', true)
+			set ctx.keyPropertiesToString = this.keyPropertiesToString(' - ', 'k')
+			set ctx.sqlColumnsToString = this.sqlColumnsToString(',', true)
+			set ctx.keyFieldsToString = this.keyFieldsToString()
+			set ctx.insertFieldsToString = this.insertFieldsToString('-')
+			set ctx.updateWhereFieldsToString = this.updateWhereFieldsToString(';')
+			set ctx.updateSetSqlColumnsToString = this.updateSetSqlColumnsToString(';', true)
+			set ctx.updateWhereSqlColumnsToString = this.updateWhereSqlColumnsToString(',', true)
+			set ctx.textColumnsParametersInstance = this.textColumnsParametersInstance('instance')
+			set ctx.concatTextColumns = this.concatTextColumns('instance', ',')
+			set ctx.columnsTestValues = this.columnsTestValues(';')
+			set ctx.insertFieldsTestValues = this.insertFieldsTestValues(',')
+			set ctx.updateWhereTestValues = this.updateWhereTestValues(';')
+			# set ctx.keyColumnsToAndCondition = this.keyColumnsToAndCondition(' .. template...', '&&', values )
+			# TODO set ctx.cmbLabel = this.cmbLabel()
+			# TODO set ctx.hasCmbLabel = this.hasCmbLabel()

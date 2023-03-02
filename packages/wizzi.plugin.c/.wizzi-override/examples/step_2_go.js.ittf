@@ -1,0 +1,142 @@
+module
+    kind es6
+
+    $
+        var md = {
+            name: 'c_examples_step_2',
+            description: 'Second `c` Wizzi Model',
+            level: 0,
+            step: 2
+        }
+
+    example_step( &md )
+        $append imports
+            const spawn = require("child_process").spawn;
+
+        _ wizzi.fsFactory
+            {
+                @ plugins
+                    {
+                        [ items
+                            @ './index'
+                        @ pluginsBaseFolder
+                            _ path.resolve
+                                @ __dirname
+                                @ '..'
+            a_cb_throw( wf )
+                _ wf.loadModelAndGenerateArtifact
+                    _ path.join
+                        @ __dirname
+                        @ 'step_${md.step}'
+                        @ 'first.c.ittf'
+                    {
+                        @ modelRequestContext {}
+                        @ artifactRequestContext {}
+                    @ 'c/module'
+                    a_cb_throw( artifactText )
+                        info artifactText
+                        const resultScriptPath
+                            _ path.join
+                                @ __dirname
+                                @ 'step_${md.step}'
+                                @ 'result'
+                                @ 'step${md.step}.c'
+                        const exePath
+                            _ path.join
+                                @ __dirname
+                                @ 'step_${md.step}'
+                                @ 'result'
+                                @ 'step${md.step}.exe'
+                        _ fsfile.write
+                            @ resultScriptPath
+                            @ artifactText
+                        const cProcess
+                            _ spawn
+                                @ 'C:\\msys64\\mingw64\\bin\\gcc.exe'
+                                [
+                                    @ '-g'
+                                    @ resultScriptPath
+                                    @ "-o"
+                                    @ exePath
+                                {
+                                    @ cwd "C:\\msys64\\mingw64\\bin"
+                                    @ timeout 1000
+                                    @ killSignal "SIGTERM"
+                                    @ stdio 'inherit'
+                                    @ shell true
+                        if cProcess.stdout 
+                            _ cProcess.stdout.on
+                                @ 'data'
+                                function
+                                    param data
+                                    _ printValue
+                                        @ 'c stdout'
+                                        _ data.toString
+                                        @ 'dashes'
+                        if cProcess.stderr 
+                            _ cProcess.stderr.on
+                                @ 'data'
+                                function
+                                    param data
+                                    _ printValue
+                                        @ 'c stderr'
+                                        _ data.toString
+                                        @ 'dashes'
+                        _ cProcess.on
+                            @ 'message'
+                            function
+                                param message
+                                info `child process message`, message
+                        _ cProcess.on
+                            @ 'error'
+                            function
+                                param err
+                                info `child process error`, err
+                        _ cProcess.on
+                            @ 'exit'
+                            function
+                                param code
+                                info `child process exited with code ${code}`                                 
+                                const cResultExe
+                                    _ spawn
+                                        @ exePath
+                                        [
+                                        {
+                                            @ cwd path.dirname(exePath)
+                                            @ timeout 1000
+                                            @ killSignal "SIGTERM"
+                                            @ stdio 'inherit'
+                                            @ shell true
+                                if cResultExe.stdout 
+                                    _ cResultExe.stdout.on
+                                        @ 'data'
+                                        function
+                                            param data
+                                            _ printValue
+                                                @ 'c stdout'
+                                                _ data.toString
+                                                @ 'dashes'
+                                if cResultExe.stderr 
+                                    _ cResultExe.stderr.on
+                                        @ 'data'
+                                        function
+                                            param data
+                                            _ printValue
+                                                @ 'c stderr'
+                                                _ data.toString
+                                                @ 'dashes'
+                                _ cResultExe.on
+                                    @ 'message'
+                                    function
+                                        param message
+                                        info `child process message`, message
+                                _ cResultExe.on
+                                    @ 'error'
+                                    function
+                                        param err
+                                        info `child process error`, err
+                                _ cResultExe.on
+                                    @ 'exit'
+                                    function
+                                        param code
+                                        info `child process exited with code ${code}`

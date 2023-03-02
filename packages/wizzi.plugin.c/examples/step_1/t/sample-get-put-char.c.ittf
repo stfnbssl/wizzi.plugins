@@ -1,0 +1,21 @@
+$group
+
+    function sample_get_put_char
+        heading ("Esempio getchar, putchar");
+        int c;
+        printf ("Enter string, terminate with Ctrl-z\n");
+
+        // EOF = Ctrl+z
+        while (c = getchar()) != EOF 
+            putchar (c);
+
+        heading2 ("Count chars");
+        printf ("Enter string, terminate with Ctrl-z\n");
+        long nc;
+        nc = 0;
+        while (c = getchar()) != EOF 
+            ++nc;
+        printf ("Num chars: %ld\n", nc);
+        for nc = 0; getchar() != EOF; nc++
+            ;
+        printf ("Num chars: %ld\n", nc);        

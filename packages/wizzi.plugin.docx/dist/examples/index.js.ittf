@@ -43,7 +43,7 @@ module
                 @ 'Temi caldi'
                 @ 'Giochi-Movimento'
 
-            f_cb_no_throw( result )
+            a_cb_no_throw( result )
                 if err
                     log 'docx.examples.executeGenerateModules.err', err
                     log 'docx.examples.executeGenerateModules.err.toString()', err.toString()
@@ -71,7 +71,7 @@ module
                     # log 'context', context
                     _ transformContext
                         @ context
-                        f_cb( context )
+                        a_cb( context )
                             # log 'context', context
                             var outputPath
                                 _ path.join
@@ -138,7 +138,7 @@ module
                                 {
                                     @ category context.category
                                 @ 'docx/document'
-                                f_cb( artifactText )
+                                a_cb( artifactText )
                                     _ file.write
                                         @ outputPath
                                         @ artifactText
@@ -149,7 +149,7 @@ module
                                 @ ittfDocumentUri
                                 {
                                     @ beba context
-                                f_cb( debugInfo )
+                                a_cb( debugInfo )
                                     log 'debugInfo', debugInfo
                                     _ file.write
                                         @ outputPathDebugTxt
@@ -172,7 +172,7 @@ module
                                                     @ beba context
                                                     @ bebaItem context.items[0]
                                                 @ 'docx/document'
-                                                f_cb( artifactText )
+                                                a_cb( artifactText )
                                                     _ file.write
                                                         @ outputPath
                                                         @ artifactText

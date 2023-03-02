@@ -1,0 +1,26 @@
+set ${t.wzName}Table.prototype.delete
+	function
+		param key_or_obj
+
+		if util.isString(key_or_obj)
+			set key_or_obj
+				{
+					@ key key_or_obj
+		
+		var extant
+			_ this.findOne(key_or_obj)
+		
+		if !extant
+			_ console.log('${t.wzName} not in DB: ')
+			return false
+		
+		else 
+			
+			info 'deleting ${t.wzName} object:'
+			info key_or_obj.name
+			
+			_ this.persister.deleteItem
+				@ '${t.wzName}'
+				@ key_or_obj
+			
+			return true

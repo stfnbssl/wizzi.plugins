@@ -1,0 +1,12 @@
+﻿$group
+	$params name, type
+
+	if this['${name}']
+		_ ret.push
+			{
+				@ name '${name}'
+				$if type == 'array'
+					@ value this['${name}'].split(',').trim()
+				$else
+					@ value this['${name}']
+				@ facetType '${type}'

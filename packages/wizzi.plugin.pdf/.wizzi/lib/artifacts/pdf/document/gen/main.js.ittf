@@ -1,0 +1,377 @@
+module
+    kind es6
+    $
+        var md = {
+            plugin: '',
+            name: 'document',
+            schema: 'pdf',
+            checkSchema: true,
+            isAsync: true,
+        };
+    v08/lib/artifacts/gen(&md)
+        $append imports
+        $append main
+            _ md.pdf
+                @ model
+                @ ctx
+                a_cb( )
+                    if ctx.artifactGenerationErrors.length > 0
+                        r_cb_err( ctx.artifactGenerationErrors )
+                    else
+                        # generation OK
+                        r_cb( ctx )
+        +
+        const noindent
+            {
+                @ indent false
+        +
+        function respace
+            param text
+            set text = verify.replaceAll(text, '&nbsp;', ' ')
+            return verify.replaceAll(text, '"', '\\"')
+            
+        +
+        async-md( pdf )
+            # log "ctx.keys", Object.keys(ctx)
+            # log "ctx.values property", ctx.values
+            # log 'tag pdf, nodes', model.nodes.length
+
+            set ctx.values.pdfStack = []
+            set ctx.values.pdfCounter = 0
+            set ctx.values.pdfMainObject = 'pdf_MainObject'
+            set ctx.values.mainObjectCreated = false
+            set ctx.values.bulletLevel = 0
+            
+            var pdfNode = "pdf_doc_" + (++ctx.values.pdfCounter)
+            set ctx.values.pdfMainDocumentDefinition = pdfNode
+            _ ctx.values.pdfStack.push
+                {
+                    @ node pdfNode
+                    @ arrayName null
+            set ctx.values.pdfMainInternalObject = pdfNode
+            
+            _ ctx.w('const fs = require("fs");')
+            _ ctx.w('const pdfmake = require("pdfmake");')
+            _ ctx.w('')
+            _ ctx.w('const ' + pdfNode + ' = { content: [], styles: {} };')
+            _ md.genItems
+                @ model.nodes
+                @ ctx
+                @ noindent
+                a_cb()
+                    _ ctx.w('')
+                    _ ctx.w('// Make Pdf')
+                    _ ctx.w('')
+                    _ ctx.w('// Build document definition')
+                    _ ctx.w('var now = new Date();')
+                    _ ctx.w('var documentDefinition = ' + ctx.values.pdfMainDocumentDefinition + ';')
+                    _ ctx.w('pdf_MainObject.sections.forEach(section => {')
+                    _ ctx.w('    section.content.forEach(contentItem => {')
+                    _ ctx.w('        documentDefinition.content.push(contentItem);')
+                    _ ctx.w('    });')
+                    _ ctx.w('    Object.assign({}, documentDefinition.styles, section.styles);')
+                    _ ctx.w('});')
+                    $if wzConfigIsDevelopment
+                        _ ctx.w('')
+                        _ ctx.w('// Dump for test')
+                        _ ctx.w('    fs.writeFileSync(__dirname + "/' + model.wzName + '.json", JSON.stringify(documentDefinition, null, "\t"));')
+                    _ ctx.w('')
+                    _ ctx.w('// Set fonts')
+                    _ ctx.w('var fonts = {')
+                    _ ctx.w('	Roboto: {')
+                    _ ctx.w('		normal: __dirname + "/fonts/Roboto-Regular.ttf",')
+                    _ ctx.w('		bold: __dirname + "/fonts/Roboto-Medium.ttf",')
+                    _ ctx.w('		italics: __dirname + "/fonts/Roboto-Italic.ttf",')
+                    _ ctx.w('		bolditalics: __dirname + "/fonts/Roboto-MediumItalic.ttf"')
+                    _ ctx.w('	}')
+                    _ ctx.w('};')
+                    _ ctx.w('')
+                    _ ctx.w('// Create document')
+                    _ ctx.w('var printer = new pdfmake(fonts);')
+                    _ ctx.w('var pdfDoc = printer.createPdfKitDocument(documentDefinition);')
+                    _ ctx.w('pdfDoc.pipe(fs.createWriteStream(__dirname + "/' + (model.wzName || 'created') + '.pdf"));')
+                    _ ctx.w('pdfDoc.end();')
+                    _ ctx.w('console.log("DONE written", new Date() - now)')
+                    r_cb()
+
+        +
+        async-md( section )
+            # log 'tag section, value', model.wzName
+            
+            var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1]
+            var pdfNode = "pdf_sect_" + (++ctx.values.pdfCounter)
+            _ ctx.values.pdfStack.push
+                {
+                    @ node pdfNode
+                    @ arrayName "content"
+            _ ctx.w('const ' + pdfNode + ' = { content: [], styles: {} };')
+            _ md.genItems
+                @ model.nodes
+                @ ctx
+                @ noindent
+                a_cb()
+                    if ctx.values.mainObjectCreated == false
+                        # _ ctx.w('const ' + ctx.values.pdfMainObject + ' = new pdf.Document(' + ctx.values.pdfMainInternalObject + ');')
+                        _ ctx.w('const ' + ctx.values.pdfMainObject + ' = { sections : [] };')
+                        set ctx.values.mainObjectCreated = true
+                    _ ctx.w(pdfNode + ".content.push({ text: ' ', pageBreak: 'after'});")
+                    _ ctx.w(ctx.values.pdfMainObject + '.sections.push(' + pdfNode + ');')
+                    _ ctx.values.pdfStack.pop()
+                    r_cb()
+        +
+        objectNode.js( p, text )   
+            _ ctx.w(pdfNode + '.text = [];')
+            if !verify.isEmpty(model.wzName)
+                _ ctx.w(pdfNode + '.text.push("' + respace(model.wzName) + '");')
+            $append close
+                _ ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');')
+
+        objectNode.js( columns, columns )   
+            _ ctx.w(pdfNode + '.columns = [];')
+            $append close
+                _ ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');')
+
+        objectNode.js( stack, stack )   
+            _ ctx.w(pdfNode + '.stack = [];')
+            $append close
+                _ ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');')
+
+        objectNode.js( image )
+            _ ctx.w(pdfNode + '.image = "' + model.wzName + '";')
+            $append close
+                _ ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');')
+
+        async-md( imageDef )
+            if ctx.values.mainObjectCreated == false
+                _ ctx.w('const ' + ctx.values.pdfMainObject + ' = new pdf.Document(' + ctx.values.pdfMainInternalObject + ');')
+                set ctx.values.mainObjectCreated = true
+            _ ctx.w('const ' + model.wzName + ' = pdf.Media.addImage(')
+            # _ ctx.w('  ' + ctx.values.pdfMainObject + ', 300, 300,')
+            _ ctx.w('  ' + ctx.values.pdfMainObject + ',')
+            _ ctx.w('  fs.readFileSync("' + verify.replaceAll(model.src, '\\', '\\\\') + '")')
+            _ ctx.w(');')
+            r_cb()
+
+        async-md( imageRef )
+            var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1]
+            _ ctx.w(pdfParent + '.children.push(' + model.wzName + ');')
+            r_cb()
+
+        +
+        headings( 1 )
+        headings( 2 )
+        headings( 3 )
+        headings( 4 )
+        headings( 5 )
+        headings( 6 )
+
+        textNode.js( text )
+        
+        textNode.js( bold )
+            _ ctx.w(pdfNode + '.bold = true;')
+        textNode.js( italics ) 
+            _ ctx.w(pdfNode + '.italics = true;')
+        textNode.js( underline ) 
+            _ ctx.w(pdfNode + '.underline = true;')
+        
+        
+        nodeProperty.js( pageOrientation, pageOrientation, string )
+        nodeProperty.js( pageSize, pageSize, string )
+        nodeProperty.js( pageMargins, pageMargins, array )
+        nodeProperty.js( boldProp, bold, true )
+        nodeProperty.js( italicsProp, italics, true )
+        nodeProperty.js( underlineProp, underline, true )
+        nodeProperty.js( emphasisMark, emphasisMark, true )
+        nodeProperty.js( strike, strike, true )
+        nodeProperty.js( doubleStrike, doubleStrike, true )
+        nodeProperty.js( superScript, superScript, true )
+        nodeProperty.js( subScript, subScript, true )
+        nodeProperty.js( smallCaps, smallCaps, true )
+        nodeProperty.js( allCaps, allCaps, true )
+        nodeProperty.js( font, font, string )
+        nodeProperty.js( fontSize, fontSize )
+
+        nodeProperty.js( xbreak, break, true )
+        nodeProperty.js( size, size )
+        nodeProperty.js( color, color, string )
+        nodeProperty.js( background, background, string )
+        nodeProperty.js( fill, background, string )
+        nodeProperty.js( xname, name, string )
+        nodeProperty.js( highlight, highlight, string )
+        nodeProperty.js( style, style, string )
+        nodeProperty.js( next, next, string )
+        nodeProperty.js( basedOn, basedOn, string )
+        nodeProperty.js( before, before )
+        nodeProperty.js( after, after )
+        nodeProperty.js( line, line )
+        nodeProperty.js( link, link, string )
+        nodeProperty.js( linkText, text, string )
+        nodeProperty.js( value, value, string )
+        nodeProperty.js( space, space )
+        nodeProperty.js( height, height )
+        nodeProperty.js( margin, margin, array )
+        nodeProperty.js( width, width )
+        nodeProperty.js( widths, table.widths, array )
+        nodeProperty.js( headerRows, table.headerRows )
+        nodeProperty.js( layout, layout, string )
+        nodeProperty.js( noWrap, noWrap, true )
+        nodeProperty.js( columnGap, columnGap )
+        
+        nodePropertyChoice.js( xtype)
+            if model.wzParent.wzElement == 'shading'
+                _ ctx.w(pdfParent + '.type = pdf.ShadingType.' + model.wzName + ';')
+            elif model.wzParent.wzElement == 'width'
+                _ ctx.w(pdfParent + '.type = pdf.WidthType.' + model.wzName + ';')
+            elif model.wzParent.wzElement == 'tabStop'
+                _ ctx.w(pdfParent + '.type = pdf.TabStopType.' + model.wzName + ';')
+            elif model.wzParent.wzElement == 'underline'
+                _ ctx.w(pdfParent + '.type = pdf.UnderlineType.' + model.wzName + ';')
+            elif model.wzParent.wzElement == 'hyperlinkDef'
+                if model.wzName && model.wzName.length > 0
+                    _ ctx.w(pdfParent + '.type = pdf.HyperlinkType.' + model.wzName + ';')
+                else
+                    _ ctx.w(pdfParent + '.type = pdf.HyperlinkType.EXTERNAL;')
+            else
+                _ ctx.w(pdfParent + '.type = "' + model.wzName + '";')
+        
+        nodePropertyChoice.js( position )
+            if model.wzParent.wzElement == 'tabStop'
+                if verify.isNumber(model.wzName)
+                    _ ctx.w(pdfParent + '.position = ' + model.wzName + ';')
+                else
+                    _ ctx.w(pdfParent + '.position = pdf.TabStopPosition.' + model.wzName + ';')
+            else
+                _ ctx.w(pdfParent + '.position = ' + model.wzName + ';')
+
+        nodePropertyChoice.js( alignment )
+            _ ctx.w(pdfParent + '.alignment = "' + model.wzName + '";')
+        
+        nodePropertyChoice.js( hyperlinkRef )
+            _ ctx.w(pdfParent + '.children.push(new pdf.HyperlinkRef("' + model.wzName + '"));')
+
+        $*
+        async-md( xtype )
+            var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1]
+            if model.wzParent.wzElement == 'shading'
+                _ ctx.w(pdfParent + '.type = pdf.ShadingType.' + model.wzName + ';')
+            elif model.wzParent.wzElement == 'width'
+                _ ctx.w(pdfParent + '.type = pdf.WidthType.' + model.wzName + ';')
+            else
+                _ ctx.w(pdfParent + '.type = "' + model.wzName + '";')
+            r_cb()
+        *$
+        +
+        async-md( font )
+
+            pdfNode.js( fnt )
+            _ ctx.w('const ' + pdfNode + ' = {};')
+        
+            _ md.genItems
+                @ model.nodes
+                @ ctx
+                @ noindent
+                a_cb()
+                    _ ctx.w(pdfParent + '.font = ' + pdfNode + ';')
+                    _ ctx.values.pdfStack.pop()
+                    r_cb()
+
+        +
+        async-md( shading )
+
+            pdfNode.js( shd )
+            _ ctx.w('const ' + pdfNode + ' = {};')
+        
+            _ md.genItems
+                @ model.nodes
+                @ ctx
+                @ noindent
+                a_cb()
+                    _ ctx.w(pdfParent + '.shading = ' + pdfNode + ';')
+                    _ ctx.values.pdfStack.pop()
+                    r_cb()
+
+        objectNode.js( table, body )
+            _ ctx.w(pdfNode + '.table = { body: [] };')
+            $append close
+                _ ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');')                
+
+        objectNode.js( tr, tds )   
+            _ ctx.w(pdfNode + '.tds = [];')
+            $append close
+                _ ctx.w(pdfParent + '.table.body.push(' + pdfNode + '.tds);')
+
+        objectNode.js( underline )   
+            $append close
+                _ ctx.w(pdfNode + '.underline = ' + pdfNode + ';')
+
+        objectNode.js( styles )
+            $append close
+                _ ctx.w(pdfParent + '.styles = ' + pdfNode + ';')
+
+        objectNode.js( xdefault )
+            $append close
+                _ ctx.w(pdfParent + '.default = ' + pdfNode + ';')
+
+        objectNode.js( run )
+            $append close
+                _ ctx.w(pdfParent + '.run = ' + pdfNode + ';')
+        
+        objectNode.js( tabStop )
+            $append close
+                _ ctx.w(pdfParent + '.tabStops.push(' + pdfNode + ');')
+
+        objectNode.js( styleDef )
+            if model.wzParent.wzElement == 'paragraphStyles'
+                _ ctx.w(pdfNode + '.id = "' + model.wzName + '";')
+            $append close
+                if model.wzParent.wzElement == 'xdefault'
+                    _ ctx.w(pdfParent + '.' + model.wzName + ' = ' + pdfNode + ';')
+                else
+                    _ ctx.w(pdfParent + '.styles["' + model.wzName + '"] = ' + pdfNode + ';')
+
+        objectNode.js( defaultStyleDef )
+            $append close
+                _ ctx.w(pdfParent + '.defaultStyle = ' + pdfNode + ';')
+
+        objectNode.js( spacing )
+            $append close
+                _ ctx.w(pdfParent + '.spacing = ' + pdfNode + ';')
+
+        objectNode.js( hyperlinks )
+            $append close
+                _ ctx.w(pdfParent + '.hyperlinks = ' + pdfNode + ';')
+
+        objectNode.js( hyperlinkDef )
+            $append close
+                _ ctx.w(pdfParent + '.' + model.wzName + ' = ' + pdfNode + ';')
+
+        objectNode.js( border )
+            $append close
+                _ ctx.w(pdfParent + '.border = ' + pdfNode + ';')
+
+
+        $$ objectNodeSimple.js( border )
+        objectNodeSimple.js( top )
+        objectNodeSimple.js( left )
+        objectNodeSimple.js( right )
+        objectNodeSimple.js( bottom )
+
+        arrayNode.js( paragraphStyles )
+            $append close
+                _ ctx.w(pdfParent + '.paragraphStyles = ' + pdfNode + ';')
+
+        objectNode.js( ul, ul )
+            _ ctx.w(pdfNode + '.ul = [];')
+            $append close
+                _ ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');')
+
+        objectNode.js( ol, ol )
+            _ ctx.w(pdfNode + '.ul = [];')
+            $append close
+                _ ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');')
+
+        objectNode.js( li, text )
+            _ ctx.w(pdfNode + '.text = [];')
+            $append close
+                _ ctx.w(pdfParent + '.children.push(' + pdfNode + 'Obj);')
+                _ ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');')                

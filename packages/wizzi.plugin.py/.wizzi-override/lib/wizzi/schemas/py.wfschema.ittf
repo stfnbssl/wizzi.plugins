@@ -1,0 +1,24 @@
+wfschema py
+
+    e statement
+		# A statement line node with unlimited depth.
+		# Is the schema base node.
+		# In itself works as a comment line.
+		tag #
+		r statement/s
+
+	e codeline : statement
+
+    e py : statement
+		is-root
+        any codeline/statements
+
+	e param
+
+    e function : statement
+        r param/s
+        any codeline/statements
+	
+    e return : statement
+
+    $include py/classes

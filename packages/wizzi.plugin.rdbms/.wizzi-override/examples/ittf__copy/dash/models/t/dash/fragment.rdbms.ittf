@@ -1,0 +1,47 @@
+﻿$group
+
+	t_pk( projectFragment, userName, projectName, fragmentName )
+
+		# Fragments at the project level
+
+		c schema
+		c ittfDocument
+			domain document
+	
+	t_pk( sectionFragment, userName, projectName, sectionName, fragmentName )
+	
+		# Models at the section level
+
+		c schema
+		c ittfDocument
+			domain document
+
+	t_pk( schemaFragment, userName, projectName, schemaName, fragmentName )
+	
+		# Fragments of a schema definition
+
+		c ittfDocument
+			domain document
+
+	t_pk( artifactFragment, userName, projectName, schemaName, artifactName, fragmentName )
+	
+		# Fragments may be used for the composition of ArtifactGenerators
+
+		c ittfDocument
+			domain document
+
+	t_pk( schemaContextFragment, userName, projectName, schemaName )
+
+		# Context fragments may be used for the composition of WizziSchemaModelTypes
+
+		c schema
+		c ittfDocument
+			domain document
+
+	t_pk( artifactContextFragment, userName, projectName, schemaName, artifactName, fragmentName )
+	
+		# Context fragments may be used for the composition of ArtifactGenerators
+
+		c schema
+		c ittfDocument
+			domain document

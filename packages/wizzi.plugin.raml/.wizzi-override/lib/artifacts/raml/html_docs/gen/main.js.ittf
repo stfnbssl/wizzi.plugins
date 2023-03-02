@@ -1,0 +1,37 @@
+﻿module
+	kind jsfile
+
+	var util = require('util')
+	var path = require('path')
+	var wizzi = require('wizzi')
+
+	var md = module.exports = {}
+	var myname = 'raml.html.docs.main'
+
+	set md.gen
+		function
+			param model
+			param ctx
+			param callback
+
+			_ wizzi.fsFactory
+				{
+					{ plugins
+						[ items
+							@ 'wizzi-core'
+							@ 'wizzi-web'
+				a_cb( wf )
+					_ wf.loadModelAndGenerateArtifact
+						_ path.join
+							@ __dirname
+							@ 'ittf'
+							@ 'raml-docs.html.ittf'
+						{
+							{ modelRequestContext
+								@ raml model
+							@ artifactRequestContext {}
+						@ 'html/document'
+						a_cb( artifactText )
+							# loog 'raml.html_docs.artifactText', artifactText
+							_ ctx.w(artifactText)
+							r_cb( ctx )

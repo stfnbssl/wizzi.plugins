@@ -1,0 +1,89 @@
+﻿c 
+
+    #include <stdio.h>      // for printing to stdout.
+    
+    function heading
+        param char* text  
+        printf ("\n\n%s\n", text);
+        printf ("========================================\n");
+    
+    function heading2
+        param char* text  
+        printf ("\n\n    %s\n", text);
+        printf ("    ------------------------------------\n");
+
+    $include sample-for
+    $include sample-get-put-char
+    
+    function sample_vector
+        heading ("Esempio vettori");
+        int a[5];
+        int *pa;
+        for int i = 0; i<5; i++ 
+            a[i] = i*10; 
+        pa = &a[3];
+        printf ("L'elemento %d ha valore: %d, e indirizzo: %p", 3, *pa, pa);
+        printf ("L'elemento %d+1 ha valore: %d, e indirizzo: %p", 3, *(pa+1), pa+1);
+        printf ("La differenza tra gli indirizzi di %d e %d+1 è: %d", 3, 3, (pa+1) - (pa));
+
+    function sample_switch
+        param int a
+        param float b
+        param float c
+         
+        heading ("Esempio switch");
+        switch (a)
+            case 1
+                b = b+c;
+                printf ("Il risultato dell'addizione e': %f",b);
+                break;
+            case 2
+                b = b-c;
+                printf ("Il risultato della sottrazione e': %f",b);
+                break;
+            case 3
+                b = b*c;
+                printf ("Il risultato della moltiplicazione e': %f",b);
+                break;
+            case 4
+                b = b/c;
+                printf ("Il risultato della moltiplicazione e': %f",b);
+                break;
+            default
+                printf ("Scelta sbagliata");
+                break;
+         
+    function main
+        printf ("Hello world\n");
+        
+        sample_for ();
+        sample_get_put_char ();
+
+        sample_switch (2, 5, 2);
+
+        sample_vector ();
+
+        heading ("Esempio puntatore");
+        int mem_a = 5;
+        int *mem_p = &mem_a; // & è l’operatore di indirizzo e viene utilizzato per assegnare ad un puntatore l’indirizzo di una variabile;
+        printf ("Indirizzo memoria di mem_a: %p", mem_p);
+        
+        heading ("Esempio Array");
+        int vettore[5]; 
+        for int i = 0; i<5; i++ 
+            vettore[i] = i+1; 
+        for int i = 0; i<5; i++ 
+            printf ("%d \n",vettore[i]);
+
+        heading ("Esempio lettura file");
+        FILE *pf;
+        int a;
+        pf = fopen ( "numeri.txt" , "r" );
+        if pf
+            while !feof(pf) 
+                fscanf ( pf, "%d\n" , &a );
+                printf ( "%d\n" , a );
+            fclose ( pf );
+        else
+            printf ( " errore durante l’apertura del file. " );
+

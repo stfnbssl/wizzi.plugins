@@ -1,0 +1,72 @@
+﻿$group
+
+	var jsFileRegex = /\.(js)$/
+
+	var PATH_SEP_REGEX
+        new RegExp('\\' + path.sep, 'g')
+
+	var getFullQualifiedHandlerId
+        function 
+            param controller
+            param handler
+            return controller.replace(PATH_SEP_REGEX, '/') + '_' + handler
+
+	var recursiveFileList
+		function 
+			param parentDir
+                    
+			foreach file in fs.readdirSync(parentDir)
+                            
+				var child = path.join(parentDir, file)
+                            
+				if fs.statSync(child).isDirectory()
+                            
+					_ recursiveFileList(child)
+                            
+				else 
+                                
+					set file = child
+					var controllerName = file.replace(jsFileRegex, '')
+					var controller
+                                
+					if file.match(jsFileRegex)
+                                    
+						set file = path.resolve(file)
+						set controller = require(file)
+						debug '    %s%s:', 
+							\b file, 
+							\b _.isPlainObject(controller) ? '' : ' (not an object, skipped)'
+                                    
+						if _.isPlainObject(controller)
+							_ _.each
+								@ controller
+								function 
+									param value
+									param name
+                                                
+									var handlerId = getFullQualifiedHandlerId(controllerName, name)
+                                                
+									debug '      %s%s', 
+										\b handlerId, 
+										\b _.isFunction(value) ? '' : ' (not a function, skipped)'
+                                                
+									if _.isFunction(value) && !handlerCache[handlerId]
+                                                    
+										var handlerExists = false
+                                                    
+										_ _.each
+											@ dirs
+											function 
+												param topLevelDir
+                                                        
+												set controllerName = path.resolve(controllerName)
+												set topLevelDir = path.resolve(topLevelDir)
+                                                        
+												if controllerName.indexOf(topLevelDir) === 0
+													var relativeController = controllerName.substr(topLevelDir.length + 1)
+													set handlerId = getFullQualifiedHandlerId(relativeController, name)
+													set handlerExists = handlerCache[handlerId] !== undefined
+                                                    
+										if !(handlerExists)
+											set handlerCache[handlerId] = value
+            

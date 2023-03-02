@@ -1,0 +1,110 @@
+﻿$group
+
+	e method : ramlItem
+		
+		# In a RESTful API, methods are operations that are performed on a resource. 
+		# A method MUST be one of the HTTP methods defined in the HTTP version 1.1 specification [RFC2616] 
+		# and its extension, RFC5789 [RFC5789].
+
+		is-abstract
+
+		a description
+			# Each declared method MAY contain a description attribute that briefly describes what the method does to the resource. It is RECOMMENDED that all API definition methods include the description property.
+
+		a protocols
+			# (Optional) A method can override an API's protocols value for that single method 
+			# by setting a different value for the fields.
+			default none
+			restrict
+				enum none
+				enum http
+				enum https
+				enum http,https
+
+		a_tag( handlerId, handler )
+
+		a securedBy
+			tag secured-by
+
+		r queryParameter/s
+		r header/s
+		r body
+			one-to-one
+		
+		r responses
+			# Is optional
+			one-to-one
+		
+		r comment/s
+
+		m wzinitialize
+			
+			if !this.name
+				set this.name = this.wzName
+
+			set this.parameters
+				[
+			foreach item in this.queryParameters
+				set item.in = 'query'
+				_ this.parameters.push(item)
+			foreach item in this.headers
+				set item.in = 'header'
+				_ this.parameters.push(item)
+			if this.body && this.body.typeItem
+				set this.body.typeItem.in = 'body'
+				_ this.parameters.push(this.body.typeItem)
+
+		m getResponseStatuses
+			var ret = []
+			if this.responses
+				foreach item in this.responses.responseStatuses
+					_ ret.push(item)
+			return ret
+		
+		m getMediaTypes
+			var ret = []
+			foreach rs in this.getResponseStatuses()
+				if rs.body
+					foreach item in rs.body.mediaTypes
+						_ ret.push(item)
+			return ret
+
+		m getComments
+			return initComments(this.comments)
+
+
+	e header : namedParameter
+		
+		# An API's methods MAY support or require non-standard HTTP headers. 
+		# In the API definition, specify the non-standard HTTP headers by using the headers property.
+		# The headers property is a map in which the key is the name of the header, 
+		# and the value is itself a map specifying the header attributes, according to the Named Parameters section.
+
+	e get : method
+		m wzinitialize
+			set this.name = 'get'
+	
+	e post : method
+		m wzinitialize
+			set this.name = 'post'
+
+	e put : method
+		m wzinitialize
+			set this.name = 'put'
+
+	e delete : method
+		m wzinitialize
+			set this.name = 'delete'
+
+	e head : method
+		m wzinitialize
+			set this.name = 'head'
+
+	e options : method
+		m wzinitialize
+			set this.name = 'options'
+
+	e patch : method
+		m wzinitialize
+			set this.name = 'patch'
+

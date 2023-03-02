@@ -1,0 +1,105 @@
+module
+    kind es6
+
+    $
+        var md = {
+            name: 'c_examples_step_3',
+            description: 'Socket server `c` Wizzi Model',
+            level: 0,
+            step: 3
+        }
+
+    example_step( &md )
+        $append imports
+            const spawn = require("child_process").spawn;
+            const exec = require('child_process').exec;
+
+        _ wizzi.fsFactory
+            {
+                @ plugins
+                    {
+                        [ items
+                            @ './index'
+                        @ pluginsBaseFolder
+                            _ path.resolve
+                                @ __dirname
+                                @ '..'
+            a_cb_throw( wf )
+                _ wf.loadModelAndGenerateArtifact
+                    _ path.join
+                        @ __dirname
+                        @ 'step_3'
+                        @ 'server.c.ittf'
+                    {
+                        @ modelRequestContext {}
+                        @ artifactRequestContext {}
+                    @ 'c/module'
+                    a_cb_throw( artifactText )
+                        info artifactText
+                        const scriptPath
+                            _ path.join
+                                @ __dirname
+                                @ 'step_3'
+                                @ 'result'
+                                @ 'server.c'
+                        _ fsfile.write
+                            @ scriptPath
+                            @ artifactText
+                        const exePath
+                            _ path.join
+                                @ __dirname
+                                @ 'step_3'
+                                @ 'result'
+                                @ 'server.exe'
+                        _ exec
+                            @ 'C:\\msys64\\mingw64\\bin\\gcc ' + scriptPath + ' -o ' + exePath + ' -lws2_32'
+                            {
+                                @ cwd "C:\\msys64\\mingw64\\bin"                            
+                            =>
+                                param error
+                                param stdout
+                                param stderr
+                                info `stdout: ${stdout}`
+                                info `stderr: ${stderr}`
+                                if error
+                                    info `exec error: ${error}`
+                        _ wf.loadModelAndGenerateArtifact
+                            _ path.join
+                                @ __dirname
+                                @ 'step_3'
+                                @ 'client.c.ittf'
+                            {
+                                @ modelRequestContext {}
+                                @ artifactRequestContext {}
+                            @ 'c/module'
+                            a_cb_throw( artifactText )
+                                info artifactText
+                                const scriptPath
+                                    _ path.join
+                                        @ __dirname
+                                        @ 'step_3'
+                                        @ 'result'
+                                        @ 'client.c'
+                                _ fsfile.write
+                                    @ scriptPath
+                                    @ artifactText
+                                const exePath
+                                    _ path.join
+                                        @ __dirname
+                                        @ 'step_3'
+                                        @ 'result'
+                                        @ 'client.exe'
+                                _ exec
+                                    @ 'C:\\msys64\\mingw64\\bin\\gcc ' + scriptPath + ' -o ' + exePath + ' -lws2_32'
+                                    {
+                                        @ cwd "C:\\msys64\\mingw64\\bin"                            
+                                    =>
+                                        param error
+                                        param stdout
+                                        param stderr
+                                        info `stdout: ${stdout}`
+                                        info `stderr: ${stderr}`
+                                        if error
+                                            info `exec error: ${error}`
+
+

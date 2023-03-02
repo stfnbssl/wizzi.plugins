@@ -1,0 +1,130 @@
+﻿$group
+
+	# Metadata
+	wz-iife metadata
+
+		wz-require parseurl
+
+		$include ./init_raml_api
+		$include ./parameter_values
+		$include ./process_request_parameters
+
+		wz-function initialize
+			param wizziRamlApi
+			param callback
+
+			_ debug('Initializing wizzi-raml middleware metadata')
+        
+			var apiCache = initializeRamlApi(wizziRamlApi)
+
+			_ callback
+				@ null
+				function wizziRamlMetadata
+					param req
+					param res
+					param next
+					
+					var method = req.method.toLowerCase()
+					var path = parseurl(req).pathname
+					
+					var cacheEntry
+					var match
+					var wizziRamlMetadata
+					
+					set cacheEntry =
+						op|| 
+							set apiCache[path]
+							_ _.find
+								@ apiCache
+								function 
+									param metadata
+									set match = metadata.re.exec(path)
+									return _.isArray(match)
+					_ debug
+						@ '%s %s'
+						@ req.method
+						@ req.url
+					
+					_ debug
+						@ ' Is a Raml path: %s'
+						@ !_.isUndefined(cacheEntry)
+
+					if !cacheEntry
+						return next()
+
+							$* cache entry
+							@ apiPath resourcePath
+							@ path wizziResourceApi
+							@ keys keys
+							@ re re
+							@ wizziMethodApis {}
+							@ wizziRamlApi wizziRamlApi
+													{ 
+							@ wizziMethodApi wizziMethodApi
+							@ wizziMethodApiPath
+								[ 
+									@ 'paths'
+									@ resourcePath
+									@ method
+							@ wizziMethodApiParameters
+								_ composeMethodParameters
+									[ 
+										@ 'paths'
+									@ method
+									@ wizziRamlApi
+									@ wizziResourceApi
+									@ wizziMethodApi
+
+							*$
+
+					set wizziRamlMetadata
+						{
+							@ apiPath cacheEntry.apiPath
+							@ path cacheEntry.path
+							@ params {}
+							@ wizziRamlApi cacheEntry.wizziRamlApi
+
+					set wizziRamlMetadata.operations = cacheEntry.wizziMethodApis
+					
+					var cacheMethod = cacheEntry.wizziMethodApis[method]
+
+					_ debug('  Is a Raml method: %s', !_.isUndefined(cacheMethod))
+
+                        
+					if _.isPlainObject(cacheMethod)
+
+						_ debug('  Raml method is a plai object')
+						
+						set wizziRamlMetadata.operation = cacheMethod.wizziMethodApi
+						
+						set wizziRamlMetadata.operationPath = cacheMethod.wizziMethodApiPath
+						
+						set wizziRamlMetadata.operationParameters = 
+							\ cacheMethod.wizziMethodApiParameters
+						
+						set wizziRamlMetadata.security =
+							\ wizziRamlMetadata.operation.security || wizziRamlMetadata.wizziRamlApi.security || []
+                        
+					set req.wizziRaml = wizziRamlMetadata
+                        
+					_ debug('  Is a Raml operation: %s', !_.isUndefined(wizziRamlMetadata.operation))
+                        
+					if wizziRamlMetadata.operation
+						return 
+							_ processRequestParameters
+								@ wizziRamlMetadata
+								@ cacheEntry.keys
+								@ match
+								@ req
+								@ res
+								@ next
+								@ debug
+					else 
+						return next()
+
+
+
+
+
+
+

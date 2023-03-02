@@ -1,0 +1,26 @@
+﻿module
+    kind es6
+    
+    statements-writer(wizzi.plugins.c.lib.artifacts.module.gen.writers.debug)
+
+        $append imports
+                
+        statement( log
+            _ ctx.w('printf(' + name + ');printf("\\n");')
+            r_cb()
+
+        statement( info
+            _ ctx.w('printf(' + name + ');printf("\\n");')
+            r_cb()
+
+        statement( success
+            _ ctx.w('printf(' + name + '); printf("\\n");')
+            r_cb()
+
+        statement( warn
+            _ ctx.w('printf(' + name + '); printf("\\n");')
+            r_cb()
+
+        statement( error
+            _ ctx.w('printf(' + name + '); printf("\\n");')
+            r_cb()

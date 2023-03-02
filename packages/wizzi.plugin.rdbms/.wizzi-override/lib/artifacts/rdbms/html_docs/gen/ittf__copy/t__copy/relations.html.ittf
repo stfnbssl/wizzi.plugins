@@ -1,0 +1,43 @@
+﻿$group
+
+	$foreach relation in table.manyRelations()
+
+		h4 Many relation ${relation.wzName}
+		table
+			class table table-condensed table-bordered
+			style width:50%
+			tbody
+				tr_prop( role, ${relation.manyRole()} )
+		$foreach comment in relation.comments
+			span ${comment} &nbsp;
+		h5 columns
+		table
+			class table table-condensed table-bordered
+			style width:40%
+			$foreach rc in relation.manyColumns
+				tr 
+					td ${rc.wzName}
+
+	$foreach relation in table.oneRelations()
+		
+		h4 One relation ${relation.wzName}
+		table
+			class table table-condensed table-bordered
+			style width:50%
+			tbody
+				tr_prop( role, ${relation.oneRole()} )
+		$foreach comment in relation.comments
+			span ${comment} &nbsp;
+		h5 columns
+		table
+			class table table-condensed table-bordered
+			style width:40%
+			thead
+				th one
+				th many
+			tbody
+				$foreach rc in relation.relationColumns
+					tr 
+						td ${rc.oneColumnName}
+						td ${rc.manyColumnName}
+

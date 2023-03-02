@@ -1,0 +1,47 @@
+﻿$group
+
+	e body : ramlItem
+		# Some method verbs expect the resource to be sent as a request body.
+		# For example, to create a resource, the request must include the details of the resource to create.
+		# Resources CAN have alternate representations. 
+		# For example, an API might support both JSON and XML representations.
+		# A method's body is defined in the body property as a hashmap, 
+		# in which the key MUST be a valid media type.
+
+		# Can be declared in
+		#   a method
+		#   a responseStatus
+
+		# The IttfNodeValue if declared is the name of the body type, that must be
+		# declared inside the types node at the root raml node
+
+		r formParameter/s
+		
+		r mediaType/s
+
+		r typeItem
+			one-to-one
+
+		r propert-y/ies
+			# Implicit type
+			# Properties can be defined directly inside the body node (without an object node)
+
+		m wzinitialize
+			if isEmpty(this.wzName) == false && isObject(this.wzRoot().schema)
+				set this.typeItem = this.wzRoot().schema.getTypeItem(this.wzName)
+
+			if this.properties.length > 0 && isObject(this.typeItem) == false
+				set this.typeItem = new md.object('Implicit', this.wzSourceLineInfo)	
+				set this.typeItem.wzParent = this;
+				foreach item in this.properties
+					set item.wzParent = this.typeItem;	
+					_ this.typeItem.push(item)
+
+		m wzverify
+			if isEmpty(this.wzName) == false && (isObject(this.wzRoot().schema) == false
+				\b || this.wzRoot().schema.getTypeItem(this.wzName) == null)
+				_ ctx.addError
+					@ 'Referenced type not found: "' + this.wzName + '"', this
+			if this.properties.length > 0 && isObject(this.typeItem) == true
+				_ ctx.addError
+					@ 'A body cannot have both properties and a type defined', this

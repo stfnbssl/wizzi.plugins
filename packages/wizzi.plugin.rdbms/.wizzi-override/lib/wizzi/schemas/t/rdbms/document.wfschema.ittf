@@ -1,0 +1,40 @@
+﻿$group
+
+	e_tag( document, document )
+
+		# In a json model a table row can be
+		# . a branch node containing data for node leafs and
+		#   related nodes or
+		# . a leaf node containing a text content
+		# Metadata for a leaf node may be stored in the parent branch node.
+
+		
+		a_tag( kind, kind )
+
+			restrict
+				enum json-meta-data
+					# The json data of a branch node
+				enum ittf
+					# An IttfDocument of a leaf node
+				enum text-content
+					# The text context of a leaf node
+
+		r path/s
+		r metaField/s
+
+	e_tag( path, path )
+		r pathSegment/s
+
+	e_tag( pathSegment, segment )
+	
+	e_tag( metaField, meta-field )
+
+		a type
+			# The metaField data type
+            default string
+			restrict
+				enum string
+				enum boolean
+				enum integer
+				enum float
+				enum date

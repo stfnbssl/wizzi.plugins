@@ -1,0 +1,46 @@
+$group
+
+    #include <winsock2.h>
+    #include <ws2tcpip.h>
+    #include <stdlib.h>
+
+    #pragma comment (lib, "Ws2_32.lib")    
+    
+    #define WSA_VERSION_MAIOR 2
+    #define WSA_VERSION_MINOR 2
+    #define DEFAULT_PORT "27015"
+    #define DEFAULT_BUFLEN 512
+
+    function heading
+        param char* text  
+        printf ("\n\n%s\n", text);
+        printf ("========================================\n");
+    
+    function heading2
+        param char* text  
+        printf ("\n\n    %s\n", text);
+        printf ("    ------------------------------------\n");
+
+    function main
+        param int argc
+        param char *argv[]
+        rtype int __cdecl
+        +
+        int iResult;
+        SOCKET ListenSocket = INVALID_SOCKET;
+        SOCKET ClientSocket = INVALID_SOCKET;
+        +
+        $include .\wsa-start
+        $include .\getaddrinfo
+        $include .\server-socket
+        +
+        // Accept a client socket
+        ClientSocket = accept(ListenSocket, NULL, NULL);
+        if ClientSocket == INVALID_SOCKET
+            error "accept failed with error: %d\n", WSAGetLastError()
+            closesocket (ListenSocket);
+            WSACleanup ();
+            return 1;
+        info "accept result: %p\n", ClientSocket       
+	    +
+	    return 0;  

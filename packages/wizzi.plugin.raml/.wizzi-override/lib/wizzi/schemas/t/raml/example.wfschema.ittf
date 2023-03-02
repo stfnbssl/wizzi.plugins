@@ -1,0 +1,39 @@
+﻿$group
+
+	e example : ramlItem
+		r jsonItem/s
+	
+	e jsonItem : ramlItem
+		r jsonItem/s
+
+	e jsonObject : jsonItem
+		
+		tag {
+		
+		# ittf:
+		#     {
+		#         @ name 'stefi'
+		#         @ birth 1957
+		#         @ friends
+		#             [
+		#                 {
+		#                     @ name 'mario'
+		#                     @ birth 1957
+		#                 {
+		#                     @ name 'arturo'
+		#                     @ birth 1955
+		#         @ age
+		#             function
+		#                 return new Date().year() - birth
+		# 
+	
+	e jsonArray : jsonItem
+		
+		tag [
+	
+	e jsonPropertyOrValue : jsonItem
+		
+		tag @
+
+
+	

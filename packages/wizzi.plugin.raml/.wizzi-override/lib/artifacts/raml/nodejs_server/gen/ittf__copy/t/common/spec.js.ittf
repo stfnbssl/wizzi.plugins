@@ -1,0 +1,49 @@
+﻿$group
+
+	wz-iife spec
+
+		wz-var httpMethods
+			[
+				@ 'DELETE'
+				@ 'GET'
+				@ 'HEAD'
+				@ 'OPTIONS'
+				@ 'PATCH'
+				@ 'POST'
+				@ 'PUT'
+		
+		wz-var typePrimitives
+			[
+				@ 'string'
+				@ 'number'
+				@ 'integer'
+				@ 'date'
+				@ 'boolean'
+				@ 'file'
+		
+		wz-function isModelType
+			param type
+			return typePrimitives.indexOf(type) === -1
+			
+		wz-function getParameterType
+			param schema
+			var type = schema.type
+			if !type && schema.schema
+				set type = getParameterType(schema.schema)
+			return !(type) ? 'object' : type
+
+		wz-function isModelParameter
+			param param
+			var type = getParameterType(param)
+			var isModel = false
+			if type === 'object' || isModelType(type)
+				set isModel = true
+			elif type === 'array' && 
+				\ isModelType(
+					\ param.items 
+					\ ? param.items.type 
+					\ : undefined
+					\ )
+				set isModel = true
+			return isModel
+    

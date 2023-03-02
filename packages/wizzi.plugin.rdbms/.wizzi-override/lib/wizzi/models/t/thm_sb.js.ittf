@@ -1,0 +1,16 @@
+﻿set md.${name}
+	$params name, arg1|@@null, arg2|@@null, arg3|@@null, arg4|@@null, arg5|@@null
+	function
+		$if arg1
+			param ${arg1}
+		$if arg2
+			param ${arg2}
+		$if arg3
+			param ${arg3}
+		$if arg4
+			param ${arg4}
+		$if arg5
+			param ${arg5}
+        var sb = []
+		$hook
+        return sb.join()

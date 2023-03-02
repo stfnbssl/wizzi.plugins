@@ -1,0 +1,18 @@
+﻿raml dash
+
+	title The rest api for the Wizzi Dashboard
+	media-types
+		application/json
+
+	/ helloworld
+		get
+			responses
+				200
+					body
+						application/json
+							object
+								title "Hello world Response"
+								string message
+							example
+								{
+									@ message "Hello world"

@@ -1,0 +1,16 @@
+﻿r ${one}_${many_role}
+	$params one, many, many_role|@@null, cardinality|one-to-many
+	$
+		if (many_role == null) {
+			if (cardinality == 'one-to-many')
+			{
+				many_role = pluralize(many);
+			} else {
+				many_role = many;
+			}
+		}
+	one ${one}
+	many ${many}
+	many-role ${many_role}
+	cardinality ${cardinality}
+

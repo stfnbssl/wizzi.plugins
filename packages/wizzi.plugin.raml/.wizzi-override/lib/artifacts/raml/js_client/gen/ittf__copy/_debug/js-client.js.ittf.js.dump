@@ -1,0 +1,141 @@
+// 16/3/2017:10:6:24  by C:\My\wizzi\wizzi-npm\node_modules\wizzi\lib\ittf\evaluator.js
+$.n(); // set the context state to NodeContext first
+var $0 = {}; // the root node of the IttfModel buildup
+var $1 = { n: "module", v: "", r: 1, c: 1, s: "f1", u: "f1",  }; //13
+$.a($0, $1, 5);
+var $2 = { n: "kind", v: "jsfile", r: 2, c: 5, s: "f1", u: "f1",  }; //14
+$.a($1, $2, 7);
+var $3 = { n: "wz-iife", v: "application", r: 4, c: 5, s: "f1", u: "f1",  }; //15
+$.a($1, $3, 9);
+var $4 = { n: "wz-function", v: "start", r: 6, c: 9, s: "f1", u: "f1",  }; //16
+$.a($3, $4, 11);
+var $5 = { n: "wz-iife", v: "helpers", r: 3, c: 5, s: "f1", u: "f3",  }; //81
+$.a($1, $5, 13);
+var $6 = { n: "wz-require", v: "isPlainObject", r: 5, c: 9, s: "f1", u: "f3",  }; //82
+$.a($5, $6, 15);
+var $7 = { n: "from", v: "lodash-compat/lang/isPlainObject", r: 6, c: 13, s: "f1", u: "f3",  }; //83
+$.a($6, $7, 17);
+var $8 = { n: "wz-require", v: "indexOf", r: 7, c: 9, s: "f1", u: "f3",  }; //84
+$.a($5, $8, 19);
+var $9 = { n: "from", v: "lodash-compat/array/indexOf", r: 8, c: 13, s: "f1", u: "f3",  }; //85
+$.a($8, $9, 21);
+var $10 = { n: "wz-function", v: "__bind", r: 10, c: 9, s: "f1", u: "f3",  }; //86
+$.a($5, $10, 23);
+var $11 = { n: "param", v: "fn", r: 11, c: 13, s: "f1", u: "f3",  }; //87
+$.a($10, $11, 25);
+var $12 = { n: "param", v: "me", r: 12, c: 13, s: "f1", u: "f3",  }; //88
+$.a($10, $12, 27);
+var $13 = { n: "return", v: "", r: 13, c: 13, s: "f1", u: "f3",  }; //89
+$.a($10, $13, 29);
+var $14 = { n: "function", v: "", r: 14, c: 17, s: "f1", u: "f3",  }; //90
+$.a($13, $14, 31);
+var $15 = { n: "return", v: "fn.apply(me, arguments)", r: 15, c: 21, s: "f1", u: "f3",  }; //91
+$.a($14, $15, 33);
+var $16 = { n: "wz-function", v: "log", r: 17, c: 9, s: "f1", u: "f3",  }; //92
+$.a($5, $16, 35);
+var $17 = { n: "if", v: "console && process.env.NODE_ENV !== 'test'", r: 18, c: 13, s: "f1", u: "f3",  }; //93
+$.a($16, $17, 37);
+var $18 = { n: "_", v: "console.log", r: 19, c: 17, s: "f1", u: "f3",  }; //94
+$.a($17, $18, 39);
+var $19 = { n: "_", v: "Array.prototype.slice.call(arguments)[0]", r: 20, c: 21, s: "f1", u: "f3",  }; //95
+$.a($18, $19, 41);
+var $20 = { n: "wz-function", v: "fail", r: 22, c: 9, s: "f1", u: "f3",  }; //96
+$.a($5, $20, 43);
+var $21 = { n: "param", v: "message", r: 23, c: 13, s: "f1", u: "f3",  }; //97
+$.a($20, $21, 45);
+var $22 = { n: "_", v: "log(message)", r: 24, c: 13, s: "f1", u: "f3",  }; //98
+$.a($20, $22, 47);
+var $23 = { n: "wz-function", v: "optionHtml", r: 26, c: 9, s: "f1", u: "f3",  }; //99
+$.a($5, $23, 49);
+var $24 = { n: "param", v: "label", r: 27, c: 13, s: "f1", u: "f3",  }; //100
+$.a($23, $24, 51);
+var $25 = { n: "param", v: "value", r: 28, c: 13, s: "f1", u: "f3",  }; //101
+$.a($23, $25, 53);
+var $26 = { n: "return", v: "'<tr><td class=\"optionName\">' + label + ':</td><td>' + value + '</td></tr>'", r: 29, c: 13, s: "f1", u: "f3",  }; //102
+$.a($23, $26, 55);
+var $27 = { n: "wz-var", v: "resolveSchema", r: 31, c: 9, s: "f1", u: "f3",  }; //103
+$.a($5, $27, 57);
+var $28 = { n: "function", v: "", r: 32, c: 13, s: "f1", u: "f3",  }; //104
+$.a($27, $28, 59);
+var $29 = { n: "param", v: "schema", r: 33, c: 17, s: "f1", u: "f3",  }; //105
+$.a($28, $29, 61);
+var $30 = { n: "if", v: "_.isPlainObject(schema.schema)", r: 34, c: 17, s: "f1", u: "f3",  }; //106
+$.a($28, $30, 63);
+var $31 = { n: "set", v: "schema = resolveSchema(schema.schema)", r: 35, c: 21, s: "f1", u: "f3",  }; //107
+$.a($30, $31, 65);
+var $32 = { n: "return", v: "schema", r: 36, c: 17, s: "f1", u: "f3",  }; //108
+$.a($28, $32, 67);
+var $33 = { n: "wz-function", v: "simpleRef", r: 38, c: 9, s: "f1", u: "f3",  }; //109
+$.a($5, $33, 69);
+var $34 = { n: "param", v: "name", r: 39, c: 13, s: "f1", u: "f3",  }; //110
+$.a($33, $34, 71);
+var $35 = { n: "if", v: "typeof (name) === 'undefined'", r: 40, c: 13, s: "f1", u: "f3",  }; //111
+$.a($33, $35, 73);
+var $36 = { n: "return", v: "null", r: 41, c: 17, s: "f1", u: "f3",  }; //112
+$.a($35, $36, 75);
+var $37 = { n: "if", v: "name.indexOf('#/definitions/') === 0", r: 42, c: 13, s: "f1", u: "f3",  }; //113
+$.a($33, $37, 77);
+var $38 = { n: "return", v: "", r: 43, c: 17, s: "f1", u: "f3",  }; //114
+$.a($37, $38, 79);
+var $39 = { n: "_", v: "name.substring", r: 44, c: 21, s: "f1", u: "f3",  }; //115
+$.a($38, $39, 81);
+var $40 = { n: "@", v: "'#/definitions/'.length", r: 45, c: 25, s: "f1", u: "f3",  }; //116
+$.a($39, $40, 83);
+var $41 = { n: "else", v: "", r: 46, c: 13, s: "f1", u: "f3",  }; //117
+$.a($33, $41, 85);
+var $42 = { n: "return", v: "name", r: 47, c: 17, s: "f1", u: "f3",  }; //118
+$.a($41, $42, 87);
+var $43 = { n: "wz-function", v: "extractExtensions", r: 49, c: 9, s: "f1", u: "f3",  }; //119
+$.a($5, $43, 89);
+var $44 = { n: "param", v: "keyname", r: 50, c: 13, s: "f1", u: "f3",  }; //120
+$.a($43, $44, 91);
+var $45 = { n: "param", v: "obj", r: 51, c: 13, s: "f1", u: "f3",  }; //121
+$.a($43, $45, 93);
+var $46 = { n: "param", v: "value", r: 52, c: 13, s: "f1", u: "f3",  }; //122
+$.a($43, $46, 95);
+var $47 = { n: "if", v: "!keyname || !obj", r: 53, c: 13, s: "f1", u: "f3",  }; //123
+$.a($43, $47, 97);
+var $48 = { n: "return", v: "", r: 54, c: 17, s: "f1", u: "f3",  }; //124
+$.a($47, $48, 99);
+var $49 = { n: "if", v: "typeof (keyname) === 'string' && keyname.indexOf('x-') === 0", r: 55, c: 13, s: "f1", u: "f3",  }; //125
+$.a($43, $49, 101);
+var $50 = { n: "set", v: "obj.vendorExtensions = obj.vendorExtensions || {}", r: 56, c: 17, s: "f1", u: "f3",  }; //126
+$.a($49, $50, 103);
+var $51 = { n: "if", v: "value", r: 57, c: 17, s: "f1", u: "f3",  }; //127
+$.a($49, $51, 105);
+var $52 = { n: "set", v: "obj.vendorExtensions[keyname] = value", r: 58, c: 21, s: "f1", u: "f3",  }; //128
+$.a($51, $52, 107);
+var $53 = { n: "else", v: "", r: 59, c: 17, s: "f1", u: "f3",  }; //129
+$.a($49, $53, 109);
+var $54 = { n: "set", v: "obj.vendorExtensions[keyname] = obj[keyname]", r: 60, c: 21, s: "f1", u: "f3",  }; //130
+$.a($53, $54, 111);
+var $55 = { n: "wz-iife", v: "api", r: 10, c: 5, s: "f1", u: "f1",  }; //18
+$.a($1, $55, 113);
+var $56 = { n: "wz-function", v: "create", r: 11, c: 9, s: "f1", u: "f1",  }; //19
+$.a($55, $56, 115);
+var $57 = { n: "return", v: "", r: 12, c: 13, s: "f1", u: "f1",  }; //20
+$.a($56, $57, 117);
+var $58 = { n: "{", v: "", r: 13, c: 17, s: "f1", u: "f1",  }; //21
+$.a($57, $58, 119);
+var $59 = { n: "@", v: "apis", r: 3, c: 5, s: "f1", u: "f4",  }; //142
+$.a($58, $59, 121);
+var $60 = { n: "{", v: "", r: 4, c: 9, s: "f1", u: "f4",  }; //143
+$.a($59, $60, 123);
+var $61 = { n: "@", v: "apisArray", r: 5, c: 5, s: "f1", u: "f4",  }; //144
+$.a($58, $61, 125);
+var $62 = { n: "[", v: "", r: 6, c: 9, s: "f1", u: "f4",  }; //145
+$.a($61, $62, 127);
+var $63 = { n: "@", v: $.ip("f1", "title '${raml.title}'", "string", 128), r: 7, c: 5, s: "f1", u: "f4",  }; //146
+$.a($58, $63, 129);
+var $64 = { n: "@", v: $.ip("f1", "version '${raml.version}'", "string", 130), r: 8, c: 5, s: "f1", u: "f4",  }; //147
+$.a($58, $64, 131);
+var $65 = { n: "@", v: $.ip("f1", "protocols '${raml.protocols}'", "string", 132), r: 9, c: 5, s: "f1", u: "f4",  }; //148
+$.a($58, $65, 133);
+var $66 = { n: "@", v: $.ip("f1", "baseUri '${raml.baseUri}'", "string", 134), r: 10, c: 5, s: "f1", u: "f4",  }; //149
+$.a($58, $66, 135);
+var $67 = { n: "@", v: $.ip("f1", "serverPort '${raml.port}'", "string", 136), r: 11, c: 5, s: "f1", u: "f4",  }; //150
+$.a($58, $67, 137);
+var $68 = { n: "_", v: "application.start", r: 16, c: 5, s: "f1", u: "f1",  }; //23
+$.a($1, $68, 139);
+var $69 = { n: "_", v: "api.create", r: 17, c: 9, s: "f1", u: "f1",  }; //24
+$.a($68, $69, 141);

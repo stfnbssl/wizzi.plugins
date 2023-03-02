@@ -1,0 +1,32 @@
+module
+    kind es6
+    $
+        var md = {
+            plugin: 'wizzi.plugin.raml',
+            name: 'document',
+            schema: 'raml',
+            checkSchema: true,
+            isAsync: true,
+        };
+    gen( &md )
+        $append imports
+        $append main
+            _ md.raml
+                @ model
+                @ ctx
+                a_cb( )
+                    if ctx.artifactGenerationErrors.length > 0
+                        r_cb_err( ctx.artifactGenerationErrors )
+                    else
+                        # generation OK
+                        r_cb( ctx )
+        async-md( raml )
+            _ ctx.w('<raml>')
+            _ md.genItems
+                @ model.items
+                @ ctx
+                {
+                    @ indent true
+                a_cb()
+                    _ ctx.w('</raml>')
+                    r_cb()

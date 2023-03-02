@@ -1,0 +1,16 @@
+common/example/plugin( rdbms-school )
+
+	_ executeWizziJob
+		_ path.join
+			@ __dirname
+			@ 'ittf'
+			@ 'school'
+			@ 'school.wfjob.ittf'
+		{
+            @ wfBaseFolder __dirname
+            @ pluginsBaseFolder path.join(__dirname, '..', '..', '..')
+			[ plugins
+                @ './wizzi-core/index'
+                @ './wizzi-js/index'
+                @ './wizzi-web/index'
+                @ './wizzi-lab/index'

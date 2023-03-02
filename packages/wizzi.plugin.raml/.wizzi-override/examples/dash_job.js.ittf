@@ -1,0 +1,16 @@
+common/example/plugin( raml_dash_job )
+
+	_ executeWizziJob
+		_ path.join
+			@ __dirname
+			@ 'ittf'
+			@ 'dash'
+			@ 'dash-raml.wfjob.ittf'
+		{
+            @ wfBaseFolder __dirname
+            @ pluginsBaseFolder path.join(__dirname, '..', '..', '..')
+			[ plugins
+                @ './wizzi-core/index'
+                @ './wizzi-js/index'
+                @ './wizzi-web/index'
+                @ './wizzi-lab/index'

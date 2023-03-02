@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.7
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi.plugin.docx\.wizzi\ittf\root\index.js.ittf
-    utc time: Mon, 01 Mar 2021 21:35:47 GMT
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@0.7.9
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.docx\.wizzi\root\index.js.ittf
+    utc time: Fri, 01 Jul 2022 14:55:33 GMT
 */
 'use strict';
 
@@ -17,13 +17,13 @@ md.name = '.index';
 // window(s) vars must be declared even if empty
 var window_modelFactories = {
     'docx': require('./lib/wizzi/models/docx-factory.g')
-};
+ };
 var window_artifactGenerators = {
     'docx/document': require('./lib/artifacts/docx/document/gen/main')
-};
+ };
 var window_transformers = {
     'docx/extended': require('./lib/artifacts/docx/extended/trans/main')
-};
+ };
 var window_schemaDefinitions = {};
 
 //
@@ -155,7 +155,7 @@ function error(errorName, method, message, innerError) {
             method: md.name + '.' + method, 
             sourcePath: __filename, 
             inner: innerError
-        });
+         });
 }
 
 module.exports = {
@@ -169,7 +169,7 @@ module.exports = {
         artifactGenerators: [
             'docx/document'
         ]
-    }, 
+     }, 
     provides: {
         schemas: [
             'docx'
@@ -180,7 +180,7 @@ module.exports = {
         artifactGenerators: [
             'docx/document'
         ]
-    }, 
+     }, 
     createFactoryPlugin: function(wizziPackage, options, callback) {
         var plugin = new FactoryPlugin(wizziPackage, this.provides);
         plugin.initialize(options, function(err, notUsed) {
@@ -190,5 +190,5 @@ module.exports = {
             return callback(null, plugin);
         })
     }
-};
+ };
 

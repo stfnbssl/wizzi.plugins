@@ -1,0 +1,30 @@
+$group
+
+    WORD wsaVersionRequested;
+    WSADATA wsaData;
+    +
+    wsaVersionRequested = MAKEWORD( WSA_VERSION_MAIOR, WSA_VERSION_MINOR );
+    +
+    heading2 ("Initialising Winsock.\n");
+    +
+    iResult = WSAStartup( wsaVersionRequested, &wsaData );
+    +
+    if iResult != 0 
+        error "WSAStartup Failed. Error Code : %d", WSAGetLastError()
+        return 1;
+    +
+    heading2 ("WSADATA");
+    printf ("    Version low   %d\n", LOBYTE( wsaData.wVersion ));
+    printf ("    Version high  %d\n", HIBYTE( wsaData.wVersion ));
+    printf ("    Max sockets   %d\n", wsaData.iMaxSockets);
+    printf ("    Max UDPs      %d\n", wsaData.iMaxUdpDg);
+    printf ("    Description   %s\n", wsaData.szDescription);
+    $$ printf ("    Vendor info   %s\n", *wsaData.lpVendorInfo);
+    +
+    if LOBYTE( wsaData.wVersion ) != WSA_VERSION_MAIOR || HIBYTE( wsaData.wVersion ) != WSA_VERSION_MINOR 
+        error "Requested WSA version not available"
+        WSACleanup ();
+        return 1; 
+    +
+    heading2 ("Winsock Initialised");
+    +

@@ -1,0 +1,283 @@
+﻿$group
+
+    var processDocument
+        function 
+            param documentMetadata
+            param results
+            
+			var getDefinitionMetadata
+                function 
+                    param defPath
+                    param inline
+                    var defPtr = JsonRefs.pathToPtr(defPath)
+                    var metadata = documentMetadata.definitions[defPtr]
+                    if ! (metadata)
+                        set metadata = documentMetadata.definitions[defPtr] = {inline: (inline || false), references: []}
+                        if ['definitions', 'models'].indexOf(JsonRefs.pathFromPtr(defPtr)[0]) > - (1)
+                            set metadata.cyclical = false
+                            set metadata.lineage = undefined
+                            set metadata.parents = []
+                    return metadata
+            
+			var getDisplayId
+                function 
+                    param id
+                    return id
+            
+			var jsonRefsOptions
+                { 
+                    @ filter 'local'
+                    @ includeInvalid true
+            
+			# find ancestors
+			var walk
+                function 
+                    param root
+                    param id
+                    param lineage
+                    var definition = documentMetadata.definitions[(id || root)]
+                    if definition
+                        _ _.each
+                            @ definition.parents
+                            function 
+                                param parent
+                                _ lineage.push(parent)
+                                if root !== parent
+                                    _ walk(root, parent, lineage)
+            
+			var authDefsProp = 'securityDefinitions'
+            
+			var modelDefsProp = 'definitions'
+            _ _.each
+                @ documentMetadata.resolved[authDefsProp]
+                function 
+                    param authorization
+                    param name
+                    var securityDefPath
+                        [ 
+                            @ authDefsProp
+                            @ name
+                    _ getDefinitionMetadata(securityDefPath)
+                    _ _.reduce
+                        @ authorization.scopes
+                        function 
+                            param seenScopes
+                            param scope
+                            param indexOrName
+                            var scopeName = indexOrName
+                            var scopeDefPath
+                                _ securityDefPath.concat
+                                    [ 
+                                        @ 'scopes'
+                                        _ indexOrName.toString
+                            var scopeMetadata
+                                _ getDefinitionMetadata
+                                    _ securityDefPath.concat
+                                        [ 
+                                            @ 'scopes'
+                                            @ scopeName
+                            set scopeMetadata.scopePath = scopeDefPath
+                            _ validateNoExist
+                                @ seenScopes
+                                @ scopeName
+                                @ 'AUTHORIZATION_SCOPE_DEFINITION'
+                                @ 'Authorization scope definition'
+								@ scopeDefPath
+                                @ results.warnings
+                            _ seenScopes.push(scopeName)
+                            return seenScopes
+                        [ 
+            _ _.each
+                @ documentMetadata.resolved[modelDefsProp]
+                function 
+                    param model
+                    param modelId
+                    var modelDefPath
+                        [ 
+                            @ modelDefsProp
+                            @ modelId
+                    var modelMetadata = getDefinitionMetadata(modelDefPath)
+                    if _.isUndefined(modelMetadata.lineage)
+                        _ _.each
+                            @ documentMetadata.original[modelDefsProp][modelId].allOf
+                            function 
+                                param schema
+                                param index
+                                var isInline = false
+                                var parentPath
+                                if (_.isUndefined(schema.$ref) || isRemotePtr(JsonRefs.getRefDetails(schema)))
+                                    set isInline = true
+                                    set parentPath = modelDefPath.concat(['allOf', index.toString()])
+                                else 
+                                    set parentPath = JsonRefs.pathFromPtr(schema.$ref)
+                                if ! (_.isUndefined(traverse(documentMetadata.resolved).get(parentPath)))
+                                    _ getDefinitionMetadata(parentPath, isInline)
+                                    _ modelMetadata.parents.push
+                                        _ JsonRefs.pathToPtr(parentPath)
+            
+			_ _.each
+                @ documentMetadata.resolved.parameters
+                function 
+                    param parameter
+                    param name
+                    var path
+                        [ 
+                            @ 'parameters'
+                            @ name
+                    _ getDefinitionMetadata(path)
+                    _ validateSchemaConstraints(documentMetadata, parameter, path, results)
+            
+			_ _.each
+                @ documentMetadata.resolved.responses
+                function 
+                    param response
+                    param name
+                    var path
+                        [ 
+                            @ 'responses'
+                            @ name
+                    _ getDefinitionMetadata(path)
+                    _ validateSchemaConstraints(documentMetadata, response, path, results)
+			
+			_ _.each
+                @ documentMetadata.definitions
+                function 
+                    param metadata
+                    param id
+                    
+					var defPath = JsonRefs.pathFromPtr(id)
+                    
+					var definition
+                        _ traverse
+                            @ documentMetadata.original
+                            ._ get(defPath)
+                    
+					var defProp = defPath[0]
+                    
+					var code
+                        _ defProp.substring(0, (defProp.length - 1))
+                            ._ toUpperCase()
+                    
+					var msgPrefix = code.charAt(0) + code.substring(1).toLowerCase()
+                    
+					var dProperties
+                    var iProperties
+                    var lineage
+                    
+					if ['definitions', 'models'].indexOf(defProp) === -1
+                        return 
+                    
+					set dProperties = []
+                    set iProperties = []
+                    
+					set lineage = metadata.lineage
+                    if _.isUndefined(lineage)
+                        set lineage = []
+                        _ walk(id, undefined, lineage)
+                        _ lineage.reverse()
+                        set metadata.lineage = _.cloneDeep(lineage)
+                        set metadata.cyclical = lineage.length > 1 && lineage[0] === id
+                    
+					if metadata.cyclical
+                        _ createErrorOrWarning
+                            @ 'CYCLICAL_' + code + '_INHERITANCE'
+                            op+ 
+                                op+ 
+                                    op+ 
+                                        set (msgPrefix + ' has a circular inheritance: ')
+                                        _ _.map
+                                            @ lineage
+                                            function 
+                                                param dep
+                                                return getDisplayId(dep)
+                                            ._ join(' -> ')
+                                    set ' -> '
+                                _ getDisplayId(id)
+                            _ defPath.concat('allOf')
+                            @ results.errors
+                    
+					_ _.each
+                        _ lineage.slice(metadata.cyclical ? 1 : 0)
+                        function 
+                            param id
+                            var pModel
+                                _ traverse
+                                    @ documentMetadata.resolved
+                                    ._ get
+                                        _ JsonRefs.pathFromPtr(id)
+                            _ _.each
+                                _ Object.keys((pModel.properties || {}))
+                                function 
+                                    param name
+                                    if iProperties.indexOf(name) === - (1)
+                                        _ iProperties.push(name)
+                    
+					_ validateSchemaConstraints(documentMetadata, definition, defPath, results)
+                    
+					# validate properties
+					_ _.each
+                        @ definition.properties
+                        function 
+                            param property
+                            param name
+                            
+							var pPath
+                                _ defPath.concat
+                                    [ 
+                                        @ 'properties'
+                                        @ name
+                            
+							if !_.isUndefined(property)
+                                _ validateSchemaConstraints(documentMetadata, property, pPath, results)
+                                if iProperties.indexOf(name) > -1
+                                    _ createErrorOrWarning
+                                        @ 'CHILD_' + code + '_REDECLARES_PROPERTY'
+                                        @ 'Child ' + code.toLowerCase() + ' declares property already declared by ancestor: ' + name
+                                        @ pPath
+                                        @ results.errors
+                                else 
+                                    _ dProperties.push(name)
+
+                    _ _.each
+                        @ (definition.required || [])
+                        function 
+                            param name
+                            param index
+                            var type = 'Definition'
+                            if iProperties.indexOf(name) === -1 && dProperties.indexOf(name) === -1
+                                _ createErrorOrWarning
+                                    @ 'MISSING_REQUIRED_' + type.toUpperCase() + '_PROPERTY'
+                                    @ type + ' requires property but it is not defined: ' + name
+                                    _ defPath.concat
+                                        [ 
+                                            @ 'required'
+                                            _ index.toString
+                                    @ results.errors
+            
+			_ _.each
+                _ JsonRefs.findRefs
+                    @ documentMetadata.original
+                    @ jsonRefsOptions
+                function 
+                    param refDetails
+                    param refPtr
+                    _ addReference
+                        @ documentMetadata
+                        @ refDetails.uri
+                        @ refPtr
+                        @ results
+            
+			_ _.each
+                @ documentMetadata.referencesMetadata
+                function 
+                    param refDetails
+                    param refPtr
+                    if isRemotePtr(refDetails) && refDetails.missing === true
+                        _ results.errors.push
+                            { 
+                                @ code 'UNRESOLVABLE_REFERENCE'
+                                @ message 'Reference could not be resolved: ' + sanitizeRef(refDetails.uri)
+                                @ path
+                                    _ JsonRefs.pathFromPtr(refPtr)
+                                        ._ concat('$ref')
+

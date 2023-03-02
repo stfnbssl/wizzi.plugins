@@ -1,0 +1,83 @@
+﻿$group
+
+	e mediaTypes : ramlItem
+		tag media-types
+		r mediaType/s
+
+	e mediaType : ramlItem
+		# (Optional) The media types returned by API responses, 
+		# and expected from API requests that accept a body, 
+		# MAY be defaulted by specifying the mediaType property. 
+		# This property is specified at the root level of the API definition. 
+		# The property's value MAY be a single string with a valid media type
+
+		tag media-type
+
+		# [example]
+		#      media-type text/xml
+		#      media-type application/json
+		
+		a type
+
+		r typeItem
+			one-to-one
+
+		r propert-y/ies
+			# Implicit type
+			# Properties can be defined directly inside the body node (without an object node)
+		
+		r example/s
+
+		m wzinitialize
+			if !this.name
+				set this.name = this.wzName
+
+			if isEmpty(this.type) == false && _.isObject(this.wzRoot().schema)
+				set this.typeItem = this.wzRoot().schema.getTypeItem(this.type)
+
+			if this.properties.length > 0 && _.isObject(this.typeItem) == false
+				set this.typeItem = new md.object('Implicit', this.wzSourceLineInfo)	
+				set this.typeItem.wzParent = this;
+				foreach item in this.properties
+					set item.wzParent = this.typeItem;	
+					_ this.typeItem.push(item)
+
+		m wzverify
+			if isEmpty(this.type) == false && (_.isObject(this.wzRoot().schema) == false
+				\b || this.wzRoot().schema.getTypeItem(this.type) == null)
+				_ ctx.addError
+					@ 'Referenced type not found: "' + this.type + '"'
+			if this.properties.length > 0 && _.isObject(this.typeItem) == true
+				_ ctx.addError
+					@ 'A body cannot have both properties and a type defined', this
+
+
+	e applicationJson : mediaType
+		tag application/json
+
+		m wzinitialize
+			set this.name = "application/json"
+
+	e textXml : mediaType
+		tag text/xml
+
+		m wzinitialize
+			set this.name = "text/xml"
+
+	e textHtml : mediaType
+		tag text/html
+
+		m wzinitialize
+			set this.name = "text/html"
+
+	e textCss : mediaType
+		tag text/css
+
+		m wzinitialize
+			set this.name = "text/css"
+
+	e textJavascript : mediaType
+		tag application/javascript
+
+		m wzinitialize
+			set this.name = "application/javascript"

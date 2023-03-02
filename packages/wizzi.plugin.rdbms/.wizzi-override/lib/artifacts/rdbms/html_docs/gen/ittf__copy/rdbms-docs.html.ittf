@@ -1,0 +1,45 @@
+﻿html
+	head
+		@title Rdbms ${rdbms.wzName}
+		bs_css()
+	
+	body
+
+		. jumbotron
+			style text-align: center;
+			h1 Rdbms ${rdbms.wzName}
+
+		. container
+
+            . row
+				. col-md-2
+					bs/list_group()
+						$foreach table in rdbms.tables
+							bs/li_a( ${table.wzName}, #table_${table.wzName} )
+
+				. col-md-8
+				
+					$foreach table in rdbms.tables
+						# table_${table.wzName}
+						h2panel( Table ${table.wzName} )
+							small
+								table
+									class table table-condensed table-bordered
+									style width:50%
+									tbody
+										tr_prop( sqlName, ${table.sqlName} )
+										tr_prop( label, ${table.label} )
+				
+								$if table.comments.length > 0
+									h5 Description
+									div
+										$foreach comment in table.comments
+											span ${comment} &nbsp;
+
+								$include tableColumns
+								$include indexes
+								$include relations
+
+
+		bs_js()
+

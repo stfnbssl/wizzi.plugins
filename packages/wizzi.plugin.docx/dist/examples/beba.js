@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.7
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi.plugin.docx\.wizzi\ittf\examples\beba.js.ittf
-    utc time: Mon, 01 Mar 2021 21:35:47 GMT
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@0.7.9
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.docx\.wizzi\examples\beba.js.ittf
+    utc time: Fri, 01 Jul 2022 14:55:46 GMT
 */
 'use strict';
 const normal_JUSTIFIED = false;
@@ -44,12 +44,13 @@ function executeExample() {
                 console.log('docx.examples.executeGenerateModules.err.inner.toString()', err.inner.toString());
             }
         }
+        // log 'docx.examples.executeGenerateModules.result', result
         else {
-            // log 'docx.examples.executeGenerateModules.result', result
         }
     })
     function executeGenerateModules(modules, callback) {
         async.mapSeries(modules, (moduleFileName, callback) => {
+        
             var context = file.readJSON(path.join(__dirname, 'ittf', 'extracted', moduleFileName + '.detail.json'));
             context.items.sort(sortItems);
             console.log('Beba.started ', moduleFileName);
@@ -70,12 +71,12 @@ function executeExample() {
                 const imagesCtx = {
                     names: {
                         
-                    }, 
+                     }, 
                     images: [
                         
                     ], 
                     counter: 0
-                };
+                 };
                 preprocessImages(context, imagesCtx)
                 buildImageDefs(imagesCtx, 1, sb)
                 buildHyperlinks(context, 1, sb)
@@ -92,7 +93,7 @@ function executeExample() {
                 console.log('Beba.generating docx script', moduleFileName);
                 loadModelAndGenerateArtifactFromText(ittfText, {
                     category: context.category
-                }, 'docx/document', function(err, artifactText) {
+                 }, 'docx/document', function(err, artifactText) {
                     if (err) {
                         return callback(err);
                     }
@@ -101,7 +102,8 @@ function executeExample() {
                     return callback(null, artifactText);
                 })
             })
-        }, callback)
+        }
+        , callback)
     }
     function sortItems(a, b) {
         if (a.sort < b.sort) {
@@ -129,7 +131,7 @@ function executeExample() {
             stack: [
                 
             ]
-        };
+         };
         preprocessTesto(item.TestoJson, ctx)
         buildTestoDocxIttf(item.TestoJson, indent - 1, sb, '', ctx)
         buildArticleImages(item, indent, sb)
@@ -157,8 +159,9 @@ function executeExample() {
                 }
             }
         }
+        
+        // log 'is ', item.name, item.needsParagraph
         else if (item.name == 'h2' || item.name == 'ul' || item.name == 'ol') {
-            // log 'is ', item.name, item.needsParagraph
             if (item.needsParagraph) {
                 buildPara('', item.name, indent + 1, sb)
                 if (item.name == 'h2' && item.value && item.value.length > 0) {
@@ -168,8 +171,8 @@ function executeExample() {
                 else if ((item.name == 'ul' || item.name == 'ol') && item.value && item.value.length > 0) {
                     throw new Error('ul/ol with a line value not managed');
                 }
+                // TODO exclude that can have a parent not == 'p'
                 else {
-                    // TODO exclude that can have a parent not == 'p'
                     var i, i_items=item.children, i_len=item.children.length, child;
                     for (i=0; i<i_len; i++) {
                         child = item.children[i];
@@ -221,8 +224,9 @@ function executeExample() {
                 }
             }
         }
+        
+        // done
         else if (item.name == 'br') {
-            // done
         }
         else if (item.name == 'li') {
             buildIttfLine('li', item.value, indent + 1, sb)
@@ -357,7 +361,7 @@ function executeExample() {
                 
             ], 
             count: 0
-        };
+         };
         var i, i_items=context.items, i_len=context.items.length, article;
         for (i=0; i<i_len; i++) {
             article = context.items[i];
@@ -387,12 +391,13 @@ function executeExample() {
                     if (!ctx.names[id]) {
                         ctx.names[id] = true;
                         image.name = name;
-                        image.localPath = path.join(IMAGES_BASE_PATH, image.title);
+                        image.localPath = path.join(IMAGES_BASE_PATH, image.title)
+                        ;
                         ctx.images.push({
                             src: image.localPath, 
                             title: image.title, 
                             name: name
-                        })
+                         })
                     }
                 }
             }
@@ -403,14 +408,16 @@ function executeExample() {
             var link = {
                 id: 'in_article_' + (++ctx.count), 
                 url: item.attribs['href']
-            };
+             };
             ctx.links.push(link)
             item.linkId = link.id;
             link.label = item.value;
         }
         else {
-            item.children.forEach((child) =>
-                preprocessLinks(child, ctx))
+            item.children.forEach(child => 
+            
+                preprocessLinks(child, ctx)
+            )
         }
     }
     function preprocessTesto(item, ctx) {
@@ -438,10 +445,12 @@ function executeExample() {
                 console.log('preprocessTesto.span attribute', k, item.attribs[k]);
             }
         }
+        
+        // log 'is h2', 'stack', ctx.stack.join(',')
         if (item.name == 'h2' || item.name == 'ul' || item.name == 'ol') {
-            // log 'is h2', 'stack', ctx.stack.join(',')
+            
+            // log 'setting needsParagraph'
             if (ctx.stack.indexOf('p') < 0 && ctx.stack.indexOf('li') < 0) {
-                // log 'setting needsParagraph'
                 item.needsParagraph = true;
             }
         }
@@ -454,10 +463,12 @@ function executeExample() {
             child.parent = item;
             // log 'preprocessTesto', child.name, child.value
             // if (index < item.children.length-1) && item.children[index+1].name == "br"
+            
+            // set child.break = true
+            
+            // set item.children[index+1].deleted = true
             if (child.name == "br" && (index < item.children.length-1)) {
-                // set child.break = true
                 item.children[index+1].break = true;
-                // set item.children[index+1].deleted = true
                 child.deleted = true;
             }
             preprocessTesto(child, ctx)
@@ -466,21 +477,13 @@ function executeExample() {
     }
     function transformContext(beba, callback) {
         async.mapSeries(beba.items, (item, callback) => {
+        
             // BAX var itemTesto = setSpaces(item.Testo)
             var itemTesto = item.Testo;
             // log 'transformBeba.text', '|' + itemTesto + '|'
             wizziTools.wizzify_mtree_html(itemTesto, {}, function(err, mtree) {
                 if (err) {
                     console.log('err', err);
-                    if (err.toString()) {
-                        console.log('err.toString()', err.toString());
-                    }
-                    if (err.inner) {
-                        console.log('err.inner', err.inner);
-                        if (err.inner.toString) {
-                            console.log('err.inner.toString()', err.inner.toString());
-                        }
-                    }
                     throw new Error(err.message);
                 }
                 transformMTree(mtree)
@@ -488,7 +491,8 @@ function executeExample() {
                 // log 'transformBeba.mtree.to json'
                 return callback(null, mtree);
             })
-        }, function(err, notUsed) {
+        }
+        , function(err, notUsed) {
             if (err) {
                 return callback(err);
             }
@@ -510,14 +514,16 @@ function executeExample() {
             var a = "<a ";
             var i = ndx + 3;
             while (i < Testo.length) {
+                
+                // _ console.log('a break', a)
                 if (Testo[i] == '/' && Testo[i + 1] == '>') {
                     a += '/>';
-                    // _ console.log('a break', a)
                     break;
                 }
+                
+                // _ console.log('a break', a)
                 if (Testo[i] == '/' && Testo[i + 1] == 'a' && Testo[i + 2] == '>') {
                     a += '/a>';
-                    // _ console.log('a break', a)
                     break;
                 }
                 a += Testo.substr(i, 1);
@@ -563,18 +569,20 @@ function executeExample() {
             token: [
                 
             ]
-        };
+         };
         var ch;
         var len = Testo.length - 1;
         var buf = [];
         for (var i=0; i<len; i++) {
             ch = Testo[i];
             if (isWhitespace(ch)) {
+                
+                // a tag with content, state.token contains tag name
                 if (state.tagOpen) {
-                    // a tag with content, state.token contains tag name
                 }
+                
+                // punct is ok
                 if (state.punct) {
-                    // punct is ok
                 }
             }
             if (ch == '>') {
@@ -661,9 +669,9 @@ function createWizziFactory(globalContext, callback) {
                 './wizzi-core/dist/index.js'
             ], 
             pluginsBaseFolder: path.resolve(__dirname, '..', '..', '..')
-        }, 
+         }, 
         globalContext: globalContext || {}
-    }, callback)
+     }, callback)
 }
 function loadMTree(ittfDocumentUri, context, callback) {
     createWizziFactory({}, function(err, wf) {
@@ -690,7 +698,7 @@ function loadWizziModel(ittfDocumentUri, context, callback) {
         wf.loadModel(fi.schema, ittfDocumentUri, {
             mTreeBuildUpContext: context, 
             globalContext: {}
-        }, callback)
+         }, callback)
     })
 }
 function loadWizziModelAndSaveToJson(ittfDocumentUri, context, outputFolder, callback) {
@@ -712,7 +720,7 @@ function loadModelAndGenerateArtifact(ittfDocumentUri, context, artifactName, ca
         wf.loadModelAndGenerateArtifact(ittfDocumentUri, {
             modelRequestContext: context, 
             artifactRequestContext: {}
-        }, artifactName, callback)
+         }, artifactName, callback)
     })
 }
 function loadModelAndGenerateArtifactFromText(ittfContent, context, artifactName, callback) {
@@ -723,7 +731,7 @@ function loadModelAndGenerateArtifactFromText(ittfContent, context, artifactName
         wf.loadModelAndGenerateArtifactFromText(ittfContent, {
             modelRequestContext: context, 
             artifactRequestContext: {}
-        }, artifactName, callback)
+         }, artifactName, callback)
     })
 }
 function loadModelAndTransform(ittfDocumentUri, context, transformName, callback) {
@@ -752,10 +760,10 @@ function executeWizziJob(ittfDocumentUri, context, callback) {
                 indentSpaces: 4, 
                 basedir: __dirname, 
                 verbose: 2
-            }), 
+             }), 
             modelContext: context || {}, 
             jobContext: {}
-        }, callback)
+         }, callback)
     })
 }
 function executeWizziJob_2(wfjobDocumentUri, options) {
@@ -783,7 +791,7 @@ function executeWizziJob_2(wfjobDocumentUri, options) {
         config: {
             wfBaseFolder: 'c:/my/wizzi/v5', 
             plugins: jobPlugins
-        }, 
+         }, 
         job: {
             name: 'example ' + wfjobDocumentUri, 
             ittfDocumentUri: wfjobDocumentUri, 
@@ -791,10 +799,10 @@ function executeWizziJob_2(wfjobDocumentUri, options) {
                 indentSpaces: 4, 
                 basedir: __dirname, 
                 verbose: 2
-            }), 
+             }), 
             globalContext: options.globalContext
-        }
-    }, function(err) {
+         }
+     }, function(err) {
         if (err) {
             wizzi.printWizziJobError('docx', err);
         }
@@ -810,8 +818,10 @@ function executeGenerateModelTypes(wfschemaIttfDocumentUri, outputPackagePath, w
 }
 function getIttfFilesBySchema(srcpath, schema) {
     return fs.readdirSync(srcpath).filter((file) => {
+        
             return fs.lstatSync(path.join(srcpath, file)).isFile() && verify.endsWith(file, (schema === 'ittf' ? '.ittf' : '.' + schema + '.ittf'));
-        })
+        }
+        )
     ;
 }
 function fileInfoByPath(filePath, baseFolder) {
@@ -839,7 +849,7 @@ function fileInfoByPath(filePath, baseFolder) {
                 fullPath: filePath, 
                 destBasename: name + '.' + mime, 
                 destRelPath: relFolder.length > 0 ? relFolder + '/' + name + '.' + mime : name + '.' + mime
-            };
+             };
     }
     else {
         return {
@@ -852,7 +862,7 @@ function fileInfoByPath(filePath, baseFolder) {
                 fullPath: filePath, 
                 destBasename: basename, 
                 destRelPath: relFolder.length > 0 ? relFolder + '/' + basename : basename
-            };
+             };
     }
 }
 var DEFAULT_MIME = {
@@ -870,7 +880,7 @@ var DEFAULT_MIME = {
     vue: 'vue', 
     xml: 'xml', 
     yaml: 'yaml'
-};
+ };
 function normalize(filepath) {
     return verify.replaceAll(filepath, '\\', '/');
 }

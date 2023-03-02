@@ -1,0 +1,427 @@
+﻿module 
+    kind jsfile
+    set 'use strict'
+    var _
+        { 
+            @ isPlainObject require('lodash-compat/lang/isPlainObject')
+            @ isUndefined require('lodash-compat/lang/isUndefined')
+            @ isArray require('lodash-compat/lang/isArray')
+            @ isObject require('lodash-compat/lang/isObject')
+            @ isEmpty require('lodash-compat/lang/isEmpty')
+            @ map require('lodash-compat/collection/map')
+            @ indexOf require('lodash-compat/array/indexOf')
+            @ cloneDeep require('lodash-compat/lang/cloneDeep')
+            @ keys require('lodash-compat/object/keys')
+            @ forEach require('lodash-compat/collection/forEach')
+    
+		wz-function optionHtml
+            param label
+            param value
+                return
+					tr
+						td {{ label + ':' }}
+							class optionName
+						td {{ value }}
+    
+		wz-function typeFromJsonSchema
+            param type
+            param format
+            var str
+            if type === 'integer' && format === 'int32'
+                set str = 'integer'
+            elif type === 'integer' && format === 'int64'
+                set str = 'long'
+            elif type === 'integer' && typeof(format) === 'undefined'
+                set str = 'long'
+            elif type === 'string' && format === 'date-time'
+                set str = 'date-time'
+            elif type === 'string' && format === 'date'
+                set str = 'date'
+            elif type === 'number' && format === 'float'
+                set str = 'float'
+            elif type === 'number' && format === 'double'
+                set str = 'double'
+            elif type === 'number' && typeof (format) === 'undefined'
+                set str = 'double'
+            elif type === 'boolean'
+                set str = 'boolean'
+            elif type === 'string'
+                set str = 'string'
+            return str
+    
+		wz-function getStringSignature
+            param obj
+            param baseComponent
+            var str = ''
+            if typeof (obj.$ref) !== 'undefined'
+                set str += helpers.simpleRef(obj.$ref)
+            elif typeof (obj.type) === 'undefined'
+                set str += 'object'
+            elif obj.type === 'array'
+                if baseComponent
+                    set str += getStringSignature(obj.items || obj.$ref || {})
+                else 
+                    set str += 'Array['
+                    set str += getStringSignature(obj.items || obj.$ref || {})
+                    set str += ']'
+            elif obj.type === 'integer' && obj.format === 'int32'
+                set str += 'integer'
+            elif obj.type === 'integer' && obj.format === 'int64'
+                set str += 'long'
+            elif obj.type === 'integer' && typeof (obj.format) === 'undefined'
+                set str += 'long'
+            elif obj.type === 'string' && obj.format === 'date-time'
+                set str += 'date-time'
+            elif obj.type === 'string' && obj.format === 'date'
+                set str += 'date'
+            elif obj.type === 'string' && typeof (obj.format) === 'undefined'
+                set str += 'string'
+            elif obj.type === 'number' && obj.format === 'float'
+                set str += 'float'
+            elif obj.type === 'number' && obj.format === 'double'
+                set str += 'double'
+            elif obj.type === 'number' && typeof (obj.format) === 'undefined'
+                set str += 'double'
+            elif obj.type === 'boolean'
+                set str += 'boolean'
+            elif obj.$ref
+                set str += helpers.simpleRef(obj.$ref)
+            else 
+                set str += obj.type
+            return str
+    
+		wz-function schemaToJSON
+            function 
+                param schema
+                param models
+                param modelsToIgnore
+                param modelPropertyMacro
+                set schema = helpers.resolveSchema(schema)
+                if typeof (modelPropertyMacro) !== 'function'
+                    set modelPropertyMacro =
+                        function 
+                            param prop
+                            return (prop || {}).default
+                set modelsToIgnore = modelsToIgnore || {}
+                var type = schema.type || 'object'
+                var format = schema.format
+                var model
+                var output
+                if !_.isUndefined(schema.example)
+                    set output = schema.example
+                elif _.isUndefined(schema.items) && _.isArray(schema.enum)
+                    set output = schema.enum[0]
+                if _.isUndefined(output)
+                    if schema.$ref
+                        set model = models[helpers.simpleRef(schema.$ref)]
+                        if ! (_.isUndefined(model))
+                            if _.isUndefined(modelsToIgnore[model.name])
+                                set modelsToIgnore[model.name] = model
+                                set output = schemaToJSON(model.definition, models, modelsToIgnore, modelPropertyMacro)
+                                set delete (modelsToIgnore[model.name])
+                            else 
+                                if model.type === 'array'
+                                    set output = []
+                                else 
+                                    set output =
+                                        { 
+                    elif ! (_.isUndefined(schema.default))
+                        set output = schema.default
+                    elif type === 'string'
+                        if format === 'date-time'
+                            set output = new Date().toISOString()
+                        elif format === 'date'
+                            set output = new Date().toISOString().split('T')[0]
+                        else 
+                            set output = 'string'
+                    elif type === 'integer'
+                        set output = 0
+                    elif type === 'number'
+                        set output = 0.0
+                    elif type === 'boolean'
+                        set output = true
+                    elif type === 'object'
+                        set output =
+                            { 
+                        _ _.forEach
+                            @ schema.properties
+                            function 
+                                param property
+                                param name
+                                var cProperty = _.cloneDeep(property)
+                                set cProperty.default = modelPropertyMacro(property)
+                                set output[name] = schemaToJSON(cProperty, models, modelsToIgnore, modelPropertyMacro)
+                    elif type === 'array'
+                        set output = []
+                        if _.isArray(schema.items)
+                            _ _.forEach
+                                @ schema.items
+                                function 
+                                    param item
+                                    _ output.push
+                                        _ schemaToJSON(item, models, modelsToIgnore, modelPropertyMacro)
+                        elif _.isPlainObject(schema.items)
+                            _ output.push
+                                _ schemaToJSON
+                                    @ schema.items
+                                    @ models
+                                    @ modelsToIgnore
+                                    @ modelPropertyMacro
+                        elif _.isUndefined(schema.items)
+                            _ output.push
+                                { 
+                        else 
+                            _ helpers.log('Array type\'s \'items\' property is not an array or an object, cannot process')
+                return output
+    
+		wz-function schemaToHTML
+            param name
+            param schema
+            param models
+            param modelPropertyMacro
+            
+			var strongOpen = '<span class="strong">'
+            var strongClose = '</span>'
+            
+			if _.isObject(arguments[0])
+                set name = void (0)
+                set schema = arguments[0]
+                set models = arguments[1]
+                set modelPropertyMacro = arguments[2]
+            set models = models || {}
+            set schema = helpers.resolveSchema(schema)
+            if _.isEmpty(schema)
+                return strongOpen + 'Empty' + strongClose
+            if typeof (schema.$ref) === 'string'
+                set name = helpers.simpleRef(schema.$ref)
+                set schema = models[name]
+                if typeof (schema) === 'undefined'
+                    return strongOpen + name + ' is not defined!' + strongClose
+            if typeof (name) !== 'string'
+                set name = schema.title || 'Inline Model'
+            if schema.definition
+                set schema = schema.definition
+            if typeof (modelPropertyMacro) !== 'function'
+                set modelPropertyMacro =
+                    function 
+                        param prop
+                        return (prop || {}).default
+            var references
+                { 
+            var seenModels
+                [ 
+            var inlineModels = 0
+            var html = processModel(schema, name)
+            while _.keys(references).length > 0
+                _ _.forEach
+                    @ references
+                    function 
+                        param schema
+                        param name
+                        var seenModel = _.indexOf(seenModels, name) > - (1)
+                        set delete (references[name])
+                        if ! (seenModel)
+                            _ seenModels.push(name)
+                            set html += ('<br />' + processModel(schema, name))
+            return html
+        
+		function addReference
+            param schema
+            param name
+            param skipRef
+            var modelName = name
+            var model
+            if schema.$ref
+                set modelName = schema.title || helpers.simpleRef(schema.$ref)
+                set model = models[modelName]
+            elif _.isUndefined(name)
+                set modelName = schema.title || ('Inline Model ' + ++inlineModels)
+                set model =
+                    { 
+                        @ definition schema
+            if skipRef !== true
+                set references[modelName] = _.isUndefined(model) ? {} : model.definition
+            return modelName
+        
+		function primitiveToHTML
+            param schema
+            
+			var html = '<span class="propType">'
+            var type = schema.type || 'object'
+            
+			if schema.$ref
+                set html += addReference(schema, helpers.simpleRef(schema.$ref))
+            
+			elif type === 'object'
+                if !_.isUndefined(schema.properties)
+                    set html += addReference(schema)
+                else 
+                    set html += 'object'
+            
+			elif type === 'array'
+                set html += 'Array['
+                if _.isArray(schema.items)
+                    set html += _.map(schema.items, addReference).join(',')
+                elif _.isPlainObject(schema.items)
+                    if _.isUndefined(schema.items.$ref)
+                        if (! (_.isUndefined(schema.items.type)) && (_.indexOf(['array', 'object'], schema.items.type) === - (1)))
+                            set html += schema.items.type
+                        else 
+                            set html += addReference(schema.items)
+                    else 
+                        set html += addReference(schema.items, helpers.simpleRef(schema.items.$ref))
+                else 
+                    _ helpers.log('Array type\'s \'items\' schema is not an array or an object, cannot process')
+                    set html += 'object'
+                set html += ']'
+            else 
+                set html += schema.type
+            set html += '</span>'
+            return html
+        
+		function primitiveToOptionsHTML
+            param schema
+            param html
+            var options = ''
+            var type = (schema.type || 'object')
+            var isArray = type === 'array'
+            if isArray
+                if _.isPlainObject(schema.items) && ! (_.isUndefined(schema.items.type))
+                    set type = schema.items.type
+                else 
+                    set type = 'object'
+            if ! (_.isUndefined(schema.default))
+                set options += optionHtml('Default', schema.default)
+            switch type
+                case 'string'
+                    if schema.minLength
+                        set options += optionHtml('Min. Length', schema.minLength)
+                    if schema.maxLength
+                        set options += optionHtml('Max. Length', schema.maxLength)
+                    if schema.pattern
+                        set options += optionHtml('Reg. Exp.', schema.pattern)
+                    break 
+                case 'integer'
+                case 'number'
+                    if schema.minimum
+                        set options += optionHtml('Min. Value', schema.minimum)
+                    if schema.exclusiveMinimum
+                        set options += optionHtml('Exclusive Min.', 'true')
+                    if schema.maximum
+                        set options += optionHtml('Max. Value', schema.maximum)
+                    if schema.exclusiveMaximum
+                        set options += optionHtml('Exclusive Max.', 'true')
+                    if schema.multipleOf
+                        set options += optionHtml('Multiple Of', schema.multipleOf)
+                    break 
+            if isArray
+                if schema.minItems
+                    set options += optionHtml('Min. Items', schema.minItems)
+                if schema.maxItems
+                    set options += optionHtml('Max. Items', schema.maxItems)
+                if schema.uniqueItems
+                    set options += optionHtml('Unique Items', 'true')
+                if schema.collectionFormat
+                    set options += optionHtml('Coll. Format', schema.collectionFormat)
+            if _.isUndefined(schema.items)
+                if _.isArray(schema.enum)
+                    var enumString
+                    if type === 'number' || type === 'integer'
+                        set enumString = schema.enum.join(', ')
+                    else 
+                        set enumString = '"' + schema.enum.join('", "') + '"'
+                    set options += optionHtml('Enum', enumString)
+            if options.length > 0
+                set html = '<span class="propWrap">' + html + '<table class="optionsWrapper"><tr><th colspan="2">' + type + '</th></tr>' + options + '</table></span>'
+            return html
+            
+		function processModel
+            param schema
+            param name
+                
+			var type = schema.type || 'object'
+            var isArray = schema.type === 'array'
+            var html = strongOpen + name + ' ' + (isArray ? '[' : '{') + strongClose
+            if name
+                _ seenModels.push(name)
+            if isArray
+                if _.isArray(schema.items)
+                    set html +=
+                        op+ 
+                            set '<div>'
+                            _ _.map
+                                @ schema.items
+                                function 
+                                    param item
+                                    var type = item.type || 'object'
+                                    if _.isUndefined(item.$ref)
+                                        if _.indexOf(['array', 'object'], type) > - (1)
+                                            if type === 'object' && _.isUndefined(item.properties)
+                                                return 'object'
+                                            else 
+                                                return addReference(item)
+                                        else 
+                                            return primitiveToOptionsHTML(item, type)
+                                    else 
+                                        return 
+                                            _ addReference
+                                                @ item
+                                                _ helpers.simpleRef
+                                                    @ item.$ref
+                                ._ join(',</div><div>')
+                    
+				elif _.isPlainObject(schema.items)
+                    if _.isUndefined(schema.items.$ref)
+                        if _.indexOf(['array', 'object'], (schema.items.type || 'object')) > -1
+                            if (_.isUndefined(schema.items.type) || schema.items.type === 'object') && _.isUndefined(schema.items.properties
+                                set html += '<div>object</div>'
+                            else 
+                                set html += '<div>' + addReference(schema.items) + '</div>'
+                        else 
+                            set html += '<div>' + primitiveToOptionsHTML(schema.items, schema.items.type) + '</div>'
+                    else 
+                        set html += '<div>' + addReference(schema.items, helpers.simpleRef(schema.items.$ref)) + '</div>'
+                else 
+                    _ helpers.log('Array type\'s \'items\' property is not an array or an object, cannot process')
+                    set html += '<div>object</div>'
+            else 
+                if schema.$ref
+                    set html += '<div>' + addReference(schema, name) + '</div>'
+                elif type === 'object'
+                    if _.isPlainObject(schema.properties)
+                        var contents
+                            _ _.map
+                                @ schema.properties
+                                function 
+                                    param property
+                                    param name
+                                    var propertyIsRequired = _.indexOf(schema.required, name) >= 0
+                                    var cProperty = _.cloneDeep(property)
+                                    var requiredClass = propertyIsRequired ? 'required' : ''
+                                    var html = '<span class="propName ' + requiredClass + '">' + name + '</span> ('
+                                    var model
+                                    var propDescription
+                                    set cProperty.default = modelPropertyMacro(cProperty)
+                                    set cProperty = helpers.resolveSchema(cProperty)
+                                    set propDescription = (property.description || cProperty.description)
+                                    if ! (_.isUndefined(cProperty.$ref))
+                                        set model = models[helpers.simpleRef(cProperty.$ref)]
+                                        if !(_.isUndefined(model)) && _.indexOf([undefined, 'array', 'object'], model.definition.type) === -1
+                                            set cProperty = helpers.resolveSchema(model.definition)
+                                    set html += primitiveToHTML(cProperty)
+                                    if ! (propertyIsRequired)
+                                        set html += ', <span class="propOptKey">optional</span>'
+                                    if property.readOnly
+                                        set html += ', <span class="propReadOnly">read only</span>'
+                                    set html += ')'
+                                    if ! (_.isUndefined(propDescription))
+                                        set html += ': ' + '<span class="propDesc">' + propDescription + '</span>'
+                                    if cProperty.enum
+                                        set html += ' = <span class="propVals">[\'' + cProperty.enum.join('\', \'') + '\']</span>'
+                                    return '<div' + (property.readOnly ? ' class="readOnly"' : '') + '>' + primitiveToOptionsHTML(cProperty, html)
+                                ._ join(',</div>')
+                        if contents
+                            set html += contents + '</div>'
+                else 
+                    set html += '<div>' + primitiveToOptionsHTML(schema, type) + '</div>'
+            return html + strongOpen + (isArray ? ']' : '}') + strongClose

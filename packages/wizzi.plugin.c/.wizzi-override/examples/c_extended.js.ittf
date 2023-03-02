@@ -1,0 +1,73 @@
+module
+    kind es6
+    $
+        var md = {
+            name: 'c',
+        };
+    v08/examples/plugin( &md )
+        $append plugins
+            [ items
+                @ './index.js'
+            @ pluginsBaseFolder
+                _ path.resolve
+                    @ __dirname
+                    @ '..'
+        _ executeGenerateModules
+            [
+                @ 'first'
+            a_cb_no_throw( result )
+                if err
+                    error 'c.examples.executeGenerateModules.err', err
+                    error 'c.examples.executeGenerateModules.err.toString()', err.toString()
+                    if err.inner
+                        error 'c.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
+                else
+        function executeGenerateModules
+            param modules
+            param callback
+            _ async.mapSeries
+                @ modules
+                =>
+                    param module
+                    param callback
+                    log 'c.example.executeGenerateModules.module: ' + module
+                    var ittfDocumentUri
+                        _ path.join
+                            @ __dirname
+                            @ 'ittf'
+                            @ module + '.c.ittf'
+                    var outputLoadedPath
+                        _ path.join
+                            @ __dirname
+                            @ 'results'
+                            @ module + '.c.json'
+                    var outputExtendedPath
+                        _ path.join
+                            @ __dirname
+                            @ 'results'
+                            @ module + '.c.extended.json'
+                    _ loadWizziModel
+                        @ ittfDocumentUri
+                        {
+                        a_cb( model )
+                            log 'c.example.executeGenerateModules.outputLoadedPath: ' + outputLoadedPath
+                            _ file.write
+                                @ outputLoadedPath
+                                _ stringify
+                                    @ model.toJson()
+                                    @ null
+                                    @ 4
+                            _ loadModelAndTransform
+                                @ ittfDocumentUri
+                                {
+                                @ "c/extended"
+                                a_cb( model )
+                                    log 'c.example.executeGenerateModules.outputExtendedPath: ' + outputExtendedPath
+                                    _ file.write
+                                        @ outputExtendedPath
+                                        _ stringify
+                                            @ model
+                                            @ null
+                                            @ 4
+                                    r_cb( )
+                @ callback

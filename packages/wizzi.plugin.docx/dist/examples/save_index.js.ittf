@@ -34,7 +34,7 @@ module
         _ executeGenerateModules
             [
                 @ 'Tutti a tavola'
-            f_cb_no_throw( result )
+            a_cb_no_throw( result )
                 if err
                     log 'docx.examples.executeGenerateModules.err', err
                     log 'docx.examples.executeGenerateModules.err.toString()', err.toString()
@@ -61,7 +61,7 @@ module
                     # log 'context', context
                     _ transformContext
                         @ context
-                        f_cb( context )
+                        a_cb( context )
                             # log 'context', context
                             var ittfDocumentUri
                                 _ path.join
@@ -147,7 +147,7 @@ module
                                 {
                                     @ category context.category
                                 @ 'docx/document'
-                                f_cb( artifactText )
+                                a_cb( artifactText )
                                     _ file.write
                                         @ outputPath
                                         @ artifactText
@@ -159,7 +159,7 @@ module
                                 @ ittfDocumentUri
                                 {
                                     @ beba context
-                                f_cb( debugInfo )
+                                a_cb( debugInfo )
                                     log 'debugInfo', debugInfo
                                     _ file.write
                                         @ outputPathDebugTxt
@@ -182,7 +182,7 @@ module
                                                     @ beba context
                                                     @ bebaItem context.items[0]
                                                 @ 'docx/document'
-                                                f_cb( artifactText )
+                                                a_cb( artifactText )
                                                     _ file.write
                                                         @ outputPath
                                                         @ artifactText
@@ -211,7 +211,7 @@ module
                     _ wizziTools.htmlwizzifier.getWizziIttf
                         @ itemTesto
                         {
-                        f_cb_throw( ittf )
+                        a_cb_throw( ittf )
                             # log 'transformBeba', ittf
                             _ loadModelAndGenerateArtifactFromText
                                 @ ittf
@@ -222,7 +222,7 @@ module
                                     log 'transformBeba.item.NWS_FK_TNW_ID', item.NWS_FK_TNW_ID
                                     set item.TestoJson = JSON.parse(artifactText)
                                     r_cb( artifactText )
-                f_cb()
+                a_cb()
                     r_cb(beba)
 
         function sortItems

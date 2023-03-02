@@ -1,0 +1,26 @@
+﻿table ${name}
+	$params name, k1|@@null, k2|@@null, k3|@@null, k4|@@null, k5|@@null
+	$if k1
+		c ${k1}
+	$if k2
+		c ${k2}
+	$if k3
+		c ${k3}
+	$if k4
+		c ${k4}
+	$if k5
+		c ${k5}
+	$hook
+	ndx ${name}_pk
+		is-primary
+		$if k1
+			c ${k1}
+		$if k2
+			c ${k2}
+		$if k3
+			c ${k3}
+		$if k4
+			c ${k4}
+		$if k5
+			c ${k5}
+

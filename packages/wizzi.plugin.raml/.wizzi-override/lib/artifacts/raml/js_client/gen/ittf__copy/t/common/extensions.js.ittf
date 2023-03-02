@@ -1,0 +1,22 @@
+﻿$group
+
+    if !Array.prototype.indexOf
+        set Array.prototype.indexOf =
+            function 
+                param obj
+                param start
+                for var i = (start || 0), j = this.length; i < j; i++
+                    if this[i] === obj
+                        return i
+                return - (1)
+    +
+	if !String.prototype.trim
+        set String.prototype.trim =
+            function 
+                return this.replace(/^\s+|\s+$/g, '')
+    +
+	if !String.prototype.endsWith
+        set String.prototype.endsWith =
+            function 
+                param suffix
+                return this.indexOf(suffix, (this.length - suffix.length)) !== -1

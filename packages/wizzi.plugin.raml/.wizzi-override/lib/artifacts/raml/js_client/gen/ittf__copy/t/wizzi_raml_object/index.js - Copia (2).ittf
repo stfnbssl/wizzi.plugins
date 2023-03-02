@@ -1,0 +1,386 @@
+﻿$group
+
+	@ apis
+		{ 
+	@ apisArray
+		[
+	@ basePath = (raml.basePath || '')
+	@ this.consumes = raml.consumes
+	@ this.host = (raml.host || '')
+	@ this.info = (raml.info || {})
+	@ this.produces = raml.produces
+            set this.schemes = (raml.schemes || [])
+            set this.securityDefinitions = _.cloneDeep(raml.securityDefinitions)
+            set this.security = raml.security
+            set this.title = (raml.title || '')
+            var 
+                decl key
+                decl definedTags
+                    { 
+                decl k
+                decl location
+                decl self = this
+                decl i
+            if raml.externalDocs
+                set this.externalDocs = raml.externalDocs
+            
+			set this.authSchemes = this.securityDefinitions
+            if this.securityDefinitions
+                for key in this.securityDefinitions
+                    var securityDefinition = this.securityDefinitions[key]
+                    set securityDefinition.vendorExtensions =
+                        { 
+                    for var ext in securityDefinition
+                        _ helpers.extractExtensions(ext, securityDefinition)
+                        if ext === 'scopes'
+                            var scopes = securityDefinition[ext]
+                            if typeof (scopes) === 'object'
+                                set scopes.vendorExtensions =
+                                    { 
+                                for var s in scopes
+                                    _ helpers.extractExtensions(s, scopes)
+                                    if s.indexOf('x-') === 0
+                                        set delete (scopes[s])
+            
+			if Array.isArray(raml.tags)
+                set definedTags =
+                    { 
+                for k = 0; k < raml.tags.length; k++
+                    var t
+                        _ _.cloneDeep
+                            @ raml.tags[k]
+                    set definedTags[t.name] = t
+                    for i in t
+                        if ((i === 'externalDocs') && (typeof (t[i]) === 'object'))
+                            for var j in t[i]
+                                _ helpers.extractExtensions
+                                    @ j
+                                    @ t[i]
+                        _ helpers.extractExtensions(i, t)
+            
+			if typeof (this.url) === 'string'
+                set location = this.parseUri(this.url)
+                if ((((typeof (this.scheme) === 'undefined') && (typeof (this.schemes) === 'undefined'))) || (this.schemes.length === 0))
+                    if ((typeof (location) !== 'undefined') && (typeof (location.scheme) !== 'undefined'))
+                        set this.scheme = location.scheme
+                    if ((typeof (window) !== 'undefined') && (typeof (window.location) !== 'undefined'))
+                        set this.scheme = window.location.protocol.replace(':', '')
+                    else 
+                        set this.scheme = (location.scheme || 'http')
+                elif ((((typeof (window) !== 'undefined') && (typeof (window.location) !== 'undefined'))) && (window.location.protocol.indexOf('chrome-extension') === 0))
+                    set this.scheme = location.scheme
+                elif typeof (this.scheme) === 'undefined'
+                    if ((typeof (window) !== 'undefined') && (typeof (window.location) !== 'undefined'))
+                        var scheme = window.location.protocol.replace(':', '')
+                        if ((scheme === 'https') && (this.schemes.indexOf(scheme) === - (1)))
+                            _ helpers.log('Cannot call a http server from https inside a browser!')
+                            set this.scheme = 'http'
+                        elif this.schemes.indexOf(scheme) !== - (1)
+                            set this.scheme = scheme
+                        else 
+                            if this.schemes.indexOf('https') !== - (1)
+                                set this.scheme = 'https'
+                            else 
+                                set this.scheme = 'http'
+                    else 
+                        set this.scheme = (this.schemes[0] || location.scheme)
+                if ((typeof (this.host) === 'undefined') || (this.host === ''))
+                    set this.host = location.host
+                    if location.port
+                        set this.host = (((this.host + ':')) + location.port)
+            else 
+                if ((typeof (this.schemes) === 'undefined') || (this.schemes.length === 0))
+                    set this.scheme = 'http'
+                elif typeof (this.scheme) === 'undefined'
+                    set this.scheme = this.schemes[0]
+            
+			set this.definitions = raml.definitions
+            for key in this.definitions
+                var model
+                    new Model
+                        @ key
+                        @ this.definitions[key]
+                        @ this.models
+                        @ this.modelPropertyMacro
+                if model
+                    set this.models[key] = model
+            
+			set self.apis.help = _.bind(self.help, self)
+            
+		@ resources
+			[
+				$foreach r in raml.getResources()
+						param r
+						param path
+					@ methods 
+						[
+							$foreach m in r.methods
+
+								param method
+								var operation = r[method]
+								var tags = operation.tags
+								
+								if (((_.isUndefined(tags) || ! (_.isArray(tags)))) || (tags.length === 0))
+									set tags = operation.tags = ['default']
+								
+								var operationId = self.idFromOp(path, method, operation)
+								
+								var operationObject
+									new Operation
+										@ self
+										@ operation.scheme
+										@ operationId
+										@ method
+										@ path
+										@ operation
+										@ self.definitions
+										@ self.models
+										@ self.clientAuthorizations
+								set operationObject.connectionAgent = self.connectionAgent
+								set operationObject.vendorExtensions =
+									{ 
+								for i in operation
+									_ helpers.extractExtensions
+										@ i
+										@ operationObject
+										@ operation[i]
+								set operationObject.externalDocs = operation.externalDocs
+								if operationObject.externalDocs
+									set operationObject.externalDocs = _.cloneDeep(operationObject.externalDocs)
+									set operationObject.externalDocs.vendorExtensions =
+										{ 
+									for i in operationObject.externalDocs
+										_ helpers.extractExtensions
+											@ i
+											@ operationObject.externalDocs
+								_ _.forEach
+									@ tags
+									function 
+										param tag
+										var clientProperty = _.indexOf(reservedClientTags, tag) > - (1) ? ('_' + tag) : tag
+										var apiProperty = _.indexOf(reservedApiTags, tag) > - (1) ? ('_' + tag) : tag
+										var operationGroup = self[clientProperty]
+										if clientProperty !== tag
+											_ helpers.log(((((((((((((((('The \'' + tag)) + '\' tag conflicts with a SwaggerClient function/property name.  Use \'client.')) + clientProperty)) + '\' or \'client.apis.')) + tag)) + '\' instead of \'client.')) + tag)) + '\'.'))
+										if apiProperty !== tag
+											_ helpers.log(((((((((((((('The \'' + tag)) + '\' tag conflicts with a SwaggerClient operation function/property name.  Use ')) + '\'client.apis.')) + apiProperty)) + '\' instead of \'client.apis.')) + tag)) + '\'.'))
+										if _.indexOf(reservedApiTags, operationId) > - (1)
+											_ helpers.log(((((((((((((((((((((('The \'' + operationId)) + '\' operationId conflicts with a SwaggerClient operation ')) + 'function/property name.  Use \'client.apis.')) + apiProperty)) + '._')) + operationId)) + '\' instead of \'client.apis.')) + apiProperty)) + '.')) + operationId)) + '\'.'))
+											set operationId = ('_' + operationId)
+											set operationObject.nickname = operationId
+										
+										if _.isUndefined(operationGroup)
+											set operationGroup = self[clientProperty] = self.apis[apiProperty] = {}
+											set operationGroup.operations =
+												{ 
+											set operationGroup.label = apiProperty
+											set operationGroup.apis =
+												{ 
+											var tagDef = definedTags[tag]
+											if ! (_.isUndefined(tagDef))
+												set operationGroup.description = tagDef.description
+												set operationGroup.externalDocs = tagDef.externalDocs
+												set operationGroup.vendorExtensions = tagDef.vendorExtensions
+											set self[clientProperty].help = _.bind(self.help, operationGroup)
+											_ self.apisArray.push
+												new OperationGroup
+													@ tag
+													@ operationGroup.description
+													@ operationGroup.externalDocs
+													@ operationObject
+										
+										set operationId = self.makeUniqueOperationId(operationId, self.apis[apiProperty])
+										if ! (_.isFunction(operationGroup.help))
+											set operationGroup.help = _.bind(self.help, operationGroup)
+										set self.apis[apiProperty][operationId] = operationGroup[operationId] = _.bind(operationObject.execute, operationObject)
+										set self.apis[apiProperty][operationId].help = operationGroup[operationId].help = _.bind(operationObject.help, operationObject)
+										set self.apis[apiProperty][operationId].asCurl = operationGroup[operationId].asCurl = _.bind(operationObject.asCurl, operationObject)
+										set operationGroup.apis[operationId] = operationGroup.operations[operationId] = operationObject
+										var api
+											_ _.find
+												@ self.apisArray
+												function 
+													param api
+													return api.tag === tag
+										if api
+											_ api.operationsArray.push(operationObject)
+            var sortedApis
+                [ 
+            _ _.forEach
+                _ Object.keys(definedTags)
+                function 
+                    param tag
+                    var pos
+                    for pos in self.apisArray
+                        var _api = self.apisArray[pos]
+                        if (_api && (tag === _api.name))
+                            _ sortedApis.push(_api)
+                            set self.apisArray[pos] = null
+            _ _.forEach
+                @ self.apisArray
+                function 
+                    param api
+                    if api
+                        _ sortedApis.push(api)
+            set self.apisArray = sortedApis
+            _ _.forEach
+                @ raml.definitions
+                function 
+                    param definitionObj
+                    param definition
+                    set definitionObj.id = definition.toLowerCase()
+                    set definitionObj.name = definition
+                    _ self.modelsArray.push(definitionObj)
+            set this.isBuilt = true
+            if this.usePromise
+                set this.isValid = true
+                set this.isBuilt = true
+                _ this.deferredClient.resolve(this)
+                return this.deferredClient.promise
+            if this.success
+                _ this.success()
+            return this
+    
+	set SwaggerClient.prototype.makeUniqueOperationId =
+        function 
+            param operationId
+            param api
+            var count = 0
+            var name = operationId
+            while true
+                var matched = false
+                _ _.forEach
+                    @ api.operations
+                    function 
+                        param operation
+                        if operation.nickname === name
+                            set matched = true
+                if ! (matched)
+                    return name
+                set name = (((operationId + '_')) + count)
+                set count++
+            return operationId
+    
+	set SwaggerClient.prototype.parseUri =
+        function 
+            param uri
+            var urlParseRE = /^(((([^:\/#\?]+:)?(?:(\/\/)((?:(([^:@\/#\?]+)(?:\:([^:@\/#\?]+))?)@)?(([^:\/#\?\]\[]+|\[[^\/\]@#?]+\])(?:\:([0-9]+))?))?)?)?((\/?(?:[^\/\?#]+\/+)*)([^\?#]*)))?(\?[^#]+)?)(#.*)?/
+            var parts = urlParseRE.exec(uri)
+            return 
+                { 
+                    @ scheme
+                        iif parts[4]
+                            then 
+                                _ parts[4].replace(':', '')
+                            else undefined
+                    @ host parts[11]
+                    @ port parts[12]
+                    @ path parts[15]
+    
+	set SwaggerClient.prototype.help =
+        function 
+            param dontPrint
+            var output = ''
+            if this instanceof SwaggerClient
+                _ _.forEach
+                    @ this.apis
+                    function 
+                        param api
+                        param name
+                        if _.isPlainObject(api)
+                            set output += ((('operations for the \'' + name)) + '\' tag\n')
+                            _ _.forEach
+                                @ api.operations
+                                function 
+                                    param operation
+                                    param name
+                                    set output += ((((((('  * ' + name)) + ': ')) + operation.summary)) + '\n')
+            elif ((this instanceof OperationGroup) || _.isPlainObject(this))
+                set output += ((('operations for the \'' + this.label)) + '\' tag\n')
+                _ _.forEach
+                    @ this.apis
+                    function 
+                        param operation
+                        param name
+                        set output += ((((((('  * ' + name)) + ': ')) + operation.summary)) + '\n')
+            if dontPrint
+                return output
+            else 
+                _ helpers.log(output)
+                return output
+    set SwaggerClient.prototype.tagFromLabel =
+        function 
+            param label
+            return label
+    
+	set SwaggerClient.prototype.idFromOp =
+        function 
+            param path
+            param httpMethod
+            param op
+            if !op || !op.operationId
+                set op = op || {}
+                set op.operationId = httpMethod + '_' + path
+            var opId = op.operationId.replace(/[\s!@#$%^&*()_+=\[{\]};:<>|.\/?,\\'""-]/g, '_') || (path.substring(1) + '_' + httpMethod)
+            set opId = opId.replace(/((_){2,})/g, '_')
+            set opId = opId.replace(/^(_)*/g, '')
+            set opId = opId.replace(/([_])*$/g, '')
+            return opId
+    
+	set SwaggerClient.prototype.setHost =
+        function 
+            param host
+            set this.host = host
+            if this.apis
+                _ _.forEach
+                    @ this.apis
+                    function 
+                        param api
+                        if api.operations
+                            _ _.forEach
+                                @ api.operations
+                                function 
+                                    param operation
+                                    set operation.host = host
+    set SwaggerClient.prototype.setBasePath =
+        function 
+            param basePath
+            set this.basePath = basePath
+            if this.apis
+                _ _.forEach
+                    @ this.apis
+                    function 
+                        param api
+                        if api.operations
+                            _ _.forEach
+                                @ api.operations
+                                function 
+                                    param operation
+                                    set operation.basePath = basePath
+    set SwaggerClient.prototype.setSchemes =
+        function 
+            param schemes
+            set this.schemes = schemes
+            if (schemes && (schemes.length > 0))
+                if this.apis
+                    _ _.forEach
+                        @ this.apis
+                        function 
+                            param api
+                            if api.operations
+                                _ _.forEach
+                                    @ api.operations
+                                    function 
+                                        param operation
+                                        set operation.scheme = schemes[0]
+    set SwaggerClient.prototype.fail =
+        function 
+            param message
+            if this.usePromise
+                _ this.deferredClient.reject(message)
+                return this.deferredClient.promise
+            else 
+                if this.failure
+                    _ this.failure(message)
+                else 
+                    _ this.failure(message)

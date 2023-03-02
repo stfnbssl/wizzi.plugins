@@ -1,0 +1,34 @@
+﻿module
+	kind jsfile
+
+	var util = require('util')
+	var path = require('path')
+	var wizzi = require('wizzi')
+
+	var md = module.exports = {}
+	var myname = 'raml.nodejs.server.main'
+
+	set md.gen
+		function
+			param model
+			param ctx
+			param callback
+
+			var ittfDocumentPath = path.join(__dirname, 'ittf', 'nodejs-server.js.ittf')
+
+			var jsContext
+				{
+					@ raml model
+					@ request
+						{
+			
+			_ wizzi.jsModule
+				@ ittfDocumentPath
+				@ jsContext
+				function
+					param err
+					param result
+					if err
+						throw new Error(err)
+					_ ctx.w(result)
+					_ callback(null, ctx)

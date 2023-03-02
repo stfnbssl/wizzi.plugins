@@ -1,0 +1,64 @@
+﻿$group
+	$params &element
+			
+		$foreach method in element.methods
+
+			h2panel( '', ${method.name} )
+
+				$if method.parameters.length > 0
+					panel( parameters )
+						table( 100 )
+							$foreach param in method.queryParameters
+								tr
+									td ${param.wzName}
+										. panel 
+											table( 100, false )
+												tr
+													td in
+													td ${param.in}
+												$foreach f in param.getFacets()
+													tr
+														td ${f.name}
+														td ${f.value}
+				small
+					table( 90 )
+						thead
+							tr
+								th status
+								th mediatype
+								th response content
+						tbody
+							tr
+								$foreach rs in method.getResponseStatuses()
+									td ${rs.name}
+									$foreach bmt in rs.getMediaTypes()
+										td ${bmt.name}
+										td
+											$if bmt.typeItem
+												$ var faceted = bmt.typeItem
+												table( 100, false )
+													tr
+														td 
+															b ${faceted.name} 
+														td
+															b ${faceted.type} 
+															br
+															table( 100, false )
+																$foreach f in faceted.getFacets()
+																	tr
+																		td ${f.name}
+																		td ${f.value}
+																$if faceted.type == 'object'
+																	panel( properties )
+																		table( 100, false )
+																			$foreach p in faceted.properties
+																				tr
+																					td ${p.wzName}
+																						. panel 
+																							table( 100, false )
+																								$foreach f in p.getFacets()
+																									tr
+																										td ${f.name}
+																										td ${f.value}
+
+

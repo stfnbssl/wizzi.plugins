@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.7
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi.plugin.docx\.wizzi\ittf\examples\Anna_index.js.ittf
-    utc time: Mon, 01 Mar 2021 21:35:47 GMT
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@0.7.9
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.docx\.wizzi\examples\Anna_index.js.ittf
+    utc time: Fri, 01 Jul 2022 14:55:46 GMT
 */
 'use strict';
 const H2_Size = 28;
@@ -27,7 +27,7 @@ var wizziTools = require('wizzi-tools');
 function executeExample() {
     loadModelAndGenerateArtifact(path.join(__dirname, 'ittf', 'Anna.docx.ittf'), {
         category: "Tutti a tavola"
-    }, 'docx/document', function(err, artifactText) {
+     }, 'docx/document', function(err, artifactText) {
         if (err) {
             return callback(err);
         }
@@ -46,9 +46,9 @@ function createWizziFactory(globalContext, callback) {
                 './wizzi-core/dist/index.js'
             ], 
             pluginsBaseFolder: path.resolve(__dirname, '..', '..', '..')
-        }, 
+         }, 
         globalContext: globalContext || {}
-    }, callback)
+     }, callback)
 }
 function loadMTree(ittfDocumentUri, context, callback) {
     createWizziFactory({}, function(err, wf) {
@@ -75,7 +75,7 @@ function loadWizziModel(ittfDocumentUri, context, callback) {
         wf.loadModel(fi.schema, ittfDocumentUri, {
             mTreeBuildUpContext: context, 
             globalContext: {}
-        }, callback)
+         }, callback)
     })
 }
 function loadWizziModelAndSaveToJson(ittfDocumentUri, context, outputFolder, callback) {
@@ -97,7 +97,7 @@ function loadModelAndGenerateArtifact(ittfDocumentUri, context, artifactName, ca
         wf.loadModelAndGenerateArtifact(ittfDocumentUri, {
             modelRequestContext: context, 
             artifactRequestContext: {}
-        }, artifactName, callback)
+         }, artifactName, callback)
     })
 }
 function loadModelAndGenerateArtifactFromText(ittfContent, context, artifactName, callback) {
@@ -108,7 +108,7 @@ function loadModelAndGenerateArtifactFromText(ittfContent, context, artifactName
         wf.loadModelAndGenerateArtifactFromText(ittfContent, {
             modelRequestContext: context, 
             artifactRequestContext: {}
-        }, artifactName, callback)
+         }, artifactName, callback)
     })
 }
 function loadModelAndTransform(ittfDocumentUri, context, transformName, callback) {
@@ -137,10 +137,10 @@ function executeWizziJob(ittfDocumentUri, context, callback) {
                 indentSpaces: 4, 
                 basedir: __dirname, 
                 verbose: 2
-            }), 
+             }), 
             modelContext: context || {}, 
             jobContext: {}
-        }, callback)
+         }, callback)
     })
 }
 function executeWizziJob_2(wfjobDocumentUri, options) {
@@ -168,7 +168,7 @@ function executeWizziJob_2(wfjobDocumentUri, options) {
         config: {
             wfBaseFolder: 'c:/my/wizzi/v5', 
             plugins: jobPlugins
-        }, 
+         }, 
         job: {
             name: 'example ' + wfjobDocumentUri, 
             ittfDocumentUri: wfjobDocumentUri, 
@@ -176,10 +176,10 @@ function executeWizziJob_2(wfjobDocumentUri, options) {
                 indentSpaces: 4, 
                 basedir: __dirname, 
                 verbose: 2
-            }), 
+             }), 
             globalContext: options.globalContext
-        }
-    }, function(err) {
+         }
+     }, function(err) {
         if (err) {
             wizzi.printWizziJobError('docx', err);
         }
@@ -195,8 +195,10 @@ function executeGenerateModelTypes(wfschemaIttfDocumentUri, outputPackagePath, w
 }
 function getIttfFilesBySchema(srcpath, schema) {
     return fs.readdirSync(srcpath).filter((file) => {
+        
             return fs.lstatSync(path.join(srcpath, file)).isFile() && verify.endsWith(file, (schema === 'ittf' ? '.ittf' : '.' + schema + '.ittf'));
-        })
+        }
+        )
     ;
 }
 function fileInfoByPath(filePath, baseFolder) {
@@ -224,7 +226,7 @@ function fileInfoByPath(filePath, baseFolder) {
                 fullPath: filePath, 
                 destBasename: name + '.' + mime, 
                 destRelPath: relFolder.length > 0 ? relFolder + '/' + name + '.' + mime : name + '.' + mime
-            };
+             };
     }
     else {
         return {
@@ -237,7 +239,7 @@ function fileInfoByPath(filePath, baseFolder) {
                 fullPath: filePath, 
                 destBasename: basename, 
                 destRelPath: relFolder.length > 0 ? relFolder + '/' + basename : basename
-            };
+             };
     }
 }
 var DEFAULT_MIME = {
@@ -255,7 +257,7 @@ var DEFAULT_MIME = {
     vue: 'vue', 
     xml: 'xml', 
     yaml: 'yaml'
-};
+ };
 function normalize(filepath) {
     return verify.replaceAll(filepath, '\\', '/');
 }

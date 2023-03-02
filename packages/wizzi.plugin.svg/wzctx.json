@@ -1,0 +1,46 @@
+{
+    "name": "wizzi.plugin.svg",
+    "version": "0.0.1",
+    "description": "wizzi.plugin.svg",
+    "author": {
+        "name": "Stefano Bassoli",
+        "email": "stfn.bssl@gmail.com"
+    },
+    "github": {
+        "userid": "stfnbssl"
+    },
+    "license": {
+        "name": "MIT",
+        "copy": "copy 2022"
+    },
+    "Build": {
+        "isWizziPlugin": true,
+        "utils": {
+            "useStringifySafe": true
+        }
+    },
+    "Schemas": [
+        {
+            "name": "svg",
+            "title": "svg wizzi schema",
+            "builtin": false,
+            "modelTransformers": [
+                {
+                    "name": "extended"
+                }
+            ],
+            "artifactGenerators": [
+                {
+                    "name": "document"
+                }
+            ],
+            "includes": [
+                {
+                    "Name": "Js",
+                    "name": "js",
+                    "options": []
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,19 @@
+﻿$group
+
+	$foreach index in table.indexes
+		h4 Index ${index.wzName}
+		table
+			class table table-condensed table-bordered
+			style width:50%
+			tbody
+				tr_prop( isPrimary, ${index.isPrimary})
+		h5 columns
+		table
+			class table table-condensed table-bordered
+			style width:40%
+			$foreach ic in index.indexColumns
+				tr 
+					td ${ic.wzName}
+					td ${ic.sort}
+		$foreach comment in index.comments
+			span ${comment} &nbsp;

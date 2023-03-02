@@ -1,0 +1,97 @@
+﻿$group
+
+	# Router
+	wz-iife router
+
+		$include mocks/index
+		$include handler_from_dir
+
+		wz-function initialize
+			param wizziRamlApi
+			param callback
+
+			var handlerCache
+				{ 
+			
+			_ debug('Initializing raml-router middleware')
+			_ debug('  Mock mode: %s', options.useStubs === true ? 'enabled' : 'disabled')
+		
+			if _.isPlainObject(options.controllers)
+				_ debug('  Controllers:')
+				var func
+				for var name in options.controllers
+					_ debug('    %s', name)
+					set func = options.controllers[name]
+					if !(_.isFunction(func))
+						throw 
+							new Error('options.controllers values must be functions')
+				set handlerCache = options.controllers
+			else 
+				set handlerCache = handlerCacheFromDir(options.controllers)
+
+			_ callback
+				@ null
+				function wizziRamlRouter
+					param req
+					param res
+					param next
+
+					var operation
+						iif req.wizziRaml
+							then 
+								set req.wizziRaml.operation
+							else undefined
+					
+				
+					_ debug
+						@ '%s %s'
+						@ req.method
+						@ req.url
+					_ debug('  Will process: %s', _.isUndefined(operation) ? 'no' : 'yes')
+				
+					var rErr
+
+					if operation
+
+						var handler
+
+						var handlerName = operation.handlerId
+						set handler = handlerCache[handlerName]
+						
+						_ debug('  Route handler: %s', handlerName)
+						_ debug('    Missing: %s', _.isUndefined(handler) ? 'yes' : 'no')
+						_ debug('    Ignored: %s', options.ignoreMissingHandlers === true ? 'yes' : 'no')
+						_ debug('    Using mock: %s', options.useStubs && _.isUndefined(handler) ? 'yes' : 'no')
+						
+						if _.isUndefined(handler) && options.useStubs === true
+							set handler = handlerCache[handlerName] = createStubHandler(handlerName)
+						
+						if !(_.isUndefined(handler))
+							try 
+								return handler(req, res, next)
+							catch err
+								set rErr = err
+								_ debug
+									@ 'Handler threw an unexpected error: %s\n%s'
+									@ err.message
+									@ err.stack
+						
+						elif options.ignoreMissingHandlers !== true
+							set rErr = new Error('Cannot resolve the configured raml-router handler: ' + handlerName)
+							set res.statusCode = 500
+					
+					else 
+						
+						_ debug
+							@ '  No handler for method: %s'
+							@ req.method
+						return responder.send405(req, res, next)
+				
+					if rErr
+						_ errors.debugError(rErr, debug)
+				
+					return next(rErr)
+
+
+
+

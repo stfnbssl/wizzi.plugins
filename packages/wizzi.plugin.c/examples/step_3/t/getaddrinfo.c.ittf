@@ -1,0 +1,26 @@
+$group
+
+    struct addrinfo addrinfo_hints;
+    struct addrinfo *addrinfo_result = NULL;
+    +
+    ZeroMemory (&addrinfo_hints, sizeof(addrinfo_hints));
+    +
+    addrinfo_hints.ai_family = AF_INET;
+    addrinfo_hints.ai_socktype = SOCK_STREAM;
+    addrinfo_hints.ai_protocol = IPPROTO_TCP;
+    addrinfo_hints.ai_flags = AI_PASSIVE;
+    +
+    // Resolve the server address and port
+    iResult = getaddrinfo(NULL, DEFAULT_PORT, &addrinfo_hints, &addrinfo_result);
+    if iResult != 0
+        error "getaddrinfo failed with error: %d\n", iResult
+        WSACleanup ();
+        return 1;
+    +
+    heading2 ("addrinfo_result");
+    info "    ai_family     %d\n", addrinfo_result->ai_family 
+    info "    ai_socktype   %d\n", addrinfo_result->ai_socktype 
+    info "    ai_protocol   %d\n", addrinfo_result->ai_protocol 
+    info "    ai_addr       %d\n", addrinfo_result->ai_addr 
+    info "    ai_addrlen    %d\n", addrinfo_result->ai_addrlen 
+    +

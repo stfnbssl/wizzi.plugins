@@ -1,0 +1,33 @@
+﻿$group
+
+	var validateDefinitions
+        function 
+            param documentMetadata
+            param results
+            _ _.each
+                @ documentMetadata.definitions
+                function 
+                    param metadata
+                    param id
+                    var defPath = JsonRefs.pathFromPtr(id)
+                    var defType = defPath[0].substring(0, (defPath[0].length - 1))
+                    var displayId = id
+                    var code
+                        iif defType === 'securityDefinition'
+                            then 'SECURITY_DEFINITION'
+                            else 
+                                _ defType.toUpperCase()
+                    
+					var msgPrefix = defType === 'securityDefinition' ? 'Security definition' : (defType.charAt(0).toUpperCase() + defType.substring(1))
+                    
+					if metadata.references.length === 0 && !(metadata.inline)
+                        if metadata.scopePath
+                            set code += '_SCOPE'
+                            set msgPrefix += ' scope'
+                            set defPath = metadata.scopePath
+                        _ createUnusedErrorOrWarning
+                            @ displayId
+                            @ code
+                            @ msgPrefix
+                            @ defPath
+                            @ results.warnings

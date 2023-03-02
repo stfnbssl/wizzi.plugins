@@ -1,0 +1,52 @@
+$group
+    /*
+        This function creates a hidden window 
+        to receive the async select messages sent by winsock for socket events.
+    function CreateAcceptWindow
+        param void
+        rtype HWND
+        +
+        WNDCLASS window;
+        HWND windowHandle = NULL;
+        +
+        // set the window properties.
+        memset (&window, 0, sizeof(WNDCLASS));
+        window.lpszClassName = "Accept Window";
+        window.hInstance = NULL;
+        window.lpfnWndProc = (WNDPROC) MainWndProc;
+        window.hCursor = NULL;	
+        window.hIcon = NULL;
+        window.lpszMenuName = NULL;
+        window.hbrBackground = NULL; 
+        window.style = 0;
+        window.cbClsExtra = 0;
+        window.cbWndExtra = 0;
+        +
+        // register the window class.
+        if !RegisterClass(&window)
+            error "Registerclass failed %d\n", GetLastError()
+            goto CLEANUP;
+        +
+        // create the window. 
+        windowHandle = CreateWindow("Accept Window",
+                                    "Accept Window",
+                                    WS_OVERLAPPEDWINDOW,	//WS_MINIMIZE,
+                                    CW_USEDEFAULT,
+                                    CW_USEDEFAULT,
+                                    CW_USEDEFAULT,
+                                    CW_USEDEFAULT,
+                                    (HWND) NULL,
+                                    (HMENU) NULL,
+                                    (HINSTANCE) NULL,
+                                    (LPVOID) NULL);
+
+        // check if a window was created.
+        if windowHandle == NULL 
+            error "CreateWindow failed %d\n", GetLastError()
+            return NULL;
+
+        // uncomment the line below to see the window on the taskbar.
+        // ShowWindow(windowHandle, SW_MINIMIZE);
+        
+        label CLEANUP
+            return windowHandle;

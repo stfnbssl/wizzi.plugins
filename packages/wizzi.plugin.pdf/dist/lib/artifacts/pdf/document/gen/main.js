@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.7
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi.plugin.pdf\.wizzi\ittf\lib\artifacts\pdf\document\gen\main.js.ittf
-    utc time: Mon, 15 Mar 2021 12:41:29 GMT
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@0.7.9
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.pdf\.wizzi\lib\artifacts\pdf\document\gen\main.js.ittf
+    utc time: Fri, 01 Jul 2022 16:42:17 GMT
 */
 'use strict';
 var util = require('util');
@@ -34,8 +34,8 @@ md.gen = function(model, ctx, callback) {
             if (ctx.artifactGenerationErrors.length > 0) {
                 return callback(ctx.artifactGenerationErrors);
             }
+            // generation OK
             else {
-                // generation OK
                 return callback(null, ctx);
             }
         })
@@ -43,7 +43,8 @@ md.gen = function(model, ctx, callback) {
     catch (ex) {
         return callback(error('Exception', 'gen', 'An exception encountered during generation', model, ex));
     } 
-};
+}
+;
 
 md.genItems = function(items, ctx, options, callback) {
     if (typeof callback == 'undefined') {
@@ -61,6 +62,7 @@ md.genItems = function(items, ctx, options, callback) {
         goitems.push(items[i]);
     }
     async.mapSeries(goitems, md.mapItem(ctx), (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
@@ -68,13 +70,16 @@ md.genItems = function(items, ctx, options, callback) {
             ctx.deindent();
         }
         process.nextTick(callback)
-    })
-};
+    }
+    )
+}
+;
 md.mapItem = function(ctx) {
     return function(model, callback) {
             return md.genItem(model, ctx, callback);
         };
-};
+}
+;
 md.genItem = function(model, ctx, callback) {
     var method = md[model.wzElement];
     if (method) {
@@ -83,11 +88,12 @@ md.genItem = function(model, ctx, callback) {
     else {
         return callback(error('ArtifactGenerationError', 'genItem', myname + '. Unknown tag/element: ' + model.wzTag + '/' + model.wzElement, model, null));
     }
-};
+}
+;
 
 const noindent = {
     indent: false
-};
+ };
 
 function respace(text) {
     text = verify.replaceAll(text, '&nbsp;', ' ');
@@ -108,13 +114,14 @@ md.pdf = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: null
-    })
+     })
     ctx.values.pdfMainInternalObject = pdfNode;
     ctx.w('const fs = require("fs");');
     ctx.w('const pdfmake = require("pdfmake");');
     ctx.w('');
     ctx.w('const ' + pdfNode + ' = { content: [], styles: {} };');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
@@ -151,8 +158,10 @@ md.pdf = function(model, ctx, callback) {
         ctx.w('pdfDoc.end();');
         ctx.w('console.log("DONE written", new Date() - now)');
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 
 md.section = function(model, ctx, callback) {
     // log 'tag section, value', model.wzName
@@ -161,14 +170,16 @@ md.section = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: "content"
-    })
+     })
     ctx.w('const ' + pdfNode + ' = { content: [], styles: {} };');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
+        
+        // _ ctx.w('const ' + ctx.values.pdfMainObject + ' = new pdf.Document(' + ctx.values.pdfMainInternalObject + ');')
         if (ctx.values.mainObjectCreated == false) {
-            // _ ctx.w('const ' + ctx.values.pdfMainObject + ' = new pdf.Document(' + ctx.values.pdfMainInternalObject + ');')
             ctx.w('const ' + ctx.values.pdfMainObject + ' = { sections : [] };');
             ctx.values.mainObjectCreated = true;
         }
@@ -176,8 +187,10 @@ md.section = function(model, ctx, callback) {
         ctx.w(ctx.values.pdfMainObject + '.sections.push(' + pdfNode + ');');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 
 md.p = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
@@ -186,21 +199,24 @@ md.p = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: "text"
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.text = [];');
     if (!verify.isEmpty(model.wzName)) {
         ctx.w(pdfNode + '.text.push("' + respace(model.wzName) + '");');
     }
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
         ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.columns = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
@@ -208,18 +224,21 @@ md.columns = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: "columns"
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.columns = [];');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
         ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.stack = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
@@ -227,18 +246,21 @@ md.stack = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: "stack"
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.stack = [];');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
         ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.image = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
@@ -246,18 +268,21 @@ md.image = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: ""
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.image = "' + model.wzName + '";');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
         ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.imageDef = function(model, ctx, callback) {
     if (ctx.values.mainObjectCreated == false) {
         ctx.w('const ' + ctx.values.pdfMainObject + ' = new pdf.Document(' + ctx.values.pdfMainInternalObject + ');');
@@ -269,12 +294,14 @@ md.imageDef = function(model, ctx, callback) {
     ctx.w('  fs.readFileSync("' + verify.replaceAll(model.src, '\\', '\\\\') + '")');
     ctx.w(');');
     return callback(null);
-};
+}
+;
 md.imageRef = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1];
     ctx.w(pdfParent + '.children.push(' + model.wzName + ');');
     return callback(null);
-};
+}
+;
 
 md.h1 = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
@@ -283,11 +310,12 @@ md.h1 = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: ""
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.text = "' + respace(model.wzName) + '";');
     ctx.w(pdfNode + '.heading = pdf.HeadingLevel.HEADING_1;');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
@@ -295,8 +323,10 @@ md.h1 = function(model, ctx, callback) {
         ctx.w(pdfParent + '.children.push(' + pdfNode + 'Obj);');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.h2 = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
@@ -304,11 +334,12 @@ md.h2 = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: ""
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.text = "' + respace(model.wzName) + '";');
     ctx.w(pdfNode + '.heading = pdf.HeadingLevel.HEADING_2;');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
@@ -316,8 +347,10 @@ md.h2 = function(model, ctx, callback) {
         ctx.w(pdfParent + '.children.push(' + pdfNode + 'Obj);');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.h3 = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
@@ -325,11 +358,12 @@ md.h3 = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: ""
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.text = "' + respace(model.wzName) + '";');
     ctx.w(pdfNode + '.heading = pdf.HeadingLevel.HEADING_3;');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
@@ -337,8 +371,10 @@ md.h3 = function(model, ctx, callback) {
         ctx.w(pdfParent + '.children.push(' + pdfNode + 'Obj);');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.h4 = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
@@ -346,11 +382,12 @@ md.h4 = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: ""
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.text = "' + respace(model.wzName) + '";');
     ctx.w(pdfNode + '.heading = pdf.HeadingLevel.HEADING_4;');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
@@ -358,8 +395,10 @@ md.h4 = function(model, ctx, callback) {
         ctx.w(pdfParent + '.children.push(' + pdfNode + 'Obj);');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.h5 = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
@@ -367,11 +406,12 @@ md.h5 = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: ""
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.text = "' + respace(model.wzName) + '";');
     ctx.w(pdfNode + '.heading = pdf.HeadingLevel.HEADING_5;');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
@@ -379,8 +419,10 @@ md.h5 = function(model, ctx, callback) {
         ctx.w(pdfParent + '.children.push(' + pdfNode + 'Obj);');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.h6 = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
@@ -388,11 +430,12 @@ md.h6 = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: ""
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.text = "' + respace(model.wzName) + '";');
     ctx.w(pdfNode + '.heading = pdf.HeadingLevel.HEADING_6;');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
@@ -400,8 +443,10 @@ md.h6 = function(model, ctx, callback) {
         ctx.w(pdfParent + '.children.push(' + pdfNode + 'Obj);');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.text = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
@@ -409,18 +454,21 @@ md.text = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: ""
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.text = "' + respace(model.wzName) + '";');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
         ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.bold = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
@@ -428,19 +476,22 @@ md.bold = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: ""
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.text = "' + respace(model.wzName) + '";');
     ctx.w(pdfNode + '.bold = true;');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
         ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.italics = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
@@ -448,19 +499,22 @@ md.italics = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: ""
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.text = "' + respace(model.wzName) + '";');
     ctx.w(pdfNode + '.italics = true;');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
         ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.underline = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
@@ -468,219 +522,262 @@ md.underline = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: ""
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.text = "' + respace(model.wzName) + '";');
     ctx.w(pdfNode + '.underline = true;');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
         ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.pageOrientation = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.pageOrientation = "' + respace(model.wzName) + '";');
     return callback(null);
-};
+}
+;
 md.pageSize = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.pageSize = "' + respace(model.wzName) + '";');
     return callback(null);
-};
+}
+;
 md.pageMargins = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.pageMargins = [' + respace(model.wzName) + '];');
     return callback(null);
-};
+}
+;
 md.boldProp = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.bold = ' + true + ';');
     return callback(null);
-};
+}
+;
 md.italicsProp = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.italics = ' + true + ';');
     return callback(null);
-};
+}
+;
 md.underlineProp = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.underline = ' + true + ';');
     return callback(null);
-};
+}
+;
 md.emphasisMark = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.emphasisMark = ' + true + ';');
     return callback(null);
-};
+}
+;
 md.strike = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.strike = ' + true + ';');
     return callback(null);
-};
+}
+;
 md.doubleStrike = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.doubleStrike = ' + true + ';');
     return callback(null);
-};
+}
+;
 md.superScript = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.superScript = ' + true + ';');
     return callback(null);
-};
+}
+;
 md.subScript = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.subScript = ' + true + ';');
     return callback(null);
-};
+}
+;
 md.smallCaps = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.smallCaps = ' + true + ';');
     return callback(null);
-};
+}
+;
 md.allCaps = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.allCaps = ' + true + ';');
     return callback(null);
-};
+}
+;
 md.font = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.font = "' + respace(model.wzName) + '";');
     return callback(null);
-};
+}
+;
 md.fontSize = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.fontSize = ' + respace(model.wzName) + ';');
     return callback(null);
-};
+}
+;
 md.xbreak = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.break = ' + true + ';');
     return callback(null);
-};
+}
+;
 md.size = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.size = ' + respace(model.wzName) + ';');
     return callback(null);
-};
+}
+;
 md.color = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.color = "' + respace(model.wzName) + '";');
     return callback(null);
-};
+}
+;
 md.background = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.background = "' + respace(model.wzName) + '";');
     return callback(null);
-};
+}
+;
 md.fill = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.background = "' + respace(model.wzName) + '";');
     return callback(null);
-};
+}
+;
 md.xname = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.name = "' + respace(model.wzName) + '";');
     return callback(null);
-};
+}
+;
 md.highlight = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.highlight = "' + respace(model.wzName) + '";');
     return callback(null);
-};
+}
+;
 md.style = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.style = "' + respace(model.wzName) + '";');
     return callback(null);
-};
+}
+;
 md.next = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.next = "' + respace(model.wzName) + '";');
     return callback(null);
-};
+}
+;
 md.basedOn = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.basedOn = "' + respace(model.wzName) + '";');
     return callback(null);
-};
+}
+;
 md.before = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.before = ' + respace(model.wzName) + ';');
     return callback(null);
-};
+}
+;
 md.after = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.after = ' + respace(model.wzName) + ';');
     return callback(null);
-};
+}
+;
 md.line = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.line = ' + respace(model.wzName) + ';');
     return callback(null);
-};
+}
+;
 md.link = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.link = "' + respace(model.wzName) + '";');
     return callback(null);
-};
+}
+;
 md.linkText = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.text = "' + respace(model.wzName) + '";');
     return callback(null);
-};
+}
+;
 md.value = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.value = "' + respace(model.wzName) + '";');
     return callback(null);
-};
+}
+;
 md.space = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.space = ' + respace(model.wzName) + ';');
     return callback(null);
-};
+}
+;
 md.height = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.height = ' + respace(model.wzName) + ';');
     return callback(null);
-};
+}
+;
 md.margin = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.margin = [' + respace(model.wzName) + '];');
     return callback(null);
-};
+}
+;
 md.width = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.width = ' + respace(model.wzName) + ';');
     return callback(null);
-};
+}
+;
 md.widths = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.table.widths = [' + respace(model.wzName) + '];');
     return callback(null);
-};
+}
+;
 md.headerRows = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.table.headerRows = ' + respace(model.wzName) + ';');
     return callback(null);
-};
+}
+;
 md.layout = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.layout = "' + respace(model.wzName) + '";');
     return callback(null);
-};
+}
+;
 md.noWrap = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.noWrap = ' + true + ';');
     return callback(null);
-};
+}
+;
 md.columnGap = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.columnGap = ' + respace(model.wzName) + ';');
     return callback(null);
-};
+}
+;
 md.xtype = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     if (model.wzParent.wzElement == 'shading') {
@@ -707,7 +804,8 @@ md.xtype = function(model, ctx, callback) {
         ctx.w(pdfParent + '.type = "' + model.wzName + '";');
     }
     return callback(null);
-};
+}
+;
 md.position = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     if (model.wzParent.wzElement == 'tabStop') {
@@ -722,17 +820,20 @@ md.position = function(model, ctx, callback) {
         ctx.w(pdfParent + '.position = ' + model.wzName + ';');
     }
     return callback(null);
-};
+}
+;
 md.alignment = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.alignment = "' + model.wzName + '";');
     return callback(null);
-};
+}
+;
 md.hyperlinkRef = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.children.push(new pdf.HyperlinkRef("' + model.wzName + '"));');
     return callback(null);
-};
+}
+;
 
 md.font = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
@@ -741,17 +842,20 @@ md.font = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: ""
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
         ctx.w(pdfParent + '.font = ' + pdfNode + ';');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 
 md.shading = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
@@ -760,17 +864,20 @@ md.shading = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: ""
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
         ctx.w(pdfParent + '.shading = ' + pdfNode + ';');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.table = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
@@ -778,18 +885,21 @@ md.table = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: "body"
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.table = { body: [] };');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
         ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.tr = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
@@ -797,18 +907,21 @@ md.tr = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: "tds"
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.tds = [];');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
         ctx.w(pdfParent + '.table.body.push(' + pdfNode + '.tds);');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.underline = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
@@ -816,17 +929,20 @@ md.underline = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: ""
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
         ctx.w(pdfNode + '.underline = ' + pdfNode + ';');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.styles = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
@@ -834,17 +950,20 @@ md.styles = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: ""
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
         ctx.w(pdfParent + '.styles = ' + pdfNode + ';');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.xdefault = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
@@ -852,17 +971,20 @@ md.xdefault = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: ""
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
         ctx.w(pdfParent + '.default = ' + pdfNode + ';');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.run = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
@@ -870,17 +992,20 @@ md.run = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: ""
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
         ctx.w(pdfParent + '.run = ' + pdfNode + ';');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.tabStop = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
@@ -888,17 +1013,20 @@ md.tabStop = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: ""
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
         ctx.w(pdfParent + '.tabStops.push(' + pdfNode + ');');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.styleDef = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
@@ -906,12 +1034,13 @@ md.styleDef = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: ""
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     if (model.wzParent.wzElement == 'paragraphStyles') {
         ctx.w(pdfNode + '.id = "' + model.wzName + '";');
     }
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
@@ -923,8 +1052,10 @@ md.styleDef = function(model, ctx, callback) {
         }
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.defaultStyleDef = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
@@ -932,17 +1063,20 @@ md.defaultStyleDef = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: ""
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
         ctx.w(pdfParent + '.defaultStyle = ' + pdfNode + ';');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.spacing = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
@@ -950,17 +1084,20 @@ md.spacing = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: ""
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
         ctx.w(pdfParent + '.spacing = ' + pdfNode + ';');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.hyperlinks = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
@@ -968,17 +1105,20 @@ md.hyperlinks = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: ""
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
         ctx.w(pdfParent + '.hyperlinks = ' + pdfNode + ';');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.hyperlinkDef = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
@@ -986,17 +1126,20 @@ md.hyperlinkDef = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: ""
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
         ctx.w(pdfParent + '.' + model.wzName + ' = ' + pdfNode + ';');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.border = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
@@ -1004,17 +1147,20 @@ md.border = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: ""
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
         ctx.w(pdfParent + '.border = ' + pdfNode + ';');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.top = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
@@ -1022,17 +1168,20 @@ md.top = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: ""
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
         ctx.w(pdfParent + '.top = ' + pdfNode + ';');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.left = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
@@ -1040,17 +1189,20 @@ md.left = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: ""
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
         ctx.w(pdfParent + '.left = ' + pdfNode + ';');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.right = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
@@ -1058,17 +1210,20 @@ md.right = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: ""
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
         ctx.w(pdfParent + '.right = ' + pdfNode + ';');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.bottom = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
@@ -1076,17 +1231,20 @@ md.bottom = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: ""
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
         ctx.w(pdfParent + '.bottom = ' + pdfNode + ';');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.paragraphStyles = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
@@ -1094,17 +1252,20 @@ md.paragraphStyles = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: ""
-    })
+     })
     ctx.w('const ' + pdfNode + ' = [];');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
         ctx.w(pdfParent + '.paragraphStyles = ' + pdfNode + ';');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.ul = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
@@ -1112,18 +1273,21 @@ md.ul = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: "ul"
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.ul = [];');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
         ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.ol = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
@@ -1131,18 +1295,21 @@ md.ol = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: "ol"
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.ul = [];');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
         ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 md.li = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
@@ -1150,10 +1317,11 @@ md.li = function(model, ctx, callback) {
     ctx.values.pdfStack.push({
         node: pdfNode, 
         arrayName: "text"
-    })
+     })
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.text = [];');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+    
         if (err) {
             return callback(err);
         }
@@ -1161,8 +1329,10 @@ md.li = function(model, ctx, callback) {
         ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');');
         ctx.values.pdfStack.pop();
         return callback(null);
-    })
-};
+    }
+    )
+}
+;
 
 //
 function error(errorName, method, message, model, innerError) {
@@ -1171,5 +1341,5 @@ function error(errorName, method, message, model, innerError) {
             method: '/lib/artifacts/pdf/document/gen/main.' + method, 
             sourcePath: __filename, 
             inner: innerError
-        });
+         });
 }

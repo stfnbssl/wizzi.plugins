@@ -1,0 +1,224 @@
+﻿$group
+
+	var processAuthRefs
+        function 
+            param documentMetadata
+            param authRefs
+            param path
+            param results
+            
+			var code = 'SECURITY_DEFINITION'
+			var msgPrefix = 'Security definition'
+            
+			_ _.reduce
+                @ authRefs
+                function 
+                    param seenNames
+                    param scopes
+                    param index
+                    _ _.each
+                        @ scopes
+                        function 
+                            param scopes
+                            param name
+                            
+							var authPtr
+                                [ 
+                                    @ 'securityDefinitions'
+                                    @ name
+                            
+							var authRefPath
+                                _ path.concat
+                                    _ index.toString()
+                                    @ name
+                            
+							_ validateNoExist
+                                @ seenNames
+                                @ name
+                                @ (code + '_REFERENCE')
+                                @ (msgPrefix + ' reference')
+                                @ authRefPath
+                                @ results.warnings
+                            _ seenNames.push(name)
+                            
+							if addReference(documentMetadata, authPtr, authRefPath, results)
+                                _ _.each
+                                    @ scopes
+                                    function 
+                                        param scope
+                                        param index
+                                        var sPtr
+                                            _ authPtr.concat
+                                                [ 
+                                                    @ 'scopes'
+                                                    @ scope
+                                        _ addReference
+                                            @ documentMetadata
+                                            @ sPtr
+                                            _ authRefPath.concat
+                                                _ index.toString()
+                                            @ results
+                    return seenNames
+                [ 
+
+	var validateSemantically
+        function 
+            param spec
+            param ramlObject
+            param callback
+            var cbWrapper
+                function 
+                    param err
+                    param results
+                    _ callback
+                        @ err
+                        _ helpers.formatResults(results)
+            
+			var documentMetadata = getDocumentCache(swaggerObject)
+            
+			var results
+                { 
+                    @ errors
+                        [ 
+                    @ warnings
+                        [ 
+            
+			_ processDocument(documentMetadata, results)
+            
+			_ processAuthRefs
+                @ documentMetadata
+                @ swaggerObject.security
+                [ 
+                    @ 'security'
+                @ results
+            
+			_ _.reduce
+                @ documentMetadata.resolved.paths
+                function 
+                    param seenPaths
+                    param path
+                    param name
+                    var pPath
+                        [ 
+                            @ 'paths'
+                            @ name
+                    
+					var nPath = normalizePath(name)
+                    
+					if seenPaths.indexOf(nPath.path) > -1
+                        _ createErrorOrWarning
+                            @ 'DUPLICATE_API_PATH'
+                            @ 'API path (or equivalent) already defined: ' + name
+                            @ pPath
+                            @ results.errors
+                    
+					_ validateParameters
+                        @ spec
+                        @ documentMetadata
+                        @ nPath
+                        @ path.parameters
+                        @ pPath
+                        @ results
+                        @ true
+                    
+					_ _.each
+                        @ path
+                        function 
+                            param operation
+                            param method
+                            var cParams
+                                [ 
+                            var oPath = pPath.concat(method)
+                            var seenParams
+                                [ 
+                            if validOptionNames.indexOf(method) === - (1)
+                                return 
+                            _ processAuthRefs
+                                @ documentMetadata
+                                @ operation.security
+                                _ oPath.concat('security')
+                                @ results
+                            _ _.each
+                                @ operation.parameters
+                                function 
+                                    param parameter
+                                    if _.isUndefined(parameter)
+                                        return 
+                                    _ cParams.push(parameter)
+                                    _ seenParams.push((((parameter.name + ':')) + parameter.in))
+                            _ _.each
+                                @ path.parameters
+                                function 
+                                    param parameter
+                                    var cloned = _.cloneDeep(parameter)
+                                    set cloned.skipErrors = true
+                                    if seenParams.indexOf((((parameter.name + ':')) + parameter.in)) === - (1)
+                                        _ cParams.push(cloned)
+                            
+							_ validateParameters(spec, documentMetadata, nPath, cParams, oPath, results)
+                            
+							_ _.each
+                                @ operation.responses
+                                function 
+                                    param response
+                                    param responseCode
+                                    if !(_.isUndefined(response))
+                                        _ validateSchemaConstraints
+                                            @ documentMetadata
+                                            @ response
+                                            _ oPath.concat('responses', responseCode)
+                                            @ results
+                    return 
+                        _ seenPaths.concat
+                            @ nPath.path
+                [ 
+            _ validateDefinitions(documentMetadata, results)
+    		_ cbWrapper(undefined, results)
+    
+	var validateStructurally
+        function 
+            param spec
+            param ramlObject
+            param callback
+            _ validateAgainstSchema
+                @ spec
+                @ 'schema.json'
+                @ ramlObject
+                function 
+                    param err
+                    param results
+                    if err
+                        return callback(err)
+                    _ callback(undefined, results)
+
+	wz-function validate
+        param ramlObject
+        param callback
+        
+		if _.isUndefined(ramlObject)
+            throw 
+                new Error('ramlObject is required')
+        elif ! (_.isPlainObject(ramlObject))
+            throw 
+                new TypeError('ramlObject must be an object')
+        
+		if _.isUndefined(callback)
+            throw 
+                new Error('callback is required')
+        elif ! (_.isFunction(callback))
+            throw 
+                new TypeError('callback must be a function')
+        
+		var that = this
+        
+		_ validateStructurally
+            @ this
+            @ ramlObject
+            @ apiDeclarations
+            function 
+                param err
+                param result
+                if err || helpers.formatResults(result)
+                    _ callback(err, result)
+                else 
+                    _ validateSemantically(that, ramlObject, callback)

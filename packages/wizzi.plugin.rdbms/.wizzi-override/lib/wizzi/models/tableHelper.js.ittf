@@ -1,0 +1,139 @@
+﻿module
+	kind jsfile
+
+	var md = module.exports = {}
+
+	thm_sb( ArgumentsToString, columns )
+		foreach c in columns
+            _ sb.push(c.ClrTypeShort)
+            _ sb.push(" ")
+            _ sb.push(c.argumentName)
+            if i < i_len - 1
+				_ sb.push(", ")
+
+	thm_sb( ArgumentsControllerToString, columns
+        foreach c in columns
+            _ sb.push(c.ClrTypeShort)
+            if c.DomainDataType.IsBoolean
+				_ sb.push("?")
+            _ sb.push(" ")
+            _ sb.push(c.argumentName)
+            if i < i_len - 1
+				_ sb.push(", ")
+
+	thm_sb( ParametersToString, columns )
+        foreach c in columns
+            _ sb.push(c.argumentName)
+            if i < i_len - 1 
+				_ sb.push(", ")
+
+	thm_sb( ParametersToStringTrace, columns )
+        foreach c in columns
+            _ sb.push(i > 0 ? '"; ' : '"');
+            _ sb.push(c.argumentName);
+            _ sb.push(': " + ');
+            _ sb.push(c.argumentName);
+            if i < i_len - 1
+				_ sb.push(" + ")
+
+	thm_sb( ParametersToString_aka_Properties, columns )
+        foreach c in columns
+            _ sb.push("this." + c.wzName);
+            if i < i_len - 1
+				_ sb.push(", ")
+
+	thm_sb( ParametersToStringController, columns )
+        foreach c in columns
+            _ sb.push(c.argumentName);
+            if c.DomainDataType.IsBoolean
+				_ sb.push("_check");
+            if i < i_len - 1
+				_ sb.push(", ")
+
+	thm_sb( ParametersToStringInstance, columns, instance )
+        foreach c in columns
+            _ sb.push(instance + ".");
+            _ sb.push(c.wzName);
+            if i < i_len - 1
+				_ sb.push(", ");
+
+	thm_sb( ParametersInstanceToStringTrace, columns, instance )
+        foreach c in columns
+            _ sb.push('"');
+            _ sb.push(c.argumentName);
+            _ sb.push(': " + ');
+            _ sb.push(instance + ".");
+            _ sb.push(c.wzName);
+            if i < i_len - 1
+				_ sb.push(" + ");
+
+	thm_sb( SqlColumnsToString, columns, separator, quoted )
+        foreach c in columns
+            if quoted
+				_ sb.push('"')
+            _ sb.push(c.wzName);
+            if quoted
+				_ sb.push('"')
+            if i < i_len - 1
+				_ sb.push(separator);
+
+	thm_sb( PropertiesToString, columns, separator, prefix )
+        foreach c in columns
+            if prefix != null
+				_ sb.push(prefix)
+            _ sb.push(c.wzName);
+            if i < i_len - 1
+				_ sb.push(separator);
+
+	thm_sb( FieldsToString, columns, separator )
+        foreach c in columns
+            _ sb.push(c.FieldName);
+            if i < i_len - 1
+				_ sb.push(separator);
+    
+	thm_sb( TestValuesToString, columns, separator )
+        foreach c in columns
+            _ sb.push(md.TestValue(c));
+            if i < i_len - 1
+				_ sb.push(separator);
+	
+	thm( TestValue, tc )
+        if (tc.ClrType == "String")
+            return "\"Hello\"";
+        elif (tc.ClrType == "Int32")
+            return 1;
+        elif (tc.ClrType == "Int64")
+            return 1000;
+        elif (tc.ClrType == "DateTime")
+            return "DateTime.Now";
+        else return "null";
+	
+	thm_sb( ConcatTextInstance, columns, instance, separator )
+        foreach c in columns
+            _ sb.push(instance + ".");
+            _ sb.push(c.wzName);
+            if i < i_len - 1 && separator != null && separator.Length > 0
+                _ sb.push(" + ");
+                _ sb.push('"' + separator + '"');
+	
+	thm_sb(  ColumnsToVelocityQueryString, columns, instance, startchar )
+		var nextchar = startchar;
+        foreach c in columns
+            _ sb.push(nextchar);
+            _ sb.push(tc.wzName.toLower());
+            _ sb.push("=");
+            _ sb.push("${");
+            _ sb.push(instance);
+            _ sb.push(".");
+            _ sb.push(tc.wzName);
+            _ sb.push("}");
+            set nextchar = "&";
+
+	thm_sb( ColumnsToAndCondition, columns, booloperator, columntemplate, values )
+		foreach c in columns
+            var text = string.Format(columntemplate, c.wzName);
+            _ sb.push(text);
+            _ sb.push(" " + booloperator + " ");
+            _ sb.push(values[i]);
+            if i < columns.Count - 1
+				_ sb.push(" && ");

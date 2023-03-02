@@ -1,0 +1,80 @@
+$group
+    $*
+        This file contains the functions for allocating and freeing the SOCK_INFO structures 
+        and for adding and deleting these structures from the global list.
+        see https://github.com/microsoft/Windows-classic-samples/blob/main/Samples/Win7Samples/netds/winsock/accept/server/SockInfo.cpp
+    *$
+
+    /*
+        Allocates a SOCK_INFO structure on the heap 
+        and initializes the contents with suitable initial values 
+        and returns the allocated memory.
+    function AllocAndInitSockInfo
+        rtype PSOCK_INFO
+        PSOCK_INFO pNewSockInfo;
+        /*
+            allocate a new structure. 
+            this should be freed by calling FreeSockInfo by the caller of this function.
+        pNewSockInfo = (PSOCK_INFO)malloc(sizeof(SOCK_INFO));
+        if pNewSockInfo == NULL
+            error "AllocAndInitSockInfo: malloc returned NULL.\n"
+            goto CLEANUP;
+        +
+        info "Allocated SockInfo at %p\n", pNewSockInfo
+        // Initialize the SOCK_INFO structure with the suitable initial values for each field. 
+        memset (pNewSockInfo,0,sizeof(SOCK_INFO));
+        pNewSockInfo->sock = INVALID_SOCKET;
+        label CLEANUP
+            return pNewSockInfo;
+    +
+    /*
+        Frees the SOCK_INFO structure allocated by AllocAndInitSockInfo. 
+    function FreeSockInfo
+        param PSOCK_INFO pSockInfo
+        // free the SOCK_INFO structure allocated earlier by AllocAndInitSockInfo
+        free (pSockInfo);
+        info "Freed SockInfo at %p\n", pSockInfo
+        return;
+    +
+    /*
+        Adds a given sockinfo structure to head of the given list.
+    function AddSockInfoToList
+        param PSOCK_INFO *ppHead
+        param PSOCK_INFO pNewSockInfo
+        /*
+            add the new sock info at the head, 
+            for sake of simiplicity 
+            as we don't care about the order of these structures.
+        // this is going to be the first node.
+        pNewSockInfo->prev = NULL;
+        // the earlier list follows this node.
+        pNewSockInfo->next = *ppHead;
+        // this node is the previous node for the earlier head node.
+        if *ppHead != NULL
+            (*ppHead)->prev = pNewSockInfo;
+        // the new head is this new node, as we inserted at the head.
+        *ppHead = pNewSockInfo;            
+        +
+        info "Added SockInfo %p to list\n", pNewSockInfo
+        return;
+    +
+    /*
+        Removes a given sockinfo structure from the given list and frees the memory also.
+    function DeleteSockInfoFromList
+        param PSOCK_INFO *ppHead
+        param PSOCK_INFO pDelSockInfo
+        /*
+            make the previous and the next nodes to point to each other,
+            instead of pointing to pDelSockInfo.
+        if pDelSockInfo->prev != NULL
+            pDelSockInfo->prev->next = pDelSockInfo->next;
+        if pDelSockInfo->next != NULL
+            pDelSockInfo->next->prev = pDelSockInfo->prev;
+        // if the head node is being deleted, make the next node as the head.
+        if *ppHead == pDelSockInfo
+            *ppHead = pDelSockInfo->next;
+        // now, pDelSockInfo can be safely deleted as nobody points to it. 
+        FreeSockInfo (pDelSockInfo);
+        +
+        info "Deleted and freed SockInfo %p\n", pDelSockInfo
+        return;
