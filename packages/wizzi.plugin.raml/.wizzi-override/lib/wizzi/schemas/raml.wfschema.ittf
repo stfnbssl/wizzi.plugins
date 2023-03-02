@@ -1,0 +1,178 @@
+wfschema raml
+
+	# A schema modeling a RESTful API
+	# Implementing the RESTful API Modeling Language (RAML) http://raml.org/spec.html
+	# RAML is a concise, expressive language for describing RESTful APIs.
+	# Built on broadly used standards such as YAML and JSON, 
+	# RAML is a non-proprietary, vendor-neutral open spec.
+	#
+	# NOTE
+	# Resource Types and Trait Parameters are not implemented in this wizzischema
+	# because their purpose is a reuse of patterns which is the peculiar
+	# benefit of using the Wizzi Factory. Use IttfFragments instead.
+	#
+	# NOTE ps
+	# Annotation Types are not yet available in this wizzischema.
+	# They require an implementation in the WizziModelType artifact generator.
+	# That is work in progress.
+
+	export-to json
+
+	require parseurl
+		kind module
+
+	e ramlItem
+		is-abstract
+		r annotation/s
+		r comment/s
+
+	e raml : ramlItem
+		# The root Entity of the raml Schema.
+
+		is-root
+
+		a title
+			# (Required) The title property is a short plain text description of the RESTful API. 
+			# The title property's value SHOULD be suitable for use as a title for the contained user documentation.
+			is-required
+		
+		a version
+			# (Optional) If the RAML API definition is targeted to a specific API version, 
+			# the API definition MUST contain a version property. 
+		
+		a_tag( baseUri, base-uri )
+			# (Optional during development; Required after implementation) 
+			# A RESTful API's resources are defined relative to the API's base URI.
+			# The use of the baseUri field is OPTIONAL to allow describing APIs that have not yet been implemented.
+			# May contain a template URI. A template URI refers to a URI parameter, which is a variable element, 
+			# enclosed in curly brackets ({}) inside a relative URI of a resource.
+			#
+			# Example
+			#
+			# raml
+			#     ...
+			#     base-uri https://{bucketName}.s3.amazonaws.com
+			#     ...
+			#     base-uri-parameter bucketName:
+			#         description The name of the bucket
+		
+		a protocols
+			# (Optional) A RESTful API can be reached HTTP, HTTPS, or both. 
+			# The protocols property MAY be used to specify the protocols that an API supports. 
+			# If the protocols property is not specified, the protocol specified at the baseUri property is used. 
+			# The protocols property MUST be an array of strings, of values "HTTP" and/or "HTTPS".
+			default none
+			restrict
+				enum none
+				enum http
+				enum https
+				enum http,https
+
+		a port
+			type integer
+			default 10011
+
+		r baseUriParameter/s
+		
+		r mediaTypes
+			one-to-one
+		
+		r schema
+			one-to-one
+		
+		r resource/s
+		
+		m wzinitialize
+
+			set this.parameters
+				[
+			foreach item in this.baseUriParameters
+				set item.in = 'uri'
+				_ this.parameters.push(item)
+
+		m getMediaTypes
+			var ret = []
+			if isObject(this.mediaTypes)
+				foreach item in this.mediaTypes.mediaTypes
+					_ ret.push(item)
+			return ret
+		
+		m getComments
+			return initComments(this.comments)
+
+		m getResources
+			var resCtx
+				{
+					@ paths
+						[
+					@ resources
+						[
+			foreach r in this.resources
+				_ r.getData(resCtx)
+			return resCtx.resources
+
+	e comment
+		# A comment line for describing items.
+		tag #
+		r comment/s
+
+	e annotation
+		# Annotations provide a mechanism to extend the API specification with metadata
+		tag (
+
+
+	$include raml/parameters
+	$include raml/resource
+	$include raml/method
+	$include raml/body
+	$include raml/mediatypes
+	$include raml/response
+
+	e security : ramlItem
+		# 
+		
+		a description
+			# The description attribute MAY be used to describe a securitySchemes property.
+
+		a type
+			# The type attribute MAY be used to convey information about authentication flows and mechanisms to processing applications such as Documentation Generators and Client generators. Processing applications SHOULD provide handling for the following schemes:
+			default none
+
+			restrict
+				enum none
+				enum OAuth.1.0
+					# The API's authentication requires using OAuth 1.0 as described in RFC5849 [RFC5849]
+				enum OAuth.2.0
+					# The API's authentication requires using OAuth 2.0 as described in RFC6749 [RFC6749]
+				enum Basic
+					# The API's authentication relies on using Basic Access Authentication as described in RFC2617 [RFC2617]
+				enum Digest
+					# The API's authentication relies on using Digest Access Authentication as described in RFC2617 [RFC2617]
+				enum x-{other}
+					# The API's authentication relies in another authentication method.
+
+		r setting/s
+
+	e setting : ramlItem
+		a requestTokenUri
+			# The URI of the Temporary Credential Request endpoint as defined in RFC5849 Section 2.1
+		a authorizationUri
+			# The URI of the Resource Owner Authorization endpoint as defined in RFC5849 Section 2.2
+		a tokenCredentialsUri
+			# The URI of the Token Request endpoint as defined in RFC5849 Section 2.3
+		a authorizationUri
+			# The URI of the Authorization Endpoint as defined in RFC6749 [RFC6748] Section 3.1
+		a accessTokenUri
+			# The URI of the Token Endpoint as defined in RFC6749 [RFC6748] Section 3.2
+		a authorizationGrants
+			# A list of the Authorization grants supported by the API As defined in RFC6749 [RFC6749] Sections 4.1, 4.2, 4.3 and 4.4, can be any of: code, token, owner or credentials.
+		a scopes
+			# A list of scopes supported by the API as defined in RFC6749 [RFC6749] Section 3.3
+
+	$include raml/types
+	$include raml/example
+	$include init_comments
+
+    m isObject
+        param value
+        return typeof value === 'object' && value !== null && !Array.isArray(value)

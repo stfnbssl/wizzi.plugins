@@ -1,0 +1,45 @@
+wfschema rdbms
+	
+	# A schema modeling a relational database
+
+	export-to json
+	export-to xml
+
+	require ./tableHelper
+		kind module
+		declare-var tableHelper
+
+	e rdbms
+		
+		# The root element of the rdbms schema.
+		
+		r table/s
+		r relation/s
+		r validationError/s
+		r comment/s
+
+		m testInfo
+			var ret
+				{
+					@ tables
+						[
+			foreach table in this.tables
+				var ctx = {}
+				_ table.testInfo(ctx)
+				_ ret.tables.push(ctx)
+			return ret
+
+	e rdbmsitem
+		r comment/s
+
+	e comment
+		# A comment line for describing items.
+		tag #
+
+	$include rdbms/table
+	$include rdbms/tablecolumn
+	$include rdbms/index
+	$include rdbms/validation
+	$include rdbms/relation
+	$include rdbms/document
+	$include rdbms/code

@@ -1,0 +1,72 @@
+﻿module
+    kind es6
+
+    $
+        var md = {
+            name: 'go_examples_step_1',
+            description: 'First `go` Wizzi Model',
+            level: 0,
+            step: 1
+        }
+
+    example_step( &md )
+        $append imports
+            const spawn = require("child_process").spawn;
+
+        _ wizzi.fsFactory
+            {
+                @ plugins
+                    {
+                        [ items
+                            @ './index'
+                        @ pluginsBaseFolder
+                            _ path.resolve
+                                @ __dirname
+                                @ '..'
+            a_cb_throw( wf )
+                _ wf.loadModelAndGenerateArtifact
+                    _ path.join
+                        @ __dirname
+                        @ 'step_1'
+                        @ 'first.go.ittf'
+                    {
+                        @ modelRequestContext {}
+                        @ artifactRequestContext {}
+                    @ 'go/package'
+                    a_cb_throw( artifactText )
+                        info artifactText
+                        const scriptPath
+                            _ path.join
+                                @ __dirname
+                                @ 'result'
+                                @ 'step${md.step}.go'
+                        _ fsfile.write
+                            @ scriptPath
+                            @ artifactText
+                        const goProcess = spawn('C:\\Program Files\\Go\\bin\\go',['run', scriptPath$*, arg2, ...*$])
+                        _ goProcess.stdout.on
+                            @ 'data'
+                            function
+                                param data
+                                _ printValue
+                                    @ 'go stdout'
+                                    _ data.toString
+                                    @ 'dashes'
+                        _ goProcess.stderr.on
+                            @ 'data'
+                            function
+                                param data
+                                _ printValue
+                                    @ 'go stderr'
+                                    _ data.toString
+                                    @ 'dashes'
+                        _ goProcess.on
+                            @ 'error'
+                            function
+                                param err
+                                info `child process error`, err
+                        _ goProcess.on
+                            @ 'close'
+                            function
+                                param code
+                                info `child process exited with code ${code}`
