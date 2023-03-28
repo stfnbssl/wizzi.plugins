@@ -1,0 +1,194 @@
+$group
+
+	var getParameterValue
+		function
+			param parameter
+			param pathKeys
+			param match
+			param req
+			param debug
+            
+			var defaultVal = parameter.default
+			var paramLocation = parameter.in
+			var paramType = spec.getParameterType(parameter)
+
+			debug 'getParameterValue %s type: %s location: %s keys: %s', 
+				\ parameter.name, paramType, paramLocation, pathKeys
+			
+			var val
+			switch paramLocation
+				case 'body'
+					set val = req.body
+					break
+                
+				case 'form'
+				case 'formData'
+					if paramType.toLowerCase() === 'file'
+						if _.isArray(req.files)
+							set val =
+								_ _.find
+									@ req.files
+									function 
+										param file
+										return file.fieldname === parameter.name
+						elif !_.isUndefined(req.files)
+							set val = req.files[parameter.name] ? req.files[parameter.name] : undefined
+						if _.isArray(val)
+							set val = val[0]
+					elif spec.isModelParameter(parameter)
+						set val = req.body
+					else 
+						set val = req.body[parameter.name]
+					break 
+                
+				case 'header'
+					set val = req.headers[parameter.name.toLowerCase()]
+					break 
+                
+				case 'path'
+					_ _.each
+						@ pathKeys
+						function 
+							param key
+							param index
+							if key.name === parameter.name
+								set val = decodeURIComponent(match[(index + 1)])
+					break 
+                
+				case 'query'
+					set val = _.get(req.query, parameter.name)
+					break
+            
+			_ debug('      Parameter %s, Value provided: %s', parameter.name, !(_.isUndefined(val)))
+            
+			if _.isUndefined(val) && ! (_.isUndefined(defaultVal))
+				set val = defaultVal
+            
+			return val
+
+	var convertParameterValue
+		function
+			param value
+			param schema
+			param type
+			param location
+
+			debug 'convertParameterValue %s type: %s location: %s', value, type, location
+
+			if _.isUndefined(value)
+				return value
+
+			var original = value
+        
+			if _.isUndefined(schema)
+				set schema =
+					{ 
+        
+			if _.isUndefined(type)
+				set type = spec.getParameterType(schema)
+        
+			if (schema.isEmptyAllowed && (value === ''))
+				return value
+        
+			switch type
+            
+				case 'array'
+                
+					if _.isString(value)
+                    
+						switch schema.collectionFormat
+							case 'csv'
+							case undefined
+								try 
+									set value = JSON.parse(value)
+								catch err
+									set value = original
+								if _.isString(value)
+									set value = value.split(',')
+								break 
+							case 'multi'
+								set value = [value]
+								break 
+							case 'pipes'
+								set value = value.split('|')
+								break 
+							case 'ssv'
+								set value = value.split(' ')
+								break 
+							case 'tsv'
+								set value = value.split('\t')
+								break 
+                
+					if !(_.isArray(value))
+						if location !== 'body'
+							set value = [value]
+                
+					if _.isArray(value)
+						set value =
+							_ _.map
+								@ value
+								function 
+									param item
+									param index
+									var iSchema
+										iif _.isArray(schema.items)
+											then 
+												set schema.items[index]
+											else 
+												set schema.items
+									return 
+										_ convertValue
+											@ item
+											@ iSchema
+											iif iSchema
+												then 
+													set iSchema.type
+												else undefined
+											@ location
+					break 
+            
+				case 'boolean'
+					if ! (_.isBoolean(value))
+						if ['false', 'true'].indexOf(value) === -1
+							set value = original
+						else 
+							set value = (value === 'true') || (value === true) ? true : false
+					break 
+            
+				case 'integer'
+					if !(_.isNumber(value))
+						if _.isString(value) && _.trim(value).length === 0
+							set value = NaN
+						set value = Number(value)
+						if isNaN(value)
+							set value = original
+					break 
+            
+				case 'number'
+					if ! (_.isNumber(value))
+						if _.isString(value) && _.trim(value).length === 0
+							set value = NaN
+						set value = Number(value)
+						if isNaN(value)
+							set value = original
+					break
+            
+				case 'object'
+					if _.isString(value)
+						try 
+							set value = JSON.parse(value)
+						catch err
+							set value = original
+					break
+            
+				case 'string'
+					if !(_.isDate(value))
+						var isDate = schema.format === 'date' && validators.isValidDate(value)
+						var isDateTime = schema.format === 'date-time' && validators.isValidDateTime(value)
+						if (isDate || isDateTime)
+							set value = new Date(value)
+							if !(_.isDate(value)) || value.toString() === 'Invalid Date'
+								set value = original
+					break
+        
+			return value

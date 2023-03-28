@@ -1,0 +1,10 @@
+$group
+	$params &element
+
+	$if element.getComments().length > 0
+		. well
+			table( 80 )
+				$foreach comment in element.getComments()
+					tr
+						td ${comment.title}
+						td ${comment.content}

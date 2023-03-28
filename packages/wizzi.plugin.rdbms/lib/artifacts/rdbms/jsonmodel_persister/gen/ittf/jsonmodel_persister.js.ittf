@@ -1,0 +1,62 @@
+module
+	kind jsfile
+	+
+	#
+		# Table ${table.wzName}
+	+
+	class ${table.name}Persister
+		ctor
+			param context
+			param store
+			set this.context = context
+			set this.store = store
+		+
+		m exists
+			$foreach item in table.keyColumns()
+				param ${item.name}
+			param callback
+			+
+			var uri
+				_ this.context.get${table.name}Uri
+					$foreach item in table.keyColumns()
+						@ ${item.name}
+			_ this.store.exists(uri, callback)
+
+		m get
+			$foreach item in table.keyColumns()
+				param ${item.name}
+			param callback
+			+
+			var uri
+				_ this.context.get${table.name}Uri
+					$foreach item in table.keyColumns()
+						@ ${item.name}
+			# must return NotFoundError if jsonmodel does not exists
+			_ this.store.readJSON(uri, callback)
+
+		m put
+			$foreach item in table.keyColumns()
+				param ${item.name}
+			param item
+			param callback
+			+
+			var uri
+				_ this.context.get${table.name}Uri
+					$foreach item in table.keyColumns()
+						@ ${item.name}
+			# must return NotFoundError if jsonmodel does not exists
+			_ this.store.put(uri, item, callback)
+		
+		m delete
+			$foreach item in table.keyColumns()
+				param ${item.name}
+			param callback
+			+
+			var uri
+				_ this.context.get${table.name}Uri
+					$foreach item in table.keyColumns()
+						@ ${item.name}
+			# must return NotFoundError if jsonmodel does not exists
+			_ this.store.delete(uri, callback)
+	
+	set module.exports = ${table.name}Persister

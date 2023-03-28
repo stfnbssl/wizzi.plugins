@@ -1,59 +1,9 @@
-﻿common/example/plugin('rdbms examples')
+﻿module
+	kind jsfile
 
-	$append imports
-		var rdbmsfactory = require('../../lib/wizzi/models/rdbms-factory.g')
-		var rdbmshtml_docs = require('../../lib/artifacts/rdbms/html_docs/gen/main')
-		var rdbmsjsoncrud = require('../../lib/artifacts/rdbms/jsoncrud/gen/main')
-	+
-	var loadModel
-		_ rdbmsfactory.createLoadModel
-			_ getWizziObject
-	+
-	var ittfPath
-		_ path.join
-			@ __dirname
-			@ 'ittf'
-	
-	foreach item in getFiles(ittfPath,'rdbms')
-		set item = item.substring(0, item.length - '.rdbms.ittf'.length)
-		# loog 'item', item
-		_ execute(item)
-	
-	+
-	function execute
-		param name
-		
-		var ittfSource
-			_ path.join
-				@ __dirname
-				@ 'ittf'
-				@ name + '.rdbms.ittf'
-		var rdbmsOutput
-			_ path.join
-				@ __dirname
-				@ 'ittf'
-				@ name + '_jsoncrud.g.js'
+	$
+		var name = 'package.wizzi.plugin.rdbms';
+		var level = '0';
+		var steps = ['1', '2'];
 
-		_ loadModel
-			@ ittfSource
-			_ getLoadModelContext
-				{
-			a_cb_test( rdbmsWizziModel )
-				# loog 'examples/rdbms result rdbmsWizziModel', rdbmsWizziModel
-				var ctx
-					_ mocks.getGenContext
-				_ rdbmshtml_docs.gen
-					@ rdbmsWizziModel
-					@ ctx
-					a_cb_test( ctxout )
-						# loog 'ctxout begin ========', '\n' + ctxout.getContent(), '\nctxout end ============'
-						_ file.write
-							@ rdbmsOutput
-							@ ctxout.getContent()
-
-
-
-
-
-
-
+	$include exec_steps

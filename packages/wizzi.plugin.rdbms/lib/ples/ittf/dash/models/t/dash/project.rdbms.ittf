@@ -1,0 +1,45 @@
+$group
+
+	t_pk( project, userName, projectName )
+
+		c kind
+
+		document
+			kind json-meta-data
+			path
+				segment {userName}
+				segment {projectName}
+				segment {projectName}.meta.json
+
+	rDef( project, schema, schemas )
+		
+		#
+			# A project may declare many schemas.
+
+		rCol( userName, userName )
+		rCol( projectName, projectName )
+
+	rDef( project, section, sections )
+		
+		#
+			# A project may be parted in many sections
+
+		rCol( userName, userName )
+		rCol( projectName, projectName )
+
+	rDef( project, projectModel, projectModels )
+		
+		#
+			# A project may have many models at the project level. 
+			# Other models are in sections.
+
+		rCol( userName, userName )
+		rCol( projectName, projectName )
+		
+	rDef( project, projectFragment, projectFragments )
+		
+		#
+			# Project models may have many fragments
+		
+		rCol( userName, userName )
+		rCol( projectName, projectName )

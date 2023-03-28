@@ -1,0 +1,29 @@
+module
+    kind es6
+    +
+    var myname = 'wfschema.document.included_writers'
+    +
+    var verify = require('wizzi-utils').verify
+    +
+    var md = module.exports = {}
+    set md.writeIncludeJs
+        function
+            param ctx
+            param element
+            param callback
+            # log myname, 'enter writeIncludeJs'
+            _ element.get_js
+                a_cb( jsModel )
+                    # log myname, 'jsModel', jsModel
+                    _ ctx.wizziFactory.generateArtifact
+                        @ jsModel
+                        @ 'generated from wfschema model'
+                        @ 'js/module'
+                        {
+                        a_cb( artifactText )
+                            # log myname, 'js module artifactText', artifactText
+                            _ ctx.indent
+                            _ ctx.writeAligned(artifactText)
+                            _ ctx.deindent
+                            return
+                                _ callback

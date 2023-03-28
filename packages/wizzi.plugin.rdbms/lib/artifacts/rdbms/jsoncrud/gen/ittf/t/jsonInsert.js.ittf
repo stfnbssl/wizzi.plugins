@@ -1,0 +1,28 @@
+set ${t.wzName}Table.prototype.insert
+	function
+		param ${t.wzName}_obj
+		
+		var extant
+			_ this.findOne
+				{ 
+					@ name ${t.wzName}_obj.name
+		
+		if extant
+			
+			_ console.log('${t.wzName} already in DB: ')
+			_ console.log
+				@ ${t.wzName}_obj.name
+			return extant._id
+		
+		else 
+			
+			info 'inserting ${t.wzName} object:'
+			info ${t.wzName}_obj.name
+			
+			_ this.persister.writeJson(${t.wzName}_obj)
+			
+			var o${t.wzName}
+				_ this.findOne
+					{ 
+						@ name ${t.wzName}_obj.name
+			return o${t.wzName}._id

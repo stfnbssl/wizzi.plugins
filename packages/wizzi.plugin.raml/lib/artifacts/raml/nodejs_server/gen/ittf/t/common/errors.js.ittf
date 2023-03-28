@@ -1,0 +1,78 @@
+$group
+
+	$$ results.errors.length
+	$$ results.apiDeclarations
+
+	wz-iife errors
+
+		wz-function getErrorCount
+			param results
+
+			var errors = 0
+			if results
+				set errors = results.errors.length
+                _ _.each
+                    @ results.apiDeclarations
+                    function 
+                        param adResults
+                        if adResults
+                            set errors += adResults.errors.length
+            return errors
+
+		wz-var throwErrorWithCode
+			function 
+				param code
+				param msg
+				var err = new Error(msg)
+				set err.code = code
+				set err.failedValidation = true
+				throw err
+
+		wz-function debugError
+            param err
+            param debug
+            var reason 
+				_ err.message.replace
+					@ /^.*validation failed: /
+					@ ''
+			
+			set reason = reason.charAt(0).toUpperCase() + reason.substring(1)
+
+			
+			_ debug('  Reason: %s', reason)
+			
+			if err.failedValidation === true
+    
+				if err.results
+     
+					_ debug('  Errors:')
+                 
+					_ _.each
+                        @ err.results.errors
+                        function 
+                            param error
+                            param index
+                            _ debug('    %d:', index)
+                            _ debug
+                                @ '      code: %s'
+                                @ error.code
+                            _ debug
+                                @ '      message: %s'
+                                @ error.message
+                            _ debug
+                                @ '      path: %s'
+                                _ JSON.stringify
+                                    @ error.path
+            
+			if err.stack
+                
+				_ debug('  Stack:')
+                
+				_ _.each
+                    _ err.stack.split('\n')
+                    function 
+                        param line
+                        param index
+                        if index > 0
+                            _ debug('  %s', line)   
+

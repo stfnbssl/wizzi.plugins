@@ -1,0 +1,33 @@
+graphql second
+    schema
+        query Query
+    type Query
+        """
+            Root type for all your query operations
+        . translate
+            :string
+            @ fromLanguage
+                :ref Language
+                # The original language that `text` is provided in.
+            @ toLanguage
+                :ref Language
+                # The translated language to be returned.
+            @ text
+                :string
+                # The text to be translated.
+    :enum Language
+        """
+            The set of languages supported by `translate`
+        . EN
+            # English
+        . FR
+            # French
+        . CH
+            # Chinese
+    type User
+        . id
+            :string
+        . name
+            :String
+        . birthday
+            :Date

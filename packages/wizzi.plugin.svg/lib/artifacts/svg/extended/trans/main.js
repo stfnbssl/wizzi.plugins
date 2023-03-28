@@ -1,16 +1,17 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.13
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi\lib\artifacts\svg\extended\trans\main.js.ittf
+    package: wizzi-js@0.7.14
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\artifacts\svg\extended\trans\main.js.ittf
 */
 'use strict';
 var util = require('util');
 var async = require('async');
 var verify = require('wizzi-utils').verify;
 var lineparser = verify.lineParser;
+var errors = require('../../../../../errors');
 
 var md = module.exports = {};
-var myname = 'wizzi.plugin.svg.svg..trans.main';
+var myname = 'wizzi.plugin.svg.svg.extended.trans.main';
 
 md.trans = function(model, ctx, callback) {
     var transformedModel = {};

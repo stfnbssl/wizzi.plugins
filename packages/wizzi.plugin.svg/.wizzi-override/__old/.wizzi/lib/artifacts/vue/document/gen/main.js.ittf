@@ -1,0 +1,63 @@
+﻿basemain( vue, document, vue
+
+	$append imports
+		var include_writers = require('./include_writers')
+
+	stm( vue
+		_ writeComments
+			@ ctx
+			@ model
+		gen_items( model.elements
+			r_cb()
+
+	stm( htmlInclude
+		if model.get_html
+			_ include_writers.writeIncludeHtml
+				@ ctx
+				@ model
+				@ callback
+		else
+			_ callback
+				new Error('::template tag has no html element')
+
+	stm( jsInclude
+		if model.get_js
+			_ include_writers.writeIncludeJs
+				@ ctx
+				@ model
+				@ callback
+		else
+			_ callback
+				new Error('::script tag has no module element')
+	
+	stm( tsInclude
+		if model.get_ts
+			_ include_writers.writeIncludeTypescript
+				@ ctx
+				@ model
+				@ callback
+		else
+			_ callback
+				new Error('::script-ts tag has no module element')
+
+	stm( cssInclude
+		if model.get_css
+			_ include_writers.writeIncludeCss
+				@ ctx
+				@ model
+				@ callback
+		else
+			_ callback
+				new Error('::style tag has no css element')
+
+	function writeComments
+		param ctx
+		param model
+		if model.comments.length == 1
+			_ ctx.w( '<!-- ' + model.comments[0].wzName + ' -->')
+		if model.comments.length > 1
+			_ ctx.w( '<!--' )
+			foreach item in model.comments
+				_ ctx.w( item.wzName )
+			_ ctx.w( '-->' )
+	

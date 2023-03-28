@@ -1,0 +1,208 @@
+module
+	kind jsfile
+	+
+	#
+		# Table ${table.wzName}
+	+
+	var ${table.name}Persister = require('../persisters/${table.name}')
+	+
+	var md = module.exports = {}
+	+
+	set md.get${table.namePluralCap}
+		function
+			$foreach item in table.keyColumns()
+				param ${item.name}
+			param callback
+			_ ${table.name}Persister.get${table.namePluralCap}
+				$foreach item in table.keyColumns()
+					@ ${item.name}
+				@ callback
+	+
+	set md.get${table.nameCap}
+		function
+			$foreach item in table.keyColumns()
+				param ${item.name}
+			param callback
+			+
+			# Persister.get must give back a NotFoundError if item does not exists
+			+
+			_ ${table.name}Persister.get
+				$foreach item in table.keyColumns()
+					@ ${item.name}
+				@ callback
+	+
+	set md.insert${table.nameCap}
+		function
+			$foreach item in table.insertParameters()
+				param ${item.name}
+			param callback
+		
+			_ ${table.name}Persister.exists
+				$foreach item in table.keyColumns()
+					@ ${item.name}
+				function
+					param err
+					param result
+					if err
+						return callback(err)
+					if result
+						return
+							_ callback
+								new errors.AlreadyExistsError
+									@ '${table.name}'
+									_ utils.buildResourcePath
+										$foreach item in table.keyColumns()
+											@ ${item.name}
+					var newItem
+						{
+							@ type '${table.name}'
+							$foreach item in table.insertParameters()
+								@ ${item.name} ${item.jsDefaultValue()}
+							$foreach item in table.manyRelations()
+								@ ${item.manyRole()}
+									[
+					_ ${table.name}Persister.put${table.nameCap}
+						@ newItem
+						function
+							param err
+							param result
+							if err
+								return callback(err)
+							#
+							# TODO add to oneTable ?
+							# TODO or always make the oneTable api call this insert ?
+							#
+
+							_ callback(null, result)
+
+	+
+	m update${table.nameCap}
+		param item
+		param callback
+		_ ${table.name}Persister.put
+			@ item
+			@ callback
+
+	+
+	m delete${table.nameCap}
+		param item
+		param callback
+		_ ${table.name}Persister.delete
+			@ item
+			@ callback
+
+	$foreach r in table.manyRelations()
+		
+		+
+		# TODO r.manyTable().keyColumns() - table.keyColumns()
+		set md.get${table.nameCap}${r.manyTable().nameCap}
+			function
+				$foreach item in r.oneManyKeys()
+					param ${item.name}
+				param callback
+				+
+				_ md.get${table.nameCap}
+					$foreach item in table.keyColumns()
+						@ ${item.name}
+					function
+						param err
+						param result
+						if err
+							return callback(err)
+						var ret
+							_ util.aFind
+								@ result.${r.manyRole()}
+								{
+									$foreach item in r.manyTable().keyColumns()
+										@ '${item.name}' ${item.name}
+						if ret
+							return
+								_ callback(null, ret)
+						else
+							return
+								_ callback
+									new errors.NotFoundError
+										_ utils.buildResourceName
+											@ '${table.name}'
+											@ '${r.manyTable().name}'
+										_ utils.buildResourcePath
+											$foreach item in r.manyTable().keyColumns()
+												@ ${item.name}
+
+		+
+		set md.add${table.nameCap}${r.manyTable().nameCap}
+			function
+				$foreach item in r.oneManyKeys()
+					param ${item.name}
+				param callback
+				+
+				_ md.get${table.nameCap}
+					$foreach item in table.keyColumns()
+						@ ${item.name}
+					function
+						param err
+						param result
+						if err
+							return callback(err)
+						+
+						if !result
+							return
+								_ callback
+									new errors.NotFoundError
+										_ utils.buildResourceName
+											@ '${table.name}'
+											@ '${r.manyTable().name}'
+										_ utils.buildResourcePath
+											$foreach item in r.manyTable().keyColumns()
+												@ ${item.name}
+						+
+						_ _.addFragment
+							@ result
+							@ fragmentSchema
+							@ fragmentName
+						+
+						_ persister${table.nameCap}.put
+							$foreach item in table.keyColumns()
+								@ ${item.name}
+							@ result
+							@ callback
+						+
+		+
+		set md.remove${table.nameCap}${r.manyTable().nameCap}
+			function
+				$foreach item in r.oneManyKeys()
+					param ${item.name}
+				param callback
+				+
+				_ md.get${table.nameCap}
+					$foreach item in table.keyColumns()
+						@ ${item.name}
+					function
+						param err
+						param result
+						if err
+							return callback(err)
+						+
+						if !result
+							return
+								_ callback
+									new errors.NotFoundError
+										_ utils.buildResourceName
+											@ '${table.name}'
+											@ '${r.manyTable().name}'
+										_ utils.buildResourcePath
+											$foreach item in r.manyTable().keyColumns()
+												@ ${item.name}
+						+
+						_ _.removeFragment
+							@ result
+							@ fragmentSchema
+							@ fragmentName
+						+
+						_ persister${table.nameCap}.put
+							$foreach item in table.keyColumns()
+								@ ${item.name}
+							@ result
+							@ callback
+						+
+

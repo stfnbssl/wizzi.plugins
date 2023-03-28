@@ -1,0 +1,101 @@
+$group
+
+    $include grammars/java
+
+	$*
+    e typeImplements : statement
+		tag :implements
+    *$
+
+	e class : statement
+		a extends
+        a implements
+        $foreach item in Grammars.java.modifiers
+		    a_flag( ${item} )
+
+		r typeParameterDecl/s
+		r superType
+			one-to-one
+        any codeline/statements
+
+		m findCtor
+			return _.find(this.statements, function(item) { return item.wzElement === 'ctor' })
+
+		m wzInitialize
+			set ctx.modelState = ctx.modelState || {}
+			
+			# loog 'wizzi-js.model.class.modelState', ctx.modelState
+			set ctx.modelState.hasClasses = true
+			
+			if this.extends && this.extends.length > 0
+				set this.super = this.extends
+			elif this.superType
+				set this.super = this.superType.wzName
+			else
+				var tokens = this.wzName.split(':')
+				if tokens.length == 2
+					set this.wzName = tokens[0]
+					set this.super = tokens[1]
+
+			set this.extends = []
+			set this.implements = []
+			var temp = []
+			foreach s in this.statements
+				if s.wzElement === 'typeExtends'
+					_ this.extends.push
+						@ s
+				elif s.wzElement === 'typeImplements'
+					_ this.implements.push
+						@ s
+				else
+					_ temp.push
+						@ s
+			set this.statements = temp
+
+	e superType : statement
+		tag super
+		r typeParameterInst/s
+
+	e ctor : function
+        $foreach item in Grammars.java.modifiers
+		    a_flag( ${item} )
+		r base/s
+        any codeline/statements
+
+		m getBaseArgs
+			var ret = []
+			foreach item in this.bases
+				_ ret.push(item.wzName)
+			return ret
+
+	e base : statement
+
+	e method : function
+		tag m
+        $foreach item in Grammars.java.modifiers
+		    a_flag( ${item} )
+        r typeReturn
+			one-to-one
+        any codeline/statements
+
+	e p : statement
+        $foreach item in Grammars.java.modifiers
+		    a_flag( ${item} )
+        r typeReturn
+			one-to-one
+
+	e new : statement
+		m wzInitialize
+            var tpi = []
+            var ss = []
+            # loog 'wzInitialize', this.statements.length
+            foreach s in this.statements
+                # loog 'wzInitialize.s', s.wzElement
+                if s.wzElement == 'typeParameterInst'
+                    _ tpi.push(s)
+                else
+                    _ ss.push(s)
+            if tpi.length > 0
+                set this.typeParameterInsts = tpi
+                set this.statements = ss
+                # loog 'this.typeParameterInsts', this.typeParameterInsts	

@@ -1,0 +1,16 @@
+﻿$group
+
+	m setupDerived
+		param ctx
+		
+		if typeof this.derived === 'undefined'
+			set this.derived = []
+			foreach element in this.schema.elements
+				if element.superId === this.wzId
+					_ this.derived.push(element)
+					foreach d in element.setupDerived(ctx)
+						if this.superId === element.wzId
+							_ ctx.error('Element ' + element.wzId + ' cannot be both super element and derived element of element ' + this.wzId, this)
+						_ this.derived.push(d)
+		
+		return this.derived

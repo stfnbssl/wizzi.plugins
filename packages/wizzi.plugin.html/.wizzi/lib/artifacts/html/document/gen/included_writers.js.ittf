@@ -1,0 +1,92 @@
+module
+    kind es6
+    +
+    var myname = 'html.document.included_writers'
+    +
+    var verify = require('wizzi-utils').verify
+    +
+    var md = module.exports = {}
+    set md.writeIncludeJs
+        function
+            param ctx
+            param element
+            param callback
+            # log myname, 'enter writeIncludeJs'
+            _ element.get_js
+                a_cb( jsModel )
+                    # log myname, 'jsModel', jsModel
+                    _ ctx.wizziFactory.generateArtifact
+                        @ jsModel
+                        @ 'generated from html model'
+                        @ 'js/module'
+                        {
+                        a_cb( artifactText )
+                            # log myname, 'js module artifactText', artifactText
+                            _ ctx.indent
+                            _ ctx.writeAligned(artifactText)
+                            _ ctx.deindent
+                            return
+                                _ callback
+    set md.writeIncludeCss
+        function
+            param ctx
+            param element
+            param callback
+            # log myname, 'enter writeIncludeCss'
+            _ element.get_css
+                a_cb( cssModel )
+                    # log myname, 'cssModel', cssModel
+                    _ ctx.wizziFactory.generateArtifact
+                        @ cssModel
+                        @ 'generated from html model'
+                        @ 'css/document'
+                        {
+                        a_cb( artifactText )
+                            # log myname, 'css module artifactText', artifactText
+                            _ ctx.indent
+                            _ ctx.writeAligned(artifactText)
+                            _ ctx.deindent
+                            return
+                                _ callback
+    set md.writeIncludeSvg
+        function
+            param ctx
+            param element
+            param callback
+            # log myname, 'enter writeIncludeSvg'
+            _ element.get_svg
+                a_cb( svgModel )
+                    # log myname, 'svgModel', svgModel
+                    _ ctx.wizziFactory.generateArtifact
+                        @ svgModel
+                        @ 'generated from html model'
+                        @ 'svg/document'
+                        {
+                        a_cb( artifactText )
+                            # log myname, 'svg module artifactText', artifactText
+                            _ ctx.indent
+                            _ ctx.writeAligned(artifactText)
+                            _ ctx.deindent
+                            return
+                                _ callback
+    set md.writeIncludeVtt
+        function
+            param ctx
+            param element
+            param callback
+            # log myname, 'enter writeIncludeVtt'
+            _ element.get_vtt
+                a_cb( vttModel )
+                    # log myname, 'vttModel', vttModel
+                    _ ctx.wizziFactory.generateArtifact
+                        @ vttModel
+                        @ 'generated from html model'
+                        @ 'vtt/document'
+                        {
+                        a_cb( artifactText )
+                            # log myname, 'vtt module artifactText', artifactText
+                            _ ctx.indent
+                            _ ctx.writeAligned(artifactText)
+                            _ ctx.deindent
+                            return
+                                _ callback

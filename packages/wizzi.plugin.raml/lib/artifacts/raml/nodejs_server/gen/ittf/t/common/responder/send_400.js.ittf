@@ -1,0 +1,46 @@
+$group
+
+	wz-function send400
+        param req
+        param res
+        param next
+        param err
+            
+		var currentMessage
+        var validationMessage
+        set res.statusCode = 400
+            
+		if err.failedValidation === true && err.paramName
+                
+			set currentMessage = err.message
+            set validationMessage = 'Parameter (' + err.paramName + ') '
+            switch err.code
+                case 'ENUM_MISMATCH'
+                case 'MAXIMUM'
+                case 'MAXIMUM_EXCLUSIVE'
+                case 'MINIMUM'
+                case 'MINIMUM_EXCLUSIVE'
+                case 'MULTIPLE_OF'
+                case 'INVALID_TYPE'
+                    if err.code === 'INVALID_TYPE' && err.message.split(' ')[0] === 'Value'
+                        set validationMessage += err.message.split(' ').slice(1).join(' ')
+                    else 
+                        set validationMessage += 'is ' + err.message.charAt(0).toLowerCase() + err.message.substring(1)
+                    break 
+                case 'ARRAY_LENGTH_LONG'
+                case 'ARRAY_LENGTH_SHORT'
+                case 'MAX_LENGTH'
+                case 'MIN_LENGTH'
+                    set validationMessage += err.message.split(' ').slice(1).join(' ')
+                    break 
+                case 'MAX_PROPERTIES'
+                case 'MIN_PROPERTIES'
+                    set validationMessage += 'properties are ' + err.message.split(' ').slice(4).join(' ')
+                    break 
+                default 
+                    set validationMessage += err.message.charAt(0).toLowerCase() + err.message.substring(1)
+            set err.message = 'Request validation failed: ' + validationMessage
+            set err.stack = err.stack.replace(currentMessage, validationMessage)
+            
+		return next(err)
+    

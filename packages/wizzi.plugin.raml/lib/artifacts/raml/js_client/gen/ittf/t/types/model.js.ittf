@@ -1,0 +1,37 @@
+$group
+
+	wz-require isPlainObject
+		from lodash-compat/lang/isPlainObject
+	wz-require isString
+		from lodash-compat/array/isString
+
+	wz-class Model
+		ctor
+            param name
+            param definition
+            param models
+            param modelPropertyMacro
+            set this.definition = definition || {}
+            set this.isArray = definition.type === 'array'
+            set this.models = models || {}
+            set this.name = name || definition.title || 'Inline Model'
+            set this.modelPropertyMacro =
+                op|| 
+                    set modelPropertyMacro
+                    function 
+                        param property
+                        return property.default
+            return this
+    
+		m createJSONSample
+			return
+				{
+					@ message 'createJSONSample Not implemented'
+    
+		m getMockSignature
+            return 
+                _ schemaMarkup.schemaToHTML
+                    @ this.name
+                    @ this.definition
+                    @ this.models
+                    @ this.modelPropertyMacro

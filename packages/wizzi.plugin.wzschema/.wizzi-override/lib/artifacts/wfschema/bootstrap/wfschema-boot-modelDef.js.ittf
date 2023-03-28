@@ -1,0 +1,480 @@
+﻿module
+	kind jsfile
+	
+	var util = require('util')
+	var BootWizziSchema = require('./wfschema-boot-model').WizziSchema
+
+	var md = module.exports = {}
+
+	set md.createInstance
+
+		function
+			var wfschema = new BootWizziSchema('wfschema')
+	        
+			# wfschema
+			var e_wfschema = wfschema.addElement("wfschema", {})
+            set e_wfschema.xmlTagInternal = "wfschema"
+            var e_wfschema_preserveTags = e_wfschema.addAttribute("preserveTags", {})
+            set e_wfschema_preserveTags.type = "boolean"
+            set e_wfschema_preserveTags.default = "false"
+            set e_wfschema_preserveTags.tagInternal = "preserve-tags"
+            set e_wfschema_preserveTags.defaultWhenDeclared = "true"
+			var e_wfschema_unknownElementReplacer = e_wfschema.addAttribute("unknownElementReplacer", {})
+			set e_wfschema_unknownElementReplacer.tagInternal = "unknown-element-replacer"
+			var e_wfschema_mTreeIsPreprocessed = e_wfschema.addAttribute("mTreeIsPreprocessed", {})
+            set e_wfschema_mTreeIsPreprocessed.type = "boolean"
+            set e_wfschema_mTreeIsPreprocessed.default = "false"
+            set e_wfschema_mTreeIsPreprocessed.tagInternal = "mtree-is-preprocessed"
+            set e_wfschema_mTreeIsPreprocessed.defaultWhenDeclared = "true"
+
+			# element
+			var e_element = wfschema.addElement("element", {})
+            set e_element.tagInternal = "e"
+            set e_element.xmlTagInternal = "element"
+            var e_element_super = e_element.addAttribute("super", {})
+            
+			var e_element_isAbstract = e_element.addAttribute("isAbstract", {})
+            set e_element_isAbstract.type = "boolean"
+            set e_element_isAbstract.default = "false"
+            set e_element_isAbstract.tagInternal = "is-abstract"
+            set e_element_isAbstract.defaultWhenDeclared = "true"
+
+            var e_element_isRoot = e_element.addAttribute("isRoot", {})
+            set e_element_isRoot.type = "boolean"
+            set e_element_isRoot.default = "false"
+            set e_element_isRoot.tagInternal = "is-root"
+            set e_element_isRoot.defaultWhenDeclared = "true"
+
+            var e_element_tagInternal = e_element.addAttribute("tagInternal", {})
+            set e_element_tagInternal.tagInternal = "tag"
+            
+			var e_element_xmlTagInternal = e_element.addAttribute("xmlTagInternal", {})
+            set e_element_xmlTagInternal.tagInternal = "xml-tag"
+            
+			var e_element_acceptAnyTag = e_element.addAttribute("acceptAnyTag", {})
+            set e_element_acceptAnyTag.tagInternal = "any"
+            
+			var e_element_nameIsRequired = e_element.addAttribute("nameIsRequired", {})
+            set e_element_nameIsRequired.type = "boolean"
+            set e_element_nameIsRequired.default = "false"
+            set e_element_nameIsRequired.tagInternal = "name-is-required"
+            set e_element_nameIsRequired.defaultWhenDeclared = "true"
+            
+			var e_element_addToChildren = e_element.addAttribute("addToChildren", {})
+            set e_element_addToChildren.type = "boolean"
+            set e_element_addToChildren.default = "false"
+            set e_element_addToChildren.tagInternal = "add-to-children"
+            set e_element_addToChildren.defaultWhenDeclared = "true"
+
+			var e_element_hasMTreeData = e_element.addAttribute("hasMTreeData", {})
+            set e_element_hasMTreeData.type = "boolean"
+            set e_element_hasMTreeData.default = "false"
+            set e_element_hasMTreeData.tagInternal = "has-mtree-data"
+            set e_element_hasMTreeData.defaultWhenDeclared = "true"
+
+			var e_element_suppressCollectionEmit = e_element.addAttribute("suppressCollectionEmit", {})
+            set e_element_suppressCollectionEmit.type = "boolean"
+            set e_element_suppressCollectionEmit.default = "false"
+            set e_element_suppressCollectionEmit.tagInternal = "suppress-collection-emit"
+            set e_element_suppressCollectionEmit.defaultWhenDeclared = "true"
+            
+			# attribute
+			var e_attribute = wfschema.addElement("attribute", {})
+            set e_attribute.tagInternal = "a"
+            set e_attribute.xmlTagInternal = "attribute"
+            var e_attribute_tagInternal = e_attribute.addAttribute("tagInternal", {})
+            set e_attribute_tagInternal.tagInternal = "tag"
+            var e_attribute_type = e_attribute.addAttribute("type", {})
+            set e_attribute_type.default = "string"
+            var e_attribute_default = e_attribute.addAttribute("default", {})
+			set e_attribute_default.tagInternal = "default"
+            var e_attribute_calculated = e_attribute.addAttribute("calculated ", {})
+            var e_attribute_isRequired = e_attribute.addAttribute("isRequired", {})
+            set e_attribute_isRequired.type = "boolean"
+            set e_attribute_isRequired.default = "false"
+            set e_attribute_isRequired.tagInternal = "is-required"
+            set e_attribute_isRequired.defaultWhenDeclared = "true"
+            var e_attribute_isDataType = e_attribute.addAttribute("isDataType", {})
+            set e_attribute_isDataType.type = "boolean"
+            set e_attribute_isDataType.default = "false"
+            set e_attribute_isDataType.tagInternal = "is-datatype"
+            set e_attribute_isDataType.defaultWhenDeclared = "true"
+            var e_attribute_defaultWhenDeclared = e_attribute.addAttribute("defaultWhenDeclared", {})
+            set e_attribute_defaultWhenDeclared.tagInternal = "default-when-declared"
+            
+			# restrict
+			var e_restrict = wfschema.addElement("restrict", {})
+            set e_restrict.xmlTagInternal = "restrict"
+            var e_restrict_nameIsRequired = e_restrict.addAttribute("nameIsRequired", {})
+            set e_restrict_nameIsRequired.type = "boolean"
+            set e_restrict_nameIsRequired.default = "false"
+            set e_restrict_nameIsRequired.tagInternal = "name-is-required"
+            set e_restrict_nameIsRequired.defaultWhenDeclared = "true"
+            
+			# facet
+			var e_facet = wfschema.addElement("facet", {})
+            set e_facet.IsAbstract = "true"
+            set e_facet.xmlTagInternal = "facet"
+
+            # enumFacet
+			var e_enumFacet = wfschema.addElement("enumFacet", {})
+            set e_enumFacet.tagInternal = "enum"
+            set e_enumFacet.super = "facet"
+            set e_enumFacet.xmlTagInternal = "enumFacet"
+
+            # maxLengthFacet
+			var e_maxLengthFacet = wfschema.addElement("maxLengthFacet", {})
+            set e_maxLengthFacet.tagInternal = "max-length"
+            set e_maxLengthFacet.super = "facet"
+            set e_maxLengthFacet.xmlTagInternal = "maxLengthFacet"
+
+            # minLengthFacet
+			var e_minLengthFacet = wfschema.addElement("minLengthFacet", {})
+            set e_minLengthFacet.tagInternal = "min-length"
+            set e_minLengthFacet.super = "facet"
+            set e_minLengthFacet.xmlTagInternal = "minLengthFacet"
+            
+			# relation
+			var e_relation = wfschema.addElement("relation", {})
+            set e_relation.tagInternal = "r"
+            set e_relation.xmlTagInternal = "relation"
+            var e_relation_noGetMethod = e_relation.addAttribute("noGetMethod", {})
+            set e_relation_noGetMethod.type = "boolean"
+            set e_relation_noGetMethod.default = "false"
+            set e_relation_noGetMethod.tagInternal = "no-get"
+            set e_relation_noGetMethod.defaultWhenDeclared = "true"
+            var e_relation_hasAddOnce = e_relation.addAttribute("hasAddOnce", {})
+            set e_relation_hasAddOnce.type = "boolean"
+            set e_relation_hasAddOnce.default = "false"
+            set e_relation_hasAddOnce.tagInternal = "add-once"
+            set e_relation_hasAddOnce.defaultWhenDeclared = "true"
+            var e_relation_isOneToOne = e_relation.addAttribute("isOneToOne", {})
+            set e_relation_isOneToOne.type = "boolean"
+            set e_relation_isOneToOne.default = "false"
+            set e_relation_isOneToOne.tagInternal = "one-to-one"
+            set e_relation_isOneToOne.defaultWhenDeclared = "true"
+            
+			# property
+			var e_property = wfschema.addElement("property", {})
+            set e_property.tagInternal = "p"
+            set e_property.xmlTagInternal = "property"
+            var e_property_emitkey = e_property.addAttribute("emitkey", {})
+            
+			# declare
+			var e_declare = wfschema.addElement("declare", {})
+            set e_declare.tagInternal = "declare"
+            set e_declare.xmlTagInternal = "declare"
+
+			# method
+			var e_method = wfschema.addElement("method", {})
+            set e_method.tagInternal = "m"
+            set e_method.xmlTagInternal = "method"
+            var e_method_emitkey = e_method.addAttribute("emitKey", {})
+			set e_method_emitkey.tagInternal = "emit-key"
+            
+			# param
+			var e_param = wfschema.addElement("param", {})
+            set e_param.xmlTagInternal = "param"
+            var e_param_type = e_param.addAttribute("type", {})
+            
+			# exportTo
+			var e_exportTo = wfschema.addElement("exportTo", {})
+			set e_exportTo.tagInternal = "export-to"
+            set e_exportTo.xmlTagInternal = "exportTo"
+
+			# require
+			var e_require = wfschema.addElement("require", {})
+            set e_require.xmlTagInternal = "require"
+            var e_require_kind = e_require.addAttribute("kind", {})
+            var e_require_invoke = e_require.addAttribute("invoke", {})
+            var e_require_declareVar = e_require.addAttribute("declareVar", {})
+            set e_require_declareVar.tagInternal = "declare-var"
+            
+			# include
+			var e_include = wfschema.addElement("include", {})
+            set e_include.xmlTagInternal = "include"
+            
+			# comment
+			var e_comment = wfschema.addElement("comment", {})
+            set e_comment.tagInternal = "#"
+            set e_comment.xmlTagInternal = "comment"
+            
+			# statement
+			var e_statement = wfschema.addElement("statement", {})
+            set e_statement.xmlTagInternal = "statement"
+            
+			# codeline
+			var e_codeline = wfschema.addElement("codeline", {})
+            set e_codeline.tagInternal = "+"
+            set e_codeline.super = "statement"
+            
+			# var
+			var e_var = wfschema.addElement("var", {})
+			set e_var.tagInternal = "var"
+            set e_var.super = "statement"
+            set e_var.xmlTagInternal = "var"
+            
+			# decl
+			var e_decl = wfschema.addElement("decl", {})
+			set e_decl.tagInternal = "decl"
+            set e_decl.super = "statement"
+            set e_decl.xmlTagInternal = "decl"
+
+			# set
+			var e_set = wfschema.addElement("set", {})
+            set e_set.super = "statement"
+            
+			# call
+			var e_call = wfschema.addElement("call", {})
+			set e_call.tagInternal = "_"
+            set e_call.super = "statement"
+            
+			# function
+			var e_function = wfschema.addElement("function", {})
+			set e_function.tagInternal = "function"
+            set e_function.super = "statement"
+            
+			# return
+			var e_return = wfschema.addElement("return", {})
+			set e_return.tagInternal = "return"
+            set e_return.super = "statement"
+            
+			# new
+			var e_new = wfschema.addElement("new", {})
+			set e_new.tagInternal = "new"
+            set e_new.super = "statement"
+
+			# if
+			var e_if = wfschema.addElement("if", {})
+			set e_if.tagInternal = "if"
+            set e_if.super = "statement"
+            
+			# elif
+			var e_elif = wfschema.addElement("elif", {})
+            set e_elif.super = "statement"
+            
+			# else
+			var e_else = wfschema.addElement("else", {})
+			set e_else.tagInternal = "else"
+            set e_else.super = "statement"
+            
+			# for
+			var e_for = wfschema.addElement("for", {})
+			set e_for.tagInternal = "for"
+            set e_for.super = "statement"
+            
+			# break
+			var e_break = wfschema.addElement("break", {})
+			set e_break.tagInternal = "break"
+            set e_break.super = "statement"
+
+			# continue
+			var e_continue = wfschema.addElement("continue", {})
+			set e_continue.tagInternal = "continue"
+            set e_continue.super = "statement"
+
+			# foreach
+			var e_foreach = wfschema.addElement("foreach", {})
+            set e_foreach.super = "statement"
+            
+			# while
+			var e_while = wfschema.addElement("while", {})
+			set e_while.tagInternal = "while"
+            set e_while.super = "statement"
+            
+			# do
+			var e_dowhile = wfschema.addElement("do", {})
+			set e_dowhile.tagInternal = "do"
+            set e_dowhile.super = "statement"
+            
+			# switch
+			var e_switch = wfschema.addElement("switch", {})
+			set e_switch.tagInternal = "switch"
+            set e_switch.super = "statement"
+            
+			# case
+			var e_case = wfschema.addElement("case", {})
+			set e_case.tagInternal = "case"
+            set e_case.super = "statement"
+            
+			# default
+			var e_default = wfschema.addElement("default", {})
+			set e_default.tagInternal = "default"
+            set e_default.super = "statement"
+            
+			# try
+			var e_try = wfschema.addElement("try", {})
+			set e_try.tagInternal = "try"
+            set e_try.super = "statement"
+            
+			# catch
+			var e_catch = wfschema.addElement("catch", {})
+			set e_catch.tagInternal = "catch"
+            set e_catch.super = "statement"
+            
+			# finally
+			var e_finally = wfschema.addElement("finally", {})
+			set e_finally.tagInternal = "finally"
+            set e_finally.super = "statement"
+            
+			# throw
+			var e_throw = wfschema.addElement("throw", {})
+			set e_throw.tagInternal = "throw"
+            set e_throw.super = "statement"
+            
+			# log
+			var e_log = wfschema.addElement("log", {})
+            set e_log.super = "statement"
+
+			# jsArray
+			var e_jsArray = wfschema.addElement("jsArray", {})
+			set e_jsArray.tagInternal = "["
+            set e_jsArray.super = "statement"
+
+			# jsObject
+			var e_jsObject = wfschema.addElement("jsObject", {})
+			set e_jsObject.tagInternal = "{"
+            set e_jsObject.super = "statement"
+
+			# jsPropertyOrValue
+			var e_jsPropertyOrValue = wfschema.addElement("jsPropertyOrValue", {})
+			set e_jsPropertyOrValue.tagInternal = "@"
+            set e_jsPropertyOrValue.super = "statement"
+
+            var r_wfschema_require = e_wfschema.addRelation("require", {})
+            set r_wfschema_require.childRole = "requires"
+            set r_wfschema_require.rightElement = e_require
+            
+			var r_wfschema_element = e_wfschema.addRelation("element", {})
+            set r_wfschema_element.childRole = "elements"
+            set r_wfschema_element.rightElement = e_element
+            
+			var r_wfschema_declare = e_wfschema.addRelation("declare", {})
+            set r_wfschema_declare.childRole = "declares"
+            set r_wfschema_declare.rightElement = e_declare
+
+			var r_wfschema_method = e_wfschema.addRelation("method", {})
+            set r_wfschema_method.childRole = "methods"
+            set r_wfschema_method.rightElement = e_method
+            
+			var r_wfschema_exportTo = e_wfschema.addRelation("exportTo", {})
+            set r_wfschema_exportTo.childRole = "exportTos"
+            set r_wfschema_exportTo.rightElement = e_exportTo
+
+			var r_wfschema_comment = e_wfschema.addRelation("comment", {})
+            set r_wfschema_comment.childRole = "comments"
+            set r_wfschema_comment.rightElement = e_comment
+            
+			var r_element_attribute = e_element.addRelation("attribute", {})
+            set r_element_attribute.childRole = "attributes"
+            set r_element_attribute.rightElement = e_attribute
+            
+			var r_element_relation = e_element.addRelation("relation", {})
+            set r_element_relation.childRole = "relations"
+            set r_element_relation.rightElement = e_relation
+            
+			var r_element_restrict = e_element.addRelation("restrict", {})
+            set r_element_restrict.childRole = "restricts"
+            set r_element_restrict.rightElement = e_restrict
+            
+			var r_element_property = e_element.addRelation("property", {})
+            set r_element_property.childRole = "properties"
+            set r_element_property.rightElement = e_property
+            
+			var r_element_method = e_element.addRelation("method", {})
+            set r_element_method.childRole = "methods"
+            set r_element_method.rightElement = e_method
+            
+			var r_element_include = e_element.addRelation("include", {})
+            set r_element_include.childRole = "includes"
+            set r_element_include.rightElement = e_include
+            
+			var r_element_comment = e_element.addRelation("comment", {})
+            set r_element_comment.childRole = "comments"
+            set r_element_comment.rightElement = e_comment
+            
+			var r_attribute_restrict = e_attribute.addRelation("restrict", {})
+            set r_attribute_restrict.childRole = "restricts"
+            set r_attribute_restrict.rightElement = e_restrict
+            
+			var r_attribute_comment = e_attribute.addRelation("comment", {})
+            set r_attribute_comment.childRole = "comments"
+            set r_attribute_comment.rightElement = e_comment
+            
+			var r_restrict_facet = e_restrict.addRelation("facet", {})
+            set r_restrict_facet.childRole = "facets"
+            set r_restrict_facet.rightElement = e_facet
+            
+			var r_restrict_comment = e_restrict.addRelation("comment", {})
+            set r_restrict_comment.childRole = "comments"
+            set r_restrict_comment.rightElement = e_comment
+            
+			var r_enumFacet_comment = e_enumFacet.addRelation("comment", {})
+			set r_enumFacet_comment.childRole = "comments"
+            set r_enumFacet_comment.rightElement = e_comment
+            
+			var r_maxLengthFacet_comment = e_maxLengthFacet.addRelation("comment", {})
+            set r_maxLengthFacet_comment.childRole = "comments"
+            set r_maxLengthFacet_comment.rightElement = e_comment
+            
+			var r_minLengthFacet_comment = e_minLengthFacet.addRelation("comment", {})
+            set r_minLengthFacet_comment.childRole = "comments"
+			set r_minLengthFacet_comment.rightElement = e_comment
+            
+			var r_relation_comment = e_relation.addRelation("comment", {})
+            set r_relation_comment.childRole = "comments"
+            set r_relation_comment.rightElement = e_comment
+            
+			var r_property_statement = e_property.addRelation("statement", {})
+            set r_property_statement.childRole = "statements"
+            set r_property_statement.rightElement = e_statement
+            
+			var r_property_comment = e_property.addRelation("comment", {})
+            set r_property_comment.childRole = "comments"
+            set r_property_comment.rightElement = e_comment
+            
+			var r_method_param = e_method.addRelation("param", {})
+            set r_method_param.childRole = "params"
+            set r_method_param.rightElement = e_param
+            
+			var r_method_require = e_method.addRelation("require", {})
+            set r_method_require.childRole = "requires"
+            set r_method_require.rightElement = e_require
+            
+			var r_method_statement = e_method.addRelation("statement", {})
+            set r_method_statement.childRole = "statements"
+            set r_method_statement.rightElement = e_statement
+            
+			var r_method_comment = e_method.addRelation("comment", {})
+            set r_method_comment.childRole = "comments"
+            set r_method_comment.rightElement = e_comment
+            
+			var r_param_comment = e_param.addRelation("comment", {})
+            set r_param_comment.childRole = "comments"
+            set r_param_comment.rightElement = e_comment
+            
+			var r_require_comment = e_require.addRelation("comment", {})
+            set r_require_comment.childRole = "comments"
+            set r_require_comment.rightElement = e_comment
+            
+			var r_statement_statement = e_statement.addRelation("statement", {})
+            set r_statement_statement.childRole = "statements"
+            set r_statement_statement.rightElement = e_statement
+            
+			var r_function_param = e_function.addRelation("param", {})
+            set r_function_param.childRole = "params"
+            set r_function_param.rightElement = e_param
+
+			var ctx
+				{
+					@ error
+						function
+							param msg
+							param node
+							throw new Error(msg + '\n' + util.inspect(node, { depth: 2}))
+			
+			_ wfschema.wzSetup(ctx);
+			_ wfschema.wzVerify(ctx);
+			_ wfschema.wzInitialize(ctx);
+
+			return wfschema

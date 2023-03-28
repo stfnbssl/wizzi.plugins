@@ -1,0 +1,94 @@
+﻿$group
+
+	#
+		# The method called by 'wizzi.wizziFactory.generateModelDoms'
+		#
+		# params
+		#   { wfschemaWizziModel
+		#     # The model loaded from the 'SCHEMA_NAME.wfschema.ittf' source document.
+		#     [ requires
+		#     [ exportTos
+		#     [ elements
+		
+	m loadFromWizziModel
+		param wfschemaWizziModel
+
+		set this.wzName = wfschemaWizziModel.wzName
+		set this.unknownElementReplacer = wfschemaWizziModel.unknownElementReplacer || false
+		set this.mTreeIsPreprocessed = wfschemaWizziModel.mTreeIsPreprocessed || false
+
+		_ this.importComments(wfschemaWizziModel)
+		
+		foreach requireFrom in wfschemaWizziModel.requires
+			var require = this.addRequire(requireFrom.wzName)
+			if requireFrom.declareVar && requireFrom.declareVar.length > 0
+				set require.declareVar = requireFrom.declareVar
+			if requireFrom.invoke && requireFrom.invoke.length > 0
+				set require.invoke = requireFrom.invoke
+			set require.kind = requireFrom.kind
+
+		_ this.importDeclares(wfschemaWizziModel)
+		_ this.importMethods(wfschemaWizziModel)
+
+		foreach eFrom in wfschemaWizziModel.elements
+			var element = this.addElement(eFrom.wzName)
+			_ element.importComments(eFrom)
+			_ element.importRestricts(eFrom)
+			set element.tagInternal = eFrom.tagInternal
+			set element.super = eFrom.super
+			set element.isAbstract = eFrom.isAbstract
+			set element.isRoot = eFrom.isRoot
+			set element.xmlTagInternal = eFrom.xmlTagInternal
+			set element.tagType = eFrom.tagType
+			set element.acceptAnyTag = eFrom.acceptAnyTag
+            if schemautil.isNotEmpty(eFrom.acceptAnyTag)
+                var anyTags = eFrom.acceptAnyTag.split('/')
+                set element.acceptAnyTag = anyTags[0]
+                set element.acceptAnyTagCollection = anyTags[1]
+			set element.nameIsRequired = eFrom.nameIsRequired
+			set element.addToChildren = eFrom.addToChildren
+			set element.suppressCollectionEmit = eFrom.suppressCollectionEmit
+			
+			foreach aFrom in eFrom.attributes
+				var attribute = element.addAttribute(aFrom.wzName)
+				_ attribute.importComments(aFrom)
+				_ attribute.importRestricts(aFrom)
+				set attribute.tagInternal = aFrom.tagInternal
+				set attribute.xmlTagInternal = aFrom.xmlTagInternal
+				set attribute.type = aFrom.type
+				set attribute.default = aFrom.default
+				set attribute.isRequired = aFrom.isRequired
+				set attribute.isDataType = aFrom.isDataType
+				set attribute.defaultWhenDeclared = aFrom.defaultWhenDeclared
+			
+			foreach rFrom in eFrom.relations
+				var relation = element.addRelation(rFrom.wzName)
+				_ relation.importComments(rFrom)
+				set relation.noGetMethod = rFrom.noGetMethod
+				set relation.hasAddOnce = rFrom.hasAddOnce
+				set relation.isOneToOne = rFrom.isOneToOne
+
+			foreach iFrom in eFrom.includes
+				var include = element.addInclude(iFrom.wzName)
+				_ include.importComments(rFrom)
+
+			_ element.importMethods(eFrom)
+
+		foreach exportTo in wfschemaWizziModel.exportTos
+			_ this.addExportTo(exportTo.wzName)
+
+		var ctx
+			{
+				@ error
+					function
+						param msg
+						param node
+						throw new Error(msg + '\n' + util.inspect(node, { depth: 2}))
+
+		_ this.wzSetup(ctx);
+		_ this.wzVerify(ctx);
+		_ this.wzInitialize(ctx);
+
+
+
+	

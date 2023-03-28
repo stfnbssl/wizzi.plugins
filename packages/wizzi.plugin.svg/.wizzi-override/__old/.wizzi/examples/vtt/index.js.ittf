@@ -1,0 +1,46 @@
+﻿common/example/plugin('vtt examples')
+
+	$append imports
+		var vttfactory = require('../../lib/wizzi/models/vtt-factory.g')
+		var vttgenerator = require('../../lib/artifacts/vtt/document/gen/main')
+	
+	+
+	var loadModel
+		_ vttfactory.createLoadModel
+			_ getWizziObject
+	+
+	var ittfPath
+		_ path.join
+			@ __dirname
+			@ 'ittf'
+	foreach item in getFiles(ittfPath,'vtt')
+		set item = item.substring(0, item.length - '.vtt.ittf'.length)
+		# loog 'item', item
+		_ execute(item)
+	+
+	function execute
+		param name
+		var ittfSource
+			_ path.join
+				@ __dirname
+				@ 'ittf'
+				@ name + '.vtt.ittf'
+		var vttOutput
+			_ path.join
+				@ __dirname
+				@ 'ittf'
+				@ name + '.g.vtt'
+		_ loadModel
+			@ ittfSource
+			{
+				@ __productionManager
+					_ mocks.getProductionManager
+			f_cb_test( wizziModel )
+				info 'vtt wizziModel', JSON.stringify(wizziModel.toJson(), null, 2)
+				var ctx
+					_ mocks.getGenContext
+				_ vttgenerator.gen
+					@ wizziModel
+					@ ctx
+					f_cb_test( ctxout )
+						info 'ctxout', ctxout.getContent()

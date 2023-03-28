@@ -1,0 +1,247 @@
+{
+    "wzElement": "graphql",
+    "wzName": "second",
+    "comments": [],
+    "directives": [],
+    "typeDefs": [
+        {
+            "wzElement": "schemaDef",
+            "wzTag": "schema",
+            "wzName": "",
+            "comments": [],
+            "directives": [],
+            "description": null,
+            "operationTypes": [
+                {
+                    "wzElement": "queryType",
+                    "wzTag": "query",
+                    "wzName": "Query",
+                    "comments": [],
+                    "directives": [],
+                    "description": null
+                }
+            ]
+        },
+        {
+            "wzElement": "objectTypeDef",
+            "wzTag": "type",
+            "wzName": "Query",
+            "comments": [],
+            "directives": [],
+            "description": {
+                "wzElement": "description",
+                "wzName": "",
+                "texts": [
+                    {
+                        "wzElement": "text",
+                        "wzTag": "+",
+                        "wzName": "Root type for all your query operations",
+                        "texts": []
+                    }
+                ]
+            },
+            "fieldDefs": [
+                {
+                    "wzElement": "fieldDef",
+                    "wzTag": ".",
+                    "wzName": "translate",
+                    "comments": [],
+                    "directives": [],
+                    "description": null,
+                    "nameType": {
+                        "wzElement": "stringNameType",
+                        "wzName": "",
+                        "comments": [],
+                        "directives": []
+                    },
+                    "inputValueDefs": [
+                        {
+                            "wzElement": "inputValueDef",
+                            "wzTag": "@",
+                            "wzName": "fromLanguage",
+                            "comments": [
+                                {
+                                    "wzElement": "comment",
+                                    "wzTag": "#",
+                                    "wzName": "The original language that `text` is provided in.",
+                                    "comments": []
+                                }
+                            ],
+                            "directives": [],
+                            "nameType": {
+                                "wzElement": "refNameType",
+                                "wzName": "Language",
+                                "comments": [],
+                                "directives": []
+                            }
+                        },
+                        {
+                            "wzElement": "inputValueDef",
+                            "wzTag": "@",
+                            "wzName": "toLanguage",
+                            "comments": [
+                                {
+                                    "wzElement": "comment",
+                                    "wzTag": "#",
+                                    "wzName": "The translated language to be returned.",
+                                    "comments": []
+                                }
+                            ],
+                            "directives": [],
+                            "nameType": {
+                                "wzElement": "refNameType",
+                                "wzName": "Language",
+                                "comments": [],
+                                "directives": []
+                            }
+                        },
+                        {
+                            "wzElement": "inputValueDef",
+                            "wzTag": "@",
+                            "wzName": "text",
+                            "comments": [
+                                {
+                                    "wzElement": "comment",
+                                    "wzTag": "#",
+                                    "wzName": "The text to be translated.",
+                                    "comments": []
+                                }
+                            ],
+                            "directives": [],
+                            "nameType": {
+                                "wzElement": "stringNameType",
+                                "wzName": "",
+                                "comments": [],
+                                "directives": []
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "wzElement": "enumType",
+            "wzTag": "enum",
+            "wzName": "Language",
+            "comments": [],
+            "directives": [],
+            "description": {
+                "wzElement": "description",
+                "wzName": "",
+                "texts": [
+                    {
+                        "wzElement": "text",
+                        "wzTag": "+",
+                        "wzName": "The set of languages supported by `translate`",
+                        "texts": []
+                    }
+                ]
+            },
+            "enumValues": [
+                {
+                    "wzElement": "enumValue",
+                    "wzTag": ".",
+                    "wzName": "EN",
+                    "type": "enum",
+                    "comments": [
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "English",
+                            "comments": []
+                        }
+                    ],
+                    "objectFields": []
+                },
+                {
+                    "wzElement": "enumValue",
+                    "wzTag": ".",
+                    "wzName": "FR",
+                    "type": "enum",
+                    "comments": [
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "French",
+                            "comments": []
+                        }
+                    ],
+                    "objectFields": []
+                },
+                {
+                    "wzElement": "enumValue",
+                    "wzTag": ".",
+                    "wzName": "CH",
+                    "type": "enum",
+                    "comments": [
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "Chinese",
+                            "comments": []
+                        }
+                    ],
+                    "objectFields": []
+                }
+            ]
+        },
+        {
+            "wzElement": "objectTypeDef",
+            "wzTag": "type",
+            "wzName": "User",
+            "comments": [],
+            "directives": [],
+            "description": null,
+            "fieldDefs": [
+                {
+                    "wzElement": "fieldDef",
+                    "wzTag": ".",
+                    "wzName": "id",
+                    "comments": [],
+                    "directives": [],
+                    "description": null,
+                    "nameType": {
+                        "wzElement": "stringNameType",
+                        "wzName": "",
+                        "comments": [],
+                        "directives": []
+                    },
+                    "inputValueDefs": []
+                },
+                {
+                    "wzElement": "fieldDef",
+                    "wzTag": ".",
+                    "wzName": "name",
+                    "comments": [],
+                    "directives": [],
+                    "description": null,
+                    "nameType": {
+                        "wzElement": "stringNameType",
+                        "wzName": "",
+                        "comments": [],
+                        "directives": []
+                    },
+                    "inputValueDefs": []
+                },
+                {
+                    "wzElement": "fieldDef",
+                    "wzTag": ".",
+                    "wzName": "birthday",
+                    "comments": [],
+                    "directives": [],
+                    "description": null,
+                    "nameType": {
+                        "wzElement": "DateNameType",
+                        "wzName": "",
+                        "comments": [],
+                        "directives": []
+                    },
+                    "inputValueDefs": []
+                }
+            ]
+        }
+    ],
+    "operations": [],
+    "selectionSet": null,
+    "fragments": []
+}

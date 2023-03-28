@@ -1,0 +1,43 @@
+﻿$group
+
+	clazz( ChoiceSet )
+		ctor
+			set this.choices = []
+
+		m addChoice
+			param test
+			param callback
+			var choice = new Choice(test)
+			_ callback(choice.codelines)
+			_ this.choices.push(choice)
+
+		m createOrdered
+
+			var retval = []
+            var done
+            foreach choice in this.choices
+                set done = false
+                foreach ordered in retval
+                    if ordered.char == choice.char && ordered.length == choice.length
+                        _ ordered.choices.push(choice);
+                        set done = true
+                if !done
+                    set ordered = new ChoiceOrdered(choice.char, choice.length);
+                    _ ordered.choices.push(choice);
+                    _ retval.push(ordered);
+            
+			_ retval.sort(ChoiceSetCompare)
+            return retval
+
+	function ChoiceSetCompare
+		param a
+		param b
+		if a.length > b.length
+			return 1
+		if a.length < b.length
+			return -1
+		if a.char > b.char
+			return 1
+		if a.char < b.char
+			return -1
+		return 0

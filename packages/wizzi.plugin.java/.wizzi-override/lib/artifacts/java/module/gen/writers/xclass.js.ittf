@@ -1,0 +1,82 @@
+﻿module
+    kind es6
+
+    $include grammars/java
+
+    statements-writer(xclass)
+
+        $append imports
+                
+        statement( xclass
+            var name = model.wzName.trim()
+            var modifierCount = 0
+            $foreach item in Grammars.java.modifiers
+                if model.${item}
+                    _ ctx.write('${item} ')
+                    set modifierCount++
+            if modifierCount > 0
+                _ ctx.write(' ')
+            _ ctx.w('class ' + name + ' {')
+            _ mainWriter.genItems
+                @ model.statements
+                @ ctx
+                {
+                    @ indent true
+                a_cb()
+                    _ ctx.w('}')
+                    r_cb()
+
+        statement( property
+            var name = model.wzName.trim()
+            _ ctx.w(name)
+            r_cb()
+
+        statement( ctor
+            _ ctx.write('def __init__(self')
+            var param_count = 0
+            iife next
+                var param = model.params[param_count++]
+                if !param
+                    _ ctx.w('):')
+                    return
+                        _ body
+                _ ctx.write(', ')
+                _ ctx.write(param.wzName)
+                _ next
+            function body
+                _ mainWriter.genItems
+                    @ model.statements
+                    @ ctx
+                    {
+                        @ indent true
+                    @ callback
+
+        statement( destructor
+            _ ctx.w('def __del__(self):')
+            _ mainWriter.genItems
+                @ model.statements
+                @ ctx
+                {
+                    @ indent true
+                @ callback
+
+        statement( method
+            var name = model.wzName.trim()
+            _ ctx.write('def ' + name + '(self')
+            var param_count = 0
+            iife next
+                var param = model.params[param_count++]
+                if !param
+                    _ ctx.w('):')
+                    return
+                        _ body
+                _ ctx.write(', ')
+                _ ctx.write(param.wzName)
+                _ next
+            function body
+                _ mainWriter.genItems
+                    @ model.statements
+                    @ ctx
+                    {
+                        @ indent true
+                    @ callback

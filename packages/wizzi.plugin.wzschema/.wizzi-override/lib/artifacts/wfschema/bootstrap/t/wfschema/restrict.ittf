@@ -1,0 +1,15 @@
+﻿$group
+	
+	clazz( Restrict, Node )
+		ctor
+			param name
+			base name
+			set this.wzElement = 'restrict'
+			set this.facets = []
+
+		m addEnumFacet
+			param name
+			var facet = new EnumFacet(name)
+			set facet.wzParent = this
+			_ this.facets.push(facet)
+			return facet

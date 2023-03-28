@@ -1,0 +1,16 @@
+﻿$group
+	$params names, parent|@@null
+
+	m getAttributes
+		param attrs
+		$if parent !== null
+			set attrs
+				_ _md.${parent}.prototype.getAttributes.call(this, attrs)
+
+		return
+			_ extractAttributes
+				@ this
+				@ '${names}'
+				@ attrs
+
+

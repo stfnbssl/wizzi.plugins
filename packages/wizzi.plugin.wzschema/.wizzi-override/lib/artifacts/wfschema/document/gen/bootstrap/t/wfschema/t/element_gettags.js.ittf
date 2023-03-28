@@ -1,0 +1,37 @@
+﻿$group
+
+	m getTags
+		param ctx
+
+		# set ctx.tagElementMapping
+		# return array of element tags
+		
+		# loog 'element.getTags', this.tagName, ctx.tagElementMapping
+		var tagElMap = ctx.tagElementMapping
+		if tagElMap == null
+			set ctx.tagElementMapping = tagElMap = {}
+
+        var
+			decl retval = []
+			decl tagString
+			decl elId = this.wzId
+
+		if schemautil.isEmpty(this.tagName)
+			throw new Error('Empty tag name for element ' + this.wzId)
+
+        var STAG_REPL = '__§§__##__'
+		var stag = verify.replaceAll(this.tagName, '\\|', STAG_REPL)
+
+		var ss = stag.split('|')
+		foreach s in ss
+			set tagString = verify.replaceAll(s.trim(), STAG_REPL, '|')
+			if tagString != elId && typeof tagElMap[tagString] === 'undefined' 
+				set tagElMap[tagString] = elId;
+			_ retval.push(tagString)
+			if tagString.indexOf("-") > 0
+				set tagString = schemautil.replaceAll(tagString, '-', '')
+				if tagString != elId && typeof tagElMap[tagString] === 'undefined' 
+					set tagElMap[tagString] = elId;
+				_ retval.push(tagString)
+
+		return retval;

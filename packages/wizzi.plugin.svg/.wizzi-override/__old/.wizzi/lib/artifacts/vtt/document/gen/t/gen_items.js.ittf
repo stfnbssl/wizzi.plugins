@@ -1,0 +1,14 @@
+﻿$group
+	$params coll, from|0, sep|@@null
+
+	_ genItems
+		@ ${coll}
+		@ ctx
+		{
+			@ indent false
+			@ from ${from}
+			$if sep != null
+				@ sep '${sep}'
+
+		f_cb()
+			$hook

@@ -1,0 +1,73 @@
+module
+    kind es6
+    $
+        var md = {
+            name: 'vtt',
+        };
+    v08/examples/plugin( &md )
+        $append plugins
+            [ items
+                @ './index.js'
+            @ pluginsBaseFolder
+                _ path.resolve
+                    @ __dirname
+                    @ '..'
+        _ executeGenerateModules
+            [
+                @ 'first'
+            a_cb_no_throw( result )
+                if err
+                    error 'vtt.examples.executeGenerateModules.err', err
+                    error 'vtt.examples.executeGenerateModules.err.toString()', err.toString()
+                    if err.inner
+                        error 'vtt.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
+                else
+        function executeGenerateModules
+            param modules
+            param callback
+            _ async.mapSeries
+                @ modules
+                =>
+                    param module
+                    param callback
+                    log 'vtt.example.executeGenerateModules.module: ' + module
+                    var ittfDocumentUri
+                        _ path.join
+                            @ __dirname
+                            @ 'ittf'
+                            @ module + '.vtt.ittf'
+                    var outputLoadedPath
+                        _ path.join
+                            @ __dirname
+                            @ 'results'
+                            @ module + '.vtt.json'
+                    var outputExtendedPath
+                        _ path.join
+                            @ __dirname
+                            @ 'results'
+                            @ module + '.vtt.extended.json'
+                    _ loadWizziModel
+                        @ ittfDocumentUri
+                        {
+                        a_cb( model )
+                            log 'vtt.example.executeGenerateModules.outputLoadedPath: ' + outputLoadedPath
+                            _ file.write
+                                @ outputLoadedPath
+                                _ stringify
+                                    @ model.toJson()
+                                    @ null
+                                    @ 4
+                            _ loadModelAndTransform
+                                @ ittfDocumentUri
+                                {
+                                @ "vtt/extended"
+                                a_cb( model )
+                                    log 'vtt.example.executeGenerateModules.outputExtendedPath: ' + outputExtendedPath
+                                    _ file.write
+                                        @ outputExtendedPath
+                                        _ stringify
+                                            @ model
+                                            @ null
+                                            @ 4
+                                    r_cb( )
+                @ callback

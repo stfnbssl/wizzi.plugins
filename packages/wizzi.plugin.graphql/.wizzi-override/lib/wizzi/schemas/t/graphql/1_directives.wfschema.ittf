@@ -1,0 +1,26 @@
+$group
+	
+	e directiveLocation : commentable
+        tag on
+
+	e directive : commentable
+        is-abstract
+        r directiveLocation/s
+        r argument/s
+        
+        # Using the '%' character instead of '@' to designate directive tags 
+        # will unfortunately be confusing for many, 
+        # but Wizzi routinely uses the '@' character to designate arguments 
+        # and using it for directives would have been even more confusing.
+
+    e_tag( genericDirective, %, directive
+
+    e_tag( isListDirective, %list, directive
+	
+	e_tag( isRequiredDirective, %required, directive
+	
+	e_tag( isDeprecatedDirective, %deprecated, directive
+	
+	e_tag( skipDirective, %skip, directive
+	
+	e_tag( includeDirective, %include, directive		

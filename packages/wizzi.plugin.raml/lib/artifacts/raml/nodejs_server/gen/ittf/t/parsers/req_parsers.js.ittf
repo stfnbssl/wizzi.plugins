@@ -1,0 +1,49 @@
+$group
+	
+	# # Metadata - Request parsers
+	wz-require parseurl
+	wz-require qs
+	wz-require multer
+    
+	var multerOptions
+        { 
+            @ storage multer.memoryStorage()
+	
+	# Metadata - Request parsers - QueryString
+	function queryString
+        param req
+		if req.url.indexOf('?') > -1 
+			var pu = parseurl(req)
+			debug 'queryString parseurl %s', util.inspect(pu, { depth: 3} )
+			debug 'queryString qs %s', util.inspect(qs.parse(pu.query), { depth: 3} )
+		return req.url.indexOf('?') > -1 
+			\b ? qs.parse(parseurl(req).query)
+			\b : {}
+	
+	wz-function queryParser
+        param req
+        param res
+        param callback
+		debug 'queryParser req.query undefined %s', _.isUndefined(req.query)
+        if _.isUndefined(req.query)
+            set req.query = queryString(req)
+			debug 'req.query %s', util.inspect(req.query, { depth: 3 })
+        return callback()
+    
+	$include ./body_Parsers
+
+	# Metadata - Request parsers - Multipart
+	
+	wz-var realMultiPartParser = multer(multerOptions)
+    wz-function makeMultiPartParser
+        param parser
+        return 
+            function 
+                param req
+                param res
+                param callback
+                if _.isUndefined(req.files)
+                    _ parser(req, res, callback)
+                else 
+                    _ callback()
+

@@ -1,0 +1,23 @@
+﻿$group
+	clazz( Facet, Node )
+		ctor
+			param name
+			base name
+
+			set this.wzId = schemautil.getIdentifier(this.wzName, true)
+			set this.wzNameEscaped = schemautil.escapeString(this.wzName)
+
+	set md.Facet.ENUMERATION = "enum"
+	set md.Facet.LENGTH = "length"
+	set md.Facet.MAX_LENGTH = "max-length"
+	set md.Facet.MIN_LENGTH = "min-length"
+	set md.Facet.MAX_EXCLUSIVE = ">"
+	set md.Facet.MIN_EXCLUSIVE = "<"
+	set md.Facet.MAX_INCLUSIVE = ">="
+	set md.Facet.MIN_INCLUSIVE = "<="
+
+	clazz( EnumFacet, Facet )
+		ctor
+			param name
+			base name
+			set this.wzElement = 'enumFacet'

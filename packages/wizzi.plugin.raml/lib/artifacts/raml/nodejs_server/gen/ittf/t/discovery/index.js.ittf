@@ -1,0 +1,21 @@
+$group
+
+	# Discovery
+	wz-iife discovery
+		
+		$$ $include ./req_parsers
+
+		wz-function initialize
+			param wizziRamlApi
+			param callback
+
+			_ callback
+				@ null
+				function wizziRamlDiscovery
+					param req
+					param res
+					param next
+
+					return next()
+
+

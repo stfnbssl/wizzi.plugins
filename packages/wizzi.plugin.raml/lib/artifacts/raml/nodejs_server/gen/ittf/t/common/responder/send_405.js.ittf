@@ -1,0 +1,32 @@
+$group
+
+	wz-function send405
+        param req
+        param res
+        param next
+            
+		var allowedMethods
+            [ 
+            
+		var err
+            new Error
+				@ 'Route defined in Raml specification (' + 
+					\ req.wizziRaml.apiPath +
+					\ ') but there is no defined ' + 
+					\ req.method.toLowerCase() + ' operation.'
+            
+		if req.wizziRaml.operations
+			for var method in req.wizziRaml.operations
+				_ allowedMethods.push
+					_ method.toUpperCase()
+		set err.allowedMethods = allowedMethods
+            
+		# TODO even if allowedMethods.length == 0 ???
+		_ res.setHeader
+            @ 'Allow'
+            _ allowedMethods.sort()
+                ._ join(', ')
+            
+		set res.statusCode = 405
+            
+		return next(err)

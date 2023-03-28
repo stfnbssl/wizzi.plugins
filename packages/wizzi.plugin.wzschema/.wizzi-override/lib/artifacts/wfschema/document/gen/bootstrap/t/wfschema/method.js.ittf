@@ -1,0 +1,93 @@
+﻿$group
+
+	clazz( Param, Node )
+		ctor
+			param name
+			base name
+			set this.wzElement = 'param'
+	
+	clazz( Statement, Node )
+		ctor
+			param name
+			base name
+			set this.wzElement = 'statement'
+
+	clazz( Method, Node )
+		ctor
+			param name
+			base name
+			set this.wzElement = 'method'
+
+			set this.emitKey = null
+			set this.isStatic = false
+			set this.isKnownMethod = false
+			set this.params = []
+			set this.requires = []
+			set this.statements = []
+
+		m addParam
+			param name
+			var item = new Param(name)
+			set item.wzParent = this;
+			_ this.params.push(item)
+			return item
+
+		m addRequire
+			param name
+			var item = new Require(name)
+			set item.wzParent = this;
+			_ this.requires.push(item)
+			return item
+
+		m addStatement
+			param statement
+			var item = new Statement(statement.wzElement + ' ' + statement.wzName)
+			set item.wzParent = this;
+			_ this.statements.push(item)
+			return item
+
+		m importStatement
+			param statement
+			var json = this.stringifyWizziStatement(statement, null)
+			var item = new Statement(stringify(json))
+			set item.wzParent = this;
+			_ this.statements.push(item)
+			return item
+
+		m stringifyWizziStatement
+			param wizziNode
+			param parent
+
+			var json
+				{
+					@ n wizziNode.wzTag
+					@ v wizziNode.wzName
+					@ children []
+			foreach s in wizziNode.statements
+				_ this.stringifyWizziStatement(s, json)
+				
+			if parent
+				_ parent.children.push(json)
+			else
+				return json;
+
+
+
+		m wzInitialize
+
+			if this.wzName.indexOf("-static") >= 0
+				set this.isStatic = true;
+				set this.wzName = schemautil.replaceAll(this.wzName, "-static", "").trim()
+
+            var ss = this.wzName.trim().split(' ')
+            if ss.length > 1
+                set this.wzName = ss[0]
+                for var i=1; i < ss.length; i++
+					_ this.params.push(ss[i])
+
+			if this.wzName.toLowerCase() === "wzinitialize"
+				set this.isKnownMethod = true
+			
+			if this.wzName.toLowerCase() === "wzverify"
+				set this.isKnownMethod = true
+

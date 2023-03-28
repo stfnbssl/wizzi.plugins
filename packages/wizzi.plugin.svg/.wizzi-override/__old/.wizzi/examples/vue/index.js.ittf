@@ -1,0 +1,46 @@
+﻿common/example/plugin('vue examples')
+
+	$append imports
+		var vuefactory = require('../../lib/wizzi/models/vue-factory.g')
+		var vuegenerator = require('../../lib/artifacts/vue/document/gen/main')
+	
+	+
+	var loadModel
+		_ vuefactory.createLoadModel
+			_ getWizziObject
+	+
+	var ittfPath
+		_ path.join
+			@ __dirname
+			@ 'ittf'
+	foreach item in getFiles(ittfPath,'vue')
+		set item = item.substring(0, item.length - '.vue.ittf'.length)
+		info 'item', item
+		_ execute(item)
+	+
+	function execute
+		param name
+		var ittfSource
+			_ path.join
+				@ __dirname
+				@ 'ittf'
+				@ name + '.vue.ittf'
+		var vueOutput
+			_ path.join
+				@ __dirname
+				@ 'ittf'
+				@ name + '.g.vue'
+		_ loadModel
+			@ ittfSource
+			{
+				@ __productionManager
+					_ mocks.getProductionManager
+			f_cb_test( wizziModel )
+				info 'vue wizziModel', JSON.stringify(wizziModel.toJson(), null, 2)
+				var ctx
+					_ mocks.getGenContext
+				_ vuegenerator.gen
+					@ wizziModel
+					@ ctx
+					f_cb_test( ctxout )
+						info 'ctxout', ctxout.getContent()

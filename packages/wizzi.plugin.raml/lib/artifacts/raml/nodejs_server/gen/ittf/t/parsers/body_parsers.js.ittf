@@ -1,0 +1,49 @@
+$group
+	
+	# Metadata - Request parsers - Body parsers
+	
+	wz-require bp
+		from body-parser
+    
+	var textBodyParserOptions
+        { 
+            @ type '*/*'
+    
+	var bodyParserOptions
+        { 
+            @ extended false
+
+	var realTextBodyParser = bp.text(textBodyParserOptions)
+    
+	wz-function textBodyParser
+        param req
+        param res
+        param callback
+        if _.isUndefined(req.body)
+            _ realTextBodyParser(req, res, callback)
+        else 
+            _ callback()
+
+	
+	wz-var urlEncodedBodyParser = bp.urlencoded(bodyParserOptions)
+	
+	var jsonBodyParser = bp.json();
+	
+	wz-function bodyParser
+        param req
+        param res
+        param callback
+		
+		if _.isUndefined(req.body)
+            _ urlEncodedBodyParser
+                @ req
+                @ res
+                function 
+                    param err
+                    if err
+                        _ callback(err)
+                    else 
+                        _ jsonBodyParser(req, res, callback)
+        else 
+            _ callback()
+

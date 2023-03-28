@@ -1,0 +1,126 @@
+﻿module
+	kind jsfile
+	
+	var util = require('util')
+	var _ = require('lodash')
+	var verify = require('wizzi-utils').verify
+	var stringify = require('json-stringify-safe')
+	var schemautil = require('./util')
+
+	var md = module.exports = {}
+
+	wfschema/node( )
+	wfschema/attribute( )
+	wfschema/restrict( )
+	wfschema/facet( )
+	wfschema/include( )
+	wfschema/element( )
+	wfschema/relation( )
+	wfschema/choice( )
+	wfschema/choiceSet( )
+	wfschema/choiceOrdered( )
+	wfschema/typeTagSet( )
+	wfschema/require( )
+	wfschema/exportTo( )
+	wfschema/declare( )
+	wfschema/method( )
+	wfschema/comment( )
+
+	#
+		# The main class imported and instantiated by the model types generator
+		# (wizzi.wizziFactory.generateModelDoms).
+		#
+		# This is an in-memory trasformer of a loaded 'SCHEMA_NAME.wfschema.ittf' source document.
+		#
+		# TODO this 'wfschema-boot-model' should become a model transformer of the schema 'wfschema'
+        # in the 'wizzi-core' plugin.
+		# 
+	clazz( WizziSchema, Node )
+		ctor
+			param name
+			base name
+			set this.wzElement = 'wfschema'
+			set this.elements = []
+			set this.declares = []
+			set this.methods = []
+			set this.requires = []
+			set this.requiredModules = []
+			set this.requiredFunctions = []
+			set this.exportTos = []
+			set this.preserveTags = true
+			set this.mTreeIsPreprocessed = false
+			set this.rootElement = null
+
+		m addElement
+			param name
+			var item = new Element(name)
+			set item.wzParent = this;
+			_ this.elements.push(item)
+			return item
+
+		m getElement
+			param name
+			foreach element in this.elements
+				if element.wzName === name
+					return element
+			return null
+
+		m addExportTo
+			param name
+			var item = new ExportTo(name)
+			set item.wzParent = this;
+			_ this.exportTos.push(item)
+			return item
+
+		m wzSetup
+			param ctx
+			foreach item in this.elements
+				_ item.wzSetup(ctx)
+			foreach item in this.elements
+				_ item.setupDerived(ctx)
+
+		m wzVerify
+			param ctx
+			foreach item in this.elements
+				_ item.wzVerify(ctx)
+
+		m wzInitialize
+			param ctx
+			
+			foreach item in this.elements
+				if item.isRoot
+					set this.rootElement = item
+			
+			if this.rootElement == null && this.elements.length > 0
+                set this.elements[0].isRoot = true;
+				set this.rootElement = this.elements[0]
+
+			foreach item in this.elements
+				_ item.wzInitialize(ctx)
+
+			_ this.analize()
+
+			var d = ctx.tagElementMapping
+            if typeof d === 'object'
+				var str = []
+                _ str.push("{ ")
+                var first = true
+                for var k in d
+                    if !first
+						_ str.push(", ")
+                    set first = false
+                    var key = schemautil.escapeString(k)
+                    _ str.push("'" + key + "': '" + d[key] + "'")
+				_ str.push(" }")
+				set this.tagElementMapping = str.join('')
+			else
+				set this.tagElementMapping = '{}'
+
+			set this.requiredModules = this.getRequiredModules()
+			set this.requiredFunctions = this.getRequiredFunctions()
+			set this.requiredContextMethods = this.getRequiredContextMethods()
+
+		schema_analizer( )
+		schema_loader( )
+		
+

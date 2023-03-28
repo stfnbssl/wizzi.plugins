@@ -1,0 +1,24 @@
+$group
+	
+	$*
+    e_tag( directiveDef, directive, typeDef
+		r argumentDef/s
+		r directiveLocation/s
+    *$
+	e_tag( directiveLocation, on
+
+	e directive : commentable
+        r directiveLocation/s
+
+    e_tag( TODO, %, directive
+		$$ r argument/s
+	
+    e_tag( isList, %list, directive
+	
+	e_tag( isRequired, %required, directive
+	
+	e_tag( isDeprecated, %deprecated, directive
+	
+	e_tag( skip, %skip, directive
+	
+	e_tag( include, %include, directive		

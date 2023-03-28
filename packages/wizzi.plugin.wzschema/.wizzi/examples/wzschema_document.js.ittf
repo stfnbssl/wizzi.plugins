@@ -1,0 +1,55 @@
+module
+    kind es6
+    $
+        var md = {
+            name: 'wzschema',
+        };
+    v08/examples/plugin( &md )
+        $append plugins
+            [ items
+                @ './index.js'
+                @ 'wizzi-js'
+            @ pluginsBaseFolder
+                _ path.resolve
+                    @ __dirname
+                    @ '..'
+        _ executeGenerateModules
+            [
+                @ 'first'
+            a_cb_no_throw( result )
+                if err
+                    error 'wzschema.examples.executeGenerateModules.err', err
+                    error 'wzschema.examples.executeGenerateModules.err.toString()', err.toString()
+                    if err.inner
+                        error 'wzschema.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
+                else
+        function executeGenerateModules
+            param modules
+            param callback
+            _ async.mapSeries
+                @ modules
+                =>
+                    param module
+                    param callback
+                    log 'wzschema.example.executeGenerateModules.module: ' + module
+                    var ittfDocumentUri
+                        _ path.join
+                            @ __dirname
+                            @ 'ittf'
+                            @ module + '.wzschema.ittf'
+                    var outputPath
+                        _ path.join
+                            @ __dirname
+                            @ 'results'
+                            @ module + '.wzschema.document.html'
+                    _ loadModelAndGenerateArtifact
+                        @ ittfDocumentUri
+                        {
+                        @ 'wzschema/document'
+                        a_cb( artifactText )
+                            log 'wzschema.example.executeGenerateModules.outputPath: ' + outputPath
+                            _ file.write
+                                @ outputPath
+                                @ artifactText
+                            r_cb( artifactText )
+                @ callback

@@ -1,0 +1,120 @@
+$group
+
+    _ ( each )
+	_ ( includes )
+	_ ( isObject )
+	_ ( isArray )
+	require( btoa )
+    require( cookiejar, cookiejar )
+	var CookieJar = cookiejar.CookieJar
+    
+	wz-class SwaggerAuthorizations
+		ctor
+            param authz
+            set this.authz = (authz || {})
+    
+		m add 
+            param name
+            param auth
+            if _.isObject(name)
+                for var key in name
+                    set this.authz[key] = name[key]
+            elif typeof (name) === 'string'
+                set this.authz[name] = auth
+            return auth
+    
+		m remove
+            param name
+            return delete (this.authz[name])
+    
+		m apply
+            param obj
+            param securities
+            var status = true
+            var applyAll = ! (securities)
+            var flattenedSecurities
+                [ 
+            var authz = (obj.clientAuthorizations || this.authz)
+            _ _.each
+                @ securities
+                function 
+                    param obj
+                    param key
+                    if typeof (key) === 'string'
+                        _ flattenedSecurities.push(key)
+                    _ _.each
+                        @ obj
+                        function 
+                            param val
+                            param key
+                            _ flattenedSecurities.push(key)
+            _ _.each
+                @ authz
+                function 
+                    param auth
+                    param authName
+                    if (applyAll || _.includes(flattenedSecurities, authName))
+                        var newStatus = auth.apply(obj)
+                        set status = status && ! (! (newStatus))
+            return status
+
+    wz-class ApiKeyAuthorization
+		ctor
+            param name
+            param value
+            param type
+            set this.name = name
+            set this.value = value
+            set this.type = type
+
+		m apply
+            param obj
+            if this.type === 'query'
+                var qp
+                if obj.url.indexOf('?') > 0
+                    set qp = obj.url.substring((obj.url.indexOf('?') + 1))
+                    var parts = qp.split('&')
+                    if parts && (parts.length > 0)
+                        for var i = 0; i < parts.length; i++
+                            var kv = parts[i].split('=')
+                            if (kv && (kv.length > 0))
+                                if kv[0] === this.name
+                                    return false
+                if obj.url.indexOf('?') > 0
+                    set obj.url = obj.url + '&' + this.name + '=' + this.value
+                else 
+                    set obj.url = obj.url + '?' + this.name + '=' + this.value
+                return true
+            elif this.type === 'header'
+                if typeof (obj.headers[this.name]) === 'undefined'
+                    set obj.headers[this.name] = this.value
+                return true
+
+    wz-class CookieAuthorization
+		ctor
+            param cookie
+            set this.cookie = cookie
+    
+		m apply
+            param obj
+            set obj.cookieJar = (obj.cookieJar || new CookieJar())
+            _ obj.cookieJar.setCookie
+                @ this.cookie
+            return true
+
+    wz-class PasswordAuthorization
+		ctor
+            param username
+            param password
+            if arguments.length === 3
+                _ helpers.log('PasswordAuthorization: the \'name\' argument has been removed, pass only username and password')
+                set username = arguments[1]
+                set password = arguments[2]
+            set this.username = username
+            set this.password = password
+    
+		m apply
+            param obj
+            if typeof (obj.headers.Authorization) === 'undefined'
+                set obj.headers.Authorization = 'Basic ' + btoa(this.username + ':' + this.password)
+            return true

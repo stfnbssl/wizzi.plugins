@@ -1,0 +1,392 @@
+$group
+
+	set md.isTSSimpleType
+        function 
+            param model
+			return
+				[
+					@ 'typeNumber'
+					@ 'typeString'
+					@ 'typeBoolean'
+					@ 'typeAny'
+					@ 'typeArray'
+					@ 'typeObject'
+					@ 'typeObjectLiteral'
+					@ 'typeVoid'
+					@ 'typeNull'
+					@ 'typeUndefined'
+                    @ 'typeUnknown'
+					@ 'typeLiteral'
+					@ 'typeTypeof'
+					@ 'typeReference'
+					@ 'typeFunction'
+					@ 'typeArrowFunction'
+					@ 'typeUnion'
+					@ 'typeIntersect'
+					@ 'typeKeyOf'
+					. indexOf(model.wzElement) > -1
+
+	set md.extractTSSimpleType
+        function 
+            param model
+			if !model.statements || model.statements.length == 0
+				return
+			var ret, retIndex
+			_ model.statements.some
+				=>
+					param item
+					param index
+                    # loog 'extractTSSimpleType', item.wzElement
+					if md.isTSSimpleType(item)
+						set ret = item
+						set retIndex = index
+						return true
+			if ret
+				_ model.statements.splice(retIndex, 1)
+			return ret
+
+    set md.extractTSParameterDecl
+        function 
+            param model
+			if !model.statements || model.statements.length == 0
+				return
+			var ret, retIndex
+			_ model.statements.some
+				=>
+					param item
+					param index
+					if item.wzElement == 'typeParameterDecl'
+						set ret = item
+						set retIndex = index
+						return true
+			if ret
+				_ model.statements.splice(retIndex, 1)
+			return ret
+
+    set md.extractTS
+        function 
+            param model
+			param element
+			if !model.statements || model.statements.length == 0
+				return
+			var ret, retIndex
+			_ model.statements.some
+				=>
+					param item
+					param index
+					if item.wzElement === element
+						set ret = item
+						set retIndex = index
+						return true
+			if ret
+				_ model.statements.splice(retIndex, 1)
+			return ret
+
+	set md.genParams
+        function 
+            param model
+			param ctx
+			param mainWriter
+			param callback
+			if !!(model.params && model.params.length > 0) == false
+				r_cb()
+			# loog 'genParams enter', model.wzElement
+			repeater(1, model.params)
+				var p = item_1
+				# loog 'genParams p', p
+				if index_1 > 0
+					_ ctx.write(', ')
+				# loog 'genParams', index_1, (p.statements && p.statements.length) || (p.jsPropertyOrValues && p.jsPropertyOrValues.length)
+				if (!p.statements || p.statements.length == 0) && (!p.jsPropertyOrValues || p.jsPropertyOrValues.length == 0)
+					_ ctx.write(p.wzName)
+					repeater_increment(1)
+				elif p.wzElement === 'objectParam' || p.wzElement === 'jsObject'
+					set p.wzElement = 'jsObject'
+					_ mainWriter.statementsContainer[p.wzElement]
+						@ p
+						@ ctx
+						a_cb()
+							set p.wzElement = 'objectParam'
+							repeater_increment(1)
+				elif p.statements.length > 0 && p.statements.length < 3
+					_ ctx.write(p.wzName)
+					var s0 = p.statements[0]
+					# loog 'genParams.s0.wzElement', s0.wzElement
+					# if s0.wzElement === 'typeInitValue' || s0.wzElement === 'typeCTor' || s0.wzElement === 'typeNever'
+					# loog 'genParams.s0.statements.length', s0.statements.length
+                    _ genParams_close
+                        @ s0
+                        @ ctx
+                        @ mainWriter
+                        a_cb()
+                            repeater_increment(1)
+				else
+					# loog 'jswizzifier.genParams.p', p, 'statements', p.statements
+					_ callback
+						_ ctx.error(myname + '.genParams.statements.length should be 0 or 1.found: ' + p.statements.length, model)
+				$append next
+					# loog 'genParams.exit'
+					r_cb()
+
+	function genParams_close
+		param s0
+		param ctx
+		param mainWriter
+		param callback
+		if s0.statements.length == 2
+			var item = s0.statements[0]
+			# loog 'genParams_close 1 item.wzElement', item.wzElement
+			_ mainWriter.statementsContainer[item.wzElement]
+				@ item
+				@ ctx
+				a_cb()
+					_ ctx.write(' = ')
+					var item = s0.statements[1]
+					# loog 'genParams_close 2 item.wzElement', item.wzElement
+					_ mainWriter.statementsContainer[item.wzElement]
+						@ item
+						@ ctx
+						@ callback
+		else
+			_ ctx.write(' = ')
+			# loog 'genParams_close 3 item.wzElement', s0.wzElement
+			_ mainWriter.statementsContainer[s0.wzElement]
+				@ s0
+				@ ctx
+				@ callback
+
+	set md.genTSParams
+        function 
+            param model
+			param ctx
+			param mainWriter
+			param callback
+			if !!(model.params && model.params.length > 0) == false
+				r_cb()
+			# loog 'genTSParams enter', model.wzElement
+			repeater(1, model.params)
+				var p = item_1
+				# loog 'genTSParams p', p
+				if index_1 > 0
+					_ ctx.write(', ')
+				var ptype 
+					_ md.extractTSSimpleType
+						@ p
+				_ md.genAccessorsAndExtra
+					@ p
+					@ ctx
+				# loog 'genTSParams', index_1, p.statements.length, ptype && ptype.wzElement
+				if p.statements.length == 0
+                    var ss = p.wzName.split(' ')
+                    if ss.length == 2
+					    _ ctx.write(ss[1] + ' ' + ss[0])
+                    else
+                        _ ctx.write('string ' + ss[0])
+					if p.typeOptional
+						_ ctx.write('?')
+					if ptype
+						_ ctx.write(': ')
+						_ mainWriter.statementsContainer[ptype.wzElement]
+							@ ptype
+							@ ctx
+							a_cb()
+								repeater_increment(1)
+					else
+						repeater_increment(1)
+				elif p.wzElement === 'objectParam' || p.wzElement === 'jsObject'
+					set p.wzElement = 'jsObject'
+					_ mainWriter.statementsContainer[p.wzElement]
+						@ p
+						@ ctx
+						a_cb()
+							set p.wzElement = 'objectParam'
+							if ptype
+								_ ctx.write(': ')
+								_ mainWriter.statementsContainer[ptype.wzElement]
+									@ ptype
+									@ ctx
+									a_cb()
+										repeater_increment(1)
+							else
+								repeater_increment(1)
+				elif p.statements.length > 0 && p.statements.length < 3
+					_ ctx.write(p.wzName)
+					if p.typeOptional
+						_ ctx.write('?')
+					var s0 = p.statements[0]
+					# loog 'genTSParams.s0.wzElement', s0.wzElement
+					# if s0.wzElement === 'typeInitValue' || s0.wzElement === 'typeCTor' || s0.wzElement === 'typeNever'
+					# loog 'genTSParams.s0.statements.length', s0.statements.length
+					if ptype
+						_ ctx.write(': ')
+						_ mainWriter.statementsContainer[ptype.wzElement]
+							@ ptype
+							@ ctx
+							a_cb()
+								_ genTSParams_close
+									@ s0
+									@ ctx
+									@ mainWriter
+									a_cb()
+										repeater_increment(1)
+					else
+						_ genTSParams_close
+							@ s0
+							@ ctx
+							@ mainWriter
+							a_cb()
+								repeater_increment(1)
+					# else
+					#	throw new Error('jswizzifier.genTSParams.statements[0].wzElement should be "typeInitValue or typeCTor".found: ' + s0.wzElement)
+				else
+					# loog 'jswizzifier.genTSParams.p', p, 'statements', p.statements
+					_ callback
+						_ ctx.error(myname + '.genTSParams.statements.length should be 0 or 1.found: ' + p.statements.length, model)
+				$append next
+					# loog 'genTSParams.exit'
+					r_cb()
+
+	function genTSParams_close
+		param s0
+		param ctx
+		param mainWriter
+		param callback
+		if s0.statements.length == 2
+			var item = s0.statements[0]
+			# loog 'genTSParams_close 1 item.wzElement', item.wzElement
+			_ mainWriter.statementsContainer[item.wzElement]
+				@ item
+				@ ctx
+				a_cb()
+					_ ctx.write(' = ')
+					var item = s0.statements[1]
+					# loog 'genTSParams_close 2 item.wzElement', item.wzElement
+					_ mainWriter.statementsContainer[item.wzElement]
+						@ item
+						@ ctx
+						@ callback
+		else
+			_ ctx.write(' = ')
+			# loog 'genTSParams_close 3 item.wzElement', s0.wzElement
+			_ mainWriter.statementsContainer[s0.wzElement]
+				@ s0
+				@ ctx
+				@ callback
+
+	set md.genAccessorsAndExtra
+		function
+			param model
+			param ctx
+			if model.typePublic
+				_ ctx.write('public ')
+			if model.typeProtected
+				_ ctx.write('protected ')
+			if model.typePrivate
+				_ ctx.write('private ')
+			if model.typeReadonly
+				_ ctx.write('readonly ')
+			if model.typeAbstract
+				_ ctx.write('abstract ')
+
+    set md.genTSTypeParameters
+        function 
+            param model
+			param ctx
+			param mainWriter
+			param callback
+            # loog 'model.statements.length', model.statements.length, 'Object.keys(model)', Object.keys(model)
+			_ genTSTypeParameters_partial
+				@ model
+				@ ctx
+				@ mainWriter
+				a_cb()
+					if model.extends && model.extends.length > 0
+						_ ctx.write( ' extends ')
+						_ model.extends.forEach
+							=>
+								param e
+								param index
+								if index > 0
+									_ ctx.write(', ')
+								_ ctx.write(e.wzName)
+					r_cb()
+
+	function genTSTypeParameters_partial
+        param model
+		param ctx
+		param mainWriter
+		param callback
+		if model.typeParameterDecls && model.typeParameterDecls.length > 0
+			_ ctx.write('<')
+			repeater( 1, model.typeParameterDecls
+				if index_1 > 0
+					_ ctx.write(', ')
+				_ mainWriter.statementsContainer.typeParameterDecl
+					@ item_1
+					@ ctx
+					a_cb()
+						repeater_increment( 1 )
+				$append next
+					_ ctx.write('>')
+					r_cb()
+		else
+			r_cb()
+
+	
+    set md.genTSTypeParameterInsts   
+        function 
+            param model
+            param ctx
+            param mainWriter
+            param callback
+            # loog 'genTSTypeParameterInsts', Object.keys(model), model.typeParameterInsts
+            if model.typeParameterInsts && model.typeParameterInsts.length > 0
+                _ ctx.write('<')
+                repeater( 1, model.typeParameterInsts
+                    if index_1 > 0
+                        _ ctx.write(', ')
+                    _ mainWriter.statementsContainer[item_1.wzElement]
+                        @ item_1
+                        @ ctx
+                        a_cb()
+                            repeater_increment( 1 )
+                    $append next
+                        _ ctx.write('>')
+                        r_cb()
+            else
+                r_cb()
+    
+    set md.indexedTSNeedsGraphs
+        function 
+            param model
+			return
+				[
+					@ 'typeMapped'
+					@ 'typeConditional'
+					. indexOf(model.wzElement) > -1
+
+	set md.genTSDecorators
+        function
+            param model
+            param ctx
+            param mainWriter
+            param callback
+            var decorators = []
+            var temp = []
+            foreach s in model.statements
+                if s.wzElement == 'decorator'
+                    _ decorators.push(s)
+                else
+                    _ temp.push(s)
+            set model.statements = temp
+            if decorators.length > 0
+                repeater( 1, decorators
+                    _ mainWriter.statementsContainer.decorator
+                        @ item_1
+                        @ ctx
+                        a_cb()
+                            repeater_increment( 1 )
+                    $append next
+                        r_cb()
+            else
+                r_cb()	

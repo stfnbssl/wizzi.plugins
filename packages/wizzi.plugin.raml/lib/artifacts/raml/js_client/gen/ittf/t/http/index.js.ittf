@@ -1,0 +1,78 @@
+$group
+
+	_( isObject )
+	_( keys )
+	require( superagent, superagent)
+    
+	$include ./auth
+	$include ./superagent
+	
+	wz-class SwaggerHttp
+
+		# param obj
+		#     body
+		#     type
+		#     headers
+		#     on
+		#         success
+		#         error  
+		#     beforeSend (optional)
+		#     deferred (optional)
+		# param opts
+		#     requestInterceptor
+		#     responseInterceptor
+		m execute
+            param obj
+            param opts
+
+            var client new SuperagentHttpClient(opts)
+            set client.opts = (opts || {})
+            
+			var success = obj.on.response
+            var error = obj.on.error
+            
+			var requestInterceptor
+                function 
+                    param data
+                    if opts && opts.requestInterceptor
+                        set data = opts.requestInterceptor.apply(data)
+                    return data
+            
+			var responseInterceptor
+                function 
+                    param data
+                    if opts && opts.responseInterceptor
+                        set data = opts.responseInterceptor.apply(data, [obj])
+                    return success(data)
+            
+			var errorInterceptor
+                function 
+                    param data
+                    if opts && opts.responseInterceptor
+                        set data = opts.responseInterceptor.apply(data, [obj])
+                    _ error(data)
+            
+			set obj.on.error =
+                function 
+                    param data
+                    _ errorInterceptor(data)
+            
+			set obj.on.response =
+                function 
+                    param data
+                    if (data && (data.status >= 400))
+                        _ errorInterceptor(data)
+                    else 
+                        _ responseInterceptor(data)
+            
+			set obj = (requestInterceptor(obj) || obj)
+            
+			if obj.beforeSend
+                _ obj.beforeSend
+                    function 
+                        param _obj
+                        _ client.execute((_obj || obj))
+            else 
+                _ client.execute(obj)
+            
+			return obj.deferred ? obj.deferred.promise : obj

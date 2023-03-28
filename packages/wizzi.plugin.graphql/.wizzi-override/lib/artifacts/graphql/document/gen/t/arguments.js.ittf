@@ -1,0 +1,109 @@
+﻿$group
+
+    async-md( genericArgument )
+        if model.defaultValue
+            _ ctx.write( model.wzName + ': ' + model.defaultValue)
+            r_cb()
+        elif model.value
+            _ ctx.write( model.wzName + ': ')
+            _ md[model.value.wzElement]
+                @ model.value
+                @ ctx
+                a_cb()
+                    r_cb()
+        else
+            var p = lineParser.parseNameValueRaw(model.wzName, model)
+            var name = p.name()
+            var value = p.value()
+            _ ctx.write( name + ': ' + value )
+            r_cb()
+
+    async-md( ifArgument )            
+        _ ctx.write( 'if: ')
+        if model.value
+            _ md[model.value.wzElement]
+                @ model.value
+                @ ctx
+                a_cb()
+                    r_cb()
+        else
+            _ ctx.write( model.wzName )
+            r_cb()
+
+	function writeArguments
+		param args
+		param ctx
+        param callback
+        if args.length < 1
+            r_cb()
+        _ ctx.write('(')
+        repeater( 1, args )
+            if index_1 > 0
+                _ ctx.write(', ')
+            _ md[item_1.wzElement]
+                @ item_1
+                @ ctx
+                a_cb()
+                    repeater_increment( 1 )
+            $append next
+                _ ctx.write(') ')
+                r_cb()
+
+	function writeValue
+		param model
+		param ctx
+		if model.wzElement === 'arrayValue'
+			_ writeArrayValue
+				@ model
+				@ ctx
+		elif model.wzElement === 'objectValue'
+			_ writeObjectValue
+				@ model
+				@ ctx
+		elif model.wzElement === 'objectField'
+			_ writeObjectField
+				@ model
+				@ ctx
+
+	function writeArrayValue
+		param model
+		param ctx
+		
+		var saveState = ctx.genState
+		set ctx.genState = 'arrayValue'
+		
+		_ ctx.write( '[' )
+		foreach item in model.values
+			if i > 0
+				_ ctx.write(', ')
+			_ writeValue
+				@ item
+				@ ctx
+		_ ctx.write( ']' )
+		
+		set ctx.genState = saveState
+
+	function writeObjectValue
+		param model
+		param ctx
+		
+		var saveState = ctx.genState
+		set ctx.genState = 'objectValue'
+		
+		_ ctx.write( '{' )
+		foreach item in model.values
+			if i > 0
+				_ ctx.write(', ')
+			_ writeValue
+				@ item
+				@ ctx
+		_ ctx.write( '}' )
+		
+		set ctx.genState = saveState
+
+	function writeObjectField
+		param model
+		param ctx
+		if ctx.genState === 'objectValue'
+		else
+			_ ctx.write( model.wzName )

@@ -1,0 +1,183 @@
+module 
+    kind jsfile
+    set 'use strict'
+    var _
+        { 
+            @ each require('lodash-compat/collection/each')
+            @ indexOf require('lodash-compat/array/indexOf')
+            @ isArray require('lodash-compat/lang/isArray')
+            @ isPlainObject require('lodash-compat/lang/isPlainObject')
+            @ isString require('lodash-compat/lang/isString')
+            @ isUndefined require('lodash-compat/lang/isUndefined')
+            @ reduce require('lodash-compat/collection/reduce')
+    
+	var JsonRefs = require('json-refs')
+    var traverse = require('traverse')
+    var ZSchema = require('z-schema')
+    
+	var customJsonSchemaFormats
+        [ 
+            @ 'byte'
+            @ 'double'
+            @ 'float'
+            @ 'int32'
+            @ 'int64'
+            @ 'mime-type'
+            @ 'uri-template'
+
+    var draft04Json = require('../schemas/json-schema-draft-04.json')
+    
+	var draft04Url = 'http://json-schema.org/draft-04/schema'
+    
+	var specCache
+        { 
+    
+	set module.exports.registerCustomFormats =
+        function 
+            param json
+
+			# https://www.npmjs.com/package/traverse
+            _ traverse(json)
+                ._ forEach
+                    function 
+                        var name = this.key
+                        var format = this.node
+                        if name === 'format' && _.indexOf(ZSchema.getRegisteredFormats(), format) === -1
+                            _ ZSchema.registerFormat
+                                @ format
+                                function 
+                                    return true
+    
+	set module.exports.createJsonValidator =
+        function 
+            param schemas
+            var validator
+                new ZSchema
+                    { 
+                        @ breakOnFirstError false
+                        @ reportPathAsArray true
+            var result
+            _ validator.setRemoteReference(draft04Url, draft04Json)
+            _ _.each
+                @ customJsonSchemaFormats
+                function 
+                    param format
+                    _ ZSchema.registerFormat
+                        @ format
+                        function 
+                            return true
+            
+			if !(_.isUndefined(schemas))
+                set result = validator.compileSchema(schemas)
+                if result === false
+                    _ console.error('JSON Schema file' + (schemas.length > 1 ? 's are' : ' is') + ' invalid:'
+                    _ _.each
+                        _ validator.getLastErrors()
+                        function 
+                            param err
+                            _ console.error('  ' + (_.isArray(err.path) ? JsonRefs.pathToPtr(err.path) : err.path) + ': ' + err.message)
+                    throw 
+                        new Error('Unable to create validator due to invalid JSON Schema')
+            return validator
+    
+	set module.exports.formatResults =
+        function 
+            param results
+            if results
+                set results = undefined ? results : undefined
+            return results
+    
+    
+	var coerceVersion
+        function 
+            param version
+            if version && ! (_.isString(version))
+                set version = version.toString()
+                if version.indexOf('.') === - (1)
+                    set version += '.0'
+            return version
+    
+	set module.exports.getSpec =
+        function 
+            param version
+            param throwError
+            var spec
+            set version = coerceVersion(version)
+            set spec = specCache[version]
+            if _.isUndefined(spec)
+				set spec = require('../lib/specs').v2_0
+            return spec
+    
+   
+	set module.exports.printValidationResults =
+        function 
+            param version
+            param ramlObject
+            param results
+            param printSummary
+            
+			var hasErrors = getErrorCount(results) > 0
+            
+			var stream
+                iif hasErrors
+                    then 
+                        set console.error
+                    else 
+                        set console.log
+            
+			var pluralize
+                function 
+                    param string
+                    param count
+                    return count === 1 ? string : (string + 's')
+            
+			var printErrorsOrWarnings
+                function 
+                    param header
+                    param entries
+                    param indent
+                    
+					if header
+                        _ stream((header + ':'))
+                        _ stream()
+                    
+					_ _.each
+                        @ entries
+                        function 
+                            param entry
+                            _ stream(new Array(indent + 1).join(' ') + JsonRefs.pathToPtr(entry.path) + ': ' + entry.message
+                            if entry.inner
+                                _ printErrorsOrWarnings
+                                    @ undefined
+                                    @ entry.inner
+                                    @ (indent + 2)
+                    if header
+                        _ stream()
+            
+			var errorCount = 0
+            var warningCount = 0
+            
+			_ stream()
+            
+			if results.errors.length > 0
+                set errorCount += results.errors.length
+                _ printErrorsOrWarnings
+                    @ 'API Errors'
+                    @ results.errors
+                    @ 2
+            if results.warnings.length > 0
+                set warningCount += results.warnings.length
+                _ printErrorsOrWarnings
+                    @ 'API Warnings'
+                    @ results.warnings
+                    @ 2
+            
+            
+			if printSummary
+                if errorCount > 0
+                    _ stream(errorCount + ' ' + pluralize('error', errorCount) + ' and ' + warningCount + ' ' + pluralize('warning', warningCount)
+                else 
+                    _ stream('Validation succeeded but with ' + warningCount + ' ' + pluralize('warning', warningCount)
+            _ stream()
+    
+	

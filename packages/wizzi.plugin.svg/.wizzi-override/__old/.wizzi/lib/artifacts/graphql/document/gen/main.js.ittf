@@ -1,0 +1,92 @@
+﻿module wizzi-web@${wzCtx.version}.lib.artifacts.graphql.document.gen.main
+	kind jsfile
+
+	var myname = 'wizzi-web.lib.artifacts.graphql.schema.gen.main';
+	+
+	var util = require('util')
+	var async = require('async')
+	var verify = require('wizzi-utils').verify;
+	+
+	var lineParser = require('../../../util/lineParser')
+	+
+	var md = module.exports = {}
+	set md.stm = {}
+
+	set md.gen
+		function gen
+			{ model
+			{ ctx
+			callback
+			# log myname, 'enter', 'ctx.values', ctx.values
+			# check the model is a wizzi model of type 'graphql'
+			if model.wzElement !== 'graphql'
+				return
+					_ callback
+						_ ctx.error
+							@ myname + " error: the model paramater should be an 'graphql' wizzi model"
+							@ model
+			_ md.graphql
+				@ model
+				@ ctx
+				f_cb()
+					r_cb( ctx )
+
+	async/md( graphql )
+
+		_ async.mapSeries
+			@ model.typeDefs
+			_ md.typeDef
+				@ ctx
+			f_cb()
+				_ async.mapSeries
+					@ model.operations
+					_ md.operation
+						@ ctx
+					f_cb()
+						r_cb()
+
+	$include typeDefs
+	$include executable
+	$include values
+	$include arguments
+
+	function getArgumentDeclaration
+		param model
+		param callback
+		var p = lineParser.parseNameValueRaw(model.wzName, model)
+		var name = p.name()
+		var value = p.value()
+		var ret = [ name ]
+		if value
+			_ ret.push(' : ')
+			_ ret.push( value )
+			r_cb( ret.join('') )
+		else
+			if model.value
+				_ md.value
+					@ model.value
+					@ ctx
+					f_cb( result )
+						_ ret.push(' : ')
+						_ ret.push( result )
+						r_cb( ret.join('') )
+
+	function getTypedArgumentDeclaration
+		param model
+		var type = model.isList ? '[' + model.type + ']' : model.type
+		set type = model.isRequired ? type + '!' : type
+		var ret = [ model.wzName ]
+		if model.type
+			_ ret.push(' : ')
+			_ ret.push(type)
+		return ret.join('')
+
+	function getVariableDeclaration
+		param model
+		var name = '$' + model.wzName
+		var type = model.type
+		var ret = [ name ]
+		if type
+			_ ret.push(' : ')
+			_ ret.push(type)
+		return ret.join('')

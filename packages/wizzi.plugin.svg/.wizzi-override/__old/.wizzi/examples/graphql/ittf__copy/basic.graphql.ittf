@@ -1,0 +1,143 @@
+﻿graphql
+
+	type Mutation
+		m createOption
+			string name
+			string type
+			string format
+			string value
+			type Option
+			{
+				. id
+
+	type Query
+		[ users
+			item-type User
+				%required
+			%required
+
+	scalar Time
+	scalar Url
+	
+	type User
+		ID id
+		string authToken
+		string firstName
+		string lastName
+		string email
+		string mobile
+		boolean isOwner
+		ref picture
+			int size
+			type Url
+		ref company
+			type Company
+		string oldField
+			%deprecated
+
+	interface NamedEntity
+		string name
+		
+	interface ValuedEntity
+		int value
+
+	type Person
+		& NamedEntity
+		string name
+		int age
+
+	type Business
+		& NamedEntity
+		& ValuedEntity
+		string name
+		int value
+		int employeeCount
+
+	$*
+    union SearchResult
+		| Photo
+		| Person
+    *$
+	
+	enum
+		@ NORTH
+		@ EAST
+		@ SOUTH
+		@ WEST
+
+	input Point2D
+		{
+			float x
+			float y
+
+	directive @example
+		int value
+		on FIELD_DEFINITION
+		on ARGUMENT_DEFINITION
+
+	type SomeType
+		string field
+			int arg 
+				% example
+					@ 5
+			% example
+				@ 5
+
+	type Query
+		[ users
+			ref User
+
+	type Mutation
+		m createUser
+			type User
+			string email
+				% required
+			string firstName
+			string lastName
+
+	query getUserById
+		int id
+		{ User
+			@ id $id
+				= 4
+			. email
+			. authToken
+			. profilePic
+				as smallPic
+				@ size 64
+			. profilePic
+				as bigPic
+				@ size 1024
+
+	query withFragments
+		{ user
+			@ id 4
+			{ friends
+				@ first 10
+				... friendFields
+			{ mutualFriends
+				@ first 10
+				... friendFields
+
+	fragment friendFields
+		on User
+		{
+			. id
+			. name
+			. profilePic
+				@ size 50
+
+	query inlineFragmentTyping
+		{ profiles
+			@ handles
+				[
+					@ "zuck"
+					@ "cocacola"
+			. handle
+			...on User
+				{ friends
+					. count
+			...on Page
+				{ likers
+					. count
+

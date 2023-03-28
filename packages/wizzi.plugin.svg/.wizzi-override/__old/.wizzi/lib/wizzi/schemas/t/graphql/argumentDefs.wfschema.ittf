@@ -1,0 +1,42 @@
+﻿$group
+	
+	e_tag( argumentDef, ref
+		# InputValueDefinition
+		a type
+		r directive/s
+
+	e_tag( objectArg, {, argumentDef
+		m wzInitialize
+			set this.type = 'object'
+
+	e_tag( arrayArg, [, argumentDef
+		m wzInitialize
+			set this.type = 'array'
+
+	e_tag( enumArg, enum, argumentDef
+		m wzInitialize
+			set this.type = 'enum'
+
+	e_tag( nullArg, null, argumentDef
+		m wzInitialize
+			set this.type = 'null'
+
+	e_tag( stringArg, string, argumentDef
+		m wzInitialize
+			set this.type = 'String'
+
+	e_tag( intArg, int, argumentDef
+		m wzInitialize
+			set this.type = 'Int'
+
+	e_tag( floatArg, float, argumentDef
+		m wzInitialize
+			set this.type = 'Float'
+
+	e_tag( booleanArg, boolean, argumentDef
+		m wzInitialize
+			set this.type = 'Boolean'
+	
+	e_tag( IDArg, ID, argumentDef
+		m wzInitialize
+			set this.type = 'ID'

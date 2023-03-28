@@ -1,0 +1,57 @@
+$group
+
+	# Environment variables
+	wz-iife options
+		wz-require controllers
+			from ./controllers
+		
+		wz-var development = true
+		wz-var production = false
+		wz-var useStubs = false
+		wz-var ignoreMissingHandlers = false
+		wz-var validateResponse = false
+		wz-var controllers = null
+
+		try
+			set controllers = require("./controllers")
+		catch ex
+			debug 'options - require ./controllers failed'
+
+		var nodEnv = process.env.NODE_ENV
+
+		if nodEnv
+			var envVars = nodEnv.split(',')
+			foreach item in envVars
+				debug 'item %s', item
+				if item.toLowerCase() === 'usestubs'
+					set useStubs = true
+				elif item.toLowerCase() === 'ignoremissinghandlers'
+					set ignoreMissingHandlers = true
+				elif item.toLowerCase() === 'production'
+					set production = true
+					set development = false
+				elif item.toLowerCase() === 'validateresponse'
+					set validateResponse = true
+				else
+					var ss = item.split('=')
+					if ss.length == 2
+						if ss[0].toLowerCase() === 'controllers'
+							set controllers = ss[1]
+
+		debug 'NODE_ENV %s %s', nodEnv ? 'found' : 'not found', envVars
+		debug '    production %s', production ? 'yes' : 'no'
+		debug '    development %s', development ? 'yes' : 'no'
+		debug '    useStubs %s', useStubs ? 'yes' : 'no'
+		debug '    ignoreMissingHandlers %s', useStubs ? 'yes' : 'no'
+		debug '    validateResponse %s', validateResponse ? 'yes' : 'no'
+		if _.isPlainObject(controllers)
+			debug '    controllers is an object'
+			var func
+			for var name in controllers
+				_ debug('     . %s', name)
+				set func = controllers[name]
+				if !(_.isFunction(func))
+					throw 
+						new Error('options.controllers values must be functions')
+		else
+			debug '    controllers %s', controllers

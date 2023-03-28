@@ -1,14 +1,24 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.13
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi\lib\artifacts\svg\document\gen\main.js.ittf
+    package: wizzi-js@0.7.14
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\artifacts\svg\document\gen\main.js.ittf
 */
 'use strict';
+// Language artifact that targets
+// the Scalable Vector Graphics (SVG) 1.1 (Second Edition) specification.
+// It implements a minimal set of elements
+//
+// This is a code write based artifact generator.
+//
+
 var util = require('util');
 var path = require('path');
 var async = require('async');
 var verify = require('wizzi-utils').verify;
+var lineparser = require('wizzi-utils').helpers.lineparser;
 var errors = require('../../../../../errors');
+// gen also has a 'lineparser' function from wizzi-utils
+var myLineParser = require('../../../utils/lineParser');
 var included_writers = require('./included_writers');
 
 var myname = 'wizzi.plugin.svg.artifacts.svg.document.gen.main';
@@ -27,44 +37,130 @@ md.gen = function(model, ctx, callback) {
         callback(error('InvalidArgument', 'gen', 'Invalid model schema. Expected root element "svg". Received: ' + model.wzElement, model))
     }
     try {
-        md.svg(model, ctx, (err, notUsed) => {
         
-            if (err) {
-                return callback(err);
+        // this for md.checkSchema: false
+        
+        // allow generations from non root elements
+        if (false) {
+            md.myGetGenItem(ctx)(model, (err, notUsed) => {
+            
+                if (err) {
+                    return callback(err);
+                }
+                if (ctx.artifactGenerationErrors.length > 0) {
+                    return callback(ctx.artifactGenerationErrors);
+                }
+                // generation OK
+                else {
+                    return callback(null, ctx);
+                }
             }
-            if (ctx.artifactGenerationErrors.length > 0) {
-                return callback(ctx.artifactGenerationErrors);
-            }
-            // generation OK
-            else {
-                return callback(null, ctx);
-            }
+            )
         }
-        )
+        // this for md.checkSchema: true
+        else {
+            md.svg(model, ctx, (err, notUsed) => {
+            
+                if (err) {
+                    return callback(err);
+                }
+                if (ctx.artifactGenerationErrors.length > 0) {
+                    return callback(ctx.artifactGenerationErrors);
+                }
+                // generation OK
+                else {
+                    return callback(null, ctx);
+                }
+            }
+            )
+        }
     } 
     catch (ex) {
         return callback(error('Exception', 'gen', 'An exception encountered during generation', model, ex));
     } 
+    function terminate_gen(model, ctx) {
+        if (ctx.artifactGenerationErrors.length > 0) {
+            return callback(ctx.artifactGenerationErrors);
+        }
+        else {
+            return callback(null, ctx);
+        }
+    }
 }
 ;
-
-// ITTF Fragment lib/artifacts/tfolder/async-md-gen-items.js.ittf
-md.genItems = function(items, ctx, options, callback) {
-    if (typeof callback == 'undefined') {
-        callback = options;
-        options = {};
+md.svg = function(model, ctx, callback) {
+    if (ctx.values.forCssImage || ctx.values.forHtmlSvgElement) {
     }
+    else {
+        ctx.w('<?xml version="1.0"?>');
+    }
+    writeBeginTag(ctx, 'svg')
+    ctx.write(" xmlns='http://www.w3.org/2000/svg'");
+    writeAttributes(model, ctx);
+    writeCloseBegin(ctx)
+    md.myGenItems(model.elements, ctx, {
+        indent: true
+     }, (err, notUsed) => {
+    
+        if (err) {
+            return callback(err);
+        }
+        writeEndTag(ctx, 'svg')
+        callback(null, true);
+    }
+    )
+}
+;
+md.standardElement = function(model, ctx, callback) {
+    // loog '***** standard element', model.wzElement
+    writeBeginTag(ctx, model.wzTag)
+    writeAttributes(model, ctx);
+    if (model.elements.length > 0) {
+        writeCloseBegin(ctx)
+        if (model.wzName && model.wzName.length > 0) {
+            ctx.write(model.wzName);
+        }
+        md.myGenItems(model.elements, ctx, {
+            indent: true
+         }, (err, notUsed) => {
+        
+            if (err) {
+                return callback(err);
+            }
+            writeEndTag(ctx, model.wzTag)
+            return callback();
+        }
+        )
+    }
+    else {
+        ctx.write(closeSym(ctx))
+        ctx.write((model.wzName && model.wzName.length > 0 ? model.wzName : ''))
+        writeEndTag(ctx, model.wzTag)
+        return callback();
+    }
+}
+;
+/**
+    md.linearGradient = function(model, ctx, callback) {
+        writeBeginTag(ctx, 'linearGradient')
+        writeAttributes(model, ctx);
+        writeCloseBegin(ctx)
+         TODO
+        writeEndTag(ctx, 'linearGradient', callback(null, true))
+    }
+*/
+md.myGenItems = function(elements, ctx, options, callback) {
     var opt = options || {},
         from = opt.from || 0,
         indent = typeof opt.indent === 'undefined' ? true : opt.indent;
     if (indent) {
         ctx.indent();
     }
-    var goitems = [];
-    for (var i = from; i < items.length; i++) {
-        goitems.push(items[i]);
+    var goelements = [];
+    for (var i = from; i < elements.length; i++) {
+        goelements.push(elements[i]);
     }
-    async.mapSeries(goitems, md.mapItem(ctx), (err, notUsed) => {
+    async.mapSeries(goelements, md.myGetGenItem(ctx), (err, notUsed) => {
     
         if (err) {
             return callback(err);
@@ -72,68 +168,113 @@ md.genItems = function(items, ctx, options, callback) {
         if (indent) {
             ctx.deindent();
         }
-        process.nextTick(callback)
+        return callback();
     }
     )
 }
 ;
-md.mapItem = function(ctx) {
+md.myGetGenItem = function(ctx) {
     return function(model, callback) {
-            return md.genItem(model, ctx, callback);
+            
+            // loog '***** known element', model.wzElement
+            if (md[model.wzElement]) {
+                md[model.wzElement](model, ctx, (err, done) => {
+                
+                    if (err) {
+                        return callback(err);
+                    }
+                    
+                    // ok, processed
+                    if (done) {
+                        return callback();
+                    }
+                    else {
+                        return md.standardElement(model, ctx, callback);
+                    }
+                }
+                )
+            }
+            else {
+                return md.standardElement(model, ctx, callback);
+            }
         };
 }
 ;
-md.genItem = function(model, ctx, callback) {
-    var method = md[model.wzElement];
-    if (method) {
-        return method(model, ctx, callback);
+function writeAttributes(model, ctx) {
+    var v;
+    var i, i_items=model.getAttributes(), i_len=model.getAttributes().length, a;
+    for (i=0; i<i_len; i++) {
+        a = model.getAttributes()[i];
+        v = encodeValue(ctx, a.value);
+        ctx.write(" " + a.name + "='" + v + "'")
     }
-    else {
-        return callback(error('ArtifactGenerationError', 'genItem', myname + '. Unknown tag/element: ' + model.wzTag + '/' + model.wzElement, model, null));
-    }
-}
-;
-md.svg = function(model, ctx, callback) {
-    ctx.w('<svg>');
-    md.genItems(model.nodes, ctx, {
-        indent: true
-     }, (err, notUsed) => {
-    
-        if (err) {
-            return callback(err);
-        }
-        ctx.w('</svg>');
-        return callback(null);
-    }
-    )
-}
-;
-md.rect = function(model, ctx, callback) {
-    ctx.write('<rect ');
-    ctx.write('x=' + model.x + ', ');
-    ctx.write('y=' + model.y + ', ');
-    ctx.write('width=' + model.width + ', ');
-    ctx.write('height=' + model.height);
-    if (model.nodes && model.nodes.length > 0) {
-        ctx.write('>');
-        md.genItems(model.nodes, ctx, {
-            indent: true
-         }, (err, notUsed) => {
-        
-            if (err) {
-                return callback(err);
+    if (model.attributes) {
+        var i, i_items=model.attributes, i_len=model.attributes.length, a;
+        for (i=0; i<i_len; i++) {
+            a = model.attributes[i];
+            var p = myLineParser.parseNameValueRaw(a.wzName, a);
+            if (p.hasValue()) {
+                ctx.write(" " + p.name() + "='" + p.value() + "'")
             }
-            ctx.w('</rect>');
-            return callback(null);
+            else {
+                ctx.write(" " + p.name())
+            }
         }
-        )
     }
-    else {
-        ctx.w(' />');
-        return callback(null);
+    var styles = model.getStyleAttributes();
+    if (styles.length > 0) {
+        var sb = [];
+        var i, i_items=styles, i_len=styles.length, style;
+        for (i=0; i<i_len; i++) {
+            style = styles[i];
+            v = encodeValue(ctx, style.value);
+            sb.push(style.tag + ':' + v + ';')
+        }
+        ctx.write(" style='" + sb.join('') + "'")
     }
 }
-;
+function encodeValue(ctx, value) {
+    if (ctx.values.forCssImage) {
+        var v = verify.replaceAll(value, '%','%25');
+        return verify.replaceAll(v, '#','%23');
+    }
+    else {
+        return value;
+    }
+}
+function openSym(ctx) {
+    return ctx.values.forCssImage ? '%3C' : '<';
+}
+function closeSym(ctx) {
+    return ctx.values.forCssImage ? '%3E' : '>';
+}
+function writeBeginTag(ctx, name) {
+    ctx.write(openSym(ctx) + name)
+}
+function writeCloseBegin(ctx) {
+    if (ctx.values.forCssImage) {
+        ctx.write(closeSym(ctx))
+    }
+    else {
+        ctx.w(closeSym(ctx))
+    }
+}
+function writeEndTag(ctx, name) {
+    if (name) {
+        __w(ctx, openSym(ctx) + '/' + name + closeSym(ctx))
+    }
+    else {
+        __w(ctx, '/' + closeSym(ctx))
+    }
+}
+function __w(ctx, text) {
+    if (ctx.values.forCssImage) {
+        ctx.write(text);
+    }
+    else {
+        ctx.w(text);
+    }
+}
 md.jsInclude = function(model, ctx, callback) {
     ctx.write('<script');
     var i, i_items=getAttrs(model), i_len=getAttrs(model).length, a;
@@ -164,6 +305,7 @@ md.jsInclude = function(model, ctx, callback) {
     }
 }
 ;
+
 var noattrs = [
     'wzTag', 
     'wzName', 
@@ -172,6 +314,7 @@ var noattrs = [
     'wzSourceLineInfo', 
     '___exportName'
 ];
+
 function isAttrValue(a, v) {
     if (noattrs.indexOf(a) > -1) {
         return false;
@@ -181,6 +324,7 @@ function isAttrValue(a, v) {
     }
     return true;
 }
+
 function getAttrs(e) {
     var retval = [];
     for (var a in e) {

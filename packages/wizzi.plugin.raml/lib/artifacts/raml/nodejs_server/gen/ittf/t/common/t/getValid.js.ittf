@@ -1,0 +1,10 @@
+wz-function validate${func}
+	$params func, test, p1|@@null, p2|@@null
+    param val
+    param ${test}
+	$if p1 != null
+		param ${p1}
+	$if p2 != null
+		param ${p2}
+    if !( _.isUndefined(${test}))
+		$hook

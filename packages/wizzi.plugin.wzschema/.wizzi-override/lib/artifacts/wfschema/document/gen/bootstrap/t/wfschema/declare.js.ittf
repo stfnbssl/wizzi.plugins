@@ -1,0 +1,49 @@
+﻿$group
+
+	clazz( Declare, Node )
+		ctor
+			param name
+			base name
+			set this.wzElement = 'declare'
+			set this.statements = []
+
+		m addStatement
+			param statement
+			var item = new Statement(statement.wzElement + ' ' + statement.wzName)
+			set item.wzParent = this;
+			_ this.statements.push(item)
+			return item
+
+		m importStatement
+			param statement
+			var json = this.stringifyWizziStatement(statement, null)
+			var item = new Statement(stringify(json))
+			set item.wzParent = this;
+			_ this.statements.push(item)
+			return item
+
+		m stringifyWizziStatement
+			param wizziNode
+			param parent
+
+			var json
+				{
+					@ n wizziNode.wzTag
+					@ v wizziNode.wzName
+					@ children []
+			
+			if wizziNode.params && wizziNode.params.length > 0
+				foreach p in wizziNode.params
+					_ json.children.push
+						{
+							@ n 'param'
+							@ v p.wzName
+							@ children []
+			
+			foreach s in wizziNode.statements
+				_ this.stringifyWizziStatement(s, json)
+				
+			if parent
+				_ parent.children.push(json)
+			else
+				return json;

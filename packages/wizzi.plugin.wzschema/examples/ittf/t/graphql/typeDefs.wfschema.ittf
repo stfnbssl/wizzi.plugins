@@ -1,0 +1,33 @@
+$group
+
+    e implement : commentable
+        tag &
+
+    e typeDef : basenode
+        is-abstract
+
+    e_tag( scalarTypeDef, scalar, typeDef
+	
+    e_tag( objectTypeDef, :{, typeDef
+		r implement/s
+		r fieldDef/s
+	
+    e_tag( interfaceTypeDef, interface, typeDef
+		r fieldDef/s
+
+	e_tag( unionTypeDef, union, typeDef
+		r unionMemberType/s
+
+	e_tag( unionMemberType, |, typeDef
+
+	$*
+    e_tag( enumTypeDef, enum, typeDef
+		r enumValueDef/s
+
+	e_tag( enumValueDef, @, typeDef
+		# wzName ! ( null || true || false )
+
+    e_tag( inputObjectTypeDef, input, typeDef
+        r objectValueDef
+			one-to-one
+    *$

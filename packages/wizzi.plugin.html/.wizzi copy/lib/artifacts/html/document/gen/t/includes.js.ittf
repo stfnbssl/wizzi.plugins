@@ -1,0 +1,73 @@
+$group
+    async-md( jsInclude )
+        _ ctx.write('<script')
+        foreach a in getAttrs(model)
+            if (a.name in attrsneedsvalue) || (a.value && a.value.length > 0)
+                _ ctx.write(' ' + a.name + '="' + verify.unquote(a.value || '') + '"')
+            else
+                _ ctx.write(' ' + a.name)
+        _ ctx.w('>')
+        if model.get_js
+            _ included_writers.writeIncludeJs
+                @ ctx
+                @ model
+                a_cb( notUsed )
+                    _ ctx.w("</script>")
+                    r_cb( true )
+        else
+            _ ctx.w("</script>")
+            r_cb( true )
+    async-md( cssInclude )
+        _ ctx.write('<script')
+        foreach a in getAttrs(model)
+            if (a.name in attrsneedsvalue) || (a.value && a.value.length > 0)
+                _ ctx.write(' ' + a.name + '="' + verify.unquote(a.value || '') + '"')
+            else
+                _ ctx.write(' ' + a.name)
+        _ ctx.w('>')
+        if model.get_css
+            _ included_writers.writeIncludeCss
+                @ ctx
+                @ model
+                a_cb( notUsed )
+                    _ ctx.w("</script>")
+                    r_cb( true )
+        else
+            _ ctx.w("</script>")
+            r_cb( true )
+    async-md( svgInclude )
+        _ ctx.write('<script')
+        foreach a in getAttrs(model)
+            if (a.name in attrsneedsvalue) || (a.value && a.value.length > 0)
+                _ ctx.write(' ' + a.name + '="' + verify.unquote(a.value || '') + '"')
+            else
+                _ ctx.write(' ' + a.name)
+        _ ctx.w('>')
+        if model.get_svg
+            _ included_writers.writeIncludeSvg
+                @ ctx
+                @ model
+                a_cb( notUsed )
+                    _ ctx.w("</script>")
+                    r_cb( true )
+        else
+            _ ctx.w("</script>")
+            r_cb( true )
+    async-md( vttInclude )
+        _ ctx.write('<script')
+        foreach a in getAttrs(model)
+            if (a.name in attrsneedsvalue) || (a.value && a.value.length > 0)
+                _ ctx.write(' ' + a.name + '="' + verify.unquote(a.value || '') + '"')
+            else
+                _ ctx.write(' ' + a.name)
+        _ ctx.w('>')
+        if model.get_vtt
+            _ included_writers.writeIncludeVtt
+                @ ctx
+                @ model
+                a_cb( notUsed )
+                    _ ctx.w("</script>")
+                    r_cb( true )
+        else
+            _ ctx.w("</script>")
+            r_cb( true )

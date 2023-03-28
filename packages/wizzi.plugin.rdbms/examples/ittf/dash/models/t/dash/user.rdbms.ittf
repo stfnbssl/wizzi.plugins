@@ -1,0 +1,19 @@
+$group
+
+	t_pk( user, userName )
+
+		c email
+
+		document
+			kind json-meta-data
+			path
+				segment {userName}
+				segment {userName}.meta.json
+
+	rDef( user, project, projects )
+
+		#
+			# A user may create many projects.
+
+		rCol( userName, userName )
+		

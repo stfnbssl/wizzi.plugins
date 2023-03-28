@@ -1,0 +1,631 @@
+$group
+
+	set md.isChildOf
+        function 
+            param model
+            param parent
+            if !model.wzParent
+                return false
+            return model.wzParent.wzElement == parent
+
+	set md.isDescendentOf
+        function 
+            param model
+            param ancestor
+            if !model.wzParent
+                return false
+            if model.wzParent.wzElement == ancestor
+                return true
+            return 
+                _ md.isDescendentOf
+                    @ model.wzParent
+                    @ ancestor
+    
+	set md.isTopStatement
+        function 
+            param model
+			param ctx
+            if !model.wzParent
+                return true
+			if ctx.arrowFunctionNoGraphs
+				return false
+            var prnElement = model.wzParent.wzElement
+            if prnElement == 'arrowfunction' && md.isImplicitReturn(model.wzParent)
+                return false
+            return parents_of_top_statements.indexOf(prnElement) > - 1
+    
+	set md.isDeclare
+        function 
+            param model
+            if !model.wzParent
+                return false
+            return ['xvar'].indexOf(model.wzParent.wzElement) > -1
+    
+	set md.isObjectProperty
+        function 
+            param model
+            if !model.wzParent
+                return false
+            return ['jsObject', 'state'].indexOf(model.wzParent.wzElement) > -1
+    
+	set md.isEnumValue
+        function 
+            param model
+            if !model.wzParent
+                return false
+            return ['typeEnum'].indexOf(model.wzParent.wzElement) > -1
+
+	set md.writeComments
+        function
+            param model
+            param ctx
+            param newline
+            var temp = []
+            var written = false
+            var indented = false
+            foreach item in model.statements
+                if item.wzElement == 'comment' || item.wzElement == 'commentmultiline'
+                    $*
+                    if newline && !written
+                        _ ctx.w
+                    *$
+                    $$ TODO implement ctx.lf_w(..) (line feed + w)
+                    _ ctx.w
+                    _ __writeComments
+                        @ item
+                        @ ctx
+                        @ item.wzElement == 'commentmultiline'
+                    set written = true
+                    if item.wzName.indexOf('@ts-ignore') > -1 
+                        # loog '§§§ stm.writeComments', model.wzName
+                        set ctx.__inlineNext = true
+                    else
+                        set ctx.__inlineNext = false
+                else
+                    _ temp.push(item)
+            set model.statements = temp
+            return model
+
+	function __writeComments
+		param model
+        param ctx
+        param multi
+        # loog '__writeComments-model', model
+        if multi || model.statements.length > 0
+            _ ctx.w('/**')
+            _ ctx.indent
+            set ctx.__inside_comment = true
+            if verify.isNotEmpty(model.wzName)
+                _ ctx.w('* ' + model.wzName)
+            foreach item in model.statements
+                _ __writeCommentLine
+                    @ item
+                    @ ctx
+        else
+            _ ctx.w('// ' + model.wzName)
+        if multi || model.statements.length > 0
+            _ ctx.deindent
+            set ctx.__inside_comment = false
+            _ ctx.w('*/')
+
+    function __writeCommentLine            
+		param model
+        param ctx
+        _ ctx.w((ctx.__inside_comment ? '* ' : '// ') + model.wzName)
+        if model.statements.length > 0
+            _ ctx.indent
+            foreach item in model.statements
+                _ __writeCommentLine
+                    @ item
+                    @ ctx
+            _ ctx.deindent
+
+	set md.writeComments_template
+        function
+            param model
+            param ctx
+            param newline
+            param newlineindent
+            var temp = []
+            var written = false
+            var indented = false
+            foreach item in model.statements
+                if item.wzElement == 'comment'
+                    if newline && !written
+                        if newlineindent
+                            _ ctx.indent
+                            set indented = true
+                        _ ctx.w
+                    _ ctx.w('// ' + item.wzName)
+                    set written = true
+                    if item.wzName.indexOf('@ts-ignore') > -1 
+                        # loog '§§§ stm.writeComments', model.wzName
+                        set ctx.__inlineNext = true
+                    else
+                        set ctx.__inlineNext = false
+                else
+                    _ temp.push(item)
+            set model.statements = temp
+            return indented
+	
+    set md.isComment
+        function
+            param model
+            return ['comment', 'commentmultiline'].indexOf(model.wzElement) > -1
+
+	set md.nonCommentStatements
+        function
+            param model
+            var ret = []
+            if model.statements
+                foreach item in model.statements
+                    if md.isComment(item) == false
+                        _ ret.push(item)
+            if model.jsPropertyOrValues
+                foreach item in model.jsPropertyOrValues
+                    if md.isComment(item) == false
+                        _ ret.push(item)
+            return ret
+
+    set md.isBlockStatement
+        function 
+            param model
+            return ['xif','xfor','foreach','xwhile','backeach','xtry','xthrow','xswitch',
+                \b 'xyield','xawait','xdo','xlabel','xfunction','xdelete',
+                \b 'xvar','xconst','xlet','decl','log'].indexOf(model.wzElement) > -1
+
+	set md.isMemberAccess
+        function 
+            param model
+            if ['memberAccess', 'memberAccessComputed', 'memberCall', 
+				\b 'decoratorCall', 'callOnValue', 'typeAs'].indexOf(model.wzElement) > -1
+                return true
+    
+	set md.isMemberAccessOrCall
+        function 
+            param model
+            $$ if ['memberAccess', 'memberAccessComputed', 'memberCall', 
+			$$ 	\b 'decoratorCall', 'callOnValue'].indexOf(model.wzElement) > -1
+            if md.isMemberAccess(model)
+                return true
+            if !model.wzParent
+                return false
+            if model.wzElement === 'call' && model.wzParent.wzElement === 'call'
+                return true
+            return false
+    
+	set md.isCallArgument
+        function 
+            param model
+            return model.wzElement === 'call' && model.wzParent && model.wzParent.wzElement === 'call'
+    
+	set md.isArgumentOfCall
+	    function 
+            param model
+            return model.wzParent && ['call', 'memberCall', 'decoratorCall', 'callOnValue'].indexOf(model.wzParent.wzElement) > -1
+    
+	set md.firstChildIs
+        function 
+            param model
+            param elementsArray
+            var ss = md.nonCommentStatements(model)
+            # loog 'firstChildIs', ss.length > 0 && ss[0].wzElement
+            return ss.length > 0 && elementsArray.indexOf(ss[0].wzElement) > -1
+
+	set md.onlyChildIs
+        function 
+            param model
+            param element
+            var ss = md.nonCommentStatements(model)
+            return ss.length == 1 && ss[0].wzElement === element
+
+	set md.onlyChildIsNot
+        function 
+            param model
+            param element
+            var ss = md.nonCommentStatements(model)
+            return ss.length == 1 && ss[0].wzElement !== element
+
+	set md.isImplicitReturn
+        function 
+            param model
+            $* NO an handler MAY HAVE an implicit return
+            var prnElement = model.wzParent && model.wzParent.wzElement
+            if prnElement == 'xclass'
+                return false $$ an handler has no implicit return
+            *$
+            var ss = md.nonCommentStatements(model)
+            return md.onlyChildIsNot(model, 'xreturn') && !md.isBlockStatement(ss[0])
+
+	set md.onlyChildIsHtmlElement =
+        function 
+            param model
+            var ss = md.nonCommentStatements(model)
+			return ss.length == 1 && (
+				\b fb_html_supported_tags.indexOf(ss[0].wzElement) > -1 ||
+				\b ss[0].wzElement === 'htmlelement' )
+    
+	set md.isSingleParamForArrowFunction
+        function 
+            param model
+            if model.params.length != 1 
+                return false
+            # loog 'model.params', model.params
+            # loog 'model.params[0]', model.params[0]
+            if model.params[0].wzName.startsWith('...')
+                return false
+            var ss = md.nonCommentStatements(model.params[0])
+            # loog 'return', ss.length == 0
+            return ss.length == 0
+
+    set md.hasStatementChildren
+        function 
+            param model
+            var ss = md.nonCommentStatements(model)
+            if ss.length > 0
+                return true
+			return false
+
+	set md.parentIs
+        function 
+            param model
+            param element
+            return model.wzParent && model.wzParent.wzElement === element
+    
+	set md.parentIsHtmlElement =
+        function 
+            param model
+            if ! (model.wzParent)
+                return false
+			var test = model.wzParent.wzElement
+			if test == 'htmlelement'
+				return true
+            # return ['htmlelement', 'a', 'br', 'button', 'div', 'form', 'h1', 'h2', 'h3', 'h4', 'head', 'header', 'i', 'img', 'input', 'label', 'legend', 'li', 'meta', 'option', 'p', 'select', 'span', 'table', 'tbody', 'td', 'textarea', 'th', 'thead', 'tr', 'ul'].indexOf(model.wzParent.wzElement) > - (1)
+			return fb_html_supported_tags.indexOf(model.wzParent.wzElement) > -1
+    
+	set md.isValue =
+        function 
+            param model
+            if ! (model.wzParent)
+                return false
+            return ['jsArray', 'jsPropertyOrValue', 'memberAccessComputed', 'or', 'and'].indexOf(model.wzParent.wzElement) > -1
+    
+	set md.isParamValue
+        function 
+            param model
+            if !model.wzParent
+                return false
+            return ['call', 'memberCall', 'decoratorCall', 'callOnValue', 'iife', 'xnew', 'arrayOf', 'concat'].indexOf(model.wzParent.wzElement) > -1
+    
+	set md.semicolon
+        function 
+            param text
+            return verify.endsWith(text, ';') ? '' : ';'
+    
+	set md.unparen
+        function 
+            param text
+			if verify.isEmpty(text)
+                return text
+            var s = text.trim()
+            return 
+                iif md.isParenEnclosed(s)
+                    then 
+                        _ s.substr(1, s.length - 2)
+                    else text
+    
+	set md.setOperator
+        function 
+            param text
+            param statements
+			if verify.isEmpty(text)
+                return ''
+            set text = text.trim()
+            if statements.length === 1 && statements[0].wzElement === 'memberAccessComputed'
+                return text + ''
+            var t1 = text.substr(-1, 1)
+            var t2 = text.substr(-2, 2)
+            if op1.indexOf(t1) > -1
+                return text + ' '
+            if op2.indexOf(t2) > -1
+                return text + ' '
+            return text + ' = '
+    
+	set md.encloseParen
+        function 
+            param text
+            var s = text.trim()
+            if md.isParenEnclosed(s) === false
+                if s.substr(0, 1) !== '('
+                    set s = '(' + s
+                if s.substr(-1, 1) !== ')' && s.substr(-2, 2) !== ');'
+                    set s = s + ')'
+                return s
+            else 
+                return text
+    
+	set md.isGraphEnclosed
+        function 
+            param text
+            if verify.isEmpty(text)
+                return false
+			set text = text.trim()
+			return text.substr(0, 1) === '{' && text.substr(-1, 1) === '}'
+
+	set md.isParenEnclosed
+        function 
+            param text
+            if verify.isEmpty(text)
+                return false
+            set text = text.trim()
+            var hasEndParens = text.substr(-1, 1) === ')' || text.substr(-2, 2) === ');'
+            if !hasEndParens || text.substr(0, 1) !== '('
+                return false
+            var
+                decl count = 1
+                decl quote = null
+            for var ch, i = 1; i < text.length; i++
+                set ch = text[i]
+                if ch === '"' || ch === "'"
+                    if quote === ch
+                        set quote = null
+                    elif quote === null
+                        set quote = ch
+                elif quote !== null
+                    + ;
+                elif ch === '('
+                    set count++
+                elif ch === ')'
+                    set count--
+                if i < (text.length - 1) && count === 0
+                    return false
+            return true
+    
+	set md.isQuoted
+        function 
+            param text
+            if verify.isEmpty(text) || text.length < 2
+                return false
+            return (text.substr(0, 1) === '"' && text.substr(-1, 1) === '"') || 
+				\b (text.substr(0, 1) === '\'' && text.substr(-1, 1) === '\'')
+    
+	set md.unquote
+        function 
+            param text
+            if verify.isEmpty(text) || text.length < 2
+                return text
+            if md.isQuoted(text)
+                return text.substr(1, text.length-2)
+			else
+				return text
+
+    set md.checkInlineEnter
+        function 
+            param model 
+            param ctx
+            if ctx.__inlineNext
+                _ ctx.inlineOn
+                set model.__inlineNext = true
+                set ctx.__inlineNext = false
+    
+    set md.checkInlineExit
+        function 
+            param model 
+            param ctx
+            if model.__inlineNext
+                delete model.__inlineNext
+                _ ctx.inlineOff
+
+    set md.forceInlineOff
+        function 
+            param model 
+            param ctx
+            if model.__inlineNext
+                delete model.__inlineNext
+            _ ctx.inlineOff
+
+	var op1
+        [ 
+            @ '='
+    
+	var op2
+        [ 
+            @ '+='
+            @ '-='
+            @ '/='
+            @ '*='
+    
+	var parenOp
+        [ 
+            @ '||'
+            @ '>>>'
+            @ '>>'
+    
+	set md.getOpenParen
+        function 
+            param oper
+            return parenOp.indexOf(oper) > -1 ? '(' : ''
+    
+	set md.getCloseParen =
+        function 
+            param oper
+            return parenOp.indexOf(oper) > -1 ? ')' : ''
+    
+	set md.getParentOfType =
+        function 
+            param model
+            param type
+            var prn = model.wzParent
+            while prn != null && prn.wzElement !== type
+                set prn = prn.wzParent
+            return prn
+    
+	set md.hasArguments
+        function 
+            param callText
+            if typeof(callText) !== 'string'
+                return false
+            set callText = callText.trim()
+            # loog 'callText.substr(0, 1) ', callText.substr(0, 1) 
+            var hasEndParens = ((callText.substr(- (1), 1) === ')') || (callText.substr(- (2), 2) === ');'))
+            # loog 'hasArguments.hasEndParens', hasEndParens
+            if !hasEndParens
+                return false
+            if callText.substr(0, 1) === '/'
+                # assume regular expression
+                return true
+            var namecount = 0
+            var enclosedcount = 0
+            var seen = false
+            var 
+                decl count = 0
+                decl quote = null
+            for var ch, i = 0; i < callText.length; i++
+                set ch = callText[i]
+                if ((ch === '"') || (ch === "'"))
+                    if quote === ch
+                        set quote = null
+                    elif quote === null
+                        set quote = ch
+                elif quote !== null
+                    + ;
+                elif ch === '('
+                    set seen = true
+                    set count++
+                elif ch === ')'
+                    set count--
+                    if count === 0
+                        set enclosedcount++
+                elif ! (seen)
+                    set namecount++
+            return seen && (namecount > 0 || enclosedcount > 1) && count == 0
+    
+	set md.emitBlock
+        function 
+            param cnt
+            param tag
+            param model
+            param items
+            param count
+            param ctx
+			param callback
+            
+			_ emitBlock_begin
+				@ cnt
+				@ tag
+				@ model
+				@ items
+				@ count
+				@ ctx
+				a_cb()
+					_ emitBlock_end
+						@ cnt
+						@ items
+						@ ctx
+						@ count
+						@ callback
+
+	function emitBlock_begin
+        param cnt
+        param tag
+        param model
+        param items
+        param count
+        param ctx
+		param callback
+
+		var blockIndex = items.length > 0 && items[0].wzElement === 'test' ? 1 : 0
+        if ctx.values.__preserveBlock
+            if count > blockIndex && items[blockIndex].wzElement === 'block'
+                if tag === 'case'
+                    _ ctx.w(tag + ' ' + model.wzName + ': {')
+					r_cb()
+                elif tag === 'else'
+                    _ ctx.w(tag + ' {')
+					r_cb()
+                else 
+                    _ md.emitTest
+						@ cnt
+						@ tag
+						@ model
+						@ items
+						@ ctx
+						@ ' {'
+						@ callback
+            else 
+                if tag === 'case'
+                    _ ctx.w(tag + ' ' + model.wzName + ':')
+					r_cb()
+                elif tag === 'else'
+                    _ ctx.w(tag)
+					r_cb()
+                else 
+                    _ md.emitTest
+						@ cnt
+						@ tag
+						@ model
+						@ items
+						@ ctx
+						@ ''
+						@ callback
+		else
+			if tag === 'case'
+                _ ctx.w(tag + ' ' + model.wzName + ': {')
+				r_cb()
+            elif tag === 'else'
+                _ ctx.w(tag + ' {')
+				r_cb()
+            else
+                _ md.emitTest
+					@ cnt
+					@ tag
+					@ model
+					@ items
+					@ ctx
+					@ ' {'
+					@ callback
+
+	function emitBlock_end
+        param cnt
+        param items
+        param ctx
+		param count
+		param callback
+
+		var blockIndex = items.length > 0 && items[0].wzElement === 'test' ? 1 : 0
+
+		var from = items.length > 0 && items[0].wzElement === 'test' ? 1 : 0
+        _ cnt.genItems
+            @ items
+            @ ctx
+            { 
+                @ indent true
+                @ from from
+			a_cb()
+				if ctx.values.__preserveBlock
+					if count > blockIndex && items[blockIndex].wzElement === 'block'
+						_ ctx.w('}')
+				else 
+					_ ctx.w('}')
+				r_cb()
+
+	set md.emitTest
+        function 
+            param cnt
+            param tag
+            param model
+            param items
+            param ctx
+            param open
+			param callback
+			if items.length > 0 && items[0].wzElement === 'test'
+                _ ctx.write(tag + ' ')
+                _ cnt.genItem
+                    @ items[0]
+                    @ ctx
+					a_cb()
+						_ ctx.w(open)
+						r_cb()
+            else 
+                _ ctx.w(tag + ' (' + md.unparen(model.wzName) + ')' + open)
+				r_cb()

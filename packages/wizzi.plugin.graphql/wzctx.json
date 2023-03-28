@@ -1,0 +1,42 @@
+{
+    "name": "wizzi.plugin.graphql",
+    "version": "0.0.1",
+    "description": "wizzi.plugin.graphql",
+    "author": {
+        "name": "Stefano Bassoli",
+        "email": "stfn.bssl@gmail.com"
+    },
+    "github": {
+        "userid": "stfnbssl"
+    },
+    "license": {
+        "name": "MIT",
+        "copy": "copy 2022"
+    },
+    "Build": {
+        "isWizziPlugin": true,
+        "utils": {
+            "useStringifySafe": true,
+            "useObjectInspect": true
+        },
+        "useGraphql": true
+    },
+    "Schemas": [
+        {
+            "name": "graphql",
+            "title": "graphql wizzi schema",
+            "builtin": false,
+            "modelTransformers": [
+                {
+                    "name": "extended"
+                }
+            ],
+            "artifactGenerators": [
+                {
+                    "name": "document"
+                }
+            ],
+            "includes": []
+        }
+    ]
+}

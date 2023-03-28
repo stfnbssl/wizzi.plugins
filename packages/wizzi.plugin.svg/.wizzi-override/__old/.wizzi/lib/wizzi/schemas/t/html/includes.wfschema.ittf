@@ -1,0 +1,33 @@
+﻿$group
+
+	# NEW
+
+	e jsInclude : element
+		tag ::script
+		a type
+		include js module
+
+	e cssInclude : element
+		tag ::style
+        a type
+		a media
+		a nonce
+		a_tag( scoped )
+			type boolean
+		include css
+
+	e svgInclude : element
+		tag ::media
+		include svg
+
+	e jsonObjectInclude : element
+		tag ::data-object
+		include json {
+
+	e jsonArrayInclude : element
+		tag ::data-array
+		include json [
+
+	e readyInclude : element
+		tag ::ready
+		include js module

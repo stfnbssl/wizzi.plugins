@@ -1,0 +1,111 @@
+module
+    kind es6
+    $
+        var md = {
+            name: 'wfschema',
+            artifact: 'model',
+        };
+    v08/examples/plugin( &md )
+        $append plugins
+            [ items
+                @ './wizzi.plugin.wzschema/index.js'
+                @ '../../wizzi/packages/wizzi-js/index.js'
+            @ pluginsBaseFolder
+                _ path.resolve
+                    @ __dirname
+                    @ '..'
+        let arg = process.argv[2]
+        const moduleName = arg && arg.length > 0 ? arg : 'graphql'
+        _ executeGenerateModules
+            [
+                @ moduleName
+            a_cb_no_throw( result )
+                if err
+                    error 'v08modeltypes.executeGenerateModules.err', err
+                    error 'v08modeltypes.executeGenerateModules.err.toString()', err.toString()
+                    if err.inner
+                        error 'v08modeltypes.executeGenerateModules.err.inner.toString()', err.inner.toString()
+                else
+                    _ executeGenerateFactories
+                        [
+                            @ moduleName
+                        a_cb_no_throw( result )
+                            if err
+                                error 'v08modeltypes.executeGenerateFactories.err', err
+                                error 'v08modeltypes.executeGenerateFactories.err.toString()', err.toString()
+                                if err.inner
+                                    error 'v08modeltypes.executeGenerateFactories.err.inner.toString()', err.inner.toString()
+                            else
+
+        function executeGenerateModules
+            param modules
+            param callback
+            _ async.mapSeries
+                @ modules
+                =>
+                    param module
+                    param callback
+                    log 'v08modeltypes.executeGenerateModules.module: ' + module
+                    var ittfDocumentUri
+                        _ path.join
+                            @ __dirname
+                            @ '.wizzi-override'
+                            @ 'lib'
+                            @ 'wizzi'
+                            @ 'schemas'
+                            @ module + '.wfschema.ittf'
+                    var outputPath
+                        _ path.join
+                            @ __dirname
+                            @ 'lib'
+                            @ 'wizzi'
+                            @ 'models'
+                            @ module + '-model.g.js'
+                    _ loadModelAndGenerateArtifact
+                        @ ittfDocumentUri
+                        {
+                        @ 'wfschema/model'
+                        a_cb( artifactText )
+                            log 'v08modeltypes.executeGenerateModules.outputPath: ' + outputPath
+                            _ file.write
+                                @ outputPath
+                                @ artifactText
+                            r_cb( artifactText )
+                @ callback
+
+        function executeGenerateFactories
+            param modules
+            param callback
+            _ async.mapSeries
+                @ modules
+                =>
+                    param module
+                    param callback
+                    log 'v08modeltypes.executeGenerateModules.module: ' + module
+                    var ittfDocumentUri
+                        _ path.join
+                            @ __dirname
+                            @ '.wizzi-override'
+                            @ 'lib'
+                            @ 'wizzi'
+                            @ 'schemas'
+                            @ module + '.wfschema.ittf'
+                    var outputPath
+                        _ path.join
+                            @ __dirname
+                            @ 'lib'
+                            @ 'wizzi'
+                            @ 'models'
+                            @ module + '-factory.g.js'
+                    _ loadModelAndGenerateArtifact
+                        @ ittfDocumentUri
+                        {
+                        @ 'wfschema/factory'
+                        a_cb( artifactText )
+                            log 'v08modeltypes.executeGenerateModules.outputPath: ' + outputPath
+                            _ file.write
+                                @ outputPath
+                                @ artifactText
+                            r_cb( artifactText )
+                @ callback
+

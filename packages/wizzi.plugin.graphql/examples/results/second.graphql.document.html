@@ -1,0 +1,20 @@
+schema { 
+    query Query
+}
+type Query { 
+    translate(
+        fromLanguage: Language
+        toLanguage: Language
+        text: String
+    ): String
+}
+enum Language {
+    EN
+    FR
+    CH
+}
+type User { 
+    id: String
+    name: String
+    birthday: Date
+}

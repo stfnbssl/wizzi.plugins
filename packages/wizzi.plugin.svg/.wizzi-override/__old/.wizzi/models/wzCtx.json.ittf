@@ -1,0 +1,80 @@
+{
+    $include versions
+    
+    name '@wizzi/web'
+    version '${versions['wizzi-web@next']}'
+	title 'A Wizzi Core Plugin for html css svg markdown, graphql, vtt and vue artifact generations.'
+    license 'MIT'
+    [ schemas
+        {
+            name 'html'
+            title 'Html wizzi language model'
+            commentTag "#"
+            [ transformers
+            [ artifacts
+                {
+                    name 'html/document'
+        {
+            name 'css'
+            title 'Cascading style sheet wizzi language model'
+            commentTag "-"
+            [ transformers
+            [ artifacts
+                {
+                    name 'css/document'
+        {
+            name 'scss'
+            title 'Sass cascading style sheet wizzi language model'
+            commentTag "/*"
+            [ transformers
+            [ artifacts
+                {
+                    name 'scss/document'
+        {
+            name 'svg'
+            title 'Scalable Vector Graphics wizzi language model'
+            commentTag "#"
+            [ transformers
+            [ artifacts
+                {
+                    name 'svg/document'
+        {
+            name 'md'
+            title 'Markdown wizzi language model'
+            commentTag "#"
+            [ transformers
+            [ artifacts
+                {
+                    name 'md/document'
+        {
+            name 'graphql'
+            title 'Graphql wizzi language model'
+            commentTag "#"
+            [ transformers
+            [ artifacts
+                {
+                    name 'graphql/document'
+
+        {
+            name 'site'
+            commentTag "#"
+            title 'Components of a website structure'
+            [ transformers
+            [ artifacts
+
+        {
+            name 'vtt'
+            title 'Video Text Tracks specification'
+            commentTag "#"
+            [ transformers
+            [ artifacts
+                {
+                    name 'vtt/document'
+        {
+            name 'vue'
+            title 'Vue wizzi language model'
+            commentTag "#"
+            [ transformers
+            [ artifacts
+                {
+                    name 'vue/document'

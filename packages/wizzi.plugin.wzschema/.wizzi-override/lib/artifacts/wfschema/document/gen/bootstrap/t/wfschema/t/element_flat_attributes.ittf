@@ -1,0 +1,71 @@
+﻿$group
+
+	m getFlatAttributes
+		
+		if typeof this.flatAttributes === 'undefined'
+			var flatAttributes = []
+			_ this.flatAttributesFill(flatAttributes, false)
+			set this.flatAttributes = flatAttributes
+		return this.flatAttributes
+
+	m flatAttributesFill
+		param flatAttributes
+		param inherited
+		foreach attribute in this.attributes
+			var flags = ''
+			set flags += attribute.isRequired ? 'required ' : ''
+			set flags += attribute.isDataType ? 'is-datatype ' : ''
+			var cloned
+				{
+					@ name attribute.wzId
+					@ type attribute.type
+					@ tags attribute.tagName.split('|')
+					@ xmlTag attribute.xmlTagInternal
+					@ default attribute.default
+					@ defaultWhenDeclared attribute.defaultWhenDeclared
+					@ flags flags
+					@ inheritedFrom (inherited ? this.wzId : null)
+					@ restricts
+						[
+					@ comments
+						[
+				
+			foreach restrict in attribute.restricts
+				_ cloned.restricts.push(this.getRestrictFill(restrict))
+				
+			foreach comment in attribute.comments
+				_ cloned.comments.push(comment.wzName)
+				
+			_ flatAttributes.push(cloned)
+				
+		if schemautil.isNotEmpty(this.superId)
+			if this.superElement
+				_ this.superElement.flatAttributesFill(flatAttributes, true)
+
+	m getRestrictFill
+		param model
+		var restrictCloned
+			{
+				@ facets
+					[
+				@ comments
+					[
+		foreach facet in model.facets
+			var facetCloned
+				{
+					@ type facet.wzElement
+					@ value facet.wzName
+					@ comments
+						[
+			foreach comment in facet.comments
+				_ facetCloned.comments.push(comment.wzName)
+
+			_ restrictCloned.facets.push(facetCloned)
+
+		foreach comment in model.comments
+			_ restrictCloned.comments.push(comment.wzName)
+
+		return restrictCloned
+
+
+		

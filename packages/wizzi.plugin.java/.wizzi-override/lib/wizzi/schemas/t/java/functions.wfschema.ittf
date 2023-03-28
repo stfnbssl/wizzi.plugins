@@ -1,0 +1,84 @@
+$group
+
+	e param : statement
+		a_flag( typeReadonly, :readonly )
+		a_flag( typeOptional, :optional )
+		a_flag( typePrivate, :private )
+		a_flag( typePublic, :public )
+		a_flag( typeProtected, :protected )
+
+	e objectParam : param
+		tag {
+
+	e function : statement
+
+		a_flag( xasync, async )
+		a_flag( generator )
+
+		r typeParameterDecl/s
+		r param/s
+		r typeReturn
+			one-to-one
+
+	e generatorfunction : function
+		tag function*
+
+		# es6 feature
+		# reference https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Operators/yield
+		# ittf
+		#   function* foo
+		#     var index = 0
+		#     while index <= 2
+		#       yield index++
+		#
+
+	e asyncfunction : function
+		tag async-function
+
+		# es6 feature
+		# reference https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
+		# ittf
+		#   async-function foo
+
+
+	e yield : statement
+
+		# es6 feature
+		# reference https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Operators/yield
+		# ittf
+		#   function* foo
+		#     var index = 0
+		#     while index <= 2
+		#       yield index++
+	
+	e await : statement
+
+		# es6 feature
+		# reference https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await
+		# ittf
+		#   async-function foo
+		#     var index
+		#       await
+		#         _ mypromisefunc
+		#
+
+	e return : statement
+
+		# Can return any object or function.
+		#
+		# ittf
+		#     return 0
+		#     return
+		#       {
+		#         @ result a + b
+		#
+		#     return
+		#       _ Math.sum
+		#         @ a
+		#         @ b
+		#
+		#     return
+		#       function
+		#         param a
+		#         param b
+		#         ...

@@ -1,0 +1,209 @@
+﻿clazz( Element, Node )
+	ctor
+		param name
+		base name
+		set this.wzElement = 'element'
+
+		set this.attributes = []
+		set this.elements = []
+		set this.includes = []
+		set this.relations = []
+		set this.methods = []
+		set this.restricts = []
+		set this.wildTags = []
+		set this.typeTags = []
+		set this.choiceOrdered = []
+
+		set this.super = null
+		set this.superId = null
+		set this.superType = null
+		set this.addToChildren = false
+		set this.isAbstract = false
+		set this.isRoot = false
+		set this.acceptAnyTag = null
+		set this.acceptAnyTagCollection = null
+		set this.suppressCollectionEmit_Flat = false
+		set this.nameIsRequired = false
+		set this.xmlTagInternal = null
+		set this.tagInternal = null
+		set this.tagType = null
+		set this.defaultWhenDeclared = null
+
+	m allowedNameDeclaration
+		param key
+		var enums = this.getEnumFacets()
+        if enums.length > 0
+            var sb = []
+            _ sb.push("this.allowedNames = [ ");
+            var first = true
+            foreach facet in enums
+                if !first
+					_ sb.push(", ")
+                _ sb.push('"' + schemautil.replaceAll(facet.wzName, "\"", "\\\"") + '"')
+                set first = false
+            _ sb.push('];')
+            return sb.join('')
+        else
+            return null
+
+	m getEnumFacets
+		var ret = []
+		foreach restrict in this.restricts
+			foreach facet in restrict.facets
+				if facet.wzElement === 'enumFacet'
+					if _.find(ret, function(item) { return item.wzName === facet.wzName; }) == null
+						set facet.wzName = facet.wzName.trim();
+						_ ret.push(facet);
+        return ret
+			
+	m needsVerify
+		param emitKey
+		if this.relations.length > 0
+			return true
+		if this.restricts.length > 0
+			return true;
+		foreach attribute in this.attributes
+			if attribute.restricts.length > 0
+				return true
+		foreach method in this.methods
+			if (emitKey == null || method.emitKey == emitKey) && method.wzName.toLowerCase() === "wzverify"
+                return true
+		return false
+
+	m hasAttributesOrChildsToLoad
+		if this.attributes.length > 0
+			return true;
+		if this.relations.length > 0
+			return true;
+		if this.setupDerived().length > 0
+			return true;
+		if this.includes.length > 0
+			return true;
+        if schemautil.isNotEmpty(this.acceptAnyTag)
+            return true;
+		return false
+
+	m needsInitialize
+		param emitKey
+        foreach attribute in this.attributes
+			if attribute.IsDataType
+				return true
+		if this.relations.length > 0
+			return true
+		foreach method in this.methods
+			if (emitKey == null || method.emitKey == emitKey) && method.wzName.toLowerCase() === "wzinitialize"
+                return true
+        return false
+
+	m setupNames
+		param ctx
+	
+		var ss = this.wzName.split('/')
+		if ss.length == 2
+			var zz = ss[0].split('-')
+			if zz.length == 2
+				set this.wzName = zz[0] + zz[1]
+				set this.wzNamePlural = zz[0] + ss[1]
+			else
+				set this.wzName = ss[0]
+				set this.wzNamePlural = ss[0] + ss[1]
+		else
+			set this.wzNamePlural + 's'
+		
+		set this.wzId = schemautil.getIdentifier(this.wzName, true)
+		set this.wzIdPlural = schemautil.getIdentifier(this.wzNamePlural, true)
+		set this.wzIdCapital = schemautil.capitalize(this.wzId)
+
+		# 30/10/2015 set this.tagName = this.tagInternal || this.wzId
+		set this.tagName = this.tagInternal || this.wzName
+		set this.tagSafe = this.tagName.replace("\"", "\\\"")
+
+		set this.xmlTag = this.xmlTagInternal || this.wzId
+
+		if schemautil.isNotEmpty(this.acceptAnyTag)
+			set this.acceptAnyTagId = schemautil.getIdentifier(this.acceptAnyTag, true)
+		if schemautil.isNotEmpty(this.acceptAnyTagCollection)
+			set this.acceptAnyTagCollectionId = schemautil.getIdentifier(this.acceptAnyTagCollection, true)
+
+	m wzSetup
+		param ctx
+
+		var ss = this.wzName.split(':')
+		if ss.length > 1
+			set this.wzName = ss[0].trim()
+			set this.super = ss[1].trim()
+		set this.schema = this.wzParent
+		if schemautil.isNotEmpty(this.super)
+			set this.superId = schemautil.getIdentifier(this.super, true)
+			if this.wzId === this.superId
+				_ ctx.error('An element cannot be super of itself.', this)
+		set this.superType = this.superId === null ? this.schema.wzId + 'Base' : this.superId
+		_ this.setupNames(ctx)
+	
+	m wzInitialize
+		param ctx
+		
+		foreach item in this.attributes
+			_ item.wzInitialize(ctx)
+		foreach item in this.relations
+			_ item.wzInitialize(ctx)
+		foreach item in this.methods
+			_ item.wzInitialize(ctx)
+		foreach item in this.includes
+			_ item.wzInitialize(ctx)
+
+		_ this.initializeLoad(ctx)
+
+	m wzVerify
+		param ctx
+		if this.ensureName(1) == false
+			_ ctx.error('Element name is required', this)
+		_ this.wzVerifySuper(ctx);
+		foreach item in this.attributes
+			_ item.wzVerify(ctx)
+		foreach item in this.relations
+			_ item.wzVerify(ctx)
+		foreach item in this.includes
+			_ item.wzVerify(ctx)
+
+	m wzVerifySuper
+		param ctx
+
+		if schemautil.isNotEmpty(this.superId)
+			set this.superElement = null
+			foreach element in this.schema.elements
+				if element.wzId === this.superId
+					set this.superElement = element
+					break
+			if this.superElement === null
+				_ ctx.error('Super element not found : ' + this.superId, this)
+
+	m addAttribute
+		param name
+		var item = new Attribute(name)
+		set item.wzParent = this;
+		_ this.attributes.push(item)
+		return item
+
+	m addRelation
+		param name
+		var item = new Relation(name)
+		set item.wzParent = this;
+		_ this.relations.push(item)
+		return item
+
+	m addInclude
+		param name
+		var item = new Include(name)
+		set item.wzParent = this;
+		_ this.includes.push(item)
+		return item
+
+	element_derived( )
+	element_gettags( )
+	element_load( )
+	element_flat_attributes( )
+	element_flat_relations( )
+	
+	
+

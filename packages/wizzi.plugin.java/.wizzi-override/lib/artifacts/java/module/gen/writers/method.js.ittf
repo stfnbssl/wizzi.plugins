@@ -1,0 +1,81 @@
+module wizzi.plugin.java.lib.artifacts.module.gen.writers.method
+    kind es6
+
+    $include grammars/java
+
+    statements-writer(method)
+
+        $append imports
+            var h = require('./helpers')
+
+        statement( method
+       
+            _ h.writeComments(model, ctx)
+
+            _ h.genTSDecorators
+                @ model
+                @ ctx
+                @ mainWriter
+                a_cb()
+                    _ h.genAccessorsAndExtra
+                        @ model
+                        @ ctx
+
+                    $foreach item in Grammars.java.modifiers
+                        if model.${item}
+                            _ ctx.write('${item} ')
+
+                    if model.typeReturn
+                        _ mainWriter.statementsContainer.typeReturn
+                            @ model.typeReturn
+                            @ ctx
+                            a_cb()
+                                _ method_step_1
+                                    @ model
+                                    @ ctx
+                                    @ callback
+
+                    else
+                        _ ctx.write('void ')
+                        _ method_step_1
+                            @ model
+                            @ ctx
+                            @ callback
+
+        function method_step_1
+            param model
+            param ctx
+            param callback
+            var
+                decl method = model.wzName
+            _ ctx.write(method)
+            _ h.genTSTypeParameters
+                @ model
+                @ ctx
+                @ mainWriter
+                a_cb()
+                    _ ctx.write('(')
+                    _ h.genTSParams
+                        @ model
+                        @ ctx
+                        @ mainWriter
+                        a_cb()
+                            _ ctx.write(')')
+                            _ method_step_2
+                                @ model
+                                @ ctx
+                                @ callback
+
+        function method_step_2
+            param model
+            param ctx
+            param callback
+            _ ctx.w(' {')
+            _ ctx.indent();
+            _ mainWriter.genMany
+                @ model.statements
+                @ ctx
+                a_cb()
+                    _ ctx.deindent();
+                    _ ctx.w('}');
+                    r_cb()

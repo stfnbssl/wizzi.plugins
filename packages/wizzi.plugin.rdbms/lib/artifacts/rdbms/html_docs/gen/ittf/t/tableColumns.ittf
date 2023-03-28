@@ -1,0 +1,36 @@
+$group
+
+	h4 Columns
+	table
+		class table table-condensed table-bordered
+		thead
+			tr
+				th name
+				th sqlName
+				th label
+				th domain
+				th description
+		tbody
+			$foreach tc in table.tableColumns
+				tr
+					td ${tc.wzName}
+					td ${tc.sqlName}
+					td ${tc.label}
+					td ${tc.domain}
+					td
+						span ${tc.description}
+						br
+						$if tc.comments.length > 0
+							div
+								$foreach comment in tc.comments
+									span ${comment} &nbsp;
+						$if tc.validations.length > 0
+							h5 restrict
+							table
+							$foreach restrict in tc.validations
+								tr
+									td ${restrict.wzName}
+									td
+										$foreach comment in restrict.comments
+											span ${comment} &nbsp;
+

@@ -1,16 +1,44 @@
-common/example/plugin( rdbms-school )
+module
+    kind es6
 
-	_ executeWizziJob
-		_ path.join
-			@ __dirname
-			@ 'ittf'
-			@ 'school'
-			@ 'school.wfjob.ittf'
-		{
-            @ wfBaseFolder __dirname
-            @ pluginsBaseFolder path.join(__dirname, '..', '..', '..')
-			[ plugins
-                @ './wizzi-core/index'
-                @ './wizzi-js/index'
-                @ './wizzi-web/index'
-                @ './wizzi-lab/index'
+    $
+        var md = {
+            name: 'rdbms_examples_step_1',
+            description: 'First `rdbms` Wizzi Model',
+            level: 0,
+            step: 1
+        }
+
+    example_step( &md )
+
+        _ wizzi.fsFactory
+            {
+                @ plugins
+                    {
+                        [ items
+                            @ './index'
+                            @ 'wizzi-core'
+                        @ pluginsBaseFolder
+                            _ path.resolve
+                                @ __dirname
+                                @ '..'
+            a_cb_throw( wf )
+                _ wf.executeJob
+                    {
+                        @ name ""
+                        @ path
+                            _ path.join
+                                @ __dirname
+                                @ 'ittf'
+                                @ 'school'
+                                @ 'school.wfjob.ittf'
+                        @ productionOptions
+                            _ wizzi.productionOptions
+                                {
+                                    @ indentSpaces 4
+                                    @ basedir __dirname
+                                    @ verbose 2
+                        @ modelContext {}
+                        @ jobContext {}
+                    a_cb_throw( result )
+                        log 'school.wfjob.ittf result', result

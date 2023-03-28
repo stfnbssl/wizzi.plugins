@@ -1,0 +1,370 @@
+module
+    $
+        var schemaName = 'graphql';
+    kind es6
+    basewizzifier()
+        $append imports
+            var graphql_parser = require('graphql/language/parser')
+            var cleanAST = require('./cleanAST')
+            function parseInternal
+                param tobeWizzified
+                param options
+                param callback
+                var syntax
+                try
+                    set syntax
+                         _ graphql_parser.parse(tobeWizzified)
+                    _ cleanAST(syntax)
+                catch ex
+                    return
+                        _ callback
+                            @ ex
+                return
+                    _ callback
+                        @ null
+                        @ syntax
+        var format
+            function
+                param parent
+                param ast
+                param options
+                if !ast
+                    throw new Error('missing ast. parent is: ' + util.inspect(parent, { depth: 2 }))
+                if parent === null
+                    if options.starter
+                        set options.starter = false
+                    elif options.returnText
+                        # ok
+                    else
+                        _ showstack(options)
+                        throw new Error('parent is null.' + util.inspect(ast, 4))
+                if options.verbose
+                    info 'ast.kind', ast.kind
+                var kind = ast.kind === 'arguments' ? 'xarguments' : ast.kind
+                var formatter = format[kind]
+                if formatter
+                    _ options.stack.push(ast)
+                    var result = formatter(parent, ast, options)
+                    _ options.stack.pop()
+                    return result
+                else
+                    throw new Error('no formatter for kind: ' + ast.kind)
+        function wizzify
+            param tobeWizzified
+            param options
+            param callback
+            set options = options || {};
+            set options.input = tobeWizzified
+            set options.stack = []
+            set options.formatTextNodes = []
+            set options.verbose = true
+            _ parseInternal
+                @ tobeWizzified
+                @ options
+                a_cb( syntax )
+                    log JSON.stringify(syntax, null, 2)
+                    var root
+                        {
+                            @ tag '${schemaName}'
+                            [ children
+                    _ format(root, syntax, options)
+                    return
+                        _ callback
+                            @ null
+                            @ root
+        $include helper_functions
+        function isKnownType
+            param type
+            return ['Int', 'Float', 'Boolean', 'String'].indexOf(type) > -1
+
+        function getTypeName
+            param type
+            return isKnownType(type) ? type.toLowerCase() : type
+
+        f( Name, name )
+            name( value )
+            #
+                # loog 'Name.tag', ret.tag
+                # loog 'Name.name', ret.name
+                # loog 'Name.textified', ret.textified
+
+        f( NonNullType, ! )
+            f_p_temp( type 
+            # loog 'NonNullType.p_type', p_type
+            set ret.name = p_type.name
+
+        f( NamedType, namedType )
+            f_p_temp( name
+            # loog 'NamedType.p_name', ret, p_name
+            if isTextualNode(p_name)
+                set ret.name = getTypeName(getNodeText(p_name))
+                set ret.textified = ret.name
+            else
+                _ ret.children.push(p_name)
+
+        f( Document, skip)
+            f_a( definitions )
+
+        f( SchemaDefinition, schema
+            f_a( operationTypes
+            f_a( directives
+
+        f( OperationTypeDefinition, operation-type
+            tag( operation 
+            f_p_temp( type 
+            if isTextualNode(p_type)
+                set ret.name = getNodeText(p_type)
+            else
+                new Error('InterfaceTypeDefinition. Expected textual name: ' + JSON.stringify(node, null, 2))
+
+        f( ObjectTypeDefinition, {
+            f_p_temp( name 
+            if isTextualNode(p_name)
+                set ret.name = getNodeText(p_name)
+            else
+                new Error('InterfaceTypeDefinition. Expected textual name: ' + JSON.stringify(node, null, 2))
+            f_a_temp( interfaces
+            if p_interfaces != null
+                foreach item in p_interfaces.children
+                    set item.tag = '&'
+                    _ ret.children.push(item)
+            f_a( fields
+            f_a( directives
+
+        f( FieldDefinition, field-def
+            f_p_temp( name 
+            f_p_temp( type 
+            if p_type.tag === 'namedType'
+                if node.arguments.length > 0
+                    set ret.tag = 'm'
+                    set ret.name = p_name.name
+                    _ ret.children.push
+                        {
+                            @ tag 'type'
+                            @ name p_type.name
+                            [ children
+                else
+                    set ret.tag = p_type.name
+                    set ret.name = p_name.name
+            else
+                _ ret.children.push(p_name)
+                _ ret.children.push(p_type)
+            f_a( arguments
+            f_a( directives
+
+        f( ObjectTypeExtension, extend-{
+            f_p_temp( name 
+            if isTextualNode(p_name)
+                set ret.name = getNodeText(p_name)
+            else
+                new Error('InterfaceTypeDefinition. Expected textual name: ' + JSON.stringify(node, null, 2))
+            f_a_temp( interfaces
+            if p_interfaces != null
+                foreach item in p_interfaces.children
+                    set item.tag = '&'
+                    _ ret.children.push(item)
+            f_a( fields
+            f_a( directives
+
+        f( InterfaceTypeDefinition, interface
+            f_p_temp( name 
+            if isTextualNode(p_name)
+                set ret.name = getNodeText(p_name)
+            else
+                new Error('InterfaceTypeDefinition. Expected textual name: ' + JSON.stringify(node, null, 2))
+            f_a( fields
+            f_a( directives
+
+        f( InterfaceTypeExtension, extend-interface
+            f_p_temp( name 
+            if isTextualNode(p_name)
+                set ret.name = getNodeText(p_name)
+            else
+                new Error('InterfaceTypeDefinition. Expected textual name: ' + JSON.stringify(node, null, 2))
+            f_a( fields
+            f_a( directives
+
+        f( UnionTypeDefinition, union
+            f_p_temp( name 
+            if isTextualNode(p_name)
+                set ret.name = getNodeText(p_name)
+            else
+                new Error('InputObjectTypeDefinition. Expected textual name: ' + JSON.stringify(node, null, 2))
+            f_a( types
+            foreach item in ret.children
+                if item.tag === 'namedType'
+                    set item.tag = '|'
+            f_a( directives
+
+        f( ListType, [
+            f_p( type 
+
+        f( ScalarTypeDefinition, scalar
+            f_p( name 
+            f_p( description, false 
+            f_a( directives
+
+        f( EnumTypeDefinition, enum
+            f_p( name 
+            f_a( values
+            f_a( directives
+
+        f( EnumValueDefinition, @
+            f_p( name 
+            f_a( directives
+
+        format( OperationDefinition $$ , oper
+            $*
+            tag( operation 
+            f_a( variableDefinitions
+            f_a( directives
+            f_p( selectionSet 
+            *$
+            var ret
+            if node.operation == 'query' 
+                \b && arrayIsEmpty(node.variableDefinitions) 
+                \b && arrayIsEmpty(node.directives) 
+                set ret = parent
+            else
+                var ret
+                    {
+                        @ tag node.operation
+                        @ name ''
+                        @ isText false
+                        @ textified null
+                        @ source options.input.substring(node.start, node.end)
+                        [ children
+                f_a( variableDefinitions
+                f_a( directives
+            _ format
+                @ ret
+                @ node.selectionSet
+                @ options
+
+        f( SelectionSet, {
+            f_a( selections
+
+        f( InputValueDefinition, input
+            f_p_temp( name 
+            f_p_temp( type 
+            f_p_temp( defaultValue, false
+            # loog 'InputValueDefinition', p_type, p_name
+            if p_type.tag === 'namedType'
+                set ret.tag = p_type.name
+                set ret.name = p_name.name
+            else
+                _ ret.children.push(p_name)
+                _ ret.children.push(p_type)
+            if p_defaultValue != null
+                set p_defaultValue.tag = 'default'
+                _ ret.children.push(p_defaultValue)
+            f_a( directives
+
+        f( InputObjectTypeDefinition, input
+            f_p_temp( name 
+            if isTextualNode(p_name)
+                set ret.name = getNodeText(p_name)
+            else
+                new Error('InputObjectTypeDefinition. Expected textual name: ' + JSON.stringify(node, null, 2))
+            f_a_in_tag( fields, {
+            f_a( directives
+
+        f( Field, .
+            name( name.value
+            f_p_temp( alias, false
+            if p_alias != null
+                set p_alias.tag = 'as'
+                _ ret.children.push(p_alias)
+            
+            f_a( arguments
+            f_p( selectionSet, false
+            f_a( directives
+
+        f( Argument, @
+            f_p_temp( name
+            if isTextualNode(p_name)
+                set ret.name = getNodeText(p_name)
+            f_p( value
+
+        f( IntValue, int
+            name( value )
+
+        f( FloatValue, float
+            name( value )
+
+        f( BooleanValue, boolean
+            name( value )
+
+        f( NullValue, null
+            name( value )
+
+        f( StringValue, string
+            name( value )
+            var lines = ret.name.split(/\n\r|\n|\r/)
+            if lines.length > 1
+                set ret.name = lines[0]
+                for var i = 1; i<lines.length;i++
+                    _ ret.children.push
+                        {
+                            @ tag '\\n'
+                            @ name lines[i]
+                            [ children
+
+        f( ListValue, [
+            f_a( values
+
+        f( ObjectValue, {
+            f_a( fields
+
+        f( ObjectField, @
+            f_p( name 
+            f_p( value 
+
+        f( FragmentDefinition, fragment
+            f_p( name 
+            f_p_tag( typeCondition , on
+            #
+                f_p_temp( typeCondition 
+                    if p_typeCondition != null
+                        set p_typeCondition.tag = 'on'
+                        _ ret.children.push(p_typeCondition)
+            f_p( selectionSet, false
+            f_a( directives
+
+        f( FragmentSpread, ...
+            f_p( name 
+            f_a( directives
+
+        f( InlineFragment, ...on
+            f_p_temp( typeCondition, false
+            if p_typeCondition != null
+                if isTextualNode(p_typeCondition)
+                    set ret.name = getNodeText(p_typeCondition)
+                    set ret.textified = ret.name
+                else
+                    _ ret.children.push(p_typeCondition)
+            f_p( selectionSet, false
+            f_a( directives
+
+
+        f( VariableDefinition, var-def
+            f_p( variable 
+            f_p( type
+
+        f( Variable, var
+            f_p_temp( name
+            if isTextualNode(p_name)
+                set ret.name = getNodeText(p_name)
+                set ret.textified = ret.name
+            else
+                _ ret.children.push(p_name)
+
+        f( DirectiveDefinition, %-def
+            f_p( name
+            f_a( arguments
+            f_a( locations
+
+        f( Directive, %
+            f_p( name 
+            f_a( arguments
+

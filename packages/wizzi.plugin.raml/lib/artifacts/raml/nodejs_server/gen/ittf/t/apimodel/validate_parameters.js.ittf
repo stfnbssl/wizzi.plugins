@@ -1,0 +1,101 @@
+$group
+
+	var validateParameters
+        function 
+            param spec
+            param documentMetadata
+            param nPath
+            param parameters
+            param path
+            param results
+            param skipMissing
+            
+			var createParameterComboError
+                function 
+                    param path
+                    _ createErrorOrWarning
+                        @ 'INVALID_PARAMETER_COMBINATION'
+                        @ 'API cannot have a a body parameter and a formData parameter'
+                        @ path
+                        @ results.errors
+            
+			var pathParams
+                [ 
+            
+			var seenBodyParam = false
+            
+			var seenFormParam = false
+            
+			_ _.reduce
+                @ parameters
+                function 
+                    param seenParameters
+                    param parameter
+                    param index
+                    var pPath
+                        _ path.concat
+                            [ 
+                                @ 'parameters'
+                                _ index.toString
+                    if _.isUndefined(parameter)
+                        return 
+                    _ validateNoExist
+                        @ seenParameters
+                        @ parameter.name
+                        @ 'PARAMETER'
+                        @ 'Parameter'
+                        _ pPath.concat('name')
+                        @ results.errors
+                    
+					if parameter.paramType === 'body' || parameter.in === 'body'
+                        if seenBodyParam === true
+                            _ createErrorOrWarning
+                                @ 'DUPLICATE_API_BODY_PARAMETER'
+                                @ 'API has more than one body parameter'
+                                @ pPath
+                                @ results.errors
+                        elif seenFormParam === true
+                            _ createParameterComboError(pPath)
+                        set seenBodyParam = true
+                    
+					elif parameter.paramType === 'form' || parameter.in === formData'
+                        if seenBodyParam === true
+                            _ createParameterComboError(pPath)
+                        set seenFormParam = true
+                    
+					elif parameter.paramType === 'path' || parameter.in === 'path'
+                        if nPath.args.indexOf(parameter.name) === -1
+                            _ createErrorOrWarning
+                                @ 'UNRESOLVABLE_API_PATH_PARAMETER'
+                                @ 'API path parameter could not be resolved: ' + parameter.name
+                                _ pPath.concat('name')
+                                @ results.errors
+                        _ pathParams.push
+                            @ parameter.name
+                    
+					_ validateSchemaConstraints
+                        @ documentMetadata
+                        @ parameter
+                        @ pPath
+                        @ results
+                        @ parameter.skipErrors
+                    
+					return 
+                        _ seenParameters.concat
+                            @ parameter.name
+                [ 
+			
+			if _.isUndefined(skipMissing) || skipMissing === false
+                _ _.each
+                    _ _.difference
+                        @ nPath.args
+                        @ pathParams
+                    function 
+                        param unused
+                        _ createErrorOrWarning
+                            @ 'MISSING_API_PATH_PARAMETER'
+                            @ 'API requires path parameter but it is not defined: ' + unused
+                            @ path
+                            @ results.errors
+    
+

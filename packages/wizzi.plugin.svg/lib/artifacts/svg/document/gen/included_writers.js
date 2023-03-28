@@ -1,11 +1,11 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.13
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi\lib\artifacts\svg\document\gen\included_writers.js.ittf
+    package: wizzi-js@0.7.14
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\artifacts\svg\document\gen\included_writers.js.ittf
 */
 'use strict';
 
-var myname = 'svg.document.included_writers';
+var myname = 'svg.document.gen.included_writers';
 
 var verify = require('wizzi-utils').verify;
 

@@ -1,0 +1,96 @@
+$group
+
+	# Validation
+	wz-iife validation
+	
+		$include ./validate_value
+
+		wz-function initialize
+			param wizziRamlApi
+			param callback
+
+			_ callback
+				@ null
+				function wizziRamlValidation
+					param req
+					param res
+					param next
+
+					var operation = req.wizziRaml ? req.wizziRaml.operation : undefined
+					if _.isUndefined(operation)
+						_ return next()
+
+					var pIndex = 0
+					var pName
+					var pPath
+					
+					_ debug
+						@ '  Validation processing: %s %s'
+						@ req.method
+						@ req.url
+					
+					if options.validateResponse === true
+						_ responders.wrapEnd(req, res, next)
+                    
+					try 
+                        
+						try 
+							_ validators.validateContentType
+								@ req.wizziRaml.wizziRamlApi.consumes
+								@ operation.consumes
+								@ req
+						catch err
+							set err.failedValidation = true
+							throw err
+                        
+						_ async.map
+							@ req.wizziRaml.operationParameters
+							function 
+								param parameter
+								param callback
+								var schema = parameter.schema
+								var pIn = schema.in
+                                
+								var val
+								set pName = schema.name
+								set pPath = parameter.path
+								set val = req.wizziRaml.params[pName].value
+								_ validators.validateRequiredness
+									@ val
+									@ schema.required
+                                
+								if _.isUndefined(val)
+									return callback()
+                                
+								_ validateValue
+									@ req
+									@ schema
+									@ pPath
+									@ val
+									@ pIn
+									@ callback
+                                
+								set pIndex++
+                            
+							function 
+								param err
+								if err
+									throw err
+								else 
+									_ debug('    Validation: succeeded')
+									return next()
+                    
+					catch err
+                        
+						if err.failedValidation === true
+							if !(err.path)
+								set err.path = pPath
+							if pName
+								set err.pName = pName
+                        
+						_ debug('    Validation: failed')
+                        
+						_ errors.debugError(err, debug)
+                        
+						return responder.send400(req, res, next, err)
+

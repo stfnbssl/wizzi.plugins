@@ -1,0 +1,156 @@
+﻿module
+	kind jsfile
+
+	set module.exports
+		function
+			param mTree
+			param context
+
+			# loog 'preprocess.mTree', mTree
+
+			foreach item in mTree.nodes[0].children
+				_ level1(item)
+
+			return mTree
+
+	function level1
+		param model
+		
+		if model.n === 'template'
+			_ traverse
+				@ model
+				{
+					@ isTemplate true
+			set model.n = '::template'
+			_ wrapChilds
+				@ model
+				{
+					@ n 'html'
+					@ v ''
+		
+		elif model.n === 'script'
+			
+			var lang
+				_ extractRemove
+					@ model
+					@ 'lang'
+			if !lang
+				set lang
+					_ extractRemove
+						@ model
+						@ 'language'
+			set model.n = lang === 'ts' ? '::script-ts' : '::script'
+			var newN
+				{
+					@ n 'module'
+					@ v ''
+					[ children
+			if lang !== 'ts'
+				_ newN.children.push
+					{
+						@ n 'kind'
+						@ v 'react'
+			_ wrapChilds
+				@ model
+				@ newN
+		
+		elif model.n === 'style'
+			set model.n = '::style'
+			var scoped
+				_ extractRemove
+					@ model
+					@ 'scoped'
+			_ wrapChilds
+				@ model
+				{
+					@ n 'css'
+					@ v ''
+			if scoped
+				_ model.children.push
+					@ scoped
+
+	function extractRemove
+		param model
+		param n
+		var ret = null
+		var children = model.children
+		set model.children = []
+		foreach item in children
+			if item.n === n
+				set ret = item.v
+			else
+				_ model.children.push
+					@ item
+		return ret
+
+	function wrapChilds
+		param model
+		param newN
+		
+		# loog 'wrapChild', model.children
+
+		_ copyNodeAttrsDeep
+			@ model
+			@ newN
+		
+		var children = model.children
+		set newN.parent = model.parent
+		set model.children = [ newN ]
+		foreach item in children
+			_ newN.children.push
+				@ item
+
+	function copyNodeAttrsDeep
+		param nfrom
+		param nto
+		
+		_ copyNodeAttrs
+			@ nfrom
+			@ nto
+		
+		foreach item in nto.children
+			_ copyNodeAttrsDeep
+				@ nfrom
+				@ item
+
+	function copyNodeAttrs
+		param nfrom
+		param nto
+		set nto.r = nfrom.r
+		set nto.c = nfrom.c
+		set nto.s = nfrom.s
+		set nto.u = nfrom.u
+		if typeof nto.children === 'undefined'
+			set nto.children = []
+
+	function traverse
+		param node
+		param state
+
+		if preprocessNode(node, state)
+			return
+		foreach item in node.children
+			_ traverse(item, state)
+
+	function preprocessNode
+		param node
+		param state
+
+		if state.isTemplate
+			# loog 'preprocessNode', node.n, node.v
+			if ['<', '@', '.', '#', '+'].indexOf(node.n) < 0
+				if isVueStdAttribute(node) == false
+					if node.n.substr(0, 2) === 'v-' ||
+						\b ['router-link', 'router-view'].indexOf(node.n) > -1
+						set node.v = node.n + ' ' + node.v
+						set node.n = '<'
+						# loog 'preprocessNode 2', node.n, node.v
+					elif isHtmlTag(node) == false
+						set node.v = node.n + ' ' + node.v
+						set node.n = '@'
+						# loog 'preprocessNode 2', node.n, node.v
+
+		return false
+
+	$include vue/html-tags
+	$include vue/std-attributes

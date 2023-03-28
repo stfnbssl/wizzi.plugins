@@ -1,0 +1,218 @@
+﻿$group
+
+	async-md-ctx( typeDef )
+		var method = md[model.wzElement]
+		_ method
+			@ model
+			@ ctx
+			@ callback
+
+	async-md( schemaDef )
+		_ ctx.w('schema ' + '{ ')
+        _ ctx.indent
+        repeater( 1, model.operationTypes )
+            _ md[item_1.wzElement]
+                @ item_1
+                @ ctx
+                a_cb()
+                    repeater_increment( 1 )
+            $append next
+                _ ctx.deindent
+                _ ctx.w('}')
+                r_cb()
+
+	async-md( queryType )
+		_ ctx.w('query ' + model.wzName)
+		r_cb()
+
+	async-md( mutationType )
+        _ ctx.w('mutation ' + model.wzName)
+		r_cb()
+
+	async-md( subscriptionType )
+        _ ctx.w('subscription ' + model.wzName)
+		r_cb()
+
+    async-md( objectTypeDef )
+        log 'objectTypeDef'
+		_ ctx.w('type ' + model.wzName + ' { ')
+        _ ctx.indent
+        repeater( 1, model.fieldDefs )
+            log 'objectTypeDef.item_1.wzElement', item_1.wzElement
+            _ md[item_1.wzElement]
+                @ item_1
+                @ ctx
+                a_cb()
+                    repeater_increment( 1 )
+            $append next
+                _ ctx.deindent
+                _ ctx.w('}')
+                r_cb()
+
+	async-md( enumType )
+		_ ctx.w( 'enum ' + model.wzName + ' {' )
+		_ ctx.indent
+		foreach item in model.enumValues
+			_ ctx.w( item.wzName )
+		_ ctx.deindent
+		_ ctx.w( '}' )
+		r_cb()
+
+	async-md( scalarTypeDef )
+		_ ctx.w( 'scalar ' + model.wzName )
+		r_cb()
+
+    $
+        var items = [
+            'string',
+            'int',
+            'float',
+            'boolean',
+            'Date',
+        ];
+
+    $foreach item in items
+        async-md( ${item}NameType )
+            _ ctx.write('${_.capitalize(item)}')
+            r_cb()
+
+    async-md( refNameType )
+        _ ctx.write(model.wzName)
+        r_cb()
+
+	async-md( inputValueDef )
+        _ ctx.write( model.wzName )
+        if model.nameType
+            _ ctx.write(': ')
+            _ md[model.nameType.wzElement]
+                @ model.nameType
+                @ ctx
+                a_cb()
+                    _ ctx.w()
+                    r_cb()
+        else
+            _ ctx.w()
+            r_cb()
+
+	async-md( fieldDef )
+        _ ctx.write( model.wzName )
+        if model.inputValueDefs && model.inputValueDefs.length > 0
+            _ ctx.w('(')
+            _ ctx.indent
+            repeater( 1, model.inputValueDefs )
+                _ md[item_1.wzElement]
+                    @ item_1
+                    @ ctx
+                    a_cb()
+                        repeater_increment( 1 )
+                $append next
+                    _ ctx.deindent
+                    _ ctx.write(')')
+                    _ fieldDef_step2
+                        @ model
+                        @ ctx
+                        @ callback
+        else
+            _ fieldDef_step2
+                @ model
+                @ ctx
+                @ callback
+
+	function fieldDef_step2
+		param model
+		param ctx
+        param callback
+        if model.nameType
+            _ ctx.write(': ')
+            _ md[model.nameType.wzElement]
+                @ model.nameType
+                @ ctx
+                a_cb()
+                    _ ctx.w()
+                    r_cb()
+        else
+            _ ctx.w()
+            r_cb()
+
+    async-md( method )
+		var args = []
+		foreach item in model.fieldDefs
+			_ args.push
+				_ getTypedArgumentDeclaration
+					@ item
+		_ ctx.write( model.wzName + '(' + args.join(', ') + ') ' )
+		if model.selectionSet
+			_ md.selectionSet
+				@ model.selectionSet
+				@ ctx
+				a_cb()
+					r_cb()
+		else
+			_ ctx.w(': ' + model.type)
+			r_cb()
+
+	async-md( interfaceTypeDef )
+		_ ctx.w( 'interface ' + model.wzName + ' {' )
+		_ ctx.indent
+		_ async.mapSeries
+			@ model.fieldDefs
+			_ md.fieldDef
+				@ ctx
+			a_cb()
+				_ ctx.deindent
+				_ ctx.w( '}' )
+				r_cb()
+
+	async-md( unionTypeDef )
+		_ ctx.write( 'union ' + model.wzName + ' = ')
+		foreach item in model.unionMemberTypes
+			if i > 0
+				_ ctx.write(' | ')
+			_ ctx.write( item.wzName )
+		_ ctx.w
+		r_cb()
+
+
+	async-md( inputObjectTypeDef )
+		_ ctx.write( 'input ' + model.wzName + ' ')
+		if model.objectValueDef
+			_ md.objectValueDef
+				@ model.objectValueDef
+				@ ctx
+				@ callback
+		else
+			r_cb()
+
+	async-md( objectValueDef )
+		_ ctx.w('{')
+		_ ctx.indent
+		_ async.mapSeries
+			@ model.valueDefs
+			_ md.valueDef
+				@ ctx
+			a_cb()
+				_ ctx.deindent
+				_ ctx.w('}')
+				r_cb()
+
+	async-md-ctx( valueDef )
+		
+		# loog 'valueDef', model.wzElement, model.wzName
+		_ ctx.w( model.wzName + ': ' + model.type)
+		r_cb()
+
+	async-md( directiveDef )
+		var args = []
+		# loog 'fieldDef', model.wzElement, model.wzName
+		foreach item in model.argumentDefs
+			_ args.push
+				_ getTypedArgumentDeclaration
+					@ item
+		var argsString = args.length > 0 ? '(' + args.join(', ') + ')' : ''
+		var loc = []
+		foreach item in model.directiveLocations
+			_ loc.push
+				@ item.wzName
+		var locString = loc.length > 0 ? ' on ' + loc.join(' | ') : ''
+		_ ctx.w( 'directive ' + model.wzName + argsString + locString )
+		r_cb()

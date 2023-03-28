@@ -1,0 +1,116 @@
+﻿$group
+
+	e meta : comment
+		a label
+		r markup
+			one-to-one
+		r meta/s
+		r contextModel/s
+
+	e category : meta
+
+		m wzinitialize
+			set this.nameLower = this.wzName.toLowerCase()
+			var cpath = [this.nameLower]
+			var prn = this.wzParent
+			while prn && prn.wzElement === 'category'
+				_ cpath.splice(0, 0, prn.wzName.toLowerCase())
+				set prn = prn.wzParent
+			set this.categoryPath = cpath.join('/')
+			# loog 'category.wzinitialize.name,categoryPath', this.wzName, this.categoryPath
+
+		m getDemos
+			var ret = []
+			foreach item in this.metas
+				if item.wzElement === 'demo'
+					_ ret.push(item)
+			return ret
+
+		m getCategories
+			var ret = []
+			foreach item in this.metas
+				if item.wzElement === 'category'
+					_ ret.push(item)
+			return ret
+
+		m getLinks
+			var ret = []
+			foreach item in this.metas
+				if item.wzElement === 'link'
+					_ ret.push(item)
+			return ret
+
+		m getDemosByPath
+			param path
+			# loog 'category.getDemosByPath', path, this.categoryPath
+			if this.categoryPath === path
+				return this.getDemos()
+			else
+				var ret
+				foreach item in this.metas
+					if item.getDemosByPath
+						set ret = item.getDemosByPath(path)
+						if ret
+							return ret
+				return null
+
+		m getCategoriesByPath
+			param path
+			if this.categoryPath === path
+				return this.getCategories()
+			else
+				var ret
+				foreach item in this.metas
+					if item.getCategoriesByPath
+						set ret = item.getCategoriesByPath(path)
+						if ret
+							return ret
+				return null
+
+		m getLinksByPath
+			param path
+			if this.categoryPath === path
+				return this.getLinks()
+			else
+				var ret
+				foreach item in this.metas
+					if item.getCategoriesByPath
+						set ret = item.getLinksByPath(path)
+						if ret
+							return ret
+				return null
+
+	e demo : meta
+
+		m wzinitialize
+			set this.nameLower = this.wzName.toLowerCase()
+			var cpath = [this.nameLower]
+			var prn = this.wzParent
+			while prn && prn.wzElement === 'category'
+				_ cpath.splice(0, 0, prn.wzName.toLowerCase())
+				set prn = prn.wzParent
+			set this.demoPath = cpath.join('/')
+			# loog 'demo.wzinitialize.name,demoPath', this.wzName, this.demoPath
+
+		m getUri
+			var sb = [ this.demoPath, '/index.html.ittf' ]
+			if this.contextModels.length > 0
+				_ sb.push
+					@ '?_context='
+				var seen = false
+				foreach item in this.contextModels
+					if seen
+						_ sb.push
+							@ ';'
+					_ sb.push
+						@ item.wzName
+				foreach item in this.contextModels
+					_ sb.push
+						@ '&_' + item.wzName + '=' + item.type
+					if verify.isNotEmpty(item.path)
+						_ sb.push
+							@ ';' + item.path
+			return sb.join('')
+
+	e link : meta
+		a stars

@@ -1,0 +1,238 @@
+graphql first
+    { 
+        # example 3
+        # https://spec.graphql.org/draft/#example-85684
+        . user
+            @ id
+                int 4
+            { 
+                . name
+
+    query example4
+        # example 4
+        # https://spec.graphql.org/draft/#example-85684
+        { 
+            . user
+                @ id
+                    int 4
+                { 
+                    . name
+
+    mutation example5
+        # example 5
+        # https://spec.graphql.org/draft/#example-ed6a8
+        {
+            . likeStory
+                @ storyID
+                    int 12345
+                { 
+                    . story
+                        { 
+                            . likeCount
+
+    query example8
+        # example 8
+        # https://spec.graphql.org/draft/#example-100a3
+        { 
+            . me
+                {
+                    . id
+                    . firstName
+                    . lastName
+                    . birthday 
+                        {
+                            . month
+                            . day
+                    . friends 
+                        {
+                            . name
+    query example11
+        # example 11
+        # https://spec.graphql.org/draft/#example-34b2d
+        { 
+            . user
+                @ id
+                    int 4
+                {
+                    . id
+                    . name
+                    . profilePic
+                        @ width
+                            int 100
+                        @ height
+                            int 50         
+
+    query example14
+        # example 14
+        # https://spec.graphql.org/draft/#example-34435
+        { 
+            . user
+                @ id
+                    int 4
+                {
+                    . id
+                    . name
+                    . profilePic
+                        as smallPic
+                        @ size
+                            int 64
+                    . profilePic
+                        as bigPic
+                        @ size
+                            int 1024
+
+    query example16
+        # example 16
+        # https://spec.graphql.org/draft/#example-27d2f
+        { 
+            . user
+                as zuck
+                @ id
+                    int 4
+                {
+                    . id
+                    . name
+
+    query withFragments
+        # example 19
+        # https://spec.graphql.org/draft/#example-72b4e
+        { 
+            . user
+                @ id
+                    int 4
+                {
+                    . friends
+                        @ first
+                            int 10
+                        {
+                            ... friendFields
+                    . mutualFriends
+                        @ first
+                            int 10
+                        {
+                            ... friendFields    
+
+    fragment friendFields
+        on User
+        {
+            . id
+            . name
+            . profilePic
+                @ size
+                    int 50        
+
+    query withNestedFragments
+        # example 20
+        # https://spec.graphql.org/draft/#example-fb6c3
+        { 
+           . user
+                @ id
+                    int 4
+                {
+                    . friends
+                        @ first
+                            int 10
+                        {
+                            ... friendFieldsNested
+                    . mutualFriends
+                        @ first
+                            int 10
+                        {
+                            ... friendFieldsNested   
+
+         
+    fragment friendFieldsNested
+        on User
+        {
+            . id
+            . name
+            ... standardProfilePic
+
+    fragment standardProfilePic
+        on User
+        {
+            . profilePic
+                @ size
+                    int 50        
+
+    query FragmentTyping
+        # example 21
+        # https://spec.graphql.org/draft/#example-80138
+        { 
+            . profiles
+                @ handles
+                    [
+                        string zuck
+                        string coca-cola
+                {
+                    . handle
+                    ... userFragment
+                    ... pageFragment
+                    
+    fragment userFragment
+        on User
+        {
+            . friends 
+                {
+                    . count
+  
+    fragment pageFragment
+        on Page
+        {
+            . likers
+                {
+                    . count
+
+    query inlineFragmentTyping
+        # example 23
+        # https://spec.graphql.org/draft/#example-10b94
+        { 
+            . profiles
+                @ handles
+                    [
+                        string zuck
+                        string coca-cola
+                {
+                    . handle
+                    ...on User
+                        {
+                            . friends
+                                {
+                                    . count
+                    ...on Page
+                        {
+                            . likers 
+                                {
+                                    . count
+
+    query inlineFragmentNoType
+        # example 24
+        # https://spec.graphql.org/draft/#example-77377
+        boolean $expandedInfo
+        { 
+            . user
+                @ handle
+                    string zuck
+                {
+                    . id
+                    . name
+                    ... 
+                        %include
+                            if $expandedInfo
+                        {
+                            . firstName
+                            . lastName
+                            . birthday
+    
+     mutation example25
+        # example 25
+        # https://spec.graphql.org/draft/#example-fe73f
+        {
+            . sendEmail
+                @ message
+                    string
+                        Hello
+                            World!
+                        Yours
+                            GraphQL.
+

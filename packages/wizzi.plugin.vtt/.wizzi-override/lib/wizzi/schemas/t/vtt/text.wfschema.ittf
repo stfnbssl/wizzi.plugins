@@ -1,0 +1,75 @@
+﻿$group
+
+	e p : cueText
+		# Line text. For breaking cue text in multiple lines.
+		# ittf
+		#   c 5 9
+		#       p It will perforate your stomach.
+		#       p You could die.
+		# vtt
+		#   00:05.000 --> 00:09.000
+		#   — It will perforate your stomach.
+		#   — You could die.
+	
+	e_tag( voiceSpan, v, cueText
+		# cue voice span
+		# wzName : the voice name
+		
+		a_tag( class, .
+			# A style class name
+		
+		# ittf
+		#   c 2 4
+		#       v Mary
+		#           . loud
+		#       + No way
+		# vtt
+		#   00:02.000 --> 00:04.000
+		#   <v.loud Mary>No way!
+
+	e i : cueText
+		# italic text span
+	
+	e b : cueText
+		# bold text span
+	
+	e u : cueText
+		# underline text span
+
+	e c : cueText
+		# class text span
+		# style the contained text using a CSS class
+		# wzName : css class
+		# ittf
+		#   + Hey\b
+		#   c classname
+		#       + John
+		# vtt
+		#   Hey <c.classname>John</c>
+
+	e time : cueText
+		# cue time span
+		# ittf
+		#   c 1 10
+		#       + Hey ...
+		#       time 9
+		#       + came on.
+		# vtt
+		#   00.01.000 --> 00.10.000
+		#   Hey ... <time 00.09.000> came on.
+
+	e lang : cueText
+		# cue language span
+		# wzName : the language code
+		# ittf
+		#   c 4.5.1 4.7.8
+		#       + Sur les\b
+		#           i
+		#               . foreignphrase
+		#               lang en
+		#                   + playground
+		#           + , ici à Montpellier
+		# vtt
+		#   04:05.001 --> 04:07.800
+		#   Sur les <i.foreignphrase><lang en>playground</lang></i>, ici à Montpellier
+

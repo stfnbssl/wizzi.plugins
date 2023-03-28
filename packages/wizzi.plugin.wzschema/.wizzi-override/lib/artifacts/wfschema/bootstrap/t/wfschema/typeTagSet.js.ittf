@@ -1,0 +1,25 @@
+﻿$group
+
+	clazz( TypeTag )
+		ctor
+			param type
+			# Make test case insensitive
+			set this.type = type.toLowerCase()
+			set this.codelines = []
+			if this.type === 'number'
+				set this.element = 'number'
+				set this.method = 'isNumber'
+			elif this.type === 'css-length'
+				set this.element = 'cssLength'
+				set this.method = 'isCssLength'
+
+	clazz( TypeTagSet )
+		ctor
+			set this.typeTags = []
+
+		m addTypeTag
+			param type
+			param callback
+			var typeTag = new TypeTag(type)
+			_ callback(typeTag.codelines)
+			_ this.typeTags.push(typeTag)

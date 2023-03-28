@@ -1,0 +1,70 @@
+$group
+
+	t_pk( artifact, userName, projectName, schemaName, artifactName )
+
+		document
+			kind json-meta-data
+			path
+				segment {userName}
+				segment {projectName}
+				segment artifacts
+				segment {schemaName}
+				segment {artifactName}
+				segment gen
+				segment {schemaName}.meta.json
+
+		document
+			kind ittf
+			path
+				segment {userName}
+				segment {projectName}
+				segment artifacts
+				segment {schemaName}
+				segment {artifactName}
+				segment gen
+				segment main.js.ittf
+
+	rDef( artifact, artifactModel, artifactModel, one-to-one )
+		
+		#
+			# An artifact has a one-to-one relation with its model.
+			# The model of an artifact is a referenced by 
+			# a column of type "document" in the artifact table. 
+			# The "wizzischema" of an artifact model is always "js".
+		many-is-document
+
+		rCol( userName, userName )
+		rCol( projectName, projectName )
+		rCol( schemaName, schemaName )
+		rCol( artifactName, artifactName )
+		
+	rDef( artifact, artifactFragment, artifactFragments )
+		
+		#
+			# The artifact IttfDocument may have many fragments
+		
+		rCol( userName, userName )
+		rCol( projectName, projectName )
+		rCol( schemaName, schemaName )
+		rCol( artifactName, artifactName )
+
+	rDef( artifact, artifactContextModel, artifactContextModels )
+		
+		#
+			# The artifact WizziModel may be built using contextModels
+
+		rCol( userName, userName )
+		rCol( projectName, projectName )
+		rCol( schemaName, schemaName )
+		rCol( artifactName, artifactName )
+
+	rDef( artifact, artifactContextFragment, artifactContextFragments )
+		
+		#
+			# The artifact contextModels may have many fragments
+
+		rCol( userName, userName )
+		rCol( projectName, projectName )
+		rCol( schemaName, schemaName )
+		rCol( artifactName, artifactName )
+

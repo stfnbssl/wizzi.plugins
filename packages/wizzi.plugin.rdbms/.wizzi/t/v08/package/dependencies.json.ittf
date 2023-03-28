@@ -150,6 +150,8 @@ $group
     $if wzCtx.Build.isWizziPlugin
         i "^0.3.7"
         iconv-lite "^0.6.3"
+    $if wzCtx.Build.utils.useInflection
+        inflection "^2.0.1"
     $if wzCtx.Build.useFetch
         isomorphic-fetch "^2.2.1"
     $if wzCtx.Build.useGithub || wzCtx.Build.useFeatureGithub

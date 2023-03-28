@@ -1,0 +1,60 @@
+$group
+
+	wz-iife helpers
+    
+		wz-require isPlainObject
+			from lodash-compat/lang/isPlainObject
+		wz-require indexOf
+			from lodash-compat/array/indexOf
+
+		wz-function __bind
+            param fn
+            param me
+            return 
+                function 
+                    return fn.apply(me, arguments)
+		
+		wz-function log
+            if console && process.env.NODE_ENV !== 'test'
+                _ console.log
+                    _ Array.prototype.slice.call(arguments)[0]
+    
+		wz-function fail
+            param message
+            _ log(message)
+    
+		wz-function optionHtml
+            param label
+            param value
+            return '<tr><td class="optionName">' + label + ':</td><td>' + value + '</td></tr>'
+    
+		wz-var resolveSchema
+			function
+				param schema
+				if _.isPlainObject(schema.schema)
+					set schema = resolveSchema(schema.schema)
+				return schema
+    
+		wz-function simpleRef
+            param name
+            if typeof (name) === 'undefined'
+                return null
+            if name.indexOf('#/definitions/') === 0
+                return 
+                    _ name.substring
+                        @ '#/definitions/'.length
+            else 
+                return name
+		
+		wz-function extractExtensions
+            param keyname
+            param obj
+            param value
+            if !keyname || !obj
+                return 
+            if typeof (keyname) === 'string' && keyname.indexOf('x-') === 0
+                set obj.vendorExtensions = obj.vendorExtensions || {}
+                if value
+                    set obj.vendorExtensions[keyname] = value
+                else 
+                    set obj.vendorExtensions[keyname] = obj[keyname]

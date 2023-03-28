@@ -1,0 +1,130 @@
+﻿$group
+
+	m addRequire
+		param name
+		param kind
+
+		var r = _.find(this.requires, function(item) { return item.wzName === name && item.kind === kind })
+		if !r
+			set r = new Require(name)
+			set r.kind = kind
+			_ this.requires.push(r)
+		return r
+	
+	m analize
+        
+		foreach element in this.elements
+
+            if element.nameIsRequired
+                _ this.addRequire("verifyRequired", "context-method")
+            
+			if element.allowedNameDeclaration("js") != null
+				_ this.addRequire("verifyEnum", "context-method")
+			
+			foreach attribute in element.attributes
+                
+				if attribute.isRequired
+                    _ this.addRequire("verifyRequired", "context-method")
+
+				if attribute.isDataType
+                    _ this.addRequire("getTypesystem", "context-method")
+                
+				if attribute.allowedDeclaration("js") != null
+                    _ this.addRequire("verifyEnum", "context-method")
+
+                if attribute.type == md.Attribute.STRING
+                    _ this.addRequire("parsestring", 'function')
+                
+				elif (attribute.type == md.Attribute.BOOLEAN)
+                    _ this.addRequire("parseboolean", 'function')
+                
+				elif attribute.type == md.Attribute.INTEGER
+                    _ this.addRequire("parseinteger", 'function')
+                
+				elif attribute.type == md.Attribute.FLOAT
+                    _ this.addRequire("parsefloat", 'function')
+				
+				elif attribute.type == md.Attribute.DATE
+                    _ this.addRequire("parsedate", 'function')
+			
+			foreach method in element.methods
+                foreach require in method.requires
+                    _ this.addRequire(require.wzName, require.kind)
+        
+		foreach method in this.methods
+			foreach require in method.requires
+                _ this.addRequire(require.wzName, require.kind)
+
+		_ this.addRequiredFunctionsDependencies()
+
+	m exportToJson
+		return typeof _.find(this.exportTos, function(item) { return item.wzName && item.wzName.toLowerCase() === 'json' }) !== 'undefined'
+
+	m exportToXml
+		return typeof _.find(this.exportTos, function(item) { return item.wzName && item.wzName.toLowerCase() === 'xml' }) !== 'undefined'
+
+	m exportToPrettify
+		return typeof _.find(this.exportTos, function(item) { return item.wzName && item.wzName.toLowerCase() === 'prettify' }) !== 'undefined'
+
+	m getRequiredFunctions
+		return _.filter(this.requires, function(item) { return item.kind === 'function' })
+	
+	m getRequiredModules
+		return _.filter(this.requires, function(item) { return item.kind === 'module' })
+
+	m getRequiredContextMethods
+		return _.filter(this.requires, function(item) { return item.kind === 'context-method' })
+
+	m addRequiredFunctionsDependencies
+		var deps = []
+		foreach require in this.requires
+			if require.kind === 'function'
+				_ this.getRequiredFunctionsByItem(require.wzName, deps)
+		foreach dep in deps
+			_ this.addRequire(dep, 'function')
+
+	m getRequiredFunctionsByItem
+		param name
+		param deps
+        if name == "isEmpty"
+            _ deps.push("isString")
+        elif name == "isNumber"
+            _ deps.push("isArray")
+        elif name == "replaceAll"
+            _ deps.push("escapeRegExp")
+        elif name == "isInt"
+            _ deps.push("isNumber")
+        elif name == "isFloat"
+            _ deps.push("isNumber")
+        elif name == "isDate"
+            _ deps.push("isString")
+        elif name == "parsestring"
+			_ deps.push("isString")
+            _ deps.push("isEmpty")
+            _ deps.push("isBoolean")
+            _ deps.push("nodeException")
+        elif name == "parseboolean"
+			_ deps.push("isString")
+            _ deps.push("isEmpty")
+            _ deps.push("isBoolean")
+            _ deps.push("nodeException")
+        elif name == "parseinteger"
+			_ deps.push("isString")
+            _ deps.push("isEmpty")
+			_ deps.push("isArray")
+			_ deps.push("isNumber")
+			_ deps.push("isInt")
+            _ deps.push("nodeException")
+        elif name == "parsefloat"
+			_ deps.push("isString")
+            _ deps.push("isEmpty")
+			_ deps.push("isArray")
+			_ deps.push("isNumber")
+			_ deps.push("isFloat")
+            _ deps.push("nodeException")
+        elif name == "parsedate"
+			_ deps.push("isString")
+            _ deps.push("isEmpty")
+            _ deps.push("nodeException")
+
+

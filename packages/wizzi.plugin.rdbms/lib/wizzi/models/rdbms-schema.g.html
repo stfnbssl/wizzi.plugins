@@ -40,15 +40,60 @@
                 <ul>
                     <li><a href="#element_rdbms">rdbms</a>
                     </li>
-                    <li><a href="#element_item">item</a>
+                    <li><a href="#element_rdbmsitem">rdbmsitem</a>
                     </li>
-                    <li><a href="#element_ittfPanel">ittfPanel</a>
+                    <li><a href="#element_comment">comment</a>
+                    </li>
+                    <li><a href="#element_table">table</a>
+                    </li>
+                    <li><a href="#element_tableColumn">tableColumn</a>
+                    </li>
+                    <li><a href="#element_index">index</a>
+                    </li>
+                    <li><a href="#element_indexColumn">indexColumn</a>
+                    </li>
+                    <li><a href="#element_validationError">validationError</a>
+                    </li>
+                    <li><a href="#element_validation">validation</a>
+                    </li>
+                    <li><a href="#element_required">required</a>
+                    </li>
+                    <li><a href="#element_minValue">minValue</a>
+                    </li>
+                    <li><a href="#element_maxValue">maxValue</a>
+                    </li>
+                    <li><a href="#element_minLength">minLength</a>
+                    </li>
+                    <li><a href="#element_maxLength">maxLength</a>
+                    </li>
+                    <li><a href="#element_regexp">regexp</a>
+                    </li>
+                    <li><a href="#element_match">match</a>
+                    </li>
+                    <li><a href="#element_restrict">restrict</a>
+                    </li>
+                    <li><a href="#element_zenum">zenum</a>
+                    </li>
+                    <li><a href="#element_relation">relation</a>
+                    </li>
+                    <li><a href="#element_relationColumn">relationColumn</a>
+                    </li>
+                    <li><a href="#element_document">document</a>
+                    </li>
+                    <li><a href="#element_path">path</a>
+                    </li>
+                    <li><a href="#element_pathSegment">pathSegment</a>
+                    </li>
+                    <li><a href="#element_metaField">metaField</a>
+                    </li>
+                    <li><a href="#element_param">param</a>
                     </li>
                 </ul>
             </div>
             <div class="main-center">
                 <h5>Exports</h5>
-                <div>ittfPanel</div>
+                <div>param</div>
+                <div>param</div>
                 <table id="element_rdbms" class="pretty-table">
                     <thead>
                         <tr>
@@ -69,6 +114,10 @@
                         </tr>
                     </tbody>
                 </table>
+                <h5>Description</h5>
+                <div>
+                    <span>The root element of the rdbms schema. &nbsp;</span>
+                </div>
                 <h5>Relations</h5>
                 <small>
                     <table class="table table-condensed table-bordered" style="width:100%;">
@@ -84,16 +133,32 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>item</td>
-                                <td>items</td>
+                                <td>table</td>
+                                <td>tables</td>
                                 <td>one-to-many</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>ittfPanel</td>
-                                <td>ittfPanels</td>
+                                <td>relation</td>
+                                <td>relations</td>
+                                <td>one-to-many</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>validationError</td>
+                                <td>validationErrors</td>
+                                <td>one-to-many</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
                                 <td>one-to-many</td>
                                 <td></td>
                                 <td></td>
@@ -102,7 +167,30 @@
                         </tbody>
                     </table>
                 </small>
-                <table id="element_item" class="pretty-table">
+                <h5>Methods</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Signature</th>
+                                <th>Statements</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div>testInfo</div>
+                                </td>
+                                <td>
+                                    <div>var ret;</div>
+                                    <div>foreach table in this.tables;</div>
+                                    <div>return ret;</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_rdbmsitem" class="pretty-table">
                     <thead>
                         <tr>
                             <th>Element</th>
@@ -114,10 +202,1735 @@
                     <tbody>
                         <tr>
                             <td>
-                                <b>item</b>
+                                <b>rdbmsitem</b>
                             </td>
-                            <td>item</td>
+                            <td>rdbmsitem</td>
                             <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_comment" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>comment</b>
+                            </td>
+                            <td>#</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Description</h5>
+                <div>
+                    <span>A comment line for describing items. &nbsp;</span>
+                </div>
+                <table id="element_table" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>table</b>
+                            </td>
+                            <td>table</td>
+                            <td>rdbmsitem</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Description</h5>
+                <div>
+                    <span>A table is a set of columns and rows. &nbsp;</span>
+                    <span>The wzName is the ddl/sql name. &nbsp;</span>
+                </div>
+                <h5>Attributes</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Tag</th>
+                                <th>Type</th>
+                                <th>Default</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>label</td>
+                                <td>label</td>
+                                <td>string</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>A text used on views to label the table. &nbsp;</span>
+                                        <span>Optional. The default is the wzName. &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>namePlural</td>
+                                <td>plural</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>The plural form of the wzName. Used to name collection objects. &nbsp;</span>
+                                        <span>Optional. The default is calculated by inflector::pluralize. &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>labelPlural</td>
+                                <td>label-plural</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>The plural form of the label attribute. Used on views to label collections. &nbsp;</span>
+                                        <span>Optional. The default is calculated by inflector::pluralize. &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>description</td>
+                                <td>description</td>
+                                <td>string</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>A description of the table &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>tableColumn</td>
+                                <td>tableColumns</td>
+                                <td>one-to-many</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <span>Table columns &nbsp;</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>index</td>
+                                <td>indexes</td>
+                                <td>one-to-many</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <span>Table indexes &nbsp;</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>document</td>
+                                <td>documents</td>
+                                <td>one-to-many</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <span>Table documents &nbsp;</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>rdbmsitem</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <h5>Methods</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Signature</th>
+                                <th>Statements</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div>wzinitialize</div>
+                                    <div>
+                                        <span>name always lower case &nbsp;</span>
+                                        <span>label as declared in IttfDocument &nbsp;</span>
+                                        <span>name always lower case &nbsp;</span>
+                                        <span>label as declared in IttfDocument &nbsp;</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>var name = this.wzName;;</div>
+                                    <div>set this.name = name.toLowerCase();</div>
+                                    <div>set this.nameCap = inflection.capitalize(name);</div>
+                                    <div>set this.sqlName = isEmpty(this.sqlName) ? name : this.sqlName;</div>
+                                    <div>set this.label = isEmpty(this.label) ? this.wzName : this.label;</div>
+                                    <div>set this.namePlural = isEmpty(this.namePlural) ? inflection.pluralize(name) : this.namePlural.toLowerCase();</div>
+                                    <div>set this.namePluralCap = inflection.capitalize(this.namePlural);</div>
+                                    <div>set this.labelPlural = isEmpty(this.labelPlural) ? inflection.pluralize(this.wzName) : this.labelPlural;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>primaryKey</div>
+                                </td>
+                                <td>
+                                    <div>return _.find(this.indexes,function(item){ return item.isPrimary; });;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>keyColumns</div>
+                                </td>
+                                <td>
+                                    <div>var pk = this.primaryKey();</div>
+                                    <div>if pk;</div>
+                                    <div>else ;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>keyName</div>
+                                </td>
+                                <td>
+                                    <div>var kcols = this.keyColumns();;</div>
+                                    <div>return kcols && kcols.length == 1 ? kcols[0].wzName : 'Unknown';;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>notKeyColumns</div>
+                                </td>
+                                <td>
+                                    <div>var keycols = this.keyColumns();</div>
+                                    <div>return ;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>insertColumns</div>
+                                </td>
+                                <td>
+                                    <div>return ;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>insertParameters</div>
+                                </td>
+                                <td>
+                                    <div>return ;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>updateSetColumns</div>
+                                </td>
+                                <td>
+                                    <div>return _.filter(this.notKeyColumns(), function(item){ return item.canUpdate(); });</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>updateWhereColumns</div>
+                                </td>
+                                <td>
+                                    <div>return ;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>textColumns</div>
+                                </td>
+                                <td>
+                                    <div>return ;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>proxyColumns</div>
+                                </td>
+                                <td>
+                                    <div>return ;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>lookUps</div>
+                                </td>
+                                <td>
+                                    <div>var memo = [];</div>
+                                    <div>foreach item in this.tableColumns;</div>
+                                    <div>return memo;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>enumReferences</div>
+                                </td>
+                                <td>
+                                    <div>var memo = [];</div>
+                                    <div>foreach item in this.tableColumns;</div>
+                                    <div>return memo;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>tableColumnArguments</div>
+                                </td>
+                                <td>
+                                    <div>return tableHelper.ArgumentsToString(this.tableColumns);;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>keyArguments</div>
+                                </td>
+                                <td>
+                                    <div>return tableHelper.ArgumentsToString(this.keyColumns());;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>keyParameters</div>
+                                </td>
+                                <td>
+                                    <div>return tableHelper.ParametersToString(this.keyColumns());;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>keyParametersToStringTrace</div>
+                                </td>
+                                <td>
+                                    <div>return tableHelper.ParametersToStringTrace(this.keyColumns());;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>keyTestValues</div>
+                                </td>
+                                <td>
+                                    <div>return tableHelper.TestValuesToString(this.keyColumns(), separator);;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>keyParametersInstance</div>
+                                </td>
+                                <td>
+                                    <div>return tableHelper.ParametersToStringInstance(this.keyColumns(), instance);;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>keyParametersInstanceToStringTrace</div>
+                                </td>
+                                <td>
+                                    <div>return tableHelper.ParametersInstanceToStringTrace(this.keyColumns(), instance);;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>oneRelations</div>
+                                </td>
+                                <td>
+                                    <div>var memo = [];</div>
+                                    <div>foreach item in this.wzParent.relations;</div>
+                                    <div>return memo;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>oneRelationsUnique</div>
+                                </td>
+                                <td>
+                                    <div>var memo = [];</div>
+                                    <div>foreach item in this.wzParent.relations;</div>
+                                    <div>return memo;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>oneRelationsProxy</div>
+                                </td>
+                                <td>
+                                    <div>return _.filter(this.oneRelations(), function(item) { return item.parentIsProxy; } );</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>oneKeys</div>
+                                </td>
+                                <td>
+                                    <div>return ['oneKeys_TODO'];</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>manyRelations</div>
+                                </td>
+                                <td>
+                                    <div>var memo = [];</div>
+                                    <div>foreach item in this.wzParent.relations;</div>
+                                    <div>return memo;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>childProxyRelations</div>
+                                </td>
+                                <td>
+                                    <div>var memo = [];</div>
+                                    <div>foreach item in this.wzParent.relations;</div>
+                                    <div>return memo;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>oneTables</div>
+                                </td>
+                                <td>
+                                    <div>var memo = [];</div>
+                                    <div>foreach item in this.oneRelations();</div>
+                                    <div>return memo;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>manyTables</div>
+                                </td>
+                                <td>
+                                    <div>var memo = [];</div>
+                                    <div>foreach item in this.manyRelations();</div>
+                                    <div>return memo;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>hasOneTables</div>
+                                </td>
+                                <td>
+                                    <div>return this.oneRelations().length > 0;;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>hasManyTables</div>
+                                </td>
+                                <td>
+                                    <div>return this.manyRelations().length > 0;;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>keySqlColumnsToString</div>
+                                </td>
+                                <td>
+                                    <div>return tableHelper.SqlColumnsToString(this.keyColumns(), separator, quoted);;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>keyPropertiesToString</div>
+                                </td>
+                                <td>
+                                    <div>return tableHelper.PropertiesToString(this.keyColumns(), separator, prefix);;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>sqlColumnsToString</div>
+                                </td>
+                                <td>
+                                    <div>return tableHelper.SqlColumnsToString(this.tableColumns, separator, quoted);;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>keyFieldsToString</div>
+                                </td>
+                                <td>
+                                    <div>return tableHelper.FieldsToString(this.keyColumns(), separator);;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>insertFieldsToString</div>
+                                </td>
+                                <td>
+                                    <div>return tableHelper.FieldsToString(this.insertColumns(), separator);;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>updateWhereFieldsToString</div>
+                                </td>
+                                <td>
+                                    <div>return tableHelper.FieldsToString(this.updateWhereColumns(), separator);;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>updateSetSqlColumnsToString</div>
+                                </td>
+                                <td>
+                                    <div>return tableHelper.SqlColumnsToString(this.updateSetColumns(), separator, quoted);;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>updateWhereSqlColumnsToString</div>
+                                </td>
+                                <td>
+                                    <div>return tableHelper.SqlColumnsToString(this.updateWhereColumns(), separator, quoted);;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>textColumnsParametersInstance</div>
+                                </td>
+                                <td>
+                                    <div>return tableHelper.ParametersToStringInstance(this.textColumns(), instance);;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>concatTextColumns</div>
+                                </td>
+                                <td>
+                                    <div>return tableHelper.ConcatTextInstance(this.textColumns(), instance, separator);;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>columnsTestValues</div>
+                                </td>
+                                <td>
+                                    <div>return tableHelper.TestValuesToString(this.tableColumns, separator);;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>insertFieldsTestValues</div>
+                                </td>
+                                <td>
+                                    <div>return tableHelper.TestValuesToString(this.insertColumns(), separator);;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>updateWhereTestValues</div>
+                                </td>
+                                <td>
+                                    <div>return tableHelper.TestValuesToString(this.updateWhereColumns(), separator);;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>getTableColumnByName</div>
+                                </td>
+                                <td>
+                                    <div>var name = caseSensitive ? name : name.toLowerCase();</div>
+                                    <div>foreach item in this.tableColumns;</div>
+                                    <div>return null;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>keyColumnsToAndCondition</div>
+                                </td>
+                                <td>
+                                    <div>return tableHelper.ColumnsToAndCondition(this.keyColumns(), booloperator, columntemplate, values);</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>cmbLabel</div>
+                                </td>
+                                <td>
+                                    <div>foreach item in this.labels;</div>
+                                    <div>return null;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>hasCmbLabel</div>
+                                </td>
+                                <td>
+                                    <div>return this.cmbLabel() != null;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>testInfo</div>
+                                    <div>
+                                        <span>TODO set ctx.lookUps = this.lookUps() &nbsp;</span>
+                                        <span>TODO set ctx.enumReferences = this.enumReferences() &nbsp;</span>
+                                        <span>TODO set ctx.insertArguments = this.insertArguments() &nbsp;</span>
+                                        <span>set ctx.keyColumnsToAndCondition = this.keyColumnsToAndCondition(' .. template...', '&&', values ) &nbsp;</span>
+                                        <span>TODO set ctx.cmbLabel = this.cmbLabel() &nbsp;</span>
+                                        <span>TODO set ctx.hasCmbLabel = this.hasCmbLabel() &nbsp;</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>set ctx.primaryKey = this.primaryKey();</div>
+                                    <div>set ctx.keyColumns = this.keyColumns();</div>
+                                    <div>set ctx.keyName = this.keyName();</div>
+                                    <div>set ctx.notKeyColumns = this.notKeyColumns();</div>
+                                    <div>set ctx.insertParameters = this.insertParameters();</div>
+                                    <div>set ctx.updateSetColumns = this.updateSetColumns();</div>
+                                    <div>set ctx.updateWhereColumns = this.updateWhereColumns();</div>
+                                    <div>set ctx.textColumns = this.textColumns();</div>
+                                    <div>set ctx.proxyColumns = this.proxyColumns();</div>
+                                    <div>set ctx.tableColumnArguments = this.tableColumnArguments();</div>
+                                    <div>set ctx.keyArguments = this.keyArguments();</div>
+                                    <div>set ctx.keyParameters = this.keyParameters();</div>
+                                    <div>set ctx.keyParametersToStringTrace = this.keyParametersToStringTrace();</div>
+                                    <div>set ctx.keyTestValues = this.keyTestValues();</div>
+                                    <div>set ctx.keyParametersInstance = this.keyParametersInstance("instance");</div>
+                                    <div>set ctx.keyParametersInstanceToStringTrace = this.keyParametersInstanceToStringTrace('instance');</div>
+                                    <div>set ctx.oneRelations = this.oneRelations();</div>
+                                    <div>set ctx.oneRelationsUnique = this.oneRelationsUnique();</div>
+                                    <div>set ctx.oneRelationsProxy = this.oneRelationsProxy;</div>
+                                    <div>set ctx.oneKeys = this.oneKeys();</div>
+                                    <div>set ctx.manyRelations = this.manyRelations();</div>
+                                    <div>set ctx.childProxyRelations = this.childProxyRelations();</div>
+                                    <div>set ctx.oneTables = this.oneTables();</div>
+                                    <div>set ctx.manyTables = this.manyTables();</div>
+                                    <div>set ctx.hasOneTables = this.hasOneTables;</div>
+                                    <div>set ctx.hasManyTables = this.hasManyTables();</div>
+                                    <div>set ctx.keySqlColumnsToString = this.keySqlColumnsToString(' - ', true);</div>
+                                    <div>set ctx.keyPropertiesToString = this.keyPropertiesToString(' - ', 'k');</div>
+                                    <div>set ctx.sqlColumnsToString = this.sqlColumnsToString(',', true);</div>
+                                    <div>set ctx.keyFieldsToString = this.keyFieldsToString();</div>
+                                    <div>set ctx.insertFieldsToString = this.insertFieldsToString('-');</div>
+                                    <div>set ctx.updateWhereFieldsToString = this.updateWhereFieldsToString(';');</div>
+                                    <div>set ctx.updateSetSqlColumnsToString = this.updateSetSqlColumnsToString(';', true);</div>
+                                    <div>set ctx.updateWhereSqlColumnsToString = this.updateWhereSqlColumnsToString(',', true);</div>
+                                    <div>set ctx.textColumnsParametersInstance = this.textColumnsParametersInstance('instance');</div>
+                                    <div>set ctx.concatTextColumns = this.concatTextColumns('instance', ',');</div>
+                                    <div>set ctx.columnsTestValues = this.columnsTestValues(';');</div>
+                                    <div>set ctx.insertFieldsTestValues = this.insertFieldsTestValues(',');</div>
+                                    <div>set ctx.updateWhereTestValues = this.updateWhereTestValues(';');</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_tableColumn" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>tableColumn</b>
+                            </td>
+                            <td>c</td>
+                            <td>rdbmsitem</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Description</h5>
+                <div>
+                    <span>A table column. &nbsp;</span>
+                    <span>The wzName is the ddl/sql name. &nbsp;</span>
+                    <span>TODO r enum/s &nbsp;</span>
+                    <span>TODO r lookUp/s &nbsp;</span>
+                </div>
+                <h5>Attributes</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Tag</th>
+                                <th>Type</th>
+                                <th>Default</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>domain</td>
+                                <td>domain</td>
+                                <td>string</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>is-datatype </td>
+                                <td>
+                                    <div>
+                                        <span>The column data type &nbsp;</span>
+                                    </div>
+                                    <h5>restrict</h5>
+                                    <table>
+                                        <tr>
+                                            <td>The column data type string</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>string boolean</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>boolean integer</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>integer float</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>float date</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>date document</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>description</td>
+                                <td>description</td>
+                                <td>string</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>A description of the column. &nbsp;</span>
+                                        <span>Is used in forms as an help-block &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>defaultValue</td>
+                                <td>default</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>The column default value &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>idGenerator</td>
+                                <td>id-generator</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>idSeed</td>
+                                <td>id-seed</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>idStep</td>
+                                <td>id-step</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>sqlName</td>
+                                <td>sql-name</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>The DDL sql name of the column &nbsp;</span>
+                                        <span>Optional. The default is the wzName. &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>label</td>
+                                <td>label</td>
+                                <td>string</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>A text used on views to label the column. &nbsp;</span>
+                                        <span>Is used in forms as a placeholder. &nbsp;</span>
+                                        <span>Optional. The default is the wzName. &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>referenceLabel</td>
+                                <td>reference-label</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>A text used on list views as column heading when the column is on the many side of the relation. &nbsp;</span>
+                                        <span>Optional. The default is the label. &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>listHeading</td>
+                                <td>list-heading</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>A text used on list views as column heading. &nbsp;</span>
+                                        <span>Optional. The default is the wzName. &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>isProxy</td>
+                                <td>is-proxy</td>
+                                <td>boolean</td>
+                                <td>false</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>Insert this column in a sintetic view of a table row. Used for view-lists. &nbsp;</span>
+                                        <span>Optional. The default is false. &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>isInsertParam</td>
+                                <td>is-insert-param</td>
+                                <td>boolean</td>
+                                <td>false</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>Add this column to the parameters of the (api) insert method of a row. &nbsp;</span>
+                                        <span>The default parameters of the insert method are the primaryKey columns. &nbsp;</span>
+                                        <span>Optional. The default is false. &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>format</td>
+                                <td>format</td>
+                                <td>string</td>
+                                <td>none</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>The column display format used on forms &nbsp;</span>
+                                    </div>
+                                    <h5>restrict</h5>
+                                    <table>
+                                        <tr>
+                                            <td>The column display format used on forms none</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>none password</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>password datetime</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>datetime datetime-local</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>datetime-local date</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>date month</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>month date</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>date time</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>time week</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>week number</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>number email</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>email url</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>url search</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>search tel</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>tel color</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>color hcheckboxes</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>hcheckboxes vcheckboxes</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>enumReference</td>
+                                <td>enum-reference</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>calculatedOnInsert</td>
+                                <td>on-insert</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>calculatedOnUpdate</td>
+                                <td>on-update</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>validation</td>
+                                <td>validations</td>
+                                <td>one-to-many</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <span>Table column validation rules. &nbsp;</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>rdbmsitem</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <h5>Methods</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Signature</th>
+                                <th>Statements</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div>wzinitialize</div>
+                                    <div>
+                                        <span>name always lower case &nbsp;</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>set this.table = this.wzParent;</div>
+                                    <div>var name = this.wzName;;</div>
+                                    <div>set this.name = this.wzName;</div>
+                                    <div>set this.sqlName = isEmpty(this.sqlName) ? this.wzName : this.sqlName;</div>
+                                    <div>set this.label = isEmpty(this.label) ? this.wzName : this.label;</div>
+                                    <div>set this.referenceLabel = isEmpty(this.referenceLabel) ? this.label : this.referenceLabel;</div>
+                                    <div>set this.listHeading = isEmpty(this.listHeading) ? this.label : this.listHeading;</div>
+                                    <div>set this.argumentName = this.wzName.substr(0, 1).toLowerCase() + this.wzName.substr(1);</div>
+                                    <div>set this.fieldName = "_" + this.wzName.substr(0, 1) + this.wzName.substr(1);</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>isKey</div>
+                                </td>
+                                <td>
+                                    <div>if this.table.primaryKey();</div>
+                                    <div>return false;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>isListProxyItem</div>
+                                </td>
+                                <td>
+                                    <div>return this.isProxy || this.isKey() || this.isReference() || this.nameLower == "name";;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>referenceTable</div>
+                                </td>
+                                <td>
+                                    <div>foreach r in this.table.oneRelations;</div>
+                                    <div>return null;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>isReference</div>
+                                </td>
+                                <td>
+                                    <div>return this.referenceTable() != null;;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>isIdentity</div>
+                                </td>
+                                <td>
+                                    <div>return this.idGenerator != null && this.idGenerator.toLowerCase() === NameTable.Identity; // TODO;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>isAutomaticOnUpdate</div>
+                                </td>
+                                <td>
+                                    <div>return this.calculatedValueOnUpdate != null || this.idGenerator != null || this.canUpdate == false;;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>hasDefaultValue</div>
+                                </td>
+                                <td>
+                                    <div>return this.defaultValue != null;;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>isRequired</div>
+                                </td>
+                                <td>
+                                    <div>return _.find(this.validations, function(item){ return item.wzTag === 'required'; });;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>setIsRequired</div>
+                                </td>
+                                <td>
+                                    <div>if this.isRequired();</div>
+                                    <div>var item = new md.Required(null, this.wzSourceLineInfo);;</div>
+                                    <div>set item.wzTag = "required";;</div>
+                                    <div>set item.wzParent = this;;</div>
+                                    <div>set this.validations.Add(item);;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>isViewIndexProxy</div>
+                                </td>
+                                <td>
+                                    <div>if this.isProxy;</div>
+                                    <div>if this.wzName != null && (this.nameLower == "name" || this.nameLower == "id");</div>
+                                    <div>if this.table.hasCmbLabel() && this.table.cmbLabel().gettableColumnByName(this.wzName) != null;</div>
+                                    <div>return false;;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>jsDefaultValue</div>
+                                </td>
+                                <td>
+                                    <div>if isEmpty(this.defaultValue);</div>
+                                    <div>else ;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>listEditControlName</div>
+                                </td>
+                                <td>
+                                    <div>return "fc_" + this.table.nameLower + "Edit_" + this.nameLower;;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>canUpdate</div>
+                                </td>
+                                <td>
+                                    <div>return this.isKey == false &&isEmpty(this.idGenerator) &&isEmpty(this.calculatedOnInsert) &&isEmpty(this.calculatedOnUpdate);</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>canInsert</div>
+                                </td>
+                                <td>
+                                    <div>return isEmpty(this.idGenerator) &&isEmpty(this.calculatedOnInsert);</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_index" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>index</b>
+                            </td>
+                            <td>ndx</td>
+                            <td>rdbmsitem</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Description</h5>
+                <div>
+                    <span>A table index &nbsp;</span>
+                    <span>The wzName is the ddl/sql name. &nbsp;</span>
+                </div>
+                <h5>Attributes</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Tag</th>
+                                <th>Type</th>
+                                <th>Default</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>isPrimary</td>
+                                <td>is-primary</td>
+                                <td>boolean</td>
+                                <td>false</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>isUnique</td>
+                                <td>is-unique</td>
+                                <td>boolean</td>
+                                <td>false</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>indexColumn</td>
+                                <td>indexColumns</td>
+                                <td>one-to-many</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>rdbmsitem</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <h5>Methods</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Signature</th>
+                                <th>Statements</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div>wzinitialize</div>
+                                </td>
+                                <td>
+                                    <div>set this.table = this.wzParent;</div>
+                                    <div>foreach item in this.indexColumns;</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_indexColumn" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>indexColumn</b>
+                            </td>
+                            <td>c</td>
+                            <td>rdbmsitem</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Description</h5>
+                <div>
+                    <span>An index column &nbsp;</span>
+                    <span>The wzName is the ddl/sql name. &nbsp;</span>
+                </div>
+                <h5>Attributes</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Tag</th>
+                                <th>Type</th>
+                                <th>Default</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>sort</td>
+                                <td>sort</td>
+                                <td>string</td>
+                                <td>asc</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <h5>restrict</h5>
+                                    <table>
+                                        <tr>
+                                            <td> asc</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>asc desc</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>rdbmsitem</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_validationError" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>validationError</b>
+                            </td>
+                            <td>validation-error</td>
+                            <td>rdbmsitem</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Description</h5>
+                <div>
+                    <span>A schema level default error message for a validation rule &nbsp;</span>
+                    <span>The wzName references the wzElement of the rule. &nbsp;</span>
+                </div>
+                <h5>Attributes</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Tag</th>
+                                <th>Type</th>
+                                <th>Default</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>message</td>
+                                <td>message</td>
+                                <td>string</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>The text of the message. May contain {param} strings for &nbsp;</span>
+                                        <span>parameter substitution. &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>param</td>
+                                <td>params</td>
+                                <td>one-to-many</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>rdbmsitem</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_validation" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>validation</b>
+                            </td>
+                            <td>validation</td>
+                            <td>rdbmsitem</td>
+                            <td>is-abstract </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Description</h5>
+                <div>
+                    <span>The base element for a table column validation rule. &nbsp;</span>
+                </div>
+                <h5>Attributes</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Tag</th>
+                                <th>Type</th>
+                                <th>Default</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>message</td>
+                                <td>message</td>
+                                <td>string</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>Overrides the default validation-error message of the rule. &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>rdbmsitem</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_required" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>required</b>
+                            </td>
+                            <td>required</td>
+                            <td>validation</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Description</h5>
+                <div>
+                    <span>A value is required &nbsp;</span>
+                </div>
+                <h5>Attributes</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Tag</th>
+                                <th>Type</th>
+                                <th>Default</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>message</td>
+                                <td>message</td>
+                                <td>string</td>
+                                <td>string</td>
+                                <td>validation</td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>Overrides the default validation-error message of the rule. &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>rdbmsitem</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_minValue" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>minValue</b>
+                            </td>
+                            <td>min-value</td>
+                            <td>validation</td>
                             <td></td>
                         </tr>
                     </tbody>
@@ -138,18 +1951,47 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>value</td>
-                                <td>value</td>
+                                <td>message</td>
+                                <td>message</td>
                                 <td>string</td>
                                 <td>string</td>
+                                <td>validation</td>
                                 <td></td>
+                                <td>
+                                    <div>
+                                        <span>Overrides the default validation-error message of the rule. &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>rdbmsitem</td>
                                 <td></td>
                                 <td></td>
                             </tr>
                         </tbody>
                     </table>
                 </small>
-                <table id="element_ittfPanel" class="pretty-table">
+                <table id="element_maxValue" class="pretty-table">
                     <thead>
                         <tr>
                             <th>Element</th>
@@ -161,14 +2003,1448 @@
                     <tbody>
                         <tr>
                             <td>
-                                <b>ittfPanel</b>
+                                <b>maxValue</b>
                             </td>
-                            <td>ittf-panel</td>
+                            <td>max-value</td>
+                            <td>validation</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Attributes</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Tag</th>
+                                <th>Type</th>
+                                <th>Default</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>message</td>
+                                <td>message</td>
+                                <td>string</td>
+                                <td>string</td>
+                                <td>validation</td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>Overrides the default validation-error message of the rule. &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>rdbmsitem</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_minLength" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>minLength</b>
+                            </td>
+                            <td>min-length</td>
+                            <td>validation</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Attributes</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Tag</th>
+                                <th>Type</th>
+                                <th>Default</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>message</td>
+                                <td>message</td>
+                                <td>string</td>
+                                <td>string</td>
+                                <td>validation</td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>Overrides the default validation-error message of the rule. &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>rdbmsitem</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_maxLength" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>maxLength</b>
+                            </td>
+                            <td>max-length</td>
+                            <td>validation</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Attributes</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Tag</th>
+                                <th>Type</th>
+                                <th>Default</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>message</td>
+                                <td>message</td>
+                                <td>string</td>
+                                <td>string</td>
+                                <td>validation</td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>Overrides the default validation-error message of the rule. &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>rdbmsitem</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_regexp" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>regexp</b>
+                            </td>
+                            <td>regexp</td>
+                            <td>validation</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Attributes</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Tag</th>
+                                <th>Type</th>
+                                <th>Default</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>message</td>
+                                <td>message</td>
+                                <td>string</td>
+                                <td>string</td>
+                                <td>validation</td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>Overrides the default validation-error message of the rule. &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>rdbmsitem</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_match" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>match</b>
+                            </td>
+                            <td>match</td>
+                            <td>validation</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Description</h5>
+                <div>
+                    <span>The column value must match the value of the column &nbsp;</span>
+                    <span>indicated by the wzName &nbsp;</span>
+                </div>
+                <h5>Attributes</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Tag</th>
+                                <th>Type</th>
+                                <th>Default</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>message</td>
+                                <td>message</td>
+                                <td>string</td>
+                                <td>string</td>
+                                <td>validation</td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>Overrides the default validation-error message of the rule. &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>rdbmsitem</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_restrict" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>restrict</b>
+                            </td>
+                            <td>restrict</td>
+                            <td>validation</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Description</h5>
+                <div>
+                    <span>The column value must be one of an enumeration of valid values. &nbsp;</span>
+                </div>
+                <h5>Attributes</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Tag</th>
+                                <th>Type</th>
+                                <th>Default</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>message</td>
+                                <td>message</td>
+                                <td>string</td>
+                                <td>string</td>
+                                <td>validation</td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>Overrides the default validation-error message of the rule. &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>zenum</td>
+                                <td>zenums</td>
+                                <td>one-to-many</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <span>Enumeration of allowed values &nbsp;</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>rdbmsitem</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_zenum" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>zenum</b>
+                            </td>
+                            <td>enum</td>
+                            <td>rdbmsitem</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Description</h5>
+                <div>
+                    <span>An allowed value in a restrict validation rule. &nbsp;</span>
+                </div>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>rdbmsitem</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_relation" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>relation</b>
+                            </td>
+                            <td>r</td>
+                            <td>rdbmsitem</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Attributes</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Tag</th>
+                                <th>Type</th>
+                                <th>Default</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>oneTableName</td>
+                                <td>one</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>oneRoleInternal</td>
+                                <td>one-role</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>manyTableName</td>
+                                <td>many</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>manyRoleInternal</td>
+                                <td>many-role</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>cardinality</td>
+                                <td>cardinality</td>
+                                <td>string</td>
+                                <td>one-to-many</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <h5>restrict</h5>
+                                    <table>
+                                        <tr>
+                                            <td> one-to-many</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>one-to-many one-to-one</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>manyTableIsDocument</td>
+                                <td>many-is-document</td>
+                                <td>boolean</td>
+                                <td>false</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>parentIsProxy</td>
+                                <td>parent-is-proxy</td>
+                                <td>boolean</td>
+                                <td>false</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>OnParentInsert</td>
+                                <td>on-parent-insert</td>
+                                <td>string</td>
+                                <td>none</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <h5>restrict</h5>
+                                    <table>
+                                        <tr>
+                                            <td> none</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>none restrict</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>restrict cascade</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>OnParentUpdate</td>
+                                <td>on-parent-update</td>
+                                <td>string</td>
+                                <td>restrict</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <h5>restrict</h5>
+                                    <table>
+                                        <tr>
+                                            <td> none</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>none restrict</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>restrict cascade</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>OnParentDelete</td>
+                                <td>on-parent-delete</td>
+                                <td>string</td>
+                                <td>restrict</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <h5>restrict</h5>
+                                    <table>
+                                        <tr>
+                                            <td> none</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>none restrict</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>restrict cascade</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>OnChildInsert</td>
+                                <td>on-child-insert</td>
+                                <td>string</td>
+                                <td>restrict</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <h5>restrict</h5>
+                                    <table>
+                                        <tr>
+                                            <td> none</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>none restrict</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>restrict cascade</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>OnChildUpdate</td>
+                                <td>on-child-update</td>
+                                <td>string</td>
+                                <td>restrict</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <h5>restrict</h5>
+                                    <table>
+                                        <tr>
+                                            <td> none</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>none restrict</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>restrict cascade</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>OnChildDelete</td>
+                                <td>on-child-delete</td>
+                                <td>string</td>
+                                <td>restrict</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <h5>restrict</h5>
+                                    <table>
+                                        <tr>
+                                            <td> none</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>none restrict</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>restrict cascade</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>relationColumn</td>
+                                <td>relationColumns</td>
+                                <td>one-to-many</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>rdbmsitem</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <h5>Methods</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Signature</th>
+                                <th>Statements</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div>wzverify</div>
+                                </td>
+                                <td>
+                                    <div>if !this.oneTable();</div>
+                                    <div>if !this.manyTableIsDocument;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>oneRole</div>
+                                </td>
+                                <td>
+                                    <div>return isEmpty(this.oneRoleInternal) ? this.oneTable().wzName : this.oneRoleInternal;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>manyRole</div>
+                                </td>
+                                <td>
+                                    <div>return isEmpty(this.manyRoleInternal) ? this.oneTable().namePlural : this.manyRoleInternal;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>oneTable</div>
+                                </td>
+                                <td>
+                                    <div>return this.wzParent.getTable(this.oneTableName);</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>manyTable</div>
+                                </td>
+                                <td>
+                                    <div>return this.wzParent.getTable(this.manyTableName);</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>oneColumns</div>
+                                </td>
+                                <td>
+                                    <div>var memo = [];</div>
+                                    <div>foreach item in this.relationColumns;</div>
+                                    <div>return memo;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>manyColumns</div>
+                                </td>
+                                <td>
+                                    <div>var memo = [];</div>
+                                    <div>foreach item in this.relationColumns;</div>
+                                    <div>return memo;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>manyArguments</div>
+                                </td>
+                                <td>
+                                    <div>return tableHelper.ArgumentsToString(manyColumns);;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>manyParameters</div>
+                                </td>
+                                <td>
+                                    <div>return tableHelper.ParametersToString(manyColumns);;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>childParameters_aka_Properties</div>
+                                </td>
+                                <td>
+                                    <div>return tableHelper.ParametersToString_aka_Properties(manyColumns);;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>childParametersToStringInstance</div>
+                                </td>
+                                <td>
+                                    <div>return tableHelper.ParametersToStringInstance(manyColumns, instance);;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>filterChild</div>
+                                </td>
+                                <td>
+                                    <div>var memo = [];</div>
+                                    <div>foreach item in this.relationColumns;</div>
+                                    <div>return memo;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>oneManyKeys</div>
+                                </td>
+                                <td>
+                                    <div>var ret = [], check = {};</div>
+                                    <div>foreach item in this.oneTable().keyColumns();</div>
+                                    <div>foreach item in this.manyTable().keyColumns();</div>
+                                    <div>return ret;</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_relationColumn" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>relationColumn</b>
+                            </td>
+                            <td>c</td>
+                            <td>rdbmsitem</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Attributes</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Tag</th>
+                                <th>Type</th>
+                                <th>Default</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>oneColumnName</td>
+                                <td>one</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>manyColumnName</td>
+                                <td>many</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>rdbmsitem</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <h5>Methods</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Signature</th>
+                                <th>Statements</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div>wzinitialize</div>
+                                </td>
+                                <td>
+                                    <div>set this.relation = this.wzParent;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>wzverify</div>
+                                </td>
+                                <td>
+                                    <div>if !this.oneColumn();</div>
+                                    <div>if !this.relation.manyTableIsDocument;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>oneColumn</div>
+                                </td>
+                                <td>
+                                    <div>if this.wzParent.oneTable();</div>
+                                    <div>else ;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>manyColumn</div>
+                                </td>
+                                <td>
+                                    <div>if this.wzParent.manyTable();</div>
+                                    <div>else ;</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_document" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>document</b>
+                            </td>
+                            <td>document</td>
+                            <td>rdbmsitem</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Description</h5>
+                <div>
+                    <span>In a json model a table row can be &nbsp;</span>
+                    <span>. a branch node containing data for node leafs and &nbsp;</span>
+                    <span>related nodes or &nbsp;</span>
+                    <span>. a leaf node containing a text content &nbsp;</span>
+                    <span>Metadata for a leaf node may be stored in the parent branch node. &nbsp;</span>
+                </div>
+                <h5>Attributes</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Tag</th>
+                                <th>Type</th>
+                                <th>Default</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>kind</td>
+                                <td>kind</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <h5>restrict</h5>
+                                    <table>
+                                        <tr>
+                                            <td> json-meta-data</td>
+                                            <td>
+                                                <span>The json data of a branch node &nbsp;</span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>The json data of a branch node ittf</td>
+                                            <td>
+                                                <span>An IttfDocument of a leaf node &nbsp;</span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>An IttfDocument of a leaf node text-content</td>
+                                            <td>
+                                                <span>The text context of a leaf node &nbsp;</span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>path</td>
+                                <td>paths</td>
+                                <td>one-to-many</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>metaField</td>
+                                <td>metaFields</td>
+                                <td>one-to-many</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>rdbmsitem</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_path" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>path</b>
+                            </td>
+                            <td>path</td>
+                            <td>rdbmsitem</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>pathSegment</td>
+                                <td>pathSegments</td>
+                                <td>one-to-many</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>rdbmsitem</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_pathSegment" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>pathSegment</b>
+                            </td>
+                            <td>segment</td>
+                            <td>rdbmsitem</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>rdbmsitem</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_metaField" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>metaField</b>
+                            </td>
+                            <td>meta-field</td>
+                            <td>rdbmsitem</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Attributes</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Tag</th>
+                                <th>Type</th>
+                                <th>Default</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>type</td>
+                                <td>type</td>
+                                <td>string</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>The metaField data type &nbsp;</span>
+                                    </div>
+                                    <h5>restrict</h5>
+                                    <table>
+                                        <tr>
+                                            <td>The metaField data type string</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>string boolean</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>boolean integer</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>integer float</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>float date</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>rdbmsitem</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_param" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>param</b>
+                            </td>
+                            <td>param</td>
                             <td></td>
                             <td></td>
                         </tr>
                     </tbody>
                 </table>
+                <h5>Description</h5>
+                <div>
+                    <span>A parameter passed to a function. &nbsp;</span>
+                    <span>The wzName is the parameter name. &nbsp;</span>
+                </div>
             </div>
         </div>
     </body>

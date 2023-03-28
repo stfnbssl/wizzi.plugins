@@ -3,7 +3,8 @@
   "preserveTags": true,
   "requires": [],
   "exportTos": [
-    "json"
+    "json",
+    "xml"
   ],
   "elements": [
     {
@@ -17,10 +18,10 @@
       "attributes": [],
       "relations": [
         {
-          "name": "item",
-          "role": "items",
+          "name": "table",
+          "role": "tables",
           "tags": [
-            "item"
+            "table"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -28,10 +29,32 @@
           "comments": []
         },
         {
-          "name": "ittfPanel",
-          "role": "ittfPanels",
+          "name": "relation",
+          "role": "relations",
           "tags": [
-            "ittf-panel"
+            "r"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "validationError",
+          "role": "validationErrors",
+          "tags": [
+            "validation-error"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -41,42 +64,239 @@
       ],
       "derived": [],
       "restricts": [],
-      "methods": [],
-      "comments": []
-    },
-    {
-      "name": "item",
-      "super": null,
-      "isRoot": false,
-      "tags": [
-        "item"
-      ],
-      "flags": "",
-      "attributes": [
+      "methods": [
         {
-          "name": "value",
-          "type": "string",
-          "tags": [
-            "value"
+          "name": "testInfo",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "var",
+              "name": "xvar",
+              "value": "ret",
+              "statements": [
+                {
+                  "tag": "{",
+                  "name": "jsObject",
+                  "value": "",
+                  "statements": [
+                    {
+                      "tag": "@",
+                      "name": "jsPropertyOrValue",
+                      "value": "tables",
+                      "statements": [
+                        {
+                          "tag": "[",
+                          "name": "jsArray",
+                          "value": "",
+                          "statements": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "foreach",
+              "name": "foreach",
+              "value": "table in this.tables",
+              "statements": [
+                {
+                  "tag": "var",
+                  "name": "xvar",
+                  "value": "ctx = {}",
+                  "statements": []
+                },
+                {
+                  "tag": "_",
+                  "name": "call",
+                  "value": "table.testInfo(ctx)",
+                  "statements": []
+                },
+                {
+                  "tag": "_",
+                  "name": "call",
+                  "value": "ret.tables.push(ctx)",
+                  "statements": []
+                }
+              ]
+            },
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "ret",
+              "statements": []
+            }
           ],
-          "flags": "",
-          "inheritedFrom": null,
-          "restricts": [],
           "comments": []
         }
       ],
-      "relations": [],
-      "derived": [],
+      "comments": [
+        "The root element of the rdbms schema."
+      ]
+    },
+    {
+      "name": "rdbmsitem",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "rdbmsitem"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        }
+      ],
+      "derived": [
+        {
+          "name": "table",
+          "tags": [
+            "table"
+          ]
+        },
+        {
+          "name": "tableColumn",
+          "tags": [
+            "c"
+          ]
+        },
+        {
+          "name": "index",
+          "tags": [
+            "ndx"
+          ]
+        },
+        {
+          "name": "indexColumn",
+          "tags": [
+            "c"
+          ]
+        },
+        {
+          "name": "validationError",
+          "tags": [
+            "validation-error"
+          ]
+        },
+        {
+          "name": "validation",
+          "tags": [
+            "validation"
+          ]
+        },
+        {
+          "name": "required",
+          "tags": [
+            "required"
+          ]
+        },
+        {
+          "name": "minValue",
+          "tags": [
+            "min-value"
+          ]
+        },
+        {
+          "name": "maxValue",
+          "tags": [
+            "max-value"
+          ]
+        },
+        {
+          "name": "minLength",
+          "tags": [
+            "min-length"
+          ]
+        },
+        {
+          "name": "maxLength",
+          "tags": [
+            "max-length"
+          ]
+        },
+        {
+          "name": "regexp",
+          "tags": [
+            "regexp"
+          ]
+        },
+        {
+          "name": "match",
+          "tags": [
+            "match"
+          ]
+        },
+        {
+          "name": "restrict",
+          "tags": [
+            "restrict"
+          ]
+        },
+        {
+          "name": "zenum",
+          "tags": [
+            "enum"
+          ]
+        },
+        {
+          "name": "relation",
+          "tags": [
+            "r"
+          ]
+        },
+        {
+          "name": "relationColumn",
+          "tags": [
+            "c"
+          ]
+        },
+        {
+          "name": "document",
+          "tags": [
+            "document"
+          ]
+        },
+        {
+          "name": "path",
+          "tags": [
+            "path"
+          ]
+        },
+        {
+          "name": "pathSegment",
+          "tags": [
+            "segment"
+          ]
+        },
+        {
+          "name": "metaField",
+          "tags": [
+            "meta-field"
+          ]
+        }
+      ],
       "restricts": [],
       "methods": [],
       "comments": []
     },
     {
-      "name": "ittfPanel",
+      "name": "comment",
       "super": null,
       "isRoot": false,
       "tags": [
-        "ittf-panel"
+        "#"
       ],
       "flags": "",
       "attributes": [],
@@ -84,7 +304,4418 @@
       "derived": [],
       "restricts": [],
       "methods": [],
+      "comments": [
+        "A comment line for describing items."
+      ]
+    },
+    {
+      "name": "table",
+      "super": "rdbmsitem",
+      "isRoot": false,
+      "tags": [
+        "table"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "label",
+          "type": "string",
+          "tags": [
+            "label"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "A text used on views to label the table.",
+            "Optional. The default is the wzName."
+          ]
+        },
+        {
+          "name": "namePlural",
+          "type": "string",
+          "tags": [
+            "plural"
+          ],
+          "default": "",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "The plural form of the wzName. Used to name collection objects.",
+            "Optional. The default is calculated by inflector::pluralize."
+          ]
+        },
+        {
+          "name": "labelPlural",
+          "type": "string",
+          "tags": [
+            "label-plural"
+          ],
+          "default": "",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "The plural form of the label attribute. Used on views to label collections.",
+            "Optional. The default is calculated by inflector::pluralize."
+          ]
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "A description of the table"
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "name": "tableColumn",
+          "role": "tableColumns",
+          "tags": [
+            "c"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": [
+            "Table columns"
+          ]
+        },
+        {
+          "name": "index",
+          "role": "indexes",
+          "tags": [
+            "ndx"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": [
+            "Table indexes"
+          ]
+        },
+        {
+          "name": "document",
+          "role": "documents",
+          "tags": [
+            "document"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": [
+            "Table documents"
+          ]
+        },
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "rdbmsitem",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "wzinitialize",
+          "isStatic": false,
+          "isKnownMethod": true,
+          "params": [],
+          "statements": [
+            {
+              "tag": "var",
+              "name": "xvar",
+              "value": "name = this.wzName;",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "this.name = name.toLowerCase()",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "this.nameCap = inflection.capitalize(name)",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "this.sqlName = isEmpty(this.sqlName) ? name : this.sqlName",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "this.label = isEmpty(this.label) ? this.wzName : this.label",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "this.namePlural = isEmpty(this.namePlural) ? inflection.pluralize(name) : this.namePlural.toLowerCase()",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "this.namePluralCap = inflection.capitalize(this.namePlural)",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "this.labelPlural = isEmpty(this.labelPlural) ? inflection.pluralize(this.wzName) : this.labelPlural",
+              "statements": []
+            }
+          ],
+          "comments": [
+            "name always lower case",
+            "label as declared in IttfDocument",
+            "name always lower case",
+            "label as declared in IttfDocument"
+          ]
+        },
+        {
+          "name": "primaryKey",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "_.find(this.indexes,function(item){ return item.isPrimary; });",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "keyColumns",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "var",
+              "name": "xvar",
+              "value": "pk = this.primaryKey()",
+              "statements": []
+            },
+            {
+              "tag": "if",
+              "name": "xif",
+              "value": "pk",
+              "statements": [
+                {
+                  "tag": "var",
+                  "name": "xvar",
+                  "value": "memo = []",
+                  "statements": []
+                },
+                {
+                  "tag": "foreach",
+                  "name": "foreach",
+                  "value": "item in pk.indexColumns",
+                  "statements": [
+                    {
+                      "tag": "_",
+                      "name": "call",
+                      "value": "memo.push(item.tableColumn)",
+                      "statements": []
+                    }
+                  ]
+                },
+                {
+                  "tag": "return",
+                  "name": "xreturn",
+                  "value": "memo",
+                  "statements": []
+                }
+              ]
+            },
+            {
+              "tag": "else",
+              "name": "xelse",
+              "value": "",
+              "statements": [
+                {
+                  "tag": "return",
+                  "name": "xreturn",
+                  "value": "[]",
+                  "statements": []
+                }
+              ]
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "keyName",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "var",
+              "name": "xvar",
+              "value": "kcols = this.keyColumns();",
+              "statements": []
+            },
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "kcols && kcols.length == 1 ? kcols[0].wzName : 'Unknown';",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "notKeyColumns",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "var",
+              "name": "xvar",
+              "value": "keycols = this.keyColumns()",
+              "statements": []
+            },
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "",
+              "statements": [
+                {
+                  "tag": "_",
+                  "name": "call",
+                  "value": "_.filter",
+                  "statements": [
+                    {
+                      "tag": "@",
+                      "name": "jsPropertyOrValue",
+                      "value": "this.tableColumns",
+                      "statements": []
+                    },
+                    {
+                      "tag": "function",
+                      "name": "xfunction",
+                      "value": "",
+                      "statements": [
+                        {
+                          "tag": "param",
+                          "name": "param",
+                          "value": "item",
+                          "statements": []
+                        },
+                        {
+                          "tag": "return",
+                          "name": "xreturn",
+                          "value": "keycols.indexOf(item) < 0",
+                          "statements": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "insertColumns",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "",
+              "statements": [
+                {
+                  "tag": "_",
+                  "name": "call",
+                  "value": "_.filter",
+                  "statements": [
+                    {
+                      "tag": "@",
+                      "name": "jsPropertyOrValue",
+                      "value": "this.tableColumns",
+                      "statements": []
+                    },
+                    {
+                      "tag": "function",
+                      "name": "xfunction",
+                      "value": "",
+                      "statements": [
+                        {
+                          "tag": "param",
+                          "name": "param",
+                          "value": "item",
+                          "statements": []
+                        },
+                        {
+                          "tag": "return",
+                          "name": "xreturn",
+                          "value": "item.canInsert() == true",
+                          "statements": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "insertParameters",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "",
+              "statements": [
+                {
+                  "tag": "_",
+                  "name": "call",
+                  "value": "_.filter",
+                  "statements": [
+                    {
+                      "tag": "@",
+                      "name": "jsPropertyOrValue",
+                      "value": "this.tableColumns",
+                      "statements": []
+                    },
+                    {
+                      "tag": "function",
+                      "name": "xfunction",
+                      "value": "",
+                      "statements": [
+                        {
+                          "tag": "param",
+                          "name": "param",
+                          "value": "item",
+                          "statements": []
+                        },
+                        {
+                          "tag": "return",
+                          "name": "xreturn",
+                          "value": "(item.isInsertParam === true || item.isKey()) && item.canInsert()",
+                          "statements": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "updateSetColumns",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "_.filter(this.notKeyColumns(), function(item){ return item.canUpdate(); })",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "updateWhereColumns",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "",
+              "statements": [
+                {
+                  "tag": "_",
+                  "name": "call",
+                  "value": "_.filter",
+                  "statements": [
+                    {
+                      "tag": "@",
+                      "name": "jsPropertyOrValue",
+                      "value": "this.tableColumns",
+                      "statements": []
+                    },
+                    {
+                      "tag": "function",
+                      "name": "xfunction",
+                      "value": "",
+                      "statements": [
+                        {
+                          "tag": "param",
+                          "name": "param",
+                          "value": "item",
+                          "statements": []
+                        },
+                        {
+                          "tag": "return",
+                          "name": "xreturn",
+                          "value": "item.canUpdate()",
+                          "statements": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "textColumns",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "",
+              "statements": [
+                {
+                  "tag": "_",
+                  "name": "call",
+                  "value": "_.filter",
+                  "statements": [
+                    {
+                      "tag": "@",
+                      "name": "jsPropertyOrValue",
+                      "value": "this.tableColumns",
+                      "statements": []
+                    },
+                    {
+                      "tag": "function",
+                      "name": "xfunction",
+                      "value": "",
+                      "statements": [
+                        {
+                          "tag": "param",
+                          "name": "param",
+                          "value": "item",
+                          "statements": []
+                        },
+                        {
+                          "tag": "return",
+                          "name": "xreturn",
+                          "value": "item.domain == 'string'",
+                          "statements": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "proxyColumns",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "",
+              "statements": [
+                {
+                  "tag": "_",
+                  "name": "call",
+                  "value": "_.filter",
+                  "statements": [
+                    {
+                      "tag": "@",
+                      "name": "jsPropertyOrValue",
+                      "value": "this.tableColumns",
+                      "statements": []
+                    },
+                    {
+                      "tag": "function",
+                      "name": "xfunction",
+                      "value": "",
+                      "statements": [
+                        {
+                          "tag": "param",
+                          "name": "param",
+                          "value": "item",
+                          "statements": []
+                        },
+                        {
+                          "tag": "return",
+                          "name": "xreturn",
+                          "value": "item.isProxy",
+                          "statements": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "lookUps",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "var",
+              "name": "xvar",
+              "value": "memo = []",
+              "statements": []
+            },
+            {
+              "tag": "foreach",
+              "name": "foreach",
+              "value": "item in this.tableColumns",
+              "statements": [
+                {
+                  "tag": "foreach",
+                  "name": "foreach",
+                  "value": "l in item.lookUps",
+                  "statements": [
+                    {
+                      "tag": "_",
+                      "name": "call",
+                      "value": "memo.push(l)",
+                      "statements": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "memo",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "enumReferences",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "var",
+              "name": "xvar",
+              "value": "memo = []",
+              "statements": []
+            },
+            {
+              "tag": "foreach",
+              "name": "foreach",
+              "value": "item in this.tableColumns",
+              "statements": [
+                {
+                  "tag": "if",
+                  "name": "xif",
+                  "value": "item.enumReference != null",
+                  "statements": [
+                    {
+                      "tag": "_",
+                      "name": "call",
+                      "value": "memo.push(item)",
+                      "statements": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "memo",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "tableColumnArguments",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "tableHelper.ArgumentsToString(this.tableColumns);",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "keyArguments",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "tableHelper.ArgumentsToString(this.keyColumns());",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "keyParameters",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "tableHelper.ParametersToString(this.keyColumns());",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "keyParametersToStringTrace",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "tableHelper.ParametersToStringTrace(this.keyColumns());",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "keyTestValues",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "separator"
+          ],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "tableHelper.TestValuesToString(this.keyColumns(), separator);",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "keyParametersInstance",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "instance"
+          ],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "tableHelper.ParametersToStringInstance(this.keyColumns(), instance);",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "keyParametersInstanceToStringTrace",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "instance"
+          ],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "tableHelper.ParametersInstanceToStringTrace(this.keyColumns(), instance);",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "oneRelations",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "var",
+              "name": "xvar",
+              "value": "memo = []",
+              "statements": []
+            },
+            {
+              "tag": "foreach",
+              "name": "foreach",
+              "value": "item in this.wzParent.relations",
+              "statements": [
+                {
+                  "tag": "if",
+                  "name": "xif",
+                  "value": "item.manyTableName === this.wzName",
+                  "statements": [
+                    {
+                      "tag": "_",
+                      "name": "call",
+                      "value": "memo.push(item)",
+                      "statements": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "memo",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "oneRelationsUnique",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "var",
+              "name": "xvar",
+              "value": "memo = []",
+              "statements": []
+            },
+            {
+              "tag": "foreach",
+              "name": "foreach",
+              "value": "item in this.wzParent.relations",
+              "statements": [
+                {
+                  "tag": "if",
+                  "name": "xif",
+                  "value": "item.manyTableName === this.wzName &&_.find(memo, function(item2) { item2.oneTable.wzName === item.oneTable.wzName }) == null",
+                  "statements": [
+                    {
+                      "tag": "_",
+                      "name": "call",
+                      "value": "memo.push(item)",
+                      "statements": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "memo",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "oneRelationsProxy",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "_.filter(this.oneRelations(), function(item) { return item.parentIsProxy; } )",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "oneKeys",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "['oneKeys_TODO']",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "manyRelations",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "var",
+              "name": "xvar",
+              "value": "memo = []",
+              "statements": []
+            },
+            {
+              "tag": "foreach",
+              "name": "foreach",
+              "value": "item in this.wzParent.relations",
+              "statements": [
+                {
+                  "tag": "if",
+                  "name": "xif",
+                  "value": "item.oneTableName === this.wzName && item.manyTable() != null",
+                  "statements": [
+                    {
+                      "tag": "_",
+                      "name": "call",
+                      "value": "memo.push(item)",
+                      "statements": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "memo",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "childProxyRelations",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "var",
+              "name": "xvar",
+              "value": "memo = []",
+              "statements": []
+            },
+            {
+              "tag": "foreach",
+              "name": "foreach",
+              "value": "item in this.wzParent.relations",
+              "statements": [
+                {
+                  "tag": "if",
+                  "name": "xif",
+                  "value": "item.oneTableName === this.wzName && item.parentIsProxy",
+                  "statements": [
+                    {
+                      "tag": "_",
+                      "name": "call",
+                      "value": "memo.push(item)",
+                      "statements": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "memo",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "oneTables",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "var",
+              "name": "xvar",
+              "value": "memo = []",
+              "statements": []
+            },
+            {
+              "tag": "foreach",
+              "name": "foreach",
+              "value": "item in this.oneRelations()",
+              "statements": [
+                {
+                  "tag": "_",
+                  "name": "call",
+                  "value": "memo.push(this.wzParent.getTable(item.oneTableName))",
+                  "statements": []
+                }
+              ]
+            },
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "memo",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "manyTables",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "var",
+              "name": "xvar",
+              "value": "memo = []",
+              "statements": []
+            },
+            {
+              "tag": "foreach",
+              "name": "foreach",
+              "value": "item in this.manyRelations()",
+              "statements": [
+                {
+                  "tag": "if",
+                  "name": "xif",
+                  "value": "item.manyTable()",
+                  "statements": [
+                    {
+                      "tag": "_",
+                      "name": "call",
+                      "value": "memo.push(item.manyTable())",
+                      "statements": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "memo",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "hasOneTables",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "this.oneRelations().length > 0;",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "hasManyTables",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "this.manyRelations().length > 0;",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "keySqlColumnsToString",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "separator",
+            "quoted"
+          ],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "tableHelper.SqlColumnsToString(this.keyColumns(), separator, quoted);",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "keyPropertiesToString",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "separator",
+            "prefix"
+          ],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "tableHelper.PropertiesToString(this.keyColumns(), separator, prefix);",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "sqlColumnsToString",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "separator",
+            "quoted"
+          ],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "tableHelper.SqlColumnsToString(this.tableColumns, separator, quoted);",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "keyFieldsToString",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "separator"
+          ],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "tableHelper.FieldsToString(this.keyColumns(), separator);",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "insertFieldsToString",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "separator"
+          ],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "tableHelper.FieldsToString(this.insertColumns(), separator);",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "updateWhereFieldsToString",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "separator"
+          ],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "tableHelper.FieldsToString(this.updateWhereColumns(), separator);",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "updateSetSqlColumnsToString",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "separator",
+            "quoted"
+          ],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "tableHelper.SqlColumnsToString(this.updateSetColumns(), separator, quoted);",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "updateWhereSqlColumnsToString",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "separator",
+            "quoted"
+          ],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "tableHelper.SqlColumnsToString(this.updateWhereColumns(), separator, quoted);",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "textColumnsParametersInstance",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "instance"
+          ],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "tableHelper.ParametersToStringInstance(this.textColumns(), instance);",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "concatTextColumns",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "instance",
+            "separator"
+          ],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "tableHelper.ConcatTextInstance(this.textColumns(), instance, separator);",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "columnsTestValues",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "separator"
+          ],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "tableHelper.TestValuesToString(this.tableColumns, separator);",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "insertFieldsTestValues",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "separator"
+          ],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "tableHelper.TestValuesToString(this.insertColumns(), separator);",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "updateWhereTestValues",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "separator"
+          ],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "tableHelper.TestValuesToString(this.updateWhereColumns(), separator);",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "getTableColumnByName",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "name",
+            "caseSensitive"
+          ],
+          "statements": [
+            {
+              "tag": "var",
+              "name": "xvar",
+              "value": "name = caseSensitive ? name : name.toLowerCase()",
+              "statements": []
+            },
+            {
+              "tag": "foreach",
+              "name": "foreach",
+              "value": "item in this.tableColumns",
+              "statements": [
+                {
+                  "tag": "if",
+                  "name": "xif",
+                  "value": "caseSensitive ? item.wzName === name : item.wzName.toLowerCase() === name",
+                  "statements": [
+                    {
+                      "tag": "return",
+                      "name": "xreturn",
+                      "value": "item",
+                      "statements": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "null",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "keyColumnsToAndCondition",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "columntemplate",
+            "booloperator",
+            "values"
+          ],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "tableHelper.ColumnsToAndCondition(this.keyColumns(), booloperator, columntemplate, values)",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "cmbLabel",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "foreach",
+              "name": "foreach",
+              "value": "item in this.labels",
+              "statements": [
+                {
+                  "tag": "if",
+                  "name": "xif",
+                  "value": "item.wzName.toLowerCase() === \"cmb\"",
+                  "statements": [
+                    {
+                      "tag": "return",
+                      "name": "xreturn",
+                      "value": "item",
+                      "statements": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "null",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "hasCmbLabel",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "this.cmbLabel() != null",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "testInfo",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "ctx"
+          ],
+          "statements": [
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.primaryKey = this.primaryKey()",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.keyColumns = this.keyColumns()",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.keyName = this.keyName()",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.notKeyColumns = this.notKeyColumns()",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.insertParameters = this.insertParameters()",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.updateSetColumns = this.updateSetColumns()",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.updateWhereColumns = this.updateWhereColumns()",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.textColumns = this.textColumns()",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.proxyColumns = this.proxyColumns()",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.tableColumnArguments = this.tableColumnArguments()",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.keyArguments = this.keyArguments()",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.keyParameters = this.keyParameters()",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.keyParametersToStringTrace = this.keyParametersToStringTrace()",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.keyTestValues = this.keyTestValues()",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.keyParametersInstance = this.keyParametersInstance(\"instance\")",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.keyParametersInstanceToStringTrace = this.keyParametersInstanceToStringTrace('instance')",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.oneRelations = this.oneRelations()",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.oneRelationsUnique = this.oneRelationsUnique()",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.oneRelationsProxy = this.oneRelationsProxy",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.oneKeys = this.oneKeys()",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.manyRelations = this.manyRelations()",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.childProxyRelations = this.childProxyRelations()",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.oneTables = this.oneTables()",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.manyTables = this.manyTables()",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.hasOneTables = this.hasOneTables",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.hasManyTables = this.hasManyTables()",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.keySqlColumnsToString = this.keySqlColumnsToString(' - ', true)",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.keyPropertiesToString = this.keyPropertiesToString(' - ', 'k')",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.sqlColumnsToString = this.sqlColumnsToString(',', true)",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.keyFieldsToString = this.keyFieldsToString()",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.insertFieldsToString = this.insertFieldsToString('-')",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.updateWhereFieldsToString = this.updateWhereFieldsToString(';')",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.updateSetSqlColumnsToString = this.updateSetSqlColumnsToString(';', true)",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.updateWhereSqlColumnsToString = this.updateWhereSqlColumnsToString(',', true)",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.textColumnsParametersInstance = this.textColumnsParametersInstance('instance')",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.concatTextColumns = this.concatTextColumns('instance', ',')",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.columnsTestValues = this.columnsTestValues(';')",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.insertFieldsTestValues = this.insertFieldsTestValues(',')",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "ctx.updateWhereTestValues = this.updateWhereTestValues(';')",
+              "statements": []
+            }
+          ],
+          "comments": [
+            "TODO set ctx.lookUps = this.lookUps()",
+            "TODO set ctx.enumReferences = this.enumReferences()",
+            "TODO set ctx.insertArguments = this.insertArguments()",
+            "set ctx.keyColumnsToAndCondition = this.keyColumnsToAndCondition(' .. template...', '&&', values )",
+            "TODO set ctx.cmbLabel = this.cmbLabel()",
+            "TODO set ctx.hasCmbLabel = this.hasCmbLabel()"
+          ]
+        }
+      ],
+      "comments": [
+        "A table is a set of columns and rows.",
+        "The wzName is the ddl/sql name."
+      ]
+    },
+    {
+      "name": "tableColumn",
+      "super": "rdbmsitem",
+      "isRoot": false,
+      "tags": [
+        "c"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "domain",
+          "type": "string",
+          "tags": [
+            "domain"
+          ],
+          "default": "string",
+          "flags": "is-datatype ",
+          "inheritedFrom": null,
+          "restricts": [
+            {
+              "facets": [
+                {
+                  "type": "enumFacet",
+                  "value": "string",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "boolean",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "integer",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "float",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "date",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "document",
+                  "comments": []
+                }
+              ],
+              "comments": []
+            }
+          ],
+          "comments": [
+            "The column data type"
+          ]
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "A description of the column.",
+            "Is used in forms as an help-block"
+          ]
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "tags": [
+            "default"
+          ],
+          "default": "",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "The column default value"
+          ]
+        },
+        {
+          "name": "idGenerator",
+          "type": "string",
+          "tags": [
+            "id-generator"
+          ],
+          "default": "",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "idSeed",
+          "type": "string",
+          "tags": [
+            "id-seed"
+          ],
+          "default": "",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "idStep",
+          "type": "string",
+          "tags": [
+            "id-step"
+          ],
+          "default": "",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "sqlName",
+          "type": "string",
+          "tags": [
+            "sql-name"
+          ],
+          "default": "",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "The DDL sql name of the column",
+            "Optional. The default is the wzName."
+          ]
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "tags": [
+            "label"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "A text used on views to label the column.",
+            "Is used in forms as a placeholder.",
+            "Optional. The default is the wzName."
+          ]
+        },
+        {
+          "name": "referenceLabel",
+          "type": "string",
+          "tags": [
+            "reference-label"
+          ],
+          "default": "",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "A text used on list views as column heading when the column is on the many side of the relation.",
+            "Optional. The default is the label."
+          ]
+        },
+        {
+          "name": "listHeading",
+          "type": "string",
+          "tags": [
+            "list-heading"
+          ],
+          "default": "",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "A text used on list views as column heading.",
+            "Optional. The default is the wzName."
+          ]
+        },
+        {
+          "name": "isProxy",
+          "type": "boolean",
+          "tags": [
+            "is-proxy"
+          ],
+          "default": "false",
+          "defaultWhenDeclared": "true",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "Insert this column in a sintetic view of a table row. Used for view-lists.",
+            "Optional. The default is false."
+          ]
+        },
+        {
+          "name": "isInsertParam",
+          "type": "boolean",
+          "tags": [
+            "is-insert-param"
+          ],
+          "default": "false",
+          "defaultWhenDeclared": "true",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "Add this column to the parameters of the (api) insert method of a row.",
+            "The default parameters of the insert method are the primaryKey columns.",
+            "Optional. The default is false."
+          ]
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "tags": [
+            "format"
+          ],
+          "default": "none",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [
+            {
+              "facets": [
+                {
+                  "type": "enumFacet",
+                  "value": "none",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "password",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "datetime",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "datetime-local",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "date",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "month",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "date",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "time",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "week",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "number",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "email",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "url",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "search",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "tel",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "color",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "hcheckboxes",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "vcheckboxes",
+                  "comments": []
+                }
+              ],
+              "comments": []
+            }
+          ],
+          "comments": [
+            "The column display format used on forms"
+          ]
+        },
+        {
+          "name": "enumReference",
+          "type": "string",
+          "tags": [
+            "enum-reference"
+          ],
+          "default": "",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "calculatedOnInsert",
+          "type": "string",
+          "tags": [
+            "on-insert"
+          ],
+          "default": "",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "calculatedOnUpdate",
+          "type": "string",
+          "tags": [
+            "on-update"
+          ],
+          "default": "",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "validation",
+          "role": "validations",
+          "tags": [
+            "validation"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": [
+            "Table column validation rules."
+          ]
+        },
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "rdbmsitem",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "wzinitialize",
+          "isStatic": false,
+          "isKnownMethod": true,
+          "params": [],
+          "statements": [
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "this.table = this.wzParent",
+              "statements": []
+            },
+            {
+              "tag": "var",
+              "name": "xvar",
+              "value": "name = this.wzName;",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "this.name = this.wzName",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "this.sqlName = isEmpty(this.sqlName) ? this.wzName : this.sqlName",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "this.label = isEmpty(this.label) ? this.wzName : this.label",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "this.referenceLabel = isEmpty(this.referenceLabel) ? this.label : this.referenceLabel",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "this.listHeading = isEmpty(this.listHeading) ? this.label : this.listHeading",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "this.argumentName = this.wzName.substr(0, 1).toLowerCase() + this.wzName.substr(1)",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "this.fieldName = \"_\" + this.wzName.substr(0, 1) + this.wzName.substr(1)",
+              "statements": []
+            }
+          ],
+          "comments": [
+            "name always lower case"
+          ]
+        },
+        {
+          "name": "isKey",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "if",
+              "name": "xif",
+              "value": "this.table.primaryKey()",
+              "statements": [
+                {
+                  "tag": "foreach",
+                  "name": "foreach",
+                  "value": "item in this.table.primaryKey().indexColumns",
+                  "statements": [
+                    {
+                      "tag": "if",
+                      "name": "xif",
+                      "value": "item.wzName === this.wzName",
+                      "statements": [
+                        {
+                          "tag": "return",
+                          "name": "xreturn",
+                          "value": "true",
+                          "statements": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "false",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "isListProxyItem",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "this.isProxy || this.isKey() || this.isReference() || this.nameLower == \"name\";",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "referenceTable",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "foreach",
+              "name": "foreach",
+              "value": "r in this.table.oneRelations",
+              "statements": [
+                {
+                  "tag": "foreach",
+                  "name": "foreach",
+                  "value": "rc in r.relationColumns",
+                  "statements": [
+                    {
+                      "tag": "if",
+                      "name": "xif",
+                      "value": "rc.manyColumnName == this.wzName",
+                      "statements": [
+                        {
+                          "tag": "return",
+                          "name": "xreturn",
+                          "value": "r.oneTable()",
+                          "statements": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "null",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "isReference",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "this.referenceTable() != null;",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "isIdentity",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "this.idGenerator != null && this.idGenerator.toLowerCase() === NameTable.Identity; // TODO",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "isAutomaticOnUpdate",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "this.calculatedValueOnUpdate != null || this.idGenerator != null || this.canUpdate == false;",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "hasDefaultValue",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "this.defaultValue != null;",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "isRequired",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "_.find(this.validations, function(item){ return item.wzTag === 'required'; });",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "setIsRequired",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "if",
+              "name": "xif",
+              "value": "this.isRequired()",
+              "statements": [
+                {
+                  "tag": "return",
+                  "name": "xreturn",
+                  "value": "",
+                  "statements": []
+                }
+              ]
+            },
+            {
+              "tag": "var",
+              "name": "xvar",
+              "value": "item = new md.Required(null, this.wzSourceLineInfo);",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "item.wzTag = \"required\";",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "item.wzParent = this;",
+              "statements": []
+            },
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "this.validations.Add(item);",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "isViewIndexProxy",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "if",
+              "name": "xif",
+              "value": "this.isProxy",
+              "statements": [
+                {
+                  "tag": "return",
+                  "name": "xreturn",
+                  "value": "true;",
+                  "statements": []
+                }
+              ]
+            },
+            {
+              "tag": "if",
+              "name": "xif",
+              "value": "this.wzName != null && (this.nameLower == \"name\" || this.nameLower == \"id\")",
+              "statements": [
+                {
+                  "tag": "return",
+                  "name": "xreturn",
+                  "value": "true;",
+                  "statements": []
+                }
+              ]
+            },
+            {
+              "tag": "if",
+              "name": "xif",
+              "value": "this.table.hasCmbLabel() && this.table.cmbLabel().gettableColumnByName(this.wzName) != null",
+              "statements": [
+                {
+                  "tag": "return",
+                  "name": "xreturn",
+                  "value": "true;",
+                  "statements": []
+                }
+              ]
+            },
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "false;",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "jsDefaultValue",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "if",
+              "name": "xif",
+              "value": "isEmpty(this.defaultValue)",
+              "statements": [
+                {
+                  "tag": "if",
+                  "name": "xif",
+                  "value": "this.domain === 'integer' || this.domain === 'float'",
+                  "statements": [
+                    {
+                      "tag": "return",
+                      "name": "xreturn",
+                      "value": "\"0\"",
+                      "statements": []
+                    }
+                  ]
+                },
+                {
+                  "tag": "elif",
+                  "name": "elif",
+                  "value": "this.domain === 'boolean'",
+                  "statements": [
+                    {
+                      "tag": "return",
+                      "name": "xreturn",
+                      "value": "\"false\"",
+                      "statements": []
+                    }
+                  ]
+                },
+                {
+                  "tag": "else",
+                  "name": "xelse",
+                  "value": "",
+                  "statements": [
+                    {
+                      "tag": "return",
+                      "name": "xreturn",
+                      "value": "\"null\"",
+                      "statements": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "else",
+              "name": "xelse",
+              "value": "",
+              "statements": [
+                {
+                  "tag": "if",
+                  "name": "xif",
+                  "value": "this.domain === 'string'",
+                  "statements": [
+                    {
+                      "tag": "return",
+                      "name": "xreturn",
+                      "value": "'\"' + this.defaultValue + '\"';",
+                      "statements": []
+                    }
+                  ]
+                },
+                {
+                  "tag": "elif",
+                  "name": "elif",
+                  "value": "this.domain === 'boolean'",
+                  "statements": [
+                    {
+                      "tag": "return",
+                      "name": "xreturn",
+                      "value": "this.defaultValue == null ? \"false\" : this.defaultValue.ToLowerCase();",
+                      "statements": []
+                    }
+                  ]
+                },
+                {
+                  "tag": "elif",
+                  "name": "elif",
+                  "value": "this.domain === 'date' && this.defaultValue.toLowerCase() === \"today\"",
+                  "statements": [
+                    {
+                      "tag": "return",
+                      "name": "xreturn",
+                      "value": "\"new Date().getTime()\";",
+                      "statements": []
+                    }
+                  ]
+                },
+                {
+                  "tag": "else",
+                  "name": "xelse",
+                  "value": "",
+                  "statements": [
+                    {
+                      "tag": "return",
+                      "name": "xreturn",
+                      "value": "this.defaultValue;",
+                      "statements": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "listEditControlName",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "\"fc_\" + this.table.nameLower + \"Edit_\" + this.nameLower;",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "canUpdate",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "this.isKey == false &&isEmpty(this.idGenerator) &&isEmpty(this.calculatedOnInsert) &&isEmpty(this.calculatedOnUpdate)",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "canInsert",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "isEmpty(this.idGenerator) &&isEmpty(this.calculatedOnInsert)",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": [
+        "A table column.",
+        "The wzName is the ddl/sql name.",
+        "TODO r enum/s",
+        "TODO r lookUp/s"
+      ]
+    },
+    {
+      "name": "index",
+      "super": "rdbmsitem",
+      "isRoot": false,
+      "tags": [
+        "ndx"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "isPrimary",
+          "type": "boolean",
+          "tags": [
+            "is-primary"
+          ],
+          "default": "false",
+          "defaultWhenDeclared": "true",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "isUnique",
+          "type": "boolean",
+          "tags": [
+            "is-unique"
+          ],
+          "default": "false",
+          "defaultWhenDeclared": "true",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "indexColumn",
+          "role": "indexColumns",
+          "tags": [
+            "c"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "rdbmsitem",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "wzinitialize",
+          "isStatic": false,
+          "isKnownMethod": true,
+          "params": [],
+          "statements": [
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "this.table = this.wzParent",
+              "statements": []
+            },
+            {
+              "tag": "foreach",
+              "name": "foreach",
+              "value": "item in this.indexColumns",
+              "statements": [
+                {
+                  "tag": "set",
+                  "name": "set",
+                  "value": "item.tableColumn = this.table.getTableColumn(item.wzName)",
+                  "statements": []
+                }
+              ]
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": [
+        "A table index",
+        "The wzName is the ddl/sql name."
+      ]
+    },
+    {
+      "name": "indexColumn",
+      "super": "rdbmsitem",
+      "isRoot": false,
+      "tags": [
+        "c"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "sort",
+          "type": "string",
+          "tags": [
+            "sort"
+          ],
+          "default": "asc",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [
+            {
+              "facets": [
+                {
+                  "type": "enumFacet",
+                  "value": "asc",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "desc",
+                  "comments": []
+                }
+              ],
+              "comments": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "rdbmsitem",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "An index column",
+        "The wzName is the ddl/sql name."
+      ]
+    },
+    {
+      "name": "validationError",
+      "super": "rdbmsitem",
+      "isRoot": false,
+      "tags": [
+        "validation-error"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "message",
+          "type": "string",
+          "tags": [
+            "message"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "The text of the message. May contain {param} strings for",
+            "parameter substitution."
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "name": "param",
+          "role": "params",
+          "tags": [
+            "param"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "rdbmsitem",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "A schema level default error message for a validation rule",
+        "The wzName references the wzElement of the rule."
+      ]
+    },
+    {
+      "name": "validation",
+      "super": "rdbmsitem",
+      "isRoot": false,
+      "tags": [
+        "validation"
+      ],
+      "flags": "is-abstract ",
+      "attributes": [
+        {
+          "name": "message",
+          "type": "string",
+          "tags": [
+            "message"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "Overrides the default validation-error message of the rule."
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "rdbmsitem",
+          "comments": []
+        }
+      ],
+      "derived": [
+        {
+          "name": "required",
+          "tags": [
+            "required"
+          ]
+        },
+        {
+          "name": "minValue",
+          "tags": [
+            "min-value"
+          ]
+        },
+        {
+          "name": "maxValue",
+          "tags": [
+            "max-value"
+          ]
+        },
+        {
+          "name": "minLength",
+          "tags": [
+            "min-length"
+          ]
+        },
+        {
+          "name": "maxLength",
+          "tags": [
+            "max-length"
+          ]
+        },
+        {
+          "name": "regexp",
+          "tags": [
+            "regexp"
+          ]
+        },
+        {
+          "name": "match",
+          "tags": [
+            "match"
+          ]
+        },
+        {
+          "name": "restrict",
+          "tags": [
+            "restrict"
+          ]
+        }
+      ],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "The base element for a table column validation rule."
+      ]
+    },
+    {
+      "name": "required",
+      "super": "validation",
+      "isRoot": false,
+      "tags": [
+        "required"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "message",
+          "type": "string",
+          "tags": [
+            "message"
+          ],
+          "flags": "",
+          "inheritedFrom": "validation",
+          "restricts": [],
+          "comments": [
+            "Overrides the default validation-error message of the rule."
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "rdbmsitem",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "A value is required"
+      ]
+    },
+    {
+      "name": "minValue",
+      "super": "validation",
+      "isRoot": false,
+      "tags": [
+        "min-value"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "message",
+          "type": "string",
+          "tags": [
+            "message"
+          ],
+          "flags": "",
+          "inheritedFrom": "validation",
+          "restricts": [],
+          "comments": [
+            "Overrides the default validation-error message of the rule."
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "rdbmsitem",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
       "comments": []
+    },
+    {
+      "name": "maxValue",
+      "super": "validation",
+      "isRoot": false,
+      "tags": [
+        "max-value"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "message",
+          "type": "string",
+          "tags": [
+            "message"
+          ],
+          "flags": "",
+          "inheritedFrom": "validation",
+          "restricts": [],
+          "comments": [
+            "Overrides the default validation-error message of the rule."
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "rdbmsitem",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "minLength",
+      "super": "validation",
+      "isRoot": false,
+      "tags": [
+        "min-length"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "message",
+          "type": "string",
+          "tags": [
+            "message"
+          ],
+          "flags": "",
+          "inheritedFrom": "validation",
+          "restricts": [],
+          "comments": [
+            "Overrides the default validation-error message of the rule."
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "rdbmsitem",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "maxLength",
+      "super": "validation",
+      "isRoot": false,
+      "tags": [
+        "max-length"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "message",
+          "type": "string",
+          "tags": [
+            "message"
+          ],
+          "flags": "",
+          "inheritedFrom": "validation",
+          "restricts": [],
+          "comments": [
+            "Overrides the default validation-error message of the rule."
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "rdbmsitem",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "regexp",
+      "super": "validation",
+      "isRoot": false,
+      "tags": [
+        "regexp"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "message",
+          "type": "string",
+          "tags": [
+            "message"
+          ],
+          "flags": "",
+          "inheritedFrom": "validation",
+          "restricts": [],
+          "comments": [
+            "Overrides the default validation-error message of the rule."
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "rdbmsitem",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "match",
+      "super": "validation",
+      "isRoot": false,
+      "tags": [
+        "match"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "message",
+          "type": "string",
+          "tags": [
+            "message"
+          ],
+          "flags": "",
+          "inheritedFrom": "validation",
+          "restricts": [],
+          "comments": [
+            "Overrides the default validation-error message of the rule."
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "rdbmsitem",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "The column value must match the value of the column",
+        "indicated by the wzName"
+      ]
+    },
+    {
+      "name": "restrict",
+      "super": "validation",
+      "isRoot": false,
+      "tags": [
+        "restrict"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "message",
+          "type": "string",
+          "tags": [
+            "message"
+          ],
+          "flags": "",
+          "inheritedFrom": "validation",
+          "restricts": [],
+          "comments": [
+            "Overrides the default validation-error message of the rule."
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "name": "zenum",
+          "role": "zenums",
+          "tags": [
+            "enum"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": [
+            "Enumeration of allowed values"
+          ]
+        },
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "rdbmsitem",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "The column value must be one of an enumeration of valid values."
+      ]
+    },
+    {
+      "name": "zenum",
+      "super": "rdbmsitem",
+      "isRoot": false,
+      "tags": [
+        "enum"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "rdbmsitem",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "An allowed value in a restrict validation rule."
+      ]
+    },
+    {
+      "name": "relation",
+      "super": "rdbmsitem",
+      "isRoot": false,
+      "tags": [
+        "r"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "oneTableName",
+          "type": "string",
+          "tags": [
+            "one"
+          ],
+          "default": "",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "oneRoleInternal",
+          "type": "string",
+          "tags": [
+            "one-role"
+          ],
+          "default": "",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "manyTableName",
+          "type": "string",
+          "tags": [
+            "many"
+          ],
+          "default": "",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "manyRoleInternal",
+          "type": "string",
+          "tags": [
+            "many-role"
+          ],
+          "default": "",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "cardinality",
+          "type": "string",
+          "tags": [
+            "cardinality"
+          ],
+          "default": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [
+            {
+              "facets": [
+                {
+                  "type": "enumFacet",
+                  "value": "one-to-many",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "one-to-one",
+                  "comments": []
+                }
+              ],
+              "comments": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "manyTableIsDocument",
+          "type": "boolean",
+          "tags": [
+            "many-is-document"
+          ],
+          "default": "false",
+          "defaultWhenDeclared": "true",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "parentIsProxy",
+          "type": "boolean",
+          "tags": [
+            "parent-is-proxy"
+          ],
+          "default": "false",
+          "defaultWhenDeclared": "true",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "OnParentInsert",
+          "type": "string",
+          "tags": [
+            "on-parent-insert"
+          ],
+          "default": "none",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [
+            {
+              "facets": [
+                {
+                  "type": "enumFacet",
+                  "value": "none",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "restrict",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "cascade",
+                  "comments": []
+                }
+              ],
+              "comments": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "OnParentUpdate",
+          "type": "string",
+          "tags": [
+            "on-parent-update"
+          ],
+          "default": "restrict",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [
+            {
+              "facets": [
+                {
+                  "type": "enumFacet",
+                  "value": "none",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "restrict",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "cascade",
+                  "comments": []
+                }
+              ],
+              "comments": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "OnParentDelete",
+          "type": "string",
+          "tags": [
+            "on-parent-delete"
+          ],
+          "default": "restrict",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [
+            {
+              "facets": [
+                {
+                  "type": "enumFacet",
+                  "value": "none",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "restrict",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "cascade",
+                  "comments": []
+                }
+              ],
+              "comments": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "OnChildInsert",
+          "type": "string",
+          "tags": [
+            "on-child-insert"
+          ],
+          "default": "restrict",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [
+            {
+              "facets": [
+                {
+                  "type": "enumFacet",
+                  "value": "none",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "restrict",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "cascade",
+                  "comments": []
+                }
+              ],
+              "comments": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "OnChildUpdate",
+          "type": "string",
+          "tags": [
+            "on-child-update"
+          ],
+          "default": "restrict",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [
+            {
+              "facets": [
+                {
+                  "type": "enumFacet",
+                  "value": "none",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "restrict",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "cascade",
+                  "comments": []
+                }
+              ],
+              "comments": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "OnChildDelete",
+          "type": "string",
+          "tags": [
+            "on-child-delete"
+          ],
+          "default": "restrict",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [
+            {
+              "facets": [
+                {
+                  "type": "enumFacet",
+                  "value": "none",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "restrict",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "cascade",
+                  "comments": []
+                }
+              ],
+              "comments": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "relationColumn",
+          "role": "relationColumns",
+          "tags": [
+            "c"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "rdbmsitem",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "wzverify",
+          "isStatic": false,
+          "isKnownMethod": true,
+          "params": [],
+          "statements": [
+            {
+              "tag": "if",
+              "name": "xif",
+              "value": "!this.oneTable()",
+              "statements": [
+                {
+                  "tag": "_",
+                  "name": "call",
+                  "value": "ctx.addError('In relation ' + this.wzName + ' oneTable not found: ' + this.oneTableName)",
+                  "statements": []
+                }
+              ]
+            },
+            {
+              "tag": "if",
+              "name": "xif",
+              "value": "!this.manyTableIsDocument",
+              "statements": [
+                {
+                  "tag": "if",
+                  "name": "xif",
+                  "value": "!this.manyTable()",
+                  "statements": [
+                    {
+                      "tag": "_",
+                      "name": "call",
+                      "value": "ctx.addError('In relation ' + this.wzName + ' manyTable not found: ' + this.manyTableName)",
+                      "statements": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "oneRole",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "isEmpty(this.oneRoleInternal) ? this.oneTable().wzName : this.oneRoleInternal",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "manyRole",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "isEmpty(this.manyRoleInternal) ? this.oneTable().namePlural : this.manyRoleInternal",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "oneTable",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "this.wzParent.getTable(this.oneTableName)",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "manyTable",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "this.wzParent.getTable(this.manyTableName)",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "oneColumns",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "var",
+              "name": "xvar",
+              "value": "memo = []",
+              "statements": []
+            },
+            {
+              "tag": "foreach",
+              "name": "foreach",
+              "value": "item in this.relationColumns",
+              "statements": [
+                {
+                  "tag": "var",
+                  "name": "xvar",
+                  "value": "tc = this.oneTable().getTableColumnByName(item.oneColumnName)",
+                  "statements": []
+                },
+                {
+                  "tag": "if",
+                  "name": "xif",
+                  "value": "tc == null",
+                  "statements": [
+                    {
+                      "tag": "_",
+                      "name": "call",
+                      "value": "this.error(\"Column \" + item.oneColumnName + \" not found in table \" + this.oneTable().wzName + \" in relation \" + this.wzName)",
+                      "statements": []
+                    }
+                  ]
+                },
+                {
+                  "tag": "_",
+                  "name": "call",
+                  "value": "memo.push(tc)",
+                  "statements": []
+                }
+              ]
+            },
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "memo",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "manyColumns",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "var",
+              "name": "xvar",
+              "value": "memo = []",
+              "statements": []
+            },
+            {
+              "tag": "foreach",
+              "name": "foreach",
+              "value": "item in this.relationColumns",
+              "statements": [
+                {
+                  "tag": "var",
+                  "name": "xvar",
+                  "value": "tc = this.manyTable().getTableColumnByName(item.manyColumnName)",
+                  "statements": []
+                },
+                {
+                  "tag": "if",
+                  "name": "xif",
+                  "value": "tc == null",
+                  "statements": [
+                    {
+                      "tag": "_",
+                      "name": "call",
+                      "value": "this.error(\"Column \" + item.manyColumnName + \" not found in table \" + this.manyTable().wzName + \" in relation \" + this.wzName)",
+                      "statements": []
+                    }
+                  ]
+                },
+                {
+                  "tag": "_",
+                  "name": "call",
+                  "value": "memo.push(tc)",
+                  "statements": []
+                }
+              ]
+            },
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "memo",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "manyArguments",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "tableHelper.ArgumentsToString(manyColumns);",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "manyParameters",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "tableHelper.ParametersToString(manyColumns);",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "childParameters_aka_Properties",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "tableHelper.ParametersToString_aka_Properties(manyColumns);",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "childParametersToStringInstance",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "instance"
+          ],
+          "statements": [
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "tableHelper.ParametersToStringInstance(manyColumns, instance);",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "filterChild",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "instance"
+          ],
+          "statements": [
+            {
+              "tag": "var",
+              "name": "xvar",
+              "value": "memo = []",
+              "statements": []
+            },
+            {
+              "tag": "foreach",
+              "name": "foreach",
+              "value": "item in this.relationColumns",
+              "statements": [
+                {
+                  "tag": "if",
+                  "name": "xif",
+                  "value": "memo.length > 0",
+                  "statements": [
+                    {
+                      "tag": "_",
+                      "name": "call",
+                      "value": "memo.push(' && ')",
+                      "statements": []
+                    }
+                  ]
+                },
+                {
+                  "tag": "_",
+                  "name": "call",
+                  "value": "memo.push(instance + \".\" + item.manyColumnName + \" == \" + item.manyTableColumn.argumentName)",
+                  "statements": []
+                }
+              ]
+            },
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "memo",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "oneManyKeys",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "var",
+              "name": "xvar",
+              "value": "ret = [], check = {}",
+              "statements": []
+            },
+            {
+              "tag": "foreach",
+              "name": "foreach",
+              "value": "item in this.oneTable().keyColumns()",
+              "statements": [
+                {
+                  "tag": "_",
+                  "name": "call",
+                  "value": "ret.push(item)",
+                  "statements": []
+                },
+                {
+                  "tag": "set",
+                  "name": "set",
+                  "value": "check[item.wzName] = true",
+                  "statements": []
+                }
+              ]
+            },
+            {
+              "tag": "foreach",
+              "name": "foreach",
+              "value": "item in this.manyTable().keyColumns()",
+              "statements": [
+                {
+                  "tag": "if",
+                  "name": "xif",
+                  "value": "!check[item.wzName]",
+                  "statements": [
+                    {
+                      "tag": "_",
+                      "name": "call",
+                      "value": "ret.push(item)",
+                      "statements": []
+                    },
+                    {
+                      "tag": "set",
+                      "name": "set",
+                      "value": "check[item.wzName] = true",
+                      "statements": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "return",
+              "name": "xreturn",
+              "value": "ret",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": []
+    },
+    {
+      "name": "relationColumn",
+      "super": "rdbmsitem",
+      "isRoot": false,
+      "tags": [
+        "c"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "oneColumnName",
+          "type": "string",
+          "tags": [
+            "one"
+          ],
+          "default": "",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "manyColumnName",
+          "type": "string",
+          "tags": [
+            "many"
+          ],
+          "default": "",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "rdbmsitem",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "wzinitialize",
+          "isStatic": false,
+          "isKnownMethod": true,
+          "params": [],
+          "statements": [
+            {
+              "tag": "set",
+              "name": "set",
+              "value": "this.relation = this.wzParent",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "wzverify",
+          "isStatic": false,
+          "isKnownMethod": true,
+          "params": [],
+          "statements": [
+            {
+              "tag": "if",
+              "name": "xif",
+              "value": "!this.oneColumn()",
+              "statements": [
+                {
+                  "tag": "_",
+                  "name": "call",
+                  "value": "ctx.addError('In relation ' + this.wzParent.wzName + ' oneColumn not found in oneTable: ' + this.oneColumnName)",
+                  "statements": []
+                }
+              ]
+            },
+            {
+              "tag": "if",
+              "name": "xif",
+              "value": "!this.relation.manyTableIsDocument",
+              "statements": [
+                {
+                  "tag": "if",
+                  "name": "xif",
+                  "value": "!this.manyColumn()",
+                  "statements": [
+                    {
+                      "tag": "_",
+                      "name": "call",
+                      "value": "ctx.addError('In relation ' + this.wzParent.wzName + ' manyColumn not found in manyTable: ' + this.manyColumnName)",
+                      "statements": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "oneColumn",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "if",
+              "name": "xif",
+              "value": "this.wzParent.oneTable()",
+              "statements": [
+                {
+                  "tag": "return",
+                  "name": "xreturn",
+                  "value": "this.wzParent.oneTable().getTableColumn(this.oneColumnName)",
+                  "statements": []
+                }
+              ]
+            },
+            {
+              "tag": "else",
+              "name": "xelse",
+              "value": "",
+              "statements": [
+                {
+                  "tag": "return",
+                  "name": "xreturn",
+                  "value": "null;",
+                  "statements": []
+                }
+              ]
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "manyColumn",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "if",
+              "name": "xif",
+              "value": "this.wzParent.manyTable()",
+              "statements": [
+                {
+                  "tag": "return",
+                  "name": "xreturn",
+                  "value": "this.wzParent.manyTable().getTableColumn(this.manyColumnName)",
+                  "statements": []
+                }
+              ]
+            },
+            {
+              "tag": "else",
+              "name": "xelse",
+              "value": "",
+              "statements": [
+                {
+                  "tag": "return",
+                  "name": "xreturn",
+                  "value": "null;",
+                  "statements": []
+                }
+              ]
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": []
+    },
+    {
+      "name": "document",
+      "super": "rdbmsitem",
+      "isRoot": false,
+      "tags": [
+        "document"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "kind",
+          "type": "string",
+          "tags": [
+            "kind"
+          ],
+          "default": "",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [
+            {
+              "facets": [
+                {
+                  "type": "enumFacet",
+                  "value": "json-meta-data",
+                  "comments": [
+                    "The json data of a branch node"
+                  ]
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "ittf",
+                  "comments": [
+                    "An IttfDocument of a leaf node"
+                  ]
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "text-content",
+                  "comments": [
+                    "The text context of a leaf node"
+                  ]
+                }
+              ],
+              "comments": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "path",
+          "role": "paths",
+          "tags": [
+            "path"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "metaField",
+          "role": "metaFields",
+          "tags": [
+            "meta-field"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "rdbmsitem",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "In a json model a table row can be",
+        ". a branch node containing data for node leafs and",
+        "related nodes or",
+        ". a leaf node containing a text content",
+        "Metadata for a leaf node may be stored in the parent branch node."
+      ]
+    },
+    {
+      "name": "path",
+      "super": "rdbmsitem",
+      "isRoot": false,
+      "tags": [
+        "path"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "pathSegment",
+          "role": "pathSegments",
+          "tags": [
+            "segment"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "rdbmsitem",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "pathSegment",
+      "super": "rdbmsitem",
+      "isRoot": false,
+      "tags": [
+        "segment"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "rdbmsitem",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "metaField",
+      "super": "rdbmsitem",
+      "isRoot": false,
+      "tags": [
+        "meta-field"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "type",
+          "type": "string",
+          "tags": [
+            "type"
+          ],
+          "default": "string",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [
+            {
+              "facets": [
+                {
+                  "type": "enumFacet",
+                  "value": "string",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "boolean",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "integer",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "float",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "date",
+                  "comments": []
+                }
+              ],
+              "comments": []
+            }
+          ],
+          "comments": [
+            "The metaField data type"
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "rdbmsitem",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "param",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "param"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "A parameter passed to a function.",
+        "The wzName is the parameter name."
+      ]
     }
   ]
 }

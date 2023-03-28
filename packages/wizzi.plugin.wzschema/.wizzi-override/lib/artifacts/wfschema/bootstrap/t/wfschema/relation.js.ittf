@@ -1,0 +1,67 @@
+﻿clazz( Relation, Node )
+	ctor
+		param name
+		base name
+		set this.wzElement = 'relation'
+
+		set this.wzNamePlural = null
+		set this.wzIdPlural = null
+		set this.childRole = null
+		set this.rightElement = null
+		set this.noGetMethod = false
+		set this.hasAddOnce = false
+		set this.isOneToOne = false
+
+	m wzInitializeNames
+		param ctx
+
+		if this.isOneToOne == false
+			
+			if this.childRole == null
+			
+				var hyphen = this.wzName.indexOf("[-]");
+
+				var name = hyphen >= 0 ? schemautil.replaceAll(this.wzName, '[-]', '§§§') : this.wzName
+
+				var ss = name.split('/')
+				if ss.length == 2
+					var zz = ss[0].split('-')
+					if zz.length == 2
+						set this.wzName = zz[0] + zz[1]
+						set this.wzNamePlural = zz[0] + ss[1]
+					else
+						set this.wzName = ss[0]
+						set this.wzNamePlural = ss[0] + ss[1]
+				else
+					set this.wzNamePlural = this.wzName + 's'
+
+				if hyphen >= 0
+					set this.wzName = schemautil.replaceAll(this.wzName, '§§§', '-')
+					set this.wzNamePlural = schemautil.replaceAll(this.wzNamePlural, '§§§', '-')
+
+			else
+				set this.wzNamePlural = this.childRole
+
+	m wzInitialize
+		param ctx
+
+		_ this.wzInitializeNames(ctx)
+
+		set this.wzId = schemautil.getIdentifier(this.wzName, true)
+		if this.isOneToOne == false
+			set this.wzIdPlural = schemautil.getIdentifier(this.wzNamePlural, true)
+
+		set this.leftElement = this.wzParent
+		if this.rightElement === null
+			set this.rightElement = this.wzParent.schema.getElement(this.wzName)
+
+		if this.rightElement === null
+			_ ctx.error('Related element ' + this.wzName + ' not found', this)
+
+		set this.childEntityId = this.rightElement.wzId
+		set this.childEntityIdCapital = this.rightElement.wzIdCapital
+		
+	m wzVerify
+		param ctx
+
+

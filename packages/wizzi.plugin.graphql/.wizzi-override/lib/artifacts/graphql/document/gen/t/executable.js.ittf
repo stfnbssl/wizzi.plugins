@@ -1,0 +1,172 @@
+﻿$group
+
+	async-md-ctx( operation )
+		# loog 'calling operation', model.wzElement
+		var method = md[model.wzElement]
+		_ method
+			@ model
+			@ ctx
+			@ callback
+
+	async-md-ctx( fragmentCtx )
+		_ md.fragment
+				@ model
+				@ ctx
+				@ callback
+
+	async-md( query )
+		var vars = []
+		foreach item in model.variables
+			_ vars.push
+				_ getVariableDeclaration
+					@ item
+		var varsDeclare = vars.length > 0 ? '(' + vars.join(', ') + ')' : ''
+		_ ctx.write( 'query' + (model.wzName.length > 0 ? ' ' + model.wzName : '') + varsDeclare + ' ')
+		if model.selectionSet
+			_ md.selectionSet
+				@ model.selectionSet
+				@ ctx
+				@ callback
+		else
+			r_cb()
+
+	async-md( mutation )
+		var vars = []
+		foreach item in model.variables
+			_ vars.push
+				_ getVariableDeclaration
+					@ item
+		var varsDeclare = vars.length > 0 ? '(' + vars.join(', ') + ')' : ''
+		_ ctx.write( 'mutation' + (model.wzName.length > 0 ? ' ' + model.wzName : '') + varsDeclare + ' ' )
+		if model.selectionSet
+			_ md.selectionSet
+				@ model.selectionSet
+				@ ctx
+				@ callback
+		else
+			r_cb()
+
+	async-md( selectionSet )
+		
+		log 'selectionSet', model.selections.length
+		if model.wzName.length > 0
+			_ ctx.write( model.wzName)
+			_ writeArguments
+				@ model.xarguments || []
+				@ ctx
+                a_cb()
+			        _ ctx.write( ' ' )
+                    _ selectionSet_step_2
+                        @ model
+                        @ ctx
+                        @ callback
+        else
+            _ selectionSet_step_2
+                @ model
+                @ ctx
+                @ callback
+    
+    function selectionSet_step_2
+        param model
+        param ctx
+        param callback
+        log 'selectionSet_step_2'
+		_ ctx.w( '{' )
+		_ ctx.indent
+		_ async.mapSeries
+			@ model.selections
+			_ md.selection
+				@ ctx
+			a_cb()
+				_ ctx.deindent
+				_ ctx.w( '}' )
+				r_cb()
+
+	async-md-ctx( selection )
+        log 'selection'
+		# loog 'calling selection', model.wzElement
+		var method = md[model.wzElement]
+		_ method
+			@ model
+			@ ctx
+			@ callback
+
+	async-md( field )
+        log 'field'
+		if model.alias && model.alias.length > 0 
+			_ ctx.write( model.alias + ': ' )
+		_ ctx.write( model.wzName )
+		_ writeArguments
+			@ model.xarguments || []
+			@ ctx
+            a_cb()
+                log 'field.model.selectionSet', model.selectionSet
+                if model.selectionSet
+                    _ ctx.write( ' ' )
+                    _ md.selectionSet
+                        @ model.selectionSet
+                        @ ctx
+                        @ callback
+                else
+                    _ ctx.w
+                    r_cb()
+
+	async-md( fragmentSpread )
+		var blank = model.wzName && model.wzName.length > 0 ? ' ' : ''
+		_ ctx.write( '...' + blank + model.wzName + ' ' )
+        _ writeDirectives
+            @ model.directives
+            @ ctx
+            a_cb()
+                if model.selectionSet
+                    _ md.selectionSet
+                        @ model.selectionSet
+                        @ ctx
+                        @ callback
+                else
+                    _ ctx.w()
+                    r_cb()
+	
+	async-md( inlineFragment )
+		var blank = model.wzName && model.wzName.length > 0 ? ' ' : ''
+		_ ctx.w( '... on' + blank + model.wzName + ' ')
+        _ writeDirectives
+            @ model.directives
+            @ ctx
+            a_cb()
+                if model.selectionSet
+                    _ md.selectionSet
+                        @ model.selectionSet
+                        @ ctx
+                        @ callback
+                else
+                    _ ctx.w()
+                    r_cb()
+	
+	async-md( fragment )
+		var typeCondition = model.typeCondition && model.typeCondition.length > 0 ? ' on ' + model.typeCondition : ''
+		_ ctx.write( 'fragment ' + model.wzName + typeCondition + ' ' )
+		if model.selectionSet
+			_ md.selectionSet
+				@ model.selectionSet
+				@ ctx
+				a_cb()
+					r_cb()
+		else
+			_ ctx.w
+			r_cb()
+
+	function getDirectives
+		param directives
+		param ctx
+		var ret = []
+		foreach d in directives
+			var args = []
+			foreach a in d.xarguments
+				_ args.push
+					_ getArgumentDeclaration
+						@ a
+			var argsString = args.length > 0 ? '(' + args.join(', ') + ')' : ''
+			_ ret.push
+				@ '@' + d.wzName + argsString
+		return ret.join(' ')

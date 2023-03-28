@@ -1,0 +1,72 @@
+$group
+
+	$$ TODO mHelpers.isModelType(spec, responseType))
+
+	var createStubHandler
+        function 
+            param req
+            param res
+            param next
+            param handlerName
+            return 
+                function stubHandler
+                    param req
+                    param res
+                    param next
+                    _ mockResponse(req, res, next, handlerName)
+
+	var mockResponse
+        function 
+            param req
+            param res
+            param next
+            param handlerName
+            
+			var method = req.method.toLowerCase()
+            
+			var operation = req.wizziRaml.operation
+            
+			var sendResponse
+                function 
+                    param err
+                    param response
+                    if err
+                        debug 'next with error: %j', err
+                        return next(err)
+                    else 
+                        debug 'send mock response: %s', response
+                        if _.isUndefined(req.statusCode)
+                            set res.statusCode = 200
+                        _ res.setHeader('Content-Type', 'application/json')
+                        return res.end(response)
+            
+			var stubResponse = 'Stubbed response for ' + handlerName
+            
+			var responseType
+            
+			if method === 'post' && operation.responseStatuses['201']
+				set responseType = operation.responseStatuses['201']
+                set res.statusCode = 201
+            elif method === 'delete' && operation.responseStatuses['204']
+                set responseType = operation.responseStatuses['204']
+                set res.statusCode = 204
+            elif operation.responseStatuses['200']
+                set responseType = operation.responseStatuses['200']
+            elif operation.responseStatuses['default']
+                set responseType = operation.responseStatuses['default']
+            else 
+                set responseType = 'void'
+            
+			if _.isPlainObject(responseType) || spec.isModelType(responseType)
+				return 
+                    _ sendResponse
+                        @ undefined
+                        _ JSON.stringify
+                            _ getMockValue
+                                @ responseType.schema || responseType
+            else 
+                return 
+                    _ sendResponse
+                        @ undefined
+                        _ getMockValue
+                            @ responseType

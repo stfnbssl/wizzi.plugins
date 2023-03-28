@@ -1,0 +1,23 @@
+set ${t.wzName}Table.prototype.update
+	function
+		param ${t.wzName}_obj
+		
+		var extant
+			_ this.findOne
+				{ 
+					@ name ${t.wzName}_obj.name
+		
+		if !extant
+			
+			info '${t.wzName} not in DB: '
+			info ${t.wzName}_obj.name
+			return false
+		
+		else 
+			
+			info 'updating ${t.wzName} object:'
+			info ${t.wzName}_obj.name
+			
+			_ this.persister.updateItem(${t.wzName}_obj)
+			
+			return true

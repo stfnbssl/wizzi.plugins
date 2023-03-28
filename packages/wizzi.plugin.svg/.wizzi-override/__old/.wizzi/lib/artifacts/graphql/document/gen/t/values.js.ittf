@@ -1,0 +1,43 @@
+﻿$group
+
+	async/md-ctx( valueCtx )
+		_ md.value
+				@ model
+				@ ctx
+				@ callback
+
+	async/md( value )
+		var method = md[model.wzElement]
+		if method
+			_ method
+				@ model
+				@ ctx
+				@ callback
+		else
+			r_cb()
+
+	async/md( arrayValue )
+		var saveState = ctx.genState
+		set ctx.genState = 'arrayValue'
+		_ ctx.write( '[' )
+		_ async.mapSeries
+			@ model.values
+			_ md.valueCtx
+				@ ctx
+			f_cb()
+				_ ctx.write( ']' )
+				set ctx.genState = saveState
+				r_cb()
+
+	async/md( objectValue )
+		var saveState = ctx.genState
+		set ctx.genState = 'objectValue'
+		_ ctx.write( '{' )
+		_ async.mapSeries
+			@ model.values
+			_ md.valueCtx
+				@ ctx
+			f_cb()
+				_ ctx.write( '}' )
+		set ctx.genState = saveState
+		r_cb()

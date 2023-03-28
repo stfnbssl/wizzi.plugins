@@ -1,0 +1,128 @@
+﻿module
+	kind jsfile
+	
+	+
+	var myname = 'html.document.include_writers'
+	+
+	var verify = require('wizzi-utils').verify
+	+
+	var md = module.exports = {}
+
+	set md.writeIncludeCss
+		function
+			param ctx
+			param model
+			param callback
+			_ model.get_css
+				f_cb( cssModel )
+					_ md.generateCssArtifact
+						@ ctx
+						@ cssModel
+						f_cb( artifactText )
+							_ ctx.write('<style')
+							if model.scoped
+								_ ctx.write(' scoped')
+							_ ctx.w('>')
+							_ ctx.indent
+							_ ctx.writeAligned(artifactText)
+							_ ctx.deindent
+							_ ctx.w('</style>')
+							_ callback
+
+	set md.generateCssArtifact
+		function
+			param ctx
+			param cssModel
+			param callback
+			# log myname, 3
+			# log myname, 'cssModel', cssModel, 'cssModel.rules', cssModel.rules
+			_ ctx.wizziFactory.generateArtifact
+				@ cssModel
+				@ 'generated from html model'
+				@ 'css/document'
+				{
+					@ forVueStyle true
+				f_cb( artifactText )
+					# log myname, 'css artifactText', artifactText
+					return
+						_ callback(null, artifactText)
+
+	set md.writeIncludeJs
+		function
+			param ctx
+			param element
+			param callback
+			# log myname, 'enter writeIncludeJs'
+			_ element.get_js
+				f_cb( jsModel )
+					# log myname, 'jsModel', jsModel
+					_ ctx.wizziFactory.generateArtifact
+						@ jsModel
+						@ 'generated from html model'
+						@ 'js/module'
+						{
+							@ forVueScript true
+							@ noUseStrict true
+							@ noGeneratorComments true
+						f_cb( artifactText )
+							# log myname, 'js module artifactText', artifactText
+							_ ctx.w('<script>')
+							_ ctx.indent
+							_ ctx.writeAligned(artifactText)
+							_ ctx.deindent
+							_ ctx.w('</script>')
+							return
+								_ callback
+
+	set md.writeIncludeTypescript
+		function
+			param ctx
+			param element
+			param callback
+			# log myname, 'enter writeIncludeTypescript'
+			_ element.get_ts
+				f_cb( tsModel )
+					# log myname, 'tsModel', tsModel
+					_ ctx.wizziFactory.generateArtifact
+						@ tsModel
+						@ 'generated from html model'
+						@ 'ts/module'
+						{
+							@ forVueScript true
+							@ noUseStrict true
+							@ noGeneratorComments true
+						f_cb( artifactText )
+							# log myname, 'ts module artifactText', artifactText
+							_ ctx.w('<script lang="ts">')
+							_ ctx.indent
+							_ ctx.writeAligned(artifactText)
+							_ ctx.deindent
+							_ ctx.w('</script>')
+							return
+								_ callback
+
+	set md.writeIncludeHtml
+		function
+			param ctx
+			param element
+			param callback
+			# log myname, 'enter writeIncludeHtml'
+			_ element.get_html
+				f_cb( htmlModel )
+					# log myname, 'htmlModel', htmlModel
+					_ ctx.wizziFactory.generateArtifact
+						@ htmlModel
+						@ 'generated from html model'
+						@ 'html/document'
+						{
+							@ forVueTemplate true
+						f_cb( artifactText )
+							# log myname, 'html module artifactText', artifactText
+							_ ctx.w('<template>')
+							_ ctx.indent
+							_ ctx.writeAligned(artifactText)
+							_ ctx.deindent
+							_ ctx.w('</template>')
+							return
+								_ callback
+

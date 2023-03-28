@@ -1,0 +1,124 @@
+﻿$group
+
+	async/md-ctx( operation )
+		# loog 'calling operation', model.wzElement
+		var method = md[model.wzElement]
+		_ method
+			@ model
+			@ ctx
+			@ callback
+
+	async/md( query )
+		var vars = []
+		foreach item in model.variables
+			_ vars.push
+				_ getVariableDeclaration
+					@ item
+		var varsDeclare = vars.length > 0 ? '(' + vars.join(', ') + ')' : ''
+		_ ctx.w( 'query' + (model.wzName.length > 0 ? ' ' + model.wzName : '') + varsDeclare + ' {')
+		_ ctx.indent
+		if model.selectionSet
+			_ md.selectionSet
+				@ model.selectionSet
+				@ ctx
+				f_cb()
+					_ ctx.deindent
+					_ ctx.w( '}' )
+					r_cb()
+		else
+			_ ctx.deindent
+			_ ctx.w( '}' )
+			r_cb()
+
+	async/md( selectionSet )
+		
+		# loog 'selectionSet', model.selections.length
+		if model.wzName.length > 0
+			_ ctx.write( model.wzName)
+			_ writeArguments
+				@ model.xarguments
+				@ ctx
+			_ ctx.write( ' ' )
+		_ ctx.w( '{' )
+		_ ctx.indent
+		_ async.mapSeries
+			@ model.selections
+			_ md.selection
+				@ ctx
+			f_cb()
+				_ ctx.deindent
+				_ ctx.w( '}' )
+				r_cb()
+
+	async/md-ctx( selection )
+		# loog 'calling selection', model.wzElement
+		var method = md[model.wzElement]
+		_ method
+			@ model
+			@ ctx
+			@ callback
+
+	async/md( field )
+		if model.alias && model.alias.length > 0 
+			_ ctx.write( model.alias + ': ' )
+		_ ctx.write( model.wzName )
+		_ writeArguments
+			@ model.xarguments
+			@ ctx
+		_ ctx.w
+		r_cb()
+
+	async/md( fragmentSpread )
+		var directiveString = getDirectives(model.directives)
+		_ ctx.w( '...' + model.wzName + directiveString )
+		_ async.mapSeries
+			@ model.selections
+			_ md.selection
+				@ ctx
+			f_cb()
+				r_cb()
+	
+	async/md( inlineFragment )
+		var directiveString = getDirectives(model.directives)
+		_ ctx.w( '... on ' + model.wzName + directiveString + ' {')
+		_ ctx.indent
+		if model.selectionSet
+			_ md.selectionSet
+				@ model.selectionSet
+				@ ctx
+				f_cb()
+					_ ctx.deindent
+					_ ctx.w('}')
+					r_cb()
+		else
+			r_cb()
+	
+	async/md( fragment )
+		var typeCondition = model.typeCondition && model.typeCondition.length > 0 ? ' on ' + model.typeCondition : ''
+		_ ctx.write( 'fragment ' + model.wzName + typeCondition + ' ' )
+		if model.selectionSet
+			_ md.selectionSet
+				@ model.selectionSet
+				@ ctx
+				f_cb()
+					r_cb()
+		else
+			_ ctx.w
+			r_cb()
+
+	async/md-ctx( xargument )
+
+	function getDirectives
+		param directives
+		param ctx
+		var ret = []
+		foreach d in directives
+			var args = []
+			foreach a in d.arguments
+				_ args.push
+					_ getArgumentDeclaration
+						@ a
+			var argsString = args.length > 0 ? '(' + args.join(', ') + ')' : ''
+			_ ret.push
+				@ '@' + model.wzName + argsString
+		return ret.join(' ')

@@ -1,0 +1,23 @@
+$group
+    function prettifyJs
+        param mTreeData
+        param callback
+        var schema = mTreeData.schema
+        var title = mTreeData.title
+        var mTree = mTreeData.mTree
+        var item = mTreeData.ittf
+        # loog 'prettifyJs.mTreeData', mTreeData
+        var itemResult = {}
+        var lines = []
+        if mTreeData.ittf && mTreeData.ittf.children && mTreeData.ittf.children.length > 0
+            foreach child in mTreeData.ittf.children
+                _ codifyMTreeData
+                    @ child
+                    @ lines
+                    @ ''
+        set itemResult.jsPretty = lines.join('\n')
+        return
+            _ callback
+                @ null
+                @ itemResult
+

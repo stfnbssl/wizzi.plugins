@@ -1,0 +1,8 @@
+﻿$group
+	$params name, supeR|@@null
+
+	class ${name}
+		$if supeR != null
+			super ${supeR}
+		$hook
+	set md.${name} = ${name};

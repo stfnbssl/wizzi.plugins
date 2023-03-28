@@ -1,0 +1,155 @@
+﻿module
+	kind jsfile
+
+	var inflect = require('i')()
+	
+	var md = module.exports = {}
+
+	set md.getIdentifier
+		function
+			param str
+			param checkKeyword
+			if md.isNotEmpty(str) === false
+				return str
+			set str = str.trim()
+			var ch, sb = []
+			for var i=0; i<str.length; i++
+				set ch = str[i]
+				_ sb.push( isIdentifierChar(ch) ? ch : '_')
+			var ret = sb.join('')
+			if checkKeyword
+				return keywords.indexOf(ret) >= 0 ? 'x' + ret : ret
+			else 
+				return ret
+
+	set md.isNotEmpty
+		function
+			param str
+			return typeof str === 'string' && str.trim().length > 0
+
+	set md.isEmpty
+		function
+			param str
+			return typeof str === 'undefined' || str == null || ( typeof str === 'string' && str.trim().length === 0 )
+
+	set md.endsWith
+		function
+			param str
+			param suffix
+			return str.indexOf(suffix, str.length - suffix.length) !== -1;
+
+	set md.startsWith
+		function
+			param str
+			param prefix
+			return str.indexOf(prefix) === 0;
+
+	set md.replaceAll
+		function
+			param str
+			param find
+			param replace
+			if typeof str === 'undefined' || str == null
+				return str
+			return str.replace(new RegExp(escapeRegExp(find), 'g'), replace)
+
+	set md.pluralize
+		function
+			param str
+			return inflect.pluralize(str)
+
+	set md.capitalize
+		function
+			param str
+			# do not use inflect ( in inflect titleName becames Titlename non TitleName )
+			if str && str.length > 0
+				return str.charAt(0).toUpperCase() + str.slice(1);
+			else
+				return str
+
+	function escapeRegExp
+		param str
+		return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1")
+
+	set md.escapeString
+		function
+			param str
+			return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
+	
+	function isIdentifierChar
+		param str
+		return isAlphaNumeric(str) || str === '_'
+	
+	function isAlphaNumeric
+		param str
+		var letterNumber = /^[0-9a-zA-Z]+$/  
+		return str.match(letterNumber)
+
+	var keywords
+		[
+			@ 'abstract'
+			@ 'arguments'
+			@ 'async'
+			@ 'await'
+			@ 'boolean'
+			@ 'break'
+			@ 'byte'
+			@ 'case'
+			@ 'catch'
+			@ 'char'
+			@ 'class'
+			@ 'const'
+			@ 'continue'
+			@ 'debugger'
+			@ 'default'
+			@ 'delete'
+			@ 'do'
+			@ 'double'
+			@ 'else'
+			@ 'enum'
+			@ 'eval'
+			@ 'export'
+			@ 'extends'
+			@ 'false'
+			@ 'final'
+			@ 'finally'
+			@ 'float'
+			@ 'for'
+			@ 'function'
+			@ 'goto'
+			@ 'if'
+			@ 'implements'
+			@ 'import'
+			@ 'in'
+			@ 'instanceof'
+			@ 'int'
+			@ 'interface'
+			@ 'let'
+			@ 'long'
+			@ 'native'
+			@ 'new'
+			@ 'null'
+			@ 'package'
+			@ 'private'
+			@ 'protected'
+			@ 'public'
+			@ 'require'
+			@ 'return'
+			@ 'short'
+			@ 'static'
+			@ 'super'
+			@ 'switch'
+			@ 'synchronized'
+			@ 'this'
+			@ 'throw'
+			@ 'throws'
+			@ 'transient'
+			@ 'true'
+			@ 'try'
+			@ 'typeof'
+			@ 'var'
+			@ 'void'
+			@ 'volatile'
+			@ 'while'
+			@ 'with'
+			@ 'yield'

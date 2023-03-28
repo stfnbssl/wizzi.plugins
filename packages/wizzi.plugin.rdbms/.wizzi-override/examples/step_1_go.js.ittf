@@ -1,0 +1,87 @@
+﻿module
+    kind es6
+
+    $
+        var md = {
+            name: 'rdbms_examples_step_1',
+            description: 'Generate rdbmshtml_docs model for school rdbms',
+            level: 0,
+            step: 1
+        }
+
+    example_step( &md )
+
+        $append imports
+            var rdbmsfactory = require('../lib/wizzi/models/rdbms-factory.g')
+            var rdbmshtml_docs = require('../lib/artifacts/rdbms/html_docs/gen/main')
+        +
+        var loadModel
+            _ rdbmsfactory.createLoadModel
+                _ getWizziObject
+        +
+        var ittfPath
+            _ path.join
+                @ __dirname
+                @ 'ittf'
+        
+        _ async.map
+            _ getIttfFiles(ittfPath,'rdbms')
+            function
+                param item
+                param callback
+                set item = item.substring(0, item.length - '.rdbms.ittf'.length)
+                log 'step_1_item', item
+                _ execute
+                    @ item
+                    a_cb_throw( result )
+                        log 'step_1_map_result', item, result
+                        _ callback
+                            @ null
+                            @ result
+            function
+                param err
+                param results
+                log 'step_1_map_results', results
+                if err
+                    _ step_callback
+                        @ err
+                _ step_callback
+                    @ null
+                    @ results
+        
+        +
+        function execute
+            param name
+            param callback
+            
+            var ittfSource
+                _ path.join
+                    @ __dirname
+                    @ 'ittf'
+                    @ name + '.rdbms.ittf'
+            var rdbmsHtmlOutput
+                _ path.join
+                    @ __dirname
+                    @ 'ittf'
+                    @ name + '_htmldoc.g.html'
+
+            _ loadModel
+                @ ittfSource
+                _ getLoadModelContext
+                    {
+                a_cb( rdbmsWizziModel )
+                    # loog 'examples/rdbms result rdbmsWizziModel', rdbmsWizziModel
+                    var ctx
+                        _ mocks.getGenContext
+                    _ rdbmshtml_docs.gen
+                        @ rdbmsWizziModel
+                        @ ctx
+                        a_cb( ctxout )
+                            # loog 'ctxout begin ========', '\n' + ctxout.getContent(), '\nctxout end ============'
+                            _ fsfile.write
+                                @ rdbmsHtmlOutput
+                                @ ctxout.getContent()
+                            # log 'step_1_ittfSource written', ittfSource
+                            _ callback
+                                @ null
+                                @ 'step_1_ittfSource written: ' + ittfSource

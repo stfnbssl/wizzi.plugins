@@ -1,0 +1,103 @@
+$group
+
+	$$ schema.items (array)
+	$$ schema.default
+	$$ schema.enum
+	$$ schema.allOf (union ?)
+	$$ schema.properties (object)
+	$$ schema.format
+
+	var getMockValue
+		function 
+            param schema
+            
+			var type
+                iif _.isPlainObject(schema)
+                    then 
+                        set schema.type
+                    else schema
+            
+			var value
+            
+			if !(type)
+                set type = 'object'
+            
+			switch type
+                
+				case 'array'
+					set value = [getMockValue(_.isArray(schema.items) ? schema.items[0] : schema.items)]
+					break 
+                
+				case 'boolean'
+					if !(_.isUndefined(schema.default))
+                        set value = schema.default
+                    elif _.isArray(schema.enum)
+                        set value = schema.enum[0]
+                    else 
+                        set value = 'true'
+                    set value = (value === 'true' || value === true) ? true : false
+                    break 
+                
+				case 'file'
+                case 'File'
+                    set value = 'Pretend this is some file content'
+                    break 
+                
+				case 'integer'
+                    if !(_.isUndefined(schema.default))
+                        set value = schema.default
+                    elif _.isArray(schema.enum)
+                        set value = schema.enum[0]
+                    else 
+                        set value = 1
+                    if !(_.isNumber(value))
+                        set value = parseInt(value, 10)
+                    break 
+                
+				case 'object'
+                    set value =
+                        { 
+					_ _.each
+                        @ schema.allOf
+                        function 
+                            param parentSchema
+                            _ _.each
+                                @ parentSchema.properties
+                                function 
+                                    param property
+                                    param propName
+                                    set value[propName] = getMockValue(property)
+                    _ _.each
+                        @ schema.properties
+                        function 
+                            param property
+                            param propName
+                            set value[propName] = getMockValue(property)
+					break 
+                
+				case 'number'
+                    if !(_.isUndefined(schema.default))
+                        set value = schema.default
+                    elif _.isArray(schema.enum)
+                        set value = schema.enum[0]
+                    else 
+                        set value = 1.0
+                    if !(_.isNumber(value))
+                        set value = parseFloat(value)
+                    break 
+                
+				case 'string'
+                    if !(_.isUndefined(schema.default))
+                        set value = schema.default
+                    elif _.isArray(schema.enum)
+                        set value = schema.enum[0]
+                    else 
+                        if schema.format === 'date'
+                            set value = new Date().toISOString().split('T')[0]
+                        elif schema.format === 'date-time'
+                            set value = new Date().toISOString()
+                        else 
+                            set value = 'Sample text'
+                    break
+            
+			return value

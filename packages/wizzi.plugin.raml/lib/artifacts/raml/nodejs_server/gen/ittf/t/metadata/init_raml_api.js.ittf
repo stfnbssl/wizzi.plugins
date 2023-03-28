@@ -1,0 +1,163 @@
+$group
+
+	var pathToRegexp = require('path-to-regexp')
+
+    var initializeRamlApi
+		function
+			param wizziRamlApi
+
+			var resourcesApiCache
+				{ 
+
+			var createResourcesApiCacheEntry
+				function 
+					param wizziRamlApi
+					param wizziResourceApi
+					param resourcePath
+					param indent
+                
+					var resourcePath = wizziResourceApi.path
+					var expressPath = wizziResourceApi.expressPath
+					var routerHandleSubpaths = wizziResourceApi.routerHandleSubpaths
+                
+					var keys
+						[ 
+					var re
+						_ pathToRegexp
+							@ expressPath
+							@ keys
+							{ 
+								@ end routerHandleSubpaths
+                
+					var resourcesApiCacheEntry
+					var cacheKey
+                
+					if resourcePath.indexOf('{') === -1
+						set cacheKey = resourcePath
+					else
+						set cacheKey = re.toString()
+                
+					_ debug((new Array(indent + 1).join(' ') + 'createResourcesApiCacheEntry.Found %s: %s'), resourcePath, cacheKey)
+                    
+					set resourcesApiCacheEntry = resourcesApiCache[cacheKey]
+						{
+							@ apiPath resourcePath
+							@ path wizziResourceApi
+							@ keys keys
+							@ re re
+							@ wizziMethodApis {}
+							@ wizziRamlApi wizziRamlApi
+                    
+					return resourcesApiCacheEntry
+
+			var composeMethodParameters
+				function 
+					param apiPath
+					param method
+					param wizziRamlApi
+					param wizziResourceApi
+					param wizziMethodApi
+
+					var resourcePath = wizziResourceApi.path
+                
+					var methodParams
+						[ 
+
+					_ debug('wizziRamlApi.parameters %s', wizziRamlApi.parameters.length)
+					_ debug('wizziResourceApi.parameters %s', wizziResourceApi.parameters.length)
+					_ debug('wizziMethodApi.parameters %s', wizziMethodApi.parameters.length)
+
+					# baseUri parameters
+					_ _.each
+						@ wizziRamlApi.parameters
+						function 
+							param parameter
+							param index
+							_ methodParams.push
+								{ 
+									@ path
+										_ apiPath.concat
+											[ 
+												@ 'parameters'
+												_ index.toString
+									@ schema parameter
+
+					# resource path parameters
+					_ _.each
+						@ wizziResourceApi.parameters
+						function 
+							param parameter
+							param index
+							_ methodParams.push
+								{ 
+									@ path
+										_ apiPath.concat
+											[ 
+												@ resourcePath
+												@ 'parameters'
+												_ index.toString
+									@ schema parameter
+
+                
+					# method parameters
+					_ _.each
+						@ wizziMethodApi.parameters
+						function 
+							param parameter
+							param index
+							_ methodParams.push
+								{ 
+									@ path
+										_ apiPath.concat
+											[ 
+												@ resourcePath
+												@ method
+												@ 'parameters'
+												_ index.toString
+									@ schema parameter
+                
+					return methodParams
+            
+			# resource paths
+			var resourcePath
+			foreach wizziResourceApi in wizziRamlApi.resources
+				set resourcePath = wizziResourceApi.path
+				var expressPath = wizziResourceApi.expressPath
+				_ debug('resourcePath %s', resourcePath)
+				_ debug('expressPath %s', expressPath)
+				# 
+				var resourcesApiCacheEntry
+					_ createResourcesApiCacheEntry
+						@ wizziRamlApi
+						@ wizziResourceApi
+						@ resourcePath
+						@ 2
+				
+				# methods
+				foreach wizziMethodApi in wizziResourceApi.methods
+					var method = wizziMethodApi.name
+
+					_ debug('method %s', method)
+					
+                    set resourcesApiCacheEntry.wizziMethodApis[method] =
+                        { 
+                            @ wizziMethodApi wizziMethodApi
+                            @ wizziMethodApiPath
+                                [ 
+                                    @ 'paths'
+                                    @ resourcePath
+                                    @ method
+                            @ wizziMethodApiParameters
+                                _ composeMethodParameters
+                                    [ 
+                                        @ 'paths'
+                                    @ method
+                                    @ wizziRamlApi
+									@ wizziResourceApi
+                                    @ wizziMethodApi
+
+					foreach param in resourcesApiCacheEntry.wizziMethodApis[method].wizziMethodApiParameters
+						_ debug("resource path: %s, method: %s, param: %s, in: %s, path: %s", resourcePath, method, param.schema.name, param.schema.in, param.path)
+
+			return resourcesApiCache
+        

@@ -1,0 +1,58 @@
+﻿base_test( model css )
+
+	$append imports
+		var css_factory = require('../../lib/wizzi/models/css-factory.g')
+		var css_artifact = require('../../lib/artifacts/css/document/gen/main')
+
+	var loadModel
+
+	before
+		set loadModel
+			_ css_factory.createLoadModel
+				_ getWizziObject
+
+	it-async should load a basic css ittf document
+
+		var info 
+			_ getTestModelInfo
+				@ 'css'
+				@ 'basic'
+
+		_ loadModel
+			@ info.ittfPath
+			_ getLoadModelContext
+				{
+			f_cb_test( wizziModel )
+				# log? wizziModel
+				var ctx = new mocks.getGenContext()
+				_ css_artifact.gen
+					@ wizziModel
+					@ ctx
+					f_cb_test( result )
+						var artifactText = result.getContent()
+						tobe_string_value( artifactText, info.expectedContent )
+						_ done
+
+	it-async should load a mixed css ittf document
+
+		var info 
+			_ getTestModelInfo
+				@ 'css'
+				@ 'mixed'
+
+		_ loadModel
+			@ info.ittfPath
+			_ getLoadModelContext
+				{
+			f_cb_test( wizziModel )
+				# log? wizziModel
+				var ctx = new mocks.getGenContext()
+				_ css_artifact.gen
+					@ wizziModel
+					@ ctx
+					f_cb_test( result )
+						var artifactText = result.getContent()
+						tobe_string_value( artifactText, info.expectedContent )
+						_ done
+
+						

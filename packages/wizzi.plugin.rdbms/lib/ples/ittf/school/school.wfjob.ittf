@@ -1,0 +1,20 @@
+wfjob documentation
+	
+	$
+		var ittf_folder         = path.join(__dirname, 'ittf');
+		var dest_folder         = path.join(__dirname, 'results');
+		var rdbms_ittf_pattern  = '**/*.rdbms.ittf';
+
+	line root
+		cwd-folder ${ittf_folder}
+		artifact ./${rdbms_ittf_pattern}
+			src ./${rdbms_ittf_pattern}
+			schema rdbms
+			generator rdbms/jsoncrud
+			extension rdbms.js
+
+	production
+		dest-folder ${dest_folder}
+		line-ref root
+
+

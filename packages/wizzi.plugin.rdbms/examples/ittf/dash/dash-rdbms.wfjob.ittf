@@ -1,0 +1,57 @@
+wfjob test
+
+	$
+		var models_folder       = path.join(__dirname, 'models');
+		var dest_folder         = path.join(__dirname, 'results');
+
+	models-base-folder ${models_folder}
+	dest-base-folder ${dest_folder}
+	
+	model dashRdbms
+		src dash.rdbms.ittf
+		schema rdbms                   
+
+	line generate_jsonmodels
+
+		artifact api
+
+			src context
+			dest-path api/{table}
+			schema none
+			generator rdbms/jsonmodel
+			extension js.ittf
+			
+			model-ref dashRdbms
+				model-coll tables
+					item-name table
+					path-template-value
+						attribute name
+						token table
+
+		artifact persisters
+
+			src context
+			dest-path persisters/{table}
+			schema none
+			generator rdbms/jsonmodel_persister
+			extension js.ittf
+			
+			model-ref dashRdbms
+				model-coll tables
+					item-name table
+					path-template-value
+						attribute name
+						token table
+
+		artifact context
+
+			src ${models_folder}/dash.rdbms.ittf
+			dest-path context
+			schema rdbms
+			generator rdbms/jsonmodel_context
+			extension js.ittf
+
+	production p1
+		dest-folder ${dest_folder}
+		line-ref generate_jsonmodels
+

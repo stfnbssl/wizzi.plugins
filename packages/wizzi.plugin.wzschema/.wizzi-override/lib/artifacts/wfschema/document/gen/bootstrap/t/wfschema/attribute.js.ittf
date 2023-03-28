@@ -1,0 +1,83 @@
+﻿$group
+
+	clazz( Attribute, Node )
+		ctor
+			param name
+			base name
+
+			set this.wzElement = 'attribute'
+
+			set this.restricts = []	
+
+			set this.type = 'string'
+			set this.isReadOnly = false
+			set this.isCalculated = false; $$ TODO
+			set this.calculated = 'null'; $$ TODO
+			set this.default = null
+			set this.defaultWhenDeclared = null
+			set this.tagInternal = null
+
+		m wzVerify
+			param ctx
+			set this.wzId = schemautil.getIdentifier(this.wzName, false)
+			set this.wzIdPlural = schemautil.pluralize(this.wzId)
+			set this.tagName = this.tagInternal || this.wzName
+			set this.jsType = this.type
+
+		m wzInitialize
+			param ctx
+
+		m allowedDeclaration
+			var enums = this.getEnumFacets()
+			if enums.length > 0
+				var sb = []
+				_ sb.push("this.allowed" + this.wzIdPlural.toUpperCase() + " = [ ");
+				var first = true
+				foreach facet in enums
+					if !first
+						_ sb.push(", ")
+					_ sb.push('"' + schemautil.replaceAll(facet.wzName, "\"", "\\\"") + '"')
+					set first = false
+				_ sb.push('];')
+				return sb.join('')
+			else
+				return null;
+
+		m getEnumFacets
+			var ret = []
+			foreach restrict in this.restricts
+				foreach facet in restrict.facets
+					if facet.wzElement === 'enumFacet'
+						if _.find(ret, function(item) { return item.wzName === facet.wzName; }) == null
+							set facet.wzName = facet.wzName.trim();
+							_ ret.push(facet);
+			return ret
+
+		m getTags
+			var ret = []
+			var ss = this.tagName.split('|')
+			foreach s in ss
+				_ ret.push(schemautil.replaceAll(s, "\"", "\\\""))
+				if s.indexOf("-") >= 0
+					set s = schemautil.replaceAll(s, "-", "_")
+					_ ret.push(schemautil.replaceAll(s, "\"", "\\\""))
+			return ret
+
+		m getTagMatch
+			param left
+			var sb = []
+			var ss = this.tagName.split('|')
+			foreach s in ss
+				if sb.length > 0
+					_ sb.push(" || ")
+				_ sb.push(left + " == \"" + schemautil.replaceAll(s, "\"", "\\\"") + "\"")
+				if s.indexOf("-") >= 0
+					set s = schemautil.replaceAll(s, "-", "_")
+					_ sb.push(left + " == \"" + schemautil.replaceAll(s, "\"", "\\\"") + "\"")
+			return sb.join('')
+
+	set md.Attribute.STRING = "string"
+	set md.Attribute.BOOLEAN = "boolean"
+	set md.Attribute.INTEGER = "integer"
+	set md.Attribute.FLOAT = "float"
+	set md.Attribute.DATE = "date"

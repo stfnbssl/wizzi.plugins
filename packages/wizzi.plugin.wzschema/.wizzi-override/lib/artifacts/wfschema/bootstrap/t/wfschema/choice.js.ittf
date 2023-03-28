@@ -1,0 +1,13 @@
+﻿$group
+
+	clazz( Choice )
+		ctor
+			param test
+			# Make test case insensitive
+			set test = test.toLowerCase()
+			set this.length = test.length
+			set this.char = verify.escapeQuotes(test[0])
+			set this.test = verify.escapeQuotes(test)
+			# loog 'wizzi.bootstrap.choice', this.length, this.char, this.test
+			set this.codelines = []
+

@@ -1,0 +1,118 @@
+$group
+
+	e typeSimple : statement
+		is-abstract
+	
+	e_tag( typeNumber, :number, typeSimple
+	e_tag( typeString, :string, typeSimple
+	e_tag( typeBoolean, :boolean, typeSimple
+	e_tag( typeAny, :any, typeSimple
+	
+	e_tag( typeArray, :[, typeSimple
+	e_tag( typeObject, :object, typeSimple
+	e_tag( typeObjectLiteral, :{, typeSimple
+	e_tag( typeObjectValue, :@, statement
+
+	e_tag( typeVoid, :void, typeSimple
+	e_tag( typeNull, :null, typeSimple
+	e_tag( typeUndefined, :undefined, typeSimple
+	e_tag( typeNever, :never, typeSimple
+    e_tag( typeUnknown, :unknown, typeSimple
+	
+	e_tag( typeTypeof, :typeof, typeSimple
+	e_tag( typeAs, :as, typeSimple
+	e_tag( typeInitValue, :=, statement
+	
+	e_tag( typeParameterDecl, :<, statement
+	e_tag( typeEnum, :enum, statement
+	
+	e_tag( typeArrowFunction, :=>, function
+		r typeReturn
+			one-to-one
+
+	e_tag( typeReturn, :return, statement
+	e_tag( typeTuple, :tuple, statement
+	e_tag( typeUnion, :union, statement
+	e_tag( typeIntersect, :intersect, statement
+	
+	e_tag( typeReference, :ref, statement
+		r typeParameterInst/s
+	
+	e_tag( typeLiteral, :literal, statement
+	
+	e_tag( typeCallSignature, :call, statement
+		r param/s
+	
+	e_tag( typeKeyOf, :keyof, statement
+	e_tag( typePredicate, :predicate, statement
+
+	e_tag( typeNotNull, :!, statement
+	
+	e_tag( typeCTorDeclare, :new, statement
+		r param/s
+	
+	e_tag( typeCTor, :ctor, statement
+	e_tag( typeIndexedAccess, :[], statement
+	
+	e_tag( typeIndex, :index, statement
+		a_flag( typeReadonly, :readonly )
+		r param/s
+	
+	e_tag( typeCheck, :check, statement
+	e_tag( typeThen, :then, statement
+	e_tag( typeElse, :else, statement
+	e_tag( typeConditional, :iif, statement
+		r typeCheck
+			one-to-one
+		r typeExtends
+			one-to-one
+		r typeThen
+			one-to-one
+		r typeElse
+			one-to-one
+
+	e_tag( typeRequire, :require, statement
+
+    e_tag( typeParenthesized, :paren, statement
+	
+	e_tag( typeInfer, :infer, statement
+	
+	e_tag( typeParameterInst, :param, statement
+
+	e_tag( typeExport, :export-type, statement
+		a from
+		a_tag( xas, as
+		m wzInitialize
+			set this.specifiers = []
+			var temp = []
+			foreach item in this.statements
+				if item.wzElement === 'jsPropertyOrValue'
+					_ this.specifiers.push(item)
+				else
+					_ temp.push(item)
+			set this.statements = temp
+
+    e_tag( typeExportAssignment, :export, statement
+
+    e_tag( typeExportNamespace, :export-ns, statement
+
+	e_tag( typeImport, :import-type, statement 
+		a from
+		a_tag( xas, as
+
+		m wzInitialize
+			set this.specifiers = []
+			var temp = []
+			foreach item in this.statements
+				if item.wzElement === 'jsPropertyOrValue'
+					_ this.specifiers.push(item)
+				else
+					_ temp.push(item)
+			set this.statements = temp
+    
+    e_tag( typeImportEqualsDeclaration, :import=, statement
+
+	e_tag( typeNamespaceExportDeclaration, :export-ns, statement
+
+	e_tag( typeExternalModuleReference, :require, statement
+

@@ -1,0 +1,21 @@
+﻿clazz( Include, Node )
+	ctor
+		param name
+		base name
+		set this.wzElement = 'include'
+
+	m wzInitialize
+		param ctx
+		
+		var nv = verify.parseNameValue(this.wzName)
+		set this.actualName = nv.name()
+		if nv.hasValue()
+            set this.rootEntityName = nv.value()
+        else
+            set this.rootEntityName = this.actualName
+
+		set this.actualNameLower = this.actualName.toLowerCase()
+		set this.actualNameId = schemautil.getIdentifier(this.actualName, true)
+		set this.rootEntityNameId = schemautil.getIdentifier(this.rootEntityName, true)
+
+		# loog 'wizzi.models.bootstrap.wfschema.include', this.actualNameLower, this.actualNameId, this.rootEntityNameId

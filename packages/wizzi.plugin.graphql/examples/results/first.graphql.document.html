@@ -1,0 +1,138 @@
+query example4 {
+    user(id: 4)  {
+        name
+    }
+}
+mutation example5 {
+    likeStory(storyID: 12345)  {
+        story {
+            likeCount
+        }
+    }
+}
+query example8 {
+    me {
+        id
+        firstName
+        lastName
+        birthday {
+            month
+            day
+        }
+        friends {
+            name
+        }
+    }
+}
+query example11 {
+    user(id: 4)  {
+        id
+        name
+        profilePic(width: 100, height: 50) 
+    }
+}
+query example14 {
+    user(id: 4)  {
+        id
+        name
+        smallPic: profilePic(size: 64) 
+        bigPic: profilePic(size: 1024) 
+    }
+}
+query example16 {
+    zuck: user(id: 4)  {
+        id
+        name
+    }
+}
+query withFragments {
+    user(id: 4)  {
+        friends(first: 10)  {
+            ... friendFields 
+        }
+        mutualFriends(first: 10)  {
+            ... friendFields 
+        }
+    }
+}
+query withNestedFragments {
+    user(id: 4)  {
+        friends(first: 10)  {
+            ... friendFieldsNested 
+        }
+        mutualFriends(first: 10)  {
+            ... friendFieldsNested 
+        }
+    }
+}
+query FragmentTyping {
+    profiles(handles: ["zuck", "coca-cola"])  {
+        handle
+        ... userFragment 
+        ... pageFragment 
+    }
+}
+query inlineFragmentTyping {
+    profiles(handles: ["zuck", "coca-cola"])  {
+        handle
+        ... on User 
+        {
+            friends {
+                count
+            }
+        }
+        ... on Page 
+        {
+            likers {
+                count
+            }
+        }
+    }
+}
+query inlineFragmentNoType($expandedInfo : Boolean) {
+    user(handle: "zuck")  {
+        id
+        name
+        ... @include (if: $expandedInfo) {
+            firstName
+            lastName
+            birthday
+        }
+    }
+}
+mutation example25 {
+    sendEmail(message: """
+        Hello 
+            World! 
+        Yours 
+            GraphQL. 
+    """) 
+}
+fragment friendFields on User {
+    id
+    name
+    profilePic(size: 50) 
+}
+fragment friendFieldsNested on User {
+    id
+    name
+    ... standardProfilePic 
+}
+fragment standardProfilePic on User {
+    profilePic(size: 50) 
+}
+fragment userFragment on User {
+    friends {
+        count
+    }
+}
+fragment pageFragment on Page {
+    likers {
+        count
+    }
+}
+{
+    user(id: 4)  {
+        name
+    }
+}

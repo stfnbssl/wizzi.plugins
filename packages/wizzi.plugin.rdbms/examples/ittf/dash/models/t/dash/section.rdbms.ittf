@@ -1,0 +1,29 @@
+$group
+
+	t_pk( section, userName, projectName, sectionName )
+
+		document
+			kind json-meta-data
+			path
+				segment {userName}
+				segment {projectName}
+				segment {sectionName}
+				segment {sectionName}.meta.json
+
+	rDef( section, sectionModel, sectionModels )
+		
+		#
+			# A section may have many models.
+
+		rCol( userName, userName )
+		rCol( projectName, projectName )
+		rCol( sectionName, sectionName )
+		
+	rDef( section, sectionFragment, sectionFragments )
+		
+		#
+			# Section models may have many fragments
+		
+		rCol( userName, userName )
+		rCol( projectName, projectName )
+		rCol( sectionName, sectionName )

@@ -1,0 +1,109 @@
+﻿$group
+
+	async-md-ctx( valueCtx )
+		_ md.value
+				@ model
+				@ ctx
+				@ callback
+
+	async-md( value )
+		var method = md[model.wzElement]
+        _ method
+            @ model
+            @ ctx
+            @ callback
+
+	async-md( intValue )
+        _ ctx.write(model.wzName)
+        r_cb()
+    
+	async-md( floatValue )
+        _ ctx.write(model.wzName)
+        r_cb()
+
+	async-md( booleanValue )
+        _ ctx.write(model.wzName)
+        r_cb()
+
+	async-md( stringValue )
+        if verify.isNotEmpty(model.wzName)
+            _ ctx.write('"' + model.wzName + '"')
+            r_cb()
+        else
+            _ ctx.w('"""')
+            _ ctx.indent
+            foreach item in model.texts
+                _ writeText
+                    @ item
+                    @ ctx
+            _ ctx.deindent
+            _ ctx.write('"""')
+            r_cb()
+
+    async-md( arrayValue )
+        _ ctx.w( '[' )
+        if !model.values || model.values.length == 0
+            _ ctx.write( ']' )
+            r_cb()
+        _ ctx.indent
+        repeater( 1, model.values )
+            if index_1 > 0
+                _ ctx.write(', ')
+            _ md.value 
+                @ item_1
+                @ ctx
+                a_cb()
+                    repeater_increment( 1 )
+            $append next
+                _ ctx.w
+                _ ctx.deindent
+                _ ctx.write( ']' )
+                r_cb()
+
+	async-md( objectValue )
+		_ ctx.w( '{' )
+        if !model.objectFields || model.objectFields.length == 0
+            _ ctx.write( '}' )
+            r_cb()
+
+        _ ctx.indent
+        repeater( 1, model.objectFields )
+            if index_1 > 0
+                _ ctx.w(', ')
+            log "item_1.wzElement", item_1.wzElement
+            _ md[item_1.wzElement]
+                @ item_1
+                @ ctx
+                a_cb()
+                    repeater_increment( 1 )
+            $append next
+                _ ctx.w
+                _ ctx.deindent
+                _ ctx.write( '}' )
+                r_cb()
+
+	async-md( objectField )
+        if model.value
+            _ ctx.write( model.wzName + ': ')
+            _ md[model.value.wzElement]
+                @ model.value
+                @ ctx
+                a_cb()
+                    r_cb()
+        else
+            var p = lineParser.parseNameValueRaw(model.wzName, model)
+            var name = p.name()
+            var value = p.value()
+            _ ctx.write( name + ': ' + value )
+            r_cb()
+    
+    function writeText
+		param model
+		param ctx
+        _ ctx.w(model.wzName)
+        _ ctx.indent
+		foreach item in model.texts
+            _ writeText
+                @ item
+                @ ctx
+        _ ctx.deindent

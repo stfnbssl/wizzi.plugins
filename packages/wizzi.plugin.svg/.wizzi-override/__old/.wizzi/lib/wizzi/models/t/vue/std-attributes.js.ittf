@@ -1,0 +1,24 @@
+﻿$group
+
+	var _vue_std_attributes
+		[
+			@ 'v-model'
+			@ 'v-bind'
+			@ 'v-on'
+			@ 'v-text'
+			@ 'v-for'
+			@ 'v-if'
+			@ 'v-else'
+			@ 'v-else-if'
+			@ 'v-show'
+			$$ vuetify directives
+			@ 'v-resize'
+			@ 'v-ripple'
+			@ 'v-scroll'
+			@ 'v-touch'
+			
+	
+	function isVueStdAttribute
+		param node
+
+		return _vue_std_attributes.indexOf(node.n) > -1

@@ -1,0 +1,27 @@
+wfjob test
+
+	$
+		var lib_folder          = path.join(__dirname, 'lib');
+		var models_folder       = path.join(__dirname, 'models');
+		var dest_folder         = path.join(__dirname, 'results');
+
+	models-base-folder ${models_folder}
+	dest-base-folder ${dest_folder}
+	
+	model dashRaml
+		src dash.raml.ittf
+		schema raml                   
+
+	line generate_docs
+		
+		artifact html_docs
+
+			src ${models_folder}/dash.raml.ittf
+			dest-path docs/dash-raml-docs.html
+			schema raml
+			generator raml/html_docs
+			extension html
+
+	production p1
+		dest-folder ${dest_folder}
+		line-ref generate_docs

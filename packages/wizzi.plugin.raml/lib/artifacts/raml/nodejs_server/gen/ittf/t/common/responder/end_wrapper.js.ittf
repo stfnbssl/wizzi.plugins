@@ -1,0 +1,128 @@
+$group
+
+	#
+		# Overrides
+		#  res.end
+		#  res.write
+		#
+	
+	wz-function wrapEnd
+        param req
+        param res
+        param next
+            
+		var operation = req.wizziRaml.operation
+        var originalEnd = res.end
+            
+		var vPath
+            _ _.cloneDeep
+                @ req.wizziRaml.operationPath
+            
+		var writtenData
+            [ 
+            
+		var originalWrite = res.write
+            
+		set res.write =
+            function 
+                param data
+                if typeof (data) !== 'undefined'
+                    _ writtenData.push(data)
+            
+		set res.end =
+            function 
+                param data
+                param encoding
+                    
+				var schema = operation
+                var val
+                    
+				if data
+                    if data instanceof Buffer
+                        _ writtenData.push(data)
+                        set val = Buffer.concat(writtenData)
+                    elif data instanceof String
+                        _ writtenData.push
+                            new Buffer(data)
+                        set val = Buffer.concat(writtenData)
+                    else 
+                        set val = data
+                    
+				elif writtenData.length !== 0
+                    set val = Buffer.concat(writtenData)
+                    
+				var responseCode
+                set res.write = originalWrite
+                set res.end = originalEnd
+                    
+				debug '  Response validation:'
+                    
+				if val instanceof Buffer
+                    set val = val.toString(encoding)
+                    
+				if _.isUndefined(res.getHeader('content-type')) && ([204, 304].indexOf(res.statusCode) > -1)
+                    _ sendData(res, val, encoding, true)
+                    return 
+                    
+				try 
+                    try 
+                        _ validators.validateContentType
+                            @ req.wizziRaml.ramlObject.produces
+                            @ operation.produces
+                            @ res
+                    catch err
+                        set err.failedValidation = true
+                        throw err
+                        
+					if _.isUndefined(schema.type)
+                        if schema.schema
+                            set schema = schema.schema
+                        else 
+                            set schema =
+                                _ _.find
+                                    @ operation.responses
+                                    function 
+                                        param response
+                                        param code
+                                        if code === (res.statusCode || 200).toString()
+                                            _ vPath.push('responses', code)
+                                            set responseCode = code
+                                            return true
+                                
+							if _.isUndefined(schema) && operation.responses.default
+                                set responseCode = 'default'
+                                set schema = operation.responses.default
+                                _ vPath.push('responses', 'default')
+                        
+					debug '    Response code: ' + responseCode
+                        
+					if _.isUndefined(schema)
+                        _ sendData(res, val, encoding, true)
+                    else 
+                        _ validateValue
+                            @ req
+                            @ schema
+                            @ vPath
+                            @ val
+                            @ 'body'
+                            function 
+                                param err
+                                if err
+                                    throw err
+                                _ sendData(res, val, encoding, true)
+                    
+				catch err
+                        
+					if err.failedValidation
+                            
+						set err.originalResponse = data
+                            
+						set err.message = 'Response validation failed: ' + 
+								\ err.message.charAt(0).toLowerCase() + 
+								\ err.message.substring(1)
+                            
+						debug '    Validation: failed'
+                            
+						_ errors.debugError(err, debug)
+                        
+					return next(err)

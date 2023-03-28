@@ -1,0 +1,133 @@
+$group
+
+	# param obj
+	#    url
+	#    method
+	#    timeout
+	#    headers
+	#    connectionAgent
+	#    enableCookies
+	#    body
+
+	class SuperagentHttpClient
+		m execute
+            param obj
+            var method = obj.method.toLowerCase()
+            var timeout = obj.timeout
+            if method === 'delete'
+                set method = 'del'
+            var headers = (obj.headers || {})
+            var r
+            try 
+                set r = request[method](obj.url)
+            catch err
+                if obj.on && obj.on.error
+                    var response
+                        { 
+                            @ errObj err
+                            @ status 500
+                            @ statusText (err.message || 'invalid url')
+                    _ obj.on.error(response)
+                    return 
+            if obj.connectionAgent
+                _ r.agent
+                    @ obj.connectionAgent
+            if timeout
+                _ r.timeout(timeout)
+            if obj.enableCookies
+                _ r.withCredentials()
+            var accept = obj.headers.Accept
+            if this.binaryRequest(accept)
+                _ r.on
+                    @ 'request'
+                    function 
+                        if this.xhr
+                            set this.xhr.responseType = 'blob'
+            if obj.body
+                if _.isObject(obj.body)
+                    var contentType = (obj.headers['Content-Type'] || '')
+                    if contentType.indexOf('multipart/form-data') === 0
+                        set delete (headers['Content-Type'])
+                        if {}.toString.apply(obj.body) === '[object FormData]'
+                            _ r.send
+                                @ obj.body
+                        else 
+                            var 
+                                decl keyname
+                                decl value
+                                decl v
+                            for keyname in obj.body
+                                set value = obj.body[keyname]
+                                if Array.isArray(value)
+                                    for v in value
+                                        _ r.field(keyname, v)
+                                else 
+                                    _ r.field(keyname, value)
+                    elif _.isObject(obj.body)
+                        set obj.body = JSON.stringify(obj.body)
+                        _ r.send
+                            @ obj.body
+                else 
+                    _ r.send
+                        @ obj.body
+            var name
+            for name in headers
+                _ r.set
+                    @ name
+                    @ headers[name]
+            if typeof (r.buffer) === 'function'
+                _ r.buffer()
+            _ r.end
+                function 
+                    param err
+                    param res
+                    set res = (res || {status: 0, headers: {error: 'no response from server'}})
+                    var response
+                        { 
+                            @ url obj.url
+                            @ method obj.method
+                            @ headers res.headers
+                    var cb
+                    if !err && res.error
+                        set err = res.error
+                    if err && obj.on && obj.on.error
+                        set response.errObj = err
+                        set response.status = res ? res.status : 500
+                        set response.statusText = res ? res.text : err.message
+                        if res.headers && res.headers['content-type']
+                            if res.headers['content-type'].indexOf('application/json') >= 0
+                                try 
+                                    set response.obj = JSON.parse(response.statusText)
+                                catch e
+                                    set response.obj = null
+                        set cb = obj.on.error
+                    elif res && obj.on && obj.on.response
+                        var possibleObj
+                        if res.body && _.keys(res.body).length > 0
+                            set possibleObj = res.body
+                        else 
+                            try 
+                                set possibleObj = JSON.parse(res.text)
+                            catch e
+                                _ helpers.log('cannot parse JSON content')
+                        if typeof(Buffer) === 'function' && Buffer.isBuffer(possibleObj)
+                            set response.data = possibleObj
+                        else 
+                            set response.obj = typeof (possibleObj) === 'object' ? possibleObj : null
+                        set response.status = res.status
+                        set response.statusText = res.text
+                        set cb = obj.on.response
+                    if res.xhr && res.xhr.response
+                        set response.data = res.xhr.response
+                    elif !response.data
+                        set response.data = response.statusText
+                    if cb
+                        _ cb(response)
+    
+		m binaryRequest
+            param accept
+            if !accept
+                return false
+            return /^image/i.test(accept) || 
+				\b /^application\/pdf/.test(accept) || 
+				\b /^application\/octet-stream/.test(accept)

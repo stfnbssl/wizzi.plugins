@@ -1,0 +1,526 @@
+﻿module wizzi-web@${wzCtx.version}.lib.artifacts.html.document.gen.main
+	kind jsfile
+
+    $include versions
+
+	var util = require('util')
+	var async = require('async')
+	var include_writers = require('./include_writers')
+    var verify = require('wizzi-utils').verify
+	var utilNode = require('../../../util/utilNode')
+	var lineParser = require('../../../util/lineParser')
+	var lorem = require('wizzi-utils').lorem
+    var pretty = require('wizzi-utils').pretty
+	var myname = 'wizzi-web.htm1.document.main'
+
+	var md = module.exports = {}
+	set md.stm = {}
+
+	var genItemsStackCount = 0
+
+	set md.gen
+		function
+			{ model
+			{ ctx
+			callback
+			# log myname, 'enter', 'ctx.values', ctx.values
+			# log myname, 'enter', 'model', util.inspect(model, { depth: 1 })
+            
+            _ main_init
+                @ model
+                @ ctx
+			
+            _ md.getGenItem
+				@ ctx
+				(
+					@ model
+					f_cb( notUsed )
+						# loog 'exit', myname, 'err', err
+						r_cb(ctx)
+
+	async/md-gen-items( )
+
+		var
+			decl opt = options || {}
+			decl from = opt.from || 0
+			decl indent = typeof opt.indent === 'undefined' ? true : opt.indent
+
+		if indent
+			_ ctx.indent()
+
+		var goitems = []
+		for var i = from; i < items.length; i++
+			_ goitems.push(items[i])
+
+		set genItemsStackCount++
+		_ async.mapSeries
+			@ goitems
+			_ md.getGenItem
+				@ ctx
+			f_cb( notUsed )
+				if indent
+					_ ctx.deindent()
+				set genItemsStackCount--
+				return
+					_ callback
+
+	async/md-gen-item( )
+		# loog 'wizzi-web.artifacts.html.main', model.wzElement
+
+		if ['_text','_textLF'].indexOf(model.wzElement) >= 0
+			# model.wzName is a TEXTNODE
+				
+			# VIA 22/10/18 see wizzi-mtree.loader.nodifier blank escapes ( \b )
+			#     preserve a blank first char (coded between single hyphens)
+			#     var text = verify.startsWith(model.wzName, "' '") ? '&nbsp;' + model.wzName.substr(3) : model.wzName;
+			var text = model.wzName
+
+            # loog 'text', text
+				
+			if ctx.__iscode || model.wzElement === '_textLF'
+				_ ctx.w(text)
+			else
+				_ ctx.write(text)
+
+			return
+				_ md.genItems
+					@ model.elements
+					@ ctx
+					{
+						@ indent false
+					@ callback
+			
+		elif ['_style'].indexOf(model.wzElement) >= 0 && model.get_css
+			# must be here because _style with model.get_css undefined
+			# has its handler
+			_ include_writers.writeIncludeCss
+				@ ctx
+				@ model
+				@ callback
+
+		elif md.stm[model.wzElement]
+			_ md.stm[model.wzElement]
+				@ model
+				@ ctx
+				f_cb( done )
+					if done
+						# ok, processed
+						return
+							_ callback
+					else
+						return
+							_ process.nextTick
+								=>
+									_ md.stm.standardElement
+										@ model
+										@ ctx
+										@ callback
+		else
+			return
+				_ process.nextTick
+					=>
+						_ md.stm.standardElement
+							@ model
+							@ ctx
+							@ callback
+
+	async/md-stm( standardElement )
+		# log myname, 'standardElement', 'model.wzTag', model.wzTag
+		_ preprocess(model, ctx)
+			
+		var voidEl = (model.wzTag in voidElements)
+			
+		_ ctx.write('<' + model.wzTag)
+			
+		foreach a in getAttrs(model)
+			if (a.name in attrsneedsvalue) || (a.value && a.value.length > 0)
+				_ ctx.write(' ' + a.name + '="' + verify.unquote(a.value || '') + '"')
+			else
+				_ ctx.write(' ' + a.name)
+			
+		if voidEl
+			_ ctx.w(' />')
+			_ postprocess(model, ctx)
+			return
+				_ callback
+
+		_ ctx.write('>')
+			
+		# check if the element has text line coded as children of the $. ittf command
+		# FIXME this hack require refactoring
+		var lt
+		if model.wzName === '__TS__'
+			set lt
+				{
+					@ text model.wzName
+		else
+			set lt = utilNode.inlinedTextToTextLines(model.wzName)
+			
+		if lt.text
+			# preserve a blank first char (coded between single hyphens)
+			var text = verify.startsWith(lt.text, "' '") ? '&nbsp;' + lt.text.substr(3) : lt.text
+			_ ctx.write(text)
+
+		if lt.lines
+			_ ctx.w()
+			var saveIndent
+			if ctx.__iscodeTag
+				# we are inside a pre element, temporaly reset 
+				# to 0 the indentation depending from the node depth
+				set saveIndent = ctx.forceIndent(0)
+			else
+				_ ctx.indent()
+			foreach line in lt.lines
+				_ ctx.w(line)
+			if ctx.__iscodeTag
+				# restore indentation
+				_ ctx.forceIndent(saveIndent);
+			else
+				_ ctx.deindent()
+
+		if model.elements && model.elements.length > 0
+			if ctx.__iscodeTag && !ctx.__iscodeTag_started
+				_ ctx.w('')
+				set ctx.__iscodeTag_started = true
+				var saveIndent = ctx.forceIndent(0)
+				_ md.genItems
+					@ model.elements
+					@ ctx
+					{
+						@ indent false
+					f_cb( notUsed )
+						_ ctx.forceIndent(saveIndent)
+						set ctx.__iscodeTag_started = false
+						_ ctx.w('</' + model.wzTag + '>')
+						_ postprocess(model, ctx)
+						return
+							_ callback
+			else
+				var noinline = inline.indexOf(model.wzTag) < 0
+				if noinline
+					_ ctx.w('')
+				_ md.genItems
+					@ model.elements
+					@ ctx
+					{
+						@ indent noinline
+					f_cb( notUsed )
+						_ ctx.w('</' + model.wzTag + '>')
+						_ postprocess(model, ctx)
+						return
+							_ callback
+		else
+			_ ctx.w('</' + model.wzTag + '>')
+			_ postprocess(model, ctx)
+			return 
+				_ callback
+
+	async/md-stm( html )
+		if !!ctx.values.forVueTemplate == false
+			if model.doctype
+				_ ctx.w('<!doctype ' + model.doctype + '>')
+			else
+				_ ctx.w('<!doctype html>')
+			_ ctx.write('<html')
+			foreach a in getAttrs(model)
+				if a.name != 'doctype'
+					if (a.name in attrsneedsvalue) || a.value && a.value.length > 0
+						_ ctx.write(' ' + a.name + '="' + verify.unquote(a.value || '') + '"')
+					else
+						_ ctx.write(' ' + a.name)
+			_ ctx.w('>')
+
+		_ async.mapSeries
+			@ model.elements
+			_ md.getGenItem
+				@ ctx
+			f_cb( notUsed )
+				_ ctx.w()
+				if !!ctx.values.forVueTemplate == false
+					_ ctx.w('</html>')
+				r_cb(true)
+	
+	async/md-stm( jsBabel )
+		if model.statements.length === 0
+			# is link to a js file not a script element
+			return
+				_ callback(null, false)
+
+		_ ctx.w("<script>")
+		foreach item in model.statements
+			_ js_statement.gen(item, ctx)
+		_ ctx.w("</script>")
+		r_cb(true)
+
+	$include includes
+	
+	async/md-stm( lorem )
+		var count = parseInt(model.wzName.trim())
+		var string
+			_ lorem
+				{
+					@ count count
+					@ units model.units
+					@ htmlTag model.htmlTag
+					@ sentenceLowerBound model.minWords
+					@ sentenceUpperBound model.maxWords
+					@ paragraphLowerBound model.minSentences
+					@ paragraphUpperBound model.maxSentences
+		_ ctx.w(string)
+		r_cb(true)
+	
+	async/md-stm( ready )
+		_ ctx.w("<script>")
+		_ ctx.indent()
+
+		if model.kind === 'jquery'
+
+			_ ctx.w('$(function() {')
+			_ ctx.indent()
+			foreach item in model.statements
+				_ js_statement.gen(item, ctx)
+			_ ctx.deindent()
+			_ ctx.w('});')
+        
+		else
+
+			_ ctx.w('window.onload = function() {')
+			_ ctx.indent()
+			foreach item in model.statements
+				_ js_statement.gen(item, ctx)
+			_ ctx.deindent()
+			_ ctx.w('};')
+
+		_ ctx.deindent()
+		_ ctx.w("</script>")
+
+		r_cb(true)
+
+	async/md-stm( ittfPanel )
+        _ ctx.w("<div class='ittf-panel'>")
+        if model.wzMTreeData.title
+            _ ctx.w("<div class='ittf-panel-title'>" + model.wzMTreeData.title + "</div>")
+        _ ctx.w("<pre class='prettyprint'><code>")
+        _ prettifyIttf
+            @ model.wzMTreeData
+            a_cb( result )
+                _ ctx.w("<div>" + result.ittfPretty + '</div>')
+                _ ctx.w("</code></pre></div>")
+                r_cb(true)
+
+	async/md-stm( jsPanel )
+        _ ctx.w("<div class='js-panel'>")
+        if model.wzMTreeData.title
+            _ ctx.w("<div class='js-panel-title'>" + model.wzMTreeData.title + "</div>")
+        _ prettifyJs
+            @ model.wzMTreeData
+            a_cb( result )
+                _ ctx.w('<pre><code class="hljs">' + result.jsPretty + '</code></pre>')
+                _ ctx.w('</div>')
+                r_cb(true)
+
+	async/md-stm( bashPanel )
+        _ ctx.w("<div class='bash-panel'>")
+        if model.wzMTreeData.title
+            _ ctx.w("<div class='bash-panel-title'>" + model.wzMTreeData.title + "</div>")
+        _ prettifyBash
+            @ model.wzMTreeData
+            a_cb( result )
+                _ ctx.w('<pre><code class="hljs">' + result.bashPretty + '</code></pre>')
+                _ ctx.w('</div>')
+                r_cb(true)
+
+    async/md-stm( comment )
+		if ctx.__iscode
+			_ ctx.w("// " + model.wzName)
+			r_cb(true)
+		
+		if model.elements.length == 0
+			if ctx.__inside_comment
+                _ ctx.w(model.wzName ? (' ' + model.wzName) : '')
+            else 
+                _ ctx.w("<!-- " + model.wzName + " -->")
+			set ctx.__needs_crlf = false
+			r_cb(true)
+
+		var enter_inside_comment = ctx.__inside_comment
+		if !ctx.__inside_comment
+			_ ctx.w('<!-- ')
+        _ ctx.indent()
+        if model.wzName.length > 0
+            _ ctx.w
+                @ model.wzName
+        set ctx.__inside_comment = true
+        _ md.genItems
+            @ model.elements
+            @ ctx
+            { 
+                @ indent false
+			f_cb()
+				set ctx.__inside_comment = enter_inside_comment
+				_ ctx.deindent()
+				if !enter_inside_comment
+					_ ctx.w(' -->')
+				set ctx.__needs_crlf = false
+				r_cb(true)
+
+	function main_init
+		param model
+		param ctx
+		
+		if (!!ctx.values.noGeneratorComments) == false
+			_ ctx.w('<!--')
+			_ ctx.w('    artifact generator: ' + __filename)
+            _ ctx.w('    package: wizzi-web@${versions['wizzi-web@next']}')
+			_ ctx.w('    primary source IttfDocument: ' + model.wzSourceFilepath('f1'))
+			if (!!ctx.values.isPackageDeploy) == false
+				_ ctx.w('    utc time: ' + new Date().toUTCString())
+			_ ctx.w('-->')
+
+	$include prettifyIttf
+    $include prettifyJs
+    $include prettifyBash
+
+    function preprocess
+		param model
+		param ctx
+		if model.wzTag == '.'
+			set model.wzTag = 'div'
+			set model.class = model.wzName
+			set model.wzName = null
+		elif model.wzTag == '#'
+			set model.wzTag = 'div'
+			set model.id = model.wzName
+			set model.wzName = null
+		elif model.wzTag == '<'
+			var p = lineParser.parseNameValueRaw(model.wzName, model)
+			set model.wzTag = p.name()
+			if p.hasValue()
+				set model.wzName = p.value()
+			else
+				set model.wzName = null
+		elif model.wzTag == 'js'
+			set model.wzTag = 'script'
+			set model.src = model.wzName
+			set model.wzName = null
+		elif model.wzTag === 'css'
+			set model.wzTag = 'link'
+			set model.href = model.wzName
+			set model.rel = 'stylesheet'
+			set model.wzName = null
+		elif model.wzTag === '@title'
+			set model.wzTag = 'title'
+		elif model.wzTag === '@style'
+			set model.wzTag = 'style'
+		elif model.wzTag === 'js-babel'
+			set model.wzTag = 'script'
+			set model.src = model.wzName
+			set model.type = 'text/babel'
+		if incode.indexOf(model.wzTag) > -1
+			set ctx.__iscode = true
+		if ['code'].indexOf(model.wzTag) > -1
+			set ctx.__iscodeTag = true
+
+	function postprocess
+		param model
+		param ctx
+		if incode.indexOf(model.wzTag) > -1
+			set ctx.__iscode = false
+		if ['code'].indexOf(model.wzTag) > -1
+			set ctx.__iscodeTag = false
+
+	var noattrs
+		[
+			@ 'wzTag'
+			@ 'wzName'
+			@ 'wzElement'
+			@ 'wzParent'
+			@ 'wzSourceLineInfo'
+			@ '___exportName'
+
+	function isAttrValue
+		param a
+		param v
+		if noattrs.indexOf(a) > -1
+			return false
+		if v == null || verify.isArray(v) || verify.isObject(v) || verify.isFunction(v)
+			return false
+		return true
+
+	function getAttrs
+		param e
+		
+		var retval = []
+		for var a in e
+			if isAttrValue(a, e[a])
+				_ retval.push({ name: verify.replaceAll(a, '_', '-'), value: e[a] })
+			elif a.substr(0, 3) === 'ng-'
+				_ retval.push({ name: a, value: e[a] })
+			elif a.substr(0, 5) === 'data-'
+				_ retval.push({ name: a, value: e[a] })
+			elif a.substr(0, 5) === 'aria-'
+				_ retval.push({ name: a, value: e[a] })
+
+		if e.attributes
+			foreach a in e.attributes
+				var p = lineParser.parseNameValueRaw(a.wzName, a)
+				if p.hasValue()
+					_ retval.push({ name: p.name(), value: p.value() })
+				else
+					_ retval.push({ name: p.name() })
+		
+		return retval
+
+	var inline
+		[
+			@ 'a'
+			@ 'img'
+			@ 'input'
+			@ 'li'
+			@ 'textarea'
+	
+	var incode
+		[
+			@ 'js'
+			@ 'css'
+			@ 'script'
+			@ 'style'
+			@ 'ready'
+		
+	var attrsneedsvalue
+		{
+			@ __proto__ null
+
+	var voidElements
+		{
+			@ __proto__  null
+			@ area  true
+			@ base  true
+			@ basefont  true
+			@ br  true
+			@ col  true
+			@ command  true
+			@ embed  true
+			@ frame  true
+			@ hr  true
+			@ img  true
+			@ input  true
+			@ isindex  true
+			@ keygen  true
+			@ link  true
+			@ meta  true
+			@ param  true
+			@ source  true
+			@ track  true
+			@ wbr  true
+
+			# common self closing svg elements
+			@ path  true
+			@ circle  true
+			@ ellipse  true
+			@ line  true
+			@ rect  true
+			@ use  true
+			@ stop  true
+			@ polyline  true
+			@ polygone  true

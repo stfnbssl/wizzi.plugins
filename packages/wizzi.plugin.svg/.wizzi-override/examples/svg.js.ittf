@@ -8,6 +8,7 @@ module
         $append plugins
             [ items
                 @ './index.js'
+                @ 'wizzi-js'
             @ pluginsBaseFolder
                 _ path.resolve
                     @ __dirname
@@ -39,8 +40,8 @@ module
                     var outputPath
                         _ path.join
                             @ __dirname
-                            @ 'dist'
-                            @ module + '.svg.js'
+                            @ 'results'
+                            @ module + '.svg'
                     _ loadModelAndGenerateArtifact
                         @ ittfDocumentUri
                         {

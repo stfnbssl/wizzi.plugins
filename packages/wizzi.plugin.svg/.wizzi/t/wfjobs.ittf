@@ -314,5 +314,13 @@ $group
         artifact any_plain_svg
             src ./**/*.svg
             extension svg
+    $elif name == 'any_examples__copy'
+        artifact any_examples_${ext}_inside___copy
+            src ${jobCtx.ittf_examples_folder}/**/*__copy/**/*.${ext}
+            extension ${ext}
+    $elif name == 'any_lib__copy'
+        artifact any_lib_${ext}_inside___copy
+            src ${jobCtx.ittf_lib_folder}/**/*__copy/**/*.${ext}
+            extension ${ext}
     $else
         $throw wfjob name not managed: ${name}

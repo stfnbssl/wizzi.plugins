@@ -1,0 +1,341 @@
+﻿wfschema css
+
+	# A schema modeling a css3 stylesheet document.
+
+	# ATTENTION in this model the usual python like comment char sharp(#) is replaced
+	#           by the minus(-) char, see the comment element.
+	#           The sharp char(#) is used for the idRule element.
+
+  	# Preprocess the mTree before loading the wizzi model
+	mtree-is-preprocessed
+
+	e css
+		# The root element
+		is-root
+		
+		a charset
+        a_tag_flag( useNormalize, use-normalize, true )
+		
+		r resource/s
+		r rule/s
+		r comment/s
+        r statement/s
+
+		m wzInitialize
+			if verify.isObject(this.extends)
+				var rule
+				foreach item in Object.keys(this.extends)
+					set rule = this.findRuleBySelector(item)
+					if rule
+						# loog 'rule.wzName, rule.ruleParts, rule.getSelector()', rule.wzName, rule.ruleParts, rule.getSelector(), 'rule.wzParent.wzName', rule.wzParent.wzName, 'rule.wzElement', rule.wzElement
+						foreach ext in this.extends[item]
+							# loog 'ext.wzParent.getSelector()',ext.wzParent.getSelector(),ext.wzParent.wzName
+							_ rule.addOtherRuleSelector(ext.wzParent.getSelector(), this.wzSourceLineInfo)
+						set rule.ruleParts = rule.getAscendingRuleParts()
+						# loog 'rule.ruleParts', rule.ruleParts, rule.getSelector()
+
+		m findRuleBySelector
+			param name
+			var ret = null
+			foreach item in this.rules
+				set ret = item.findRuleBySelector(name)
+				if ret
+					return ret
+			return ret
+
+	e statement
+        tag +
+
+    e resource
+		# A known resource (a fragment of a stylesheet), stored in a repository,
+		# that must be included in the generated artifact.
+
+	e rule
+		# The base abstract rule.
+		# It has a child relation (one-to-many) with itself so one
+		# can declare a tree of rules with unlimited deep.
+
+		is-abstract
+
+		a -webkit-*
+		a -ms-*
+		a -o-*
+		a -moz-*
+		a --*
+        a v-* 
+		
+		r otherRuleSelector/s
+		r otherClassSelector/s
+		r otherAmpersandSelector/s
+		r propert-y/ies
+		r rule/s
+
+		m wzInitialize
+			# loog '*** rule.initialize.start', this.wzElement, this.wzName
+			set this.parentRuleParts = this.getAscendingRuleParts()
+			# loog '*** rule.initialize.end', this.wzElement, this.wzName, 'this.parentRuleParts', this.parentRuleParts.join(',')
+			set this.canHaveContent = ['idRule', 'classRule', 'elementRule', 'gtRule', 'ampersand', 'placeholder'].indexOf(this.wzElement) > -1
+
+		m findRuleBySelector
+			param name
+			if this.canHaveContent && this.getSelector() === name
+				return this
+			var ret = null
+			foreach item in this.rules
+				set ret = item.findRuleBySelector(name)
+				if ret
+					return ret
+			return ret
+		
+		m hasContent
+			foreach item in this.rules
+				if item.canHaveContent
+					return true
+			return this.getProperties().length > 0
+
+		m getSelector
+			param final
+			if final && this.wzElement === 'placeholder'
+				return this.parentRuleParts.slice(1).join(', ')
+			else
+				return this.parentRuleParts.join(', ')
+
+		m getProperties
+			var retval = []
+			for var prop in this
+				if isPropValue(prop, this[prop])
+					_ retval.push({ name: verify.replaceAll(prop, '_', '-'), value: this[prop] })
+
+			foreach prop in this.properties
+				if prop.wzElement === 'property'
+					# generic property ( @ name value )
+					var p = verify.parseNameValue(prop.wzName, prop)
+					if prop.properties.length > 0
+						# Nested properties
+						if p.hasValue()
+							_ retval.push({ name: p.name(), value: p.value() })
+						foreach nestedprop in prop.properties
+							var p_nested = lineParser.parseNameValueRaw(nestedprop.wzName, nestedprop)
+							_ retval.push({ name: p.name() + '-' + p_nested.name(), value: p_nested.value() })
+					else
+						if p.hasValue()
+							_ retval.push({ name: p.name(), value: p.value() })
+                        elif prop.styledprop
+                            _ retval.push({ name: p.name(), value: null, styledprop: prop.styledprop })
+				else
+					if prop.wzElement == 'background_image' || prop.wzElement == 'jscode'
+						_ retval.push
+							{
+								@ name prop.wzTag
+								@ value prop.wzName
+								@ wzElement prop.wzElement
+								@ prop prop
+                                @ styledprop prop.styledprop
+					elif verify.isNotEmpty(prop.wzName)
+                        # loog 'verify.isNotEmpty(prop.wzName)', prop.wzTag, prop.wzName, prop.styledprop
+						_ retval.push({ name: prop.wzTag, value: prop.wzName })
+                    else
+                        _ retval.push({ name: prop.wzTag, value: null, styledprop: prop.styledprop })
+					for var attr in prop
+						if isPropValue(attr, prop[attr])
+                            # loog 'if isPropValue(attr, prop[attr])', prop.wzTag, attr
+							_ retval.push({ name: prop.wzTag + '-' + verify.replaceAll(attr, '_', '-'), value: prop[attr] })
+			return retval
+
+
+		m getAscendingRuleParts
+			var thisRuleParts = []
+			if this.wzElement !== 'media'
+				set thisRuleParts = this.wzName.trim().split(',')
+				foreach ors in this.otherRuleSelectors
+					_ thisRuleParts.push(ors.wzName)
+			# loog '*** thisRuleParts 1', thisRuleParts.join(',')
+			if thisRuleParts.length > 0 
+				if this.wzElement === 'idRule'
+					set thisRuleParts[0] = '#' + thisRuleParts[0]
+				elif this.wzElement === 'classRule'
+					set thisRuleParts[0] = '.' + thisRuleParts[0]
+				elif this.wzElement === 'gtRule'
+					set thisRuleParts[0] = '> ' + thisRuleParts[0]
+				elif this.wzElement === 'placeholder'
+					set thisRuleParts[0] = '%' + thisRuleParts[0]
+				elif this.wzElement === 'ampersand'
+					set thisRuleParts[0] = '&' + thisRuleParts[0]
+			# loog '*** thisRuleParts 2', thisRuleParts.join(',')
+			if this.wzParent && this.wzParent.getAscendingRuleParts
+				var parentRuleParts = this.wzParent.getAscendingRuleParts()
+				# loog '*** parentRuleParts 3', parentRuleParts.join(',')
+				if parentRuleParts.length > 0
+					var ret = []
+					foreach prp in parentRuleParts
+						if this.wzElement == 'media'
+							_ ret.push(prp)
+						else
+							foreach rp in thisRuleParts
+								if rp.indexOf('&') > -1
+									_ ret.push(verify.replaceAll(rp, '&', prp))
+								else
+									_ ret.push(prp + ' ' + rp)
+					return ret
+				else
+					return thisRuleParts
+			else
+				return thisRuleParts
+
+	e elementRule : rule
+		# The element rule
+		# The wzName contain the selector(s)
+		tag <
+
+	e classRule : rule
+		# The class rule
+		# The wzName contain the selector(s)
+		tag .
+
+	e idRule : rule
+		# The id rule
+		# The wzName contain the selector(s)
+		tag #
+
+	e gtRule : rule
+		# The > rule
+		# The wzName contain the selector(s)
+		tag >
+
+	e ampersand : rule
+		tag &
+
+	e pseudoElementRule : rule
+		tag ::
+
+	e placeholder : rule
+		tag %
+
+	e otherRuleSelector
+		# The wzName contains other selector(s) to add to those of the parent rule.
+		# In case of a rule with many selectors allow the declaration on many nodes.
+		# Rules are joined comma separated.
+		# Example
+		# < td
+		#	+ span
+		#   + li
+		#   + ...
+		# for: td, span, li, ...
+		tag +
+
+	e otherClassSelector
+		# The wzName contains a class selector to add to those of the parent rule.
+		# Example
+		# . container
+		#	+. item
+		#   + ...
+		# for: .container, .item ...
+		tag +.
+
+	e otherAmpersandSelector : rule
+		tag +&
+
+	e property
+		# A generic rule property.
+		# You should find a proper schema element that extends this one for every valid css3 property. 
+		# In any case this element is not abstract and can fit for missing properties.
+		# In this case must contain a name-value pair separated by a blank: name is
+		# the property name and value the property value.
+		# ittf
+		# . wrapper
+		#     @ webkit-super-exotic quark  
+		# css
+		# .wrapper {
+		#   webkit-super-exotic: quark;
+		# }
+
+		tag @
+
+		a styledprop
+            tag =>
+        
+        r propert-y/ies
+			# Nested property
+
+    e styledVar : property
+        tag $
+	
+    e jscode : property
+        tag js=>
+        include js module
+
+	$include css/spec-properties
+
+	e media : rule
+
+	e keyframes : rule
+		a vendor
+	
+	e keyframe : rule
+		a value
+		a % 
+
+    e keyframeFrom : rule
+        tag from
+    
+    e keyframeTo : rule
+        tag to
+	
+	e fontface : rule
+		tag font-face
+		a_tag( fontFamily, font-family )
+		a src
+		a_tag( fontStretch, font-stretch )
+        a_tag( fontFeatureSettings, font-feature-settings )
+        a_tag( fontVariationSettings, font-variation-settings )
+        a_tag( fontVariant, font-variant )
+		a_tag( fontStyle,  font-style )
+		a_tag( fontWeight, font-weight )
+		a_tag( unicodeRange, unicode-range )
+        a_tag( fontDisplay, font-display )
+	
+	e extend : rule
+		tag extend|extend
+
+		m wzInitialize
+			var root = this.wzRoot()
+			if !root.extends
+				set root.extends = {}
+			if !root.extends[this.wzName]
+				set root.extends[this.wzName] = []
+			set root.extends[this.wzName].push(this)
+
+	e import : rule
+
+	e include : rule
+
+	e comment : rule
+		# The wzName is the comment text.
+		
+		tag -
+
+	declare
+		# Global level vars and functions that
+		# will be written in the generated wizzi model type.
+
+		var noattrs
+			[
+				@ 'wzTag'
+				@ 'wzName'
+				@ 'wzElement'
+				@ 'wzParent'
+				@ 'wzSourceLineInfo'
+				@ '___exportName'
+				@ 'canHaveContent'
+
+		function isPropValue
+			param a
+			param v
+			if noattrs.indexOf(a) > -1
+				return false
+            if a == "styledprop"
+                return false
+			if v == null || verify.isArray(v) || verify.isObject(v) || verify.isFunction(v)
+				return false
+			return true
+

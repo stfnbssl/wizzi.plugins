@@ -1,0 +1,59 @@
+html
+	head
+		@title Raml ${raml.wzName}
+		bs_css()
+		css
+			. table-borderless > tbody > tr > td, .table-borderless > tbody > tr > th, .table-borderless > tfoot > tr > td, .table-borderless > tfoot > tr > th, .table-borderless > thead > tr > td, .table-borderless > thead > tr > th
+				@ border none!important
+	body
+
+		. jumbotron
+			style text-align: center;
+			h1 Api ${raml.wzName}
+
+		. container
+
+			$ var element = raml;
+			comments( &element )
+
+			table( 50 )
+				tr_prop( title, ${raml.title} )
+				tr_prop( version, ${raml.version} )
+				tr_prop( baseUri, ${raml.baseUri} )
+					$if raml.baseUriParameters.length > 0
+						br
+						$foreach item in raml.baseUriParameters
+							div ${item.wzName}
+				tr_prop( protocols, ${raml.protocols} )
+
+            . row
+				. col-md-2
+					bs/list_group()
+						$foreach resource in raml.resources
+							bs/li_a( ${resource.wzName}, #resource_${resource.wzName} )
+
+				. col-md-8
+				
+					$foreach r1 in raml.resources
+						$ var ctx = { resourcePath: '' };
+						$ var element = r1;
+						resource( &element, &ctx )
+							$foreach r2 in r1.resources
+								$ ctx.resourcePath = '/' + r1.wzName;
+								$ var element = r2;
+								resource( &element, &ctx )
+									$foreach r3 in r2.resources
+										$ ctx.resourcePath = '/' + r1.wzName + '/' + r2.wzName;
+										$ var element = r3;
+										resource( &element, &ctx )
+											$foreach r4 in r3.resources
+												$ ctx.resourcePath = '/' + r1.wzName + '/' + r2.wzName + '/' + r3.wzName;
+												$ var element = r4;
+												resource( &element, &ctx )
+													$foreach r5 in r4.resources
+														$ ctx.resourcePath = '/' + r1.wzName + '/' + r2.wzName + '/' + r3.wzName + '/' + r4.wzName;
+														$ var element = r5;
+														resource( &element, &resourcePath )
+
+		bs_js()
+

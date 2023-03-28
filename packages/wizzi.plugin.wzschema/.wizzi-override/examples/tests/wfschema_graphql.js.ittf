@@ -1,0 +1,81 @@
+module
+    kind es6
+    $
+        var md = {
+            name: 'wfschema_graphql',
+        };
+    v08/examples/plugin( &md )
+        $append imports
+            var graphqlFactory = require('../results/wfschema/graphql-factory.g')
+
+        $append plugins
+            [ items
+                @ './index.js'
+                @ 'wizzi-js'
+            @ pluginsBaseFolder
+                _ path.resolve
+                    @ __dirname
+                    @ '..'
+                    @ '..'
+        
+        let arg = process.argv[2]
+        const moduleName = arg && arg.length > 0 ? arg : 'first'
+        _ executeLoadIttfDocuments
+            [
+                @ moduleName
+            a_cb_no_throw( result )
+                if err
+                    error 'wfschema_graphql.examples.executeLoadIttfDocuments.err', err
+                    error 'wfschema_graphql.examples.executeLoadIttfDocuments.err.toString()', err.toString()
+                    if err.inner
+                        error 'wfschema_graphql.examples.executeLoadIttfDocuments.err.inner.toString()', err.inner.toString()
+                else
+        function executeLoadIttfDocuments
+            param modules
+            param callback
+            _ async.mapSeries
+                @ modules
+                =>
+                    param module
+                    param callback
+                    log 'wfschema_graphql.example.executeLoadIttfDocuments.module: ' + module
+                    var ittfDocumentUri
+                        _ path.join
+                            @ __dirname
+                            @ 'ittf'
+                            @ module + '.graphql.ittf'
+                    var outputPath
+                        _ path.join
+                            @ __dirname
+                            @ 'results'
+                            @ module + '.graphql.json'
+                    _ loadMTree
+                        @ ittfDocumentUri
+                        {
+                        a_cb( mTree )
+                            log 'wfschema_graphql.example.executeLoadIttfDocuments.mTree: ', mTree
+                            _ createWizziFactory
+                                {
+                                a_cb( wf )
+                                    var loadModel
+                                        _ graphqlFactory.createLoadModel
+                                            {
+                                                { options
+                                                    @ loadFromMTree true
+                                                @ verify verify
+                                                @ errors wizzi.errors
+                                                @ wizziFactory wf
+                                    _ loadModel
+                                        @ mTree
+                                        {
+                                        a_cb( wizziModel )
+                                            # log 'wfschema_graphql.example.executeLoadIttfDocuments.wizziModel: ', Object.keys(wizziModel), wizziModel.wzElement
+                                            log 'wfschema_graphql.example.executeLoadIttfDocuments.wizziModel: ', wizziModel
+                                            _ file.write
+                                                @ outputPath
+                                                _ stringify
+                                                    _ wizziModel.toJson
+                                                    @ null
+                                                    @ 4
+                                            r_cb( )
+                @ callback

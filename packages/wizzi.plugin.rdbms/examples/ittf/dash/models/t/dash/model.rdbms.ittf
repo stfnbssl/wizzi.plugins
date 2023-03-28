@@ -1,0 +1,56 @@
+$group
+
+	t_pk( projectModel, userName, projectName, modelSchema, modelName )
+
+		# Models at the project level
+
+		document
+			kind ittf
+			path
+				segment {userName}
+				segment {projectName}
+				segment {modelName}.{modelSchema}.ittf
+	
+	t_pk( sectionModel, userName, projectName, sectionName, modelSchema, modelName )
+	
+		# Models at the section level
+
+		document
+			kind ittf
+			path
+				segment {userName}
+				segment {projectName}
+				segment {sectionName}
+				segment {modelName}.{modelSchema}.ittf
+
+	t_pk( schemaContextModel, userName, projectName, schemaName, modelSchema, modelName  )
+
+		# Context models may be used for the composition of WizziSchemaModelTypes
+
+		document
+			kind ittf
+			path
+				segment {userName}
+				segment {projectName}
+				segment wizzi
+				segment schemas
+				segment {schemaName}
+				segment t
+				segment {modelName}.{modelSchema}.ittf
+
+	t_pk( artifactContextModel, userName, projectName, schemaName, artifactName, modelSchema, modelName )
+	
+		# Context models may be used for the composition of ArtifactGenerators
+
+		document
+			kind ittf
+			path
+				segment {userName}
+				segment {projectName}
+				segment artifacts
+				segment {schemaName}
+				segment {artifactName}
+				segment gen
+				segment t
+				segment {modelName}.{modelSchema}.ittf
+

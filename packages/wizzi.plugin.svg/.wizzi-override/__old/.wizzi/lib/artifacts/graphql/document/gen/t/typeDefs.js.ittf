@@ -1,0 +1,147 @@
+﻿$group
+
+	async/md-ctx( typeDef )
+		var method = md[model.wzElement]
+		_ method
+			@ model
+			@ ctx
+			@ callback
+
+	async/md( scalarTypeDef )
+		_ ctx.w( 'scalar ' + model.wzName )
+		r_cb()
+
+	async/md( objectTypeDef )
+		
+		var impl = []
+		foreach item in model.ximplements
+			_ impl.push
+				@ item.wzName
+		var implString = impl.length > 0 ? ' implements ' + impl.join(' & ') : ''
+		_ ctx.w( 'type ' + model.wzName + implString + ' {' )
+		_ ctx.indent
+		_ async.mapSeries
+			@ model.fieldDefs
+			_ md.fieldDef
+				@ ctx
+			f_cb()
+				_ ctx.deindent
+				_ ctx.w( '}' )
+				r_cb()
+
+	async/md-ctx( fieldDef )
+		
+		if model.wzElement === 'method'
+			return
+				_ md.method
+					@ model
+					@ ctx
+					@ callback
+		else
+			var isList = model.wzElement === 'arrayType'
+			var type = model.type
+			if isList && model.itemType
+				var requiredChar = model.itemType.isRequired ? '!' : ''
+				set type = '[' + model.itemType.wzName + requiredChar + ']'
+			var args = []
+			# loog 'fieldDef', model.wzElement, model.wzName
+			foreach item in model.argumentDefs
+				_ args.push
+					_ getTypedArgumentDeclaration
+						@ item
+			var argsString = args.length > 0 ? '(' + args.join(', ') + ')' : ''
+			var directiveString = model.isDeprecated ? ' @deprecated' : ''
+			var requiredChar = model.isRequired ? '!' : ''
+			_ ctx.w( model.wzName + argsString + ': ' + type + requiredChar + directiveString)
+			r_cb()
+
+	async/md( method )
+		var args = []
+		foreach item in model.fieldDefs
+			_ args.push
+				_ getTypedArgumentDeclaration
+					@ item
+		_ ctx.write( model.wzName + '(' + args.join(', ') + ') ' )
+		if model.selectionSet
+			_ md.selectionSet
+				@ model.selectionSet
+				@ ctx
+				f_cb()
+					r_cb()
+		else
+			_ ctx.w(': ' + model.type)
+			r_cb()
+
+	async/md( interfaceTypeDef )
+		_ ctx.w( 'interface ' + model.wzName + ' {' )
+		_ ctx.indent
+		_ async.mapSeries
+			@ model.fieldDefs
+			_ md.fieldDef
+				@ ctx
+			f_cb()
+				_ ctx.deindent
+				_ ctx.w( '}' )
+				r_cb()
+
+	async/md( unionTypeDef )
+		_ ctx.write( 'union ' + model.wzName + ' = ')
+		foreach item in model.unionMemberTypes
+			if i > 0
+				_ ctx.write(' | ')
+			_ ctx.write( item.wzName )
+		_ ctx.w
+		r_cb()
+
+	async/md( enumTypeDef )
+		_ ctx.w( 'enum ' + model.wzName + ' {' )
+		_ ctx.indent
+		foreach item in model.enumValueDefs
+			_ ctx.w( item.wzName )
+		_ ctx.deindent
+		_ ctx.w( '}' )
+		r_cb()
+
+	async/md( inputObjectTypeDef )
+		_ ctx.write( 'input ' + model.wzName + ' ')
+		if model.objectValueDef
+			_ md.objectValueDef
+				@ model.objectValueDef
+				@ ctx
+				@ callback
+		else
+			r_cb()
+
+	async/md( objectValueDef )
+		_ ctx.w('{')
+		_ ctx.indent
+		_ async.mapSeries
+			@ model.valueDefs
+			_ md.valueDef
+				@ ctx
+			f_cb()
+				_ ctx.deindent
+				_ ctx.w('}')
+				r_cb()
+
+	async/md-ctx( valueDef )
+		
+		# loog 'valueDef', model.wzElement, model.wzName
+		_ ctx.w( model.wzName + ': ' + model.type)
+		r_cb()
+
+	async/md( directiveDef )
+		var args = []
+		# loog 'fieldDef', model.wzElement, model.wzName
+		foreach item in model.argumentDefs
+			_ args.push
+				_ getTypedArgumentDeclaration
+					@ item
+		var argsString = args.length > 0 ? '(' + args.join(', ') + ')' : ''
+		var loc = []
+		foreach item in model.directiveLocations
+			_ loc.push
+				@ item.wzName
+		var locString = loc.length > 0 ? ' on ' + loc.join(' | ') : ''
+		_ ctx.w( 'directive ' + model.wzName + argsString + locString )
+		r_cb()

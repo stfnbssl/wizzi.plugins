@@ -1,0 +1,13 @@
+$group
+
+	$if method.isKnownMethod === false
+		m ${method.wzName}
+			$if method.isStatic
+				static
+			$foreach param in method.params
+				param ${param.wzName}
+			$foreach statement in method.statements
+				jst ${statement.wzName}
+                $foreach codeLine in statement.codeLines
+                    + ${codeLine}
+

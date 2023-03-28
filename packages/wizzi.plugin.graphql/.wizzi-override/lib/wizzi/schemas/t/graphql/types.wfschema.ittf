@@ -1,0 +1,17 @@
+$group
+
+    e nameType : basenode
+        is-abstract
+
+    $
+        var items = [
+            'string',
+            'int',
+            'float',
+            'boolean',
+            'Date',
+            'ref',
+        ];
+
+    $foreach item in items
+        e_tag( ${item}NameType, :${item}, nameType )

@@ -1,0 +1,93 @@
+$group
+
+	@ title '${raml.title}'
+	@ version '${raml.version}'
+	@ protocols '${raml.protocols}'
+	@ baseUri '${raml.baseUri}'
+	@ serverPort '${raml.port}'
+	@ parameters
+		[
+			$foreach faceted in raml.parameters
+				{
+					@ name '${faceted.wzName}'
+					@ "in" '${faceted.in}'
+					getFacets( &faceted )
+	@ mediaTypes
+		[
+			$foreach item in raml.getMediaTypes()
+				@ '${item.name}'
+	@ resources
+		[
+			$foreach r in raml.getResources()
+				{
+					@ name '${r.wzName}'
+					@ path '${r.path}'
+					@ expressPath '${r.expressPath}'
+					@ pathChain
+						[
+							$foreach path in r.paths
+								@ '${path}'
+					@ routerHandleSubpaths ${r.routerHandleSubpaths}
+					@ parameters
+						[
+							$foreach faceted in r.parameters
+								{
+									@ name '${faceted.wzName}'
+									@ "in" '${faceted.in}'
+									getFacets( &faceted )
+					@ methods 
+						[
+							$foreach m in r.methods
+								{
+									@ name '${m.name}'
+									@ handlerId '${m.handlerId}'
+									@ parameters
+										[
+											$foreach faceted in m.parameters
+												{
+													@ name '${faceted.wzName}'
+													@ "in" '${faceted.in}'
+													getFacets( &faceted )
+													$if faceted.type == 'object'
+														@ properties
+															[
+																$foreach p in faceted.properties
+																	{
+																		@ name '${p.wzName}'
+																		$foreach f in p.getFacets()
+																			$if f.facetType === 'string'
+																				@ "${f.name}" '${f.value}'
+																			$else
+																				@ "${f.name}" ${f.value}
+									@ mediaTypes
+										[
+											$foreach item in m.getMediaTypes()
+												@ '${item.name}'
+									@ responseStatuses
+										{
+											$foreach rs in m.getResponseStatuses()
+												@ "${rs.name}"
+													{
+														@ bodyMediaTypes
+															{
+																$foreach bmt in rs.getMediaTypes()
+																	@ "${bmt.name}"
+																		{
+																			$if bmt.typeItem
+																				$ var faceted = bmt.typeItem
+																				@ schema
+																					{
+																						@ name '${faceted.wzName}'
+																						@ type '${faceted.type}'
+																						getFacets( &faceted )
+																						$if faceted.type == 'object'
+																							@ properties
+																								[
+																									$foreach p in faceted.properties
+																										{
+																											@ name '${p.wzName}'
+																											$foreach f in p.getFacets()
+																												$if f.facetType === 'string'
+																													@ "${f.name}" '${f.value}'
+																												$else
+																													@ "${f.name}" ${f.value}

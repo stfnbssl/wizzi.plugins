@@ -1,0 +1,11 @@
+$group
+    $params elname, indent|@@null
+    _ md.genItems
+        @ model.comments
+        @ ctx
+        {
+            @ indent ${indent == "indent" ? true : false}
+        a_cb()
+            xml-dump-el-close( ${elname} )
+            r_cb()
+

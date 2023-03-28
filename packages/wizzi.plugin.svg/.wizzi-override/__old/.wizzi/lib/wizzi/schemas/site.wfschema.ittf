@@ -1,0 +1,64 @@
+﻿wfschema site
+
+	# https://webdesignfromscratch.com/website-architecture/ia-models/
+	# https://blog.spinweb.net/how-to-effectively-structure-your-website-header
+
+	# A schema modeling the components of a website structure
+
+	$include site/base
+
+	e site : comment
+		# The root element of the site schema.
+		is-root
+
+		r page/s
+		r meta/s
+
+		m getDemosByPath
+			param path
+			var ret
+			foreach item in this.metas
+				if item.getDemosByPath
+					set ret = item.getDemosByPath(path)
+					if ret
+						return ret
+			return []
+	
+		m getCategoriesByPath
+			param path
+			var ret
+			foreach item in this.metas
+				if item.getCategoriesByPath
+					set ret = item.getCategoriesByPath(path)
+					if ret
+						return ret
+			return []
+
+		m getLinksByPath
+			param path
+			var ret
+			foreach item in this.metas
+				if item.getLinksByPath
+					set ret = item.getLinksByPath(path)
+					if ret
+						return ret
+			return []
+
+	e page
+		r header
+			one-to-one
+		r footer
+			one-to-one
+		r meta/s
+
+	e_tag( contextModel, context-model )
+		a type
+		a path
+	
+	$include site/meta
+	$include site/header
+	$include site/footer
+	$include site/layout
+	$include site/styles
+	$include site/markup
+	$include site/widgets

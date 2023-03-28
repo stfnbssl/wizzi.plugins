@@ -1,0 +1,88 @@
+﻿module
+    kind es6
+
+    $
+        var md = {
+            name: 'rdbms_examples_step_2',
+            description: 'Generate jsoncrud model for school rdbms',
+            level: 0,
+            step: 2
+        }
+
+    example_step( &md )
+
+        $append imports
+            var rdbmsfactory = require('../lib/wizzi/models/rdbms-factory.g')
+            var rdbmsjsoncrud = require('../lib/artifacts/rdbms/jsoncrud/gen/main')
+        +
+        var loadModel
+            _ rdbmsfactory.createLoadModel
+                _ getWizziObject
+        +
+        var ittfPath
+            _ path.join
+                @ __dirname
+                @ 'ittf'
+        
+        _ async.map
+            _ getIttfFiles(ittfPath,'rdbms')
+            function
+                param item
+                param callback
+                set item = item.substring(0, item.length - '.rdbms.ittf'.length)
+                log 'step_2_item', item
+                _ execute
+                    @ item
+                    a_cb_throw( result )
+                        log 'step_2_map_result', item, result
+                        _ callback
+                            @ null
+                            @ result
+            function
+                param err
+                param results
+                log 'step_2_map_results', results
+                if err
+                    _ step_callback
+                        @ err
+                _ step_callback
+                    @ null
+                    @ results
+
+        
+        +
+        function execute
+            param name
+            param callback
+            
+            var ittfSource
+                _ path.join
+                    @ __dirname
+                    @ 'ittf'
+                    @ name + '.rdbms.ittf'
+            var rdbmsJsonOutput
+                _ path.join
+                    @ __dirname
+                    @ 'ittf'
+                    @ name + '_jsoncrud.g.js'
+
+            _ loadModel
+                @ ittfSource
+                _ getLoadModelContext
+                    {
+                a_cb_throw( rdbmsWizziModel )
+                    # loog 'examples/rdbms result rdbmsWizziModel', rdbmsWizziModel
+                    var ctx
+                        _ mocks.getGenContext
+                    _ rdbmsjsoncrud.gen
+                        @ rdbmsWizziModel
+                        @ ctx
+                        a_cb_throw( ctx )
+                            # log 'ctx begin ========', '\n' + ctx.getContent(), '\nctx end ============'
+                            log 'ittfSource written ', ittfSource
+                            _ fsfile.write
+                                @ rdbmsJsonOutput
+                                @ ctx.getContent()
+                            _ callback
+                                @ null
+                                @ 'step_2_ittfSource written: ' + ittfSource

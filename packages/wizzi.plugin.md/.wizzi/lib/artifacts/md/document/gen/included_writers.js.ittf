@@ -1,0 +1,50 @@
+module
+    kind es6
+    +
+    var myname = 'md.document.included_writers'
+    +
+    var verify = require('wizzi-utils').verify
+    +
+    var md = module.exports = {}
+    set md.writeIncludeHtml
+        function
+            param ctx
+            param element
+            param callback
+            # log myname, 'enter writeIncludeHtml'
+            _ element.get_html
+                a_cb( htmlModel )
+                    # log myname, 'htmlModel', htmlModel
+                    _ ctx.wizziFactory.generateArtifact
+                        @ htmlModel
+                        @ 'generated from md model'
+                        @ 'html/document'
+                        {
+                        a_cb( artifactText )
+                            # log myname, 'html module artifactText', artifactText
+                            _ ctx.indent
+                            _ ctx.writeAligned(artifactText)
+                            _ ctx.deindent
+                            return
+                                _ callback
+    set md.writeIncludeSvg
+        function
+            param ctx
+            param element
+            param callback
+            # log myname, 'enter writeIncludeSvg'
+            _ element.get_svg
+                a_cb( svgModel )
+                    # log myname, 'svgModel', svgModel
+                    _ ctx.wizziFactory.generateArtifact
+                        @ svgModel
+                        @ 'generated from md model'
+                        @ 'svg/document'
+                        {
+                        a_cb( artifactText )
+                            # log myname, 'svg module artifactText', artifactText
+                            _ ctx.indent
+                            _ ctx.writeAligned(artifactText)
+                            _ ctx.deindent
+                            return
+                                _ callback

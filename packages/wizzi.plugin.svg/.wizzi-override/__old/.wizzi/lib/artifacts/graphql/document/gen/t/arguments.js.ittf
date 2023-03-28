@@ -1,0 +1,86 @@
+﻿$group
+
+	function writeArguments
+		param args
+		param ctx
+		
+		# sync method
+		# no need to use include 'schema' in an argument fragment
+		
+		if args.length == 0
+			return
+
+		_ ctx.write('(')
+		foreach arg in args
+			if i > 0
+				_ ctx.write( ', ' )
+			if arg.value
+				_ ctx.write( arg.wzName + ': ')
+				_ writeValue
+					@ arg.value
+					@ ctx
+			else
+				var p = lineParser.parseNameValueRaw(arg.wzName, arg)
+				var name = p.name()
+				var value = p.value()
+				_ ctx.write( name + ': ' + value )
+		_ ctx.write(')')
+
+	function writeValue
+		param model
+		param ctx
+		if model.wzElement === 'arrayValue'
+			_ writeArrayValue
+				@ model
+				@ ctx
+		elif model.wzElement === 'objectValue'
+			_ writeObjectValue
+				@ model
+				@ ctx
+		elif model.wzElement === 'objectField'
+			_ writeObjectField
+				@ model
+				@ ctx
+
+	function writeArrayValue
+		param model
+		param ctx
+		
+		var saveState = ctx.genState
+		set ctx.genState = 'arrayValue'
+		
+		_ ctx.write( '[' )
+		foreach item in model.values
+			if i > 0
+				_ ctx.write(', ')
+			_ writeValue
+				@ item
+				@ ctx
+		_ ctx.write( ']' )
+		
+		set ctx.genState = saveState
+
+	function writeObjectValue
+		param model
+		param ctx
+		
+		var saveState = ctx.genState
+		set ctx.genState = 'objectValue'
+		
+		_ ctx.write( '{' )
+		foreach item in model.values
+			if i > 0
+				_ ctx.write(', ')
+			_ writeValue
+				@ item
+				@ ctx
+		_ ctx.write( '}' )
+		
+		set ctx.genState = saveState
+
+	function writeObjectField
+		param model
+		param ctx
+		if ctx.genState === 'objectValue'
+		else
+			_ ctx.write( model.wzName )

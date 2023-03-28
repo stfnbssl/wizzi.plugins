@@ -1,0 +1,118 @@
+graphql
+    # graphql comment
+        # graphql comment comment
+    
+    {
+        # selectionSet with directives
+
+	    % alpha
+		    # TODO directive
+		    on A
+                # directiveLocation
+
+	    %list beta
+		    # isList directive
+		    on B
+                # directiveLocation
+
+	    %required gamma
+		    # isRequired directive
+		    on C
+                # directiveLocation
+
+	    %deprecated sigma
+		    # isDeprecated directive
+		    on D
+                # directiveLocation
+        
+	    %skip tau
+		    # skip directive
+		    on E
+                # directiveLocation
+
+	    %include tau
+		    # include directive
+		    on F
+                # directiveLocation
+
+        @ a1
+            # argument 1, default value 5
+            = 5
+
+        . f1
+            # field 1
+
+        . f2
+            # field 2
+            @ a1
+                # argument 1 of field 2, default value 7
+                = 7
+            {
+                # selectionSet inside field 2
+        
+        ... fs1
+            # fragmentSpread fs1
+
+        ...on if1
+            # inlineFragment if1
+            {
+                # selectionSet inside inlineFragment if1
+
+    query q1
+        # query q1
+        
+        string s1
+            # variable string s1
+        
+        int i1
+            # variable int i1
+        
+        float f1
+            # variable float f1
+        
+        boolean b1
+            # variable boolean b1
+        
+        {
+            # selectionSet inside query q1
+
+    fragment frag1
+        # fragment frag1, on typeCondition tc1
+        on tc1 
+		
+        {
+			# selectionSet inside query frag1
+
+
+    scalar sc1
+        # typeDef scalar sc1
+	
+    :{ obj1
+        # typeDef objectTypeDef obj1
+        & impl1
+            # implements impl1
+        & impl2
+            # implements impl2
+		[ arr1
+		    item-type obj2
+
+	    enum enum1
+
+        string s1
+
+        null null1
+
+        int int1
+
+        float float1
+        
+        boolean boolean1
+
+        ID id1
+
+        m method1
+            string p1
+            int p2
+            {
+                # selectionSet of method method1
+

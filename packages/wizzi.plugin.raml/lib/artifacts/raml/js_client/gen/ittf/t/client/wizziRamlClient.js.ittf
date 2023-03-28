@@ -1,0 +1,164 @@
+$group
+
+	class WizziRamlClient
+		
+		ctor
+            param url
+            param options
+
+            set this.authorizations = null
+            set this.authorizationScheme = null
+            set this.basePath = null
+            set this.debug = false
+            set this.enableCookies = false
+            set this.info = null
+            set this.modelsArray = []
+            set this.resourceCount = 0
+            set this.url = null
+            set this.swaggerObject =
+                { 
+            set this.deferredClient = undefined
+            set this.clientAuthorizations = new auth.SwaggerAuthorizations()
+            if typeof (url) !== 'undefined'
+                return this.initialize(url, options)
+            else 
+                return this
+
+		m initialize
+            param url
+            param options
+            
+			set this.models =
+                { 
+            
+			set this.sampleModels =
+                { 
+            
+			if typeof (url) === 'string'
+                set this.url = url
+            elif _.isObject(url)
+                set options = url
+                set this.url = options.url
+            
+			if this.url && this.url.indexOf('http:') === -1 && this.url.indexOf('https:') === -1
+                if typeof (window) !== 'undefined' && typeof (window.location) !== 'undefined'
+                    set this.url = window.location.origin + this.url
+            
+			set options = (options || {})
+            
+			_ this.clientAuthorizations.add
+                @ options.authorizations
+            
+			set this.swaggerRequestHeaders = (options.swaggerRequestHeaders || 'application/json;charset=utf-8,*/*')
+            set this.defaultSuccessCallback = (options.defaultSuccessCallback || null)
+            set this.defaultErrorCallback = (options.defaultErrorCallback || null)
+            set this.modelPropertyMacro = (options.modelPropertyMacro || null)
+            set this.connectionAgent = (options.connectionAgent || null)
+            set this.parameterMacro = (options.parameterMacro || null)
+            set this.usePromise = (options.usePromise || null)
+            set this.timeout = (options.timeout || null)
+            set this.fetchSpecTimeout = typeof (options.fetchSpecTimeout) !== 'undefined' ? options.fetchSpecTimeout : (options.timeout || null)
+
+            if this.usePromise
+                set this.deferredClient = Q.defer()
+            if typeof (options.success) === 'function'
+                set this.success = options.success
+            if options.enableCookies
+                set this.enableCookies = options.enableCookies
+            
+			set this.options = (options || {})
+            set this.options.timeout = this.timeout
+            set this.options.fetchSpecTimeout = this.fetchSpecTimeout
+            set this.supportedSubmitMethods = (options.supportedSubmitMethods || [])
+            set this.failure =
+                op|| 
+                    set options.failure
+                    function 
+                        param err
+                        throw err
+            set this.progress = options.progress || function (){}
+            set this.spec = _.cloneDeep(options.spec)
+            
+			if options.scheme
+                set this.scheme = options.scheme
+            
+			if this.usePromise || typeof (options.success) === 'function'
+                set this.ready = true
+                return this.build()
+
+	m build
+        param mock
+        if this.isBuilt
+            return this
+        var self = this
+        if this.spec
+            _ this.progress('fetching resource list; Please wait.')
+        else 
+            _ this.progress(((('fetching resource list: ' + this.url)) + '; Please wait.'))
+        
+		var obj
+            { 
+                @ connectionAgent this.connectionAgent
+                @ enableCookies this.enableCookies
+                @ url this.url
+                @ method 'get'
+                @ headers
+                    { 
+                        @ accept this.swaggerRequestHeaders
+                @ on
+                    { 
+                        @ error
+                            function 
+                                param response
+                                if self && self.url && self.url.substring(0, 4) !== 'http'
+                                    return self.fail('Please specify the protocol for ' + self.url)
+                                elif response.errObj && (response.errObj.code === 'ECONNABORTED' || response.errObj.message.indexOf('timeout') !== -1)
+                                    return self.fail('Request timed out after ' + self.fetchSpecTimeout + 'ms')
+                                elif response.status === 0
+                                    return self.fail('Can\'t read from server.  It may not have the appropriate access-control-origin settings.')
+                                elif response.status === 404
+                                    return self.fail('Can\'t read swagger JSON from ' + self.url)
+                                else 
+                                    return self.fail(response.status + ' : ' + response.statusText + ' ' + self.url)
+                        @ response
+                            function 
+                                param resp
+                                var responseObj = resp.obj
+                                if !(responseObj)
+                                    return self.fail('failed to parse JSON response')
+                                set self.swaggerVersion = responseObj.swaggerVersion
+                                set self.swaggerObject = responseObj
+                                new Resolver()
+                                    ._ resolve
+                                        @ responseObj
+                                        @ self.url
+                                        @ self.buildFromSpec
+                                        @ self
+                                set self.isValid = true
+        
+		if this.fetchSpecTimeout
+            set obj.timeout = this.fetchSpecTimeout
+        
+		if this.spec && typeof(this.spec) === 'object'
+            set self.swaggerObject = this.spec
+            _ setTimeout
+                function 
+                    new Resolver()
+                        ._ resolve
+                            @ self.spec
+                            @ self.url
+                            @ self.buildFromSpec
+                            @ self
+                @ 10
+        
+		else 
+            _ this.clientAuthorizations.apply(obj)
+            if mock
+                return obj
+            new SwaggerHttp()
+                ._ execute
+                    @ obj
+                    @ this.options
+        
+		return this.usePromise ? this.deferredClient.promise : this
+

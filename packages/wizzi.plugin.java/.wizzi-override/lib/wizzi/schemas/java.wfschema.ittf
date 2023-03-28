@@ -1,0 +1,20 @@
+wfschema java
+
+    e statement
+		# A statement line node with unlimited depth.
+		# Is the schema base node.
+		# In itself works as a comment line.
+		tag #
+		r statement/s
+
+	e codeline : statement
+
+    e java : statement
+		is-root
+        any codeline/statements
+
+        
+
+    $include java/functions
+    $include java/classes
+    $include java/typesystem

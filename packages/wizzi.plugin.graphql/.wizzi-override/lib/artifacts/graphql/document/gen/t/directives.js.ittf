@@ -1,0 +1,50 @@
+﻿$group
+
+    async-md( genericDirective )
+        _ ctx.write('@' + model.wzName)
+        r_cb()
+
+    async-md( isListDirective )
+        _ ctx.write('@isList ')
+        r_cb()
+
+    async-md( isRequiredDirective )
+        _ ctx.write('@required ')
+        r_cb()
+
+    async-md( isDeprecatedDirective )
+        _ ctx.write('@deprecated ')
+        r_cb()
+
+    async-md( skipDirective )
+        _ ctx.write('@skip ')
+        r_cb()
+
+    async-md( includeDirective )
+        _ ctx.write('@include ')
+        r_cb()
+
+	function writeDirectives
+		param directives
+		param ctx
+        param callback
+        if directives.length < 1
+            r_cb()
+        repeater( 1, directives )
+            if index_1 > 0
+                _ ctx.write(', ')
+            log 'writeDirectives 1', item_1.wzElement
+            _ md[item_1.wzElement]
+                @ item_1
+                @ ctx
+                a_cb()
+                    log 'writeDirectives 2'
+                    _ writeArguments
+                        @ item_1.xarguments
+                        @ ctx
+                        a_cb()
+                            repeater_increment( 1 )
+            $append next
+                log 'writeDirectives 3'
+                r_cb()
+

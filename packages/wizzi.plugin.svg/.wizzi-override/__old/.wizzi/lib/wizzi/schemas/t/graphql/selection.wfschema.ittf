@@ -1,0 +1,32 @@
+﻿$group
+
+	e selection
+		r comment/s
+		r directive/s
+	
+	e_tag( selectionSet, {, selection
+		r argument/s
+		r selection/s
+        
+        + SelectionSet
+        +   {Selectionlist}
+        + Selection
+        +   Field
+        +   FragmentSpread
+        +   InlineFragment
+	
+    e_tag( field, ., selection
+		a_tag( alias, as
+		r argument/s
+
+	e_tag( fragmentSpread, ..., selection
+
+	e_tag( inlineFragment, ...on, selection
+		r selectionSet
+			one-to-one
+
+	e_tag( argument, @
+		a_tag( defaultValue, =
+		r value
+			one-to-one
+

@@ -1,0 +1,84 @@
+$group
+
+	e env
+		a type
+			restrict
+				enum string
+				enum boolean
+				enum number
+			default string
+		a __name
+		a __value
+
+		m wzinitialize
+			var nv = verify.parseNameValue(this.wzName)
+			set this.__name = nv.name
+			set this.__value = verify.convert(nv.value, this.type)
+
+	e arg
+		a type
+			restrict
+				enum string
+				enum boolean
+				enum number
+			default string
+		a __name
+		a __value
+
+		m wzinitialize
+			var nv = verify.parseNameValue(this.wzName)
+			if nv.value && nv.value.length > 0
+				set this.__name = nv.name
+				set this.__value = verify.convert(nv.value, this.type)
+			else
+				set this.__value = verify.convert(nv.name, this.type)
+
+	e_tag( execFile, exec-file )
+
+		# An execution of a child process using
+		# -> child_process.execFile(file[, args][, options][, callback])
+
+		a_tag( exePath, exe-path )
+			# The path to the executable.
+		
+		a title
+			# A short description of the execution.
+
+		a cwd
+			# Current working directory of the child process.
+
+		a encoding
+			# Default: 'utf8'
+
+		a timeout
+			type integer
+			default 0
+			# Default: 0
+
+		a __options
+		
+		a __args
+
+		r arg/s
+
+		r env/s
+
+		r comment/s
+		
+		m wzinitialize
+			var options = {}
+			if this.cwd && this.cwd.length > 0
+				set options.cwd = this.cwd
+			if this.encoding && this.encoding.length > 0
+				set options.encoding = this.encoding
+			if this.timeout > 0
+				set options.timeout = this.timeout
+			if this.envs.length > 0
+				var envObj = {}
+				foreach env in this.envs
+					set envObj[env.__name] = env.__value
+				set options.env = envObj
+			set this.__options = options
+			set this.__args = []
+			foreach arg in this.args
+				_ this.__args.push(arg.__value)

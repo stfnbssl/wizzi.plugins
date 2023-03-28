@@ -1,0 +1,245 @@
+module
+    kind es6
+    $
+        var md = {
+            plugin: 'wizzi.plugin.vtt',
+            name: 'document',
+            schema: 'vtt',
+            checkSchema: true,
+            isAsync: true,
+        };
+    gen( &md )
+        $append imports
+        $append main
+            _ md.vtt
+                @ model
+                @ ctx
+                a_cb( )
+                    if ctx.artifactGenerationErrors.length > 0
+                        r_cb_err( ctx.artifactGenerationErrors )
+                    else
+                        # generation OK
+                        r_cb( ctx )
+        async-md( vtt
+            _ ctx.w( 'WEBVTT' )
+            _ ctx.w
+            _ writeComments
+                @ ctx
+                @ model
+            _md_gen_items( styles
+                _md_gen_items( regions
+                    _md_gen_items( vttCues
+                        r_cb()
+
+        async-md( vttCue
+            _ writeComments
+                @ ctx
+                @ model
+            _ writeCueTime( ctx, model )
+            if typeof model.region !== 'undefined'
+                _ ctx.write( ' region:' + model.region)
+            if typeof model.direction !== 'undefined'
+                _ ctx.write( ' vertical:' + model.direction)
+            if typeof model.line !== 'undefined'
+                _ ctx.write( ' line:' + model.line)
+            if typeof model.position !== 'undefined'
+                _ ctx.write( ' position:' + model.position)
+            if typeof model.size !== 'undefined'
+                _ ctx.write( ' size:' + model.size)
+            if typeof model.align !== 'undefined'
+                _ ctx.write( ' align:' + model.align)
+            if typeof model.lineAlign !== 'undefined'
+                _ ctx.write( ' line-align:' + model.lineAlign)
+            if typeof model.positionAlign !== 'undefined'
+                _ ctx.write( ' position-align:' + model.positionAlign)
+            _ ctx.w
+            _md_gen_items( cueTexts
+                _ ctx.w
+                r_cb()
+
+        async-md( cueText
+            _ ctx.write( model.wzName )
+            var saveIsInsideText = !!ctx.isInsideText
+            set ctx.isInsideText = true
+            _md_gen_items( cueTexts
+                if saveIsInsideText == false
+                    _ ctx.w
+                set ctx.isInsideText = saveIsInsideText
+                r_cb()
+
+        async-md( p
+            _ ctx.write( '- ' + model.wzName )
+            var saveIsInsideText = !!ctx.isInsideText
+            set ctx.isInsideText = true
+            _md_gen_items( cueTexts
+                if saveIsInsideText == false
+                    _ ctx.w
+                set ctx.isInsideText = saveIsInsideText
+                r_cb()
+        
+        async-md( u
+            _ writeCueText
+                @ ctx
+                @ model
+                @ 'u'
+                @ callback
+
+        async-md( i
+            _ writeCueText
+                @ ctx
+                @ model
+                @ 'i'
+                @ callback
+
+        async-md( b
+            _ writeCueText
+                @ ctx
+                @ model
+                @ 'b'
+                @ callback
+
+        async-md( c
+            _ writeCueText
+                @ ctx
+                @ model
+                @ 'c'
+                @ callback
+
+        async-md( voiceSpan
+            _ writeCueText
+                @ ctx
+                @ model
+                @ 'v'
+                @ callback
+
+        async-md( lang
+            _ writeCueText
+                @ ctx
+                @ model
+                @ 'lang'
+                @ callback
+
+        async-md( time
+            _ ctx.write( '<' + tag )
+            _ ctx.write
+                _ formatTime( model.wzName )
+            _ ctx.w('<')
+            r_cb()
+
+        async-md( componentClass
+            _ ctx.write( '.' + model.wzName )
+            r_cb()
+        
+        $include style
+        $include region
+
+        function writeComments
+            param ctx
+            param model
+            if model.comments.length == 1
+                _ ctx.w( 'NOTE ' + model.comments[0].wzName )
+                _ ctx.w
+            if model.comments.length > 1
+                _ ctx.w( 'NOTE' )
+                foreach item in model.comments
+                    _ ctx.w( item.wzName )
+                _ ctx.w
+        
+        function writeCueText
+            param ctx
+            param model
+            param tag
+            param callback
+
+            _ ctx.write( '<' + tag )
+            _md_gen_items( componentClasses
+                _ ctx.write( '>' + model.wzName )
+                var saveIsInsideText = !!ctx.isInsideText
+                set ctx.isInsideText = true
+                _md_gen_items( cueTexts
+                    _ ctx.write( '</' + tag + '>' )
+                    if saveIsInsideText == false
+                        _ ctx.w
+                    set ctx.isInsideText = saveIsInsideText
+                    r_cb()
+
+        function writeCueTime
+            param ctx
+            param model
+            
+            if typeof model.id !== 'undefined'
+                _ ctx.w( model.id )
+            var ss
+                _ model.wzName.split(' ').filter
+                    function
+                        param el
+                        return el != null
+
+            _ ctx.write
+                _ formatTime( ss.length == 1 ? 0 : ss[0] )
+            _ ctx.write
+                @ ' --> '
+            _ ctx.write
+                _ formatTime( ss.length == 1 ? ss[0] : ss[1] )
+
+        function formatTime
+            param t
+            var ss = t.split(':')
+            if ss.length == 1
+                return '00:00:' + zeroPad(ss[0], 2) + '.000'
+            elif ss.length == 2
+                return '00:' + zeroPad(ss[0], 2) + ':' + zeroPad(ss[1], 2) + '.000'
+            elif ss.length == 3
+                return zeroPad(ss[0], 2) + ':' + zeroPad(ss[1], 2) + ':' + zeroPad(ss[2], 2)
+            else
+                return zeroPad(ss[0], 2) + ':' + zeroPad(ss[0], 2) + ':' + zeroPad(ss[1], 2) + ':' + zeroPad(ss[2], 3)
+                
+        function zeroPad
+            param n
+            param len
+            set n = parseInt(n)
+            if len == 2
+                return n > 9 ? n : '0' + n
+            else
+                return n > 99 ? n : n > 9 ? '0' + n : '00' + n
+
+        var noattrs
+            [
+                @ 'wzTag'
+                @ 'wzName'
+                @ 'wzElement'
+                @ 'wzParent'
+                @ 'wzSourceLineInfo'
+                @ '___exportName'
+        function isAttrValue
+            param a
+            param v
+            if noattrs.indexOf(a) > -1
+                return false
+            if v == null || verify.isArray(v) || verify.isObject(v) || verify.isFunction(v)
+                return false
+            return true
+        function getAttrs
+            param e
+            var retval = []
+            for var a in e
+                if isAttrValue(a, e[a])
+                    _ retval.push({ name: verify.replaceAll(a, '_', '-'), value: e[a] })
+                elif a.substr(0, 3) === 'ng-'
+                    _ retval.push({ name: a, value: e[a] })
+                elif a.substr(0, 5) === 'data-'
+                    _ retval.push({ name: a, value: e[a] })
+                elif a.substr(0, 5) === 'aria-'
+                    _ retval.push({ name: a, value: e[a] })
+            if e.attributes
+                foreach a in e.attributes
+                    var p = lineParser.parseNameValueRaw(a.wzName, a)
+                    if p.hasValue()
+                        _ retval.push({ name: p.name(), value: p.value() })
+                    else
+                        _ retval.push({ name: p.name() })
+            return retval
+
+
+
+

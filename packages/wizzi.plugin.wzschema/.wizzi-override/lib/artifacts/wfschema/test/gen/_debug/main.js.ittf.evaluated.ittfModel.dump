@@ -1,0 +1,29 @@
+  module  ids: undefined undefined
+    kind jsfile ids: undefined undefined
+    var util = require('util') ids: undefined undefined
+    var path = require('path') ids: undefined undefined
+    var legacy = require('../../../../../legacy') ids: undefined undefined
+    var md = module.exports = {} ids: undefined undefined
+    var myname = 'wizzischema.test.main' ids: undefined undefined
+    set md.gen ids: undefined undefined
+      function  ids: undefined undefined
+        param model ids: undefined undefined
+        param ctx ids: undefined undefined
+        param callback ids: undefined undefined
+        # log myname + 'model', model ids: undefined undefined
+        var ittfDocumentPath = path.join(__dirname, 'ittf', 'wizzischema-test.js.ittf') ids: undefined undefined
+        _ legacy.jsModule ids: undefined undefined
+          @ ittfDocumentPath ids: undefined undefined
+          {  ids: undefined undefined
+            @ schema model ids: undefined undefined
+            @ request ids: undefined undefined
+              {  ids: undefined undefined
+                @ emitKey ctx.emitKey || 'node-js' ids: undefined undefined
+                @ toJson ctx.toJson || false ids: undefined undefined
+          function  ids: undefined undefined
+            param err ids: undefined undefined
+            param result ids: undefined undefined
+            if err ids: undefined undefined
+              throw new Error(err) ids: undefined undefined
+            _ ctx.w(result) ids: undefined undefined
+            _ callback(null, ctx) ids: undefined undefined

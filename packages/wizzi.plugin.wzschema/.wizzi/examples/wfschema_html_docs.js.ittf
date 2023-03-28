@@ -1,0 +1,59 @@
+module
+    kind es6
+    $
+        var md = {
+            name: 'wfschema',
+            artifact: 'html_docs',
+        };
+    v08/examples/plugin( &md )
+        $append plugins
+            [ items
+                @ './index.js'
+                @ 'wizzi-js'
+            @ pluginsBaseFolder
+                _ path.resolve
+                    @ __dirname
+                    @ '..'
+        let arg = process.argv[2]
+        const moduleName = arg && arg.length > 0 ? arg : 'first'
+        _ executeGenerateModules
+            [
+                @ moduleName
+            a_cb_no_throw( result )
+                if err
+                    error 'wfschema/html_docs.examples.executeGenerateModules.err', err
+                    error 'wfschema/html_docs.examples.executeGenerateModules.err.toString()', err.toString()
+                    if err.inner
+                        error 'wfschema/html_docs.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
+                else
+        function executeGenerateModules
+            param modules
+            param callback
+            _ async.mapSeries
+                @ modules
+                =>
+                    param module
+                    param callback
+                    log 'wfschema/html_docs.example.executeGenerateModules.module: ' + module
+                    var ittfDocumentUri
+                        _ path.join
+                            @ __dirname
+                            @ 'ittf'
+                            @ module + '.wfschema.ittf'
+                    var outputPath
+                        _ path.join
+                            @ __dirname
+                            @ 'results'
+                            @ 'wfschema'
+                            @ module + '-html_docs.g.html'
+                    _ loadModelAndGenerateArtifact
+                        @ ittfDocumentUri
+                        {
+                        @ 'wfschema/html_docs'
+                        a_cb( artifactText )
+                            log 'wfschema/html_docs.example.executeGenerateModules.outputPath: ' + outputPath
+                            _ file.write
+                                @ outputPath
+                                @ artifactText
+                            r_cb( artifactText )
+                @ callback

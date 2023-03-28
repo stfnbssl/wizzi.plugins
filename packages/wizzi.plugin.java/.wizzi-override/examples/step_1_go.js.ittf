@@ -1,0 +1,110 @@
+﻿module
+    kind es6
+
+    $
+        var md = {
+            name: 'java_examples_step_1',
+            description: 'First `java` Wizzi Model',
+            level: 0,
+            step: 1
+        }
+
+    example_step( &md )
+        $append imports
+            const spawn = require("child_process").spawn;
+
+        _ wizzi.fsFactory
+            {
+                @ plugins
+                    {
+                        [ items
+                            @ './index'
+                        @ pluginsBaseFolder
+                            _ path.resolve
+                                @ __dirname
+                                @ '..'
+            a_cb_throw( wf )
+                var className = "MyFirstClass"
+                _ wf.loadModelAndGenerateArtifact
+                    _ path.join
+                        @ __dirname
+                        @ 'step_1'
+                        @ className + '.java.ittf'
+                    {
+                        @ modelRequestContext {}
+                        @ artifactRequestContext {}
+                    @ 'java/module'
+                    a_cb_throw( artifactText )
+                        info artifactText
+                        const scriptPath
+                            _ path.join
+                                @ __dirname
+                                @ 'result'
+                                @ className + '.java'
+                        const classPath
+                            _ path.join
+                                @ __dirname
+                                @ 'result'
+                        _ fsfile.write
+                            @ scriptPath
+                            @ artifactText
+                        const javaProcess = spawn('C:\\Program Files\\Common Files\\Oracle\\Java\\javapath\\javac',[scriptPath])
+                        _ javaProcess.stdout.on
+                            @ 'data'
+                            function
+                                param data
+                                _ printValue
+                                    @ 'java stdout'
+                                    _ data.toString
+                                    @ 'dashes'
+                        _ javaProcess.stderr.on
+                            @ 'data'
+                            function
+                                param data
+                                _ printValue
+                                    @ 'java stderr'
+                                    _ data.toString
+                                    @ 'dashes'
+                        _ javaProcess.on
+                            @ 'error'
+                            function
+                                param err
+                                info `child process error`, err
+                        _ javaProcess.on
+                            @ 'close'
+                            function
+                                param code
+                                info `child process exited with code ${code}`
+                                if code == 0
+                                    const javaProcess
+                                        _ spawn
+                                            @ 'C:\\Program Files\\Common Files\\Oracle\\Java\\javapath\\java',[className]
+                                            {
+                                                @ cwd classPath
+                                    _ javaProcess.stdout.on
+                                        @ 'data'
+                                        function
+                                            param data
+                                            _ printValue
+                                                @ 'java stdout'
+                                                _ data.toString
+                                                @ 'dashes'
+                                    _ javaProcess.stderr.on
+                                        @ 'data'
+                                        function
+                                            param data
+                                            _ printValue
+                                                @ 'java stderr'
+                                                _ data.toString
+                                                @ 'dashes'
+                                    _ javaProcess.on
+                                        @ 'error'
+                                        function
+                                            param err
+                                            info `child process error`, err
+                                    _ javaProcess.on
+                                        @ 'close'
+                                        function
+                                            param code
+                                            info `child process exited with code ${code}`
+                                            if code == 0
