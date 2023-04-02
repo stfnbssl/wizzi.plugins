@@ -1,0 +1,104 @@
+wfschema js
+	
+	# A schema modeling a javascript module.
+
+	$$ export-to json
+
+	mtree-is-preprocessed
+
+	e statement
+		# The base element for all code nodes, and
+		# a generic code statement that will be emitted as is.
+		# The indentation will depend to the node depth.
+		# Inside an html tag means a text node without line feed.
+		tag +
+		
+		r statement/s
+	
+	e comment : statement
+		tag #
+
+	e commentmultiline : statement
+		tag ##
+
+	e_tag( xmodule, module, statement)
+		# The root element of the js schema.
+		is-root
+		a kind
+			default jsfile
+			restrict
+				enum jsfile
+				enum nodejs.bin
+				enum react
+				enum es6
+		a ecma
+			default es5
+			restrict
+				enum es5
+				enum es6
+		a no_strict
+			type boolean
+			default false
+
+		r feature/s
+
+		m wzinitialize
+			if this.kind === 'react' || this.kind === 'es6'
+				set this.ecma = 'es6'
+			# referenced in wizzi-codegen.js.es6.module
+			# > decl hasClasses = model.wzModelState.hasClasses
+			# The 'hasClasses' is set in the 'wzInitialize' method
+			# of the 'class' element.
+			# loog 'wizzi-js.model.module', this.wzName
+			set this.wzModelState = ctx.modelState = {}
+
+		m hasFeature
+			param name
+			foreach f in this.features
+				if f.wzName === name
+					return true
+			return false
+
+	e feature
+		# A known feature that this module require. The list of available features
+		# is enumerated in the restrict element of the 'kind' attribute.
+		# Most features are autodetected during schema initialization.
+		a kind
+			restrict
+				enum argument-check
+
+	e statementmultiline : statement
+		# Inside an html tag means a text node preceded by a line feed
+		tag ++
+
+	$include common/parameters
+	$include common/restrict
+	$include js/vars
+	$include js/expressions
+	$include js/statements
+	$include js/calls
+	$include js/objects
+	$include js/functions
+	$include js/classes
+	$include js/template
+	$include js/react
+	$include js/html
+	$include js/wz
+	$include js/graphql
+	$include js/handlebar
+	$include js/debug
+	$include js/test
+
+
+	declare
+        function isDescendentOf
+            param model
+            param ancestor
+            if !model.wzParent
+                return false
+            if model.wzParent.wzElement == ancestor
+                return true
+            return 
+                _ isDescendentOf
+                    @ model.wzParent
+                    @ ancestor

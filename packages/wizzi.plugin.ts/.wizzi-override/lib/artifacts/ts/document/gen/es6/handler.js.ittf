@@ -1,0 +1,61 @@
+module wizzi.ts.artifacts.module.gen.codegen.es6.handler
+	kind jsfile
+	var u = require('../utils/stm')
+	var statement = require('../statement')
+
+	var md = module.exports = {}
+	var myname = 'wizzi.js.artifacts.module.gen.codegen.es6.handler'
+
+	async-md( gen )
+		var
+			decl method = model.wzName
+
+		_ u.writeComments(model, ctx)
+        
+        _ u.genAccessorsAndExtra
+			@ model
+			@ ctx
+
+		if model.static
+			_ ctx.write('static ')
+
+		if model.async
+			_ ctx.write('async ')
+
+		_ ctx.write(method)
+
+		_ u.genTSTypeParameters
+			@ model
+			@ ctx
+			@ statement
+			a_cb()
+                var isSingleParam = u.isSingleParamForArrowFunction(model)            
+				_ ctx.write(' = ' + (isSingleParam ? '' : '('))
+				_ u.genTSParams
+					@ model
+					@ ctx
+					@ statement
+					a_cb()
+						_ ctx.write(isSingleParam ? '' : ')')
+                        function writeBody
+                            var ir = u.isImplicitReturn(model)
+                            var ts = u.isTopStatement(model, ctx)
+                            _ ctx.w(' => ' + (ir ? '' : '{'))
+                            _ ctx.indent();
+                            _ statement.genMany
+                                @ model.statements
+                                @ ctx
+                                a_cb()
+                                    _ ctx.deindent();
+                                    _ ctx.write(ir ? '' : '}');
+                                    _ ctx.w(ts ? ';' : '');
+                                    r_cb()                            
+                        if model.typeReturn
+                            _ ctx.write(': ')
+                            _ statement.stm.typeReturn
+                                @ model.typeReturn
+                                @ ctx
+                                a_cb()
+                                    _ writeBody
+                        else
+                            _ writeBody

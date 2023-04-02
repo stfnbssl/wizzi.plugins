@@ -1,0 +1,171 @@
+module
+	kind jsfile
+    var verify = require('wizzi-utils').verify
+
+	set module.exports
+		function
+			param mTree
+			param context
+
+			# loog 'wizzi-web.css.preprocess.mTree', mTree
+
+			var state
+				{
+                    @ mTree mTree
+                    @ parent null
+					[ actions
+			
+			foreach item in mTree.nodes[0].children
+				_ traverse(item, state)
+
+			foreach item in state.actions
+				if item.code === 'add-attr'
+					var children = item.to.children
+					set item.to.children
+						[
+							{
+								@ n item.n
+								@ v item.v
+								@ r item.to.r
+								@ c item.to.c
+								@ s item.to.s
+								@ u item.to.u
+								[ children
+					foreach c in children
+						_ item.to.children.push
+							@ c
+			return mTree
+
+	function traverse
+		param node
+		param state
+
+		if preprocessNode(node, state)
+			return
+		var saveParent = state.parent
+		foreach item in node.children
+			set state.parent = node
+			_ traverse(item, state)
+		set state.parent = saveParent
+
+	function preprocessNode
+		param node
+		param state
+		# loog 'css-mtree-processor preprocessNode', node.n, node.v
+        if node.n === 'styled'
+            if node.children.length == 1 && node.children[0].n == "css"
+                return false
+            var arrow
+            var savedchildren = []
+            foreach child in node.children
+                if child.n == '=>'
+                    set arrow = child
+                else
+                    _ savedchildren.push
+                        @ child
+            var cssnode
+                {
+                    @ n "css"
+                    @ v ""
+                    @ r node.r
+                    @ c node.c
+                    @ s node.s
+                    @ u node.u
+                    [ children
+                        {
+                            @ n "<"
+                            @ v "--styled--"
+                            @ r node.r
+                            @ c node.c
+                            @ s node.s
+                            @ u node.u
+                            @ children savedchildren
+            set node.children = arrow ? [arrow, cssnode] : [cssnode]
+            foreach child in savedchildren
+                _ traverse
+                    @ child
+                    @ state
+            return true
+		return false
+
+	function addAttr
+		param state
+		param node
+		param attr
+		_ state.actions.push
+			{
+				@ code 'add-attr'
+				@ to node
+				@ n attr
+				@ v ''
+    
+    function childNameIsOneOf
+        param node
+        param names
+        foreach child in node.children
+            foreach name in names
+                if child.n === name
+                    return true
+        return false
+    
+    function descendentNameIsOneOf
+        param node
+        param names
+        var found
+        foreach child in node.children
+            foreach name in names
+                if child.n == name
+                    return true
+            set found
+                _ descendentNameIsOneOf
+                    @ child
+                    @ names
+            if found
+                return true
+        return false
+    
+    function extractRemove
+        param node
+        param n
+        var ret
+        var children = node.children
+        set node.children = []
+        foreach item in children
+            if item.n === n
+            else
+                _ node.children.push
+                    @ item
+    
+    function wrapChilds
+        param node
+        param newN
+        _ copyNodeAttrsDeep
+            @ node
+            @ newN
+        var children = node.children
+        set newN.parent = node.parent
+        set node.children = [ newN ]
+        foreach item in children
+            _ newN.children.push
+                @ item
+    
+    function copyNodeAttrsDeep
+        param nfrom
+        param nto
+        _ copyNodeAttrs
+            @ nfrom
+            @ nto
+        foreach item in nto.children
+            _ copyNodeAttrsDeep
+                @ nfrom
+                @ item
+    
+    function copyNodeAttrs
+        param nfrom
+        param nto
+        set nto.r = nfrom.r
+        set nto.c = nfrom.c
+        set nto.s = nfrom.s
+        set nto.u = nfrom.u
+        if typeof nto.children === 'undefined'
+            set nto.children = []   

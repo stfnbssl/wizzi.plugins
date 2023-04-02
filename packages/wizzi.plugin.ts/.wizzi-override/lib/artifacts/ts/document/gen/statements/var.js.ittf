@@ -1,0 +1,218 @@
+﻿loader( var )
+
+	stm( xlet
+        _ letvarconst(model, ctx, 'let', callback)
+    
+	stm( xconst
+        _ letvarconst(model, ctx, 'const', callback)
+    
+	stm( xvar
+        _ letvarconst(model, ctx, 'var', callback)
+    
+	fn( letvarconst, symbol
+        _ u.writeComments(model, ctx)
+        _ u.checkInlineEnter(model, ctx)
+		
+		_ ctx.write(symbol + ' ')
+        if model.wzName && model.wzName.length > 0
+            _ ctx.write(model.wzName)
+
+		var vtype
+			_ u.extractTSSimpleType
+				@ model
+		
+		if vtype
+			_ ctx.write(': ')
+			_ cnt.stm[vtype.wzElement]
+				@ vtype
+				@ ctx
+				a_cb()
+					_ letvarconst_step
+						@ model
+						@ ctx
+						@ callback
+		else
+			_ letvarconst_step
+				@ model
+				@ ctx
+				@ callback
+    
+	fn( letvarconst_step 
+		
+		if hasStatements(model) == false
+            if ctx.__inline
+                _ ctx.write(ctx.__nosemicolon ? '' : u.semicolon(model.wzName))
+            else
+                _ ctx.w(u.semicolon(model.wzName))
+            _ u.checkInlineExit(model, ctx)
+			r_cb()
+
+        if countStatements(model) == 2 && (model.statements[1].wzElement === 'typeInitValue' || model.statements[1].wzElement === 'initValue')
+			_ cnt.genItem
+				@ model.statements[0]
+				@ ctx
+				a_cb()
+					_ ctx.write(' = ')
+					_ cnt.genItem
+						@ model.statements[1]
+						@ ctx
+						a_cb()
+							# VIA 1/2/19 _ ctx.w(u.semicolon(model.wzName))
+                            if ctx.__inline
+                                _ ctx.write(';')
+                            else
+							    _ ctx.w(';')
+                            _ u.checkInlineExit(model, ctx)
+							r_cb()
+		else
+			set ctx.__inside_expr = true
+			if model.wzName && model.wzName.length > 0
+				_ ctx.write(' = ')
+			var 
+				decl indented
+				decl item = model.statements[0]
+			_ cnt.genItem
+				@ item
+				@ ctx
+				a_cb()
+					repeater( 1, model.statements, 1 )
+						if ctx.__needs_comma
+							_ ctx.write(',')
+							set ctx.__needs_comma = false
+						if ctx.__needs_crlf
+							_ ctx.w()
+							set ctx.__needs_crlf = false
+						if index_1 == 1
+							_ ctx.indent()
+							set indented = true
+						_ cnt.genItem
+							@ item_1
+							@ ctx
+							a_cb()
+								repeater_increment( 1 )
+						$append next
+                            if ctx.__inline
+                                _ ctx.write(ctx.__nosemicolon ? '' : ';')
+                            else
+							    _ ctx.w(';')
+							if indented
+								_ ctx.deindent()
+							# 3/1/19 set ctx.__needs_crlf = ctx.__needs_comma = 
+							set ctx.__inside_expr = false
+                            _ u.checkInlineExit(model, ctx)
+							r_cb()
+
+	stm( initValue
+        _ u.writeComments(model, ctx)
+        _ ctx.write
+            @ model.wzName
+		if countStatements(model) > 0
+			_ cnt.genItem
+				@ model.statements[0]
+				@ ctx
+				@ callback
+		else
+			r_cb()
+
+	stm( decl
+        _ u.writeComments(model, ctx)
+        _ ctx.write
+            @ model.wzName
+        if countStatements(model) > 0
+            _ ctx.write(' = ')
+			repeater( 1, model.statements )
+				_ cnt.genItem
+					@ item_1
+					@ ctx
+					a_cb()
+						repeater_increment( 1 )
+				$append next
+					set ctx.__needs_comma = true
+					set ctx.__needs_crlf = true
+					r_cb()
+		else
+			set ctx.__needs_comma = true
+			set ctx.__needs_crlf = true
+			r_cb()
+    
+	stm( xnew
+        _ u.writeComments(model, ctx)
+		if hasStatements(model) == false && (model.typeParameterInsts && model.typeParameterInsts.length > 0) == false
+			if model.wzName.trim().substr(-1, 1) === ')'
+				_ ctx.write('new ' + model.wzName)
+			else
+				_ ctx.write('new ' + model.wzName + '()')
+			if u.isTopStatement(model, ctx)
+				_ ctx.w(';')
+			r_cb()
+
+        _ ctx.write('new ')
+		_ xnew_type
+			@ model
+			@ ctx
+			a_cb( startArg )
+                _ u.genTSTypeParameterInsts
+                    @ model
+                    @ ctx
+                    @ cnt
+                    a_cb()
+                        var openParen = false
+
+                        if model.statements.length <= startArg
+                            if model.wzName.trim().substr(-1, 1) !== ')'
+                                _ ctx.write('()')
+                            if u.isTopStatement(model, ctx)
+                                _ ctx.w(';')
+                            r_cb()
+                        
+                        repeater( 1, model.statements, startArg )
+                            
+                            if u.isMemberAccess(item_1)
+                                if openParen
+                                    _ ctx.write(')')
+                                return
+                                    _ cnt.genItem
+                                        @ item_1
+                                        @ ctx
+                                        a_cb()
+                                            if u.isTopStatement(model, ctx)
+                                                _ ctx.w(';')
+                                            r_cb()
+                            if index_1 == startArg
+                                _ ctx.write('(')
+                                set openParen = true
+                            if index_1 > startArg
+                                _ ctx.write(', ')
+                            _ cnt.genItem
+                                @ item_1
+                                @ ctx
+                                a_cb()
+                                    repeater_increment( 1 )
+                            
+                            $append next
+                                if openParen
+                                    _ ctx.write(')')
+                                if u.isTopStatement(model, ctx)
+                                    _ ctx.w(';')
+                                r_cb()
+    
+	fn( xnew_type
+        _ u.writeComments(model, ctx)
+        if model.statements.length > 0 && model.statements[0].wzElement === 'type'
+            _ ctx.write('(')
+            _ cnt.genItem
+                @ model.statements[0]
+                @ ctx
+				a_cb()
+					_ ctx.write(')')
+					r_cb( 1 )
+        else 
+            _ ctx.write
+                @ model.wzName
+			r_cb( 0 )
+	
+	stm( type
+		_ cnt.genItems
+			@ model.statements
+			@ ctx
+			@ callback

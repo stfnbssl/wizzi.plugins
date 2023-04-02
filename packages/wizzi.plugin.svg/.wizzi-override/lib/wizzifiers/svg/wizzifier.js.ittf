@@ -1,0 +1,162 @@
+module
+    $
+        var schemaName = 'svg';
+    kind es6
+    basewizzifier()
+        $append imports
+            var xml2js = require('xml2js')
+            var svg_parser = new xml2js.Parser()
+            var cleanAST = require('./cleanAST')
+            +
+            function parseInternal
+                param tobeWizzified
+                param options
+                param callback
+                log 'tobeWizzified', tobeWizzified
+                try
+                    _ svg_parser.parseString
+                         @ tobeWizzified
+                         a_cb( syntax )
+                            log "syntax", syntax
+                            r_cb( syntax )
+                catch ex
+                    return
+                        _ callback
+                            @ ex
+            +
+        function camelCaseToDash
+            param str
+            return str.replace( /([a-z])([A-Z])/g, '$1-$2' ).toLowerCase()
+        
+        function cleanName
+            param name
+            return camelCaseToDash(name)
+
+        function cleanAttr
+            param attr
+            var lines = attr.match(/[^\r\n]+/g)
+            for var i=0; i<lines.length;i++
+                set lines[i] = lines[i].trim()
+            return lines.join('') 
+
+        function appendChilds
+            param name
+            param nodeArray
+            param parent
+            # loog 'appendChilds.name', name
+            foreach node in nodeArray
+                if verify.isString(node)
+                    set parent.name = node
+                else 
+                    var ac = getAttribsAndChilds(node)
+                    var tag
+                        { 
+                            @ tag cleanName(name)
+                            @ children
+                                [ 
+                    _ parent.children.push(tag)
+                    var aObj = ac.a
+                    for var aName in aObj
+                        _ tag.children.push
+                            { 
+                                @ tag cleanName(aName)
+                                @ name cleanAttr(aObj[aName])
+                                @ children
+                                    [ 
+                    foreach childnode in ac.c
+                        if verify.isArray(childnode.value) === false
+                            log "Error: value is not an array: " + childnode.name + ',' + childnode.value
+                        else 
+                            _ appendChilds
+                                @ childnode.name
+                                @ childnode.value
+                                @ tag
+        
+        function getAttribsAndChilds
+            param node
+            var attribs
+                { 
+            var children
+                [ 
+            for var prop in node
+                if node.hasOwnProperty(prop)
+                    if prop === '$'
+                        var attribsObj = node[prop]
+                        # log('getAttribsAndChilds.$', attribsObj, true)
+                        for var k in attribsObj
+                            set attribs[k] = attribsObj[k]
+                    else 
+                        var value = node[prop]
+                        var isArray = verify.isArray(value)
+                        _ children.push
+                            { 
+                                @ name cleanName(prop)
+                                @ value node[prop]
+            return 
+                { 
+                    @ a attribs
+                    @ c children   
+
+        function wizzify
+            param tobeWizzified
+            param options
+            param callback
+            var wizziTree
+                { 
+                    @ children
+                        [ 
+            _ parseInternal
+                @ tobeWizzified
+                @ options
+                a_cb( result )
+                    if options.dumpfile
+                        _ file.write
+                            @ options.dumpfile
+                            _ JSON.stringify(result, null, 2)
+                        
+                    for var prop in result
+                        if result.hasOwnProperty(prop)
+                            var root = result[prop]
+                            if verify.isObject(root) === false
+                                return
+                                    _ callback
+                                        new Error("Root is not an object. Prop: " + prop + ', root: ' + root)
+                            var ac = getAttribsAndChilds(root)
+                            var propx = prop
+                            if prop == 'viewBox'
+                                set propx = prop
+                            set wizziTree =
+                                { 
+                                    @ tag propx
+                                    @ attribs
+                                        [ 
+                                    @ children
+                                        [ 
+                            var aObj = ac.a
+                            for var aName in aObj
+                                _ wizziTree.children.push
+                                    { 
+                                        @ tag cleanName(aName)
+                                        @ name cleanAttr(aObj[aName])
+                                        @ children
+                                            [ 
+                            for var j = 0; j < ac.c.length; j++
+                                var childnode = ac.c[j]
+                                if verify.isArray(childnode.value) === false
+                                    log "Error: value is not an array: " + childnode.name + ',' + childnode.value
+                                else 
+                                    _ appendChilds
+                                        @ childnode.name
+                                        @ childnode.value
+                                        @ wizziTree
+                    # log "wizziTree", wizziTree
+                    _ callback(null, wizziTree)
+        $include helper_functions
+        +
+        function isKnownType
+            param type
+            return ['Int', 'Float', 'Boolean', 'String'].indexOf(type) > -1
+        +
+        function getTypeName
+            param type
+            return isKnownType(type) ? type.toLowerCase() : type

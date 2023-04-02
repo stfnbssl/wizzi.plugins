@@ -67,7 +67,7 @@
 						@ model.getProperties()
 						_ getWriteProperty
 							@ ctx
-						f_cb()
+						a_cb()
 							_ ctx.deindent()
 							_ ctx.w('}');
 							_ cnt.genItems
@@ -75,7 +75,7 @@
 								@ ctx
 								{
 									@ indent false 
-								f_cb()
+								a_cb()
 									# _ writeRule(cnt, model, ctx);
 									_ ctx.deindent()
 									_ ctx.w('}');
@@ -86,7 +86,7 @@
 						@ ctx
 						{
 							@ indent false 
-						f_cb()
+						a_cb()
 							# _ writeRule(cnt, model, ctx);
 							_ ctx.deindent()
 							_ ctx.w('}');
@@ -112,7 +112,7 @@
 					@ ctx
 					{
 						@ indent false
-					f_cb()
+					a_cb()
 						_ ctx.deindent()
 						_ ctx.w('}');
 						_ callback
@@ -124,7 +124,7 @@
 					@ ctx
 					{
 						@ indent true
-					f_cb()
+					a_cb()
 						_ ctx.w('}')
 						_ callback
 
@@ -135,7 +135,7 @@
 					@ ctx
 					{
 						@ indent true
-					f_cb()
+					a_cb()
 						_ ctx.w('}')
 						_ callback
 
@@ -157,7 +157,7 @@
 						@ ctx
 						{ 
 							@ indent false
-						f_cb()
+						a_cb()
 							set ctx.__comment_level--
 							_ ctx.deindent()
 							if ctx.__comment_level === 0
@@ -208,7 +208,7 @@
 				if prop.wzElement && prop.prop && prop.prop.get_svg
 					if prop.wzElement === "background_image"
 						_ prop.prop.get_svg
-							f_cb( svgModel )
+							a_cb( svgModel )
 								# log myname, 'svgModel', svgModel
 								_ ctx.wizziFactory.generateArtifact
 									@ svgModel
@@ -217,7 +217,7 @@
 									{
 										@ CRLF ''
 										@ forCssImage true
-									f_cb( artifactText )
+									a_cb( artifactText )
 										log myname, 'artifactText', artifactText
 										_ ctx.w('background-image: url("data:image/svg+xml,' + artifactText + '");')
 										_ callback

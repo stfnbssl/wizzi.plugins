@@ -1,0 +1,84 @@
+﻿$group
+
+	e typeParameterInst : statement
+		tag :param
+
+	e call : statement
+		# A function call.
+		
+		tag _
+
+		r typeParameterInst/s
+		
+		# ittf:
+		#     _ sayHello('stefi', 10)
+		#     _ init
+		#         {
+		#             @ key 0
+		#         function 	
+		#             param value
+		#             return calc(value)
+	
+	e memberCall : statement
+		
+		tag ._
+
+		r typeParameterInst/s
+		
+		# ittf:
+		#     set value
+		#         _ init
+		#             ._calc
+		# js:
+		#    value = init().calc()
+	
+	e decoratorCall : statement
+		
+		tag @_
+
+		r typeParameterInst/s
+
+		# ittf:
+		#     @_ alpha
+		#         @ 200
+		#         function
+		#           return 'a';  
+		# js:
+		#    @alpha(200, function() { return 'a'; })
+
+	e callOnValue : statement
+		
+		tag (
+		
+		# ittf:
+		#     _ getFunction()
+		#         (
+		#             @ 'stefi'
+		# js:
+		#     getFunction()('stefi')
+	
+	e memberAccess : statement
+		
+		tag .
+		
+		# ittf:
+		#     set name = obj
+		#         . name 
+		# js:
+		#     name = obj.name
+	
+	e memberAccessComputed : statement
+		
+		tag .[
+		
+		# ittf:
+		#     set name = obj
+		#         .[ name 
+		# js:
+		#     name = obj[name]
+
+
+
+
+
+

@@ -1,0 +1,396 @@
+﻿loader(statements)
+
+	$append requires
+		var lineParser = require('../utils/lineParser')
+
+    stm( statement
+		# loog 'wizzi-js.module.statements.statement', model.wzParent.wzElement, u.isTopStatement(model, ctx), model.wzName, model.__templateChild
+        var text = model.wzName
+		if model.__templateChild || ctx.__inside_html
+			set text 
+				_ verify.replaceAll
+					_ verify.replaceAll
+						@ text
+						@ '&nbsp;'
+						@ ' '
+					@ '&lf;'
+					@ '\n'
+        if model.__templateChild
+            _ ctx.write
+                @ text
+			r_cb()
+        elif ctx.__inside_html == true && ctx.__jskind !== 'react'
+            var text = text.trim()
+            var ip
+                _ lineParser.parseInterpolation
+                    @ text
+                    @ model
+                    @ ctx.__inside_handlebar
+                    @ ctx.__inside_ng
+            _ ctx.w("__html.push(" + ip.join() + ");")
+        else
+			if u.isTopStatement(model, ctx) || ctx.__inside_html == true
+				# 4/2/19 _ ctx.write(model.wzName)
+				# 22/3/21 _ ctx.w(model.wzName)
+                _ ctx.w(text)
+			else
+				# 22/3/21 _ ctx.write(text)
+                _ ctx.write(text)
+        _ cnt.genItems
+            @ model.statements
+            @ ctx
+            { 
+                @ indent true
+			@ callback
+    
+	stm( statementmultiline
+        if ctx.__inside_html == true
+            var text = model.wzName.trim()
+            var ip
+                _ lineParser.parseInterpolation
+                    @ text
+                    @ model
+                    @ ctx.__inside_handlebar
+                    @ ctx.__inside_ng
+            _ ctx.w("__html.push('\\n' + " + ip.join() + ");")
+        else 
+            _ ctx.w
+                @ model.wzName
+        _ cnt.genItems
+            @ model.statements
+            @ ctx
+            { 
+                @ indent true
+			@ callback
+    
+	stm( require
+        var items = model.wzName.split(' ')
+        var seenwizzi = false
+        foreach item in items
+            if item === 'wizzi'
+                set seenwizzi = true
+                _ ctx.w("var wizzi = require('wizzi');")
+            elif item === 'log'
+                if seenwizzi
+                    _ ctx.w("var log = wizzi.log(module);")
+                else 
+                    _ ctx.w("var log = require('wizzi').log(module);")
+            else 
+                _ ctx.w("var " + item + " = require('" + item + "');")
+		r_cb()
+    
+	stm( ximport
+        if ctx.__ecma === 'es5'
+            var nv
+                _ lineParser.parseNameValueRaw
+                    @ model.wzName
+                    @ model
+            if nv.value()
+                var nv2
+                    _ lineParser.parseNameValueRaw
+                        _ nv.value()
+                _ ctx.w("var " + nv.name() + " = require(" + nv2.value() + ");")
+            else 
+                _ ctx.w("var " + nv.name() + " = require('" + nv.name() + "');")
+        else 
+			var name = model.wzName || ''
+			if model.xas
+				if name.length > 0
+					set name += ', '
+				set name += '* as ' + model.xas
+			_ ctx.write("import " + name)
+			if model.specifiers.length > 0
+				if name.length > 0
+					_ ctx.write(', ')
+				_ ctx.write('{')
+				foreach item in model.specifiers
+					if i > 0
+						_ ctx.write(', ')
+					_ ctx.write(item.wzName)
+					if item.xas
+						_ ctx.write(' as ' + item.xas)
+				_ ctx.write('}')
+				_ ctx.write(' from ' + model.from)
+			else
+				if model.from && model.from.length > 0
+					if name.trim().length > 0
+						_ ctx.write(' from')
+					_ ctx.write(' ' + model.from)
+			_ ctx.w(u.semicolon(name))
+		r_cb()
+    
+	stm( typeRequire
+		_ ctx.write('require ' + model.wzName)
+		_ cnt.genItems
+			@ model.statements
+			@ ctx
+			@ callback
+
+	stm( exportDefault
+        if ctx.__ecma === 'es5'
+			# loog 'wizzi-codegen.js2.statements.ecma,jskind', ctx.__ecma, ctx.__jskind
+            _ ctx.artifactGenerationError('export statement invalid in ecma 5', 'js/module', model)
+			r_cb()
+
+		if hasStatements(model) == false
+			_ ctx.w("export default " + model.wzName + u.semicolon(model.wzName))
+			r_cb()
+		else
+			_ ctx.write('export default ')
+			return
+				_ cnt.genItems
+					@ model.statements
+					@ ctx
+					{ 
+						@ indent true
+					@ callback
+
+        if model.__function
+			_ cnt.stm.exportfunction(model, ctx, callback)
+			r_cb()
+		
+		r_cb()
+
+	stm( xexport
+
+        var typekey = model.__isType ? 'type ' : ''
+		
+        if ctx.__ecma === 'es5'
+			# loog 'wizzi-codegen.js2.statements.ecma,jskind', ctx.__ecma, ctx.__jskind
+            _ ctx.artifactGenerationError('export statement invalid in ecma 5', 'js/module', model)
+			r_cb()
+
+		if hasStatements(model) == false && !!model.from == false && model.specifiers.length == 0
+			_ ctx.w("export " + typekey + model.wzName + u.semicolon(model.wzName))
+			r_cb()
+        
+        if model.__function
+			_ cnt.stm.exportfunction(model, ctx, callback)
+			r_cb()
+
+		var name = model.wzName || ''
+		_ ctx.write('export ' + typekey + name)
+
+		# loog 'js.module.xexport', 'model.__isType', model.__isType, name, model.from, model.statements.length, model.specifiers.length
+		
+		if model.from
+            if model.statements.length == 1
+                if model.statements[0].wzElement == 'typeTypeAlias'
+                    _ ctx.write('type ')
+                else
+                    throw new Error('js.module.xexport. from clause and statements not managed')
+			_ exportSpecifiers
+				@ model
+				@ ctx
+				@ name
+			_ ctx.write(' from ' + model.from)
+			_ ctx.w(u.semicolon(name))
+			r_cb()
+		else
+			if model.statements.length > 0
+				_ ctx.write(name.length > 0 ? ' ' : '')
+				var indented = false
+				set ctx.__inside_expr = true
+				_ cnt.genItem
+					@ model.statements[0]
+					@ ctx
+					a_cb()
+						# log 1, model.statements.length
+						if model.statements.length < 2
+							r_cb()
+						# log 2
+						repeater( 1, model.statements, 1 )
+							# log 3, item_1.wzElement
+							if ctx.__needs_comma
+								_ ctx.write(',')
+								set ctx.__needs_comma = false
+							if ctx.__needs_crlf
+								_ ctx.w()
+								set ctx.__needs_crlf = false
+							if index_1 == 1
+								_ ctx.indent()
+								set indented = true
+							_ cnt.genItem
+								@ item_1
+								@ ctx
+								a_cb()
+									repeater_increment(1)
+							$append next
+								# _ ctx.w(';') // 11/1/19
+								# 28/3/19
+								_ ctx.w()
+								if indented
+									_ ctx.deindent()
+								set ctx.__needs_crlf = ctx.__needs_comma = ctx.__inside_expr = false
+								r_cb()
+			else
+				_ exportSpecifiers
+					@ model
+					@ ctx
+					@ name
+				_ ctx.w(u.semicolon(name))
+				r_cb()
+
+	function exportSpecifiers
+		param model
+		param ctx
+		param name
+		if model.specifiers.length > 0
+			if name.length > 0
+				_ ctx.write(', ')
+			_ ctx.write('{')
+			foreach item in model.specifiers
+				if i > 0
+					_ ctx.write(', ')
+				_ ctx.write(item.wzName)
+				if item.xas
+					_ ctx.write(' as ' + item.xas)
+			_ ctx.write('}')
+
+	stm( typeExport
+        set model.__isType = true
+        _ cnt.stm.xexport
+            @ model
+            @ ctx
+            @ callback
+
+	stm( typeExportNamespace
+		_ ctx.w('export as namespace ')
+		_ ctx.w(u.semicolon(model.wzName))
+		r_cb()
+	
+	stm( comment
+        if hasStatements(model) == false
+            if ctx.__inside_comment
+                _ ctx.w(model.wzName ? (' ' + model.wzName) : '')
+            else 
+                _ ctx.w('//' + (model.wzName ? (' ' + model.wzName) : ''))
+                if model.wzName.indexOf('@ts-ignore') > -1 
+                    # loog '§§§ statements.comment', model.wzName
+                    set ctx.__inlineNext = true
+			set ctx.__needs_crlf = false
+			r_cb()
+
+		# loog 'ctx.__inside_comment', ctx.__inside_comment
+		var enter_inside_comment = ctx.__inside_comment
+		if !ctx.__inside_comment
+			_ ctx.w('/**')
+        _ ctx.indent()
+        if model.wzName.length > 0
+            _ ctx.w
+                @ model.wzName
+        set ctx.__inside_comment = true
+        _ cnt.genItems
+            @ model.statements
+            @ ctx
+            { 
+                @ indent false
+			a_cb()
+				set ctx.__inside_comment = enter_inside_comment
+				_ ctx.deindent()
+				if !enter_inside_comment
+					_ ctx.w('*/')
+				set ctx.__needs_crlf = false
+				r_cb()
+    
+	stm( commentmultiline
+        _ ctx.w('/**')
+        if verify.isNotEmpty(model.wzName)
+            _ ctx.w(('    ' + model.wzName))
+        set ctx.__inside_comment = true
+        _ cnt.genItems
+            @ model.statements
+            @ ctx
+            { 
+                @ indent true
+			a_cb()
+                _ ctx.w('*/')
+                set ctx.__inside_comment = false
+		        r_cb()
+    
+	stm( xdelete
+        _ ctx.w('delete ' + model.wzName)
+		r_cb()
+    
+	stm( set
+        _ u.writeComments(model, ctx)
+        _ u.checkInlineEnter(model, ctx)
+
+		var text
+        # loog 'set,wzParent,wzName', model.wzParent.wzElement, model.wzName, '|'
+		# FIXME this hack require refactoring
+		if model.wzName === 'work.textSep = "__TS__"'
+			set text = model.wzName
+		else
+			set text
+				_ node.inlinedTextToTextLines
+					@ model.wzName
+					{
+						@ singleLine true
+        if hasStatements(model) == false
+            if u.isDeclare(model)
+                _ ctx.write
+                    @ text
+            else
+                _ ctx.write
+                    @ text
+                if u.isTopStatement(model, ctx)
+                    _ ctx.w
+                        _ u.semicolon
+                            @ text
+			_ u.checkInlineExit(model, ctx)
+            r_cb()
+
+		if model.statements[0].wzEntity === 'function'
+            _ ctx.w('')
+        
+		# loog 'set,model.statements.length', model.wzName, model.statements.length
+        if model.statements.length == 2
+            if model.statements[0].wzElement == 'comment'
+                _ ctx.w
+                    @ model.wzName + ' ' 
+                _ cnt.genItems
+                    @ model.statements
+                    @ ctx
+                    { 
+                    a_cb()
+                        if u.isTopStatement(model, ctx)
+                            _ ctx.w(';')
+                        _ u.checkInlineExit(model, ctx)
+                        r_cb()
+            else
+                _ cnt.genItem
+                    @ model.statements[0]
+                    @ ctx
+                    a_cb()
+                        _ ctx.write
+                            @ ' ' + model.wzName + ' ' 
+                        _ cnt.genItem
+                            @ model.statements[1]
+                            @ ctx
+                            a_cb()
+                                if u.isTopStatement(model, ctx)
+                                    _ ctx.w(';')
+                                _ u.checkInlineExit(model, ctx)
+                                r_cb()
+		else
+			_ ctx.write
+				_ u.setOperator
+					@ text
+					@ model.statements
+			_ cnt.genItems
+				@ model.statements
+				@ ctx
+				{ 
+					@ indent false
+				a_cb()
+					if u.isTopStatement(model, ctx)
+						_ ctx.w(';')
+					_ u.checkInlineExit(model, ctx)
+                    r_cb()
+    
+	stm( block
+		_ cnt.genItems(model.statements, ctx, callback)
+
+	stm( sequence
+		_ cnt.genItems(model.statements, ctx, { sep: ',' }, callback)

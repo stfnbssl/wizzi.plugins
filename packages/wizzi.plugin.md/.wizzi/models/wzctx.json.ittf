@@ -1,6 +1,7 @@
 {
+    $include versions
     name "wizzi.plugin.md"
-    version "0.0.1"
+    version '${versions['wizzi.plugin.md@next']}'
     description "wizzi.plugin.md"
     { author
         name "Stefano Bassoli"
@@ -15,17 +16,22 @@
         { utils
             useStringifySafe true
             useObjectInspect true
+        useMarkdownParser true
     [ Schemas
         {
             name "md"
             title "md wizzi schema"
             builtin false
+            hasWizzifier true
             [ modelTransformers
                 {
                     name "extended"
             [ artifactGenerators
                 {
                     name "document"
+            [ wizzifiers
+                {
+                    name "md"
             [ includes
                 {
                     Name "Html"

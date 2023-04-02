@@ -1,0 +1,72 @@
+module wizzi.ts.artifacts.module.gen.codegen.es6.method
+	kind jsfile
+	var u = require('../utils/stm')
+	var statement = require('../statement')
+
+	var md = module.exports = {}
+	var myname = 'wizzi.js.artifacts.module.gen.codegen.es6.method'
+
+	async-md( gen )
+		var
+			decl method = model.wzName
+    
+		_ u.writeComments(model, ctx)
+
+        _ u.genTSDecorators
+            @ model
+		    @ ctx
+		    @ statement
+		    a_cb()
+                _ u.genAccessorsAndExtra
+                    @ model
+                    @ ctx
+
+                if model.static
+                    _ ctx.write('static ')
+
+                if model.async
+                    _ ctx.write('async ')
+
+                _ ctx.write(method)
+                _ u.genTSTypeParameters
+                    @ model
+                    @ ctx
+                    @ statement
+                    a_cb()
+                        _ ctx.write('(')
+                        _ u.genTSParams
+                            @ model
+                            @ ctx
+                            @ statement
+                            a_cb()
+                                _ ctx.write(')')
+                                if model.typeReturn
+                                    _ ctx.write(': ')
+                                    _ statement.stm.typeReturn
+                                        @ model.typeReturn
+                                        @ ctx
+                                        a_cb()
+                                            _ method_step_1
+                                                @ model
+                                                @ ctx
+                                                @ callback
+                                else
+                                    _ method_step_1
+                                        @ model
+                                        @ ctx
+                                        @ callback
+
+	function method_step_1
+		param model
+		param ctx
+		param callback
+		
+		_ ctx.w(' {')
+		_ ctx.indent();
+		_ statement.genMany
+			@ model.statements
+			@ ctx
+			a_cb()
+				_ ctx.deindent();
+				_ ctx.w('}');
+				r_cb()

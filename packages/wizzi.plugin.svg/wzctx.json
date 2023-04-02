@@ -1,6 +1,6 @@
 {
     "name": "wizzi.plugin.svg",
-    "version": "0.0.1",
+    "version": "0.7.17",
     "description": "wizzi.plugin.svg",
     "author": {
         "name": "Stefano Bassoli",
@@ -16,14 +16,17 @@
     "Build": {
         "isWizziPlugin": true,
         "utils": {
-            "useStringifySafe": true
-        }
+            "useStringifySafe": true,
+            "useObjectInspect": true
+        },
+        "useXml2Parser": true
     },
     "Schemas": [
         {
             "name": "svg",
             "title": "svg wizzi schema",
             "builtin": false,
+            "hasWizzifier": true,
             "modelTransformers": [
                 {
                     "name": "extended"
@@ -32,6 +35,11 @@
             "artifactGenerators": [
                 {
                     "name": "document"
+                }
+            ],
+            "wizzifiers": [
+                {
+                    "name": "svg"
                 }
             ],
             "includes": [

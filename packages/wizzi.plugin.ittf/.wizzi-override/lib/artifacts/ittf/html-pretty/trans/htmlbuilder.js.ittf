@@ -1,0 +1,79 @@
+﻿module
+	kind jsfile
+
+	var util = require('util')
+	var HtmlWriter = require('./htmlwriter').HtmlWriter
+
+	var md = module.exports = {}
+
+	class HtmlBuilder
+		ctor
+			param noLF
+			set this.noLF = noLF
+			set this.nodes = []
+			set this.currentNode = null
+
+		m openTag
+			param tag
+			param options
+			set options = options || {}
+			if this.currentNode == null
+				set this.currentNode = this.createNode(tag, null, options)
+				_ this.nodes.push(this.currentNode)
+			else
+				var newTag = this.createNode(tag, this.currentNode, options)
+				_ this.currentNode.children.push(newTag)
+				set this.currentNode = newTag
+
+		m closeTag
+			set this.currentNode = this.currentNode.parent
+
+		m writeText
+			param text
+			if this.currentNode == null
+				_ this.nodes.push
+					{
+						@ tag '_text'
+						@ text text
+			else
+				set this.currentNode.text += (text || '')
+		
+		m writeAttribute
+			param name
+			param value
+			_ this.currentNode.attribs.push
+				{
+					@ name name
+					@ value value
+
+		m createNode
+			param tag
+			param parent
+			param options
+			return
+				{
+					@ parent parent
+					@ tag tag
+					@ children
+						[
+					@ attribs
+						[
+					@ text ''
+					@ inline options.inline
+		
+		m toLines
+			var hw = new HtmlWriter(this.noLF)
+			foreach node in this.nodes
+				_ hw.writeElement(node)
+			return hw.toLines()
+
+		m toText
+			return this.toString()
+
+		m toString
+			var hw = new HtmlWriter(this.noLF)
+			foreach node in this.nodes
+				_ hw.writeElement(node)
+			return hw.toString()
+
+	set md.HtmlBuilder = HtmlBuilder

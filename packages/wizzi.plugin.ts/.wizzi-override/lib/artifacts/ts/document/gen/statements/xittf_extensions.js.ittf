@@ -1,0 +1,46 @@
+﻿loader(xittf_extensions)
+
+    stm( expr
+        _ cnt.genItems
+            @ model.statements
+            @ ctx
+            { 
+                @ indent false
+			@ callback
+
+    stm( number
+		_ ctx.write(model.wzName)
+		r_cb()
+
+    stm( percent
+		_ ctx.write(model.wzName + '%')
+		r_cb()
+
+    stm( singleQuoteLiteral 
+		_ ctx.write("'" + model.wzName + "'")
+		r_cb()
+
+    stm( doubleQuoteLiteral 
+		_ ctx.write('"' + model.wzName + '"')
+		r_cb()
+
+    stm( color
+		_ ctx.write('#' + model.wzName)
+		r_cb()
+
+    stm( cssLength
+		var f = ctx.__functionProvider ? ctx.__functionProvider + '.' : ''
+		_ ctx.write(f + 'dim("' + model.wzName + '")')
+		r_cb()
+
+    stm( xnull
+		_ ctx.write('null')
+		r_cb()
+
+    stm( false
+		_ ctx.write('false')
+		r_cb()
+
+    stm( true
+		_ ctx.write('true')
+		r_cb()

@@ -1,0 +1,2379 @@
+module
+    $
+        var schemaName = 'js';
+    kind es6
+
+    basewizzifier()
+        $append imports
+            var js_parser = require('@babel/parser')
+            var cleanAST = require('./cleanAST')
+            var CommentManager = require('../utils/commentManager')
+            +
+            var commonPlugins
+                [
+                    @ 'jsx'
+                    @ "objectRestSpread"
+                    @ "classProperties"
+                    @ "doExpressions"
+                    @ ['decorators', { decoratorsBeforeExport: true }]
+                    @ "classProperties"
+                    @ "classPrivateProperties"
+                    @ "classPrivateMethods"
+                    @ "exportDefaultFrom"
+                    @ "exportNamespaceFrom"
+                    @ "asyncGenerators"
+                    @ "functionBind"
+                    @ "functionSent"
+                    @ "dynamicImport"
+                    @ "numericSeparator"
+                    @ "optionalChaining"
+                    @ "importMeta"
+                    @ "bigInt"
+                    @ "optionalCatchBinding"
+                    @ "throwExpressions"
+                    @ "nullishCoalescingOperator"
+            +
+            var csswizzifier = null
+	        var htmlwizzifier = null
+            $if wzConfigIsDocumentation
+                var wzDocs
+                    {
+                        [ AstgNodes
+
+            $include html_tags
+            +
+            function parseInternal
+                param tobeWizzified
+                param options
+                param callback
+                set options = options || {}
+                var plugins
+                try
+                    if options.ts_or_flow === 'typescript'
+                        set plugins
+                            [
+                                @ 'typescript'
+                                ._ concat
+                                    @ commonPlugins
+                    else
+                        set plugins
+                            [
+                                @ 'flow'
+                                ._ concat
+                                    @ commonPlugins
+                    # loog 'jswizzifier.container.options', options
+                    var syntax
+                        _ js_parser.parse
+                            @ tobeWizzified
+                            {
+                                @ sourceType 'module'
+                                @ plugins plugins
+                    r_cb( syntax )
+                catch ex
+                    return
+                        _ callback
+                            @ ex
+        var format
+            function
+                param parent
+                param ast
+                param options
+                if !ast
+                    throw new Error('missing ast. parent is: ' + util.inspect(parent, { depth: 2 }))
+                if parent === null
+                    if options.starter
+                        set options.starter = false
+                    elif options.returnText
+                        # ok
+                    else
+                        _ showstack(options)
+                        throw new Error('parent is null.' + util.inspect(ast, 4))
+
+                if options.verbose
+                    # loog 'ast.type', ast.type
+                if ast.type == 'OptionalMemberExpression'
+                    set ast.type = 'MemberExpression'
+                    set ast.optional = true
+                if ast.type == 'OptionalCallExpression'
+                    set ast.type = 'CallExpression'
+                    set ast.optional = true
+                var formatter = format[ast.type]
+                if formatter
+                    _ options.stack.push(ast)
+                    var result = formatter(parent, ast, options)
+                    _ options.stack.pop()
+                    return result
+                else
+                    throw new Error('no formatter for type: ' + ast.type)
+
+        var formatText
+            function
+                param parent
+                param ast
+                param options
+                param node
+                var saveReturnText = options.returnText
+                set options.returnText = true
+                if node
+                    _ options.formatTextNodes.push(node)
+                var value = format(parent, ast, options)
+                if node
+                    _ options.formatTextNodes.pop(); 
+                set options.returnText = saveReturnText
+                return value
+
+        function wizzify
+            param tobeWizzified
+            param options
+            param callback
+            # loog 'options', options
+            set options = options || {};
+            set options.input = tobeWizzified
+            set options.stack = []
+            set options.formatTextNodes = []
+            set options.wizziIncludes = []
+            set options.stateAST = []
+            var startTime = Date.now()
+            var babelOptions = options.babel || {}
+            _ parseInternal
+                @ tobeWizzified
+                @ babelOptions
+                a_cb( syntax
+                    if options.syntaxOutFile
+                        _ file.write
+                            @ options.syntaxOutFile
+                            _ JSON.stringify
+                                _ cleanAST(syntax)
+                                @ null
+                                @ 2
+                    set options.starter = true
+                    set options.commentManager = new CommentManager()
+                    var root
+                        {
+                            @ tag 'module'
+                            [ children
+                    if babelOptions.ts_or_flow !== 'typescript'
+                        _ root.children.push
+                            {
+                                @ tag 'kind'
+                                @ name 'react'
+                                [ children
+                    try
+                        _ format(root, syntax, options)
+                    catch ex
+                        return
+                            _ callback
+                                @ ex
+                    
+                    # log "wizziTree", JSON.stringify(root, null, 2)
+                    # loog 'options.wizziIncludes', options.wizziIncludes
+                    _ async.map
+                        @ options.wizziIncludes
+                        function
+                            param item
+                            param callback
+                            if item.kind === 'css'
+                                if !csswizzifier
+                                    set csswizzifier = require('../../cssparser/css/wizzifier')
+                                _ csswizzifier.getWizziTree
+                                    @ item.literal
+                                    {
+                                    a_cb_no_throw( ittf )
+                                        # loog 'getWizzifierIncludes.item.ittf', ittf
+                                        _ item.node.children.push
+                                            @ ittf
+                                        r_cb()
+                            else
+                                if !htmlwizzifier
+                                    set htmlwizzifier = require('../../htmlparser/wizzi/wizzifier')
+                                _ htmlwizzifier.getWizziTree
+                                    @ item.literal
+                                    {
+                                    a_cb_no_throw( ittf )
+                                        # loog 'getWizzifierIncludes.item.ittf', ittf
+                                        _ item.node.children.push
+                                            @ ittf
+                                        r_cb()
+                        a_cb()
+                            try
+                                $if wzConfigIsDocumentation
+                                    _ file.write
+                                        _ path.join
+                                            @ __dirname
+                                            @ ".."
+                                            @ ".."
+                                            @ ".."
+                                            @ ".."
+                                            @ ".."
+                                            @ ".."
+                                            @ "autodocs"
+                                            @ "js-ts.wizzify.json"
+                                        _ JSON.stringify
+                                            @ wzDocs
+                                            @ null
+                                            @ '\t'
+                            catch ex
+                            r_cb( root )
+        +
+        set md.getCodeAST
+            function
+                param input
+                param options
+                param callback
+                set options = options || {}
+                set options.input = input
+                set options.stack = []
+                set options.formatTextNodes = []
+                set options.wizziIncludes = []
+                set options.stateAST = []
+                var babelOptions = options.babel || {}
+                var syntax
+                try
+                    set syntax = md.parse(input, babelOptions)
+                catch ex
+                    return
+                        _ callback
+                            @ ex
+                _ cleanAST(syntax)
+                _ callback
+                    @ null
+                    @ syntax
+        +
+        $include helper_functions
+        +
+        function isKnownType
+            param type
+            return ['Int', 'Float', 'Boolean', 'String'].indexOf(type) > -1
+        +
+        function getTypeName
+            param type
+            return isKnownType(type) ? type.toLowerCase() : type
+        +
+
+        f( File, skip
+            f_p( program
+            # TODO VIA f_a( comments
+
+        f( Program, skip
+            # s( sourceType, "script" | "module"
+            f_a( directives, true, Directive
+            f_a( body
+
+        f( Identifier, @id;is-text
+            name( name
+            # An identifier. Note that an identifier may be an expression or a destructuring pattern.
+            if node.__parent && node.__parent.name === 'body' && node.__parent.len == 1
+                # is the return value of an ArrowExpression
+                if node.extra && node.extra.parenthesized == true
+                    set ret.tag = '('
+                else
+                    set ret.tag = '+'
+            f_p( typeAnnotation, false
+            $* VIA
+            if node.optional
+                set ret.name = ret.name + '?'
+            *$
+            if node.optional
+                _ ret.children.push
+                    {
+                        @ tag ':optional'
+                        @ name ''
+                        [ children
+            if ret.children.length > 0
+                set __isText = false
+                set ret.isText = false
+                set ret.textified = null
+                # set ret.CICCIO = "MAGIC"
+            # loog 'Identifier', ret
+
+        f( PrivateName
+            f_p_name( Identifier
+            # A Private Name Identifier.
+
+        f( RegExpLiteral, literal;is-text
+            set ret.name = '/' + node.pattern + '/'
+            if node.flags && node.flags.length > 0
+                set ret.name += node.flags
+                # loog '*************** RegExpLiteral.ret.name', ret.name
+            if node.__parent && node.__parent.name === 'body' && node.__parent.len == 1
+                # is the return value of an ArrowExpression
+                if node.extra && node.extra.parenthesized == true
+                    set ret.tag = '('
+                else
+                    set ret.tag = '+'
+
+        f( NullLiteral, literal;is-text
+            set ret.name = 'null'
+            if node.__parent && node.__parent.name === 'body' && node.__parent.len == 1
+                # is the return value of an ArrowExpression
+                if node.extra && node.extra.parenthesized == true
+                    set ret.tag = '('
+                else
+                    set ret.tag = '+'
+
+        f( StringLiteral, literal;is-text
+            set ret.name = node.extra.raw
+            if node.__parent && node.__parent.name === 'body' && node.__parent.len == 1
+                # is the return value of an ArrowExpression
+                if node.extra && node.extra.parenthesized == true
+                    set ret.tag = '('
+                else
+                    set ret.tag = '+'
+            
+        f( BooleanLiteral, literal;is-text
+            name( value, boolean
+            if node.__parent && node.__parent.name === 'body' && node.__parent.len == 1
+                # is the return value of an ArrowExpression
+                if node.extra && node.extra.parenthesized == true
+                    set ret.tag = '('
+                else
+                    set ret.tag = '+'
+
+        f( NumericLiteral, literal;is-text
+            name( value, numeric
+            if node.__parent && node.__parent.name === 'body' && node.__parent.len == 1
+                # is the return value of an ArrowExpression
+                if node.extra && node.extra.parenthesized == true
+                    set ret.tag = '('
+                else
+                    set ret.tag = '+'
+
+        f( Function, function
+            # A function [declaration](#functiondeclaration) or [expression](#functionexpression).
+            f_p_name(id, Identifier | null
+            f_p( typeParameters, false, ?TypeParameterInstantiation
+            f_a_in_tag( params, params
+            _ processParams(ret)
+            # [ Pattern ]
+            f_p( body )
+            # b( generator
+            # b( async
+            # VIA
+                _ replaceChildrenOfChildWhenText
+                    @ ret
+                    @ getChildPosByTag(ret, 'params')
+                    @ 'param'
+            if node.generator
+                set ret.tag = 'function*'
+            if node.async
+                set ret.tag = 'async-function'
+            
+        f( ExpressionStatement, stm
+            # An expression statement, i.e., a statement consisting of a single expression.
+            f_p( expression )
+            if replaceWithSingleChild(ret, 'set')
+            elif replaceWithSingleChild(ret, '_')
+            else
+                error 'ExpressionStatement.failed.ret', ret
+                throw new Error()
+
+        f( BlockStatement, block;skip
+            f_a( body
+            f_a( directives
+            # A block statement, i.e., a sequence of statements surrounded by braces.
+
+        f( EmptyStatement, ;
+            # An empty statement, i.e., a solitary semicolon.
+
+        f( DebuggerStatement, debugger
+            # A `debugger` statement.
+
+        f( WithStatement, with
+            f_p( object, true, Expression
+            f_p( body
+            # A `with` statement.
+
+        f( ReturnStatement, return
+            f_p( argument, false, Expression | null
+            get_text_from_1_children(  )
+            # loog 'ReturnStatement', ret
+            # loog 'ReturnStatement.parent', parent.children[parent.children.length-1]
+
+        f( LabeledStatement, label
+            f_p_temp( label, true, true, Identifier
+            set ret.name = getNodeText(p_label)
+            f_p( body
+
+        f( BreakStatement, break
+            f_p_name( label, Identifier | null
+
+        f( ContinueStatement, continue
+            f_p_name( label, Identifier | null
+
+        f( IfStatement, if;ret-is-array
+            f_p_tag( test, test
+            _ setNameFromChildByTag(ret, 'test', true)
+            if node.consequent
+                f_p_temp( consequent
+                # loog 'IfStatement', p_consequent
+                if p_consequent.tag && p_consequent.tag.length > 0
+                    _ ret.children.push(p_consequent)
+                else
+                    foreach item in p_consequent.children
+                        _ ret.children.push(item)
+            if node.alternate
+                f_p_temp( alternate
+                var p_else
+                    {
+                        @ tag 'else'
+                        [ children
+                # loog 'IfStatement', p_consequent
+                if p_alternate.tag && p_alternate.tag.length > 0
+                    _ p_else.children.push(p_alternate)
+                else
+                    foreach item in p_alternate.children
+                        _ p_else.children.push(item)
+                set ret = [ret, p_else]
+            else
+                set ret = [ret]
+
+        f( SwitchStatement, switch
+            # A `switch` statement.
+            f_p_temp( discriminant, true, true, Expression
+            if isTextualNode(p_discriminant)
+                set ret.name = p_discriminant.textified || p_discriminant.name
+                set ret.textified = ret.name
+            else
+                _ ret.children.push
+                    @ p_discriminant
+            f_a( cases, true, SwitchCase
+
+        f( SwitchCase, case
+            f_p_temp( test, false, true, Expression | null
+            f_a( consequent, true, Statement
+            # A `case` (if `test` is an `Expression`) or `default` (if `test === null`) clause in the body of a `switch` statement.
+            #
+            if node.test == null
+                set ret.tag = 'default'
+            else
+                if p_test.textified || p_test.isText
+                    set ret.name = p_test.textified || p_test.name
+                    set ret.textified = ret.name
+                else
+                    throw new Error('SwitchCase.test must be textual:' + JSON.stringify(node, null, 2))
+
+        f( ThrowStatement, throw
+            f_p_temp( argument
+            # A `throw` statement.
+            if isTextualNode(p_argument)
+                set ret.name = getNodeText(p_argument)
+            else
+                _ ret.children.push
+                    @ p_argument
+
+        f( TryStatement, try;ret-is-array
+            # loog 'wizzifiers.js.TryStatement', JSON.stringify(node, null, 2)
+            f_p( block, true, BlockStatement
+            f_p_temp( handler, false, true, CatchClause, optional
+            f_p_temp( finalizer, false, true, BlockStatement | null
+            var tempRet = [ ret ]
+            # loog 'TryStatement.p_handler', p_handler
+            # loog 'TryStatement.p_finalizer', p_finalizer
+            if p_handler
+                _ tempRet.push(p_handler)
+            if p_finalizer
+                # loog 'TryStatement', 'p_finalizer', p_finalizer
+                _ tempRet.push
+                    {
+                        @ tag 'finally'
+                        @ name ''
+                        [ children
+                            @ p_finalizer
+            set ret = tempRet
+            # A `try` statement. If `handler` is `null` then `finalizer` must be a `BlockStatement`.
+
+        f( CatchClause, catch
+            # A `catch` clause following a `try` block.
+            f_p_name( param, Pattern | null
+            f_p( body, true, BlockStatement
+            # loog 'CatchClause.ret', ret
+
+        f( WhileStatement, while
+            f_p_tag( test, test, Expression
+            get_text_from_1_children( )
+            f_p( body, true, Statement
+
+        f( DoWhileStatement, do
+            f_p_tag( test, test, Expression
+            get_text_from_1_children( )
+            f_p( body, true, Statement
+
+        f( ForStatement, for
+            f_p_tag( init, init, VariableDeclaration | Expression | null
+            f_p_tag( test, test, Expression | null
+            f_p_tag( update, update, Expression | null
+            # loog 'p_init.textified', p_init.textified
+            var c1 = p_init.isText ? p_init.name : (p_init.textified ? p_init.textified : '')
+            var c2 = p_test.isText ? p_test.name : (p_test.textified ? p_test.textified : '')
+            var c3 = p_update.isText ? p_update.name : (p_update.textified ? p_update.textified : '')
+            set ret.name = c1 + '; ' + c2 + '; ' + c3
+            _ removeChildByTag(ret, 'init')
+            _ removeChildByTag(ret, 'test')
+            _ removeChildByTag(ret, 'update')
+            f_p( body, true, Statement
+
+        f( ForInStatement, for
+            f_p_temp( left, true, true, VariableDeclaration |  Expression
+            f_p_temp( right, true, true, Expression
+            if isTextualNode(p_left)
+                set ret.name = getNodeText(p_left)
+                if isTextualNode(p_right)
+                    set ret.name += ' in ' + getNodeText(p_right)
+                else
+                    _ ret.children.push
+                        {
+                            @ tag 'in'
+                            [ children
+                                @ p_right
+            else
+                _ ret.children.push
+                    {
+                        @ tag 'left'
+                        [ children
+                            @ p_left
+                if isTextualNode(p_right)
+                    _ ret.children.push
+                        {
+                            @ tag 'in'
+                            @ name getNodeText(p_right)
+                            [ children
+                else
+                    _ ret.children.push
+                        {
+                            @ tag 'in'
+                            [ children
+                                @ p_right
+
+            b( await
+            f_p( body, true, Statement
+        
+        f( ForOfStatement, for
+            f_p_temp( left, true, true, VariableDeclaration |  Expression
+            f_p_temp( right, true, true, Expression
+            # loog 'ForOfStatement', isTextualNode(p_left), isTextualNode(p_right)
+            if isTextualNode(p_left)
+                set ret.name = getNodeText(p_left)
+                if isTextualNode(p_right)
+                    set ret.name += ' of ' + getNodeText(p_right)
+                    set ret.textified = ret.name
+                    set ret.isText = true
+                else
+                    _ ret.children.push
+                        {
+                            @ tag 'of'
+                            [ children
+                                @ p_right
+            else
+                _ ret.children.push
+                    {
+                        @ tag 'left'
+                        [ children
+                            @ p_left
+                if isTextualNode(p_right)
+                    _ ret.children.push
+                        {
+                            @ tag 'of'
+                            @ name getNodeText(p_right)
+                            [ children
+                else
+                    _ ret.children.push
+                        {
+                            @ tag 'of'
+                            [ children
+                                @ p_right
+            b( await
+            f_p( body, true, Statement
+        
+        f( FunctionDeclaration, function
+            # A function [declaration](#functiondeclaration) or [expression](#functionexpression).
+            f_p_name(id, Identifier | null
+            f_p( typeParameters, false, ?TypeParameterInstantiation
+            # f_a_in_tag( params, params
+            # _ processParams(ret)
+            f_a_temp( params
+            _ processParams2(ret, p_params)
+            f_p_temp( returnType, false, true
+            if p_returnType
+                # loog 'p_returnType', JSON.stringify(p_returnType)
+                set p_returnType
+                    {
+                        @ tag ':return'
+                        [ children
+                            @ p_returnType
+                _ ret.children.push(p_returnType)
+            f_p( predicate, false
+            f_p( body, true, Statement
+            if node.generator
+                set ret.tag = 'function*'
+            if node.async
+                set ret.tag = 'async-function'
+
+        f( VariableDeclaration, node.kind;tag-is-var
+            # enum "var" | "let" | "const"
+            
+            f_a( declarations, true, VariableDeclarator
+            
+            # loog '=== VariableDeclaration ittf result 1', JSON.stringify(ret, null, 2)
+            
+            get_text_from_1_children(  )
+            
+            # loog '=== VariableDeclaration ittf result 2', ret, 'got_text_1', got_text_1
+            
+            if got_text_1
+                set ret.textified = node.kind + ' ' + ret.textified
+            elif ret.children.length == 1
+                # loog 'VariableDeclaration.ret.children[0].children.length', ret.children[0].children.length
+                if ret.children[0].children.length == 0
+                    set ret.name = ret.children[0].name
+                    set ret.children = []
+                    # no init value
+                elif ret.children[0].children.length == 1
+                    set ret.name = ret.children[0].name
+                    set ret.children[0] = ret.children[0].children[0]
+                    # loog 'ret.name', ret.name
+                    # loog 'ret.children[0]', ret.children[0]
+                    # set ret.textified = node.kind + ' ' + ret.name
+                elif ret.children[0].children.length == 2
+                    var child1 = ret.children[0].children[0]
+                    var child2 = ret.children[0].children[1]
+                    # loog 'ret.name', ret.name
+                    # loog 'ret.children[0].name', ret.children[0].name
+                    # loog 'child1.tag.name', child1.tag, child1.name
+                    # loog 'child2.tag.name', child2.tag, child2.name
+                    if child2.tag === '=' || isTypeReference(child1.tag)
+                        set ret.name = ret.children[0].name
+                        set ret.children = []
+                        _ ret.children.push
+                            @ child1
+                        _ ret.children.push
+                            @ child2
+                    else
+                        if child1.name && child1.name.length > 0 && child1.children.length > 0
+                            set ret.name = child1.name
+                            set ret.children = []
+                            foreach item in child1.children
+                                _ ret.children.push
+                                    @ item
+                            _ ret.children.push
+                                @ child2
+                        else
+                            set ret.name = ret.children[0].name
+                            set ret.children = []
+                            _ ret.children.push
+                                @ child1
+                            _ ret.children.push
+                                @ child2
+                else
+                    error 'Error VariableDeclaration. Case not managed.',
+                    foreach item in ret.children
+                        error 'VariableDeclaration.child', item
+                    throw new Error("VariableDeclaration. Case not managed.")
+            elif ret.children.length > 1
+                var sb = []
+                foreach item in ret.children
+                    if item.textified
+                        _ sb.push(item.textified)
+                    else
+                        set sb = null
+                        break
+                if sb
+                    set ret.textified = node.kind + ' ' + sb.join(', ')
+
+            if node.declare
+                set ret
+                    {
+                        @ tag ':declare'
+                        @ name ''
+                        [ children
+                            @ ret
+            
+
+        f( VariableDeclarator, decl
+            f_p_temp(id, true, true)
+            
+            # loog 'VariableDeclarator,p_id, isTextualNode(p_id)', p_id, isTextualNode(p_id)
+            if isTextualNode(p_id)
+                set ret.name = getNodeText(p_id)
+            else
+                if p_id.tag === '@id'
+                    set ret.name = p_id.name
+                    set ret.children = p_id.children
+                else
+                    _ ret.children.push
+                        @ p_id
+            
+            # loog 'VariableDeclarator 1', ret
+
+            f_p( typeAnnotation, false, ?TypeAnnotation
+
+            f_p_temp( init, false, true, Expression | null
+            
+            # loog 'VariableDeclarator.p_init', p_init
+            
+            if p_init
+                # loog 'VariableDeclarator.p_init', isTextualNode(p_id), 'p_id', p_id, 'p_init', p_init
+                if isTextualNode(p_id)
+                    if isTextualNode(p_init)
+                        set ret.name += ' = ' + getNodeText(p_init)
+                        set ret.textified = ret.name
+                        set ret.isText = true
+                    else
+                        _ ret.children.push
+                            @ p_init
+                    $* VIA
+                    else
+                        # has no init value ( node.init == null )
+                        set ret.textified = ret.name
+                    *$
+                else
+                    $* 27/3/21 waiting for big big damage
+                    if p_id.tag === '@id'
+                        _ ret.children.push
+                            @ p_init
+                    else
+                    *$
+                    if isTextualNode(p_init)
+                        _ ret.children.push
+                            {
+                                @ tag '='
+                                @ name getNodeText(p_init)
+                                [ children
+                    else
+                        _ ret.children.push
+                            {
+                                @ tag '='
+                                [ children
+                                    @ p_init
+            else
+                $* 24/3/21 BIG BIG damage
+                set ret.textified = ret.name
+                set ret.isText = true
+                *$
+
+            # loog 'VariableDeclarator 2 ret', ret
+
+        f( Decorator, @d
+            f_p_temp( expression, true, true, Expression
+            if isTextualNode(p_expression)
+                set ret.name = getNodeText(p_expression)
+            else
+                _ ret.children.push
+                    @ p_expression
+
+        f( Directive, directive
+            if node.value && node.value.value === 'use strict'
+                set ret = null
+            else
+                f_p_temp( value, true, true, DirectiveLiteral
+                if isTextualNode(p_value)
+                    set ret.name = getNodeText(p_value)
+
+        f( DirectiveLiteral
+
+        f( Expression, expr
+            # Any expression node. Since the left-hand side of an assignment may be any expression in general, an expression can also be a pattern.
+
+        f( Super, super;is-text
+            # A `super` pseudo-expression.
+            set ret.name = 'super'
+
+        f( Import, import
+            # A `import` pseudo-expression.
+
+        f( ThisExpression, this;is-text
+            # A `this` expression.
+            set ret.name = 'this'
+
+        f( ArrowFunctionExpression, =>
+            if verify.isArray(node.body) == false
+                set node.body = [node.body]
+            f_a_in_tag( params, params
+            _ processParams(ret)
+            f_p_temp(returnType, false)
+            if p_returnType
+                set p_returnType
+                    {
+                        @ tag ':return'
+                        [ children
+                            @ p_returnType
+                _ ret.children.push(p_returnType)
+            f_a( body, true, BlockStatement | Expression
+            b( expression
+            
+            # loog '*** ArrowFunctionExpression.ret.params', getChildByTag(ret, 'params')
+            # loog '*** ArrowFunctionExpression.ret', ret
+            # A fat arrow function expression, e.g., `let foo = (bar) => { /* body */ }`.
+            
+            if node.async
+                set ret.tag = 'async=>'
+            if node.generator
+                set ret.tag += '*'
+    
+        f( YieldExpression, yield
+            $$ 20/3/21 f_p_tag( argument, argument, Expression | null
+            f_p_temp( argument, true, true, Expression | null
+            # loog 'ObjectProperty.p_value', p_value
+            if isTextualNode(p_argument)
+                set ret.name = getNodeText(p_argument)
+            else
+                _ ret.children.push
+                    @ p_argument
+            $$ get_text_from_1_children(  )
+            b( delegate
+            # A `yield` expression.
+
+        f( AwaitExpression, await
+            f_p( argument, false, Expression | null
+            # A `await` expression.
+
+        f( ArrayExpression, [
+            f_a( elements, true, Expression | SpreadElement | null 
+            # An array expression.
+            if options.mustBeText
+                if setTextList(ret, ', ')
+                    set ret.textified = '[' + ret.textified + ']'
+                    # loog '### ArrayExpression', 'name:', ret.name, 'textified', ret.textified, ret.isText
+                else
+                    throw new Error("ArrayExpression. Cannot textify node as requested: " + JSON.stringify(node, null, 2))
+            elif options.couldBeText
+                var tlist = getTextList(ret, ', ')
+                if tlist && tlist.length < 15
+                    set ret.textified = '[' + ret.textified + ']'
+                    # TODO??? set ret.children = []
+                else
+                    set ret.textified = null
+                    foreach item in ret.children
+                        if isTextualNode(item)
+                            set item.tag = '@'
+                            set item.name = getNodeText(item)
+                        elif [$*'@expr', 27/3/21*$'@id', 'literal'].indexOf(item.tag) > -1
+                            set item.tag = '@'
+            else
+                foreach item in ret.children
+                    if isTextualNode(item)
+                        set item.tag = '@'
+                        set item.name = getNodeText(item)
+                    elif [$*'@expr', 27/3/21*$'@id', 'literal'].indexOf(item.tag) > -1
+                        set item.tag = '@'
+            if ret.children.length == 0
+                set ret.textified = '[]'
+
+        f( ObjectExpression, {
+            if options.stateAST[options.stateAST.length-1] === 'JSXExpressionContainer'
+                _ parent.children.pop
+                set ret = parent
+                var __skip = true
+            f_a( properties, true, ObjectProperty | ObjectMethod | SpreadElement
+            if options.mustBeText
+                if setTextList(ret, ', ')
+                    set ret.textified = '{' + ret.textified + '}'
+                    if node.extra && node.extra.parenthesized == true
+                        set ret.textified = '(' + ret.textified + ')'
+                else
+                    throw new Error("ObjectExpression. Cannot textify node as requested: " + JSON.stringify(node, null, 2))
+            else
+                foreach item in ret.children
+                    if item.tag === '...' 
+                        # loog 'ObjectExpression, item.tag, item.children.length', item.tag, item.textified, item.children.length
+                        if item.children.length == 0
+                            set item.name = item.textified
+                            set item.tag = '@'
+                        elif item.children.length == 1
+                            if item.children[0].name
+                                set item.children[0].name = '...' + item.children[0].name
+                            if item.textified
+                                set item.children[0].textified = '...' + item.children[0].textified
+                            if item.children[0].name || item.textified
+                                set item.tag = item.children[0].tag
+                                set item.textified = item.children[0].textified
+                                set item.name = item.children[0].name
+                                set item.children = item.children[0].children
+                                # loog 'ObjectExpression length 1', item.tag, item.name, item.textified
+                            else
+                                # go on
+                    if item.tag === '@' && item.name === 'template' 
+                        \b && item.children.length == 1 && item.children[0].tag === '`lit'
+                        # loog 'ObjectExpression', item.tag, item.name, getLiteral(item.children[0])
+                        _ options.wizziIncludes.push
+                            {
+                                @ kind 'html'
+                                @ node item
+                                @ literal getLiteral(item.children[0])
+                        set item.children = []
+
+                if !ret.textified && ret.children.length == 0
+                    if node.extra && node.extra.parenthesized == true
+                        # set ret.name = ret.textified = '({})' // 10/1/19
+                        set ret.textified = '({})'
+                    else
+                        # set ret.name = ret.textified = '{}' // 10/1/19
+                        # set ret.textified = '{}' // 25/3/21
+                else
+                    if node.extra && node.extra.parenthesized == true
+                        var temp
+                            {
+                                @ tag '('
+                                [ children
+                                    @ ret
+                        set ret = temp
+
+        $* interface
+        f( ObjectMember, @
+            f_p( key, true, Expression
+            # b( computed
+            f_a( decorators, false, Decorator 
+        *$
+
+        f( ObjectProperty, @
+            # loog 'ObjectProperty enter options.mustBeText', options.mustBeText
+            const save = options.mustBeText
+            set options.mustBeText = true
+            f_p_temp(key, true)
+            # loog 'ObjectProperty.p_key', p_key
+            set options.mustBeText = save
+            
+            if isTextualNode(p_key)
+                set ret.name = getNodeText(p_key)
+                if node.computed
+                    set ret.name = '[' + ret.name + ']'
+            else
+                var p_computed
+                    {
+                        @ tag '@['
+                        [ children
+                            @ p_key
+                _ ret.children.push
+                    @ p_computed
+                set ret = p_computed
+            
+            f_a( decorators, false, Decorator
+
+            # loog 'ObjectProperty.ret.name', ret.name, 'node.value.type', node.value.type
+            if node.value.type === 'AssignmentPattern'
+                f_p_temp( value.left, true, true, Expression
+                f_p_temp( value.right, true, true, Expression
+                # loog 'p_value_left', p_value_left
+                # loog 'p_value_right', p_value_right
+                if node.value.left.type === 'ObjectPattern'
+                    _ ret.children.push
+                        @ p_value_left
+                    if isTextualNode(p_value_right)
+                        _ ret.children.push
+                            {
+                                @ tag '='
+                                @ name getNodeText(p_value_right)
+                                [ children
+                    elif p_value_right.tag === 'none' && verify.isNotEmpty(p_value_right.name)
+                        # FIXME why this?
+                        _ ret.children.push
+                            {
+                                @ tag '='
+                                @ name p_value_right.name
+                                [ children
+                    else
+                        _ ret.children.push
+                            {
+                                @ tag '='
+                                [ children
+                                    @ p_value_right
+                else
+                    if isTextualNode(p_value_right)
+                        if options.mustBeText
+                            set ret.textified = ret.name += ' = ' + getNodeText(p_value_right)
+                        else
+                            _ ret.children.push
+                                {
+                                    @ tag '='
+                                    @ name getNodeText(p_value_right)
+                                    [ children
+                    elif p_value_right.tag === 'none' && verify.isNotEmpty(p_value_right.name)
+                        # FIXME why this?
+                        _ ret.children.push
+                            {
+                                @ tag '='
+                                @ name p_value_right.name
+                                [ children
+                    else
+                        _ ret.children.push
+                            {
+                                @ tag '='
+                                [ children
+                                    @ p_value_right
+            else
+                f_p_temp( value, true, true, Expression
+                # loog 'ObjectProperty.p_value', p_value, isTextualNode(p_value), isTextualNode(p_key)
+                if isTextualNode(p_value)
+                    if isTextualNode(p_key)
+                        if options.mustBeText
+                            if ret.name !== getNodeText(p_value)
+                                set ret.textified = ret.name += ': ' + getNodeText(p_value)
+                            else
+                                set ret.textified = ret.name
+                        else
+                            if ret.name !== getNodeText(p_value)
+                                set ret.name += ' ' + getNodeText(p_value)
+                    else
+                        _ ret.children.push
+                            {
+                                @ tag '+'
+                                @ name getNodeText(p_value)
+                                [ children
+                elif p_value.tag === 'none' && verify.isNotEmpty(p_value.name)
+                    if isTextualNode(p_key)
+                        if ret.name !== p_value.name
+                            set ret.name += ' ' + p_value.name
+                    else
+                        _ ret.children.push
+                            {
+                                @ tag '+'
+                                @ name p_value.name
+                                [ children
+                else
+                    _ ret.children.push
+                        @ p_value
+            
+            # TODO b( shorthand
+            # TODO b( async
+            # TODO b( generator
+            
+
+            if ret.children.length == 1 && ret.children[0].tag === '{'
+                set ret.tag = '{' + ret.tag.substr(1)
+                set ret.children = ret.children[0].children
+            elif ret.children.length == 1 && ret.children[0].tag === '['
+                set ret.tag = '[' + ret.tag.substr(1)
+                set ret.children = ret.children[0].children
+
+        f( ObjectMethod, node.kind;tag-is-var
+            # loog 'ObjectMethod enter options.mustBeText', options.mustBeText
+            # s( kind
+            # enum "get" | "set" | "method"
+            const save = options.mustBeText
+            set options.mustBeText = true
+            f_p_temp(key, true)
+            set ret.name = getNodeText(p_key)
+            set options.mustBeText = save
+            b( async
+            f_a_in_tag( params, params
+            _ processParams(ret)
+            f_p_temp(returnType, false)
+            if p_returnType
+                set p_returnType
+                    {
+                        @ tag ':return'
+                        [ children
+                            @ p_returnType
+                _ ret.children.push(p_returnType)
+            f_p( body, true, Statement
+            set ret.tag = ret.tag == 'constructor' ? 'ctor' : (ret.tag == 'method' ? 'm' : ret.tag)
+            _ setNameFromChildByTag(ret, 'key', true)
+            if ret.tag === 'ctor'
+                set ret.name = ''
+            elif node.computed
+                set ret.name = '[' + ret.name + ']'
+
+        f( FunctionExpression, function
+            f_p_name(id, Identifier | null
+            f_p( typeParameters, false, ?TypeParameterInstantiation
+            f_a_in_tag( params, params
+            _ processParams(ret)
+            f_p_temp(returnType, false)
+            if p_returnType
+                set p_returnType
+                    {
+                        @ tag ':return'
+                        [ children
+                            @ p_returnType
+                _ ret.children.push(p_returnType)
+            f_p( body )
+            
+            if node.async
+                set ret.tag = 'async-function'
+            if node.generator
+                set ret.tag += '*'
+
+        f( UnaryExpression, 'op' + node.operator;tag-is-var
+            # A unary operator expression.
+            # s( operator, UnaryOperator enum "-" | "+" | "!" | "~" | "typeof" | "void" | "delete" | "throw"
+            # b( prefix
+
+            if ret.tag == 'opdelete'
+                set ret.tag = 'delete'
+            
+            f_p_temp( argument, true, true, Expression
+            if isTextualNode(p_argument)
+                set ret.name = getNodeText(p_argument)
+                const space = ['-','+','!','{'].indexOf(node.operator) > -1 ? '' : ' '
+                set ret.textified = node.operator + space + ret.name
+            else
+                _ ret.children.push
+                    @ p_argument
+
+            if node.__parent && node.__parent.name === 'body' && node.__parent.len == 1
+                if node.extra && node.extra.parenthesized == true
+                    # is the return value of an ArrowExpression
+                    # TODO ...
+                    if isTextualNode(p_argument)
+                        set ret.tag = '('
+                        set ret.name = node.operator + getNodeText(p_argument)
+                        set ret.textified = '(' + node.operator + getNodeText(p_argument) + ')'
+                    else
+                        var temp
+                            {
+                                @ tag '('
+                                [ children
+                                    @ ret
+                        set ret = temp
+                else
+                    # TODO ...
+                    if isTextualNode(p_argument)
+                        set ret.tag = '+'
+                        set ret.name = node.operator + getNodeText(p_argument)
+                    else
+                        var temp
+                            {
+                                @ tag '+'
+                                [ children
+                                    @ ret
+                        set ret = temp
+            
+        f( UpdateExpression, 'op' + node.operator;tag-is-var
+            # An update (increment or decrement) operator expression.
+            # s( operator, UpdateOperator enum "++" | "--"
+            f_p( argument, true, Expression
+            # b( prefix
+            
+            get_text_from_1_children(  )
+            if got_text_1
+                set ret.tag = 'set'
+                if node.prefix
+                    set ret.name = node.operator + ret.name
+                else
+                    set ret.name = ret.name + node.operator
+                set ret.textified = ret.name
+            
+            if node.prefix
+                set ret.tag = node.operator + 'op'
+
+            if node.__parent && node.__parent.name === 'body' && node.__parent.len == 1
+                # is the return value of an ArrowExpression
+                if got_text_1
+                    if node.extra && node.extra.parenthesized == true
+                        set ret.tag = '('
+                    else
+                        set ret.tag = '+'
+                else
+                    # TODO
+                    # is the return value of an ArrowExpression
+                    if got_text_1
+                        set ret.tag = '('
+                    else
+                        set ret.tag = '(' + ret.tag
+
+        f( BinaryExpression, 'op' + node.operator;tag-is-var
+            # A binary operator token.
+            # s( operator, BinaryOperator
+            # enum "==" | "!=" | "===" | "!==" 
+                \b "<" | "<=" | ">" | ">="
+                \b | "<<" | ">>" | ">>>"
+                \b | "+" | "-" | "*" | "/" | "%"
+                \b | "|" | "^" | "&" | "in"
+                \b | "instanceof"
+                \b | "|>"
+
+            if node.operator.length > 1
+                set ret.tag = node.operator
+            
+            f_p_temp( left, true, true, Expression
+            # loog 'BinaryExpression.p_left', p_left
+            f_p_temp( right, true, true, Expression
+            # loog 'BinaryExpression.p_right', p_right
+
+            if isTextualNode(p_left) && isTextualNode(p_right)
+                set ret.tag = 'set'
+                set ret.name = getNodeText(p_left) + ' ' + node.operator + ' ' + getNodeText(p_right)
+                set ret.textified = ret.name
+                if node.extra && node.extra.parenthesized == true
+                    set ret.textified = '(' + ret.textified + ')'
+            else
+                if isTextualNode(p_left) || (p_left.children.length == 0 && [$*'@expr',*$ '@id', 'literal'].indexOf(p_left.tag) > -1)
+                    set p_left.tag = '+'
+                    if isTextualNode(p_left)
+                        set p_left.name = getNodeText(p_left)
+                        set p_left.children = []
+                _ ret.children.push
+                    @ p_left
+                if isTextualNode(p_right) || (p_right.children.length == 0 && [$*'@expr',*$ '@id', 'literal'].indexOf(p_right.tag) > -1)
+                    set p_right.tag = '+'
+                    if isTextualNode(p_right)
+                        set p_right.name = getNodeText(p_right)
+                        set p_right.children = []
+                _ ret.children.push
+                    @ p_right
+                if node.__parent && node.__parent.name === 'body' && node.__parent.len == 1
+                    # is the return value of an ArrowExpression
+                    if node.extra && node.extra.parenthesized == true
+                        set ret.tag = '(' + ret.tag
+                    else
+                        # 18/3/21 set ret.tag = '+'
+
+        f( AssignmentExpression, set
+            # loog 'AssignmentExpression enter options.mustBeText', options.mustBeText
+            # An assignment operator expression.
+            # s( operator, AssignmentOperator
+            # enum AssignmentOperator {
+                \b "=" | "+=" | "-=" | "*=" | "/=" | "%="
+                \b | "<<=" | ">>=" | ">>>="
+                \b | "|=" | "^=" | "&="
+            const save = options.mustBeText
+            set options.mustBeText = true
+            f_p_temp( left, true, true, Pattern | Expression
+            set options.mustBeText = save
+            f_p_temp( right, true, true, Expression
+            
+            if isTextualNode(p_left)
+                set ret.name = getNodeText(p_left) + ' ' + node.operator + ' '
+            else
+                set ret.name = node.operator
+                _ ret.children.push
+                    @ p_left
+            # loog 'AssignmentExpression.isTextualNode(p_right)', isTextualNode(p_right)
+            # loog 'AssignmentExpression.p_right', p_right
+            if isTextualNode(p_left) && isTextualNode(p_right)
+                set ret.name += getNodeText(p_right)
+            else
+                if verify.isEmpty(p_right.tag)
+                    foreach item in p_right.children
+                        _ ret.children.push
+                            @ item
+                else
+                    _ ret.children.push
+                        @ p_right
+            # loog 'AssignmentExpression.ret final', ret
+
+        f( LogicalExpression, 'op' + node.operator;tag-is-var
+            # A logical operator expression.
+            # s( operator, LogicalOperator enum "||" | "&&" | "??"
+            
+            f_p_temp( left, true, true, Expression
+            f_p_temp( right, true, true, Expression
+
+            var parenthesized = node.extra && node.extra.parenthesized
+
+            # loog 'LogicalExpression', isTextualNode(p_left), isTextualNode(p_right)
+            # loog 'LogicalExpression,p_left', p_left
+            # loog 'LogicalExpression,p_right', p_right
+            if isTextualNode(p_left) && isTextualNode(p_right)
+                set ret.tag = '@expr' $$ 27/3/21 'set'
+                set ret.name = parenthesize(getNodeText(p_left) + ' ' + node.operator + ' ' + getNodeText(p_right), parenthesized)
+                set ret.textified = ret.name
+            else
+                set ret.tag = node.operator
+                # loog 'LogicalExpression,isTextualNode(p_left),p_left', isTextualNode(p_left), p_left
+                if isTextualNode(p_left) || [$*'@expr', 27/3/21*$'@id', 'literal','set'].indexOf(p_left.tag) > -1
+                    set p_left.tag = '+'
+                    if isTextualNode(p_left)
+                        set p_left.name = getNodeText(p_left)
+                        set p_left.children = []
+                _ ret.children.push
+                    @ p_left
+                # loog 'LogicalExpression,isTextualNode(p_right),p_right', isTextualNode(p_right), p_right
+                if isTextualNode(p_right) || [$*'@expr', 27/3/21*$'@id', 'literal','set'].indexOf(p_right.tag) > -1
+                    set p_right.tag = '+'
+                    if isTextualNode(p_right)
+                        set p_right.name = getNodeText(p_right)
+                        set p_right.children = []
+                _ ret.children.push
+                    @ p_right
+                if parenthesized
+                    set ret 
+                        {
+                            @ tag '('
+                            @ children [ret]
+                $*
+                if isTextualNode(p_left) || ['@id', 'literal'].indexOf(p_left.tag) > -1
+                    set p_left.tag = '+'
+                    if isTextualNode(p_left)
+                        set p_left.name = getNodeText(p_left)
+                        set p_left.children = []
+                _ ret.children.push
+                    @ p_left
+                # loog 'LogicalExpression.p_left', p_left
+                if isTextualNode(p_right) || ['@id', 'literal'].indexOf(p_right.tag) > -1
+                    set p_right.tag = '+'
+                    if isTextualNode(p_right)
+                        set p_right.name = getNodeText(p_right)
+                        set p_right.children = []
+                _ ret.children.push
+                    @ p_right
+                # loog 'LogicalExpression.p_right', p_right
+                *$
+
+            if node.__parent && node.__parent.name === 'body' && node.__parent.len == 1
+                # is the return value of an ArrowExpression
+                if node.extra && node.extra.parenthesized == true
+                    if ret.tag === 'set'
+                        set ret.tag = '('
+                    else
+                        set ret.tag = '(' + ret.tag
+                else
+                    if ret.tag === 'set'
+                        set ret.tag = '+'
+                    else
+                        # TODO Do nothing is OK?
+
+        f( SpreadElement, ...
+            f_p_temp( argument, true, true, Expression
+            # loog 'SpreadElement.p_argument', p_argument
+            if isTextualNode(p_argument)
+                set ret.name = getNodeText(p_argument)
+                set ret.textified = '...' + ret.name
+            else
+                _ ret.children.push
+                    @ p_argument
+                # set ret.textified = p_argument.source
+                # throw new Error('SpreadElement must be textual:' + JSON.stringify(p_argument, null, 2))
+
+        f( MemberExpression, @expr
+            f_p_temp( object
+            f_p_temp( property
+            
+            # b( computed
+            # b( optional, optional
+            # If `computed` is `true`, the node corresponds to a computed (`a[b]`) member expression and `property` is an `Expression`. 
+            # If `computed` is `false`, the node corresponds to a static (`a.b`) member expression and `property` is an `Identifier`. 
+            # The `optional` flags indicates that the member expression can be called even if the object is null or undefined. 
+            # If this is the object value (null/undefined) should be returned.
+            
+            # if p_object.name == 'Promise'
+                # loog 'MemberExpression.p_object', isTextualNode(p_object), p_object
+                # loog 'MemberExpression.p_property', isTextualNode(p_property), p_property
+
+            var qmark = node.optional ? '?' : ''
+
+            if isTextualNode(p_object)
+                var obj = getNodeText(p_object)
+                if isTextualNode(p_property)
+                    var prop = getNodeText(p_property)
+                    set ret.name = node.computed 
+                        \b ? obj + qmark + '[' + prop + ']' 
+                        \b : obj + qmark + '.' + prop
+                    set ret.textified = ret.name
+                    set ret.children = []
+                    # loog 'MemberExpression.textified', ret.textified
+                else
+                    set ret.name = obj + qmark
+                    var link
+                        {
+                            @ tag node.computed ? '.[' : '.'
+                            [ children
+                    _ link.children.push
+                        @ p_property
+                    _ ret.children.push
+                        @ link
+            else
+                log 1011
+                if node.computed
+                    set p_property.tag = '.['
+                else
+                    set p_property.tag = '.'
+                if p_object.tag === '('
+                    # log 2
+                    # 26/3/21 this is the most improbable, waiting for big damage
+                    set p_object.name = p_object.name + qmark
+                    _ ret.children.push
+                        @ p_object
+                    _ ret.children.push
+                        @ p_property
+                else
+                    # log 3, p_object.tag, p_object.name
+                    set ret.tag = p_object.tag
+                    set ret.name = p_object.name + qmark
+                    set ret.source = p_object.source
+                    set ret.children = p_object.children
+                    _ ret.children.push
+                        @ p_property
+
+                # loog 'MemberExpression.tag.name', ret.tag, ret.name
+                foreach item in ret.children
+                    # loog 'MemberExpression.child', i, ret.children[i].tag, ret.children[i].name
+
+            if node.__parent && node.__parent.name === 'body' && node.__parent.len == 1
+                # is the return value of an ArrowExpression
+                if node.extra && node.extra.parenthesized == true
+                    set ret
+                        {
+                            @ tag '('
+                            @ children [ret]
+                else
+                    $$ Whats this ???
+                    set ret
+                        {
+                            @ tag '+'
+                            @ children [ret]
+
+
+        f( BindExpression, bind-expr
+            f_p( object, false, Expression | null
+            f_p( callee, true, Expression
+            # if `object` is `null`, then `callee` should be a `MemberExpression`.
+
+        f( ConditionalExpression, iif
+            # A conditional expression, i.e., a ternary `?`/`:` expression.
+            f_p_tag( test, test
+            f_p_temp( consequent, true, true, Expression
+            f_p_temp( alternate, true, true, Expression
+            
+            # loog 'ConditionalExpression 1', ret.tag
+            _ setNameFromChildByTag(ret, 'test', true)
+            # loog 'ConditionalExpression 2', ret.tag
+
+            _ setOrInlineIfTextualNode
+                @ ret
+                @ p_consequent
+                @ 'then'
+
+            $*
+            if isTextualNode(p_consequent)
+                _ ret.children.push
+                    {
+                        @ tag 'then'
+                        @ name getNodeText(p_consequent)
+                        [ children
+            else
+                _ ret.children.push
+                    {
+                        @ tag 'then'
+                        [ children
+                            @ p_consequent
+            *$
+
+            _ setOrInlineIfTextualNode
+                @ ret
+                @ p_alternate
+                @ 'else'
+
+            $*
+            if isTextualNode(p_alternate)
+                _ ret.children.push
+                    {
+                        @ tag 'else'
+                        @ name getNodeText(p_alternate)
+                        [ children
+            else
+                _ ret.children.push
+                    {
+                        @ tag 'else'
+                        [ children
+                            @ p_alternate
+            *$
+
+            # loog 'ConditionalExpression 3', ret.tag
+
+            $* VIA 29/3/21
+            if node.__parent && node.__parent.name === 'body' && node.__parent.len == 1
+                # is the return value of an ArrowExpression
+                if node.extra && node.extra.parenthesized == true
+                    var temp
+                        {
+                            @ tag '('
+                            [ children
+                                @ ret
+                    set ret = temp
+                else
+                    # TODO do nothing
+            *$
+            if node.extra && node.extra.parenthesized == true
+                set ret
+                    {
+                        @ tag '('
+                        @ name ''
+                        [ children
+                            @ ret
+
+            # loog 'ConditionalExpression 4', ret.tag
+
+        f( CallExpression, _
+            # A function or method call expression.
+
+            f_p( typeParameters, false, ?TypeParameterInstantiation
+            f_p_temp( callee, true, true, | Super | Import
+            f_a_temp( arguments
+
+            var lastCallee = ret
+            # loog 'CallExpression.p_callee', p_callee
+
+            var qmark = node.optional ? '?.' : ''
+            
+            if isTextualNode(p_callee)
+                # loog 'CallExpression',
+                    \b 'isTextualNode(p_callee)', isTextualNode(p_callee), 
+                    \b 'getNodeText(p_callee)', getNodeText(p_callee), 
+                    \b 'node.typeParameters', node.typeParameters,
+                    \b 'p_arguments', p_arguments
+                # first of all try to set ret.textified
+
+                set ret.name = getNodeText(p_callee) + qmark
+                
+                if node.typeParameters
+
+                    foreach item in p_arguments.children
+                        if [$*'@expr', 27/3/21*$'@id', 'literal'].indexOf(item.tag) > -1
+                            set item.tag = '@'
+                        _ lastCallee.children.push
+                            @ item
+                
+                else
+
+                    # loog 'CallExpression p_arguments', p_arguments
+
+                    if p_arguments && p_arguments.children.length > 0
+                        var tlist = getTextList(p_arguments, ', ')
+                        if tlist
+                            set ret.name += '(' + tlist + ')'
+                            set ret.textified = ret.name
+                            set ret.isText = true
+                        else
+                            foreach item in p_arguments.children
+                                if [$*'@expr', 27/3/21*$'@id', 'literal'].indexOf(item.tag) > -1
+                                    set item.tag = '@'
+                                _ lastCallee.children.push
+                                    @ item
+                    else
+                        set ret.name += '()'
+                        set ret.textified = ret.name
+                        set ret.isText = true
+
+                    if ret.textified && node.extra && node.extra.parenthesized == true
+                        set ret.textified = '(' + ret.textified + ')'
+
+                # loog 'CallExpression', 'ret.name,textified', ret.name, ret.textified
+            
+            else
+
+                # TODO implement node.optional
+
+                # loog 'CallExpression', 
+                    \b 'p_callee.tag', p_callee.tag, 
+                    \b 'p_callee.name', p_callee.name,
+                    \b 'ret.tag', ret.tag
+                
+                foreach item in p_callee.children
+                    # loog 'CallExpression', 'p_callee.children', i, p_callee.children[i].tag, p_callee.children[i].name
+                
+                if p_arguments
+                    foreach item in p_arguments.children
+                        # loog 'CallExpression', 'p_arguments.children', i, p_arguments.children[i].tag, p_arguments.children[i].name
+                
+                if ['[', '{', 'new'].indexOf(p_callee.tag) > -1
+                    set ret.tag = p_callee.tag
+                
+                if ['`lit','iif'].indexOf(p_callee.tag) < 0
+                    set ret.name = p_callee.name
+                    set ret.children = p_callee.children
+
+                    $$ Begin 19/3/21
+                    if p_callee.children.length > 0
+                        # loog 'p_callee.children.length > 0'
+                        set lastCallee = p_callee.children[p_callee.children.length-1]
+                        if p_arguments && p_arguments.children.length > 0
+                            if lastCallee.tag === '.'
+                                set lastCallee.tag = '._'
+                                foreach item in p_arguments.children
+                                    if [$*'@expr', 27/3/21*$'@id', 'literal'].indexOf(item.tag) > -1
+                                        set item.tag = '@'
+                                    _ lastCallee.children.push
+                                        @ item
+                            else
+                                var call
+                                    {
+                                        @ tag '('
+                                        [ children
+                                foreach item in p_arguments.children
+                                    if [$*'@expr', 27/3/21*$'@id', 'literal'].indexOf(item.tag) > -1
+                                        set item.tag = '@'
+                                    _ call.children.push
+                                        @ item
+                                _ ret.children.push(call)
+                        else
+                            if lastCallee.tag === '.'
+                                set lastCallee.tag = '._'
+                    else
+                        # loog 'p_callee.children.length == 0'
+                        set ret.tag = "_"
+                        set ret.name = p_callee.tag
+                        if p_arguments && p_arguments.children.length > 0
+                            foreach item in p_arguments.children
+                                if [$*'@expr', 27/3/21*$'@id', 'literal'].indexOf(item.tag) > -1
+                                    set item.tag = '@'
+                                _ ret.children.push
+                                    @ item
+                        # loog 'CallExpression', p_callee, ret
+                    # loog 'node.callee.type', node.callee.type, ret.tag
+                    $$ End 19/3/21
+
+                else
+                    # loog '1203'
+                    var temp = [p_callee]
+                    set lastCallee = p_callee.children[p_callee.children.length-1]
+                    if lastCallee.tag === '.'
+                        set lastCallee.tag = '._'
+                        set p_callee.children.length --
+                        _ temp.push
+                            @ lastCallee
+                    set ret.children = temp
+                    foreach item in p_arguments.children
+                        if [$*'@expr', 27/3/21*$'@id', 'literal'].indexOf(item.tag) > -1
+                            set item.tag = '@'
+                        _ lastCallee.children.push
+                            @ item
+
+                    $*
+                    var temp = [p_callee]
+                    if p_callee.children.length > 0
+                        var tempCallee = []
+                        foreach item in p_callee.children
+                            # loog 'item.tag', item.tag
+                            if item.tag == '._'
+                                _ temp.push
+                                    @ item
+                            else
+                                _ tempCallee.push
+                                    @ item
+                        set p_callee.children = tempCallee
+                    set ret.children = temp
+                    *$
+
+                $$ Was here 19/3/21
+                
+                if node.callee.type === 'FunctionExpression' && ret.tag === '_'
+                    # loog 'node.callee.type 2', node.callee.type, ret.tag
+                    set ret.tag = 'iife' // 9/1/19
+
+            if node.extra && node.extra.parenthesized == true && !ret.textified
+                var temp
+                    {
+                        @ tag '('
+                        [ children
+                            @ ret
+                set ret = temp
+
+            # loog 'CallExpression.exit.ret', ret
+
+        f( NewExpression, new;could-be-text
+            f_a_in_tag( arguments, arguments
+            f_p_temp( typeParameters, false, false, TSTypeParameterInstantiation
+            f_p_temp( callee
+
+            if p_callee.isText || p_callee.textified
+                set ret.name = p_callee.textified || p_callee.name
+            else
+                throw new Error('NewExpression.callee must be textual:' + p_callee.children[0].tag)
+
+            var argumentsNode = getChildByTag(ret, 'arguments')
+            set ret.children = []
+
+            # loog 'NewExpression.ret', ret
+            # loog 'NewExpression.p_typeParameters', p_typeParameters
+            # loog 'NewExpression.argumentsNode', argumentsNode
+
+            var tlist
+            if node.arguments && node.arguments.length > 0
+                # log 101
+                if !p_typeParameters
+                    set tlist = getTextList(argumentsNode, ', ')
+                # loog 'NewExpression.tlist', tlist
+                if tlist 
+                    set ret.name += '(' + tlist + ')'
+                    set ret.textified = 'new ' + ret.name
+                    set ret.isText = true
+                else
+                    if p_typeParameters
+                        foreach item in p_typeParameters.children
+                            _ ret.children.push
+                                @ item
+                    foreach item in argumentsNode.children
+                        if [$*'@expr', 27/3/21*$'@id', 'literal'].indexOf(item.tag) > -1
+                            set item.tag = '@'
+                        _ ret.children.push
+                            @ item
+            else
+                # log 102
+                if p_typeParameters
+                    foreach item in p_typeParameters.children
+                        _ ret.children.push
+                            @ item
+                else
+                    set ret.textified = 'new ' + ret.name + '()'
+            # loog 'NewExpression.ret', ret
+
+        f( SequenceExpression, sequence
+            f_a( expressions, true, Expression 
+            # A sequence expression, i.e., a comma-separated sequence of expressions.
+            foreach item in ret.children
+                if [$*'@expr', 27/3/21*$'@id', 'literal'].indexOf(item.tag) > -1
+                    set item.tag = 'set'
+
+        f( DoExpression, do
+            f_p( body, true, BlockStatement
+
+        f( TemplateLiteral, `lit
+            f_a_temp( quasis, true, TemplateElement
+            f_a_temp( expressions, true, Expression 
+            # loog 'TemplateLiteral', model
+            var i = 0, j
+            for i = 0; i < p_expressions.children.length; i++
+                var q = p_quasis.children[i]
+                for j = 0; j < q.children.length; j++
+                    set item = q.children[j]
+                    _ ret.children.push(item)
+                var e = p_expressions.children[i]
+                # loog 'TemplateLiteral.e', e
+                if ['@expr', '@id', 'literal', 'set'].indexOf(e.tag) > -1
+                    set e.tag = '@'
+                _ ret.children.push(e)
+            if p_quasis.children[i] && p_quasis.children[i].children.length > 0
+                for j = 0; j < p_quasis.children[i].children.length; j++
+                    set item = p_quasis.children[i].children[j]
+                    _ ret.children.push(item)
+
+        f( TaggedTemplateExpression, _`
+            f_p_temp( tag, true, true, Expression
+            if isTextualNode(p_tag)
+                set ret.name = getNodeText(p_tag)
+            else
+                throw new Error('TaggedTemplateExpression.tag must be textual:' + JSON.stringify(node, null, 2))
+            f_p_temp( quasi, true, true, TemplateLiteral
+            foreach item in p_quasi.children
+                _ ret.children.push(item)
+
+        f( TemplateElement, +
+            # b( tail
+            var lines = node.value.raw.split('\n')
+            foreach line in lines
+                if line[0] === ' '
+                    set line = '&nbsp;' + line.substr(1)
+                if line[line.length-1] === ' '
+                    set line = line.substr(0, line.length -1) + '&nbsp;'
+                _ ret.children.push
+                    {
+                        @ tag '+'
+                        @ name line + (( i < lines.length - 1) ? '&lf;' : '' )
+                        [ children
+            # f_p( value
+            # f_p_p( value, cooked, optional
+            # f_p_p( value, raw
+
+        f( ObjectPattern, {
+            # loog 'ObjectPattern enter options.mustBeText', options.mustBeText
+            f_a( properties, true, AssignmentProperty | RestElement 
+            # loog 'wizzifiers.js.ObjectPattern.ret', JSON.stringify(ret, null, 2)
+            if options.mustBeText
+                if setTextList(ret, ', ') && !!node.typeAnnotation == false
+                    set ret.textified = '{' + ret.textified + '}'
+                    if node.extra && node.extra.parenthesized == true
+                        set ret.textified = '(' + ret.textified + ')'
+                else
+                    throw new Error("ObjectPattern. Cannot textify node as requested: " + JSON.stringify(node, null, 2))
+            else
+                f_p( typeAnnotation, false
+                if ret.children.length == 0
+                    if node.extra && node.extra.parenthesized == true
+                        set ret.name = ret.textified = '({})'
+                    else
+                        set ret.name = ret.textified = '{}'
+                else
+                    if node.extra && node.extra.parenthesized == true
+                        var temp
+                            {
+                                @ tag '('
+                                [ children
+                                    @ ret
+                        set ret = temp
+
+        f( ArrayPattern
+            f_a( elements, false, Pattern | null
+            if setTextList(ret, ', ')
+                set ret.textified = '[' + ret.textified + ']'
+                # loog '*** ArrayPattern len, textified: ', ret.children.length, ret.textified
+            else
+                throw new Error('ArrayPattern must be textual: ' + JSON.stringify(node, null, 2))
+
+        f( RestElement, ...$$;is-text
+            f_p(argument, true , Pattern
+            get_text_from_1_children(  )
+            f_p( typeAnnotation, false
+            $$ set ret.name = '...' + ret.name
+            $$ set ret.textified = ret.name
+            set ret.textified = '...' + ret.name
+            # loog 'RestElement', ret.tag, ret.name, ret.textified
+
+        f( AssignmentPattern, node.operator||'=';tag-is-var
+            f_p_temp( left, true, true, Pattern | Expression
+            f_p_temp( right, true, true, Expression
+            # loog 'AssignmentPattern.p_left', JSON.stringify(p_left, null, 2)
+            # loog 'AssignmentPattern.p_right', JSON.stringify(p_right, null, 2)
+            if isTextualNode(p_left)
+                set ret.name = getNodeText(p_left) 
+                if isTextualNode(p_right)
+                    set ret.name += ' ' + (node.operator || '=') + ' ' + getNodeText(p_right)
+                else
+                    _ ret.children.push
+                        {
+                            @ tag node.operator || '='
+                            @ children [p_right]
+            else
+                _ ret.children.push
+                    @ p_left
+                _ ret.children.push
+                    @ p_right
+            # loog 'AssignmentPattern', JSON.stringify(ret, null, 2)
+
+        f( Class, class
+            f_p_name(id, Identifier | null
+            f_p_temp(superClass, false, true, Expression | null
+            if p_superClass
+                if isTextualNode(p_superClass)
+                    _ ret.children.push
+                        {
+                            @ tag 'super'
+                            @ name getNodeText(p_superClass)
+                else
+                    throw new Error('Class. superClass must be textual: ' + JSON.stringify(node, null, 2))
+            f_a( decorators, false, Decorator 
+            f_p(body, true, ClassBody
+
+        f( ClassBody, skip
+            f_a( body, true, ClassMethod | ClassPrivateMethod | ClassProperty | ClassPrivateProperty 
+
+        f( ClassMethod, node.kind;tag-is-var
+            f_p_tag(key, key, Expression
+            
+            # s( kind
+            # enum "constructor" | "method" | "get" | "set"
+            # b( computed
+
+            b( static
+            b( async
+            b( generator
+            
+            if node.accessibility
+                _ ret.children.push
+                    {
+                        @ tag ':' + node.accessibility
+                        @ name ''
+                        [ children
+            
+            f_a( decorators, false, Decorator 
+            f_a_in_tag( params, params
+            _ processParams(ret)
+            f_p_temp(returnType, false)
+            if p_returnType
+                set p_returnType
+                    {
+                        @ tag ':return'
+                        [ children
+                            @ p_returnType
+                _ ret.children.push(p_returnType)
+
+            f_p( body, true, Statement
+            set ret.tag = ret.tag == 'constructor' ? 'ctor' : (ret.tag == 'method' ? 'm' : ret.tag)
+            _ setNameFromChildByTag(ret, 'key', true)
+            if ret.tag === 'ctor'
+                set ret.name = ''
+            elif node.computed
+                set ret.name = '[' + ret.name + ']'
+            
+            # VIA
+                _ replaceChildrenOfChildWhenText
+                    @ ret
+                    @ getChildPosByTag(ret, 'params')
+                    @ 'param'
+
+        f( ClassPrivateMethod, node.kind;tag-is-var
+            f_p( key, true, PrivateName
+            # s( kind, "method" | "get" | "set"
+            b( static
+            f_a( decorators, false, Decorator 
+            f_a_in_tag( params, params
+            
+            set ret.tag = ret.tag == 'method' ? 'm' : ret.tag
+            _ processParams(ret)
+            f_p_temp(returnType, false)
+            if p_returnType
+                set p_returnType
+                    {
+                        @ tag ':return'
+                        [ children
+                            @ p_returnType
+                _ ret.children.push(p_returnType)
+            f_p( body, true, Statement
+
+        f( ClassProperty, p
+            f_p_name(key, Expression
+            f_p_temp(value, false, true, Expression
+            f_p_temp(typeAnnotation, false, true, ?TypeAnnotation
+
+            if node.optional
+                set ret.name = ret.name + '?'
+
+            b( static
+            if node.readonly
+                _ ret.children.push
+                    {
+                        @ tag ':readonly'
+                        @ name ''
+                        [ children
+            if node.accessibility
+                _ ret.children.push
+                    {
+                        @ tag ':' + node.accessibility
+                        @ name ''
+                        [ children
+            
+            $*
+            if p_value && p_value.tag === '=>'
+                set ret.tag = p_value.tag
+                if p_typeAnnotation
+                    _ ret.children.push
+                        {
+                            @ tag ':return'
+                            @ name ''
+                            @ children [p_typeAnnotation]
+                    foreach item in p_value.children
+                        _ ret.children.push
+                            @ item
+                else
+                    set ret.children = p_value.children
+            else
+            *$
+            if p_typeAnnotation
+                _ ret.children.push
+                    @ p_typeAnnotation
+            if node.computed
+                set ret.name = '[' + ret.name + ']'
+            elif p_value && p_value.tag
+                if ['@id', '@expr', 'literal'].indexOf(p_value.tag) > -1
+                    set p_value.tag = '='
+                _ ret.children.push
+                    @ p_value
+            else
+                # do nothing
+            f_a( decorators, false, Decorator 
+
+        f( ClassPrivateProperty, p
+            f_p( key, true, PrivateName
+            f_p( value, false, Expression
+            b( static
+            f_a( decorators, false, Decorator 
+
+        f( ClassDeclaration, class
+            f_p_name( id, Identifier
+            b( abstract, :abstract
+            f_p( typeParameters, false, ?TypeParameterInstantiation
+            f_p_temp(superClass, false, true, Expression | null
+            f_p_temp(superTypeParameters, false, true, TypeParameterInstantiation | null
+            var p_super
+            if p_superClass
+                if isTextualNode(p_superClass)
+                    set p_super
+                        {
+                            @ tag 'super'
+                            @ name getNodeText(p_superClass)
+                            [ children
+                    _ ret.children.push
+                        @ p_super
+                elif p_superClass.text === 'null'
+                    # OK
+                else
+                    throw new Error('Class. superClass must be textual: ' + JSON.stringify(node, null, 2))
+            if p_superTypeParameters
+                if p_super
+                    foreach item in p_superTypeParameters.children
+                        if item.tag !== ':param'
+                            _ p_super.children.push
+                                {
+                                    @ tag ':param'
+                                    @ name ''
+                                    [ children
+                                        @ item
+                        else
+                            _ p_super.children.push
+                                @ item
+                else
+                    set p_superTypeParameters.tag = ':super-type-params'
+                    _ ret.children.push
+                        @ p_superTypeParameters
+            f_a_temp( implements, false
+            if p_implements
+                foreach item in p_implements.children
+                    set item.tag = ':implements'
+                    _ ret.children.push
+                        @ item
+            f_a( decorators, false, Decorator 
+            f_p( body )
+
+            if node.declare
+                set ret
+                    {
+                        @ tag ':declare'
+                        @ name ''
+                        [ children
+                            @ ret
+
+        f( ClassExpression, class
+            f_p_name( id, Identifier
+            f_p_temp(superClass, false, true, Expression | null
+            f_p_temp(superTypeParameters, false, true
+            if p_superClass
+                if isTextualNode(p_superClass)
+                    # loog 'p_superTypeParameters', p_superTypeParameters
+                    var superchildren = p_superTypeParameters ? p_superTypeParameters.children : []
+                    _ ret.children.push
+                        {
+                            @ tag 'super'
+                            @ name getNodeText(p_superClass)
+                            @ children superchildren
+                else
+                    throw new Error('Class. superClass must be textual: ' + JSON.stringify(node, null, 2))
+            f_p( body )
+
+        f( MetaProperty, meta
+            f_p( meta, true, Identifier
+            f_p( property, true, Identifier
+            get_text_from_2_children( c1 + '.' + c2 )
+
+        f( ModuleDeclaration, module
+            # A module `import` or `export` declaration.
+
+        $* interface
+        f( ModuleSpecifier
+            f_p( local, true, Identifier
+            # A specifier in an import or export declaration.
+        *$
+
+        f( ImportDeclaration, import
+            f_a( specifiers, true, ImportSpecifier | ImportDefaultSpecifier | ImportNamespaceSpecifier
+            f_p_tag( source, from
+            # An import declaration, e.g., `import foo from "mod"`.
+            #
+            var xdefault = getChildByTag(ret, 'default')
+            if xdefault
+                set ret.name = xdefault.name
+                _ removeChildByTag(ret, 'default')
+            if ret.children.length == 1 && ret.children[0].tag === 'from'
+                if ret.name && ret.name.length > 0
+                    set ret.name += ' from'
+                set ret.name += ' '	+ ret.children[0].name
+                _ removeChildByTag(ret, 'from')
+            if node.importKind === 'type'
+                set ret.tag = ':import-type'
+
+        f( ImportSpecifier, @
+            f_p( local, true, Identifier
+            f_p_name( imported, true, Identifier
+
+            # f_p( local, true, Identifier
+            # An imported variable binding, e.g., `{foo}` in `import {foo} from "mod"` or `{foo as bar}` in `import {foo as bar} from "mod"`. 
+            # The `imported` field refers to the name of the export imported from the module. 
+            # The `local` field refers to the binding imported into the local module scope. 
+            # If it is a basic named import, such as in `import {foo} from "mod"`, both `imported` and `local` are equivalent `Identifier` nodes in this case an `Identifier` node representing `foo`. 
+            # If it is an aliased import, such as in `import {foo as bar} from "mod"`, the `imported` field is an `Identifier` node representing `foo`, 
+            # and the `local` field is an `Identifier` node representing `bar`.
+            
+            if ret.children[0].name !== ret.name
+                set ret.children[0].tag = 'as'
+            else
+                set ret.children = []
+
+            if node.importKind === 'type'
+                set ret.tag = ':type'
+
+        f( ImportDefaultSpecifier, default
+            f_p_name( local, Identifier
+            # A default import specifier, e.g., `foo` in `import foo from "mod.js"`.
+
+        f( ImportNamespaceSpecifier, as 
+            f_p( local, true, Identifier
+            # A namespace import specifier, e.g., `* as foo` in `import * as foo from "mod.js"`.
+            get_text_from_1_children()
+
+        f( ExportNamedDeclaration, export
+            f_p( declaration, false, Declaration | null
+            f_a( specifiers, true, ExportSpecifier
+            f_p_tag( source, from
+
+
+            var xdefault = getChildByTag(ret, 'default')
+            if xdefault
+                set ret.name = xdefault.name
+                _ removeChildByTag(ret, 'default')
+            
+            # An export named declaration, e.g., `export {foo, bar}`, `export {foo} from "mod"`, `export var foo = 1` or `export * as foo from "bar"`.
+            # _Note, Having `declaration` populated with non-empty `specifiers` or non-null `source` results in an invalid state._
+            
+            if node.exportKind === 'type'
+                # VIA 18/03/21 set ret.tag = ':export-type'
+
+        f( ExportSpecifier, @
+            f_p( exported, true, Identifier
+            f_p_name( local, true, Identifier
+            
+            # An exported variable binding, e.g., `{foo}` in `export {foo}` or `{bar as foo}` in `export {bar as foo}`. The `exported` field refers to the name exported in the module. 
+            # The `local` field refers to the binding into the local module scope. If it is a basic named export, such as in `export {foo}`, both `exported` and `local` are equivalent `Identifier` nodes 
+            # in this case an `Identifier` node representing `foo`. 
+            # If it is an aliased export, such as in `export {bar as foo}`, the `exported` field is an `Identifier` node representing `foo`, 
+            # and the `local` field is an `Identifier` node representing `bar`.
+            
+            if ret.children[0].name !== ret.name
+                set ret.children[0].tag = 'as'
+            else
+                set ret.children = []
+
+        f( ExportDefaultSpecifier, default
+            f_p_temp( exported, true, true, OptFunctionDeclaration | OptClassDeclaration | Expression
+            if isTextualNode(p_exported)
+                set ret.name = getNodeText(p_exported)
+            else
+                _ ret.children.push
+                    @ p_exported
+
+        f( ExportDefaultDeclaration, export-default
+            # An export default declaration, e.g., `export default function () {}` or `export default 1`.
+            f_p_temp( declaration, true, true, OptFunctionDeclaration | OptClassDeclaration | Expression
+            if isTextualNode(p_declaration)
+                set ret.name = getNodeText(p_declaration)
+            else
+                _ ret.children.push
+                    @ p_declaration
+
+        f( ExportNamespaceSpecifier, as
+            f_p_temp( exported, true, true, OptFunctionDeclaration | OptClassDeclaration | Expression
+            if isTextualNode(p_exported)
+                set ret.name = getNodeText(p_exported)
+            else
+                _ ret.children.push
+                    @ p_exported
+        
+        f( ExportAllDeclaration, export
+            set ret.name = '*'
+            f_p_tag( source, from
+
+        f( CommentBlock, #
+            var values = verify.replaceAll(node.value, '\r\n', '\n').split('\n')
+            # loog 'options.replaceds', options.replaceds
+            foreach value in values
+                # var v = codeReplacer.restore(value, options.replaceds)
+                _ ret.children.push
+                    {
+                        @ tag '#'
+                        @ name value
+                        [ children
+        
+        f( CommentLine, #
+            # loog 'options.replaceds', options.replaceds
+            # var v = codeReplacer.restore(node.value, options.replaceds)
+            set ret.name = node.value
+
+        f( JSXAttribute, @
+            _ options.stateAST.push
+                @ 'JSXAttribute'
+            f_p_temp( name, true, true, JSXnamespacedName
+            f_p_temp( value, false, true, JSXElement | JSXFragment | StringLiteral | JSXExpressionContainer
+
+            if isTextualNode(p_name)
+                set ret.name = getNodeText(p_name)
+            else
+                throw new Error('JSXAttribute.name must be textual:' + JSON.stringify(node, null, 2))
+
+            # loog 'JSXAttribute.p_value', p_value, isTextualNode(p_value)
+
+            if p_value
+                if isTextualNode(p_value)
+                    set ret.name += ' ' + getNodeText(p_value)
+                elif p_value != null && p_value.text !== 'null'
+                    _ ret.children.push
+                        @ p_value
+            _ options.stateAST.pop
+
+        f( JSXClosingElement, jsx-close
+            # name JSXIdentifier | JSXMemberExpression
+
+        f( JSXElement, jsx-element
+            f_p_temp( openingElement, true, true, JSXOpeningElement
+            # f_p( closingElement, true, JSXClosingElement
+            f_a_temp( children, true, JSXText | JSXExpressionContainer | JSXSpreadChild | JSXElement | JSXFragment
+            # loog 'p_openingElement', p_openingElement
+            # loog 'p_children', p_children
+            if p_openingElement.name && p_openingElement.name.length > 0
+                var char = p_openingElement.name[0]
+                if char == char.toUpperCase() || html_supported_tags.indexOf(p_openingElement.name) < 0
+                    set ret.tag = '< ' + p_openingElement.name
+                else
+                    set ret.tag = p_openingElement.name
+                set ret.children = p_openingElement.children
+            else
+                set ret.tag = '<'
+                set ret.children = p_openingElement.children
+            
+            # loog 'JSXElement.ret', ret
+            var
+                decl isStyle = ret.tag === 'style'
+            
+            foreach item in p_children.children
+                # loog 'JSXElement.children.item', item
+                if !(item.tag === '+' && item.name.trim().length == 0)
+                    if isStyle
+                        # loog 'isStyle', isStyle, item.children
+                        foreach c in item.children
+                            if c.tag === '`lit'
+                                set ret.tag = "style-jsx"
+                                _ options.wizziIncludes.push
+                                    {
+                                        @ kind 'css'
+                                        @ node ret
+                                        @ literal getLiteral(c)
+                                # loog 'JSXElement.children.item.lit', c, getLiteral(c)
+                        if ret.tag !== "style-jsx"
+                            _ ret.children.push
+                                @ item
+                    else
+                        _ ret.children.push
+                            @ item
+                            
+            if ret.tag === "style-jsx"
+                var children = ret.children
+                set ret.children = []
+                foreach item in children
+                    if item.tag === '{'
+                    elif item.tag === '@' && item.name === 'jsx'
+                    elif item.tag === '@' && item.name === 'global'
+                        _ ret.children.push
+                            {
+                                @ tag 'global'
+                                [ children
+                    else
+                        _ ret.children.push
+                            @ item
+            elif ["style","title"].indexOf(ret.tag) > -1
+                set ret.name = ret.tag
+                set ret.tag = '<'
+
+        f( JSXEmptyExpression, skip
+            f_a( innerComments
+
+        f( JSXExpressionContainer
+            #
+                _ options.stateAST.push
+                    @ 'JSXExpressionContainer'
+            f_p_temp( expression
+            # loog 'JSXExpressionContainer.p_expression', p_expression, isTextualNode(p_expression)
+            if isTextualNode(p_expression)
+                set ret.tag = '+'
+                set ret.name = '{' + getNodeText(p_expression) + '}'
+                set ret.textified = ret.name
+            else
+                # loog 'JSXExpressionContainer.options.stateAST', options.stateAST
+                # loog 'JSXExpressionContainer.options.p_expression', p_expression
+                # loog 'options.stateAST[options.stateAST.length-1]', options.stateAST[options.stateAST.length-1]
+                $* 24/3/21 waiting for BIG damage but we must manage this*$
+                set p_expression.textified = null
+                if options.stateAST[options.stateAST.length-1] === 'JSXAttribute'
+                    var __skip = true
+                    _ parent.children.push
+                        @ p_expression
+                else
+                    set ret.tag = '{'
+                    _ ret.children.push
+                        @ p_expression
+            #
+                _ options.stateAST.pop
+
+        f( JSXSpreadChild
+            f_p_temp( expression, true, true, Expression
+            set ret.tag = p_expression.tag
+            set ret.name = '...' + p_expression.name
+            set ret.children = p_expression.children
+    
+        f( JSXIdentifier, jsx-ident;is-text
+            name( name
+
+        f( JSXMemberExpression
+            f_p(object, true, JSXMemberExpression | JSXIdentifier
+            f_p(property, true, JSXIdentifier
+            get_text_from_2_children( c1 + '.' + c2 )
+
+        f( JSXNamespacedName
+            # namespace JSXIdentifier
+            # name JSXIdentifier
+
+        f( JSXOpeningElement, jsx-open
+            f_p_temp( name, true, true, JSXIdentifier | JSXMemberExpression
+            
+            # selfClosing boolean
+
+            # loog 'JSXOpeningElement p_name', p_name
+            if isTextualNode(p_name)
+                set ret.name = getNodeText(p_name)
+            elif isTextualCommentedNode(p_name)
+                set ret.name = getNodeText(p_name)
+                set ret.children = p_name.children
+            else
+                foreach item in p_name.children
+                    if item.tag === 'jsx-ident'
+                        set ret.name = item.name
+                    else
+                        _ ret.children.push
+                            @ item
+            
+            f_p_temp( typeParameters, false, true, TSTypeParameterInstantiation
+            if p_typeParameters
+                foreach item in p_typeParameters.children
+                    _ ret.children.push
+                        @ item
+            # TODO ??? ts here ???
+            f_a_temp( parameters, parameters, TypeParameterInstantiation | TSTypeParameterInstantiation
+            if p_parameters
+                foreach item in p_parameters.children
+                    _ ret.children.push
+                        @ item
+            
+            f_a_temp( attributes, attributes, JSXAttribute | JSXSpreadAttribute
+            if p_attributes
+                foreach item in p_attributes.children
+                    _ ret.children.push
+                        @ item
+
+        f( JSXSpreadAttribute, @
+            f_p( argument, true, Expression
+            get_text_from_1_children( '{...' + c1 + "}" )
+
+        f( JSXText, +
+            # if node.value.trim().length == 0 || node.value === '\n' // 11/1/19
+            var nametrimmed = node.value.trim()
+            if nametrimmed == 0
+                set ret = null
+            else
+                set ret.name = verify.replaceAll(nametrimmed, '\n', '&lf;')
+                $* 24/3/21
+                if ret.name[0] === ' '
+                    set ret.name = '&nbsp;' + ret.name.substr(1)
+                if ret.name[ret.name.length-1] === ' '
+                    set ret.name = ret.name.substr(0, ret.name.length-1) + '&nbsp;'
+                *$
+
+        f( JSXFragment, <
+            # openingFragment JSXOpeningFragment
+            # closingFragment JSXClosingFragment
+            # children JSXText | JSXExpressionContainer | JSXSpreadChild | JSXElement | JSXFragment
+            set ret.name = 'React.Fragment'
+            f_a( children )
+
+        f( JSXOpeningFragment, fragment-open
+            # aliases: ["JSX", "Immutable"],
+
+        f( JSXClosingFragment, fragment-close
+            # aliases: ["JSX", "Immutable"]
+
+        $$ VIA $include flow
+        $$ VIA $include typescript

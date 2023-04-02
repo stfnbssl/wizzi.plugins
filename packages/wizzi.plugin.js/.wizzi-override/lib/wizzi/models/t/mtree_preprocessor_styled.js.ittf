@@ -1,0 +1,81 @@
+$group
+    
+    elif node.n === 'if' && state.styledOn
+        var nCssStyled
+            _ createNode
+                @ node
+                @ '<'
+                @ '--styled--'
+                @ node.children
+        var nCss
+            _ createNode
+                @ node
+                @ 'css'
+                @ null
+                @ [nCssStyled]
+        var nJsStyled
+            _ createNode
+                @ node
+                @ 'styled'
+                @ null
+                @ [nCss]
+        var nJsIf
+            _ createNode
+                @ node
+                @ node.n
+                @ node.v
+                @ [nJsStyled]
+        var nJsModule
+            _ createNode
+                @ node
+                @ 'module'
+                @ null
+                @ [nJsIf]
+        set node.n = 'js=>'
+        set node.v = null 
+        set node.children = [nJsModule]
+
+        # loog 'node', node
+
+        return true
+
+    elif node.n === 'styled' || node.n === 'keyframes' || node.n === 'styled-css' || (node.n === 'css' && state.styledOn)
+        if node.children.length == 1 && node.children[0].n == "css"
+            return false
+        var arrow
+        var savedchildren = []
+        foreach child in node.children
+            if child.n == '=>'
+                set arrow = child
+            else
+                _ savedchildren.push
+                    @ child
+        var cssnode
+            {
+                @ n "css"
+                @ v ""
+                @ r node.r
+                @ c node.c
+                @ s node.s
+                @ u node.u
+                [ children
+                    {
+                        @ n (node.n === 'keyframes' ? "keyframes" : "<")
+                        @ v "--styled--"
+                        @ r node.r
+                        @ c node.c
+                        @ s node.s
+                        @ u node.u
+                        @ children savedchildren
+        if node.n == 'css'
+            set node.n == 'styled-css'
+        set node.children = arrow ? [arrow, cssnode] : [cssnode]
+        
+        set state.styledOn = true
+        foreach child in savedchildren
+            _ traverse
+                @ child
+                @ state
+        set state.styledOn = false
+        
+        return true

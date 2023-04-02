@@ -1,0 +1,110 @@
+﻿loader(arrays)
+
+    $append requires
+		var lineParser = require('../utils/lineParser')
+
+	stm( concat
+		var coll
+            _ lineParser.parseNameValueRaw
+                @ model.wzName
+                @ model
+		var arr = coll.name()
+		var value = null
+		if arr.substr(-1) === '.'
+			set arr = arr.slice(0, -1)
+		if coll.hasValue()
+			set value = coll.value()
+			if value[0] === '.'
+				set value = value.substr(1)
+		
+		_ ctx.write(coll.name() + '.concat(')
+		if value
+			_ ctx.write(value)
+		if model.statements.length > 0
+			if value
+				_ ctx.write(', ')
+            _ cnt.genItems
+                @ model.statements
+                @ ctx
+                { 
+                    @ indent false
+					@ sep ', '
+				a_cb()
+					_ ctx.w(');')
+					r_cb()
+		else
+			_ ctx.w(');')
+			r_cb()
+	
+	stm( each
+		_ arrayMethod
+			@ 'forEach'
+			@ model
+			@ ctx
+			@ callback
+
+	stm( filter
+		_ arrayMethod
+			@ 'filter'
+			@ model
+			@ ctx
+			@ callback
+
+	stm( find
+		_ arrayMethod
+			@ 'find'
+			@ model
+			@ ctx
+			@ callback
+
+	stm( reduce
+		var ss
+			_ model.wzName.trim()
+				._ split(' ')
+        if ss.length < 3 || ss.length > 4 || ss[1] !== 'in'
+			return
+				_ callback
+					_ ctx.error("Malformed foreach. Should be: each <item> in <coll> [initialValue]. Is " + model.wzName, model)
+        var
+            decl item = ss[0]
+            decl coll = ss[2]
+			decl _initValue = ss.length == 4 ? (ss[3] === 'null' ? null : ss[3]) : 'this'
+        _ ctx.w(coll + '.reduce( (acc, ' + item + ', ' + item + '_index, array) => {')
+        _ cnt.genItems
+            @ model.statements
+            @ ctx
+            { 
+                @ indent true
+			a_cb()
+				_ ctx.w('}' + (_initValue ? ', ' + _initValue : '') + ');')
+				r_cb()
+
+	function arrayMethod
+		param method
+		param model
+		param ctx
+		param callback
+
+		var ss
+			_ model.wzName.trim()
+				._ split(' ')
+        if ss.length < 3 || ss.length > 4 || ss[1] !== 'in'
+			return
+				_ callback
+					_ ctx.error("Malformed foreach. Should be: each <item> in <coll> [this]. Is " + model.wzName, model)
+        var
+            decl item = ss[0]
+            decl coll = ss[2]
+			decl _this = ss.length == 4 ? (ss[3] === 'null' ? null : ss[3]) : 'this'
+        _ ctx.w(coll + '.' + method + '(function(' + item + ', ' + item + '_index, array) {')
+        _ cnt.genItems
+            @ model.statements
+            @ ctx
+            { 
+                @ indent true
+			a_cb()
+				_ ctx.w('}' + (_this ? ', ' + _this : '') + ');')
+				r_cb()
+
+
+    

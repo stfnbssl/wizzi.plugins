@@ -1,0 +1,157 @@
+module wizzi.ts.artifacts.module.gen.codegen.statement
+	kind jsfile
+	+
+	var myname = 'wizzi.ts.artifacts.module.gen.codegen.statement'
+	+
+    var verify = require('wizzi-utils').verify
+    +
+	var zvar = require('./statements/var')
+	var types = require('./statements/types')
+	var xmodule = require('./statements/module')
+	var xinterface = require('./statements/interface')
+	var objects = require('./statements/objects')
+	var xfunction = require('./statements/function')
+	var xclass = require('./statements/class')
+	var ifswitch = require('./statements/if-switch')
+	var statements = require('./statements/statements')
+	var expressions = require('./statements/expressions')
+	var call = require('./statements/call')
+	var tscall = require('./statements/tscall')
+	var loops = require('./statements/loops')
+	var arrays = require('./statements/arrays')
+	var exceptions = require('./statements/exceptions')
+	var debug = require('./statements/debug')
+	var template = require('./statements/template')
+	var react = require('./statements/react')
+	var html = require('./statements/html')
+    var decorator = require('./statements/decorator')
+	var xittf = require('./statements/xittf_extensions')
+	+
+	var include_writers = require('./include_writers')
+	+
+	var u = require('./utils/stm')
+	+
+	var md = module.exports = {}
+	set md.stm = {}
+	+
+	_ zvar.load(md)
+	_ types.load(md)
+	_ xmodule.load(md)
+	_ xinterface.load(md)
+	_ objects.load(md)
+	_ xfunction.load(md)
+	_ xclass.load(md)
+	_ ifswitch.load(md)
+	_ statements.load(md)
+	_ expressions.load(md)
+	_ call.load(md)
+	_ tscall.load(md)
+	_ loops.load(md)
+	_ arrays.load(md)
+	_ exceptions.load(md)
+	_ debug.load(md)
+	_ template.load(md)
+	_ react.load(md)
+	_ html.load(md)
+    _ decorator.load(md)
+	_ xittf.load(md)
+	+
+	set md.gen
+		function
+			param model
+			param ctx
+			param callback
+			_ md.genItem(model, ctx, callback)
+
+	set md.genMany
+		function
+			param models
+			param ctx
+			param callback
+
+			repeater( 1, models )
+				_ md.genItem
+					@ item_1
+					@ ctx
+					a_cb()
+						repeater_increment( 1 )
+				$append next
+					r_cb()
+
+	set md.genItem
+		function
+			param model
+			param ctx
+			param callback
+			
+			var key = model.wzElement
+
+            $include statement_include_writers
+			else
+				var stm = md.stm[key]
+				if stm
+					_ stm(model, ctx, callback)
+				else 
+					log myname + '. Unknown statement tag/element: ' + model.wzTag + '/' + model.wzElement, model
+					throw ctx.error(myname + '. Unknown statement tag/element: ' + model.wzTag + '/' + model.wzElement, model)
+	
+	set md.genItemAs
+		function
+			param model
+			param asWzElement
+			param ctx
+			param callback
+
+			var save = model.wzElement
+			set model.wzElement = asWzElement
+			_ md.genItem
+				@ model
+				@ ctx
+				a_cb()
+					set model.wzElement = save
+					r_cb()
+
+	set md.genItems
+		function
+			param statements
+			param ctx
+			param options
+			param callback
+
+			if typeof callback === 'undefined'
+				set callback = options
+				set options = {}
+
+			var
+				decl opt = options || {}
+				decl from = opt.from || 0
+				decl indent = typeof opt.indent === 'undefined' ? true : opt.indent
+				decl first = true
+
+			if indent
+				_ ctx.indent()
+
+			repeater( 1, statements, from )
+				if options.sep && !first
+					_ ctx.write(options.sep)
+				_ md.genItem
+					@ item_1
+					@ ctx
+					a_cb()
+						set first = false
+						repeater_increment( 1 )
+				$append next
+					if indent
+						_ ctx.deindent()
+					r_cb()
+
+	set md.stm.codeline
+		function
+			param model
+			param ctx
+			param callback
+
+			# loog 'codeline ', model.wzName
+			# 4/2/19 _ ctx.write(model.wzName)
+			_ ctx.w(model.wzName) 
+			_ md.genItems(model.items, ctx, callback)

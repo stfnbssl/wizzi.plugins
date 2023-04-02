@@ -1,0 +1,123 @@
+﻿module
+    kind es6
+    $
+        var md = {
+            plugin: 'wizzi.plugin.ittf',
+            name: 'html-pretty',
+            schema: 'ittf',
+            rootElement: '',
+            checkSchema: false
+        };
+    trans( &md )
+        $append imports
+            var HtmlBuilder = require('./htmlbuilder').HtmlBuilder
+            +
+            var STYLE_DOCS_ITTF_TREE_PANEL = 'docs-ittf-tree-panel'
+            var STYLE_DOCS_ITTF_TREE_LINE = 'docs-ittf-tree-line'
+            var STYLE_DOCS_ITTF_NODE_LINENUMS = 'docs-ittf-node-linenums'
+            var STYLE_DOCS_ITTF_NODE_INDENT = 'docs-ittf-node-indent-'
+            var STYLE_DOCS_ITTF_NODE_NAME = 'docs-ittf-node-name'
+            var STYLE_DOCS_ITTF_NODE_VALUE = 'docs-ittf-node-value'
+            +
+            # pretty print
+            var STYLE_DOCS_ITTF_TREE_PANEL = 'linenums'
+            var STYLE_DOCS_ITTF_TREE_LINE = 'docs-ittf-tree-line'
+            var STYLE_DOCS_ITTF_NODE_LINENUMS = 'docs-ittf-node-linenums'
+            var STYLE_DOCS_ITTF_NODE_INDENT = 'docs-ittf-node-indent-'
+            var STYLE_DOCS_ITTF_NODE_COMMAND = 'kwd'
+            var STYLE_DOCS_ITTF_NODE_NAME = 'tag'
+            var STYLE_DOCS_ITTF_NODE_VALUE = 'pln'
+            var STYLE_DOCS_ITTF_NODE_EXPR = 'expr'
+            var STYLE_DOCS_ITTF_NODE_MIX = 'mix'
+            +
+            function toHtmlPretty
+                param node
+                param ctx
+
+                set ctx.__ittfNode.line++
+
+                var 
+                    decl name = node.n || node.name
+                    decl value = node.v || node.value
+                    decl children = node.children
+                    decl is_command = name && name.substr(0,1) === '$'
+                    decl is_code = name === '$' || name === '$global'
+                    decl name_style = STYLE_DOCS_ITTF_NODE_NAME
+                    decl value_style = STYLE_DOCS_ITTF_NODE_VALUE
+
+                if ['$if', '$elif', '$'].indexOf(name) >= 0
+                    set value_style = STYLE_DOCS_ITTF_NODE_EXPR
+                
+                elif ctx.__insideCode
+                    set name_style = STYLE_DOCS_ITTF_NODE_EXPR
+                    set value_style = STYLE_DOCS_ITTF_NODE_EXPR
+
+                elif name && name.substr(-1,1) === '('
+                    set name_style = STYLE_DOCS_ITTF_NODE_MIX
+
+                _ ctx.hb.openTag('li')
+                _ ctx.hb.writeAttribute('class', 'L' + ('' + ctx.__ittfNode.line).substr(-1,1))
+
+                _ ctx.hb.openTag('span', { inline: true })
+                _ ctx.hb.writeAttribute('class', 'pnl')
+                _ ctx.hb.writeText(spaces(ctx.__ittfNode.indent * 4))
+                _ ctx.hb.closeTag('span', { inline: true })
+
+                _ ctx.hb.openTag('span', { inline: true })
+                if is_command
+                    _ ctx.hb.writeAttribute('class', STYLE_DOCS_ITTF_NODE_COMMAND)
+                else
+                    _ ctx.hb.writeAttribute('class', name_style)
+                _ ctx.hb.writeText(name)
+                _ ctx.hb.closeTag('span', { inline: true })
+
+                _ ctx.hb.openTag('span', { inline: true })
+                _ ctx.hb.writeAttribute('class', value_style)
+                _ ctx.hb.writeText(' ' + verify.htmlEscape(value))
+                _ ctx.hb.closeTag('span', { inline: true })
+
+                _ ctx.hb.closeTag('li')
+
+                if is_code
+                    set ctx.__insideCode = true
+
+                set ctx.__ittfNode.indent++
+                foreach child in children
+                    _ toHtmlPretty
+                        @ child
+                        @ ctx
+                
+                set ctx.__ittfNode.indent--
+
+                if is_code
+                    set ctx.__insideCode = false
+
+            function formatLineNum
+                param line
+                if line < 10
+                    return '00' + line
+                if line < 100
+                    return '0' + line
+                return line
+
+            function spaces
+                param num
+                if num < 1
+                    return ''
+                return Array(num + 1).join(" ")
+
+        $append main
+            set ctx.__ittfNode
+                {
+                    @ line 0
+                    @ indent 0
+            set ctx.hb = new HtmlBuilder()
+            
+            _ toHtmlPretty
+                @ model
+                @ ctx
+
+            _ callback
+                @ null
+                _ ctx.hb.toLines
+

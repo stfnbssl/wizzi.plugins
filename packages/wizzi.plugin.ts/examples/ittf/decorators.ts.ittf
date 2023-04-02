@@ -1,0 +1,17 @@
+module
+    class Person
+        super Model
+        @d Table
+        p name
+            :string 
+            @d Column
+        p birthday
+            :ref Date
+            @d Column
+        p hobbies
+            :[ 
+                :ref Hobby
+            @d 
+                _ HasMany
+                    => 
+                        + Hobby

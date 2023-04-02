@@ -1,0 +1,27 @@
+module
+    kind es6
+    $
+        var md = {
+            plugin: 'wizzi.plugin.ts',
+            name: 'extended',
+            schema: 'ts',
+            rootElement: 'xmodule',
+            checkSchema: true
+        };
+    trans( &md )
+        $append main
+            set transformedModel
+                {
+            foreach item in model.items
+                _ doitem
+                    @ item
+                    @ transformedModel
+    function doitem
+        param parent
+        param resultObj
+        var f = functors[parent.wzElement]
+        if f
+            _ f
+                @ parent
+                @ resultObj
+    var functors = {}

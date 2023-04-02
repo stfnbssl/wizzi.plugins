@@ -1,0 +1,62 @@
+﻿module 
+    kind jsfile
+    
+	var util = require('util')
+    var verify = require('wizzi-utils').verify
+    
+	function log
+        param label
+        param obj
+        _ console.log
+            @ label
+            _ util.inspect
+                @ obj
+                { 
+                    @ depth 1
+    
+	function transform
+        param node
+		param options
+		# loog 'cloner.transform', node.tag, node.name
+
+        var ret
+            { 
+                @ tag node.tag
+                @ name node.name || ""
+                @ attribs node.attribs || {}
+                @ lines node.lines || []
+                @ children
+                    [ 
+        if ret.tag === 'title'
+            set ret.tag = '@title'
+        elif ret.tag === 'style' && !!options.isForVue == false
+            set ret.tag = '@style'
+        elif ret.tag === 'ng-view'
+            set ret.tag = '@ng-view'
+        elif ret.tag === 'div' && ret.name.length === 0 && ret.attribs.class
+            set ret.tag = '.'
+            set ret.name = ret.attribs.class
+            set delete (ret.attribs.class)
+        elif ret.tag === 'script' && ret.attribs.src
+            set ret.tag = 'js'
+            set ret.name = ret.attribs.src
+            set ret.attribs =
+                { 
+        elif ret.tag === 'link' && ret.attribs.href === 'stylesheet'
+            set ret.tag = 'css'
+            set ret.name = ret.attribs.href
+            set ret.attribs =
+                { 
+        _ node.children.forEach
+            function 
+                param item
+                var child = transform(item, options)
+                if child
+                    _ ret.children.push(child)
+        return ret
+    
+	set module.exports =
+        function 
+            param ast
+			param options
+            return transform(ast, options)

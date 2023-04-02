@@ -1,0 +1,446 @@
+﻿module wizzi.plugin.css@${wzCtx.version}.lib.artifacts.css.document.gen.rule
+	kind jsfile
+
+	var util = require('util')
+	var async = require('async')
+
+    var verify = require('wizzi-utils').verify
+	var lineParser = require('../../../utils/lineParser');
+
+	var mymd = module.exports = {}
+	var myname = 'css.document.rule'
+
+	set mymd.load
+		function
+			param md
+
+			async-md( elementRule )
+				if model.hasContent()
+					return
+						_ writeRule(md, model, ctx, callback);
+				else
+					r_cb()
+
+			async-md( classRule )
+				if model.hasContent()
+					return
+						_ writeRule(md, model, ctx, callback);
+				else
+					r_cb()
+
+			async-md( idRule )
+				if model.hasContent()
+					return
+						_ writeRule(md, model, ctx, callback);
+				else
+					r_cb()
+
+			async-md( gtRule )
+				if model.hasContent()
+					return 
+						_ writeRule(md, model, ctx, callback);
+				else
+					r_cb()
+
+			async-md( pseudoElementRule )
+				if model.hasContent()
+					return 
+						_ writeRule(md, model, ctx, callback);
+				else
+					r_cb()
+			
+            async-md( ampersand )
+				if model.hasContent()
+					return
+						_ writeRule(md, model, ctx, callback);
+				else
+					r_cb()
+
+			async-md( placeholder )
+				_ writeRule(md, model, ctx, callback);
+
+			async-md( media )
+				if model.wzName.indexOf(')') > -1
+					_ ctx.w('@media ' + model.wzName + ' {');
+				else
+					_ ctx.w('@media (' + model.wzName + ') {');
+				_ ctx.indent()
+				var selector = model.getSelector()
+				# loog '*** selector', selector
+				if selector && selector.length > 0
+                    if !!ctx.__isStyledComponent == false
+					    _ ctx.w(model.getSelector() + ' {')
+					    _ ctx.indent()
+					_ async.mapSeries
+						@ model.getProperties()
+						_ getWriteProperty
+							@ ctx
+						a_cb()
+                            if !!ctx.__isStyledComponent == false
+							    _ ctx.deindent()
+							    _ ctx.w('}');
+							_ md.genItems
+								@ model.rules
+								@ ctx
+								{
+									@ indent false 
+								a_cb()
+									_ ctx.deindent()
+									_ ctx.w('}');
+									r_cb()
+				else
+					_ md.genItems
+						@ model.rules
+						@ ctx
+						{
+							@ indent false 
+						a_cb()
+							_ ctx.deindent()
+							_ ctx.w('}');
+							r_cb()
+
+			async-md( fontface )
+				_ ctx.w('@font-face {');
+				_ ctx.indent()
+				if verify.isNotEmpty(model.featureSetting)
+					_ ctx.w('font-feature-setting: ' + model.featureSetting + ';');
+				if verify.isNotEmpty(model.fontFamily)
+					_ ctx.w('font-family: ' + model.fontFamily + ';');
+				if verify.isNotEmpty(model.src)
+					_ ctx.w('src: ' + model.src + ';');
+				if verify.isNotEmpty(model.fontStretch)
+					_ ctx.w('font-stretch: ' + model.fontStretch + ';');
+				if verify.isNotEmpty(model.fontStyle)
+					_ ctx.w('font-style: ' + model.fontStyle + ';');
+				if verify.isNotEmpty(model.fontWeight)
+					_ ctx.w('font-weight: ' + model.fontWeight + ';');
+				if verify.isNotEmpty(model.fontDisplay)
+					_ ctx.w('font-display: ' + model.fontDisplay + ';');
+				if verify.isNotEmpty(model.fontVariant)
+					_ ctx.w('font-variant: ' + model.fontVariant + ';');
+				if verify.isNotEmpty(model.fontVariationSetting)
+					_ ctx.w('font-variation-setting: ' + model.fontVariationSetting + ';');
+				if verify.isNotEmpty(model.unicodeRange)
+					_ ctx.w('unicode-range: ' + model.unicodeRange + ';');
+				_ md.genItems
+					@ model.rules
+					@ ctx
+					{
+						@ indent false
+					a_cb()
+						_ ctx.deindent()
+						_ ctx.w('}');
+						r_cb()
+
+			async-md( keyframes )
+                if model.wzName != '--styled--'
+				    _ ctx.w('@' + (model.vendor || '') + 'keyframes ' + model.wzName + ' {')
+				_ md.genItems
+					@ model.rules
+					@ ctx
+					{
+						@ indent model.wzName != '--styled--'
+					a_cb()
+                        if model.wzName != '--styled--'
+						    _ ctx.w('}')
+						r_cb()
+
+			async-md( keyframe )
+				_ ctx.w(model.wzName + ' {')
+                _ ctx.indent
+                _ async.mapSeries
+                    @ model.getProperties()
+                    _ getWriteProperty
+                        @ ctx
+			        a_cb()
+                        _ ctx.deindent
+						_ ctx.w('}')
+						r_cb()
+
+			async-md( keyframeFrom )
+				_ ctx.w("from " + model.wzName + ' {')
+                _ ctx.indent
+                _ async.mapSeries
+                    @ model.getProperties()
+                    _ getWriteProperty
+                        @ ctx
+			        a_cb()
+                        _ ctx.deindent
+						_ ctx.w('}')
+						r_cb()
+
+			async-md( keyframeTo )
+				_ ctx.w("to " + model.wzName + ' {')
+                _ ctx.indent
+                _ async.mapSeries
+                    @ model.getProperties()
+                    _ getWriteProperty
+                        @ ctx
+			        a_cb()
+                        _ ctx.deindent
+						_ ctx.w('}')
+						r_cb()
+
+			async-md( ximport )
+				_ ctx.w('@import ' + model.wzName + ';')
+				r_cb()
+
+			async-md( comment )
+				if model.rules && model.rules.length > 0
+					if ctx.__comment_level === 0
+						_ ctx.w('/**')
+					_ ctx.indent()
+					if model.wzName.length > 0
+						_ ctx.w
+							@ model.wzName
+					set ctx.__comment_level++
+					_ md.genItems
+						@ model.rules
+						@ ctx
+						{ 
+							@ indent false
+						a_cb()
+							set ctx.__comment_level--
+							_ ctx.deindent()
+							if ctx.__comment_level === 0
+								_ ctx.w('*/')
+							r_cb()
+				else 
+					if ctx.__comment_level > 0
+						_ ctx.w(model.wzName ? (' ' + model.wzName) : '')
+					else 
+						_ ctx.w('/**' + (model.wzName ? (' ' + model.wzName) : '') + ' */')
+					r_cb()
+
+	function writeRule
+		param md
+		param model
+		param ctx
+		param callback
+
+		# loog 'writeRule, model.ruleParts', model.ruleParts
+		if !!ctx.__isStyledComponent == false
+            var wzName = model.wzElement === 'ampersand' ? '&' + model.wzName : model.wzName
+		var ruleText = model.getSelector(true)
+        var isStyledComponent = model.wzElement == "elementRule" && model.wzName == "--styled--"
+        var isInsideStyledComponent = ctx.__isStyledComponent
+        # loog 'isStyledComponent, ctx.__isStyledComponent, isInsideStyledComponent, model.wzName', isStyledComponent, ctx.__isStyledComponent, isInsideStyledComponent, model.wzName
+        if isInsideStyledComponent && model.wzElement === 'ampersand'
+            # log 1
+            var text = ['+', '~'].indexOf(model.wzName[0]) > -1 ? ' ' + model.wzName : model.wzName
+            _ ctx.w('&' + text + ' {')
+            _ ctx.indent()
+        elif isInsideStyledComponent
+            var pref = model.wzElement === 'classRule' ? '.' 
+                \b : model.wzElement === 'pseudoElementRule' ? '::' 
+                \b : model.wzElement === 'elementRule' ? ''  
+                \b : model.wzElement === 'idRule' ? '#' : model.wzElement + '-not-mamaged'
+            _ ctx.w(pref + model.wzName + ' {')
+            _ ctx.indent()
+        elif isStyledComponent
+            # log 2
+            set ctx.__isStyledComponent = true
+        else
+            # log 3
+		    _ ctx.w(ruleText + ' {')
+		    _ ctx.indent()
+		_ async.mapSeries
+			@ model.getProperties()
+			_ getWriteProperty
+				@ ctx
+			a_cb()
+                if isInsideStyledComponent
+                    # log 11
+                    $$ if model.wzElement === 'ampersand'
+                    _ ctx.deindent()
+                    _ ctx.w('}');
+                else
+                    # log 12
+                    if !!isStyledComponent == false
+				        _ ctx.deindent()
+				        _ ctx.w('}');
+				_ md.genItems
+					@ model.rules
+					@ ctx
+					{
+						@ indent false
+					a_cb()
+                        if isStyledComponent
+                            # log 13
+                            set ctx.__isStyledComponent = false
+                        r_cb()
+
+	function getWriteProperty
+		param ctx
+		
+		return
+			function writeProperty
+				param prop
+				param callback
+				
+				var name = prop.name
+				var value = prop.value
+                # loog 'getWriteProperty', prop.name, prop.value, prop.wzElement, prop.wzName, prop.get_js, prop.prop && prop.prop.get_js
+				if prop.wzElement && prop.prop && prop.prop.get_svg
+					if prop.wzElement === "background_image"
+						_ prop.prop.get_svg
+							a_cb( svgModel )
+								# log myname, 'svgModel', svgModel
+								_ ctx.wizziFactory.generateArtifact
+									@ svgModel
+									@ 'generated from css model'
+									@ 'svg/document'
+									{
+										@ CRLF ''
+										@ forCssImage true
+                                        @ noGeneratorComments true
+									a_cb( artifactText )
+										# log myname, 'artifactText', artifactText
+										_ ctx.w('background-image: url("data:image/svg+xml,' + artifactText + '");')
+										r_cb()
+					else
+						throw ctx.error(myname + '. writeProperty unknown  prop.wzElement: ' + prop.wzElement)
+				$$ elif prop.wzElement && prop.prop && prop.prop.get_js
+                elif prop.wzElement && prop.prop && prop.prop.get_js
+                    _ prop.prop.get_js
+                        a_cb( jsModel )
+                            # log myname, 'Object.keys(jsModel)', Object.keys(jsModel)
+                            _ ctx.wizziFactory.generateArtifact
+                                @ jsModel
+                                @ 'generated from css model'
+                                @ 'js/module'
+                                {
+                                    @ noGeneratorComments true
+                                    @ noUseStrict true
+                                a_cb( artifactText )
+                                    function _indent
+                                        param txt
+                                        param ind
+                                        var ret = []
+                                        foreach item in txt.split('\n')
+                                            _ ret.push
+                                                @ new Array(ind+1).join(' ') + item
+                                        return ret.join('\n')
+                                    var code = "$" + "{props => {\n" + _indent(artifactText,4) + "\n}}"
+                                    # log myname, 'artifactText', code
+                                    _ ctx.w(code)
+                                    r_cb()
+				elif name == '$'
+                    _ ctx.w('$' + '{' + value + '}')
+                    r_cb()
+                else
+                    if prop.styledprop
+                        set value = "£{props => " + prop.styledprop + "}"
+                    set value = verify.replaceAll(value, "£{", "${")
+					if name === "align-items"
+						_ ctx.w("-webkit-align-items: " + value  + ";")
+                        _ ctx.w("-webkit-box-align: " + value  + ";")
+						_ ctx.w("-ms-flex-align: " + value  + ";")
+						_ ctx.w(name + ": " + value + ";")
+					elif name === "animation"
+						_ ctx.w("-webkit-" + name + ": " + value  + ";")
+						_ ctx.w(name + ": " + value + ";")
+					elif name === "appearance"
+						_ ctx.w("-webkit-appearance: " + value  + ";")
+						_ ctx.w("-moz-appearance: " + value  + ";")
+						_ ctx.w(name + ": " + value + ";")
+					elif name === "background-image"
+						if value && value.indexOf && value.indexOf("linear-gradient") >= 0
+							_ ctx.w(name + ": " + value.replace("linear-gradient", "-webkit-linear-gradient") + ";")
+							_ ctx.w(name + ": " + value.replace("linear-gradient", "-moz-linear-gradient") + ";")
+							_ ctx.w(name + ": " + value.replace("linear-gradient", "-o-linear-gradient") + ";")
+							_ ctx.w(name + ": " + value.replace("linear-gradient", "-ms-linear-gradient") + ";")
+							_ ctx.w(name + ": " + value + ";")
+						else
+							_ ctx.w(name + ": " + value + ";")
+					elif name === "border-radius"
+						_ ctx.w("-webkit-border-radius: " + value + ";")
+						_ ctx.w("-khtml-border-radius: " + value + ";")
+						_ ctx.w("-moz-border-radius: " + value + ";")
+						_ ctx.w("-o-border-radius: " + value + ";")
+						_ ctx.w(name + ": " + value + ";")
+					elif name === "box-shadow"
+						_ ctx.w("-webkit-box-shadow: " + value + ";")
+						_ ctx.w("-moz-box-shadow: " + value + ";")
+						_ ctx.w("-o-box-shadow: " + value + ";")
+						_ ctx.w(name + ": " + value + ";")
+					elif name === "display" && value === 'flex'
+						_ ctx.w(name + ": -ms-flexbox;")
+                        _ ctx.w(name + ": -webkit-box;")
+                        _ ctx.w(name + ": -webkit-flex;")
+						_ ctx.w(name + ": " + value + ";")
+					elif name === "display" && value === 'inline-flex'
+						_ ctx.w(name + ": -webkit-inline-box;")
+                        _ ctx.w(name + ": -webkit-inline-flex;")
+                        _ ctx.w(name + ": -ms-inline-flexbox;")
+						_ ctx.w(name + ": " + value + ";")
+					elif name === "flex"
+						_ ctx.w("-ms-flex: " + value + ";")
+						_ ctx.w(name + ": " + value + ";")
+					elif name === "flexbox"
+						_ ctx.w("-webkit-box: " + value + ";")
+						_ ctx.w("-webkit-flex: " + value + ";")
+						_ ctx.w("-moz-box: " + value + ";")
+						_ ctx.w("-ms-flexbox: " + value + ";")
+						_ ctx.w(name + ": " + value + ";")
+					elif name === "flex-basis"
+						_ ctx.w("-ms-flex-preferred-size: " + value + ";")
+						_ ctx.w(name + ": " + value + ";")
+					elif name === "flex-direction"
+                        _ ctx.w("-webkit-flex-direction: " + value + ";")
+						_ ctx.w("-ms-flex-direction: " + value + ";")
+						_ ctx.w(name + ": " + value + ";") 
+					elif name === "flex-grow"
+						_ ctx.w("-webkit-flex-grow: " + value + ";")
+                        _ ctx.w("-webkit-box-flex: " + value + ";")
+                        _ ctx.w("-ms-flex-positive: " + value + ";")
+						_ ctx.w(name + ": " + value + ";") 
+					elif name === "order"
+						_ ctx.w("-ms-flex-order: " + value + ";")
+						_ ctx.w(name + ": " + value + ";")
+					elif name === "flex-flow"
+						_ ctx.w("-webkit-flex-flow: " + value + ";")
+						_ ctx.w(name + ": " + value + ";")
+					elif name === "flex-shrink"
+						_ ctx.w("-webkit-flex-shrink: " + value + ";")
+                        _ ctx.w("-ms-flex-negative: " + value + ";")
+						_ ctx.w(name + ": " + value + ";") 
+					elif name === "flex-wrap"
+						_ ctx.w("-webkit-flex-wrap: " + value + ";")
+                        _ ctx.w("-ms-flex-wrap: " + value + ";")
+						_ ctx.w(name + ": " + value + ";") 
+					elif name === "justify-content"
+                        $$ TODO
+                        $$ -webkit-box-pack end (instead of flex-end)
+                        $$ -ms-flex-pack end (instead of flex-end)
+                        _ ctx.w("-webkit-box-pack: " + value + ";")
+                        _ ctx.w("-ms-flex-pack: " + value + ";")
+						_ ctx.w("-webkit-justify-content: " + value + ";")
+						_ ctx.w(name + ": " + value + ";")
+					elif name === "letter-spacing"
+                        _ ctx.w("-webkit-" + name + ": " + value + ";")
+                        _ ctx.w("-moz-" + name + ": " + value + ";")
+                        _ ctx.w("-ms-" + name + ": " + value + ";")
+						_ ctx.w(name + ": " + value + ";")
+					elif name === "text-decoration"
+						_ ctx.w("-webkit-" + name + ": " + value + ";")
+						_ ctx.w(name + ": " + value + ";")
+                    elif name === "transition"
+						_ ctx.w("-webkit-transition: " + value + ";")
+						_ ctx.w("-moz-transition: " + value + ";")
+						_ ctx.w("-o-transition: " + value + ";")
+						_ ctx.w(name + ": " + value + ";")
+                    elif name === "transform"
+						_ ctx.w("-webkit-transform: " + value + ";")
+						_ ctx.w("-ms-transition: " + value + ";")
+						_ ctx.w(name + ": " + value + ";")
+					elif name === "user-select"
+						_ ctx.w("-webkit-user-select: " + value + ";")
+						_ ctx.w("-moz-user-select: " + value + ";")
+						_ ctx.w("-ms-user-select: " + value + ";")
+						_ ctx.w("-o-user-select: " + value + ";")
+						_ ctx.w(name + ": " + value + ";")
+					else
+						_ ctx.w(name + ": " + value + ";")
+					_ process.nextTick
+						@ callback

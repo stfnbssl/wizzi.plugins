@@ -1,0 +1,22 @@
+module
+    import 
+        @ enableProdMode
+        from '@angular/core'
+    import 
+        @ platformBrowserDynamic
+        from '@angular/platform-browser-dynamic'
+    import 
+        @ AppModule
+        from './app/app.module'
+    import 
+        @ environment
+        from './environments/environment'
+    if environment.production
+        _ enableProdMode
+    _ platformBrowserDynamic
+        ._ bootstrapModule
+            @ AppModule
+        ._ catch
+            => 
+                param err
+                _ console.error(err)

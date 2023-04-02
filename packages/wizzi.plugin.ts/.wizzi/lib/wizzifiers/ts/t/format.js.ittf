@@ -1,0 +1,11 @@
+$group
+    $params name
+    set format.${name}
+        function
+            param parent
+            param node
+            param options
+            log "parent.keys", Object.keys(parent)
+            log "node.keys", Object.keys(node)
+            log "options.keys", Object.keys(options)
+            $hook

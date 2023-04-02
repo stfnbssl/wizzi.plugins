@@ -1,0 +1,22 @@
+module
+    kind es6
+    $
+        var md = {
+            plugin: 'wizzi.plugin.text',
+            name: 'document',
+            schema: 'text',
+            rootElement: '',
+            checkSchema: true,
+            isAsync: true,
+        };
+    gen( &md )
+        $append imports
+        $append main
+            # loog 'wizzi.plugi.text.lib.artifacts.text.document', model, model.toText
+            if model.toText
+                _ ctx.write
+                    _ model.toText
+            else
+                _ ctx.write
+                    @ model.content
+            r_cb( ctx )

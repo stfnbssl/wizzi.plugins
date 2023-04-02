@@ -3,6 +3,7 @@ module
     $
         var md = {
             name: 'html',
+            artifact: 'document',
         };
     v08/examples/plugin( &md )
         $append plugins
@@ -21,10 +22,10 @@ module
                 @ moduleName
             a_cb_no_throw( result )
                 if err
-                    error 'html.examples.executeGenerateModules.err', err
-                    error 'html.examples.executeGenerateModules.err.toString()', err.toString()
+                    error 'html/document.examples.executeGenerateModules.err', err
+                    error 'html/document.examples.executeGenerateModules.err.toString()', err.toString()
                     if err.inner
-                        error 'html.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
+                        error 'html/document.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
                 else
         function executeGenerateModules
             param modules
@@ -34,7 +35,7 @@ module
                 =>
                     param module
                     param callback
-                    log 'html.example.executeGenerateModules.module: ' + module
+                    log 'html/document.example.executeGenerateModules.module: ' + module
                     var ittfDocumentUri
                         _ path.join
                             @ __dirname
@@ -44,26 +45,16 @@ module
                         _ path.join
                             @ __dirname
                             @ 'results'
-                            @ module + '.html.document.html'
-                    _ loadWizziModel
+                            @ 'html'
+                            @ module + '-document.g.html'
+                    _ loadModelAndGenerateArtifact
                         @ ittfDocumentUri
                         {
-                        a_cb( wizziModel )
-                            if wizziModel.toJson
-                                _ file.write
-                                    @ outputPath + '.json'
-                                    _ stringify
-                                        _ wizziModel.toJson
-                                        @ null
-                                        @ 4
-                            _ loadModelAndGenerateArtifact
-                                @ ittfDocumentUri
-                                {
-                                @ 'html/document'
-                                a_cb( artifactText )
-                                    log 'html.example.executeGenerateModules.outputPath: ' + outputPath
-                                    _ file.write
-                                        @ outputPath
-                                        @ artifactText
-                                    r_cb( artifactText )
+                        @ 'html/document'
+                        a_cb( artifactText )
+                            log 'html/document.example.executeGenerateModules.outputPath: ' + outputPath
+                            _ file.write
+                                @ outputPath
+                                @ artifactText
+                            r_cb( artifactText )
                 @ callback

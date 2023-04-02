@@ -1,0 +1,138 @@
+﻿$group
+
+	e function : statement
+
+		a_flag( xasync, async )
+		a_flag( xgenerator, generator )
+		
+		r param/s
+
+		m wzinitialize
+			set this.paramNames = []
+			set this.constrainedParams = []
+			set this.hasCallbackParam = false
+			set this.hasOptionsCallbackParam = false
+			foreach item in this.params
+				if item.wzElement === 'callbackParam'
+					_ this.paramNames.push('callback')
+					set this.hasCallbackParam = true
+				elif item.wzElement === 'optionsCallbackParam'
+					_ this.paramNames.push('options')
+					_ this.paramNames.push('callback')
+					set this.hasOptionsCallbackParam = true
+				else
+					if item.textified && item.textified.length > 0
+						_ this.paramNames.push(item.textified)
+					else
+						_ this.paramNames.push(item.wzName)
+				_ this.constrainedParams.push(item)
+		#
+		# ittf
+		#   function sum
+		#     param a
+		#     param a
+		#     return a + b
+		#
+
+	e iife : function
+		a unary-prefix
+
+		# ittf
+		#   iife
+		#     unary-prefix ;
+		#     param x
+		#     param y
+		#     return alpha = x + ': ' + y
+		#     (
+		#       @ key
+		#       @ id
+		# js
+		#   ;(function(x, y) {
+		#     return alpha = x + ': ' + y;
+		#   })(key, id)
+		#
+
+	e arrowfunction : function
+		tag =>
+
+		# es6 feature
+		#
+		# ittf
+		#   var handler
+		#     =>
+		#       param event
+		#       
+
+	e asyncarrowfunction : function
+		tag async=>
+
+		# es6 feature
+		#
+		# ittf
+		#   var handler
+		#     async=>
+		#       param event
+		#       
+
+	e generatorfunction : function
+		tag function*
+
+		# es6 feature
+		# reference https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Operators/yield
+		# ittf
+		#   function* foo
+		#     var index = 0
+		#     while index <= 2
+		#       yield index++
+		#
+
+	e asyncfunction : function
+		tag async-function
+
+		# es6 feature
+		# reference https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
+		# ittf
+		#   async-function foo
+
+
+	e yield : statement
+
+		# es6 feature
+		# reference https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Operators/yield
+		# ittf
+		#   function* foo
+		#     var index = 0
+		#     while index <= 2
+		#       yield index++
+	
+	e await : statement
+
+		# es6 feature
+		# reference https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await
+		# ittf
+		#   async-function foo
+		#     var index
+		#       await
+		#         _ mypromisefunc
+		#
+
+	e return : statement
+
+		# Can return any object or function.
+		#
+		# ittf
+		#     return 0
+		#     return
+		#       {
+		#         @ result a + b
+		#
+		#     return
+		#       _ Math.sum
+		#         @ a
+		#         @ b
+		#
+		#     return
+		#       function
+		#         param a
+		#         param b
+		#         ...

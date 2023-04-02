@@ -1,0 +1,89 @@
+module wizzi.ts.artifacts.module.gen.codegen.es6.property
+	kind jsfile
+	var u = require('../utils/stm')
+	var statement = require('../statement')
+
+	var md = module.exports = {}
+	var myname = 'wizzi.ts.artifacts.module.gen.codegen.es6.property'
+
+	async-md( gen )
+
+        _ u.writeComments(model, ctx)
+
+        _ u.genTSDecorators
+            @ model
+		    @ ctx
+		    @ statement
+		    a_cb()
+                _ u.genAccessorsAndExtra
+                    @ model
+                    @ ctx
+                if model.static
+                    _ ctx.write('static ');
+                _ ctx.write(model.wzName);
+                var ptype 
+                    _ u.extractTSSimpleType
+                        @ model
+                if ptype
+                    _ ctx.write(': ')
+                    _ statement.stm[ptype.wzElement]
+                        @ ptype
+                        @ ctx
+                        a_cb()
+                            _ property_step_1
+                                @ model
+                                @ ctx
+                                @ callback
+                else
+                    _ property_step_1
+                        @ model
+                        @ ctx
+                        @ callback
+
+	function property_step_1
+		param model
+		param ctx
+		param callback
+
+        # loog 'property_step_1', model
+
+		var ivalue
+			_ u.extractTS
+				@ model
+				@ 'typeInitValue'
+		
+		if ivalue
+			_ ctx.write(' = ')
+			_ statement.stm[ivalue.wzElement]
+				@ ivalue
+				@ ctx
+				a_cb()
+					_ ctx.w(';');
+					r_cb()
+		elif model.statements.length > 0 && model.statements[0].wzElement === 'jsPropertyOrValue'
+			_ ctx.indent();
+			set model.wzElement = 'jsObject'
+			_ statement.gen
+				@ model
+				@ ctx
+				a_cb()
+					set model.wzElement = 'p'
+					_ ctx.deindent();
+					_ ctx.w(';');
+					r_cb()
+		elif model.statements.length == 1
+			_ ctx.write(' = ')
+			_ statement.gen
+				@ model.statements[0]
+				@ ctx
+				a_cb()
+					_ ctx.w(';');
+					r_cb()
+		elif model.statements.length > 1
+			return
+				_ callback
+					_ ctx.error('es6.property more than 1children not managed. children: ' + model.statements.length, model)
+		else
+			_ ctx.w(';');
+			r_cb()
+

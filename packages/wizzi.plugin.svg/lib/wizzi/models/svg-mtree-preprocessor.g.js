@@ -4,6 +4,7 @@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\models\svg-mtree-preprocessor.g.js.ittf
 */
 'use strict';
+var verify = require('wizzi-utils').verify;
 module.exports = function(mTree, context) {
     var state = {
         mTree: mTree, 

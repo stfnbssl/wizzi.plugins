@@ -1,0 +1,66 @@
+﻿loader( template )
+
+    stm( template
+        var indented
+            _ u.writeComments_template(model, ctx, true, true)
+        _ ctx.write('`')
+        _ cnt.genItems
+            @ model.statements
+            @ ctx
+            { 
+                @ indent false
+			a_cb()
+				# w -> write 1/3/19
+				_ ctx.write('`')
+                if indented
+                    _ ctx.deindent
+				r_cb()
+    
+    stm( taggedTemplate
+        var indented
+            _ u.writeComments_template(model, ctx, true, true)
+        _ ctx.write('`')
+        _ cnt.genItems
+            @ model.statements
+            @ ctx
+            { 
+                @ indent false
+			a_cb()
+				# w -> write 1/3/19
+				_ ctx.write('`')
+                if indented
+                    _ ctx.deindent
+				r_cb()
+
+	stm( tagFunctionCall
+        var indented
+            _ u.writeComments_template(model, ctx, true, true)
+		_ ctx.write( model.wzName + '`')
+        _ cnt.genItems
+            @ model.statements
+            @ ctx
+            { 
+                @ indent false
+			a_cb()
+				_ ctx.write( '`')
+				if u.isTopStatement(model, ctx) && u.isDescendentOf(model, 'iif') == false
+					_ ctx.write(';')
+                if indented
+                    _ ctx.deindent
+				r_cb()
+
+	stm( macroExpr
+        var indented
+            _ u.writeComments_template(model, ctx, true, true)
+        _ ctx.write('${' + (model.wzName || ''))
+        _ cnt.genItems
+            @ model.statements
+            @ ctx
+            { 
+                @ indent false
+			a_cb()
+				_ ctx.write('}')
+                if indented
+                    _ ctx.deindent
+				r_cb()
+    

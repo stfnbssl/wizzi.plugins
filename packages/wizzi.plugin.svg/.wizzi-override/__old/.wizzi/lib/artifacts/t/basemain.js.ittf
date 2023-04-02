@@ -40,7 +40,7 @@
 				@ ctx
 				(
 					@ model
-					f_cb()
+					a_cb()
 						log myname, 'exit err', err
 						r_cb( ctx )
 
@@ -55,7 +55,7 @@
 					_ stm[model.wzElement]
 						@ model
 						@ ctx
-						f_cb( done )
+						a_cb( done )
 							$if hasStandardElement
 								if done
 									# ok, processed
@@ -107,7 +107,7 @@
 			@ goitems
 			_ getGenItem
 				@ ctx
-			f_cb()
+			a_cb()
 				if indent
 					_ ctx.deindent()
 				r_cb()

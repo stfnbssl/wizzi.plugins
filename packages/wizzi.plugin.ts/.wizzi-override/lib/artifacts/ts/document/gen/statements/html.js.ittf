@@ -1,0 +1,258 @@
+﻿loader(html)
+    
+	$append requires
+		var lineParser = require('../utils/lineParser')
+		var htmlReact = require('../es6/htmlReact')
+
+        # entry point for html tags in code
+        # preprocessed by [js|ts]-mtree-preprocessor
+	+
+	$include fb-html-supported-events
+	+
+	var html_supported_onEvents = []
+	foreach item in fb_html_supported_events
+		_ html_supported_onEvents.push
+			@ 'on' + verify.capitalize(item)
+	+
+    stm( htmlelement
+		
+        var 
+            decl p
+                _ lineParser.parseNameValueRaw
+                    @ model.wzName
+                    @ model
+            decl tag = p.name()
+            decl text = p.value()
+		
+		# loog 'enter statements/html/htmlelement', tag, text
+        _ md._htmlelement
+			@ cnt
+			@ model
+			@ tag
+			@ text
+			@ ctx
+			a_cb()
+				# @ callback
+				# loog 'exit statements/html/htmlelement', tag, text
+				r_cb()
+    
+	stm( js
+        _ ctx.w("__html.push('<script src=\"" + model.wzName + "\"></script>')")
+		r_cb()
+    
+	stm( css
+        _ ctx.w("__html.push('<link href=\"" + model.wzName + "\" rel=\"stylesheet\">')")
+		r_cb()
+    
+	stm( doctype
+        _ ctx.w("__html.push('<doctype " + model.wzName + ">')")
+		r_cb()
+    
+	stm( ready
+        if model.kind === 'jquery'
+            _ ctx.w('$(function() {')
+            _ cnt.genItems
+                @ model.statements
+                @ ctx
+                { 
+                    @ indent true
+				a_cb()
+					_ ctx.w('});')
+					r_cb()
+        else 
+            _ ctx.w('window.onload = function() {')
+            _ cnt.genItems
+                @ model.statements
+                @ ctx
+                { 
+                    @ indent true
+				a_cb()
+					_ ctx.w('};')
+					r_cb()
+    
+	set md._htmlelement
+        function 
+            param cnt
+            param model
+            param tag
+            param text
+            param ctx
+			param callback
+
+			if typeof (callback) === 'undefined'
+				set callback = text
+                set ctx = tag
+                set text = model.wzName
+                set tag = model.wzElement
+            
+			# loog 'enter _htmlelement ----------------', tag
+
+			var attrs = getAttrs(model, ctx)
+            var comments = []
+            
+			var
+				decl statements = null
+				decl value = null
+                decl childStatements = []
+                decl typeParameters = []
+
+            set model.__hasChildElements = text && text.length > 0
+
+			repeater(1, model.statements)
+                # loog 'html.md._htmlelement', item_1.wzElement
+                if item_1.isEvent
+                    var name = item_1.wzElement
+					if item_1.statements && item_1.statements.length > 0
+						set value = null
+						set statements = item_1.statements
+					else
+						if item_1.wzName.trim().length > 0
+							set value = item_1.wzName.trim()
+						else
+							set value = '{this.' + item_1.wzElement + '}'
+						set statements = null
+					_ attrs.push
+                        { 
+                            @ name name
+                            @ value value
+							@ statements statements
+				elif item_1.wzElement === '_style'
+					set name = 'style'
+					if item_1.statements && item_1.statements.length > 0
+						set value = null
+						set statements = item_1.statements
+					else
+						set value = item_1.wzName.trim()
+						set statements = null
+					_ attrs.push
+                        { 
+                            @ name name
+                            @ value value
+							@ statements statements
+				elif item_1.wzElement === 'jsPropertyOrValue'
+                    var 
+                        decl p
+                            _ lineParser.parseNameValueRaw
+                                @ item_1.wzName
+                                @ item_1
+                        decl name = p.name()
+                        decl value = p.value()
+					set statements = item_1.statements && item_1.statements.length > 0 ? item_1.statements : null
+                    _ attrs.push
+                        { 
+                            @ name name
+                            @ value value.trim()
+							@ statements statements
+                elif ['comment','commentmultiline'].indexOf(item_1.wzElement) > -1
+                    $*
+                    _ comments.push
+                        @ item_1
+                    *$
+                    # will be written by u.writeComments
+                    _ childStatements.push
+                        @ item_1
+                elif ['htmlelement','statement','jsObject','iif','call'].indexOf(item_1.wzElement) > -1
+                    set model.__hasChildElements = true
+                    _ childStatements.push
+                        @ item_1
+                elif u.isTSSimpleType(item_1)
+                    _ typeParameters.push
+                        @ item_1
+                else
+                    error 'Error.model', model
+                    throw new errors.WizziModelDOMNodeError('In ts._htmlelement wzElement not managed: ' + item_1.wzElement, item_1)
+
+				repeater_increment(1)
+
+				$append next
+                    set model.statements = childStatements
+                    set model.typeParameterInsts = typeParameters
+					_ _htmlelement_end
+						@ cnt
+						@ model
+						@ tag
+						@ text
+						@ ctx
+						@ attrs
+                        @ comments
+						a_cb()
+							# @ callback
+							# loog 'exit _htmlelement', tag
+							r_cb()
+            
+	function _htmlelement_end
+        param cnt
+        param model
+        param tag
+        param text
+        param ctx
+		param attrs
+        param comments
+		param callback
+
+        var save___inside_html = ctx.__inside_html
+        set ctx.__inside_html = true
+        _ htmlReact.htmlelement
+			@ cnt
+			@ model
+			@ tag
+			@ text
+			@ ctx
+			@ attrs
+            @ comments
+			a_cb()
+				set ctx.__inside_html = save___inside_html
+				r_cb()
+
+	function getAttrs
+        param model
+        param ctx
+        var 
+            decl name
+            decl value
+            decl retval
+                [ 
+        for var a in model
+            set value = null
+            if html_supported_onEvents.indexOf(a) > -1
+				if model[a] == true
+					set name = a
+					set value = '{this.' +  a + '}'
+            elif isAttrValue(a, model[a])
+                set name = verify.replaceAll(a, '_', '-')
+                set value = model[a]
+			elif a.substr(0, 3) === 'ng-'
+                set name = a
+                set value = model[a]
+            elif a.substr(0, 5) === 'data-'
+                set name = a
+                set value = model[a]
+            elif a.substr(0, 5) === 'aria-'
+                set name = a
+                set value = model[a]
+            if value
+				if name == 'class'
+					set name = 'className'
+                _ retval.push
+                    { 
+                        @ name name
+                        @ value value
+        return retval
+    
+	function isAttrValue
+        param a
+        param v
+        if noattrs.indexOf(a) > -1
+            return false
+        if v == null || verify.isArray(v) || verify.isObject(v) || verify.isFunction(v)
+            return false
+        return true
+    
+	var noattrs
+        [ 
+            @ 'wzTag'
+            @ 'wzName'
+            @ 'wzElement'
+            @ 'wzParent'
+            @ 'wzSourceLineInfo'
+            @ '___exportName'

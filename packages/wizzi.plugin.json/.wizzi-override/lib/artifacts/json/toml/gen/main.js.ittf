@@ -1,0 +1,75 @@
+﻿module
+    kind es6
+    $
+        var md = {
+            plugin: 'wizzi.plugin.json',
+            name: 'toml',
+            schema: 'json',
+            rootElement: '',
+            checkSchema: false,
+            isAsync: true,
+        };
+        
+    gen( &md )
+        $append imports
+        $append main
+            # loog 'model', model
+            delete model.___exportName
+            foreach key in Object.keys(model)
+                var item = model[key]
+                # loog 'key', key
+                if verify.isObject(item)
+                    _ ctx.w
+                        @ '[' + key + ']'
+                    _ writeObject
+                        @ item
+                        @ ctx
+                        @ true
+                elif verify.isArray(item)
+                    _ ctx.w
+                        @ key + ' = [' + writeArray(item, ctx) + ']'
+                else
+                    # loog 'key', key, 'value', verify.isString(item) ? '"' + item + '"' : item
+                    _ ctx.w
+                        @ key + ' = ' + (verify.isString(item) ? ('"' + item + '"') : item)
+            r_cb(ctx)
+
+    function writeArray
+        param arr
+        param ctx
+        var first = true
+        foreach item in arr
+            if !first
+                _ ctx.w(', ')
+            if verify.isObject(item)
+                _ ctx.w
+                    @ '{' + writeObject(item, ctx) + '}'
+            elif verify.isArray(item)
+                _ ctx.w
+                    @ '[' + writeArray(item, ctx) + ']'
+            else
+                _ ctx.w
+                    @ verify.isString(item) ? '"' + item + '"' : item
+            set first = false
+
+    function writeObject
+        param obj
+        param ctx
+        param top
+        if top
+            foreach key in Object.keys(obj)
+                var item = obj[key]
+                if verify.isObject(item)
+                    _ ctx.w
+                        @ key + ' = '
+                    _ writeObject
+                        @ item
+                        @ ctx
+                        @ false
+                elif verify.isArray(item)
+                    _ ctx.w
+                        @ key + ' = [' + writeArray(item, ctx) + ']'
+                else
+                    _ ctx.w
+                        @ key + ' = ' + (verify.isString(item) ? ('"' + item + '"') : item)
+

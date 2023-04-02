@@ -1,0 +1,57 @@
+﻿module
+	kind jsfile
+
+	var Texter = require('./texter').Texter
+	var StringWriter = require('./stringwriter').StringWriter
+
+	var md = module.exports = {}
+
+	class HtmlWriter
+		ctor
+			param noLF
+			set this.sw = new StringWriter(noLF)
+			set this.lfPending = false
+
+		m writeElement
+			param node
+
+			if node.tag === '_text'
+				_ this.sw.write(new Texter(node.text).toString())
+				return
+
+			_ this.sw.write('<' + node.tag)
+			foreach a in node.attribs
+				_ this.writeAttribute(a)
+			_ this.sw.write('>')
+			
+			if node.text
+				_ this.sw.write(new Texter(node.text).toString())
+			
+			if node.children.length > 0
+				_ this.sw.w()
+				_ this.sw.indent()
+				foreach e in node.children
+					_ this.writeElement(e)
+				_ this.sw.deindent()
+
+			if this.lfPending && !node.inline
+				_ this.sw.w()
+			
+			_ this.sw.write('</' + node.tag + '>')
+			if !node.inline
+				set this.lfPending = true
+
+		m writeAttribute
+			param attrib
+			if attrib.value === null || typeof attrib.value === 'undefined'
+				_ this.sw.write(' ' + attrib.name)
+			else
+				_ this.sw.write(' ' + attrib.name + '="' + attrib.value + '"')
+
+		m toLines
+			return this.sw.toLines()
+
+		m toString
+			return this.sw.toString()
+
+	set md.HtmlWriter = HtmlWriter

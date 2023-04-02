@@ -1,0 +1,79 @@
+﻿loader( graphql )
+
+    $append requires
+		var lineParser = require('../utils/lineParser')
+
+    stm( graphqlQuery
+		set ctx.isGraphql = true
+		if u.isArgumentOfCall(model)
+			_ ctx.w("`")
+			_ ctx.w("{")
+            _ cnt.genItems
+                @ model.statements
+                @ ctx
+                { 
+                    @ indent true
+				a_cb()
+					_ ctx.w("")
+					_ ctx.w("}")
+					_ ctx.write("`")
+					set ctx.isGraphql = false
+					r_cb()
+		else
+			_ ctx.w("graphql`")
+			_ ctx.indent()
+			_ ctx.w("query " + (model.wzName || "") + " {")
+            _ cnt.genItems
+                @ model.statements
+                @ ctx
+                { 
+                    @ indent true
+				a_cb()
+					_ ctx.w("}")
+					_ ctx.deindent()
+					_ ctx.w("`")
+					set ctx.isGraphql = false
+					r_cb()
+
+	stm( graphqlMutation
+		set ctx.isGraphql = true
+		_ ctx.w("graphql`")
+		_ ctx.indent()
+		_ ctx.w("mutation " + (model.wzName || "") + " {")
+            _ cnt.genItems
+                @ model.statements
+                @ ctx
+                { 
+                    @ indent true
+				a_cb()
+					_ ctx.w("}")
+					_ ctx.deindent()
+					_ ctx.w("`")
+					set ctx.isGraphql = false
+					r_cb()
+
+	stm( namedCallParam
+		set ctx.isNamedCallParam = true
+		if model.statements.length > 0
+			_ ctx.write( model.wzName + ': ')
+            _ cnt.genItems
+                @ model.statements
+                @ ctx
+                { 
+                    @ indent false
+				a_cb()
+					set ctx.isNamedCallParam = false
+					r_cb()
+		else
+            var p
+                _ lineParser.parseNameValueRaw
+                    @ model.wzName
+                    @ model
+            _ ctx.write(p.name() + ': ')
+            _ ctx.write
+                _ p.value()
+			set ctx.isNamedCallParam = false
+			r_cb()
+			
+
+    

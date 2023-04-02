@@ -1,0 +1,160 @@
+﻿loader( var )
+
+	stm( xlet
+        _ cnt.stm._letvarconst(model, ctx, 'let', callback)
+    
+	stm( xconst
+        _ cnt.stm._letvarconst(model, ctx, 'const', callback)
+    
+	stm( xvar
+        _ cnt.stm._letvarconst(model, ctx, 'var', callback)
+    
+	stm( _letvarconst, symbol
+        var xmodel = writeComments(model, ctx)
+		if hasStatements(xmodel) == false
+            if ctx.__inline
+                _ ctx.write(symbol + ' ' + xmodel.wzName + u.semicolon(xmodel.wzName))
+            else
+                _ ctx.w(symbol + ' ' + xmodel.wzName + u.semicolon(xmodel.wzName))
+			r_cb()
+
+        set ctx.__inside_expr = true
+        _ ctx.write(symbol + ' ')
+        if xmodel.wzName && xmodel.wzName.length > 0
+            _ ctx.write(xmodel.wzName + ' = ')
+        var 
+            decl indented
+            decl item = xmodel.statements[0]
+        _ cnt.genItem
+			@ item
+			@ ctx
+			a_cb()
+				repeater( 1, xmodel.statements, 1 )
+					if ctx.__needs_comma
+						_ ctx.write(',')
+						set ctx.__needs_comma = false
+					if ctx.__needs_crlf 
+						# log 1001
+						_ ctx.w()
+						set ctx.__needs_crlf = false
+					if index_1 == 1
+						_ ctx.indent()
+						set indented = true
+					_ cnt.genItem
+						@ item_1
+						@ ctx
+						a_cb()
+							repeater_increment( 1 )
+					$append next
+                        if ctx.__inline
+                            _ ctx.write(';')
+                        else
+						    _ ctx.w(';')
+						if indented
+							_ ctx.deindent()
+						set ctx.__needs_crlf = ctx.__needs_comma = ctx.__inside_expr = false
+						r_cb()
+    
+	stm( decl
+        var xmodel = writeComments(model, ctx)
+        _ ctx.write
+            @ xmodel.wzName
+        if countStatements(xmodel) > 0
+            _ ctx.write(' = ')
+			repeater( 1, xmodel.statements )
+				_ cnt.genItem
+					@ item_1
+					@ ctx
+					a_cb()
+						repeater_increment( 1 )
+				$append next
+					set ctx.__needs_comma = true
+					set ctx.__needs_crlf = true
+					r_cb()
+		else
+			set ctx.__needs_comma = true
+			set ctx.__needs_crlf = true
+			r_cb()
+    
+	stm( initValue
+        var xmodel = writeComments(model, ctx)
+		_ ctx.write(' = ')
+        _ ctx.write
+            @ xmodel.wzName
+		if countStatements(xmodel) > 0
+			_ cnt.genItem
+				@ xmodel.statements[0]
+				@ ctx
+				@ callback
+		else
+			r_cb()
+
+	stm( xnew
+        var xmodel = writeComments(model, ctx)
+		if hasStatements(xmodel) == false
+			if xmodel.wzName.trim().substr(-1, 1) === ')'
+				_ ctx.write('new ' + xmodel.wzName)
+			else
+				_ ctx.write('new ' + xmodel.wzName + '()')
+			if u.isTopStatement(xmodel, ctx)
+				_ ctx.w(';')
+			r_cb()
+
+        _ ctx.write('new ')
+		_ xnew_type
+			@ xmodel
+			@ ctx
+			a_cb( startArg )
+				var openParen = false
+				
+				repeater( 1, xmodel.statements, startArg )
+					
+					if u.isMemberAccess(item_1)
+						if openParen
+							_ ctx.write(')')
+						return
+							_ cnt.genItem
+								@ item_1
+								@ ctx
+								a_cb()
+									if u.isTopStatement(xmodel, ctx)
+										_ ctx.w(';')
+									r_cb()
+					if index_1 == startArg
+						_ ctx.write('(')
+						set openParen = true
+					if index_1 > startArg
+						_ ctx.write(', ')
+					_ cnt.genItem
+						@ item_1
+						@ ctx
+						a_cb()
+							repeater_increment( 1 )
+					
+					$append next
+						if openParen
+							_ ctx.write(')')
+						if u.isTopStatement(xmodel, ctx)
+							_ ctx.w(';')
+						r_cb()
+    
+	fn( xnew_type
+        var xmodel = writeComments(model, ctx)
+        if xmodel.statements[0].wzElement === 'type'
+            _ ctx.write('(')
+            _ cnt.genItem
+                @ xmodel.statements[0]
+                @ ctx
+				a_cb()
+					_ ctx.write(')')
+					r_cb( 1 )
+        else 
+            _ ctx.write
+                @ xmodel.wzName
+			r_cb( 0 )
+	
+	stm( type
+		_ cnt.genItems
+			@ model.statements
+			@ ctx
+			@ callback

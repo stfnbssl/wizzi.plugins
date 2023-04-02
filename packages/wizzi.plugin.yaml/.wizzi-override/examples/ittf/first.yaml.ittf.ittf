@@ -1,0 +1,28 @@
+yaml
+    : name Build and Deploy node Express app to azure
+    : on
+      : push
+        : branches
+          - master
+    
+    : env
+      : AZURE_WEBAPP_NAME "wizzi"    # set this to your application's name
+      : AZURE_WEBAPP_PACKAGE_PATH "Application"      # set this to the path to your web app project, defaults to the repository root
+      : NODE_VERSION '8.11.1'                # set this to the node version to use
+      : RESOURCEGROUPNAME "wizzi-rg"
+      : LOCATION "West Europe"
+      : HOSTINGPLANNAME "wizzi-plan"
+      : APPINSIGHTLOCATION "West Europe"
+      : SKU "S1 Standard"
+      : DATABASEACCOUNTID "wizzi-app"
+      : DATABASEACCOUNTLOCATION "eastasia"
+    
+    
+    : jobs
+      : build
+        
+        : name Build and Run tests
+        : runs-on ubuntu-latest
+        : steps
+        - uses: actions/checkout@v2
+    

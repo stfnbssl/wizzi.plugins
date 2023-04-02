@@ -1,0 +1,37 @@
+module wizzi.plugin.js.artifacts.module.gen.es6.method
+	kind jsfile
+	var statement = require('../statement')
+
+	var md = module.exports = {}
+	var myname = 'wizzi.js.artifacts.module.gen.es6.method'
+
+	async-md( gen )
+		var
+			decl method = model.wzName
+    
+		if model.static
+			_ ctx.write('static ')
+
+		if model.async
+			_ ctx.write('async ')
+
+		_ ctx.w(method + '(' + model.paramNames.join(', ') + ') {');
+		
+		_ ctx.indent();
+		
+		_ generateParamConstraints
+			@ model.wzName
+			@ model.constrainedParams
+			@ model.hasCallbackParam
+			@ model.hasOptionsCallbackParam
+			@ ctx
+			a_cb()
+				_ statement.genMany
+					@ model.statements
+					@ ctx
+					a_cb()
+						_ ctx.deindent();
+						_ ctx.w('}');
+						r_cb()
+	
+	$include generateParamConstraints

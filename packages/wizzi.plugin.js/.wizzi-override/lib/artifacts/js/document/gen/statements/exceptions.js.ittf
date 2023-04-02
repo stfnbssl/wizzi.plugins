@@ -1,0 +1,49 @@
+﻿loader( exceptions )
+
+    stm( xtry
+        _ ctx.w('try {')
+        _ cnt.genItems
+            @ model.statements
+            @ ctx
+            { 
+                @ indent true
+			a_cb()
+				_ ctx.w('} ')
+				r_cb()
+    
+	stm( xcatch
+        _ ctx.w('catch (' + model.wzName + ') {')
+        _ cnt.genItems
+            @ model.statements
+            @ ctx
+            { 
+                @ indent true
+			a_cb()
+				_ ctx.w('} ')
+				r_cb()
+
+	stm( xfinally
+        _ ctx.w('finally {')
+        _ cnt.genItems
+            @ model.statements
+            @ ctx
+            { 
+                @ indent true
+			a_cb()
+				_ ctx.w('} ')
+				r_cb()
+
+    stm( xthrow
+        if (model.statements && (model.statements.length > 0))
+            _ ctx.write('throw ' + (model.wzName || ''))
+            _ cnt.genItems
+                @ model.statements
+                @ ctx
+                { 
+                    @ indent true
+				a_cb()
+					_ ctx.w(';')
+					r_cb()
+        else 
+            _ ctx.w('throw ' + model.wzName + u.semicolon(model.wzName))
+			r_cb()

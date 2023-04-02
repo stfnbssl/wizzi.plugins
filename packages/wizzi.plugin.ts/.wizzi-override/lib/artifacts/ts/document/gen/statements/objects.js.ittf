@@ -1,0 +1,437 @@
+﻿loader( objects )
+
+    $append requires
+		var lineParser = require('../utils/lineParser')
+		var jstparser = require('./jsonStatementTree')
+
+    stm( jsonStatementTree
+        var statements = jstparser.getStatements(model)
+        _ cnt.genItems
+            @ statements
+            @ ctx
+            { 
+                @ indent false
+			@ callback
+    
+	stm( jsPropertyOrValue
+		if model.__templateChild
+			_ ctx.write('${' + (model.wzName || ''))
+			_ cnt.genItems
+				@ model.statements
+				@ ctx
+				{ 
+					@ indent false
+				a_cb()
+					_ ctx.write('}')
+					r_cb()
+		else
+			if u.hasStatementChildren(model)
+				_ jsPropertyOrValue_with_stm_children
+					@ model
+					@ ctx
+					@ callback
+			else
+				_ jsPropertyOrValue_no_stm_children
+					@ model
+					@ ctx
+					@ callback
+    
+	stm( jsPropertyOrValueComputed
+        _ ctx.write('[')
+        _ cnt.genItem
+            @ model.statements[0]
+            @ ctx
+            a_cb()
+                _ ctx.write(']: ')
+                _ cnt.genItems
+                    @ model.statements.slice(1)
+                    @ ctx
+                    {
+                    @ callback
+
+    stm( jsRest
+		_ ctx.write('...')
+        if model.statements.length > 0
+            if ['jsArray','jsObject'].indexOf(model.statements[0].wzElement) > -1 
+                _ cnt.genItems
+                    @ model.statements
+                    @ ctx
+                    { 
+                    @ callback
+            else
+                _ ctx.write('(')
+                _ cnt.genItems
+                    @ model.statements
+                    @ ctx
+                    { 
+                    a_cb()
+                        _ ctx.w(')')
+                        r_cb()
+        else
+            _ ctx.write(model.wzName)
+		    r_cb()
+
+	fn( jsPropertyOrValue_with_stm_children
+		# loog 'js.module.statements.object.model.wzName, model.statements.length', model.wzName, model.statements.length
+		var colon = ((ctx.isGraphql && !ctx.isNamedCallParam) || model.wzParent.wzElement == 'call') ? ' ' : ': '
+		if u.parentIsHtmlElement(model)
+			# Attributes have been already processed
+			r_cb()
+        elif model.isDslCall
+            _ u.writeComments(model, ctx)
+			_ ctx.write(model.wzName + '(')
+            _ cnt.genItems
+                @ model.statements
+                @ ctx
+                { 
+                    @ indent true
+				a_cb()
+					_ ctx.write(')')
+					r_cb()
+        elif u.isObjectProperty(model) || u.isParamValue(model) || u.isValue(model)
+			# log 4, model.wzName + colon
+            _ u.writeComments(model, ctx)
+            set colon = u.onlyChildIs(model, 'initValue') ? '=' : colon
+			if model.wzName.length > 0 
+				_ ctx.write(model.wzName + colon)
+				_ cnt.genItems
+					@ model.statements
+					@ ctx
+					{ 
+						@ indent false
+					@ callback
+			elif model.statements.length == 2
+				_ cnt.genItem
+					@ model.statements[0]
+					@ ctx
+					a_cb()
+						_ ctx.write(colon)
+						_ cnt.genItem
+							@ model.statements[1]
+							@ ctx
+							@ callback
+			else
+				_ cnt.genItems
+					@ model.statements
+					@ ctx
+					{ 
+						@ indent false
+					@ callback
+                $*
+				return
+					_ callback
+						_ ctx.error(myname + '. Invalid jsPropertyOrValue. Ha s no name: ' + model.wzName, model)
+                *$
+        elif ctx.__ecma === 'es6'
+            _ u.writeComments(model, ctx)
+			_ ctx.w('@' + model.wzName + '(')
+            _ cnt.genItems
+                @ model.statements
+                @ ctx
+                { 
+                    @ indent true
+				a_cb()
+					_ ctx.w(')')
+					r_cb()
+        else 
+			return
+				_ callback
+					_ ctx.error(myname + '. Invalid jsPropertyOrValue: ' + model.wzName, model)
+
+	fn( jsPropertyOrValue_no_stm_children
+		var colon = (ctx.isGraphql && !ctx.isNamedCallParam) ? ' ' : ': '
+        if u.isParamValue(model) || u.isValue(model)
+            _ ctx.write
+                @ model.wzName
+			r_cb()
+        elif u.isEnumValue(model)
+            _ u.writeComments(model, ctx)
+            var p
+                _ lineParser.parseNameValueRaw
+                    @ model.wzName
+                    @ model
+                    {
+                        @ objectProperty true
+            _ ctx.write
+                _ p.name
+            if p.value()
+                _ ctx.write
+                    @ ' = ' + p.value()
+			r_cb()
+        elif u.isObjectProperty(model)
+            _ u.writeComments(model, ctx)
+            var 
+                decl tk
+                decl p
+                    _ lineParser.parseNameValueRaw
+                        @ model.wzName
+                        @ model
+						{
+							@ objectProperty true
+			if p.hasValue()
+				_ ctx.write(p.name() + colon)
+				_ ctx.write
+					_ p.value()
+			else 
+				if ctx.__ecma === 'es5'
+					_ console.log
+						_ ctx.error(myname + '. Invalid object property: ' + model.wzName, model)
+					return
+						_ callback
+							_ ctx.error(myname + '. Invalid object property: ' + model.wzName, model)
+				else 
+					_ ctx.write
+						_ p.name()
+			_ cnt.genItems
+				@ model.statements
+				@ ctx
+				{ 
+					@ indent false
+				@ callback
+        elif u.parentIsHtmlElement(model)
+			r_cb()
+        else 
+            _ u.writeComments(model, ctx)
+            if ctx.__ecma === 'es6'
+                _ ctx.w('@' + model.wzName)
+			elif ctx.__artifact === 'xittf/document'
+				_ ctx.write
+					@ model.wzName
+            else 
+				return
+					_ callback
+						_ ctx.error(myname + '. Invalid jsPropertyOrValue: ' + model.wzName, model)
+			r_cb()
+
+	stm( jsObject
+        # loog 'model.jsPropertyOrValues', model.jsPropertyOrValues && model.jsPropertyOrValues.length
+        if model.jsPropertyOrValues && model.jsPropertyOrValues.length > 0
+            if !model.statements
+                set model.statements = []
+            foreach item in model.jsPropertyOrValues
+                _ model.statements.push
+                    @ item
+
+        _ u.writeComments(model, ctx)
+        _ u.checkInlineEnter(model, ctx)
+		var 
+			decl colon = (ctx.isGraphql && !ctx.isNamedCallParam) ? ' ' : ': '
+			decl save__is_react_class = ctx.__is_react_class
+
+		if model.isDslCall
+			_ jsObject_is_dslCall
+				@ model
+				@ ctx
+				a_cb()
+					_ jsObject_close
+						@ model
+						@ ctx
+						@ callback
+		else
+			if model.wzName && model.wzName.length > 0
+				# is an object property
+				_ ctx.w(model.wzName + colon + '{')
+			else
+				if model.statements.length == 0
+					_ ctx.write('{}')
+                    _ u.checkInlineExit(model, ctx)
+					r_cb()
+                if ctx.__inline
+                    _ ctx.write('{ ')
+                else
+				    _ ctx.w('{')
+			_ ctx.indent()
+			# loog '++++ start', ctx.__ecma
+			if ctx.__ecma === 'es6'
+				set ctx.__is_react_class = true
+			_ jsObject_close
+				@ model
+				@ ctx
+				a_cb()
+					if ctx.__ecma === 'es6'
+						# loog '++++ end', ctx.__ecma
+						set ctx.__is_react_class = save__is_react_class
+                    _ u.checkInlineExit(model, ctx)
+					r_cb()
+    
+	fn( jsObject_is_dslCall
+		var
+			decl first = true
+			decl comma = true
+		_ ctx.w(model.wzName + '(')
+		_ ctx.indent()
+		repeater(1, model.statements)
+			if item_1.wzElement == 'namedCallParam'
+				if comma && !first
+					_ ctx.w(', ')
+				set first = false
+				_ cnt.genItem
+					@ item_1
+					@ ctx
+					a_cb()
+						repeater_increment(1)
+			else
+				repeater_increment(1)
+			$append next
+				_ ctx.w('')
+				_ ctx.deindent()
+				_ ctx.w(')')
+				_ ctx.w('{')
+				_ ctx.indent()
+				r_cb()
+	
+	fn( jsObject_close
+		
+		var
+			decl first = true
+			decl comma = true
+		
+		# loog 'jsObject_close 1'
+		repeater(1, model.statements)
+			if model.isDslCall && item_1.wzElement == 'namedCallParam'
+				# skip
+				# loog 'jsObject_close 2'
+				repeater_increment(1)
+            else
+				# loog 'js.module.gen.jsObject_close.item_1', item_1.wzElement, u.isMemberAccessOrCall(item_1)
+				if u.isMemberAccessOrCall(item_1)
+					# loog 'jsObject_close 3'
+                    if !!ctx.__inline == false
+					    _ ctx.w('')
+					_ ctx.deindent()
+					_ ctx.write('}')
+					_ cnt.genItem
+						@ item_1
+						@ ctx
+						a_cb()
+							repeater(2, model.statements, index_1 + 1)
+								if u.isCallArgument(item_2)
+									_ ctx.write('.')
+								_ cnt.genItem
+									@ item_2
+									@ ctx
+									a_cb()
+										repeater_increment(2)
+								$append next
+                                    _ u.checkInlineExit(model, ctx)
+									r_cb()
+                elif item_1.wzElement == 'typeAs'
+					_ ctx.w('')
+					_ ctx.deindent()
+					_ ctx.write('}')
+                    _ cnt.genItem
+                        @ item_1
+                        @ ctx
+                        a_cb()
+                            _ u.checkInlineExit(model, ctx)
+                            r_cb()
+                else
+                    if comma && !first
+                        if ctx.__inline
+                            _ ctx.write(', ')
+                        else
+                            _ ctx.w(', ')
+                    set first = false
+                    _ cnt.genItem
+                        @ item_1
+                        @ ctx
+                        a_cb()
+                            # loog 'js.module.gen.jsObject_close.after.genItem'
+                            set comma = ['comment', 'handlebar'].indexOf(item_1.wzElement) < 0
+                            repeater_increment(1)
+			$append next
+				+ ;
+				# loog 'jsObject_close 4'
+                if !!ctx.__inline == false
+				    _ ctx.w('')
+				_ ctx.deindent()
+                if u.parentIsHtmlElement(model) && !!ctx.__inline == false
+                    _ ctx.w('}')
+                else
+                    _ ctx.write(' }')
+                _ u.checkInlineExit(model, ctx)
+				r_cb()
+
+	stm( jsArray
+        _ u.writeComments(model, ctx)
+        _ u.checkInlineEnter(model, ctx)
+		var colon = (ctx.isGraphql && !ctx.isNamedCallParam) ? ' ' : ': '
+		# loog '600 jsArray'
+		if model.wzName && model.wzName.length > 0
+			# is an array property
+			_ ctx.w(model.wzName + colon + '[')
+		else
+			if model.statements.length == 0
+				_ ctx.write('[' + (model.wzName || '') + ']')
+				# loog '601 jsArray'
+                _ u.checkInlineExit(model, ctx)
+				r_cb() 
+            if ctx.__inline
+                _ ctx.write('[')
+            else
+			    _ ctx.w('[')
+        _ ctx.indent()
+        var needs_comma = false
+		# loog '602 jsArray'
+        repeater(1, model.statements)
+			# loog '607 jsArray'
+            if u.isMemberAccessOrCall(item_1)
+                if !!ctx.__inline == false
+                    _ ctx.w('')
+                _ ctx.deindent()
+                _ ctx.write(']')
+				# loog '605 jsArray'
+				return
+					_ cnt.genItem
+						@ item_1
+						@ ctx
+						a_cb()
+							# loog '603 jsArray'
+							repeater(2, model.statements, index_1 + 1)
+								if u.isCallArgument(item_2)
+									_ ctx.write('.')
+								_ cnt.genItem
+									@ item_2
+									@ ctx
+									a_cb()
+										repeater_increment(2)
+								$append next
+                                    _ u.checkInlineExit(model, ctx)
+									r_cb()
+            # loog '606 jsArray'
+			if needs_comma
+                if ctx.__inline
+                    _ ctx.write(', ')
+                else
+                    _ ctx.w(', ')
+                set needs_comma = false
+            _ cnt.genItem
+				@ item_1
+				@ ctx
+				a_cb()
+					# loog '604 jsArray'
+                    if !u.isComment(item_1) 
+                        set needs_comma = true
+					repeater_increment(1)
+			$append next
+				+ ;
+                if !!ctx.__inline == false
+				    _ ctx.w('')
+				_ ctx.deindent()
+				_ ctx.write(']')
+                _ u.checkInlineExit(model, ctx)
+				r_cb()
+
+	stm( get
+        _ u.writeComments(model, ctx)
+        _ u.checkInlineEnter(model, ctx)
+		_ ctx.w('get ' + model.wzName + '() {')
+        _ ctx.indent()
+		_ cnt.genItems
+			@ model.statements
+			@ ctx
+			a_cb()
+				_ ctx.deindent()
+				_ ctx.write('}')
+                _ u.checkInlineExit(model, ctx)
+				r_cb()

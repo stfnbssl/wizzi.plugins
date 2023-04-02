@@ -1,0 +1,13 @@
+﻿$group
+	$params name, tag
+
+	f_p_temp( ${name}, false )
+	
+	if p_${name}
+		if p_${name}.tag === '@-t'
+			foreach item in p_${name}.children
+				_ ret.children.push
+					@ item
+		else
+			_ ret.children.push
+				@ p_${name}

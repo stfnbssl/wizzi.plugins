@@ -28,7 +28,7 @@
 			_ md.graphql
 				@ model
 				@ ctx
-				f_cb()
+				a_cb()
 					r_cb( ctx )
 
 	async/md( graphql )
@@ -37,12 +37,12 @@
 			@ model.typeDefs
 			_ md.typeDef
 				@ ctx
-			f_cb()
+			a_cb()
 				_ async.mapSeries
 					@ model.operations
 					_ md.operation
 						@ ctx
-					f_cb()
+					a_cb()
 						r_cb()
 
 	$include typeDefs
@@ -66,7 +66,7 @@
 				_ md.value
 					@ model.value
 					@ ctx
-					f_cb( result )
+					a_cb( result )
 						_ ret.push(' : ')
 						_ ret.push( result )
 						r_cb( ret.join('') )

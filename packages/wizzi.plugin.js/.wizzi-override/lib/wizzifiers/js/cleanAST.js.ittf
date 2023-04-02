@@ -1,0 +1,26 @@
+module
+	kind jsfile
+    +
+	var verify = require('wizzi-utils').verify
+    +
+	function cleanAST
+        param ast
+        if ast.type != 'CommentBlock' && ast.type != 'ObjectProperty'
+            delete ast.loc
+            delete ast.start
+            delete ast.end
+            foreach k in Object.keys(ast)
+                if verify.isArray(ast[k])
+                    var temp = []
+                    foreach node in ast[k]
+                        if !node
+                            warn 'cleanBabel.Null ast node', k, ast
+                            # throw new Error(ast)
+                        else
+                            _ cleanAST(node)
+                            _ temp.push(node)
+                    set ast[k] = temp
+                if verify.isObject(ast[k])
+                    _ cleanAST(ast[k])
+            return ast
+    set module.exports = cleanAST

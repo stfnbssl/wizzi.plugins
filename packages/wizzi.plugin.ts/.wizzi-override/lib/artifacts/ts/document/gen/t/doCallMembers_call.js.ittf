@@ -1,0 +1,32 @@
+﻿$group
+
+	function doCallMembers_call
+		param model
+		param ctx
+		param remainings
+		param callback
+		
+		repeater(1, remainings)
+			if u.isCallArgument(item_1)
+				_ ctx.write('.')
+			_ cnt.genItem
+				@ item_1
+				@ ctx
+				a_cb()
+					repeater_increment(1)
+			$append next
+				$* VIA
+					if u.isTopStatement(model, ctx) && 
+						\b u.isDescendentOf(model, 'iif') == false && 
+						\b model.wzElement !== 'decoratorCall' && 
+						\b !u.parentIs(model, 'arrowfunction')
+						# loog 'doCallChildStatements_call. w()', model.wzElement, model.wzName
+						_ ctx.w(';') 
+					else 
+						# loog 'doCallChildStatements_call. w()', model.wzElement, model.wzName
+						_ ctx.w()
+						# TODO when inside a statement // 13/6/2018
+						# _ ctx.write()
+				*$
+				r_cb()
+

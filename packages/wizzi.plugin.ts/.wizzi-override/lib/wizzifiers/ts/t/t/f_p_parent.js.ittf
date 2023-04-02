@@ -1,0 +1,27 @@
+﻿$group
+	$params name
+	
+	# process AST-node-property ${name} and replace `ret` name and children with created ones
+	# (replaces the parent ittf node)
+
+    $if wzConfigIsDocumentation
+        _ f_astNode.props.push
+            {
+                @ name "${name}"
+                @ descr "	# process AST-node-property ${name} and replace `ret` name and children with created ones (replaces the parent ittf node)"
+
+	if node.${name}
+		if !node.${name}.type
+			throw 'Node ${name} has no type: ' + JSON.stringify(node, null, 2)
+
+		var temp
+			{
+				[ children
+
+		_ format
+			@ temp
+			@ node.${name}
+			@ options
+
+		set ret.name = temp.children[0].name
+		set ret.children = temp.children[0].children

@@ -1,0 +1,42 @@
+﻿$group
+
+	e var : statement
+
+		# ittf:
+		#     var i
+		#     var i = 0
+		#     var f_alpha
+		#         function
+		#             param p
+		#     var obj_beta
+		#         {                |
+		#             @ name stefi
+		# js:
+		#     var i;
+		#     var i = 0;
+		#     var alpha = function(p) {
+		#         ...
+		#     };
+		#     var obj_beta = { name: 'stefi' };
+
+	e decl : statement
+
+		# ittf:
+		#     var i
+		#         decl x = 0
+		#         decl a
+		#             {
+		# js:
+		#     var i, x = 0, a = {};
+
+	e const : statement
+
+		# ittf
+		#   same as var element
+	
+	e let : statement
+
+		# ittf
+		#   same as var element
+
+	e_tag( initValue, =, statement

@@ -1,0 +1,125 @@
+﻿loader( test )
+
+    $append requires
+        var verify = require('wizzi-utils').verify
+    
+    stm( describe
+        _ ctx.w('describe("' + escapename(model.wzName) + '", function() {')
+        _ cnt.genItems
+            @ model.statements
+            @ ctx
+            { 
+                @ indent true
+			a_cb()
+				_ ctx.w('});')
+				r_cb()
+    
+	stm( it
+        _ ctx.w('it("' + escapename(model.wzName) + '", function() {')
+        _ cnt.genItems
+            @ model.statements
+            @ ctx
+            { 
+                @ indent true
+			a_cb()
+				_ ctx.w('});')
+				r_cb()
+    
+	stm( itAsync
+        _ ctx.w('it("' + escapename(model.wzName) + '", function(done) {')
+        _ cnt.genItems
+            @ model.statements
+            @ ctx
+            { 
+                @ indent true
+			a_cb()
+				_ ctx.w('});')
+				r_cb()
+    
+	stm( before
+        _ embedFunction
+            @ 'before'
+            @ ctx
+            @ model.statements
+            @ cnt
+			@ callback
+    
+	stm( beforeAsync
+        _ embedFunctionAsync
+            @ 'before'
+            @ ctx
+            @ model.statements
+            @ cnt
+			@ callback
+    
+	stm( beforeEach
+        _ embedFunction
+            @ 'beforeEach'
+            @ ctx
+            @ model.statements
+            @ cnt
+			@ callback
+    
+	stm( after
+        _ embedFunction
+            @ 'after'
+            @ ctx
+            @ model.statements
+            @ cnt
+			@ callback
+    
+	stm( afterAsync
+        _ embedFunctionAsync
+            @ 'after'
+            @ ctx
+            @ model.statements
+            @ cnt
+			@ callback
+    
+	stm( afterEach
+        _ embedFunction
+            @ 'afterEach'
+            @ ctx
+            @ model.statements
+            @ cnt
+			@ callback
+
+    function embedFunction
+        param name
+        param ctx
+        param items
+        param cnt
+		param callback
+        _ ctx.w((name + '(function() {'))
+        _ cnt.genItems
+			@ items
+			@ ctx
+			a_cb()
+				_ ctx.w('});')
+				r_cb()
+
+    function embedFunctionAsync
+        param name
+        param ctx
+        param items
+        param cnt
+		param callback
+        _ ctx.w(name + '(function(done) {')
+        _ cnt.genItems
+			@ items
+			@ ctx
+			a_cb()
+				_ ctx.w('});')
+				r_cb()
+
+	function escapename
+        param value
+        if verify.isNotEmpty(value)
+            return 
+                _ verify.replaceAll
+                    _ verify.replaceAll(value, "\\", "\\\\")
+                    @ '"'
+                    @ '\\"'
+        else
+            return value  
+

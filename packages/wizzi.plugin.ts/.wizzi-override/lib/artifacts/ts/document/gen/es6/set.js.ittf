@@ -1,0 +1,70 @@
+module wizzi.ts.artifacts.module.gen.codegen.es6.set
+	kind jsfile
+	var u = require('../utils/stm')
+	var statement = require('../statement')
+
+	var md = module.exports = {}
+	var myname = 'wizzi.ts.artifacts.module.gen.codegen.es6.set'
+
+	async-md( gen )
+
+		_ u.writeComments(model, ctx)
+
+        var temp = []
+        set model.params = []
+        foreach item in model.statements
+            if item.wzElement == 'param'
+                _ model.params.push(item)
+            else
+                _ temp.push(item)
+        set model.statements = temp
+
+		_ u.genAccessorsAndExtra
+			@ model
+			@ ctx
+
+        if model.static
+			_ ctx.write('static ');
+
+		_ ctx.write('set ' + model.wzName)
+		_ u.genTSTypeParameters
+			@ model
+			@ ctx
+			@ statement
+			a_cb()
+				_ ctx.write('(')
+				_ u.genTSParams
+					@ model
+					@ ctx
+					@ statement
+					a_cb()
+						_ ctx.write(')')
+                        if model.typeReturn
+                            _ ctx.write(': ')
+                            _ statement.stm.typeReturn
+                                @ model.typeReturn
+                                @ ctx
+                                a_cb()
+                                    _ get_step_1
+                                        @ model
+                                        @ ctx
+                                        @ callback
+                        else
+                            _ get_step_1
+                                @ model
+                                @ ctx
+                                @ callback
+
+	function get_step_1
+		param model
+		param ctx
+		param callback
+		
+		_ ctx.w(' {')
+		_ statement.genItems
+			@ model.statements
+			@ ctx
+			a_cb()
+				_ ctx.w('}');
+				r_cb()
+		

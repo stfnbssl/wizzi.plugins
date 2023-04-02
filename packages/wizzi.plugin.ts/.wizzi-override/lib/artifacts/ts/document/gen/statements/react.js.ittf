@@ -1,0 +1,393 @@
+﻿loader(react)
+
+	$append requires
+		var method
+    
+	stm( reactComponent
+        var model = writeComments(model, ctx)
+
+		var childrenInfo = extractReactChildren(model)
+
+		_ reactComponent_style
+			@ model
+			@ ctx
+			@ childrenInfo
+			a_cb()
+				_ ctx.write('class ' + model.wzName + ' extends ')
+				if model.super && model.super.length > 0
+					_ ctx.w(model.super + ' {')
+				else
+					_ ctx.w('React.Component {')
+				_ ctx.indent()
+				repeater(1, model.statements)
+					_ reactComponent_member
+						@ item_1
+						@ ctx
+						a_cb()
+							repeater_increment(1)
+					$append next
+						_ reactComponent_close
+							@ model
+							@ ctx
+							@ childrenInfo
+							@ callback
+
+	fn( reactComponent_style, childrenInfo
+		
+		if childrenInfo.style != null
+			_ ctx.w("const styles = theme => (")
+			_ ctx.indent()
+			set childrenInfo.style.wzElement = 'jsObject'
+			_ cnt.genItem
+				@ childrenInfo.style
+				@ ctx
+				a_cb()
+					set childrenInfo.style.wzElement = 'style'
+					_ ctx.deindent()
+					_ ctx.w(");")
+					_ ctx.w()
+					r_cb()
+		else
+			r_cb()
+
+	fn( reactComponent_member
+
+		# loog 'reactComponent, model.wzElement', model.wzElement
+		if model.wzElement == 'state'
+			_ ctx.write('state = ')
+			set model.wzElement = 'jsObject'
+			_ cnt.genItem
+				@ model
+				@ ctx
+				a_cb()
+					set model.wzElement = 'state'
+					_ ctx.w(';')
+					r_cb()
+				
+		elif model.wzElement == 'ctor'
+			_ ctx.w('constructor(props) {')
+			_ ctx.indent()
+			_ ctx.w('super(props);')
+			_ writeMethodProps
+				@ model
+				@ ctx
+			_ ctx.deindent()
+			_ writeIndented
+				@ model.statements
+				@ ctx
+				@ cnt
+				a_cb()
+					_ ctx.w('}')
+					r_cb()
+			
+		elif model.wzElement == 'willMount'
+			_ writeMethod('componentWillMount', model, ctx, cnt, callback)
+			
+		elif model.wzElement == 'didMount'
+			_ writeMethod('componentDidMount', model, ctx, cnt, callback)
+			
+		elif model.wzElement == 'willUnmount'
+			_ writeMethod('componentWillUnmount', model, ctx, cnt, callback)
+			
+		elif model.wzElement == 'shouldUpdate'
+			_ writeMethod('shouldComponentUpdate', model, ctx, cnt, callback)
+			
+		elif model.wzElement == 'willUpdate'
+			_ writeMethod('componentWillUpdate', model, ctx, cnt, callback)
+			
+		elif model.wzElement == 'didUpdate'
+			_ ctx.w('componentDidUpdate(prevProps, prevState) {')
+			_ ctx.indent() 
+			_ writeMethodProps
+				@ model
+				@ ctx
+			_ ctx.deindent()
+			_ writeIndented
+				@ model.statements
+				@ ctx
+				@ cnt
+				a_cb()
+					_ ctx.w('}')
+					r_cb()
+			
+		elif model.wzElement == 'willReceiveProps'
+			_ ctx.w('componentWillReceiveProps(nextProps) {')
+			_ ctx.indent() 
+			_ writeMethodProps
+				@ model
+				@ ctx
+			_ ctx.deindent()
+			_ writeIndented
+				@ model.statements
+				@ ctx
+				@ cnt
+				a_cb()
+					_ ctx.w('}')
+					r_cb()
+			
+		elif model.wzElement == 'render'
+			_ writeMethod('render', model, ctx, cnt, callback)
+			
+		elif model.wzElement == 'method'
+			if !method
+				set method = require('../method')
+			set ctx.__is_react_class = true
+			new method.gen
+				@ model
+				@ ctx
+				a_cb()
+					set ctx.__is_react_class = false
+					r_cb()
+			
+		elif model.wzElement == 'property'
+			_ ctx.w(model.wzName + ';')
+			r_cb()
+
+		elif model.wzElement == 'arrowfunction'
+			set ctx.__is_react_class = true
+			_ ctx.w(model.wzName + ' = (' + model.paramNames.join(', ') + ') => {')
+			_ ctx.indent()
+			_ generateParams
+				@ model.wzName
+				@ model.constrainedParams
+				@ model.hasCallbackParam
+				@ model.hasOptionsCallbackParam
+				@ ctx
+				a_cb()
+					_ writeMethodProps
+						@ model
+						@ ctx
+					_ ctx.deindent()
+					_ writeIndented
+						@ model.statements
+						@ ctx
+						@ cnt
+						a_cb()
+							_ ctx.w('}')
+							# TODO ???
+							set ctx.__is_react_class = false
+							r_cb()
+			
+		elif model.wzElement == 'prop' || model.wzElement == 'style'
+			# already done
+			r_cb()
+			
+		else
+			_ cnt.genItem
+				@ model
+				@ ctx
+				@ callback
+
+	fn( reactComponent_close, childrenInfo
+
+		# loog 'reactComponent_close'
+		_ ctx.deindent()
+		_ ctx.w('}')
+
+		if childrenInfo.items.length > 0
+			_ ctx.w()
+			_ ctx.w(model.wzName + '.propTypes = {')
+			_ ctx.indent()
+			var open = false
+			foreach p in childrenInfo.items
+				if open
+					_ ctx.w(',')
+				_ genReactPropType
+					@ p
+					@ ctx
+					@ cnt
+				set open = true
+			if open
+				_ ctx.w('')
+			_ ctx.deindent()
+			_ ctx.w('}')
+
+		if childrenInfo.itemsWithDefault.length > 0
+			_ ctx.w()
+			_ ctx.w(model.wzName + '.defaultProps  = {')
+			_ ctx.indent()
+			var open = false
+			foreach p in childrenInfo.itemsWithDefault
+				if open
+					_ ctx.w(',')
+				_ ctx.write(p.wzName + ': ' + p.defaultValue)
+				set open = true
+			if open
+				_ ctx.w('')
+			_ ctx.deindent()
+			_ ctx.w('}')
+
+		r_cb()
+
+	stm( reactFunction
+
+		var childrenInfo = extractReactChildren(model)
+
+		_ ctx.w('const ' + model.wzName + ' = (props) => {')
+		_ ctx.indent()
+
+		if childrenInfo.items.length > 0
+			var props = childrenInfo.items
+			_ ctx.w('const {')
+			_ ctx.indent()
+			var comma
+			foreach item in props
+				set comma = i < props.length - 1 ? ',' : ''
+				_ ctx.w(item.wzName + comma)
+			_ ctx.deindent()
+			_ ctx.w('} = props;')
+		
+		set ctx.__is_react_class = true
+		repeater( 1, model.statements )
+			if item_1.wzElement == 'prop'
+				# already done
+				repeater_increment( 1 )
+			else
+				_ cnt.genItem
+					@ item_1
+					@ ctx
+					a_cb()
+						repeater_increment( 1 )
+
+			$append next
+				set ctx.__is_react_class = false
+				_ ctx.deindent()
+				_ ctx.w('}')
+				_ writePropTypes
+					@ model
+					@ childrenInfo
+					@ ctx
+				r_cb()
+
+	function writeMethod
+		param name
+		param model
+		param ctx
+		param cnt
+		param callback
+		
+		_ ctx.w(name + '() {')
+		_ ctx.indent()
+		_ writeMethodProps
+			@ model
+			@ ctx
+		_ ctx.deindent()
+		_ writeIndented
+			@ model.statements
+			@ ctx
+			@ cnt
+			a_cb()
+				_ ctx.w('}')
+				r_cb()
+
+	function writeIndented
+		param statements
+		param ctx
+		param cnt
+		param callback
+        
+		_ ctx.indent()
+		repeater( 1, statements )
+			# loog 'writeIndented', item_1.wzElement
+			if item_1.wzElement == 'prop'
+				# done in writeMethodProps
+				repeater_increment(1)
+			else
+				_ cnt.genItem
+					@ item_1
+					@ ctx
+					a_cb()
+						repeater_increment(1)
+			$append next
+				_ ctx.deindent()
+				r_cb()
+
+	function extractReactChildren
+		param react
+		var ret
+			{
+				@ items []
+				@ itemsWithDefault []
+				@ style null
+		foreach item in react.statements
+			if item.wzElement == 'prop'
+				_ ret.items.push(item)
+				# loog 'item.defaultValue', item.defaultValue
+				if item.defaultValue
+					_ ret.itemsWithDefault.push(item)
+			if item.wzElement == 'style'
+				if ret.style == null
+					set ret.style = item
+				else
+					foreach s in item.statements
+						set s.wzParent = ret.style
+						_ ret.style.statements.push(s)
+		return ret
+
+	function writeMethodProps
+		param m
+		param ctx
+		var props = extractMethodProps(m)
+		if props.length > 0
+			_ ctx.w('const {')
+			_ ctx.indent()
+			var comma
+			foreach item in props
+				set comma = i < props.length - 1 ? ',' : ''
+				_ ctx.w(item.wzName + comma)
+			_ ctx.deindent()
+			_ ctx.w('} = this.props;')
+
+	function extractMethodProps
+		param m
+		var ret = []
+		foreach item in m.statements
+			if item.wzElement == 'prop'
+				_ ret.push(item)
+		return ret
+
+	function writePropTypes
+		param model
+		param childrenInfo
+		param ctx
+
+		if childrenInfo.items.length > 0
+			_ ctx.w()
+			_ ctx.w(model.wzName + '.propTypes = {')
+			_ ctx.indent()
+			var open = false
+			foreach p in childrenInfo.items
+				if open
+					_ ctx.w(',')
+				_ genReactPropType
+					@ p
+					@ ctx
+					@ cnt
+				set open = true
+			if open
+				_ ctx.w('')
+			_ ctx.deindent()
+			_ ctx.w('}')
+
+		if childrenInfo.itemsWithDefault.length > 0
+			_ ctx.w()
+			_ ctx.w(model.wzName + '.defaultProps  = {')
+			_ ctx.indent()
+			var open = false
+			foreach p in childrenInfo.itemsWithDefault
+				if open
+					_ ctx.w(',')
+				_ ctx.write(p.wzName + ': ' + p.defaultValue)
+				set open = true
+			if open
+				_ ctx.w('')
+			_ ctx.deindent()
+			_ ctx.w('}')
+
+
+	$include reactPropTypes
+	$include generateParams
+
+
+		
+        

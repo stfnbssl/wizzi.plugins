@@ -1,0 +1,118 @@
+module wizzi.plugin.js.artifacts.module.gen.es6.class
+	kind jsfile
+
+	var statement = require('../statement')
+	var method = require('./method')
+	var handler = require('./handler')
+	var property = require('./property')
+	var html = require('./html')
+
+	var md = module.exports = {}
+	var myname = 'wizzi.js.artifacts.module.gen.es6.class';
+
+	$$ async-md( gen )
+    async-md( gen )
+		var
+			decl zclass = model.wzName
+			decl zsuper = model.super
+
+		if zsuper
+			_ ctx.w('class ' + zclass + ' extends ' + zsuper + ' {')
+		else
+			_ ctx.w('class ' + zclass + ' {')
+				
+		_ ctx.indent();
+
+		# log 101
+
+		_ classCTor
+			@ model
+			@ ctx
+			a_cb()
+				# log 101
+				_ classMembers
+					@ model
+					@ ctx
+					a_cb()
+						# log 102
+						_ ctx.deindent();
+						_ ctx.w('}')
+						r_cb()
+
+	fn( classCTor )
+
+		var
+			decl zsuper = model.super
+			decl ctor = model.findCtor()
+			decl ctorArgs = ctor == null ? '' : ctor.paramNames.join(', ')
+			decl superArgs = ctor == null ? '' : (ctor.getBaseArgs() || '')
+
+		if zsuper || ctor
+			_ ctx.w('constructor(' + ctorArgs + ') {')
+			_ ctx.indent();
+
+		if zsuper
+			_ ctx.w('super(' + superArgs + ');')
+
+		if ctor
+			# log 102
+			_ generateParamConstraints
+				@ 'ctor'
+				@ ctor.constrainedParams
+				@ ctor.hasCallbackParam
+				@ ctor.hasOptionsCallbackParam
+				@ ctx
+				a_cb()
+					_ statement.genMany
+						@ ctor.statements
+						@ ctx
+						a_cb()
+							# log 103
+							_ ctx.deindent();
+							_ ctx.w('}')
+							# VIA _ ctx.w('')
+							r_cb()
+		elif zsuper
+			# log 104
+			_ ctx.deindent();
+			_ ctx.w('}')
+			# VIA _ ctx.w('')
+			r_cb()
+
+		else
+			# log 105
+			r_cb()
+
+	fn( classMembers )
+
+		var generator
+		repeater( 1, model.statements )
+			if item_1.wzElement === 'ctor'
+				# done already
+				set generator = null
+			elif item_1.wzElement === 'method'
+				set generator = method
+			elif item_1.wzElement === 'arrowfunction'
+				set generator = handler
+			elif item_1.wzElement === 'html'
+				set generator = html
+			elif item_1.wzElement === 'property' || item_1.wzElement === 'p'
+				set generator = property
+			else
+				set generator = null
+			if generator
+				_ generator.gen
+					@ item_1
+					@ ctx
+					a_cb()
+						repeater_increment( 1 )
+			else
+				_ statement.genItem
+					@ item_1
+					@ ctx
+					a_cb()
+						repeater_increment( 1 )
+			$append next
+				r_cb()
+
+	$include generateParamConstraints

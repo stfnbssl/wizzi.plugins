@@ -1,0 +1,408 @@
+module
+    $
+        var schemaName = 'html';
+    kind es6
+    basewizzifier()
+        $append imports
+            $$ COPY FROM old
+            +
+            var html_parser = require('./parser')
+		    var cloner = require('./cloner')
+		    var csswizzifier = null
+		    var jswizzifier = null
+
+            $$ COPY FROM old
+            +
+            function parseInternal
+                param tobeWizzified
+                param options
+                param callback
+
+                var html = tobeWizzified
+                
+                if typeof callback === 'undefined'
+                    set callback = options
+                    set options = {}
+                set options = (options || {})
+
+                set options.wizziIncludes = options.wizziIncludes || []
+                
+                var wizziTree
+                    { 
+                        @ children
+                            [ 
+                var parser
+                    new html_parser.Parser
+                        { 
+                            @ onopentag
+                                function 
+                                    param tagname
+                                    param attribs
+                                    var ittfTag = tagname
+                                    if options.isForVue
+                                        if tagname.substr(0, 2) !== 'v-'
+                                            if ['router-link', 'router-view'].indexOf(tagname) < 0
+                                                if tagname[0] === tagname[0].toUpperCase() || tagname.indexOf('-') > -1
+                                                    set ittfTag = '< ' + tagname
+                                    else
+                                        if tagname[0] === tagname[0].toUpperCase() || tagname.indexOf('-') > -1
+                                            set ittfTag = '< ' + tagname
+                                    # log "OpenTag " + tagname, ittfTag, attribs
+                                    var n
+                                        { 
+                                            @ tag ittfTag
+                                            @ name ''
+                                            @ attribs attribs
+                                            @ children
+                                                [ 
+                                    set n.parent = wizziTree
+                                    _ wizziTree.children.push(n)
+                                    set wizziTree = n
+                            @ ontext
+                                function 
+                                    param text
+                                    # log "================= Text", text, wizziTree.tag
+                                    var lines
+                                        _ file.splitLines
+                                            $$ BAX 27/2/21 no trim !!!important _ text.trim()
+                                            @ text
+                                    if wizziTree.swig
+                                        # loog '++++++++++ wizziTree.swig'
+                                        _ lines.forEach
+                                            function 
+                                                param l
+                                                var n
+                                                    { 
+                                                        @ tag '+'
+                                                        @ name l
+                                                        @ attribs
+                                                            { 
+                                                        @ children
+                                                            [ 
+                                                _ wizziTree.children.push(n)
+                                    elif 'script' === wizziTree.tag
+                                        var literal = lines.join('\n')
+                                        # loog 'literal', literal, wizziTree.attribs['lang']
+                                        _ options.wizziIncludes.push
+                                            {
+                                                @ kind wizziTree.attribs['lang'] || wizziTree.attribs['language'] || 'js'
+                                                @ node wizziTree
+                                                @ literal literal
+                                    elif 'style' === wizziTree.tag
+                                        var literal = lines.join('\n')
+                                        # loog 'literal', literal
+                                        _ options.wizziIncludes.push
+                                            {
+                                                @ kind 'css'
+                                                @ node wizziTree
+                                                @ literal literal
+                                    elif lines.length == 1
+                                        if wizziTree.children.length > 0
+                                            if lines[0].trim().length > 0
+                                                var n
+                                                    { 
+                                                        @ tag '+'
+                                                        @ name lines[0]
+                                                        @ attribs
+                                                            { 
+                                                        @ children
+                                                            [ 
+                                                _ wizziTree.children.push(n)
+                                        else 
+                                            set wizziTree.name += lines[0]
+                                    else 
+                                        _ lines.forEach
+                                            function 
+                                                param l
+                                                if l.trim().length > 0
+                                                    var n
+                                                        { 
+                                                            @ tag '++'
+                                                            $$ BAX 27/2/21 no trim !!!important @ name l.trim()
+                                                            @ name l
+                                                            @ attribs
+                                                                { 
+                                                            @ children
+                                                                [ 
+                                                    _ wizziTree.children.push(n)
+                            @ onclosetag
+                                function 
+                                    param tagname
+                                    # loog 'onclosetag', tagname
+                                    if wizziTree.parent != null
+                                        set wizziTree = wizziTree.parent
+                                    else 
+                                        _ console.log("WARNING overclose ", tagname)
+                            @ onswig
+                                function 
+                                    param text
+                                    var 
+                                        decl p
+                                            _ lineparser.parseNameValueRaw
+                                                @ text
+                                                { 
+                                        decl tag
+                                            _ p.name()
+                                                ._ trim()
+                                                ._ toLowerCase()
+                                        decl text = p.value()
+                                    # log "OpenSwig " + tag, text
+                                    if ['for', 'if', 'block', 'autoescape', 'filter', 'macro', 'spaceless', 'raw'].indexOf(tag) >= 0
+                                        var n
+                                            { 
+                                                @ tag tag
+                                                @ name text
+                                                @ attribs
+                                                    { 
+                                                @ children
+                                                    [ 
+                                                @ lines
+                                                    [ 
+                                                @ swig true
+                                        set n.parent = wizziTree
+                                        _ wizziTree.children.push(n)
+                                        set wizziTree = n
+                                    elif ['endfor', 'endif', 'endblock', 'endautoescape', 'endfilter', 'endmacro', 'endspaceless', 'endraw'].indexOf(tag) >= 0
+                                        if wizziTree.parent != null
+                                            set wizziTree = wizziTree.parent
+                                        else 
+                                            _ console.log("WARNING overclose ", tagname)
+                                    elif ['extends', 'include', 'import', 'parent', 'set'].indexOf(tag) >= 0
+                                        var n
+                                            { 
+                                                @ tag tag
+                                                @ name text
+                                                @ attribs
+                                                    { 
+                                                @ children
+                                                    [ 
+                                                @ lines
+                                                    [ 
+                                                @ swig true
+                                        _ wizziTree.children.push(n)
+                                    elif ['else', 'elif', 'elseif'].indexOf(tag) >= 0
+                                        if wizziTree.parent != null
+                                            set wizziTree = wizziTree.parent
+                                        else 
+                                            _ console.log("WARNING overclose ", tagname)
+                                        var n
+                                            { 
+                                                @ tag tag
+                                                @ name text
+                                                @ attribs
+                                                    { 
+                                                @ children
+                                                    [ 
+                                                @ lines
+                                                    [ 
+                                                @ swig true
+                                        set n.parent = wizziTree
+                                        _ wizziTree.children.push(n)
+                                        set wizziTree = n
+                                    else 
+                                        throw 
+                                            new Error('Html.Wizzifier. Wizzi parse onswig unknown tag: ' + tag)
+                var addedWrapper = false
+                try
+                    if html && html.length > 0
+                        log "parsing html of length: ", html.length
+                        if html.substr(0,'<html>'.length) == '<html>' || html.substr(0,'<!doctype>'.length) == '<!doctype>'
+                            # loog 'html document has root tag html'
+                        else
+                            # log html.substr(0,'<html>'.length), html.substr(0,'<!doctype>'.length)
+                            var i1 = html.indexOf('<')
+                            var i2 = html.indexOf('>')
+                            if i1 > -1 && i2 > -1
+                                var temp = html.substr(i1+1, i2-i1-1)
+                                # loog 'wizzi-tools.htmlparser.addedWrapper.temp', temp
+                                if temp.toLowerCase().indexOf('!doctype') > -1
+                                    set html = '<html>' + html.substr(i2+1) + '</html>'
+                                else
+                                    set html = '<html>' + html + '</html>'
+                                set addedWrapper = true
+                                # loog 'wizzi-tools.htmlparser.addedWrapper.html', html
+                        log "calling parser.write"
+                        _ parser.write(html)
+                        log "parser.write done!"
+                        _ parser.end()
+                        log "parser.end done!"
+                    else
+                        log "no html to parse"
+                catch ex
+                    return
+                        _ callback
+                            @ ex
+                while wizziTree.parent != null
+                    set wizziTree = wizziTree.parent
+                if addedWrapper
+                    set wizziTree.children = wizziTree.children[0].children
+                # loog 'wizziTree', wizziTree
+                # loog 'wizzi-tools.htmlparser.wizzify.options.embedTag,wizziTree.children.length', options.embedTag, wizziTree.children.length
+                var synthax
+                if wizziTree.children.length > 1 && typeof (options.embedTag) === 'string'
+                    # loog 'wizzi-tools.htmlparser.wizzify.options.embedTag, wizziTree.children[0]', options.embedTag, wizziTree.children[0]
+                    if options.embedTag === wizziTree.children[0].tag
+                        set synthax = wizziTree.children[0]
+                    else
+                        set synthax =
+                            { 
+                                @ tag options.embedTag
+                                @ name ''
+                                @ attribs
+                                    { 
+                                @ children
+                                    [ 
+                        _ wizziTree.children.forEach
+                            function 
+                                param item
+                                _ synthax.children.push(item)
+                else
+                    if wizziTree.children.length == 1
+                        set synthax = wizziTree.children[0]
+                    else
+                        set synthax =
+                            { 
+                                @ tag 'html'
+                                @ name '__dummy_root__'
+                                @ attribs
+                                    { 
+                                @ children
+                                    [ 
+                        _ wizziTree.children.forEach
+                            function 
+                                param item
+                                _ synthax.children.push(item)
+                if !synthax
+                    return
+                        _ callback
+                            new Error('Html.Wizzifier.Wizzi parse failed. wizziTree: ' + util.inspect(wizziTree, {depth: 2}))
+                r_cb( synthax )
+
+        $$ END COPY
+        +
+        function wizzify
+            param tobeWizzified
+            param options
+            param callback
+            set options = options || {};
+            set options.input = tobeWizzified
+            set options.stack = []
+            set options.formatTextNodes = []
+            set options.verbose = true
+            _ parseInternal
+                @ tobeWizzified
+                @ options
+                a_cb( syntax )
+                    r_cb( syntax )
+        +
+        $include helper_functions
+        +
+        function isKnownType
+            param type
+            return ['Int', 'Float', 'Boolean', 'String'].indexOf(type) > -1
+        +
+        function getTypeName
+            param type
+            return isKnownType(type) ? type.toLowerCase() : type
+
+        $$ overrides 
+        +        
+        set md.getWizzifierIncludes
+            function
+                param options
+                param callback
+            
+                set options.wizziIncludes = options.wizziIncludes || []
+
+                # loog 'options.wizziIncludes', options.wizziIncludes
+
+                _ async.map
+                    @ options.wizziIncludes
+                    function
+                        param item
+                        param callback
+                        if item.kind === 'css'
+                            if !csswizzifier
+                                set csswizzifier = require('../../cssparser/css/wizzifier')
+                            _ csswizzifier.getWizziTree
+                                @ item.literal
+                                {
+                                a_cb_no_throw( ittf )
+                                    # loog 'getWizzifierIncludes.item.ittf', ittf
+                                    if err
+                                        _ item.node.children.push
+                                            {
+                                                @ tag 'error'
+                                                @ name err.message
+                                                [ children
+                                    else
+                                        if options.isForVue
+                                            foreach ittfchild in ittf.children
+                                                _ item.node.children.push
+                                                    @ ittfchild
+                                        else
+                                            _ item.node.children.push
+                                                @ ittf
+                                    r_cb()
+                        elif item.kind === 'ts'
+                            if !jswizzifier
+                                # loog 'jswizzifier import 1'
+                                set jswizzifier = require('../../jsparser/babel/wizzifier')
+                                # loog 'jswizzifier import 2'
+                            # loog 'jswizzifier', jswizzifier
+                            _ jswizzifier.getWizziTree
+                                @ item.literal
+                                {
+                                    @ babel
+                                        {
+                                            @ sourceType 'module'
+                                            @ ts_or_flow 'typescript'
+                                a_cb_no_throw( ittf )
+                                    # loog 'getWizzifierIncludes.item.ittf', ittf
+                                    if err
+                                        _ item.node.children.push
+                                            {
+                                                @ tag 'error'
+                                                @ name err.message
+                                                [ children
+                                    else
+                                        if options.isForVue
+                                            foreach ittfchild in ittf.children
+                                                # skip kind
+                                                if i > 0
+                                                    _ item.node.children.push
+                                                        @ ittfchild
+                                        else
+                                            _ item.node.children.push
+                                                @ ittf
+                                    r_cb()
+                        else
+                            if !jswizzifier
+                                # loog 'jswizzifier import 1'
+                                set jswizzifier = require('../../jsparser/babel/wizzifier')
+                                # loog 'jswizzifier import 2'
+                            # loog 'jswizzifier', jswizzifier
+                            _ jswizzifier.getWizziTree
+                                @ item.literal
+                                {
+                                a_cb_no_throw( ittf )
+                                    # loog 'getWizzifierIncludes.item.ittf', ittf
+                                    if err
+                                        _ item.node.children.push
+                                            {
+                                                @ tag 'error'
+                                                @ name err.message
+                                                [ children
+                                    else
+                                        if options.isForVue
+                                            foreach ittfchild in ittf.children
+                                                # skip kind
+                                                if i > 0
+                                                    _ item.node.children.push
+                                                        @ ittfchild
+                                        else
+                                            _ item.node.children.push
+                                                @ ittf
+                                    r_cb()
+                    @ callback
+

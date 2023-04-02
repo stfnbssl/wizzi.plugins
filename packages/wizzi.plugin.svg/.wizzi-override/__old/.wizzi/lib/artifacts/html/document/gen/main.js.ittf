@@ -7,8 +7,8 @@
 	var async = require('async')
 	var include_writers = require('./include_writers')
     var verify = require('wizzi-utils').verify
-	var utilNode = require('../../../util/utilNode')
-	var lineParser = require('../../../util/lineParser')
+	var utilNode = require('../../../utils/utilNode')
+	var lineParser = require('../../../utils/lineParser')
 	var lorem = require('wizzi-utils').lorem
     var pretty = require('wizzi-utils').pretty
 	var myname = 'wizzi-web.htm1.document.main'
@@ -34,7 +34,7 @@
 				@ ctx
 				(
 					@ model
-					f_cb( notUsed )
+					a_cb( notUsed )
 						# loog 'exit', myname, 'err', err
 						r_cb(ctx)
 
@@ -57,7 +57,7 @@
 			@ goitems
 			_ md.getGenItem
 				@ ctx
-			f_cb( notUsed )
+			a_cb( notUsed )
 				if indent
 					_ ctx.deindent()
 				set genItemsStackCount--
@@ -102,7 +102,7 @@
 			_ md.stm[model.wzElement]
 				@ model
 				@ ctx
-				f_cb( done )
+				a_cb( done )
 					if done
 						# ok, processed
 						return
@@ -188,7 +188,7 @@
 					@ ctx
 					{
 						@ indent false
-					f_cb( notUsed )
+					a_cb( notUsed )
 						_ ctx.forceIndent(saveIndent)
 						set ctx.__iscodeTag_started = false
 						_ ctx.w('</' + model.wzTag + '>')
@@ -204,7 +204,7 @@
 					@ ctx
 					{
 						@ indent noinline
-					f_cb( notUsed )
+					a_cb( notUsed )
 						_ ctx.w('</' + model.wzTag + '>')
 						_ postprocess(model, ctx)
 						return
@@ -234,7 +234,7 @@
 			@ model.elements
 			_ md.getGenItem
 				@ ctx
-			f_cb( notUsed )
+			a_cb( notUsed )
 				_ ctx.w()
 				if !!ctx.values.forVueTemplate == false
 					_ ctx.w('</html>')
@@ -356,7 +356,7 @@
             @ ctx
             { 
                 @ indent false
-			f_cb()
+			a_cb()
 				set ctx.__inside_comment = enter_inside_comment
 				_ ctx.deindent()
 				if !enter_inside_comment
@@ -373,7 +373,7 @@
 			_ ctx.w('    artifact generator: ' + __filename)
             _ ctx.w('    package: wizzi-web@${versions['wizzi-web@next']}')
 			_ ctx.w('    primary source IttfDocument: ' + model.wzSourceFilepath('f1'))
-			if (!!ctx.values.isPackageDeploy) == false
+			if (!!ctx.values.wzConfigIsPackageDeploy) == false
 				_ ctx.w('    utc time: ' + new Date().toUTCString())
 			_ ctx.w('-->')
 

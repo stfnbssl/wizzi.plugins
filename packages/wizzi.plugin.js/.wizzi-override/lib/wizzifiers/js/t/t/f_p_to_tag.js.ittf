@@ -1,0 +1,19 @@
+﻿$group
+	$params name, tag|@@null, type|string
+
+	# Creates a tag node from an attribute property, when not null
+
+    $if wzConfigIsDocumentation
+        _ f_astNode.props.push
+            {
+                @ name "${name}"
+                @ tag "${tag}"
+                @ descr "Creates a tag node from an attribute property, when not null"
+
+	if typeof(node.${name}) !== 'undefined'
+		var temp${name} 
+			{
+				@ tag '${tag}'
+				[ children
+
+		set temp${name}.name = node.${name}

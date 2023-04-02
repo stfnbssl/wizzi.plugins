@@ -19,6 +19,8 @@ module.exports = {
         'html'
     ], 
     globalContext: {
-        wzConfigIsDevelopment: true
+        wzConfigIsDevelopment: true, 
+        wzConfigIsPackageDeploy: false, 
+        wzConfigIsDocumentation: true
      }
  };

@@ -1,0 +1,33 @@
+module
+    kind es6
+    $
+        var md = {
+            plugin: 'wizzi.plugin.ittf',
+            name: 'document',
+            schema: 'ittf',
+            rootElement: '',
+            checkSchema: true,
+            isAsync: true,
+        };
+    gen( &md )
+        $append imports
+        $append main
+            _ md.ittf
+                @ model
+                @ ctx
+                a_cb( )
+                    if ctx.artifactGenerationErrors.length > 0
+                        r_cb_err( ctx.artifactGenerationErrors )
+                    else
+                        # generation OK
+                        r_cb( ctx )
+        async-md( ittf )
+            _ ctx.w('<ittf>')
+            _ md.genItems
+                @ model.items
+                @ ctx
+                {
+                    @ indent true
+                a_cb()
+                    _ ctx.w('</ittf>')
+                    r_cb()

@@ -23,10 +23,10 @@ function executeExample() {
     ], (err, result) => {
     
         if (err) {
-            console.log("[31m%s[0m", 'graphql.examples.executeGenerateModules.err', err);
-            console.log("[31m%s[0m", 'graphql.examples.executeGenerateModules.err.toString()', err.toString());
+            console.log("[31m%s[0m", 'graphql/document.examples.executeGenerateModules.err', err);
+            console.log("[31m%s[0m", 'graphql/document.examples.executeGenerateModules.err.toString()', err.toString());
             if (err.inner) {
-                console.log("[31m%s[0m", 'graphql.examples.executeGenerateModules.err.inner.toString()', err.inner.toString());
+                console.log("[31m%s[0m", 'graphql/document.examples.executeGenerateModules.err.inner.toString()', err.inner.toString());
             }
         }
         else {
@@ -36,27 +36,17 @@ function executeExample() {
     function executeGenerateModules(modules, callback) {
         async.mapSeries(modules, (module, callback) => {
         
-            console.log('graphql.example.executeGenerateModules.module: ' + module, __filename);
+            console.log('graphql/document.example.executeGenerateModules.module: ' + module, __filename);
             var ittfDocumentUri = path.join(__dirname, 'ittf', module + '.graphql.ittf');
-            var outputPath = path.join(__dirname, 'results', module + '.graphql.document.html');
-            loadWizziModel(ittfDocumentUri, {}, (err, wizziModel) => {
+            var outputPath = path.join(__dirname, 'results', 'graphql', module + '-document.g.graphql');
+            loadModelAndGenerateArtifact(ittfDocumentUri, {}, 'graphql/document', (err, artifactText) => {
             
                 if (err) {
                     return callback(err);
                 }
-                if (wizziModel.toJson) {
-                    file.write(outputPath + '.json', stringify(wizziModel.toJson(), null, 4))
-                }
-                loadModelAndGenerateArtifact(ittfDocumentUri, {}, 'graphql/document', (err, artifactText) => {
-                
-                    if (err) {
-                        return callback(err);
-                    }
-                    console.log('graphql.example.executeGenerateModules.outputPath: ' + outputPath, __filename);
-                    file.write(outputPath, artifactText)
-                    return callback(null, artifactText);
-                }
-                )
+                console.log('graphql/document.example.executeGenerateModules.outputPath: ' + outputPath, __filename);
+                file.write(outputPath, artifactText)
+                return callback(null, artifactText);
             }
             )
         }

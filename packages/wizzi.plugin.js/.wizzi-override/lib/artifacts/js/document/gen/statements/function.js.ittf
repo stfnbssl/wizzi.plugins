@@ -1,0 +1,304 @@
+﻿loader(function)
+
+	$append requires
+		var lineParser = require('../utils/lineParser')
+            
+	stm( exportfunction
+        var xdefault = model.__default ? 'default ' : ''
+        var name = (model.__name || '')
+        _ ctx.w('export ' + xdefault + 'function ' + name + '(' + model.paramNames.join(', ') + ') {')
+		_ ctx.indent()
+		_ generateParamConstraints
+			@ name
+			@ model.constrainedParams
+			@ model.hasCallbackParam
+			@ model.hasOptionsCallbackParam
+			@ ctx
+			a_cb()
+				_ cnt.genItems
+					@ model.statements
+					@ ctx
+					{ 
+						@ indent false
+					a_cb()
+						_ ctx.deindent()
+						_ ctx.write('}')
+						r_cb()
+
+    $include commonfunction                        
+    
+    stm( xfunction
+        var 
+            decl name = ''
+			decl aster = ctx.__aster || ''
+			decl xasync = model.xasync ? 'async ' : ''
+        if model.paramNames.length > 0
+            set name = model.wzName.trim()
+        else 
+            var p
+                _ lineParser.parse
+                    @ model.wzName
+                    @ model
+            if p.tokens.length > 0
+                var state = 0
+                for var i = 0; i < p.tokens.length; i++
+                    var text = p.tokens[i].text
+                    if text === '('
+                        set state = 1
+                    elif text === ')'
+                        + ;
+                    elif i == 0 && state == 0
+                        set name = text
+                        set state = 1
+                    else 
+                        _ model.paramNames.push(text)
+        var 
+            decl f
+            decl iifeInvoke
+            decl iife = model.statements.length > 0 && model.statements[(model.statements.length - 1)].wzElement === 'memberCall'
+        if iife
+            set f = '(' + (name.length > 0 ? (xasync + 'function' + aster + ' ' + name) : (xasync + 'function'))
+            set iifeInvoke = model.statements[(model.statements.length - 1)]
+            set iifeInvoke.wzParent =
+                { 
+                    @ wzElement 'call'
+            _ model.statements.splice((model.statements.length - 1), 1)
+        else 
+            set f = name.length > 0 ? (xasync + 'function' + aster + ' ' + name) : (xasync + 'function' + aster)
+        _ ctx.w(f + '(' + model.paramNames.join(', ') + ') {')
+
+		# constraints
+		_ ctx.indent()
+		_ generateParamConstraints
+			@ iife ? 'iife' : aster + name
+			@ model.constrainedParams
+			@ model.hasCallbackParam
+			@ model.hasOptionsCallbackParam
+			@ ctx
+			a_cb()
+				_ cnt.genItems
+					@ model.statements
+					@ ctx
+					{ 
+						@ indent false
+					a_cb()
+						_ ctx.deindent()
+						_ ctx.write('}')
+						if iife
+							return
+								_ cnt.genItems
+									[ 
+										@ iifeInvoke
+									@ ctx
+									{ 
+										@ indent false
+									a_cb()
+										_ ctx.write(')')
+										if u.isTopStatement(model, ctx)
+											_ ctx.w('')
+										r_cb()
+						if u.isTopStatement(model, ctx)
+							_ ctx.w('')
+						r_cb()
+
+
+	stm( generatorfunction
+		set ctx.__aster = '*'
+		_ cnt.stm.xfunction
+			@ model
+			@ ctx
+			a_cb()
+				set ctx.__aster = null
+				r_cb()
+
+	stm( asyncfunction
+		set model.xasync = true
+		_ cnt.stm.xfunction
+			@ model
+			@ ctx
+			a_cb()
+				set ctx.__aster = null
+				r_cb()
+
+	stm( xyield
+		var name = model.wzName.trim()
+		if hasStatements(model) == false
+			_ ctx.w('yield ' + name + u.semicolon(name))
+			r_cb()
+
+		_ ctx.write('yield ')
+		_ cnt.genItems
+			@ model.statements
+			@ ctx
+            a_cb()
+                _ ctx.w(u.semicolon(name))
+                r_cb()
+
+	stm( xawait
+		var name = model.wzName.trim()
+		_ ctx.write('await ')
+		if hasStatements(model) == false
+			_ ctx.write(name)
+			if u.isTopStatement(model, ctx)
+				_ ctx.w(u.semicolon(name))
+			r_cb()
+		else
+			_ cnt.genItems
+				@ model.statements
+				@ ctx
+				a_cb()
+					if u.isTopStatement(model, ctx)
+						_ ctx.w(u.semicolon(name))
+					r_cb()
+
+	stm( asyncarrowfunction
+		set model.xasync = true
+		_ cnt.stm.arrowfunction
+			@ model
+			@ ctx
+			@ callback
+	
+	stm( arrowfunction
+		var async_str = model.xasync ? 'async ' : ''
+        #
+            # loog '++++ arrowfunction', model.wzName, async_str, model.xasync, model.statements[0]
+            # loog 'ctx.__is_react_class', ctx.__is_react_class
+            # loog 'model.wzParent.wzElement', model.wzParent.wzElement
+            # loog 'u.onlyChildIs(model, "callOnValue")', u.onlyChildIs(model, 'callOnValue')
+            # loog 'u.onlyChildIsHtmlElement(model)', u.onlyChildIsHtmlElement(model)
+            # loog 'u.onlyChildIs(model, "arrowfunction")', u.onlyChildIs(model, 'arrowfunction')
+            log "u.isImplicitReturn(model)", u.isImplicitReturn(model)
+        if ctx.__is_react_class && model.wzParent.wzElement == 'reactComponent'
+            var implicitReturn = u.isImplicitReturn(model)
+            _ ctx.w(model.wzName + ' = ' + async_str + '(' + model.paramNames.join(', ') + ') =>' + (implicitReturn ? '' : '{'))
+			_ ctx.indent()
+			_ generateParamConstraints
+				@ name
+				@ model.constrainedParams
+				@ model.hasCallbackParam
+				@ model.hasOptionsCallbackParam
+				@ ctx
+				a_cb()
+					_ cnt.genItems
+						@ model.statements
+						@ ctx
+						{ 
+							@ indent false
+						a_cb()
+							_ ctx.deindent()
+                            _ ctx.w(implicitReturn ? '' : '}')
+							r_cb()
+		elif u.onlyChildIs(model, 'callOnValue') || u.onlyChildIsHtmlElement(model)
+            _ ctx.write(async_str + '(' + model.paramNames.join(', ') + ') => ')
+			# TODO what if it needs generateParamConstraints ?
+            _ cnt.genItems
+                @ model.statements
+                @ ctx
+                { 
+                    @ indent true
+				@ callback
+		elif u.onlyChildIs(model, 'arrowfunction')
+            # log "u.onlyChildIs(model, 'arrowfunction')", model.statements[0].paramNames
+            _ ctx.write(async_str + '(' + model.paramNames.join(', ') + ') => ')
+            _ cnt.genItems
+                @ model.statements
+                @ ctx
+                { 
+                    @ indent true
+				@ callback
+		elif u.isImplicitReturn(model)
+            # loog 'isImplicitReturn', model.wzElement, model.wzName
+            var isSingleParam = u.isSingleParamForArrowFunction(model)
+            var firstChildIsTemplate = u.firstChildIs(model, ['template'])
+            # loog 'function.isSingleParam', isSingleParam
+            # loog 'function.firstChildIs template', firstChildIsTemplate
+            
+            _ ctx.write(async_str + (isSingleParam ? '' : '('))
+			_ u.genParams
+				@ model
+				@ ctx
+				@ cnt
+				a_cb()
+					_ ctx.write(isSingleParam ? '' : ')')
+                    _ arrowfunction_body
+                        @ model
+                        @ ctx
+                        @ cnt
+                        @ true
+                        @ firstChildIsTemplate
+                        @ callback
+
+            $*
+            _ ctx.w(async_str + (isSingleParam ? '' : '(') + model.paramNames.join(', ') + (isSingleParam ? '' : ')') + ' =>')
+            _ cnt.genItems
+                @ model.statements
+                @ ctx
+                { 
+                    @ indent true
+                @ callback
+            *$
+		else 
+            _ ctx.write(async_str + '(' + model.paramNames.join(', ') + ')')
+            _ arrowfunction_body
+                @ model
+                @ ctx
+                @ cnt
+                @ false
+                @ false
+                @ callback
+            $*
+            _ cnt.genItems
+                @ model.statements
+                @ ctx
+                { 
+                    @ indent true
+				a_cb()
+					_ ctx.write('}')
+                    if u.isTopStatement(model, ctx)
+                        _ ctx.w()
+					r_cb()
+            *$
+
+	function arrowfunction_body
+		param model
+		param ctx
+        param cnt
+        param implicitReturn
+        param firstChildIsTemplate
+		param callback
+        if firstChildIsTemplate
+            _ ctx.write(' => ' + (implicitReturn ? '' : '{'))
+        else
+            _ ctx.w(' => ' + (implicitReturn ? '' : '{'))
+            _ u.forceInlineOff(model, ctx)
+        _ cnt.genItems
+            @ model.statements
+            @ ctx
+            { 
+                @ indent true
+            a_cb()
+                _ ctx.w((implicitReturn ? '' : '}'))
+                _ u.checkInlineExit(model, ctx)
+                r_cb()
+	
+    stm( xreturn
+        _ u.writeComments(model, ctx)
+        _ u.checkInlineEnter(model, ctx)
+		if hasStatements(model) == false
+			_ ctx.w('return ' + (model.wzName || '') + u.semicolon(model.wzName))
+            _ u.checkInlineExit(model, ctx)
+			r_cb()
+
+        _ ctx.write('return ')
+        _ cnt.genItems
+            @ model.statements
+            @ ctx
+            { 
+                @ indent true
+			a_cb()
+				if model.statements.length == 1
+					_ ctx.w(';')
+                _ u.checkInlineExit(model, ctx)
+				r_cb()
+	
+	$include generateParamConstraints

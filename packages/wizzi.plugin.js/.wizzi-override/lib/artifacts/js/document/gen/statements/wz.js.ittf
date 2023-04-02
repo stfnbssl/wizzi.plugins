@@ -1,0 +1,26 @@
+﻿module
+	kind jsfile
+
+	var u = require('../utils/stm')
+	var md = module.exports = {};
+	var myname = 'wizzi-js.artifacts.js.module.gen.statements.wz';
+
+	set md.load
+		function
+			param cnt
+			
+			stm( wzRequire )
+				_ ctx.w('var ' + model.wzName + ' = __.require("' + model.wzName + '");')
+				r_cb()
+
+			stm( wzVar )
+				_ cnt.stm.var(model, ctx, callback)
+
+			stm( wzConst )
+				_ cnt.stm.const(model, ctx, callback)
+
+			stm( wzFunction )
+				_ cnt.stm.xfunction(model, ctx, callback)
+
+			stm( wzClass )
+				_ cnt.stm.xclass(model, ctx, callback)

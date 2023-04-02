@@ -1,0 +1,33 @@
+module
+    kind es6
+    $
+        var md = {
+            plugin: 'wizzi.plugin.json',
+            name: 'document',
+            schema: 'json',
+            rootElement: '',
+            checkSchema: true,
+            isAsync: true,
+        };
+    gen( &md )
+        $append imports
+        $append main
+            _ md.json
+                @ model
+                @ ctx
+                a_cb( )
+                    if ctx.artifactGenerationErrors.length > 0
+                        r_cb_err( ctx.artifactGenerationErrors )
+                    else
+                        # generation OK
+                        r_cb( ctx )
+        async-md( json )
+            _ ctx.w('<json>')
+            _ md.genItems
+                @ model.items
+                @ ctx
+                {
+                    @ indent true
+                a_cb()
+                    _ ctx.w('</json>')
+                    r_cb()

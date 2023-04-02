@@ -1,0 +1,53 @@
+﻿module
+	kind jsfile
+
+	var md = module.exports = {}
+
+	class StringWriter
+		ctor
+			param noLF
+			set this.noLF = noLF
+			set this.texts = []
+			set this.indentValue = 0
+			set this.newLine = true
+
+		m w
+			param text
+			if this.newLine == true && !this.noLF
+				_ this.texts.push(spaces(this.indentValue * 4))
+			if text
+				_ this.texts.push(text)
+			if !this.noLF
+				_ this.texts.push('\n')
+			set this.newLine = true
+
+		m write
+			param text
+			if this.newLine == true && !this.noLF
+				_ this.texts.push(spaces(this.indentValue * 4))
+				set this.newLine = false
+			if text
+				_ this.texts.push(text)
+
+		m indent
+			set this.indentValue++
+
+		m deindent
+			set this.indentValue = Math.max(0, this.indentValue -1)
+	
+		m toString
+			return this.texts.join('')
+
+		m toLines
+			if this.noLF
+				return [this.toString()]
+			else
+				return this.toString().split('\n')
+
+	function spaces
+		param num
+        if num < 1
+            return ''
+        return Array(num + 1).join(" ")
+
+	set md.StringWriter = StringWriter

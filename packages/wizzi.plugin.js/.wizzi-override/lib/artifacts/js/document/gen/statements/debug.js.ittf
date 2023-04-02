@@ -1,0 +1,67 @@
+﻿loader( debug )
+
+	$append requires
+		var lineParser = require('../utils/lineParser')
+
+	stm( inspect )
+		var ss = model.wzName.split(','), name, value
+		if ss.length == 2
+			set name = u.unquote(ss[0].trim())
+			set value = ss[1].trim()
+		else
+			var nv = lineParser.parseNameValueRaw(ss[0], model)
+			if nv.name() && nv.value()
+				set name = u.unquote(nv.name().trim())
+				set value = nv.value().trim()
+			else
+				set name = ss[0]
+				set value = ss[0]
+		_ ctx.w
+			@ 'console.log("' + name + '" + " " +
+				\b util.inspect(' + value + ', { depth: null } ), __filename)'
+		r_cb()
+
+	stm( debug )
+		_ ctx.w('debug(' + model.wzName + ')' + u.semicolon(model.wzName))
+		r_cb()
+
+	stm( log )
+        if model.wzName && model.wzName.length > 0
+            var text = model.wzName.trim().endsWith(',') ? model.wzName + '__filename' : model.wzName + ', __filename'
+		    _ ctx.w('console.log(' + text + ')' + u.semicolon(model.wzName))
+		# log 151
+		r_cb()
+
+	stm( info )
+        if model.wzName && model.wzName.length > 0
+		    _ ctx.w('console.log(' + model.wzName + ');')
+		r_cb()
+
+	stm( success )
+        if model.wzName && model.wzName.length > 0
+            _ ctx.w('console.log("\x1b[32m%s\x1b[0m", ' + model.wzName + ');'); 
+		r_cb()
+
+	stm( warn )
+        if model.wzName && model.wzName.length > 0
+            _ ctx.w('console.log("\x1b[33m%s\x1b[0m", ' + model.wzName + ');'); 
+		r_cb()
+
+	stm( error )
+        if model.wzName && model.wzName.length > 0
+            _ ctx.w('console.log("\x1b[31m%s\x1b[0m", ' + model.wzName + ');'); 
+		r_cb()
+
+	stm( chalk )
+		var sw = []
+		foreach item in model.wzName.split(',')
+			var nv = lineParser.parseNameValueRaw(item, model)
+			if nv.value()
+				_ sw.push
+					@ 'chalk.' + nv.name() + '(' + nv.value() + ')' 
+			else
+				_ sw.push
+					@ 'chalk.red(' + nv.name() + ')' 
+		_ ctx.w
+			@ 'console.log(' + sw.join(', ') + ')'
+		r_cb()

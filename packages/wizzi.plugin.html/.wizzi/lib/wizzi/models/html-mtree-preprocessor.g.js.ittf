@@ -2,6 +2,28 @@ module
     kind es6
     var verify = require('wizzi-utils').verify
     
+    set module.exports
+        function
+            param mTree
+            param context
+            var state
+                {
+                    @ mTree mTree
+                    @ parent null
+            foreach item in mTree.nodes[0].children
+                _ traverse(item, state)
+            return mTree
+    
+    function traverse
+        param node
+        param state
+        if preprocessNode(node, state)
+            return
+        var saveParent = state.parent
+        foreach item in node.children
+            _ traverse(item, state)
+        set state.parent = saveParent
+    
     function preprocessNode
         param node
         param state
@@ -91,25 +113,3 @@ module
         set nto.u = nfrom.u
         if typeof nto.children === 'undefined'
             set nto.children = []
-    
-    function traverse
-        param node
-        param state
-        if preprocessNode(node, state)
-            return
-        var saveParent = state.parent
-        foreach item in node.children
-            _ traverse(item, state)
-        set state.parent = saveParent
-    
-    set module.exports
-        function
-            param mTree
-            param context
-            var state
-                {
-                    @ mTree mTree
-                    @ parent null
-            foreach item in mTree.nodes[0].children
-                _ traverse(item, state)
-            return mTree

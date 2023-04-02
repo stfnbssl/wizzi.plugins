@@ -36,7 +36,7 @@
 				@ ctx
 				(
 					@ model
-					f_cb( notUsed )
+					a_cb( notUsed )
 						# loog 'exit', myname, 'err', err
 						return
 							_ callback(null, ctx)
@@ -58,7 +58,7 @@
 			@ goitems
 			_ md.getGenItem
 				@ ctx
-			f_cb( notUsed )
+			a_cb( notUsed )
 				if indent
 					_ ctx.deindent()
 				return
@@ -70,7 +70,7 @@
 			_ md.stm[model.wzElement]
 				@ model
 				@ ctx
-				f_cb( done )
+				a_cb( done )
 					if done
 						# ok, processed
 						return
@@ -104,7 +104,7 @@
 				@ ctx
 				{
 					@ indent true
-				f_cb( notUsed )
+				a_cb( notUsed )
 					_ writeEndTag
 						@ ctx
 						@ model.wzTag
@@ -138,7 +138,7 @@
 			@ ctx
 			{
 				@ indent true
-			f_cb( notUsed )
+			a_cb( notUsed )
 				_ writeEndTag
 					@ ctx
 					@ 'svg'

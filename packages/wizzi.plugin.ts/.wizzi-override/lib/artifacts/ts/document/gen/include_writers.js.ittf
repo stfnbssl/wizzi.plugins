@@ -1,0 +1,53 @@
+﻿module wizzi.plugin.js.artifacts.module.gen.include_writers
+	kind jsfile
+	+
+	var myname = 'wizzi.js.artifacts.module.gen.include_writers'
+	+
+	var verify = require('wizzi-utils').verify
+	+
+	var md = module.exports = {}
+
+	set md.writeIncludeCss
+		function
+			param ctx
+			param model
+			param callback
+			_ model.get_css
+				a_cb( cssModel )
+					# log myname, 'cssModel.rules', cssModel.rules, Object.keys(cssModel)
+					$* VIA
+                    if cssModel.rules.length == 0 && verify.isEmpty(cssModel.wzName) == false
+						# log myname, 1
+						_ ctx.w('<link href="' + cssModel.wzName + '" rel="stylesheet" />')
+						_ callback
+					else
+                    *$
+                    # log myname, 2
+                    _ md.generateCssArtifact
+                        @ ctx
+                        @ cssModel
+                        a_cb( artifactText )
+                            _ ctx.indent
+                            _ ctx.writeAligned(artifactText)
+                            _ ctx.deindent
+                            _ callback
+
+	set md.generateCssArtifact
+		function
+			param ctx
+			param cssModel
+			param callback
+			# log myname, 3
+			# log myname, 'cssModel', cssModel, 'cssModel.rules', cssModel.rules
+			_ ctx.wizziFactory.generateArtifact
+				@ cssModel
+				@ 'generated from js model'
+				@ 'css/document'
+				{
+					@ forHtmlStyle true
+                    @ noGeneratorComments true
+				a_cb( artifactText )
+					# log myname, 'css artifactText', artifactText
+					return
+						_ callback(null, artifactText)
+

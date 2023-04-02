@@ -1,0 +1,27 @@
+﻿module
+    kind es6
+    $
+        var md = {
+            plugin: 'wizzi.plugin.json',
+            name: 'export',
+            schema: 'json',
+            rootElement: '',
+            checkSchema: false,
+            isAsync: true,
+        };
+    gen( &md )
+        $append imports
+            var stringify = require('json-stringify-safe')
+        $append main
+            var json
+            if model.toJson
+                set json
+                    _ model.toJson()
+            else
+                return
+                    _ callback
+                        _ error
+                            @ 'The model has no toJson method'
+            _ ctx.w
+                _ stringify(json, null, 4)
+            r_cb(ctx)

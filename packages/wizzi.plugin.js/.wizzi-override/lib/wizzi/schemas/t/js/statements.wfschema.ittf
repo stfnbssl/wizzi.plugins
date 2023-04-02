@@ -1,0 +1,311 @@
+﻿$group
+
+	e require : statement
+
+	e set : statement
+
+		#
+		# The set element do not relate to any javascript syntax element but is
+		# fundamental in the 'js' language schema.
+		# A wizzi schema cannot have free node names (tags). User names
+		# cannot be node names but always must be node values.
+		# Whenever javascript has a left hand side item that is an user name
+		# must be preceded by set.
+		#
+		# ittf
+		#  set user.name = 'stefi'
+		# js
+		#  user.name = 'stefi';
+		#
+		# In a 'set' element the wzName is written as is. If it is a top statement
+		# the semicolon is added.
+		#
+
+	e import : statement
+		# reference http://2ality.com/2014/09/es6-modules-final.html
+		a from
+		a_tag( xas, as
+
+		m wzInitialize
+			set this.specifiers = []
+			var temp = []
+			foreach item in this.statements
+				if item.wzElement === 'jsPropertyOrValue'
+					_ this.specifiers.push(item)
+				else
+					_ temp.push(item)
+			set this.statements = temp
+
+	e export : statement
+		a from
+		a_tag( xas, as
+
+		m wzInitialize
+			set this.specifiers = []
+			var temp = []
+			foreach item in this.statements
+				if item.wzElement === 'jsPropertyOrValue'
+					_ this.specifiers.push(item)
+				else
+					_ temp.push(item)
+			set this.statements = temp
+
+		# reference http://2ality.com/2014/09/es6-modules-final.html
+		# ittf
+		#   export var|let|const foo = Math.sqrt(2)
+		#   export
+		#     var|let|const foo = Math.sqrt(2)
+		#   export
+		#     var|let|const foo
+		#       {
+		#         @ name 'stefi'
+		#   export
+		#	  function foo
+		#       param x
+		#   export default
+		#     function
+		#       { options
+
+	e_tag( exportDefault, export-default, statement
+
+
+	e if : statement
+		
+		# 
+		# ittf:
+		#   if a === b
+		#   elif a === c
+		#   else
+		# js:
+		#   if ( a === b ) {
+		#   }
+		#   else if ( a === c ) {
+		#   }
+		#   else {
+		#   }
+		#
+	e elif : statement
+
+		# ittf
+		#   see 'if' element
+
+	e else : statement
+
+		# ittf
+		#   see 'if' element
+	
+	e for : statement
+		
+		# ittf
+		#   for var k in object3
+		#     log k, object3[k]
+		#
+
+    e xleft : statement
+        tag left
+    e xof : statement
+        tag of
+    e xin : statement
+        tag in
+	
+	e foreach : statement
+	
+		# ittf
+		#   foreach item in arr5
+		#     info 'item ', i, item
+		#
+		# js
+		#   var i, i_len=arr5.length, item;
+		#   for (i=0; i<i_len; i++) {
+		#     item = arr5[i];
+		#     console.log('item ', i, item);
+		#   }
+		#
+
+	e backeach : statement
+
+		# ittf
+		#   backeach item in arr5
+		#     info 'item ', i, item
+		# js
+		#   var i, i_len=arr5.length, item;
+		#   for (i= (i_len-1); i>-1; i--) {
+		#     item = arr5[i];
+		#     console.log('item ', i, item);
+		#   }
+		#
+	
+	e each : statement
+
+		# ittf
+		#   each item in arr5 [this]
+		#     info 'item ', i, item
+		# js
+		#   arr5.forEach(function(item, i, array) {
+		#     console.log('item ', i, item);
+		#   }, this);
+		#
+
+	e filter : statement
+
+		# ittf
+		#   filter item in arr5 [this]
+		#     return item > 20
+		# js
+		#   arr5.filter(function(item, i, array) {
+		#     return item > 20
+		#   }, this);
+		#
+
+	e find : statement
+
+		# ittf
+		#   find item in arr5 [this]
+		#     return item == 20
+		# js
+		#   arr5.item(function(item, i, array) {
+		#     return item == 20
+		#   }, this);
+		#
+
+	e reduce : statement
+
+		# ittf
+		#   reduce item in arr5 0
+		#     return item_acc + item
+		# js
+		#   arr5.reduce(function(acc, item, item_index, array) {
+		#     return item_acc + item
+		#   }, 0);
+		#
+
+	e concat : statement
+
+		# ittf
+		#   concat arr5
+		#     @ 'item1'
+		#     [
+		#        @ 'item2' 
+		#        @ 'item3' 
+		# js
+		#   arr5.concat('item1', ['item2', 'item3']);
+		#
+
+	e break : statement
+		
+		# ittf
+		#   foreach item in arr5
+		#     ...
+		#     break
+		#
+	
+	e continue : statement
+		
+		# ittf
+		#   foreach item in arr5
+		#     ...
+		#     continue
+		#
+	
+	e label : statement
+
+		# ittf
+		#   var i, j
+		#   label loop1
+		#     for i = 0; i < 3; i++
+		#       # The first for statement is labeled "loop1"
+		#       label loop2
+		#         for j = 0; j < 3; j++
+		#           # The second for statement is labeled "loop2"
+		#           if i === 1 && j === 1
+		#             continue loop1
+		#           info 'i = ' + i + ', j = ' + j
+   	
+	e while : statement
+
+		#
+		# ittf
+		#   set parent = node.parent
+		#   while parent
+		#     set parent = parent.parent
+		#
+	
+	e do : statement
+
+		#
+		# ittf
+		#   var result = ''
+		#   var i = 0
+		#   do i < 5
+		#     set i += 1
+		#     set result += i + ' '
+		#
+		# js
+		#   var result = '';
+		#   var i = 0;
+		#   do {
+		#     i += 1;
+		#     result += i + ' ';
+		#   } while (i < 5);
+		#
+	
+	e switch : statement
+
+		#
+		# ittf
+		#   switch key
+		#     case 1
+		#       _ first()
+		#     case 2
+		#       _ second()
+		#     default
+		#       _ last()
+		#
+
+	e case : statement
+
+		# ittf
+		#   see 'switch' element
+
+	e default : statement
+
+		# ittf
+		#   see 'switch' element
+
+	e try : statement
+
+		#
+		# ittf
+		#   try
+		#     set num =/ 0
+		#   catch ex
+		#     log ex.message
+		#   finally
+		#     _ reset()
+		#
+	
+	e catch : statement
+
+		# ittf
+		#   see 'try' element
+
+	e finally : statement
+
+		# ittf
+		#   see 'try' element
+	
+	e throw : statement
+
+		# ittf
+		#   see 'try' element
+
+	e delete : statement
+
+		# ittf
+		#   delete myvar
+
+	e sequence : statement
+
+	
+	
+

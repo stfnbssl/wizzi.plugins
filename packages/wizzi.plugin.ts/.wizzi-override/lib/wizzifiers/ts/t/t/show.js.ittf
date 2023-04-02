@@ -1,0 +1,10 @@
+﻿$group
+	$params name, type|string
+
+	# loog 'node.${name}', node.${name}, '${type}'
+	_ ret.children.push
+		{
+			@ tag '${name}'
+			@ name node.${name}
+			[ children
+	

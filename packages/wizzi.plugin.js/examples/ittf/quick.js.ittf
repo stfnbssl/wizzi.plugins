@@ -1,0 +1,15 @@
+module
+    kind es6
+    const compose
+        => 
+            param ...funcs
+            _ funcs.reduce
+                => 
+                    param a
+                    param b
+                    => 
+                        param ...args
+                        _ a(b(...args))
+                => 
+                    param arg
+                    + arg

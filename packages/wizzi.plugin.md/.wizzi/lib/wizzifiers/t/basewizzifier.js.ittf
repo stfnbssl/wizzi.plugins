@@ -1,6 +1,7 @@
 $group
     var util = require('util')
     var async = require('async')
+    var stringify = require('json-stringify-safe')
     var verify = require('wizzi-utils').verify
     var lineparser = require('../utils/lineparser')
     var file = require('wizzi-utils').file
@@ -56,7 +57,7 @@ $group
                             a_cb( syntax )
                                 _ file.write
                                     @ options.syntaxOutFile
-                                    _ JSON.stringify
+                                    _ stringify
                                         @ syntax
                                         @ null
                                         @ 2

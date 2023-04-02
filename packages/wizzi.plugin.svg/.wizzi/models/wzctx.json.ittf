@@ -1,6 +1,7 @@
 {
+    $include versions
     name "wizzi.plugin.svg"
-    version "0.0.1"
+    version '${versions['wizzi.plugin.svg@next']}'
     description "wizzi.plugin.svg"
     { author
         name "Stefano Bassoli"
@@ -15,17 +16,22 @@
         { utils
             useStringifySafe true
             useObjectInspect true
+        useXml2Parser true
     [ Schemas
         {
             name "svg"
             title "svg wizzi schema"
             builtin false
+            hasWizzifier true
             [ modelTransformers
                 {
                     name "extended"
             [ artifactGenerators
                 {
                     name "document"
+            [ wizzifiers
+                {
+                    name "svg"
             [ includes
                 {
                     Name "Js"

@@ -1,0 +1,168 @@
+module
+    $
+        var schemaName = 'json';
+    kind es6
+    basewizzifier()
+        $append imports
+            var json_parser = require('./parser')
+            var cloner = require('./cloner')
+            +
+            function parseInternal
+                param tobeWizzified
+                param options
+                param callback
+                
+                if typeof callback === 'undefined'
+                    set callback = options
+                    set options = {}
+                set options = (options || {})
+
+                var wizziTree
+                    { 
+                        @ children
+                            [ 
+                _ json_parser.parse
+                    @ tobeWizzified
+                    { 
+                        @ onObject
+                            function 
+                                param open
+                                # log  'onObject', open
+                                if open
+                                    var n
+                                        { 
+                                            @ tag '{'
+                                            @ name ''
+                                            @ children
+                                                [ 
+                                    set n.parent = wizziTree
+                                    _ wizziTree.children.push(n)
+                                    set wizziTree = n
+                                else
+                                    # log  "onObject wizziTree.tag", wizziTree.tag
+                                    set wizziTree = wizziTree.parent
+                                    # log  "onObject wizziTree.tag", wizziTree.tag
+                        @ onArray
+                            function
+                                param open
+                                # log  'onArray', open
+                                if open
+                                    var n
+                                        { 
+                                            @ tag '['
+                                            @ name ''
+                                            @ children
+                                                [ 
+                                    set n.parent = wizziTree
+                                    _ wizziTree.children.push(n)
+                                    set wizziTree = n
+                                else
+                                    # FIXME
+                                    # log  "onArray wizziTree.tag", wizziTree.tag
+                                    set wizziTree = wizziTree.parent
+                                    # log  "onArray wizziTree.tag", wizziTree.tag
+                        @ onPropName
+                            function 
+                                param name
+                                # log  "onPropName", name
+                                var n
+                                    { 
+                                        @ tag name
+                                        @ name ''
+                                        @ children
+                                            [ 
+                                set n.parent = wizziTree
+                                _ wizziTree.children.push(n)
+                                # log  wizziTree.tag
+                                set wizziTree = n
+                                # log  wizziTree.tag
+                        @ onProp
+                            function 
+                                param name
+                                param value
+                                # log  "onProp", name, value
+                                var n
+                                    { 
+                                        @ tag name
+                                        @ name value
+                                        @ children
+                                            [ 
+                                set n.parent = wizziTree
+                                _ wizziTree.children.push(n)
+                        @ onObjectProp
+                            function 
+                                param name
+                                # log  "onObjectProp", name
+                                var n
+                                    { 
+                                        @ tag '{'
+                                        @ name name
+                                        @ children
+                                            [ 
+                                set n.parent = wizziTree
+                                _ wizziTree.children.push(n)
+                                set wizziTree = n
+                        @ onArrayProp
+                            function 
+                                param name
+                                # log  "onObjectProp", name
+                                var n
+                                    { 
+                                        @ tag '['
+                                        @ name name
+                                        @ children
+                                            [ 
+                                set n.parent = wizziTree
+                                _ wizziTree.children.push(n)
+                                set wizziTree = n
+                        @ onClosePropName
+                            function
+                                # log  'onClosePropName'
+                                set wizziTree = wizziTree.parent
+                        @ onArrayValue
+                            function 
+                                param value
+                                # log  "onArrayValue", value
+                                var n
+                                    { 
+                                        @ tag value
+                                        @ name ''
+                                        @ children
+                                            [ 
+                                _ wizziTree.children.push(n)
+                        @ onHandlebar
+                            function 
+                                param hb
+                                # log  "onHandlebar", hb
+                                var n
+                                    { 
+                                        @ tag '{{'
+                                        @ name hb
+                                        @ children
+                                            [ 
+                                _ wizziTree.children.push(n)
+                    a_cb( result )
+                        while wizziTree.parent != null
+                            set wizziTree = wizziTree.parent
+                        # log  'wizziTree\n', wizziTree
+                        var synthax = wizziTree.children[0]
+                        if !synthax
+                            return
+                                _ callback
+                                    new Error('Json.Wizzifier.Wizzi parse failed. wizziTree: ' + util.inspect(wizziTree, {depth: 2}))
+                        r_cb( synthax )
+
+
+        +
+        function wizzify
+            param tobeWizzified
+            param options
+            param callback
+            set options = options || {}
+            set options.input = tobeWizzified
+            set options.stack = []
+            set options.verbose = false
+            _ parseInternal
+                @ tobeWizzified
+                @ options
+                @ callback

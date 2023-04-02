@@ -1,0 +1,453 @@
+﻿$group
+
+	# https://iov-one.github.io/iov-core-docs/latest/iov-core/interfaces/node.html
+
+	set format.TSInterfaceDeclaration = format.InterfaceDeclaration 
+	
+	set format.TSStringKeyword = format.StringTypeAnnotation 
+	set format.TSNumberKeyword = format.NumberTypeAnnotation 
+	set format.TSBooleanKeyword = format.BooleanTypeAnnotation 
+	set format.TSArrayType = format.ArrayTypeAnnotation 
+	set format.TSAnyKeyword = format.AnyTypeAnnotation 
+	set format.TSVoidKeyword = format.VoidTypeAnnotation 
+	set format.TSNullKeyword = format.NullLiteralTypeAnnotation 
+	set format.TSUndefinedKeyword = format.UndefinedTypeAnnotation 
+	
+	# set format.TSTupleType = format.TupleTypeAnnotation 
+
+	f( TSObjectKeyword, :object
+
+	f( TSInterfaceDeclaration, :interface
+		f_p_name( id, Node, # Literal | Identifier
+		f_p( typeParameters, false)
+		f_a_temp( extends, false
+		if p_extends != null
+			foreach item in p_extends.children
+                if item.tag == ':exprwithtypeargs'
+				    set item.tag = ':extends'
+				_ ret.children.push(item)
+		f_p( body, false
+        if node.declare
+			set ret
+				{
+					@ tag ':declare'
+					@ name ''
+					[ children
+						@ ret
+
+	f( TSInterfaceBody, skip
+		f_a( body
+
+	f( TSConstructorType, :ctor
+		f_p(typeParameters, false)
+		f_p(typeAnnotation, false)
+		f_a_in_tag( parameters, params
+		_ processParams(ret)
+
+	f( TSConstructSignatureDeclaration, :new
+		f_p(typeParameters, false)
+		f_p(typeAnnotation, false)
+		f_a_in_tag( parameters, params
+		_ processParams(ret)
+	
+	f( TSCallSignatureDeclaration, :call )
+		f_p(typeParameters, false)
+		f_p(typeAnnotation, false)
+		f_a_in_tag( parameters, params
+		_ processParams(ret)
+
+	f( TSPropertySignature, :p
+		f_p_name( key, Node, # Literal | Identifier
+        if node.computed
+			set ret.name = '[' + ret.name + ']'
+
+		if node.optional
+			_ ret.children.push
+				{
+					@ tag ':optional'
+					@ name ''
+					[ children
+		f_p_children_if_tag( typeAnnotation, :t )
+	
+	f( TSIndexSignature, :index
+		f_p(typeAnnotation, false)
+		if node.readonly
+			_ ret.children.push
+				{
+					@ tag ':readonly'
+					@ name ''
+					[ children
+		f_a_in_tag( parameters, params
+		_ processParams(ret)
+
+	f( TSIndexedAccessType, :[]
+		f_p( objectType
+		f_p( indexType
+
+	f( TSModuleDeclaration, :module
+		f_p_name(id, Identifier | null
+		f_p( body, false, Statement
+		if node.declare
+			set ret
+				{
+					@ tag ':declare'
+					@ name ''
+					[ children
+						@ ret
+
+	f( TSModuleBlock, skip
+		f_a( body, true, Statement
+
+	f( TSDeclareFunction, :function
+		f_p_name(id, Identifier | null
+		f_p(typeParameters, false)
+		f_a_in_tag( params, params
+		_ processParams(ret)
+		ts-return()
+		if node.async
+			set ret.tag = 'async=>'
+		if node.generator
+			set ret.tag += '*'
+		if node.declare
+			set ret
+				{
+					@ tag ':declare'
+					@ name ''
+					[ children
+						@ ret
+
+	f( TSFunctionType, :=>
+		f_p(typeParameters, false)
+		f_p(typeAnnotation)
+        f_a_temp( parameters
+        _ processParams2(ret, p_parameters)
+		ts-return()
+        # loog 'TSFunctionType', 'ret', ret
+
+	f( TSMethodSignature, :m
+		f_p_name(key, Identifier | null
+		f_p(typeParameters, false)
+		f_p(typeAnnotation, false)
+        if node.computed
+			set ret.name = '[' + ret.name + ']'
+		f_a_in_tag( parameters, params
+		_ processParams(ret)
+
+	f( TSTypeAnnotation, skip
+		f_p(typeAnnotation
+		f_p(typeParameters, false, ?TSTypeParameterInstantiation
+
+	f( TSTypeParameterInstantiation, skip
+		f_a_temp( params
+		# loog 'TSTypeParameterInstantiation.p_params', p_params
+		foreach p in p_params.children
+			# loog 'TSTypeParameterInstantiation.p before', p
+			if p.children.length == 0 && p.name.length == 0
+				if p.tag === ':{'
+					set p.name = '{}'
+				elif p.tag === ':['
+					set p.name = '[]'
+				else
+					set p.name = p.tag.substr(1)
+				set p.tag = ':param'
+			elif p.tag !== ':param'
+				set p
+					{
+						@ tag ':param'
+						@ name ''
+						[ children
+							@ p
+			# loog 'TSTypeParameterInstantiation.p after', p
+			_ ret.children.push
+				@ p
+
+	f( TSTypeParameterDeclaration, skip
+		f_a(params, true, Statement
+
+	f( TSTypeParameter, :<
+		set ret.name = node.name
+		f_p( constraint, false
+
+	f( TSParameterProperty, :ts-param-prop
+		if node.readonly
+			_ ret.children.push
+				{
+					@ tag ':readonly'
+					@ name ''
+					[ children
+		if node.accessibility
+			_ ret.children.push
+				{
+					@ tag ':' + node.accessibility
+					@ name ''
+					[ children
+		f_p_temp( parameter, true
+		# loog 'p_parameter', p_parameter
+		set ret.name = p_parameter.name
+		foreach item in p_parameter.children
+			_ ret.children.push
+				@ item
+		set p_parameter.children = []
+	
+	f( TSTypeReference, :ref
+		f_p_temp( typeName
+		if p_typeName.tag === '@id'
+			set ret.name = p_typeName.name
+		else
+			if p_typeName.tag === ':qname'
+				set ret.name = p_typeName.name
+			else
+				_ ret.children.push
+					@ p_typeName
+		f_p(typeParameters, false, ?TSTypeParameterInstantiation
+
+	f( TSExpressionWithTypeArguments, :exprwithtypeargs
+		f_p( typeParameters, false, ?TSTypeParameterInstantiation
+		f_p_temp(expression, false
+		if p_expression
+            if isTextualNode(p_expression)
+			$$ 20/3/21 if [$*'@expr', 27/3/21*$'@id', 'literal'].indexOf(p_expression.tag) > -1
+				set ret.name = getNodeText(p_expression)
+			else
+				_ ret.children.push
+					@ p_expression
+
+	f( TSAsExpression, :as
+
+		f_p_temp( expression, true
+		f_p_temp( typeAnnotation, true
+		
+		# loog 'p_expression', p_expression
+        # loog 'p_typeAnnotation', p_typeAnnotation
+
+		if p_expression.isText || p_expression.textified
+            set p_expression.name = p_expression.textified
+            set p_expression.textified = null
+            set p_expression.isText = false
+
+        _ ret.children.push
+            @ p_typeAnnotation
+        if p_expression.children.length == 0 
+            _ p_expression.children.push
+                @ ret
+            set ret = p_expression
+        else
+            set ret 
+                {
+                    @ tag '@expr'
+                    @ children [p_expression, ret]
+
+        if ['@id', 'literal'].indexOf(ret.tag) > -1
+            set ret.tag = '+'
+
+        # loog 'TSAsExpression.ret', ret
+		
+		if node.extra && node.extra.parenthesized
+			set ret
+				{
+					@ tag '('
+					@ name ''
+					[ children
+						@ ret
+
+	f( TSTupleType, :tuple
+		f_a( elementTypes, true
+	
+	f( TSUnionType, :union
+		f_a( types, false
+
+	f( TSIntersectionType, :intersect
+		f_a( types, false
+
+	f( TSEnumDeclaration, :enum
+		f_p_name( id
+		f_a( members
+	
+	f( TSEnumMember, @
+		f_p_name( id
+		f_p_temp(initializer, false
+        # loog 'TSEnumMember', 'p_initializer', p_initializer
+		if p_initializer
+			$$ 12/4/21 if [$*'@expr', 27/3/21*$'@id', 'literal'].indexOf(p_initializer.tag) > -1
+            if p_initializer.children.length == 0
+				set ret.name += ' ' + getNodeText(p_initializer)
+
+	f( TSNeverKeyword, :never
+
+	f( TSTypePredicate, :predicate
+		f_p_name( parameterName
+		f_p( typeAnnotation
+
+	f( TSTypeLiteral, :{
+		f_a(members, false, 
+
+	f( TSTypeOperator, :type-operator
+		f_p( typeAnnotation
+		if node.operator
+			set ret.tag = ':' + node.operator
+
+	f( TSNonNullExpression, :!
+		f_p_temp( expression, false )
+		if [$*'@expr', 27/3/21*$'@id', 'literal'].indexOf(p_expression.tag) > -1
+			set ret.name = getNodeText(p_expression)
+		else
+			_ ret.children.push
+				@ p_expression
+
+	f( TSTypeAliasDeclaration, :type
+		f_p_name( id
+		f_p( typeParameters, false, ?TSTypeParameterInstantiation
+		f_p( typeAnnotation, false
+		
+
+	f( TSLiteralType, :literal
+		f_p_temp( literal
+		set ret.name = p_literal.name
+
+	f( TSConditionalType, :iif
+		f_p_temp( checkType, true )
+		f_p_temp( extendsType, false )
+		f_p_temp( trueType, true )
+		f_p_temp( falseType, true )
+		_ ret.children.push
+			{
+				@ tag ':check'
+				@ name ''
+				[ children
+					@ p_checkType
+		_ ret.children.push
+			{
+				@ tag ':extends'
+				@ name ''
+				[ children
+					@ p_extendsType
+		_ ret.children.push
+			{
+				@ tag ':then'
+				@ name ''
+				[ children
+					@ p_trueType
+		_ ret.children.push
+			{
+				@ tag ':else'
+				@ name ''
+				[ children
+					@ p_falseType
+
+	f( TSMappedType, :mapped
+		if node.optional
+			_ ret.children.push
+				{
+					@ tag ':optional'
+					@ name ''
+					[ children
+		f_p( typeParameter, false
+		f_p( typeAnnotation, false
+
+	f( TSTypeQuery, :typeof
+		f_p_temp(exprName , false)
+		if p_exprName.tag === '@id'
+			set ret.name = p_exprName.name
+		elif isTextualNode(p_exprName)
+			set ret.name = getNodeText(p_exprName)
+		else
+			_ ret.children.push
+				@ p_exprName
+
+	f( TSInferType, :infer
+		f_p( typeParameter, false
+
+	f( TSParenthesizedType, :paren
+		f_p( typeAnnotation, false
+
+	f( TSDeclareMethod, :m
+		f_p_name(key, Identifier | null
+
+		# TODO
+		# s(kind
+
+		b( abstract, :abstract
+		b( static
+		# TODO
+		# b( computed
+
+		f_p(typeParameters, false)
+		
+		f_a_in_tag( params, params
+		_ processParams(ret)
+		
+		ts-return()
+
+		if node.async
+            _ ret.children.push
+                {
+                    @ tag 'async'
+                    @ name ''
+                    [ children
+		
+        if node.generator
+            _ ret.children.push
+                {
+                    @ tag 'generator'
+                    @ name ''
+                    [ children
+
+	f( TSQualifiedName, :qname
+		f_p_temp( left, false )
+		f_p_temp( right, false )
+		if isTextualNode(p_left)
+			set ret.name = getNodeText(p_left)
+			if isTextualNode(p_right)
+				set ret.name += '.' + getNodeText(p_right)
+                set ret.textified = ret.name
+                set ret.isText = true
+			else
+				_ ret.children.push
+					@ p_right
+		else
+			_ ret.children.push
+				@ p_left
+			_ ret.children.push
+				@ p_right
+
+	f( TSExportAssignment, :export
+		f_p_temp( expression, false )
+		if [$*'@expr', 27/3/21*$'@id', 'literal'].indexOf(p_expression.tag) > -1
+			set ret.name = getNodeText(p_expression)
+		else
+			_ ret.children.push
+				@ p_expression
+
+	f( TSImportType, :import-type
+        f_p_temp( argument, true )
+        f_p_temp( qualifier, false )
+        # loog 'TSImportType', p_qualifier
+        if isTextualNode(p_argument) && (p_qualifier == null || isTextualNode(p_qualifier))
+            set ret.textified = 'import(' + getNodeText(p_argument) + ')'
+            if p_qualifier
+                set ret.textified += '.' + getNodeText(p_qualifier)
+            set ret.isText = true
+        else
+            _ ret.children.push
+                @ p_argument
+            if p_qualifier
+                _ ret.children.push
+                    @ p_qualifier
+    
+    f( TSImportEqualsDeclaration, :import
+		f_p_name(id, Identifier | null
+		b( isExport
+		f_p( moduleReference, false )
+
+	f( TSNamespaceExportDeclaration, :export-ns
+		f_p_name(id, Identifier | null
+
+	f( TSExternalModuleReference, :require
+		f_p_temp( expression, false )
+		if [$*'@expr', 27/3/21*$'@id', 'literal'].indexOf(p_expression.tag) > -1
+			set ret.name = getNodeText(p_expression)
+		else
+			_ ret.children.push
+				@ p_expression
+
+    f( TSUnknownKeyword, :unknown

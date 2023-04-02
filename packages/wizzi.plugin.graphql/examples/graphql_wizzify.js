@@ -13,6 +13,7 @@ var util = require('util');
 var graphqlwizzifier = require('../lib/wizzifiers/graphql/wizzifier');
 var file = require('wizzi-utils').file;
 
+let arg = process.argv[2];
 const moduleName = arg && arg.length > 0 ? arg : 'first';
 async.map([
     moduleName

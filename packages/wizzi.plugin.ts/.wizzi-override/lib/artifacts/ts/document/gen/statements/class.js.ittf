@@ -1,0 +1,21 @@
+﻿loader( class )
+
+	$append requires
+		var xclass
+		var xclass_es6
+		var method_es6
+            
+	stm( xclass
+		# loog 'xclass', model
+        if !xclass_es6
+            set xclass_es6 = require('../es6/class')
+        _ xclass_es6.gen(model, ctx, callback)
+    
+	stm( ctor
+		# done by zclass
+		r_cb()
+    
+	stm( method
+        if !method_es6
+            set method_es6 = require('../es6/method')
+        _ method_es6.gen(model, ctx, callback)

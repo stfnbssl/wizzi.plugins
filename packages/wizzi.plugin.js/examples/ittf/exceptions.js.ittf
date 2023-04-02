@@ -1,0 +1,13 @@
+module
+	kind jsfile
+
+	try
+		_ ajax.get('/eta')
+	catch ex
+		log ex.message
+	finally
+		return []
+
+	throw
+		new Error
+			@ message

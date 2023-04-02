@@ -1,0 +1,239 @@
+module wizzi.ts.artifacts.module.gen.codegen.es6.class
+	kind jsfile
+
+	var u = require('../utils/stm')
+	var statement = require('../statement')
+	var method = require('./method')
+	var handler = require('./handler')
+	var property = require('./property')
+	var xget = require('./get')
+    var xset = require('./set')
+	$$ TODO var html = require('./html')
+
+	var md = module.exports = {}
+	var myname = 'wizzi.js.artifacts.module.gen.codegen.es6.class';
+
+	async-md( gen )
+		var
+			decl zclass = model.wzName
+			decl zsuper = model.super
+
+		# loog 'ts.es6.class', model
+        
+        _ u.writeComments(model, ctx)
+
+        _ u.genTSDecorators
+            @ model
+		    @ ctx
+		    @ statement
+		    a_cb()
+                _ classDecorators
+                    @ model
+                    @ ctx
+                    a_cb()
+                        _ u.genAccessorsAndExtra
+                            @ model
+                            @ ctx
+                        _ ctx.write('class ' + zclass)
+                        # log myname, zclass, model.extends
+                        _ u.genTSTypeParameters
+                            @ model
+                            @ ctx
+                            @ statement
+                            a_cb()
+                                _ classSuper
+                                    @ model
+                                    @ ctx
+                                    a_cb()
+                                        _ classImplements
+                                            @ model
+                                            @ ctx
+                                            a_cb()
+                                                _ ctx.w(' {')
+                                                _ ctx.indent();
+                                                _ classCTor
+                                                    @ model
+                                                    @ ctx
+                                                    a_cb()
+                                                        _ classMembers
+                                                            @ model
+                                                            @ ctx
+                                                            a_cb()
+                                                                _ ctx.deindent();
+                                                                _ ctx.w('}')
+                                                                r_cb()
+
+	fn( classDecorators )
+        var count = 0
+        repeater( 1, model.statements )
+            if item_1.wzElement == 'decoratorCall'
+                if count > 0
+                    _ ctx.write(', ')
+                set count++
+                _ statement.genItem
+                    @ item_1
+                    @ ctx
+                    a_cb()
+                        _ ctx.w()
+                        repeater_increment( 1 )
+            else
+                repeater_increment( 1 )
+            $append next
+                r_cb()
+
+    fn( classImplements )
+		if model.implements.length == 0
+			r_cb()
+		_ ctx.write( ' implements ' )
+		repeater( 1, model.implements )
+			if index_1 > 0
+				_ ctx.write(', ')
+			_ ctx.write( item_1.wzName )
+			repeater_increment( 1 )
+			$append next
+				r_cb()
+
+
+	fn( classSuper )
+		if model.super
+			_ ctx.write(' extends ' + model.super)
+            # loog 'classSuper', 'model.superType', 
+			if model.superType && model.superType.typeParameterInsts.length > 0
+				_ ctx.write('<')
+				repeater( 1, model.superType.typeParameterInsts )
+					if index_1 > 0
+						_ ctx.write(', ')
+					if item_1.statements.length == 0
+						_ ctx.write(item_1.wzName)
+						repeater_increment( 1 )
+					elif item_1.statements.length == 1
+						_ statement.genItem
+							@ item_1.statements[0]
+							@ ctx
+							a_cb()
+								repeater_increment( 1 )
+					else
+						_ ctx.write('x')
+						repeater_increment( 1 )
+					$append next
+						_ ctx.write('>')
+						r_cb()
+			else
+				r_cb()
+		else
+			r_cb()
+
+	fn( classCTor )
+
+		# loog 'classCTor'
+
+		var
+			decl zsuper = model.super
+			decl ctor = model.findCtor()
+
+		if ctor
+			_ u.genAccessorsAndExtra
+				@ ctor
+				@ ctx
+			_ ctx.write('constructor')
+			_ u.genTSTypeParameters
+				@ ctor
+				@ ctx
+				@ statement
+				a_cb()
+					_ ctx.write('(')
+					_ u.genTSParams
+						@ ctor
+						@ ctx
+						@ statement
+						a_cb()
+							_ ctx.write(')')
+							_ ctx.w(' {')
+							_ ctx.indent();
+							_ classCTor_end
+								@ model
+								@ ctx
+								@ callback
+		else
+			r_cb()
+
+	fn( classCTor_end)
+		
+		# loog 'classCTor_end'
+
+		var
+			decl zsuper = model.super
+			decl ctor = model.findCtor()
+			decl superArgs = ctor == null ? '' : (ctor.getBaseArgs() || '')
+
+		if zsuper && superArgs.length > 0
+			_ ctx.w('super(' + superArgs + ');')
+
+		if ctor
+			_ statement.genMany
+				@ ctor.statements
+				@ ctx
+				a_cb()
+					_ ctx.deindent();
+					_ ctx.w('}')
+					r_cb()
+		elif zsuper
+			_ ctx.deindent();
+			_ ctx.w('}')
+			r_cb()
+
+		else
+			r_cb()
+
+	fn( classMembers )
+
+		# loog 'classMembers'
+
+		
+		repeater( 1, model.statements )
+			# loog 'ts.es6.class.classMembers', item_1.wzElement
+            var generator = null
+            var done = false
+			if item_1.wzElement === 'ctor'
+				# done already
+				set done = true
+			elif item_1.wzElement === 'decoratorCall'
+				# done already
+				set done = true
+			elif item_1.wzElement === 'method' || item_1.wzElement === 'typeMethod'
+				set generator = method
+			elif item_1.wzElement === 'arrowfunction'
+				set generator = handler
+			$* TODO
+            elif item_1.wzElement === 'html'
+				set generator = html
+            *$
+			elif item_1.wzElement === 'property' || item_1.wzElement === 'p'
+				set generator = property
+			elif item_1.wzElement === 'get'
+				set generator = xget
+			elif item_1.wzElement === 'set'
+				set generator = xset
+			else
+				set generator = null
+			if generator
+				_ generator.gen
+					@ item_1
+					@ ctx
+					a_cb()
+						repeater_increment( 1 )
+			else
+                if done == false
+                    _ statement.genItem
+                        @ item_1
+                        @ ctx
+                        a_cb()
+                            repeater_increment( 1 )
+                else
+                    repeater_increment( 1 )
+			$append next
+				# loog 'ts.es6.class.classMembers end'
+				r_cb()
+
+	$include generateParams
+

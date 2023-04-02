@@ -1,0 +1,67 @@
+module
+    kind es6
+    $
+        var md = {
+            name: 'ts',
+        };
+    v08/examples/plugin( &md )
+        $append plugins
+            [ items
+                @ './index.js'
+            @ pluginsBaseFolder
+                _ path.resolve
+                    @ __dirname
+                    @ '..'
+        let arg = process.argv[2]
+        const moduleName = arg && arg.length > 0 ? arg : 'first'
+        _ executeGenerateModules
+            [
+                @ moduleName
+            a_cb_no_throw( result )
+                if err
+                    error 'ts.examples.executeGenerateModules.err', err
+                    error 'ts.examples.executeGenerateModules.err.toString()', err.toString()
+                    if err.inner
+                        error 'ts.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
+                else
+        function executeGenerateModules
+            param modules
+            param callback
+            _ async.mapSeries
+                @ modules
+                =>
+                    param module
+                    param callback
+                    log 'ts.example.executeGenerateModules.module: ' + module
+                    var ittfDocumentUri
+                        _ path.join
+                            @ __dirname
+                            @ 'ittf'
+                            @ module + '.ts.ittf'
+                    var outputPath
+                        _ path.join
+                            @ __dirname
+                            @ 'results'
+                            @ module + '.ts.document.html'
+                    _ loadWizziModel
+                        @ ittfDocumentUri
+                        {
+                        a_cb( wizziModel )
+                            if wizziModel.toJson
+                                _ file.write
+                                    @ outputPath + '.json'
+                                    _ stringify
+                                        _ wizziModel.toJson
+                                        @ null
+                                        @ 4
+                            _ loadModelAndGenerateArtifact
+                                @ ittfDocumentUri
+                                {
+                                @ 'ts/document'
+                                a_cb( artifactText )
+                                    log 'ts.example.executeGenerateModules.outputPath: ' + outputPath
+                                    _ file.write
+                                        @ outputPath
+                                        @ artifactText
+                                    r_cb( artifactText )
+                @ callback

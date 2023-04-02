@@ -1,0 +1,101 @@
+﻿$group
+
+	# Those of facebook react see
+	# the 'p' tag is not here. It is in html.wizzischema.ittf. It works both as a html tag and a class property
+	# TODO the 'param' tag/element (children of object element) has been suspended for 
+	#      collision with input check param. 
+	#      Reintroduce as @param.
+	# TODO the 'filter' tag/element has been suspended for collision with array filter
+	#      Reintroduce as @filter.
+	$
+		var _tags = "a abbr address area article aside audio b base bdi bdo big blockquote body br" +
+			" button canvas caption cite code col colgroup data datalist dd del details dfn" +
+			" dialog div dl dt em embed fieldset figcaption figure footer form h1 h2 h3 h4 h5" +
+			" h6 head header hr html i iframe img input ins kbd keygen label legend li link" +
+			" main map mark menu menuitem meta meter nav noscript object ol optgroup option" +
+			" output picture pre progress q rp rt ruby s samp script section select" +
+			" small source span strong @style sub summary sup table tbody td textarea tfoot th" +
+			" thead time title tr track u ul var video wbr" +
+			" altGlyph altGlyphDef altGlyphItem animate animateColor animateMotion animateTransform" +
+			" circle clipPath color-profile cursor defs desc discard ellipse" +
+			" font font-face font-face-format font-face-name font-face-src font-face-uri" +
+			" foreignObject g glyph glyphRef hatch hatchpath hkern image line linearGradient" +
+			" marker mask metadata missing-glyph mpath path pattern polygon polyline radialGradient" +
+			" rect set solidcolor stop style svg switch symbol text textPath tref tspan" +
+			" unknown use video view vkern";
+		var html_supported_tags = _tags.split(' ');
+
+		var _attrs = "accept acceptCharset accessKey action allowFullScreen allowTransparency alt" + 
+			" async autoComplete autoFocus autoPlay capture cellPadding cellSpacing charSet" +
+			" challenge checked classID className cols colSpan content contentEditable contextMenu" +
+			" controls coords crossOrigin data dateTime defer dir disabled download draggable" + 
+			" encType form formAction formEncType formMethod formNoValidate formTarget frameBorder" +
+			" headers height hidden high href hrefLang htmlFor httpEquiv icon id inputMode" +
+			" keyParams keyType @label lang list loop low manifest marginHeight marginWidth max" +
+			" maxLength media mediaGroup method min minLength multiple muted name noValidate open" +
+			" optimum pattern placeholder poster preload radioGroup readOnly rel required role" +
+			" rows rowSpan sandbox scope scoped scrolling seamless selected shape size sizes" +
+			" @span spellCheck src srcDoc srcSet start step style @summary tabIndex target title" +
+			" type useMap value width wmode wrap" + 
+			" static"; 
+		var html_supported_attrs = _attrs.split(' ');
+
+		var _svg_attrs = "accentHeight accumulate additive alignmentBaseline allowReorder alphabetic" + 
+			" amplitude arabicForm ascent attributeName attributeType autoReverse azimuth" + 
+			" baseFrequency baseProfile baselineShift bbox begin bias by calcMode capHeight" + 
+			" clip clipPath clipPathUnits clipRule colorInterpolation" + 
+			" colorInterpolationFilters colorProfile colorRendering contentScriptType" + 
+			" contentStyleType cursor cx cy d decelerate descent diffuseConstant direction" + 
+			" display divisor dominantBaseline dur dx dy edgeMode elevation enableBackground" + 
+			" end exponent externalResourcesRequired fill fillOpacity fillRule @filter" + 
+			" filterRes filterUnits floodColor floodOpacity focusable fontFamily fontSize" + 
+			" fontSizeAdjust fontStretch fontStyle fontVariant fontWeight format from fx fy" + 
+			" g1 g2 glyphName glyphOrientationHorizontal glyphOrientationVertical glyphRef" + 
+			" gradientTransform gradientUnits hanging horizAdvX horizOriginX ideographic" + 
+			" imageRendering in in2 intercept k k1 k2 k3 k4 kernelMatrix kernelUnitLength" + 
+			" kerning keyPoints keySplines keyTimes lengthAdjust letterSpacing lightingColor" + 
+			" limitingConeAngle local markerEnd markerHeight markerMid markerStart" + 
+			" markerUnits markerWidth mask maskContentUnits maskUnits mathematical mode" + 
+			" numOctaves offset opacity operator order orient orientation origin overflow" + 
+			" overlinePosition overlineThickness paintOrder panose1 pathLength" + 
+			" patternContentUnits patternTransform patternUnits pointerEvents points" + 
+			" pointsAtX pointsAtY pointsAtZ preserveAlpha preserveAspectRatio primitiveUnits" + 
+			" r radius refX refY renderingIntent repeatCount repeatDur requiredExtensions" + 
+			" requiredFeatures restart result rotate rx ry scale seed shapeRendering slope" + 
+			" spacing specularConstant specularExponent speed spreadMethod startOffset" + 
+			" stdDeviation stemh stemv stitchTiles stopColor stopOpacity" + 
+			" strikethroughPosition strikethroughThickness string stroke strokeDasharray" + 
+			" strokeDashoffset strokeLinecap strokeLinejoin strokeMiterlimit strokeOpacity" + 
+			" strokeWidth surfaceScale systemLanguage tableValues targetX targetY textAnchor" + 
+			" textDecoration textLength textRendering to transform u1 u2 underlinePosition" + 
+			" underlineThickness unicode unicodeBidi unicodeRange unitsPerEm vAlphabetic" + 
+			" vHanging vIdeographic vMathematical values vectorEffect version vertAdvY" + 
+			" vertOriginX vertOriginY viewBox viewTarget visibility widths wordSpacing" + 
+			" writingMode x x1 x2 xChannelSelector xHeight xlinkActuate xlinkArcrole" + 
+			" xlinkHref xlinkRole xlinkShow xlinkTitle xlinkType xmlns xmlnsXlink xmlBase" + 
+			" xmlLang xmlSpace y y1 y2 yChannelSelector z zoomAndPan";
+		var svg_supported_attrs = _svg_attrs.split(' ');
+
+		var _events = "copy cut paste " +
+			" compositionEnd compositionStart compositionUpdate" +
+			" keyDown keyPress keyUp" +
+			" focus blur" +
+			" change input submit" +
+			" click contextMenu doubleClick" +
+			" drag dragEnd dragEnter dragExit dragLeave dragOver dragStart drop" +
+			" mouseDown mouseEnter mouseLeave mouseMove mouseOut mouseOver mouseUp" +
+			" select" +
+			" touchCancel touchEnd touchMove touchStart" +
+			" scroll" +
+			" wheel" +
+			" abort canPlay canPlayThrough durationChange emptied encrypted"+
+			" ended error loadedData loadedMetadata loadStart pause play" + 
+			" playing progress rateChange seeked seeking stalled suspend" +
+			" timeUpdate volumeChange waiting" +
+			" load" +
+			" transitionEnd";
+		var html_supported_events = _events.split(' ');
+		var html_supported_onEvents = [];
+		for (var i=0; i<html_supported_events.length; i++) {
+			html_supported_onEvents.push('on' + _.capitalize(html_supported_events[i]));
+		}

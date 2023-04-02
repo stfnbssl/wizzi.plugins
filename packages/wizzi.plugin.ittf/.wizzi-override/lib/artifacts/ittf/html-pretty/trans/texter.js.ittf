@@ -1,0 +1,65 @@
+﻿module
+	kind jsfile
+
+	var md = module.exports = {}
+
+	class Texter
+		ctor
+			param text
+			set this.text = text
+
+		m toString
+			if typeof this.text !== 'string'
+				return ''
+			var ret = ''
+			var cmd = ''
+			var value = ''
+			var i, ch, l = this.text.length, state = 0
+			for i=0; i<l; i++
+				set ch = this.text[i]
+				if ch === '{' && state == 0
+					set state = 1
+				elif ch === ' '
+					if state == 1
+						if this.isCmd(cmd)
+							set state = 2
+						else
+							set ret += '{' + cmd + ' '
+							set state = 0
+					elif state == 2
+						set value += ch
+					else
+						set ret += ch
+				elif ch === '}' 
+					if state == 2
+						set ret += this.get(cmd, value)
+					else
+						set ret += "{" + cmd + "}"
+					set cmd = value = ''
+					set state = 0
+				else
+					if state == 1
+						set cmd += ch
+					elif state == 2
+						set value += ch
+					else
+						set ret += ch
+			if state == 1
+				set ret += '{' + cmd
+			elif state == 2
+				set ret += '{' + cmd + ' ' + value
+			return ret
+		
+		m isCmd
+			param cmd
+			return ['label'].indexOf(cmd) >= 0
+		
+		m get
+			param cmd
+			param value
+			if cmd === 'label'
+				return '<span class="label">' + value + '</span>'
+			else
+				return '<span class="default">' + value + '</span>'
+
+	set md.Texter = Texter

@@ -1,0 +1,99 @@
+﻿module
+	kind jsfile
+
+	#
+		# Pseudo schema text
+	var util = require('util')
+	+
+    set module.exports
+		function
+			param mTree
+			param ittfDocumentUri
+			param request
+			param callback
+
+			if !(mTree.nodes && mTree.nodes.length == 1)
+				return
+					_ callback
+						_ error
+							@ 'Malformed mTree. Must have one root node. Found mTree.nodes: ' + mTree.nodes.length
+
+			var root = mTree.nodes[0]
+			if root.n !== "text"
+				return
+					_ callback
+						_ error
+							@ 'The root node of a text ittf document must be : "text". Found: ' + root.n + ' ' + root.v + ', mTree: ' + util.inspect(mTree, { depth: null } )
+
+			# loog 'wizzi-core.wizzi.models.text-model root', root
+			# loog 'wizzi-core.wizzi.models.text-model root.children[0].children', root.children[0].children
+
+			var sb = []
+
+			#
+			# TODO in text-factory do not insert another root text node
+			#      we now have
+			#      text
+			#          text
+			#              lorem ipsum
+			#              lorem ipsum
+			# Do eliminate the first 'text' node !
+			#
+
+			checked_call( hr )
+				_ toText
+					@ ''
+					@ sb
+					@ root.children
+			
+			return
+				_ callback
+					@ null
+					{
+						@ wzElement 'text'
+						@ content sb.join('\n')
+
+	function toText
+		param indent
+		param sb
+		param nodes
+
+		foreach node in nodes
+			# loog 'wizzi-core/wizzi/models/text-model/toText', node.n, node.v
+            var n = node.n
+            var v = node.v
+			var nextIndent = '    '
+			if n === 'text'
+				# skip
+				set nextIndent = ''
+			elif n === 'br' && (!v || v.length == 0)
+				_ sb.push('')
+			elif n === '\\br'
+				_ sb.push(indent + 'br ' + v)
+			elif n === 'span'
+				set sb[sb.length - 1] += v
+			elif n === '\\span' 
+				_ sb.push(indent + 'span ' + v)
+			elif n === 'bspan'
+				set sb[sb.length - 1] += ' ' + v
+			elif n === '\\bspan' 
+				_ sb.push(indent + 'bspan ' + v)
+            elif n == '---' && v.length == 0
+                _ sb.push('')
+            elif n == '\\---' && v.length == 0
+                _ sb.push('---')
+			else
+				_ sb.push(indent + n + ' ' + v)
+			if node.children
+				_ toText
+					@ indent + nextIndent
+					@ sb
+					@ node.children
+
+	function error
+		param message
+		return
+			{
+				@ __is_error true
+				@ source 'wizzi-core/lib/wizzi/models/text-model.g'
+				@ message message

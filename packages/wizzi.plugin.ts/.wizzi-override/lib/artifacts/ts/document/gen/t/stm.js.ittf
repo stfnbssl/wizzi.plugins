@@ -1,0 +1,23 @@
+﻿$group
+    $params name, arg1|@@null
+
+    set cnt.stm.${name}
+        function
+            param model
+            param ctx
+            $if arg1 != null
+                param ${arg1}
+            param callback
+            if typeof callback === 'undefined'
+                $if arg1 != null
+                    set callback = ${arg1}
+                    set ${arg1} = null
+                $else
+                    throw
+                        new Error
+                            @ 'Missing callback parameter in cnt.stm: ' + myname + '.${name}'
+            if typeof callback !== 'function'
+                throw
+                    new Error
+                        @ 'The callback parameter must be a function. In ' + myname + '.${name}. Got: ' + callback		
+            $hook

@@ -1,0 +1,10 @@
+﻿$group
+	$params name
+
+	# loog 'prop', ${name}, lc[${name}]
+	if lc[${name}]
+		_ lc[${name}]
+			@ prop
+			@ ctx
+			@ cnt
+	$hook

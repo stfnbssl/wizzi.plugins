@@ -1,0 +1,181 @@
+﻿$group
+
+	var genReactPropType
+		iife
+			lc-init()
+			lc-stm( oneOfParam )
+				_ ctx.w(model.wzName + ': PropTypes.oneOf([')
+				# loog 'wizzi-codegen.statemts.t.reactPropTypes oneOfParam model: ', model
+				_ writeValueList(model, ctx)
+				if model.isRequired
+					_ ctx.w(').isRequired')
+				else
+					_ ctx.w('])')
+			lc-stm( oneOfTypeParam )
+				# loog 'wizzi-codegen.statemts.t.reactPropTypes oneOfTypeParam model: ', model
+				_ ctx.w(model.wzName + ': PropTypes.oneOfType([')
+				_ writeTypeList(model, ctx)
+				if model.isRequired
+					_ ctx.w(').isRequired')
+				else
+					_ ctx.w('])')
+			lc-stm( arrayOf )
+				_ ctx.write(model.wzName + ': PropTypes.arrayOf([')
+				_ writeTypeList(model, ctx)
+				if model.isRequired
+					_ ctx.w(').isRequired')
+				else
+					_ ctx.w('])')
+			lc-stm( instanceOf )
+				_ ctx.write(model.wzName + ': PropTypes.instanceOf(')
+				_ writeTypeList(model, ctx)
+				if model.isRequired
+					_ ctx.w(').isRequired')
+				else
+					_ ctx.w(')')
+			lc-stm( objectOf )
+				_ ctx.write(model.wzName + ': PropTypes.objectOf(')
+				_ writeTypeList(model, ctx)
+				if model.isRequired
+					_ ctx.w(').isRequired')
+				else
+					_ ctx.w(')')
+			lc-stm( instanceOfParam )
+                var p
+                    _ lineParser.parseNameValueRaw
+                        @ model.wzName
+                        @ model
+				_ ctx.write(p.name() + ': PropTypes.instanceOf(')
+				_ ctx.write(p.value())
+				if model.isRequired
+					_ ctx.w(').isRequired')
+				else
+					_ ctx.w(')')
+			lc-stm( shapeParam )
+				# loog 'wizzi-codegen.statemts.t.reactPropTypes shapeParam model: ', model
+				_ ctx.w(model.wzName + ': PropTypes.shape({')
+				_ writePropList(model, ctx)
+				if model.isRequired
+					_ ctx.w('}).isRequired')
+				else
+					_ ctx.w('})')
+			lc-stm( reactStyleParam )
+				_ ctx.w('style: stylePropType')
+			return
+				function genReactPropType
+					param prop
+					param ctx
+					param cnt
+
+					# loog 'wizzi-codegen.reactPropTypes', prop.wzName
+					if !prop.param
+						# default to string
+						# loog 'wizzi-codegen.statemts.t.reactPropTypes < 1, prop.wzName:', prop.wzName, 'string'
+						_ ctx.write(prop.wzName + ': PropTypes.string')
+						if prop.isRequired
+							_ ctx.write('.isRequired')
+					else
+						var propParam = prop.param
+						# loog 'wizzi-codegen.statemts.t.reactPropTypes prop.wzName: ', prop.wzName, 'prop.param.wzElement', propParam.wzElement
+						lc-exec-if( propParam.wzElement )
+						else
+							var name
+								_ propTypeFromWzElement
+									@ propParam.wzElement
+							_ ctx.write
+								@ prop.wzName + ': PropTypes.' + name
+							if prop.isRequired
+								_ ctx.write('.isRequired')
+
+	function writeTypeList
+		param prop
+		param ctx
+		var pa = prop.param
+		if !pa 
+			return
+		_ ctx.indent
+		var seen = false
+		foreach prm in pa.params
+			if seen
+				_ ctx.w(',')
+			var name 
+				_ propTypeFromWzElement
+					@ prm.wzElement
+			_ ctx.write
+				@ 'PropTypes.' + name
+			set seen = true
+		if seen
+			_ ctx.w()
+		_ ctx.deindent
+
+	function writeValueList
+		param prop
+		param ctx
+		var prm = prop.param
+		if !prm 
+			return
+		_ ctx.indent
+		var seen = false
+		foreach value in prm.jsPropertyOrValues
+			if seen
+				_ ctx.w(',')
+			_ ctx.write(value.wzName)
+			set seen = true
+		if seen
+			_ ctx.w()
+		_ ctx.deindent
+
+	# TODO
+	function writePropList
+		param prop
+		param ctx
+		var prm = prop.param
+		if !prm 
+			return
+		_ ctx.indent
+		var seen = false
+		foreach prop in prm.props
+			if seen
+				_ ctx.w(',')
+			var name = 'string'
+			if prop.param
+				set name
+					_ propTypeFromWzElement
+						@ prop.param.wzElement
+			_ ctx.write
+				@ prop.wzName + ': PropTypes.' + name
+			if prop.isRequired
+				_ ctx.write('.isRequired')
+			set seen = true
+		if seen
+			_ ctx.w()
+		_ ctx.deindent
+
+	function propTypeFromWzElement
+		param test
+		if test == 'stringParam'
+			return 'string'
+		elif test == 'booleanParam'
+			return 'bool'
+		elif test == 'numberParam'
+			return 'number'
+		elif test == 'dateParam'
+			return 'date'
+		elif test == 'functionParam'
+			return 'func'
+		elif test == 'symbolParam'
+			return 'symbol'
+		elif test == 'nodeParam'
+			return 'node'
+		elif test == 'elementParam'
+			return 'element'
+		elif test == 'exactParam'
+			return 'exact'
+		elif test == 'anyParam'
+			return 'any'
+		elif test == 'arrayParam'
+			return 'array'
+		elif test == 'objectParam'
+			return 'object'
+		else
+			throw new TypeError('Unmanaged react prop type:' + test + ' in wizzi-codegen.statements.reactPropTypes')

@@ -1,0 +1,672 @@
+﻿loader( types )
+
+	stm( typeNumber, kind
+		_ ctx.write('number')
+		r_cb()
+	
+	stm( typeString, kind
+		_ ctx.write('string')
+		r_cb()
+	
+	stm( typeBoolean, kind
+		_ ctx.write('boolean')
+		r_cb()
+	
+	stm( typeAny, kind
+		_ ctx.write('any')
+		r_cb()
+	
+	stm( typeArray, kind
+		# loog 'typeArray model.statements.length', model.statements.length
+		if model.statements.length == 1
+			var item = model.statements[0]
+			# loog 'typeArray item.wzElement', item.wzElement
+			if !cnt.stm[item.wzElement]
+				error 'ts.module.gen.item.wzElement not managed', item.wzElement
+			_ cnt.stm[item.wzElement]
+				@ item
+				@ ctx
+				a_cb()
+					_ ctx.write('[]')
+					# loog 'typeArray item.wzElement exit', item.wzElement
+					r_cb()
+		else
+			# TODO
+			_ ctx.write('MISSING[]')
+			r_cb()
+	
+	stm( typeObject, kind
+		_ ctx.write('object')
+		r_cb()
+
+	stm( typeObjectLiteral, kind
+        var model = writeComments(model, ctx)
+		_ ctx.w('{ ')
+		_ ctx.indent
+		repeater( 1, model.statements )
+			if index_1 > 0
+				# log 0
+				# (19/1/21 It seems are separated by ';') _ ctx.write(', ')
+			# loog 'typeObjectLiteral.item_1.wzElement', item_1.wzElement, item_1.wzName
+			_ cnt.genItem
+				@ item_1
+				@ ctx
+				a_cb()
+					# log 1
+					repeater_increment( 1 )
+			$append next
+				_ ctx.deindent
+				# 21/3/2021 _ ctx.w('} ')
+                _ ctx.write('}')
+				# log 2
+				r_cb()
+	
+	stm( typeVoid, kind
+		_ ctx.write('void')
+		r_cb()
+	
+	stm( typeNull, kind
+		_ ctx.write('null')
+		r_cb()
+	
+	stm( typeUndefined, kind
+		_ ctx.write('undefined')
+		r_cb()
+
+	stm( typeUnknown, kind
+		_ ctx.write('unknown')
+		r_cb()
+
+	stm( typeNever, kind
+		_ ctx.write('never')
+		r_cb()
+
+	stm( typeTypeof, kind
+		_ ctx.write('typeof ' + model.wzName)
+		r_cb()
+
+	stm( typeReference, kind
+        $*
+        # loog 'typeReference', model.wzName
+        # loog 'model.statements.length', model.statements.length
+        # loog 'model.typeParameterInsts.length', model.statements.length
+        *$
+        # loog 'typeReference.model', model
+        var model = writeComments(model, ctx)
+		if model.statements.length == 1
+			_ ctx.write('<' + model.wzName + '>')
+			var item = model.statements[0]
+			if !cnt.stm[item.wzElement]
+				error 'ts.module.gen.item.wzElement not managed', item.wzElement
+			_ cnt.stm[item.wzElement]
+				@ item
+				@ ctx
+				@ callback
+		elif kind === 'typeParameterDecl'
+			_ ctx.write(' extends ' + model.wzName)
+			r_cb()
+		else
+			_ ctx.write(model.wzName)
+			if model.typeParameterInsts.length > 0
+                var graphs = false
+                foreach item in model.typeParameterInsts
+                    if item.statements.length == 1 && item.statements[0].wzElement == 'typeMapped'
+                        set graphs = true
+                $$ 19/3/21 added {}, waiting for damage
+				_ ctx.write('<' + (graphs ? '{' : ''))
+				repeater( 1, model.typeParameterInsts )
+					if index_1 > 0 
+						_ ctx.write(', ')
+					if !cnt.stm[item_1.wzElement]
+						error 'ts.module.gen.item.wzElement not managed', item_1.wzElement
+					_ cnt.stm[item_1.wzElement]
+						@ item_1
+						@ ctx
+						a_cb()
+							repeater_increment( 1 )
+					$append next
+						_ ctx.write((graphs ? '}' : '') + '>')
+						r_cb()
+			else
+				r_cb()
+
+	stm( typeParameterInst, kind
+		if model.statements.length == 0
+			_ ctx.write(model.wzName)
+			r_cb()
+		elif model.statements.length == 1
+			var item = model.statements[0]
+			# loog 'typeParameterInst,item.wzElement', item.wzElement
+            if !cnt.stm[item.wzElement]
+				error 'ts.module.gen.item.wzElement not managed', item.wzElement
+			_ cnt.stm[item.wzElement]
+				@ item
+				@ ctx
+				@ callback
+		else
+			return
+				_ callback
+					_ ctx.error(':param typeParameterInst not managed. children: ' + model.statements.length, model)
+
+	stm( typeConditional, kind
+        var model = writeComments(model, ctx)
+		var item = model.typeCheck.statements[0]
+		if !cnt.stm[item.wzElement]
+			error 'ts.module.gen.typeConditional.wzElement not managed', item.wzElement
+		_ cnt.stm[item.wzElement]
+			@ item
+			@ ctx
+			a_cb()
+				_ ctx.write(' extends ')
+				var item = model.typeExtends.statements[0]
+				if !cnt.stm[item.wzElement]
+					error 'ts.module.gen.typeExtends.wzElement not managed', item.wzElement
+				_ cnt.stm[item.wzElement]
+					@ item
+					@ ctx
+					a_cb()
+						_ ctx.write(' ? ')
+						var item = model.typeThen.statements[0]
+						if !cnt.stm[item.wzElement]
+							error 'ts.module.gen.typeThen.wzElement not managed', item.wzElement
+						_ cnt.stm[item.wzElement]
+							@ item
+							@ ctx
+							a_cb()
+								_ ctx.write(' : ')
+								var item = model.typeElse.statements[0]
+								if !cnt.stm[item.wzElement]
+									error 'ts.module.gen.typeElse.wzElement not managed', item.wzElement
+								_ cnt.stm[item.wzElement]
+									@ item
+									@ ctx
+									@ callback
+
+	stm( typeInfer, kind
+		_ ctx.write(' infer ')
+		var item = model.statements[0]
+		if !cnt.stm[item.wzElement]
+			error 'ts.module.gen.typeThen.wzElement not managed', item.wzElement
+		_ cnt.stm[item.wzElement]
+			@ item
+			@ ctx
+			@ callback
+
+	stm( typeParenthesized, kind
+		_ ctx.write('(')
+		if model.statements.length == 1
+			var item = model.statements[0]
+			if !cnt.stm[item.wzElement]
+				error 'ts.module.gen.item.wzElement not managed', item.wzElement
+			_ cnt.stm[item.wzElement]
+				@ item
+				@ ctx
+				a_cb()
+					_ ctx.write(')')
+					r_cb()
+		else
+			return
+				_ callback
+					_ ctx.error(':paren typeParenthesized not managed. children: ' + model.statements.length, model)
+
+	stm( typeTuple, kind
+		_ ctx.write('[')
+		repeater( 1, model.statements )
+			if index_1 > 0
+				_ ctx.write(' , ')
+			# loog 'typeTuple.item_1.wzElement', item_1.wzElement, item_1.wzName
+			_ cnt.genItem
+				@ item_1
+				@ ctx
+				a_cb()
+					repeater_increment( 1 )
+			$append next
+				_ ctx.write(']')
+				r_cb()
+
+	stm( typeEnum, kind
+        var model = writeComments(model, ctx)
+		_ ctx.w('enum ' + model.wzName + ' {')
+        _ ctx.indent
+		repeater( 1, model.statements )
+			if index_1 > 0
+				_ ctx.w(' , ')
+			# loog 'typeEnum.item_1.wzElement', item_1.wzElement, item_1.wzName
+			_ cnt.genItem
+				@ item_1
+				@ ctx
+				a_cb()
+					repeater_increment( 1 )
+			$append next
+                _ ctx.deindent
+                _ ctx.w()
+				_ ctx.w('}')
+				r_cb()
+
+	stm( typeReturn, kind
+		if model.statements.length == 1
+			var item = model.statements[0]
+			_ ctx.write(' ')
+			if !cnt.stm[item.wzElement]
+				error 'ts.module.gen.item.wzElement not managed', item.wzElement
+			_ cnt.stm[item.wzElement]
+				@ item
+				@ ctx
+				@ callback
+		else
+			return
+				_ callback
+					_ ctx.error(':{ typeReturn must have one children. found: ' + model.statements.length, model)
+
+	stm( typeInitValue, kind
+		if model.wzName && model.wzName.length > 0 
+			_ ctx.write(model.wzName)
+			r_cb()
+		elif model.statements.length == 1
+			_ cnt.genItem
+				@ model.statements[0]
+				@ ctx
+				@ callback
+		elif model.statements.length > 1
+			_ cnt.genItems
+				@ model.statements
+				@ ctx
+				@ callback
+		else
+			return
+				_ callback
+					_ ctx.error(':{ typeReturn must have wzName or children. found: ' + model.statements.length, model)
+		
+
+	stm( typeKeyOf, kind
+		if kind === 'mapped'
+			_ ctx.write(' in ')
+		_ ctx.write(' keyof ')
+		repeater( 1, model.statements )
+			if index_1 > 0
+				_ ctx.write(' , ')
+			# loog 'typeKeyOf.item_1.wzElement', item_1.wzElement, item_1.wzName
+			_ cnt.genItem
+				@ item_1
+				@ ctx
+				a_cb()
+					repeater_increment( 1 )
+			$append next
+				r_cb()
+
+	stm( typeParameterDecl, kind
+        var atype
+			_ u.extractTSSimpleType
+				@ model
+        if atype
+            _ ctx.write(model.wzName)
+            if kind == 'mapped'
+			    _ ctx.write(' in ')
+            else
+                _ ctx.write(' extends ')
+			if !cnt.stm[atype.wzElement]
+				error 'ts.module.gen.typeParameterDecl.item.wzElement not managed', atype.wzElement
+			_ cnt.stm[atype.wzElement]
+				@ atype
+				@ ctx
+                @ callback
+		else
+            _ ctx.write(model.wzName)
+			r_cb()
+
+	stm( typeUnion, kind
+		repeater( 1, model.statements )
+			if index_1 > 0
+				_ ctx.write(' | ')
+			# loog 'typeUnion.item_1.wzElement', item_1.wzElement, item_1.wzName
+			_ cnt.genItem
+				@ item_1
+				@ ctx
+				a_cb()
+					repeater_increment( 1 )
+			$append next
+				r_cb()
+
+	stm( typeIntersect, kind
+		repeater( 1, model.statements )
+			if index_1 > 0
+				_ ctx.write(' & ')
+			# loog 'typeIntersect.item_1.wzElement', item_1.wzElement, item_1.wzName
+			_ cnt.genItem
+				@ item_1
+				@ ctx
+				a_cb()
+					repeater_increment( 1 )
+			$append next
+				r_cb()
+
+	
+	stm( typeNotNull, kind
+		_ ctx.write( model.wzName || '')
+		if model.statements.length == 0
+			_ ctx.write('!')
+            r_cb()
+		else
+			_ cnt.genItems
+				@ model.statements
+				@ ctx
+				a_cb()
+					_ ctx.write('!')
+					r_cb()
+
+	stm( typePredicate, kind
+		if model.statements.length == 1
+			_ ctx.write(model.wzName + ' is ')
+			var item = model.statements[0]
+			if !cnt.stm[item.wzElement]
+				error 'ts.module.gen.item.wzElement not managed', item.wzElement
+			_ cnt.stm[item.wzElement]
+				@ item
+				@ ctx
+				@ callback
+		else
+			return
+				_ callback
+					_ ctx.error(':predicate typePredicate must have one children. found: ' + model.statements.length, model)
+
+	stm( typeIndexedAccess, kind
+		if model.statements.length == 2
+			var item = model.statements[0]
+			var gr = u.indexedTSNeedsGraphs(item)
+			if !cnt.stm[item.wzElement]
+				error 'ts.module.gen.item.wzElement not managed', item.wzElement
+			if gr
+				_ ctx.write('{')
+			_ cnt.stm[item.wzElement]
+				@ item
+				@ ctx
+				a_cb()
+					if gr
+						_ ctx.write('}')
+					_ ctx.write('[')
+					var item = model.statements[1]
+					if !cnt.stm[item.wzElement]
+						error 'ts.module.gen.item.wzElement not managed', item.wzElement
+					_ cnt.stm[item.wzElement]
+						@ item
+						@ ctx
+						a_cb()
+							_ ctx.write(']')
+							r_cb()
+		else
+			return
+				_ callback
+					_ ctx.error(':mapped typeMapped must have two children. found: ' + model.statements.length, model)
+
+	stm( typeIndex, kind
+		var atype
+			_ u.extractTSSimpleType
+				@ model
+		_ u.genAccessorsAndExtra
+			@ model
+			@ ctx
+		_ ctx.write('[')
+		_ u.genTSParams
+			@ model
+			@ ctx
+			@ cnt
+			a_cb()
+				# loog '11'
+				_ ctx.write(']')
+				if atype
+					_ ctx.write(': ')
+					if !cnt.stm[atype.wzElement]
+						error 'ts.module.gen.typeIndex.item.wzElement not managed', atype.wzElement
+					_ cnt.stm[atype.wzElement]
+						@ atype
+						@ ctx
+						a_cb()
+							_ ctx.w(';')
+							r_cb()
+				else
+					r_cb()
+
+	stm( typeAs, kind
+        var model = writeComments(model, ctx)
+		# loog 'typeAs.model.statements 1', model.statements
+		var atype
+			_ u.extractTSSimpleType
+				@ model
+		# loog 'typeAs atype', atype
+		# loog 'typeAs.model.statements 2', model.statements
+        _ ctx.setLastNotEmptyLine
+        _ ctx.write(' as ')
+		if atype
+			if !cnt.stm[atype.wzElement]
+				error 'ts.module.gen.item.wzElement not managed', atype.wzElement
+			_ cnt.stm[atype.wzElement]
+				@ atype
+				@ ctx
+				@ callback
+		else
+			_ cnt.genItems
+				@ model.statements
+				@ ctx
+				@ callback
+			$*
+            return
+				_ callback
+					_ ctx.error('typeAs must have a type.', model)
+            *$
+
+	stm( typeLiteral, kind
+		_ ctx.write(model.wzName)
+		r_cb()
+
+	stm( typeMapped, kind
+        var model = writeComments(model, ctx)
+		if model.statements.length == 2
+			var item = model.statements[0]
+            # loog 'ts.module.gen.typeMapped', item.wzElement
+			if !cnt.stm[item.wzElement]
+				error 'ts.module.gen.item.wzElement not managed', item.wzElement
+			_ ctx.write('[')
+			_ cnt.stm[item.wzElement]
+				@ item
+				@ ctx
+				@ 'mapped'
+				a_cb()
+					_ ctx.write(']')
+					_ ctx.write(' : ')
+					var item = model.statements[1]
+					if !cnt.stm[item.wzElement]
+						error 'ts.module.gen.item.wzElement not managed', item.wzElement
+					_ cnt.stm[item.wzElement]
+						@ item
+						@ ctx
+						@ callback
+		else
+			return
+				_ callback
+					_ ctx.error(':mapped typeMapped must have two children. found: ' + model.statements.length, model)
+
+	stm( typeArrowFunction, kind
+        var model = writeComments(model, ctx)    
+		var atype
+			_ u.extractTSSimpleType
+				@ model
+		_ u.genTSTypeParameters
+			@ model
+			@ ctx
+			@ cnt
+			a_cb()
+				_ ctx.write('(')
+				_ u.genTSParams
+					@ model
+					@ ctx
+					@ cnt
+					a_cb()
+						_ ctx.write(')')
+						if model.typeReturn
+							_ ctx.write(': ')
+							_ cnt.stm.typeReturn
+								@ model.typeReturn
+								@ ctx
+								a_cb()
+									_ typeArrowFunction_close
+										@ model
+										@ ctx
+										@ atype
+										@ callback
+						else
+							_ typeArrowFunction_close
+								@ model
+								@ ctx
+								@ atype
+								@ callback
+
+	fn( typeArrowFunction_close, atype
+		_ ctx.write(' => ')
+		if atype
+			if !cnt.stm[atype.wzElement]
+				error 'ts.module.gen.typeIndex.item.wzElement not managed', atype.wzElement
+			_ cnt.stm[atype.wzElement]
+				@ atype
+				@ ctx
+				a_cb()
+					_ cnt.genItems
+						@ model.statements
+						@ ctx
+						@ callback
+		else
+			_ cnt.genItems
+				@ model.statements
+				@ ctx
+				@ callback
+
+	stm( typeExportAssignment
+        var model = writeComments(model, ctx)
+		_ ctx.w('export = ' + model.wzName + ';')
+		r_cb()
+
+	stm( typeImport
+        var model = writeComments(model, ctx)
+        var name = model.wzName || ''
+        if model.xas
+            if name.length > 0
+                set name += ', '
+            set name += '* as ' + model.xas
+        _ ctx.write("import type " + name)
+        if model.specifiers.length > 0
+            if name.length > 0
+                _ ctx.write(', ')
+            _ ctx.write('{')
+            foreach item in model.specifiers
+                if i > 0
+                    _ ctx.write(', ')
+                _ ctx.write(item.wzName)
+                if item.xas
+                    _ ctx.write(' as ' + item.xas)
+            _ ctx.write('}')
+            _ ctx.write(' from ' + model.from)
+        else
+            if model.from && model.from.length > 0
+                if name.trim().length > 0
+                    _ ctx.write(' from')
+                _ ctx.write(' ' + model.from)
+        _ ctx.w(u.semicolon(name))
+        r_cb()
+
+	stm( typeImportEqualsDeclaration
+        var model = writeComments(model, ctx)
+		_ ctx.write('import ' + model.wzName + ' = ')
+		if model.statements.length == 1
+			_ ctx.w('require( ' + model.statements[0].wzName + ');')
+			r_cb()
+		else
+			return
+				_ callback
+					_ ctx.error(':import typeImportEqualsDeclaration must have one children. found: ' + model.statements.length, model)
+
+	stm( typeNamespaceExportDeclaration
+		_ ctx.w('export as namespace ' + model.wzName + ';')
+        r_cb()
+
+	stm( typeCTorDeclare
+        var model = writeComments(model, ctx)
+		var atype
+			_ u.extractTSSimpleType
+				@ model
+		_ ctx.write('(')
+		_ u.genTSParams
+			@ model
+			@ ctx
+			@ cnt
+			a_cb()
+				_ ctx.write(')')
+				if atype
+					_ ctx.write(': ')
+					if !cnt.stm[atype.wzElement]
+						error 'ts.module.gen.typeIndex.item.wzElement not managed', atype.wzElement
+					_ cnt.stm[atype.wzElement]
+						@ atype
+						@ ctx
+						a_cb()
+							_ ctx.w(';')
+							r_cb()
+				else
+					_ ctx.w(';')
+					r_cb()
+
+	stm( typeCTor
+		_ ctx.w('*** :ctor ' + model.wzName + ';')
+		r_cb()
+
+	stm( typeConditional
+        var model = writeComments(model, ctx)
+
+		if !model.typeCheck || model.typeCheck.statements.length < 1
+			return
+				_ callback
+					_ ctx.error('ts.modeule.typeConditional missing typeCheck element', model)
+		
+		if !model.typeThen || model.typeThen.statements.length < 1
+			return
+				_ callback
+					_ ctx.error('ts.modeule.typeConditional missing typeThen element', model)
+		
+		if !model.typeElse || model.typeElse.statements.length < 1
+			return
+				_ callback
+					_ ctx.error('ts.modeule.typeConditional missing typeElse element', model)
+
+		var item = model.typeCheck.statements[0]
+		_ cnt.stm[item.wzElement]
+			@ item
+			@ ctx
+			a_cb()
+				_ typeConditional_extends
+					@ model
+					@ ctx
+					a_cb()
+						_ ctx.write(' ? ')
+						set item = model.typeThen.statements[0]
+						_ cnt.stm[item.wzElement]
+							@ item
+							@ ctx
+							a_cb()
+								_ ctx.write(' : ')
+								set item = model.typeElse.statements[0]
+								_ cnt.stm[item.wzElement]
+									@ item
+									@ ctx
+									@ callback
+
+	fn( typeConditional_extends )
+		if model.typeExtends
+			_ ctx.write(' extends ')
+			var item = model.typeExtends.statements[0]
+			_ cnt.stm[item.wzElement]
+				@ item
+				@ ctx
+				@ callback
+		else
+			r_cb()
+
+
+	$include doCallMembers_call

@@ -1,0 +1,19 @@
+﻿$group
+	$params expr, tag|@@null
+
+	var got_text_2 = false
+
+	if isChildrenCount(ret, 2)
+		
+		if (ret.children[0].textified || ret.children[0].isText) &&
+			\b (ret.children[1].textified || ret.children[1].isText)
+			var c1 = ret.children[0].textified || ret.children[0].name
+			var c2 = ret.children[1].textified || ret.children[1].name
+			set ret.name = ${expr}
+			set ret.textified = ret.name
+			set ret.children = []
+			set got_text_2 = true
+			$if tag != null
+				set ret.tag = '${tag}'
+			set got_text_2 = true
+

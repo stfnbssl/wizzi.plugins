@@ -1,0 +1,139 @@
+﻿$group
+
+	e identifier : statement
+		tag @id
+
+	e expressionMember : statement
+		tag @expr
+
+	e iif : statement
+		# ittf:
+		#   iif a === b
+		#       then 0
+		#       else 1
+		# js:
+		#   ( a === b ) ? 0 : 1
+	
+
+	e test : statement
+
+	e then : statement
+
+	e void : statement
+		tag void
+
+	e not : statement
+		tag not|op!
+
+	e notnot : statement
+		tag !!
+
+	e or : statement
+		tag \|\||op\|\|
+	
+	e and : statement
+		tag &&|op&&
+
+	e op_nullish : statement
+        tag ??|op??
+
+	e op_eq_strict : statement
+		tag ===|op===
+	
+	e op_noteq_strict : statement
+		tag !==|op!==
+	
+	e op_eq : statement
+		tag ==|op==
+	
+	e op_noteq : statement
+		tag !=|op!=
+	
+	e op_minus : statement
+		tag minus|op-
+	
+	e op_plus : statement
+		tag plus|op+
+	
+	e op_times : statement
+		tag times|op*
+	
+	e op_div : statement
+		tag divide|op/
+	
+	e op_power : statement
+		tag power|op**
+	
+	e op_mod : statement
+		tag mod
+	
+	e bit_and : statement
+		tag op&
+
+	e bit_or : statement
+		tag op\|
+
+	e op_xor : statement
+		tag xor|op^
+	
+	e op_xand : statement
+		tag xand|op&
+
+	e bit_not : statement
+		tag op~
+
+	e bit_left_shift : statement
+		tag op<<
+
+	e bit_right_shift : statement
+		tag op>>
+
+	e zero_fill_right_shift : statement
+		tag op>>>
+
+	e op_gt : statement
+		tag gt|op>
+
+		# ittf
+		#   var foo
+		#     gt
+		#       _ price
+		#         @ id
+		#       @ 100
+	
+	e op_ge : statement
+		tag >=|op>=
+
+		# ittf
+		#   var foo
+		#     >=
+		#       _ price
+		#         @ id
+		#       @ 100
+	
+	e op_lt : statement
+		tag lt|op<
+
+		# ittf
+		#   var foo
+		#     lt
+		#       _ price
+		#         @ id
+		#       @ 100
+	
+	e op_le : statement
+		tag <=|op<=
+
+		# ittf
+		#   var foo
+		#     <=
+		#       _ price
+		#         @ id
+		#       @ 100
+
+	e op_typeof : statement
+		tag typeof|optypeof
+
+		# ittf
+		#   var foo
+		#     typeof Foo

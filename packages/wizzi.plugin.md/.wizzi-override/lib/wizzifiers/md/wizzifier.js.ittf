@@ -1,0 +1,67 @@
+module
+    $
+        var schemaName = 'md';
+    kind es6
+    basewizzifier()
+        $append imports
+            var md_parser = require('marked')
+            var md_Lexer = require('marked').Lexer
+            var cleanAST = require('./cleanAST')
+            +
+            function parseInternal
+                param tobeWizzified
+                param options
+                param callback
+                var syntax 
+                    _ md_Lexer.lex
+                        @ tobeWizzified
+                $*
+                    {
+                        [ tokens
+                const walkTokens
+                    =>
+                        param token
+                        log 'token', token
+                        _ syntax.tokens.push
+                            @ token
+                _ md_parser.use
+                    { 
+                        @ walkTokens
+                *$
+                try
+                    _ md_parser.parse
+                    	@ tobeWizzified
+                    	a_cb( html )
+                            # _ cleanAST(syntax)
+                            return
+                                _ callback
+                                    @ null
+                                    @ syntax
+                catch ex
+                    return
+                        _ callback
+                            @ ex
+        +
+        function wizzify
+            param tobeWizzified
+            param options
+            param callback
+            set options = options || {};
+            set options.input = tobeWizzified
+            set options.stack = []
+            set options.formatTextNodes = []
+            set options.verbose = true
+            _ parseInternal
+                @ tobeWizzified
+                @ options
+                a_cb( syntax )
+                    # log stringify(syntax, null, 2)
+                    r_cb( syntax )
+        +
+        function isKnownType
+            param type
+            return ['Int', 'Float', 'Boolean', 'String'].indexOf(type) > -1
+        +
+        function getTypeName
+            param type
+            return isKnownType(type) ? type.toLowerCase() : type

@@ -1,0 +1,32 @@
+﻿$group
+	
+    e js : htmlelement
+	
+	e css : htmlelement
+	
+	e_tag(styleJsx, style-jsx , htmlelement)
+		a_flag( global
+		include css
+
+	e_tag(styled, styled, htmlelement)
+		a_flag( global
+		include css
+
+	e_tag(styledCss, styled-css, htmlelement)
+		a_flag( global
+		include css
+
+	e_tag(keyframes, keyframes, statement)
+		a_flag( global
+		include css
+
+	e_tag(htmlParam, @param, htmlelement)
+
+	e_tag(htmlFilter, @filter, htmlelement)
+
+	e ready : statement
+		a kind
+			default jquery
+			restrict
+				enum jquery
+				enum window

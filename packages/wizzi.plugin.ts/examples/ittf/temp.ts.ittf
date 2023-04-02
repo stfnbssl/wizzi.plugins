@@ -1,0 +1,76 @@
+module
+    import cuid from 'cuid'
+    export 
+        :interface IUserDTO
+            :p id
+                :string 
+            :p first_name
+                :string 
+            :p last_name
+                :string 
+    export 
+        :interface IUser
+            :p constructor
+                :{ 
+                    :m create
+                        :ref IUser
+                        param user
+                            :ref IUserDTO
+            :p id
+                :string 
+            :p firstName
+                :string 
+            :p lastName
+                :string 
+            :p fullName
+                :string 
+            :m serialize
+                :ref IUserDTO
+    
+	export 
+        class User
+            :implements IUser
+            
+			+ 'constructor': typeof User;
+            
+			p id
+                :string 
+                _ cuid
+            
+			get fullName
+                :return
+                    :string 
+                return 
+                    `lit 
+                        + 
+                        @ this.firstName
+                        + \b
+                        @ this.lastName
+                        + 
+            
+			ctor 
+                param firstName
+                    :public 
+                    :string 
+                param lastName
+                    :public 
+                    :string 
+            
+			m create
+                static
+                param dto
+                    :ref IUserDTO
+                :return
+                    :ref IUser
+                const model = new User(dto.first_name, dto.last_name)
+                set model.id = dto.id
+                return model
+            
+			m serialize
+                :return
+                    :ref IUserDTO
+                return 
+                    { 
+                        @ id this.id
+                        @ first_name this.firstName
+                        @ last_name this.lastName

@@ -23,6 +23,9 @@ var window_artifactGenerators = {
 var window_transformers = {
     'graphql/extended': require('./lib/artifacts/graphql/extended/trans/main')
  };
+var window_wizzifiers = {
+    'graphql/wizzifier': require('./lib/wizzifiers/graphql/wizzifier')
+ };
 var window_schemaDefinitions = {};
 
 //
@@ -33,6 +36,7 @@ class FactoryPlugin {
         this.modelFactories = {};
         this.modelTransformers = {};
         this.artifactGenerators = {};
+        this.wizzifiers = {};
         this.schemaDefinitions = {};
     }
     
@@ -125,6 +129,30 @@ class FactoryPlugin {
     }
     
     //
+    getWizzifier(wizzifierName) {
+        
+        var wizzifier = this.wizzifiers[wizzifierName] || null;
+        if (wizzifier == null) {
+            if (typeof window !== 'undefined') {
+                wizzifier = window_wizzifiers[wizzifierName];
+            }
+            else {
+                var modulePath = path.resolve(__dirname, './lib/wizzifiers/' + wizzifierName + '/wizzifier.js');
+                if (this.file.exists(modulePath)) {
+                    try {
+                        wizzifier = require('./lib/wizzifiers/' + wizzifierName + '/wizzifier');
+                    } 
+                    catch (ex) {
+                        return error('WizziPluginError', 'getWizzifier', 'Error loading wizzifier: ' + modulePath + ', in plugin: ' + this.getFilename(), ex);
+                    } 
+                }
+            }
+            this.wizzifiers[wizzifierName] = wizzifier;
+        }
+        return wizzifier;
+    }
+    
+    //
     getSchemaDefinition(schemaName) {
         var definition = this.schemaDefinitions[schemaName] || null;
         if (definition == null) {
@@ -167,6 +195,9 @@ module.exports = {
         ], 
         artifactGenerators: [
             'graphql/document'
+        ], 
+        wizzifiers: [
+            'graphql'
         ]
      }, 
     createFactoryPlugin: function(wizziPackage, options, callback) {

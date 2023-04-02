@@ -1,0 +1,67 @@
+﻿module 
+    kind jsfile
+    
+	var md
+        set module.exports =
+            { 
+
+    var WAIT_PROP_NAME = 1
+	var WAIT_PROP_VALUE = 2
+    var PROP_NAME = 3
+	var PROP_VALUE = 4
+
+	function isWhiteSpace
+		param ch
+		if ch === '\n'
+			return true
+		if ch === '\t'
+			return true
+		if ch === '\r'
+			return true
+		if ch === ' '
+			return true
+		return false
+	
+    set md.parse
+        function 
+            param input
+            var lines = input.split('\n')
+            
+            var resultLines = []
+            var tempLine = []
+            
+            foreach line in lines
+                var state = WAIT_PROP_NAME
+                set tempLine = []
+                var 
+                    decl ch
+                    decl l = line.length
+                for var j = 0; j < l; j++
+                    set ch = line[j]
+                    if isWhiteSpace(ch)
+                        if state == WAIT_PROP_NAME
+                            _ tempLine.push(ch)
+                        elif state == PROP_NAME
+                            set state = WAIT_PROP_VALUE
+                            _ tempLine.push(ch)
+                        else
+                            _ tempLine.push(ch)
+                    elif ch == '('
+                        if state == WAIT_PROP_NAME || state == PROP_NAME
+                            _ tempLine.push("$" + "{'('}")
+                            if state == WAIT_PROP_NAME
+                                set state = PROP_NAME
+                        else
+                            _ tempLine.push(ch)
+                    else
+                        if state == WAIT_PROP_NAME
+                            set state = PROP_NAME
+                        _ tempLine.push(ch)
+                if state == WAIT_PROP_NAME
+                    _ resultLines.push
+                        @ 'br'
+                else
+                    _ resultLines.push
+                        _ tempLine.join('')
+            log 'resultLines', resultLines
+            return resultLines

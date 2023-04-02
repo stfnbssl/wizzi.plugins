@@ -1,0 +1,45 @@
+module
+	kind es6
+
+	function getQuery
+		param q
+
+		return
+			_ q
+				graphql-query
+					{ site
+						{ siteMetadata
+							@ title
+
+	const query1 
+		graphql-query sampleQuery1
+			{ site
+				{ siteMetadata
+					@ title
+
+	function getQuery2
+		param q
+		return
+			_ q
+				graphql-query
+					{ allMarkdownRemark
+						: sort
+							{ 
+								@ order DESC
+								@ fields
+									[
+										@ frontmatter___date 
+						: limit 1000
+						{ edges
+							{ node
+								@ excerpt
+									: pruneLength 250
+								@ html
+								@ id
+								{ frontmatter
+									@ date
+									@ path
+									@ title
+
+
+

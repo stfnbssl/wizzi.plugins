@@ -1,0 +1,152 @@
+$group
+
+	async-md( cssInclude )
+		_ ctx.write('<style')
+		foreach a in getAttrs(model)
+			if (a.name in attrsneedsvalue) || (a.value && a.value.length > 0)
+				_ ctx.write(' ' + a.name + '="' + verify.unquote(a.value || '') + '"')
+			else
+				_ ctx.write(' ' + a.name)
+		_ ctx.w('>')
+		if model.get_css
+			_ include_writers.writeIncludeCss
+				@ ctx
+				@ model
+				a_cb( notUsed )
+					_ ctx.w("</style>")
+					r_cb( true )
+		else
+			_ ctx.w("</style>")
+			r_cb( true )
+
+	async-md( script )
+		# log myname, 'enter script, model.get_js', model.get_js
+		_ ctx.write('<' + model.wzTag)
+		foreach a in getAttrs(model)
+			if (a.name in attrsneedsvalue) || (a.value && a.value.length > 0)
+				_ ctx.write(' ' + a.name + '="' + verify.unquote(a.value || '') + '"')
+			else
+				_ ctx.write(' ' + a.name)
+		_ ctx.w('>')
+		if model.get_js
+			_ include_writers.writeIncludeJs
+				@ ctx
+				@ model
+				a_cb( notUsed )
+					_ ctx.w("</script>")
+					r_cb( true )
+		else
+			_ md.genItems
+				@ model.elements
+				@ ctx
+				{
+					@ indent true
+				a_cb( notUsed )
+					_ ctx.w("</script>")
+					r_cb( true )
+
+	async-md( jsInclude )
+		_ ctx.write('<script')
+		foreach a in getAttrs(model)
+			if (a.name in attrsneedsvalue) || (a.value && a.value.length > 0)
+				_ ctx.write(' ' + a.name + '="' + verify.unquote(a.value || '') + '"')
+			else
+				_ ctx.write(' ' + a.name)
+		_ ctx.w('>')
+		if model.get_js
+			_ include_writers.writeIncludeJs
+				@ ctx
+				@ model
+				a_cb( notUsed )
+					_ ctx.w("</script>")
+					r_cb( true )
+		else
+			_ ctx.w("</script>")
+			r_cb( true )
+
+	async-md( readyInclude )
+		_ ctx.write('<script')
+		foreach a in getAttrs(model)
+			if (a.name in attrsneedsvalue) || (a.value && a.value.length > 0)
+				_ ctx.write(' ' + a.name + '="' + verify.unquote(a.value || '') + '"')
+			else
+				_ ctx.write(' ' + a.name)
+		_ ctx.w('>')
+		if model.get_js
+			if model.kind === 'jquery'
+				_ ctx.w('$(function() {')
+				_ ctx.indent()
+					_ include_writers.writeIncludeJs
+						@ ctx
+						@ model
+						a_cb( notUsed )
+							_ ctx.deindent()
+							_ ctx.w('});')
+							_ ctx.w("</script>")
+							r_cb( true )
+			else
+				_ ctx.w('window.onload = function() {')
+				_ ctx.indent()
+				_ include_writers.writeIncludeJs
+					@ ctx
+					@ model
+					a_cb( notUsed )
+						_ ctx.deindent()
+						_ ctx.w('};')
+						_ ctx.w("</script>")
+						r_cb( true )
+		else
+			_ ctx.w("</script>")
+			r_cb( true )
+
+	async-md( img )
+		# loog '***** known element', model.wzElement, model.get_svg
+		# may be here because img with model.get_svg undefined
+		# has no specific handler (is standard element)
+		if model.get_svg
+			return
+				_ include_writers.writeIncludeSvg
+					@ ctx
+					@ model
+					a_cb( notUsed)
+						r_cb( true )
+		else
+			r_cb( false )
+
+	async-md( svgInclude )
+		# loog '***** known element', model.wzElement, model.get_svg
+		if model.get_svg
+			return
+				_ include_writers.writeIncludeSvg
+					@ ctx
+					@ model
+					a_cb( notUsed )
+						r_cb( true )
+		else
+			r_cb( false )
+
+	async-md( jsonObjectInclude )
+		# loog '***** known element', model.wzElement, model.get_json
+		if model.get_json
+			_ ctx.w('<script type="application/json" id="' + model.wzName + '" >')
+			_ include_writers.writeIncludeJson
+				@ ctx
+				@ model
+				a_cb( notUsed)
+					_ ctx.w('</script>')
+					r_cb( true )
+		else
+			r_cb( false )
+
+	async-md( jsonArrayInclude )
+		# loog '***** known element', model.wzElement, model.get_json
+		if model.get_json
+			_ ctx.w('<script type="application/json" id="' + model.wzName + '" >')
+			_ include_writers.writeIncludeJson
+				@ ctx
+				@ model
+				a_cb( notUsed)
+					_ ctx.w('</script>')
+					r_cb( true )
+		else
+			r_cb( false )

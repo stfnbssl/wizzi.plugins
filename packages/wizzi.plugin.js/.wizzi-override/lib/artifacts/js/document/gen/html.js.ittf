@@ -1,0 +1,30 @@
+module wizzi.plugin.js.artifacts.module.gen.html
+	kind jsfile
+	var statement = require('./statement')
+
+	var md = module.exports = {}
+	var myname = 'wizzi.js.artifacts.module.gen.html'
+
+	set md.gen
+		function
+			param model
+			param ctx
+			param callback
+			
+			var
+				decl clazz = model.wzParent.wzName
+				decl method = model.wzName
+    
+			_ ctx.w(clazz + '.prototype.' + method + ' = function(ctx) {');
+			_ ctx.indent();
+			_ ctx.w('var __html = [];')
+			set ctx.__inside_html = true
+			_ statement.genMany
+				@ model.statements
+				@ ctx
+				a_cb()
+					set ctx.__inside_html = false
+					_ ctx.w("return __html.join('');")
+					_ ctx.deindent();
+					_ ctx.w('}');
+					r_cb()

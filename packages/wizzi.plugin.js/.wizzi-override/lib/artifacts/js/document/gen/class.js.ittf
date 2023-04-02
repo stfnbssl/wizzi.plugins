@@ -1,0 +1,112 @@
+module wizzi.plugin.js.artifacts.module.gen.class
+	kind jsfile
+
+	var verify = require('wizzi-utils').verify
+	var statement = require('./statement')
+	var method = require('./method')
+	var html = require('./html')
+
+	var md = module.exports = {}
+	var myname = 'wizzi.js.artifacts.module.gen.class'
+
+	set md.gen
+		function
+			param model
+			param ctx
+			param callback
+			
+			var
+				decl zclass = model.wzName
+				decl zsuper = model.super
+				decl zsuperw = zsuper || ''
+				decl zsuperwVar = verify.replaceAll(zsuperw, '.', '_')
+				decl ctor = model.findCtor()
+				decl ctorArgs = ctor == null ? '' : ctor.paramNames.join(', ')
+				decl ctorBaseArgs = ctor == null ? '' : (ctor.getBaseArgs() || '')
+				decl superArgs = ctorBaseArgs.length > 0 ? ', ' + ctorBaseArgs : ''
+
+			_ ctx.w('var ' + zclass + ' = (function (' + zsuperwVar + ') {')
+			_ ctx.indent();
+			if zsuper
+				_ ctx.w('_inherits(' + zclass + ', ' + zsuperwVar + ');')
+
+			_ ctx.w('function ' + zclass + '(' + ctorArgs + ') {')
+			_ ctx.indent();
+			
+			if zsuper
+				_ ctx.w("_get(Object.getPrototypeOf(" + zclass + ".prototype), 'constructor', this).call(this" + superArgs + ");")
+			_ ctx.w('_classCallCheck(this, ' + zclass + ');')
+			
+			_ md.genCTor
+				@ ctor
+				@ ctx
+				a_cb()
+					# log 121, 'class'
+					_ ctx.deindent();
+					_ ctx.w('}')
+					_ md.genMembers
+						@ model
+						@ ctx
+						a_cb()
+							# log 122, 'class'
+							_ ctx.w('return ' + zclass + ';')
+							_ ctx.deindent();
+							_ ctx.w('})(' + zsuperw + ');')
+							_ ctx.w('')
+							r_cb()
+
+	set md.genCTor
+		function
+			param ctor
+			param ctx
+			param callback
+
+			if ctor
+				_ generateParamConstraints
+					@ 'ctor'
+					@ ctor.constrainedParams
+					@ ctor.hasCallbackParam
+					@ ctor.hasOptionsCallbackParam
+					@ ctx
+					a_cb()
+						# log 123, 'class.genCTor'
+						_ statement.genMany
+							@ ctor.statements
+							@ ctx
+							@ callback
+			else
+				r_cb()
+
+	set md.genMembers
+		function
+			param model
+			param ctx
+			param callback
+
+			var generator
+			# log 161, 'class.genMembers'
+			repeater( 1, model.statements )
+				# log 163
+				if item_1.wzElement === 'ctor'
+					# done already
+					set generator = null
+				elif item_1.wzElement === 'method'
+					set generator = method
+				elif item_1.wzElement === 'tohtml'
+					set generator = html
+				else
+					set generator = statement
+				if generator
+					_ generator.gen
+						@ item_1
+						@ ctx
+						a_cb()
+							repeater_increment( 1 )
+				else
+					repeater_increment( 1 )
+				$append next
+					# log 162, 'class.genMembers'
+					r_cb()
+
+	$include generateParamConstraints
+

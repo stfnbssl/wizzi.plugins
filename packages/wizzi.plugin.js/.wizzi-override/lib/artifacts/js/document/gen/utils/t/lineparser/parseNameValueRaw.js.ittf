@@ -1,0 +1,125 @@
+﻿$group
+
+	var STATE_WAIT_NAME = 0
+	var STATE_NAME = 1
+	var STATE_WAIT_VALUE = 2
+	var STATE_VALUE = 3
+	var STATE_ENDED = 4
+	var STATE_NAME_BRACKET = 5
+	
+
+	set md.parseNameValueRaw
+		function
+			param text
+			param node
+			param options
+
+			set options = options || {}
+			var isObjectProperty = options.objectProperty
+
+			var name_buf = []
+			var value_buf = []
+
+			if verify.isNotEmpty(text)
+
+				var 
+					decl ch
+					decl l = text.length
+					decl state = 0
+					decl q = null
+					decl bracketLevel = 0
+
+				for var i = 0; i < l; i++
+					set ch = text[i]
+
+					if state == STATE_NAME_BRACKET
+						_ name_buf.push(ch)
+						if ch == ']'
+							set bracketLevel--
+							if bracketLevel == 0
+								set state = STATE_WAIT_VALUE
+						elif ch == '['
+							set bracketLevel++
+					elif isObjectProperty && state == STATE_WAIT_NAME && ch == '['
+						_ name_buf.push(ch)
+						set state = STATE_NAME_BRACKET
+						set bracketLevel++
+					elif q != null
+						# state MUST BE STATE_NAME or STATE_VALUE
+						
+						if state === STATE_NAME
+							_ name_buf.push(ch)
+						elif state === STATE_VALUE
+							_ value_buf.push(ch)
+						else
+							# this is a bug
+							throw new Error('BUG. parseNameValue invalid state ' + state)
+						if ch == '\\'
+							set i++
+							set ch = text[i]
+							if state === STATE_NAME
+								_ name_buf.push(ch)
+							elif state === STATE_VALUE
+								_ value_buf.push(ch)
+						elif ch == q
+							set q = null
+							if state === STATE_NAME
+								set state = STATE_WAIT_VALUE
+
+					elif ch == '"' || ch == '\''
+						# state MUST BE STATE_WAIT_NAME or STATE_WAIT_VALUE
+						
+						if state === STATE_NAME
+							throw new errors.NodeError("parseNameValue error. Invalid use of quote inside a name part. Source: " + text, node)
+						elif state === STATE_VALUE
+							_ value_buf.push(ch)
+						elif state === STATE_ENDED
+							throw new errors.NodeError("parseNameValue error. Invalid quote found after value. Source: " + text, node)
+						elif state === STATE_WAIT_NAME
+							set state = STATE_NAME
+							_ name_buf.push(ch)
+							set q = ch
+						elif state === STATE_WAIT_VALUE
+							set state = STATE_VALUE
+							_ value_buf.push(ch)
+							set q = ch
+
+					elif ch == ' ' || ch == '\t'
+						if state === STATE_NAME
+							set state = STATE_WAIT_VALUE
+						elif state === STATE_VALUE
+							_ value_buf.push(ch)
+						else
+							# ok. no action.
+					
+					elif ch == '\r' || ch == '\n'
+						throw new errors.NodeError("parseNameValue error. Invalid char. Line cannot contain line breaks. Source: " + text, node)
+
+					else
+						if state === STATE_WAIT_NAME
+							set state = STATE_NAME
+							_ name_buf.push(ch)
+						elif state === STATE_WAIT_VALUE
+							set state = STATE_VALUE
+							_ value_buf.push(ch)
+						elif state === STATE_NAME
+							_ name_buf.push(ch)
+						elif state === STATE_VALUE
+							_ value_buf.push(ch)
+						elif state === STATE_ENDED
+							throw new errors.NodeError("parseNameValue error. Invalid char after value. Source: " + text, node)
+
+			if q !== null && state === STATE_NAME
+				# This almost surely is an error, but we cannot judge.
+
+			return
+				{
+                    @ name
+                        function 
+                            return name_buf.join('')
+                    @ value
+                        function
+							return value_buf.join('')
+                    @ hasValue
+						function
+							return value_buf.length > 0

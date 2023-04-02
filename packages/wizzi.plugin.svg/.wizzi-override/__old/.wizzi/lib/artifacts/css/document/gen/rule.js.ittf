@@ -75,7 +75,7 @@
 						@ model.getProperties()
 						_ getWriteProperty
 							@ ctx
-						f_cb()
+						a_cb()
                             if !!ctx.__isStyledComponent == false
 							    _ ctx.deindent()
 							    _ ctx.w('}');
@@ -84,7 +84,7 @@
 								@ ctx
 								{
 									@ indent false 
-								f_cb()
+								a_cb()
 									_ ctx.deindent()
 									_ ctx.w('}');
 									r_cb()
@@ -94,7 +94,7 @@
 						@ ctx
 						{
 							@ indent false 
-						f_cb()
+						a_cb()
 							_ ctx.deindent()
 							_ ctx.w('}');
 							r_cb()
@@ -127,7 +127,7 @@
 					@ ctx
 					{
 						@ indent false
-					f_cb()
+					a_cb()
 						_ ctx.deindent()
 						_ ctx.w('}');
 						r_cb()
@@ -140,7 +140,7 @@
 					@ ctx
 					{
 						@ indent model.wzName != '--styled--'
-					f_cb()
+					a_cb()
                         if model.wzName != '--styled--'
 						    _ ctx.w('}')
 						r_cb()
@@ -152,7 +152,7 @@
                     @ model.getProperties()
                     _ getWriteProperty
                         @ ctx
-			        f_cb()
+			        a_cb()
                         _ ctx.deindent
 						_ ctx.w('}')
 						r_cb()
@@ -164,7 +164,7 @@
                     @ model.getProperties()
                     _ getWriteProperty
                         @ ctx
-			        f_cb()
+			        a_cb()
                         _ ctx.deindent
 						_ ctx.w('}')
 						r_cb()
@@ -176,7 +176,7 @@
                     @ model.getProperties()
                     _ getWriteProperty
                         @ ctx
-			        f_cb()
+			        a_cb()
                         _ ctx.deindent
 						_ ctx.w('}')
 						r_cb()
@@ -199,7 +199,7 @@
 						@ ctx
 						{ 
 							@ indent false
-						f_cb()
+						a_cb()
 							set ctx.__comment_level--
 							_ ctx.deindent()
 							if ctx.__comment_level === 0
@@ -248,7 +248,7 @@
 			@ model.getProperties()
 			_ getWriteProperty
 				@ ctx
-			f_cb()
+			a_cb()
                 if isInsideStyledComponent
                     # log 11
                     $$ if model.wzElement === 'ampersand'
@@ -264,7 +264,7 @@
 					@ ctx
 					{
 						@ indent false
-					f_cb()
+					a_cb()
                         if isStyledComponent
                             # log 13
                             set ctx.__isStyledComponent = false
@@ -284,7 +284,7 @@
 				if prop.wzElement && prop.prop && prop.prop.get_svg
 					if prop.wzElement === "background_image"
 						_ prop.prop.get_svg
-							f_cb( svgModel )
+							a_cb( svgModel )
 								# log myname, 'svgModel', svgModel
 								_ ctx.wizziFactory.generateArtifact
 									@ svgModel
@@ -294,7 +294,7 @@
 										@ CRLF ''
 										@ forCssImage true
                                         @ noGeneratorComments true
-									f_cb( artifactText )
+									a_cb( artifactText )
 										# log myname, 'artifactText', artifactText
 										_ ctx.w('background-image: url("data:image/svg+xml,' + artifactText + '");')
 										r_cb()
@@ -303,7 +303,7 @@
 				$$ elif prop.wzElement && prop.prop && prop.prop.get_js
                 elif prop.wzElement && prop.prop && prop.prop.get_js
                     _ prop.prop.get_js
-                        f_cb( jsModel )
+                        a_cb( jsModel )
                             # log myname, 'Object.keys(jsModel)', Object.keys(jsModel)
                             _ ctx.wizziFactory.generateArtifact
                                 @ jsModel
@@ -312,7 +312,7 @@
                                 {
                                     @ noGeneratorComments true
                                     @ noUseStrict true
-                                f_cb( artifactText )
+                                a_cb( artifactText )
                                     function _indent
                                         param txt
                                         param ind

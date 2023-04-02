@@ -1,0 +1,8 @@
+﻿$group
+	$params name
+
+	# loog 't/name.node.${name}, value: ', node.${name}, '
+	if typeof node.${name} !== 'undefined'
+		set ret.name = node.${name}.toString()
+	# loog 't/name ittf.ret', ret
+	

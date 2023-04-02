@@ -1,0 +1,230 @@
+﻿$group
+
+	f( TypeAlias, :type )
+		# extends Node, Statement
+		f_p_name( id, false
+		f_p( typeParameters, false, ?TypeParameterDeclaration,
+		f_p( right, false
+
+	f( OpaqueType, :opaque-type
+		f_p_name( id, false
+		f_p( typeParameters, false, ?TypeParameterDeclaration,
+		f_p( right, false
+
+	f( TypeParameterDeclaration, skip
+		# extends Node
+		f_a( params, true, Array<Identifier>
+
+	f( TypeParameter, :<
+		if node.name
+			set ret.name = node.name
+		f_p_tag( bound )
+		f_p_tag( default )
+		f_p( variance, false
+		f_p_temp( variance, false
+		# loog 'p_variance', p_variance
+
+	f( Variance, :variance
+		set ret.name = node.kind
+
+	f( TypeParameterInstantiation, skip
+		f_a(params)
+
+	f( VoidTypeAnnotation, :void
+		# extends Node, Type
+
+	f( UndefinedTypeAnnotation, :undefined
+		# extends Node, Type
+
+	f( NullLiteralTypeAnnotation, :null
+
+	f( GenericTypeAnnotation, :<
+		f_p_name( id, false
+		f_p( typeParameters, false, ?TypeParameterInstantiation
+
+	f( StringTypeAnnotation, :string
+
+    f( TSSymbolKeyword, :symbol
+
+	f( AnyTypeAnnotation, :any
+		# extends Node, Type
+
+	f( ArrayTypeAnnotation, :[
+		# extends Node, Type
+		f_p( elementType, true, Type
+
+	f( BooleanLiteralTypeAnnotation, :boolean-lit
+		# extends Node, Type
+		set ret.name = node.extra.raw
+
+	f( BooleanTypeAnnotation, :boolean
+		# extends Node, Type
+
+	f( ClassImplements, :implements
+		# extends Node
+		f_p_name( id, false
+		f_p( typeParameters, false, ?TypeParameterInstantiation
+
+	f( FunctionTypeAnnotation, :func
+		# extends Node, Type
+		f_p( typeParameters, false, ?TypeParameterInstantiation
+		f_a( params, false, Array<FunctionTypeParam>
+		f_p( rest, false, ?FunctionTypeParam
+		f_p_temp( returnType, false, true, Type
+		if p_returnType
+			if p_returnType.children.length == 1 && p_returnType.children[0].children.length == 0
+				_ ret.children.push
+					{
+						@ tag ':return'
+						@ name p_returnType.children[0].tag
+			else
+				_ ret.children.push
+					{
+						@ tag ':return'
+						@ name null
+						[ children 
+							@ p_returnType
+
+	f( FunctionTypeParam, :param
+		# extends Node
+		f_p_name( name, Identifier
+		if node.optional
+			set ret.name = ret.name + '?'
+		f_p_children_if_tag( typeAnnotation, :t )
+
+		if ret.children.length == 1 && isFlowPrimitiveTag(ret.children[0].tag)
+			set ret.tag = ret.children[0].tag
+			set ret.children = ret.children[0].children
+		if ret.children.length == 1 && ( ret.children[0].tag === ':|' || ret.children[0].tag === ':&' )
+			# union and intersect
+			var temp_children = ret.children[0]
+			set ret.children = []
+			foreach ui in temp_children.children
+				if verify.isEmpty(ui.name)
+					set ui.name = ui.tag.substr(1)
+				set ui.tag = temp_children.tag === ':|' ? '|' : '&'
+				_ ret.children.push
+					@ ui
+
+	f( InterfaceExtends, :extends-interface
+		# extends Node
+		f_p_name( id, Identifier
+		f_p( typeParameters, false, ?TypeParameterInstantiation
+
+	f( InterfaceDeclaration, :interface
+		# extends Node, Statement
+		f_p_name( id, Identifier
+		f_a( extends, false, Array<InterfaceExtends>
+		f_p( typeParameters, false, ?TypeParameterInstantiation
+		f_p( body, false, ObjectTypeAnnotation
+
+	f( IntersectionTypeAnnotation, :&
+		# extends Node, Type
+		f_a( types, true, Array<Type>
+		
+	f( MixedTypeAnnotation, :mixed
+		# extends Node, Type
+		
+	f( NullableTypeAnnotation, skip
+		# extends Node, Type
+		f_p_children_if_tag( typeAnnotation, :t )
+		set ret.children[0].tag = ':?' + ret.children[0].tag.substr(1)
+
+	f( NumberLiteralTypeAnnotation, :number-lit
+		# extends Node, Type
+		set ret.name = node.extra.raw
+
+	f( NumberTypeAnnotation, :number
+		# extends Node, Type
+
+	f( StringLiteralTypeAnnotation, :string-lit
+		# extends Node, Type
+		set ret.name = node.extra.raw
+
+	f( StringTypeAnnotation, :string
+		# extends Node, Type
+		
+	f( TupleTypeAnnotation, :tuple
+		# extends Node, Type
+		f_a( types, true, Array<Type>
+		
+	f( TypeofTypeAnnotation, :typeof
+		# extends Node
+		f_p( argument, false, Type
+		
+	f( TypeAnnotation, :t;skip
+		# extends Node
+		f_p_children_if_tag( typeAnnotation, :t )
+		f_a( types, false
+		f_p(typeParameters, false, ?TSTypeParameterInstantiation
+
+	f( TypeCastExpression, :cast
+		# extends Node, Expression
+		f_p_children_if_tag( typeAnnotation, :t )
+		f_p_name(expression, iftext, Expression
+
+	f( ObjectTypeAnnotation, :{
+		# extends Node, Type
+		f_a( callProperties, false, Array<ObjectTypeCallProperty>,
+		f_a( indexers, false, Array<ObjectTypeIndexer>,
+		f_a( properties, true, Array<ObjectTypeProperty>,
+
+	f( ObjectTypeCallProperty, :call-prop
+		# extends Node
+		b( static
+		f_p(value, true, FunctionTypeAnnotation,
+
+	f( ObjectTypeIndexer, :[]
+		# extends Node
+		f_p_name( id  $$ Identifier
+		f_p(key, false, Type
+		f_p(value, false, Type
+
+	f( ObjectTypeProperty, :@
+		# extends Node
+		f_p_name( key, Node, # Literal | Identifier
+		f_p_temp( value, true, true, Type
+		if node.optional
+			set ret.name += '?'
+		if p_value.tag === 'string' || p_value.tag === 'number' || p_value.tag === 'boolean'
+			set ret.tag = p_value.tag
+		else
+			set ret.tag = '@'
+			_ ret.children.push
+				@ p_value
+
+	f( QualifiedTypeIdentifier, :q-type
+		# extends Node
+		f_p_name( id, Identifier
+		f_p_temp( qualification, false, true, Node, # Identifier | QualifiedTypeIdentifier
+		if p_qualification
+			set ret.name = p_qualification.name + '.' + ret.name
+
+	f( UnionTypeAnnotation, :|
+		# extends Node, Type
+		f_a(types, true, Array<Type>
+
+	f( ExistsTypeAnnotation, :exists-type
+
+	f( InferredPredicate, :predicate
+
+	# Type annotations
+		# TypeAnnotation
+		# VoidTypeAnnotation
+		# NullLiteralTypeAnnotation
+		# GenericTypeAnnotation
+		# StringTypeAnnotation
+		# AnyTypeAnnotation
+		# ArrayTypeAnnotation
+		# BooleanLiteralTypeAnnotation
+		# BooleanTypeAnnotation
+		# FunctionTypeAnnotation
+		# IntersectionTypeAnnotation
+		# MixedTypeAnnotation
+		# NullableTypeAnnotation
+		# NumberLiteralTypeAnnotation
+		# NumberTypeAnnotation
+		# StringLiteralTypeAnnotation
+		# StringTypeAnnotation
+		# TupleTypeAnnotation
+		# TypeofTypeAnnotation

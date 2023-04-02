@@ -1,0 +1,212 @@
+module wizzi.ts.artifacts.module.gen.codegen.es6.htmlReact
+	kind jsfile
+    var verify = require('wizzi-utils').verify
+	var u = require('../utils/stm')
+
+	var md = module.exports = {}
+	var myname = 'wizzi.ts.artifacts.module.gen.codegen.es6.htmlReact'
+
+	set md.htmlelement
+		function
+			param cnt
+			param model
+			param tag
+			param text
+			param ctx
+			param attrs
+            param comments
+			param callback
+
+			# loog 'enter in htmlReact', 
+                \b 'tag', tag, 
+                \b 'model.wzElement', model.wzElement, 
+                \b 'u.parentIsHtmlElement(model)', u.parentIsHtmlElement(model), 
+                \b 'u.isArgumentOfCall(model)', u.isArgumentOfCall(model),
+                \b 'u.isGraphEnclosed(tag)', u.isGraphEnclosed(tag),
+                \b 'attrs.length', attrs.length
+
+			
+			if u.isGraphEnclosed(tag)
+                _ u.writeComments(model, ctx)
+                _ u.checkInlineEnter(model, ctx)
+				_ ctx.w(tag);
+                _ u.checkInlineExit(model, ctx)
+				r_cb()
+			
+			# @style/_style is used as an attribute in react
+			# see /statements/html for attrs extraction
+			if model.wzElement === '_style'
+                _ u.checkInlineExit(model, ctx)
+				r_cb()
+			
+			if u.parentIsHtmlElement(model) == false
+				if u.isArgumentOfCall(model)
+					_ ctx.w()
+				else
+					_ ctx.write(' (')
+					_ ctx.w()
+
+            _ u.writeComments(model, ctx)
+            _ u.checkInlineEnter(model, ctx)
+			
+			_ htmlelement_open
+				@ cnt
+				@ model
+				@ ctx
+				@ tag
+				@ attrs
+                @ comments
+				a_cb(done)
+                    if done
+                        _ u.checkInlineExit(model, ctx)
+                        r_cb()
+                    else
+                        _ htmlelement_end
+                            @ cnt
+                            @ model
+                            @ ctx
+                            @ tag
+                            @ text
+                            a_cb()
+                                # loog 'exit from htmlReact', tag
+                                _ u.checkInlineExit(model, ctx)
+                                r_cb()
+
+	function htmlelement_open
+		param cnt
+		param model
+		param ctx
+		param tag
+		param attrs
+        param comments
+		param callback
+
+        const singleline = attrs.length > 3 || comments.length > 0
+
+		if u.parentIsHtmlElement(model) == true
+            # _ ctx.indent() // 23/3/21
+
+		# begin open tag and write attributes
+        # loog 'htmlelement_open.tag', tag
+		_ ctx.write("<" + tag)
+        _ u.genTSTypeParameterInsts
+            @ model
+            @ ctx
+            @ cnt
+            a_cb()
+                _ ctx.write(singleline ? ' ' : '')
+                _ u.forceInlineOff(model, ctx)
+                repeater(1, attrs)
+                    if singleline
+                        _ ctx.indent
+                    _ htmlelement_attribute
+                        @ cnt
+                        @ item_1
+                        @ ctx
+                        @ singleline
+                        a_cb()
+                            if singleline
+                                _ ctx.deindent
+                            repeater_increment(1)
+                    $append next
+                        # loog 'htmlelement_open.model.statements.length', model.statements.length
+                        _ cnt.genItems
+                            @ comments
+                            @ ctx
+                            {
+                                @ indent false
+                            a_cb()
+                                if model.__hasChildElements == true
+                                    _ ctx.w(">");
+                                    # end of open tag
+                                    r_cb(false)
+                                else
+                                    _ ctx.w(" />");
+                                    # end of tag
+                                    _ htmlelement_tagclose
+                                        @ model
+                                        @ ctx
+                                    r_cb(true)
+	
+	function htmlelement_attribute
+		param cnt
+		param a
+		param ctx
+        param singleline
+		param callback
+
+        const writer = singleline ? 'w' : 'write'
+        const aindent = singleline ? '' : ' '
+
+        # loog 'htmlelement_attribute', a
+		if a.statements && a.statements.length > 0
+            _ u.writeComments(a, ctx, true)
+
+		if a.statements && a.statements.length > 0
+			_ ctx.write(aindent + a.name + '={')
+			_ cnt.genItems
+				@ a.statements
+				@ ctx
+				{
+					@ indent true
+				a_cb()
+					_ ctx[writer]('}')
+					r_cb()
+		elif a.value.length || a.value.length == 0
+			if a.value.length == 0
+				_ ctx[writer](aindent + a.name)
+			else
+				var quote = a.value.indexOf('{') >= 0 || u.isQuoted(a.value) ? '' : '"'
+				_ ctx[writer](aindent + a.name + '=' + quote + a.value + quote)
+			r_cb()
+		else
+			_ ctx[writer](aindent + a.name + '="' + a.value + '"')
+			r_cb()
+
+	function htmlelement_end
+		param cnt
+		param model
+		param ctx
+		param tag
+		param text
+		param callback
+
+		if text
+			_ ctx.w
+                _ verify.replaceAll
+                    _ verify.replaceAll
+                        @ text
+                        @ '&lf;'
+                        @ '\n'
+                    @ '&nbsp;'
+                    @ ' '
+		_ cnt.genItems
+			@ model.statements
+			@ ctx
+			{
+				@ indent true
+			a_cb()
+				_ ctx.w("</" + tag + ">");
+                _ htmlelement_tagclose
+                    @ model
+                    @ ctx
+				r_cb()
+
+    function htmlelement_tagclose
+        param model
+        param ctx
+        if u.parentIsHtmlElement(model) 
+            # _ ctx.deindent() // 23/3/21
+            # _ ctx.w() // 20/3/21
+        else
+            if u.isArgumentOfCall(model)
+                # _ ctx.write(')')
+            else
+                # _ ctx.w(');') // 7/4/2017
+                var ind = ctx.indent > 0
+                if ind
+                    _ ctx.deindent() $$ 23/3/21 waiting for damage
+                _ ctx.w(')')
+                if ind
+                    _ ctx.indent() $$ 23/3/21 waiting for damage
+        _ u.checkInlineExit(model, ctx)

@@ -35,7 +35,7 @@
 				@ ctx
 				(
 					@ model
-					f_cb()
+					a_cb()
 						# loog 'exit', myname
                         try
                             var postCssResult
@@ -91,7 +91,7 @@
 			@ goitems
 			_ md.getGenItem
 				@ ctx
-			f_cb()
+			a_cb()
 				if indent
 					_ ctx.deindent()
 				_ process.nextTick
@@ -108,7 +108,7 @@
 			@ ctx
 			{
 				@ indent false
-			f_cb()
+			a_cb()
                 _ md.genItems
                     @ model.rules
                     @ ctx
@@ -131,7 +131,7 @@
 			_ ctx.w('    artifact generator: ' + __filename)
             _ ctx.w('    package: wizzi-web@${versions['wizzi-web@next']}')
 			_ ctx.w('    primary source IttfDocument: ' + model.wzSourceFilepath('f1'))
-			if (!!ctx.values.isPackageDeploy) == false
+			if (!!ctx.values.wzConfigIsPackageDeploy) == false
 				_ ctx.w('    utc time: ' + new Date().toUTCString())
 			_ ctx.w('*/')
 

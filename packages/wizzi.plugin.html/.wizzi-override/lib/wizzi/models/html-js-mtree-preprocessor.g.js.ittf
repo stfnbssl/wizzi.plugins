@@ -1,0 +1,126 @@
+﻿module
+	kind jsfile
+
+	$include tags/html_tags
+	$include tags/svg_tags
+
+	set module.exports
+		function
+			param node
+
+			# loog 'wizzi-web.html-js.preprocess.node', node
+
+			var state
+				{
+					[ actions
+			
+			foreach item in node.children
+				_ traverse(item, state)
+
+			foreach item in state.actions
+				if item.code === 'add-attr'
+					var children = item.to.children
+					set item.to.children
+						[
+							{
+								@ n item.n
+								@ v item.v
+								@ r item.to.r
+								@ c item.to.c
+								@ s item.to.s
+								@ u item.to.u
+								[ children
+					foreach c in children
+						_ item.to.children.push
+							@ c
+			return node
+
+	function traverse
+		param node
+		param state
+
+		var saveHtmlOn = state.htmlOn
+		var saveSvgOn = state.svgOn
+		if preprocessNode(node, state)
+			return
+		var saveParent = state.parent
+		foreach item in node.children
+			set state.parent = node
+			_ traverse(item, state)
+		set state.htmlOn = saveHtmlOn
+		set state.svgOn = saveSvgOn
+		set state.parent = saveParent
+
+	function preprocessNode
+		param node
+		param state
+		# loog 'js-mtree-processor preprocessNode', node.n, node.v, state.htmlOn, state.svgOn
+		if node.n === 'async-m'
+			set node.n = 'm'
+			_ addAttr
+				@ state
+				@ node
+				@ 'async'
+		elif node.n === 'async=>*'
+			set node.n = '=>'
+			_ addAttr
+				@ state
+				@ node
+				@ 'async'
+			_ addAttr
+				@ state
+				@ node
+				@ 'generator'
+		elif node.n === 'async=>'
+			set node.n = '=>'
+			_ addAttr
+				@ state
+				@ node
+				@ 'async'
+		elif node.n === 'async=>*'
+			set node.n = '=>'
+			_ addAttr
+				@ state
+				@ node
+				@ 'async'
+			_ addAttr
+				@ state
+				@ node
+				@ 'generator'
+		if state.svgOn
+			# loog 'js-mtree-processor svgOn', node.n, node.v
+		if node.n === 'p' && state.parent.n === 'class'
+			# do nothing
+		elif state.svgOn && svg_supported_attrs.indexOf(node.n) > -1
+			var name = svg_supported_attrs_map[node.n] || node.n
+			set node.v = name + ' ' + node.v
+			set node.n = '@'
+		elif state.htmlOn && html_supported_attrs.indexOf(node.n) > -1
+			set node.v = node.n + ' ' + node.v
+			set node.n = '@'
+		elif html_supported_tags.indexOf(node.n) > -1
+			set state.htmlOn = true
+			if node.n === 'svg'
+				set state.svgOn = true
+			set node.v = node.n + ' ' + node.v
+			set node.n = '<'
+		elif node.n === '<'
+			set state.htmlOn = true
+			if node.v === 'svg'
+				set state.svgOn = true
+		elif node.n === 'svg'
+			set state.htmlOn = true
+			set state.svgOn = true
+			# loog 'js-mtree-processor svgOn'
+		return false
+
+	function addAttr
+		param state
+		param node
+		param attr
+		_ state.actions.push
+			{
+				@ code 'add-attr'
+				@ to node
+				@ n attr
+				@ v ''

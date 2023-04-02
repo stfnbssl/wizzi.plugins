@@ -19,6 +19,8 @@ module.exports = {
         'svg'
     ], 
     globalContext: {
-        wzConfigIsDevelopment: true
+        wzConfigIsDevelopment: true, 
+        wzConfigIsPackageDeploy: false, 
+        wzConfigIsDocumentation: true
      }
  };

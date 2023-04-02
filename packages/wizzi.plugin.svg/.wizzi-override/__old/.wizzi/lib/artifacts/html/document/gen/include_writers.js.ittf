@@ -13,7 +13,7 @@
 			param model
 			param callback
 			_ model.get_css
-				f_cb( cssModel )
+				a_cb( cssModel )
 					# log myname, 'cssModel.rules', cssModel.rules
 					if cssModel.rules.length == 0 && verify.isEmpty(cssModel.wzName) == false
 						# log myname, 1
@@ -24,7 +24,7 @@
 						_ md.generateCssArtifact
 							@ ctx
 							@ cssModel
-							f_cb( artifactText )
+							a_cb( artifactText )
 								_ ctx.w('<style>')
 								_ ctx.indent
 								_ ctx.writeAligned(artifactText)
@@ -45,7 +45,7 @@
 				@ 'css/document'
 				{
 					@ forHtmlStyle true
-				f_cb( artifactText )
+				a_cb( artifactText )
 					# log myname, 'css artifactText', artifactText
 					r_cb(artifactText)
 
@@ -56,7 +56,7 @@
 			param callback
 			# log myname, 'enter writeIncludeJs'
 			_ element.get_css
-				f_cb( cssModel )
+				a_cb( cssModel )
 					# log myname, 'cssModel', cssModel
 					_ ctx.wizziFactory.generateArtifact
 						@ cssModel
@@ -65,7 +65,7 @@
 						{
 							@ forHtmlStyle true
 							@ noGeneratorComments true
-						f_cb( artifactText )
+						a_cb( artifactText )
 							# log myname, 'css module artifactText', artifactText
 							_ ctx.indent
 							_ ctx.writeAligned(artifactText)
@@ -80,7 +80,7 @@
 			param callback
 			# log myname, 'enter writeIncludeJs'
 			_ element.get_js
-				f_cb( jsModel )
+				a_cb( jsModel )
 					# log myname, 'jsModel', jsModel
 					_ ctx.wizziFactory.generateArtifact
 						@ jsModel
@@ -90,7 +90,7 @@
 							@ forHtmlScript true
 							@ noUseStrict true
 							@ noGeneratorComments true
-						f_cb( artifactText )
+						a_cb( artifactText )
 							# log myname, 'js module artifactText', artifactText
 							_ ctx.indent
 							_ ctx.writeAligned(artifactText)
@@ -105,7 +105,7 @@
 			param callback
 			# log myname, 'enter writeIncludeSvg'
 			_ element.get_svg
-				f_cb( svgModel )
+				a_cb( svgModel )
 					# log myname, 'svgModel', svgModel
 					_ ctx.wizziFactory.generateArtifact
 						@ svgModel
@@ -113,7 +113,7 @@
 						@ 'svg/document'
 						{
 							@ forHtmlSvgElement true
-						f_cb( artifactText )
+						a_cb( artifactText )
 							# log myname, 'svg module artifactText', artifactText
 							_ ctx.indent
 							_ ctx.writeAligned(artifactText)
@@ -128,7 +128,7 @@
 			param callback
 			# log myname, 'enter writeIncludeSvg'
 			_ element.get_json
-				f_cb( jsonModel )
+				a_cb( jsonModel )
 					# log myname, 'jsonModel', jsonModel
 					_ ctx.wizziFactory.generateArtifact
 						@ jsonModel
@@ -136,7 +136,7 @@
 						@ 'json/document'
 						{
 							@ forHtmlJson true
-						f_cb( artifactText )
+						a_cb( artifactText )
 							# log myname, 'json module artifactText', artifactText
 							_ ctx.indent
 							_ ctx.writeAligned(artifactText)

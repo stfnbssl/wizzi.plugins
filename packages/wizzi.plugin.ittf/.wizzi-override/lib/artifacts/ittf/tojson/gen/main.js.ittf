@@ -1,0 +1,51 @@
+﻿module
+    kind es6
+    $
+        var md = {
+            plugin: 'wizzi.plugin.ittf',
+            name: 'tojson',
+            schema: 'ittf',
+            rootElement: '',
+            checkSchema: false,
+            isAsync: true,
+        };
+    
+    gen( &md )
+        $append imports
+            var stringify = require('json-stringify-safe')
+            function toJson
+                param node
+                param json
+                var n = node.n || node.name
+                var v = node.v || node.value || ''
+                if n == '---' && v.length == 0
+                elif n == '\\---' && v.length == 0
+                    set json.name = '---'
+                else
+                    set json.name = n
+                if v.length > 0
+                    set json.value = v
+                if node.children && node.children.length > 0
+                    foreach child in node.children
+                        var jsonChild
+                            {
+                                [ children
+                        _ toJson
+                            @ child
+                            @ jsonChild
+                        _ json.children.push
+                            @ jsonChild
+
+        $append main
+            var json 
+                {
+                    [ children
+            _ toJson
+                @ model
+                @ json
+            _ ctx.w
+                _ stringify
+                    @ json
+                    @ null
+                    @ 2
+            r_cb( ctx )

@@ -14,11 +14,11 @@
 			param model
 			param callback
 			_ model.get_css
-				f_cb( cssModel )
+				a_cb( cssModel )
 					_ md.generateCssArtifact
 						@ ctx
 						@ cssModel
-						f_cb( artifactText )
+						a_cb( artifactText )
 							_ ctx.write('<style')
 							if model.scoped
 								_ ctx.write(' scoped')
@@ -42,7 +42,7 @@
 				@ 'css/document'
 				{
 					@ forVueStyle true
-				f_cb( artifactText )
+				a_cb( artifactText )
 					# log myname, 'css artifactText', artifactText
 					return
 						_ callback(null, artifactText)
@@ -54,7 +54,7 @@
 			param callback
 			# log myname, 'enter writeIncludeJs'
 			_ element.get_js
-				f_cb( jsModel )
+				a_cb( jsModel )
 					# log myname, 'jsModel', jsModel
 					_ ctx.wizziFactory.generateArtifact
 						@ jsModel
@@ -64,7 +64,7 @@
 							@ forVueScript true
 							@ noUseStrict true
 							@ noGeneratorComments true
-						f_cb( artifactText )
+						a_cb( artifactText )
 							# log myname, 'js module artifactText', artifactText
 							_ ctx.w('<script>')
 							_ ctx.indent
@@ -81,7 +81,7 @@
 			param callback
 			# log myname, 'enter writeIncludeTypescript'
 			_ element.get_ts
-				f_cb( tsModel )
+				a_cb( tsModel )
 					# log myname, 'tsModel', tsModel
 					_ ctx.wizziFactory.generateArtifact
 						@ tsModel
@@ -91,7 +91,7 @@
 							@ forVueScript true
 							@ noUseStrict true
 							@ noGeneratorComments true
-						f_cb( artifactText )
+						a_cb( artifactText )
 							# log myname, 'ts module artifactText', artifactText
 							_ ctx.w('<script lang="ts">')
 							_ ctx.indent
@@ -108,7 +108,7 @@
 			param callback
 			# log myname, 'enter writeIncludeHtml'
 			_ element.get_html
-				f_cb( htmlModel )
+				a_cb( htmlModel )
 					# log myname, 'htmlModel', htmlModel
 					_ ctx.wizziFactory.generateArtifact
 						@ htmlModel
@@ -116,7 +116,7 @@
 						@ 'html/document'
 						{
 							@ forVueTemplate true
-						f_cb( artifactText )
+						a_cb( artifactText )
 							# log myname, 'html module artifactText', artifactText
 							_ ctx.w('<template>')
 							_ ctx.indent

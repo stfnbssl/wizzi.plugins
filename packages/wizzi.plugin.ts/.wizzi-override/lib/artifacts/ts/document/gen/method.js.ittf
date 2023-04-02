@@ -1,0 +1,47 @@
+module wizzi.ts.artifacts.module.gen.codegen.method
+	kind jsfile
+	var statement = require('./statement')
+
+	var md = module.exports = {}
+	var myname = 'wizzi.js.artifacts.module.gen.codegen.method'
+
+	set md.gen
+		function
+			param model
+			param ctx
+			param callback
+			var
+				decl clazz = model.wzParent.wzName
+				decl method = model.wzName
+    
+			if ctx.__jskind == 'react' || ctx.__jskind == 'es6'
+				if model.static
+					_ ctx.write('static ')
+				if model.async
+					_ ctx.write('async ')
+			
+			if ctx.__is_react_class
+				_ ctx.w(method + '(' + model.paramNames.join(', ') + ') {');
+			elif model.static
+				_ ctx.w(clazz + '.' + method + ' = function(' + model.paramNames.join(', ') + ') {');
+			else
+				_ ctx.w(clazz + '.prototype.' + method + ' = function(' + model.paramNames.join(', ') + ') {');
+		
+			_ ctx.indent();
+			
+			_ generateParams
+				@ model.wzName
+				@ model.constrainedParams
+				@ model.hasCallbackParam
+				@ model.hasOptionsCallbackParam
+				@ ctx
+				a_cb()
+					_ statement.genMany
+						@ model.statements
+						@ ctx
+						a_cb()
+							_ ctx.deindent()
+							_ ctx.w('}')
+							r_cb()
+
+	$include generateParams

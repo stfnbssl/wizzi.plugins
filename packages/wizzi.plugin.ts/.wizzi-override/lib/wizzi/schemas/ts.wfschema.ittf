@@ -1,0 +1,65 @@
+wfschema ts
+	
+	# A schema modeling a typescript module.
+
+	mtree-is-preprocessed
+
+	e statement
+		# The base element for all code nodes, and
+		# a generic code statement that will be emitted as is.
+		# The indentation will depend to the node depth.
+		tag +
+		
+		r statement/s
+	
+	e comment : statement
+		tag #
+
+	e_tag( xmodule, module, statement )
+		# The root element of the ts schema.
+		is-root
+		
+		r feature/s
+
+		m wzinitialize
+			set this.wzModelState = ctx.modelState = {}
+
+		m hasFeature
+			param name
+			foreach f in this.features
+				if f.wzName === name
+					return true
+			return false
+
+	e feature
+		# A known feature that this module require.
+
+    e_tag( decorator, @d, statement
+
+	$include ts/vars
+	$include ts/expressions
+	$include ts/statements
+	$include ts/calls
+	$include ts/objects
+	$include ts/functions
+	$include ts/types
+	$include ts/classes
+	$include ts/react
+	$include ts/html
+	$include ts/template
+	$include ts/debug
+
+	$include ts/typescript
+
+	declare
+        function isDescendentOf
+            param model
+            param ancestor
+            if !model.wzParent
+                return false
+            if model.wzParent.wzElement == ancestor
+                return true
+            return 
+                _ isDescendentOf
+                    @ model.wzParent
+                    @ ancestor

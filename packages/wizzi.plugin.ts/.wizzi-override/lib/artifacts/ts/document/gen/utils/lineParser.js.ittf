@@ -1,0 +1,27 @@
+﻿module 
+    kind jsfile
+	+
+	# old var verify = require('./verify')
+    var verify = require('wizzi-utils').helpers.verify
+	# old var errors = require('./errors')
+    var errors = require('../../../../../../errors')
+	+
+	var md
+        set module.exports =
+            { 
+
+	$include lineparser/parse
+	$include lineparser/parseInterpolation
+	$include lineparser/parseNameValueRaw
+
+	function escapename
+        param value
+        if verify.isNotEmpty(value)
+            return 
+                _ verify.replaceAll
+                    _ verify.replaceAll(value, "\\", "\\\\")
+                    @ '"'
+                    @ '\\"'
+        else
+            return value  
+

@@ -1,0 +1,664 @@
+﻿module 
+    kind jsfile
+    
+	var util = require('util')
+    
+	var verbose = false
+    
+	function log
+        param label
+        param data
+        if verbose
+            _ console.log
+                @ label
+                _ util.inspect
+                    @ data
+                    { 
+                        @ depth null
+    
+	var md
+        set module.exports =
+            { 
+    
+	var priv
+        { 
+    var START = 0
+    var WAIT_TAG_NAME = 1
+    var TAG_NAME = 2
+    var ENDTAG_NAME = 3
+    var WAIT_ATTR_NAME = 4
+    var ATTR_NAME = 5
+    var WAIT_ATTR_EQU = 6
+    var WAIT_ATTR_VALUE = 7
+    var ATTR_VALUE = 8
+    var TEXT = 9
+    var WAIT_EMPTY_ELEMENT_TAG_RIGHT_CLOSE = 10
+    var DOCTYPE = 11
+    var START_COMMENT_1 = 21
+    var START_COMMENT_2 = 22
+    var COMMENT = 24
+    var END_COMMENT_1 = 25
+    var END_COMMENT_2 = 26
+    var COULD_BE_ENDOFTEXT = 31
+    var START_SWIG_1 = 41
+    var SWIG = 42
+    var END_SWIG_1 = 43
+
+    var stateText
+        {
+            @ n0 "START"
+            @ n1 "WAIT_TAG_NAME"
+            @ n2 "TAG_NAME"
+            @ n3 "ENDTAG_NAME"
+            @ n4 "WAIT_ATTR_NAME"
+            @ n5 "ATTR_NAME"
+            @ n6 "WAIT_ATTR_EQU"
+            @ n7 "WAIT_ATTR_VALUE"
+            @ n8 "ATTR_VALUE"
+            @ n9 "TEXT"
+            @ n10 "WAIT_EMPTY_ELEMENT_TAG_RIGHT_CLOSE"
+            @ n11 "DOCTYPE"
+            @ n12 "START_COMMENT_1"
+            @ n13 "START_COMMENT_2"
+            @ n24 "COMMENT"
+            @ n25 "END_COMMENT_1"
+            @ n26 "END_COMMENT_2"
+            @ n31 "COULD_BE_ENDOFTEXT"
+            @ n41 "START_SWIG_1"
+            @ n42 "SWIG"
+            @ n43 "END_SWIG_1"
+
+    
+	set md.Parser =
+        function 
+            param handlers
+            set this.handlers = handlers
+    
+	set md.Parser.prototype.write
+        function 
+            param input
+            var state
+                { 
+                    @ input input
+                    @ pos 0
+                    @ cur START
+                    @ prev null
+                    @ stack
+                        [ 
+                    @ line 1
+                    @ col 0
+                    @ currenttagname null
+                    @ tagcount 0
+                    @ chprev null
+            _ priv.resetStateOpenTag(state)
+            for var k in this.handlers
+                set state[k] = this.handlers[k]
+            var 
+                decl ch
+                decl i
+                decl l = input.length
+            while true
+            $$ for var i = 0; i < l; i++
+                if state.pos >= l
+                    return
+                $*
+                if state.pos >= 5000
+                    return
+                *$
+                set i = state.pos
+                set ch = input[i]
+                set state.pos++
+				# loog 'main', 'pos,line,col', state.pos, state.line, state.col, 'ch,state', ch, stateText['n'+state.cur], 'currenttagname', state.currenttagname, 'state.quote', state.quote
+                if state.cur === COULD_BE_ENDOFTEXT
+					# loog '+COULD_BE_ENDOFTEXT, ch', ch
+                    if ch === '/'
+                        _ priv.ontext(state)
+                        _ priv.resetStateOpenTag(state)
+                        set state.cur = WAIT_TAG_NAME
+                    else 
+                        if isOpenTag(input, l, i)
+                            _ priv.ontext(state)
+                            _ priv.resetStateOpenTag(state)
+                            set state.cur = WAIT_TAG_NAME
+                        elif isOpenComment(input, l, i)
+                            set state.cur = WAIT_TAG_NAME
+                        else 
+                            set state.cur = TEXT
+                            set state.text += '<'
+                elif state.cur === START_SWIG_1 && ch !== '%'
+                    if state.prev === null
+                        _ priv.error("Missing prev state on START_SWIG_1" + stateText['n'+state.cur], state)
+                    set state.cur = state.prev
+                    _ priv.append('{', state)
+                _ priv.loop(ch, state)
+                set state.chprev = ch
+    
+	set md.Parser.prototype.end =
+        function 
+    
+	set priv.resetStateOpenTag =
+        function 
+            param state
+            set state.quote = null
+            set state.tagname = null
+            set state.attrname = null
+            set state.attrvalue = null
+            set state.text = null
+            set state.attribs =
+                { 
+    
+	set priv.loop =
+        function 
+            param ch
+            param state
+            set state.col++
+			# loog 'priv.loop', ch, stateText['n'+state.cur], state.pos, state.quote
+            if ch === '\r' || ch === '\n'
+                # loog '===================================rn', ch === '\r', ch === '\n'
+                if ch === '\n' && state.chprev === '\r'
+                    # loog '===================================n prev r'
+                    return 
+                set state.line++
+                set state.col = 0
+            if priv.specialCases(ch, state)
+                # loog ch, "is specialCases"
+                return 
+            if ch === '<'
+                _ priv.doLT(state)
+            elif ch === '>'
+				if state.cur === TEXT
+					_ priv.append(ch, state)
+				else
+					_ priv.doGT(state)
+            elif ch === '/'
+                _ priv.doSlash(state)
+            elif ch === '='
+                _ priv.doEq(state)
+            elif ch === '!'
+                _ priv.doExclamation(state)
+            elif ch === '-'
+                _ priv.doMinus(state)
+            elif ch === ':'
+                _ priv.doSemicolon(state)
+            elif ch === '{'
+                _ priv.doOpenGraph(state)
+            elif ch === '}'
+                _ priv.doCloseGraph(state)
+            elif ch === '%'
+                _ priv.doPercent(state)
+            elif ch === '\\'
+                _ priv.doEscape(ch, state)
+            elif ch === '\r' || ch === '\n'
+				_ priv.doWhite(ch, state)
+                # _ priv.doLF(state)
+            elif isWhite(ch)
+                _ priv.doWhite(ch, state)
+            elif isQuote(ch)
+                _ priv.doQuote(ch, state)
+            else 
+                _ priv.append(ch, state)
+    
+	set priv.specialCases =
+        function 
+            param ch
+            param state
+            # loog 'specialCases.state.currenttagname', state.currenttagname
+            if state.currenttagname === 'script' || state.currenttagname === 'style'
+                if isEndTag(state.currenttagname, ch, state)
+                    # loog 'isEndTag', state.currenttagname
+                    _ priv.ontext(state)
+                    _ priv.resetStateOpenTag(state)
+                    set state.cur = TEXT
+                    # (NO done in priv.onclosetag) _ state.stack.pop
+                    _ priv.onclosetag(state)
+                    return true
+                else
+                    set state.text = (state.text || '') + ch
+                    return true
+            if state.cur === TEXT && state.text
+				# loog 'TEXT', ch, state.quote, state.text.length
+            if state.cur === COMMENT && ch !== '-'
+                set state.comment = (state.comment || '') + ch
+                return true
+            if state.cur === TEXT && state.quote != null
+                set state.text = (state.text || '') + ch
+                if ch === state.quote
+                    set state.quote = null
+                return true
+            if state.cur === TEXT && isQuote(ch) && (state.currenttagname === 'script' || state.currenttagname === 'style')
+                set state.text = (state.text || '') + ch
+                return true
+            if state.cur === ATTR_VALUE && state.quote != null && ch !== state.quote
+                if ch !== '\\'
+                    set state.attrvalue = (state.attrvalue || '') + ch
+                return true
+            if state.cur === START_COMMENT_1 && ch !== '-'
+                if state.tagcount == 0
+                    set state.cur = DOCTYPE
+                else 
+                    set state.text = (state.text || '') + "<!"
+                    set state.cur = TEXT
+            elif state.cur === START_COMMENT_2 && ch !== '-'
+                set state.text = (state.text || '') + "<!-"
+                set state.cur = TEXT
+            elif ((state.cur === END_COMMENT_1) && (ch !== '-'))
+                set state.comment = (((state.comment || '')) + "-")
+                set state.cur = COMMENT
+            elif ((state.cur === END_COMMENT_2) && (ch !== '>'))
+                set state.comment = (((state.comment || '')) + "--")
+                set state.cur = COMMENT
+            return false
+    
+	set priv.doLT =
+        function 
+            param state
+			# loog 'doLT', state.cur
+            if state.cur === START
+                + ;
+            elif state.cur === TEXT
+                set state.cur = COULD_BE_ENDOFTEXT
+				# loog 'doLT', state.cur
+                return 
+            elif state.cur === WAIT_ATTR_EQU
+				# be tolerant
+                set state.attribs[state.attrname] = null
+                _ priv.onopentag(state)
+			else 
+                _ priv.error("doLT invalid state.cur " + stateText['n'+state.cur], state)
+            set state.cur = WAIT_TAG_NAME
+    
+	set priv.doGT =
+        function 
+            param state
+            if state.cur === TAG_NAME
+                _ priv.onopentag(state)
+            elif state.cur === WAIT_ATTR_NAME || state.cur === WAIT_EMPTY_ELEMENT_TAG_RIGHT_CLOSE
+				_ priv.onopentag(state)
+				if state.cur === WAIT_EMPTY_ELEMENT_TAG_RIGHT_CLOSE
+					_ priv.onclosetag(state)
+            elif state.cur === ATTR_NAME
+                set state.attribs[state.attrname] = null
+                _ priv.onopentag(state)
+            elif state.cur === ATTR_VALUE
+                _ priv.onopentag(state)
+            elif state.cur === ENDTAG_NAME
+				_ state.stack.pop
+                _ priv.onclosetag(state)
+            elif state.cur === END_COMMENT_2
+                _ priv.oncomment(state)
+                set state.comment = null
+            elif state.cur === DOCTYPE
+                _ priv.ondoctype(state)
+                set state.doctype = null
+            else 
+                _ priv.error("doGT invalid state.cur " + stateText['n'+state.cur], state)
+            set state.cur = TEXT
+    
+	set priv.doSlash =
+        function 
+            param state
+			# loog 'doSlash', state.tag, state.cur, state.quote, state.attrname, state.attrvalue
+            if state.cur === ATTR_VALUE && state.quote == null
+                set state.attribs[state.attrname] = state.attrvalue
+                set state.attrname = state.attrvalue = null
+				set state.cur = WAIT_EMPTY_ELEMENT_TAG_RIGHT_CLOSE
+			elif state.cur === WAIT_TAG_NAME
+                set state.cur = ENDTAG_NAME
+            elif state.cur === TAG_NAME
+                set state.cur = WAIT_EMPTY_ELEMENT_TAG_RIGHT_CLOSE
+            elif state.cur === WAIT_ATTR_NAME
+                set state.cur = WAIT_EMPTY_ELEMENT_TAG_RIGHT_CLOSE
+            else
+                _ priv.append('/', state)
+    
+	set priv.doExclamation =
+        function 
+            param state
+            if state.cur === WAIT_TAG_NAME
+                set state.cur = START_COMMENT_1
+            else 
+                _ priv.append('!', state)
+    
+	set priv.doMinus =
+        function 
+            param state
+            if state.cur === COMMENT
+                set state.cur = END_COMMENT_1
+            elif state.cur === END_COMMENT_1
+                set state.cur = END_COMMENT_2
+            elif state.cur === START_COMMENT_1
+                set state.cur = START_COMMENT_2
+            elif state.cur === START_COMMENT_2
+                set state.cur = COMMENT
+            elif state.cur === TAG_NAME || state.cur === ENDTAG_NAME
+                set state.tagname = (state.tagname || '') + '-'
+            else 
+                _ priv.append('-', state)
+    
+	set priv.doSemicolon =
+        function 
+            param state
+            if state.cur === TAG_NAME || state.cur === ENDTAG_NAME
+                set state.tagname = (state.tagname || '') + ':'
+            else 
+                _ priv.append(':', state)
+
+	set priv.doOpenGraph =
+        function 
+            param state
+            if state.cur === START || state.cur === TEXT || state.cur === WAIT_ATTR_NAME
+                set state.prev = state.cur
+                set state.preSwig = state.cur
+                set state.cur = START_SWIG_1
+            else 
+                _ priv.append('{', state)
+    
+	set priv.doCloseGraph =
+        function 
+            param state
+            if state.cur === END_SWIG_1
+                _ priv.onswig(state)
+                set state.cur = state.preSwig
+                set state.preSwig = null
+            else 
+                _ priv.append('}', state)
+    
+	set priv.doPercent =
+        function 
+            param state
+            if state.cur === START_SWIG_1
+                _ priv.ontext(state)
+                set state.cur = SWIG
+            elif state.cur === SWIG
+                set state.cur = END_SWIG_1
+            else 
+                _ priv.append('%', state)
+    
+	set priv.doEq =
+        function 
+            param state
+            if ((state.cur === ATTR_NAME) || (state.cur === WAIT_ATTR_EQU))
+                set state.cur = WAIT_ATTR_VALUE
+            else 
+                _ priv.append('=', state)
+    
+	set priv.doWhite =
+        function 
+            param ch
+            param state
+			# loog 'doWhite', ch, state.cur
+            if state.cur === START
+                + ;
+            elif state.cur === TAG_NAME
+                set state.cur = WAIT_ATTR_NAME
+            elif state.cur === ENDTAG_NAME
+                + ;
+            elif state.cur === ATTR_NAME
+                set state.cur = WAIT_ATTR_EQU
+            elif state.cur === WAIT_ATTR_EQU
+                + ;
+			elif state.cur === ATTR_VALUE && state.quote == null
+                set state.attribs[state.attrname] = state.attrvalue
+                set state.attrname = state.attrvalue = null
+                set state.cur = WAIT_ATTR_NAME
+            else 
+                _ priv.append(ch, state)
+    
+	set priv.doLF =
+        function 
+            param state
+			# loog 'doLf'
+            if state.cur === START
+                + ;
+            else 
+                _ priv.append('\n', state)
+    
+	set priv.doQuote =
+        function 
+            param ch
+            param state
+			# loog 'doQuote', ch, state.cur
+            if state.cur === WAIT_ATTR_VALUE
+                set state.cur = ATTR_VALUE
+                set state.quote = ch
+				
+            elif state.cur === ATTR_VALUE && state.quote === ch
+                set state.attribs[state.attrname] = state.attrvalue
+                set state.attrname = state.attrvalue = null
+                set state.cur = WAIT_ATTR_NAME
+                set state.quote = null
+            else 
+                _ priv.append(ch, state)
+    
+	set priv.doEscape =
+        function 
+            param ch
+            param state
+			# loog 'doEscape', ch, state.cur
+            if state.cur === WAIT_ATTR_VALUE || state.cur === WAIT_EMPTY_ELEMENT_TAG_RIGHT_CLOSE
+                # do nothing for now
+            else
+                _ priv.append(ch, state)
+
+	set priv.append =
+        function 
+            param ch
+            param state
+            if state.cur === WAIT_TAG_NAME
+                set state.tagname = ch
+                set state.cur = TAG_NAME
+            elif state.cur === TAG_NAME || state.cur === ENDTAG_NAME
+                set state.tagname = (state.tagname || '') + ch
+            elif state.cur === WAIT_ATTR_NAME
+                if !(isWhite(ch))
+                    set state.attrname = ch
+                    set state.cur = ATTR_NAME
+            elif state.cur === ATTR_NAME
+                set state.attrname = (state.attrname || '') + ch
+            elif state.cur === WAIT_ATTR_EQU
+                set state.attribs[state.attrname] = null
+                set state.cur = ATTR_NAME
+                set state.attrname = ch
+            elif state.cur === WAIT_ATTR_VALUE
+                set state.cur = ATTR_VALUE
+                set state.quote = null
+            elif state.cur === ATTR_VALUE
+                set state.attrvalue = (state.attrvalue || '') + ch
+            elif state.cur === TEXT
+                set state.text = (state.text || '') + ch
+            elif state.cur === COMMENT
+                set state.comment = (state.comment || '') + ch
+            elif state.cur === DOCTYPE
+                set state.doctype = (state.doctype || '') + ch
+            elif state.cur === SWIG
+                set state.swig = (state.swig || '') + ch
+            else 
+                _ priv.error("append invalid ch: " + ch + " state.cur: " + stateText['n'+state.cur], state)
+    
+	set priv.onopentag =
+        function 
+            param state
+            set state.tagcount++
+            _ state.stack.push
+                @ state.tagname
+			if state.tagname == 'script' || state.tagname == 'style'
+                # loog 'onopentag', state.tagname, 'line', state.line
+            set state.currenttagname = state.tagname
+            if state.onopentag
+                _ state.onopentag
+                    @ state.tagname
+                    @ state.attribs
+            if state.tagname in voidElements
+                if state.onclosetag
+					_ state.stack.pop
+                    _ state.onclosetag
+                        @ state.tagname
+    
+	set priv.onclosetag =
+        function 
+            param state
+			if state.tagname == 'script' || state.tagname == 'style'
+                # loog 'onclosetag', state.tagname, 'line', state.line
+            if state.onclosetag 
+				if state.tagname in voidElements
+					# done already
+				else
+					_ state.stack.pop
+                    # loog 'state.stack after onclosetag', state.stack
+					_ state.onclosetag
+						@ state.tagname
+                    set state.currenttagname = null
+    
+	set priv.oncomment =
+        function 
+            param state
+            if state.oncomment
+                _ state.oncomment
+                    @ state.comment
+    
+	set priv.ondoctype =
+        function 
+            param state
+            if state.ondoctype
+                _ state.ondoctype
+                    @ state.doctype
+    
+	set priv.ontext =
+        function 
+            param state
+            if typeof (state.text) == 'undefined' || state.text == null
+                return 
+            if state.text.length == 0
+                return 
+            $* TODO WHY?
+            if !(isText(state.text))
+                return 
+            *$
+            if state.ontext
+                _ state.ontext
+                    @ state.text
+            set state.text = ''
+    
+	set priv.onswig =
+        function 
+            param state
+            if state.onswig
+                _ state.onswig
+                    @ state.swig
+            set state.swig = ''
+    
+	set priv.error =
+        function 
+            param message
+            param state
+            delete state.input
+            # loog 'current state', state
+            throw 
+                new Error(message + ' at line ' + state.line + ' col ' + state.col + ' text ' + state.text)
+    
+	function isText
+        param text
+        var 
+            decl ch
+            decl l = text.length
+        for var i = 0; i < l; i++
+            set ch = text[i]
+            if ch !== ' ' && ch !== '\t' && ch !== '\n' && ch !== '\r'
+                return true
+        return false
+    
+	var tagNameRegExp = /^[a-zA-Z0-9-:]*$/
+    
+	function isOpenTag
+        param input
+        param len
+        param start
+        var i = start
+        var ch = input[i]
+        var tag = ''
+        while i < len && ch !== '>' && isWhite(ch) == false
+            set tag += ch
+            set ch = input[++i]
+        # loog 'isOpenTag', tag, ch
+		if tag.substr(-1, 1) == '/'
+            var ttag = tag.substr(0, tag.length - 1)
+            var istag = tagNameRegExp.test(ttag)
+            return istag
+        var istag = tagNameRegExp.test(tag)
+		# loog 'isOpenTag.istag', tag, istag
+        return istag
+    
+	function isOpenComment
+        param input
+        param len
+        param start
+        return (len - start) > 3 && input.substr(start, 3) === '!--'
+    
+	function isEndTag
+        param tagName
+        param ch
+        param state
+        # loog 'isEndTag 1', ch, state.pos-1
+        if ch != '<'
+            return false
+        var ch2 = state.input[state.pos]
+        # loog 'isEndTag 2', ch2, state.pos
+        if ch2 != '/'
+            return false
+        for var i = 0; i < tagName.length; i++
+            set ch2 = state.input[state.pos+1+i]
+            # loog 'isEndTag 3', ch2, state.pos+1+i, i, tagName.length, tagName
+            if isTagChar(ch2) == false
+                return false
+        set ch2 = state.input[state.pos+1+tagName.length]
+        # loog 'isEndTag 4', ch2
+        if ch2 != '>'
+            return false
+        # loog 'isEndTag 5', true
+        set state.pos += 2+tagName.length
+        return true
+
+    function isTagChar
+        param ch
+        return ch.match(/[_]|[a-zA-Z]/i)
+    
+	function isWhite
+        param ch
+        return (ch === ' ') || (ch === '\t') || (ch === '\r') || (ch === '\n')
+    
+	function isQuote
+        param ch
+        return (ch === '"') || (ch === '\'')
+    
+   
+	var voidElements
+        { 
+            @ __proto__ null
+            @ area true
+            @ base true
+            @ basefont true
+            @ br true
+            @ col true
+            @ command true
+            @ embed true
+            @ frame true
+            @ hr true
+            @ img true
+            @ input true
+            @ isindex true
+            @ keygen true
+            @ link true
+            @ meta true
+            @ param true
+            @ source true
+            @ track true
+            @ wbr true
+            @ path true
+            @ circle true
+            @ ellipse true
+            @ line true
+            @ rect true
+            @ use true
+            @ stop true
+            @ polyline true
+            @ polygone true

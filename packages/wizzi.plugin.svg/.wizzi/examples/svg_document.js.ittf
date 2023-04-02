@@ -3,6 +3,7 @@ module
     $
         var md = {
             name: 'svg',
+            artifact: 'document',
         };
     v08/examples/plugin( &md )
         $append plugins
@@ -20,10 +21,10 @@ module
                 @ moduleName
             a_cb_no_throw( result )
                 if err
-                    error 'svg.examples.executeGenerateModules.err', err
-                    error 'svg.examples.executeGenerateModules.err.toString()', err.toString()
+                    error 'svg/document.examples.executeGenerateModules.err', err
+                    error 'svg/document.examples.executeGenerateModules.err.toString()', err.toString()
                     if err.inner
-                        error 'svg.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
+                        error 'svg/document.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
                 else
         function executeGenerateModules
             param modules
@@ -33,7 +34,7 @@ module
                 =>
                     param module
                     param callback
-                    log 'svg.example.executeGenerateModules.module: ' + module
+                    log 'svg/document.example.executeGenerateModules.module: ' + module
                     var ittfDocumentUri
                         _ path.join
                             @ __dirname
@@ -43,26 +44,16 @@ module
                         _ path.join
                             @ __dirname
                             @ 'results'
-                            @ module + '.svg.document.html'
-                    _ loadWizziModel
+                            @ 'svg'
+                            @ module + '-document.g.svg'
+                    _ loadModelAndGenerateArtifact
                         @ ittfDocumentUri
                         {
-                        a_cb( wizziModel )
-                            if wizziModel.toJson
-                                _ file.write
-                                    @ outputPath + '.json'
-                                    _ stringify
-                                        _ wizziModel.toJson
-                                        @ null
-                                        @ 4
-                            _ loadModelAndGenerateArtifact
-                                @ ittfDocumentUri
-                                {
-                                @ 'svg/document'
-                                a_cb( artifactText )
-                                    log 'svg.example.executeGenerateModules.outputPath: ' + outputPath
-                                    _ file.write
-                                        @ outputPath
-                                        @ artifactText
-                                    r_cb( artifactText )
+                        @ 'svg/document'
+                        a_cb( artifactText )
+                            log 'svg/document.example.executeGenerateModules.outputPath: ' + outputPath
+                            _ file.write
+                                @ outputPath
+                                @ artifactText
+                            r_cb( artifactText )
                 @ callback

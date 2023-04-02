@@ -1,0 +1,21 @@
+﻿$group
+
+	var __events = "copy cut paste " +
+		\b " compositionEnd compositionStart compositionUpdate" +
+		\b " keyDown keyPress keyUp" +
+		\b " focus blur" +
+		\b " change input submit" +
+		\b " click contextMenu doubleClick" +
+		\b " drag dragEnd dragEnter dragExit dragLeave dragOver dragStart drop" +
+		\b " mouseDown mouseEnter mouseLeave mouseMove mouseOut mouseOver mouseUp" +
+		\b " select" +
+		\b " touchCancel touchEnd touchMove touchStart" +
+		\b " scroll" +
+		\b " wheel" +
+		\b " abort canPlay canPlayThrough durationChange emptied encrypted"+
+		\b " ended error loadedData loadedMetadata loadStart pause play" + 
+		\b " playing progress rateChange seeked seeking stalled suspend" +
+		\b " timeUpdate volumeChange waiting" +
+		\b " load" +
+		\b " transitionEnd"
+	var fb_html_supported_events = __events.split(' ')

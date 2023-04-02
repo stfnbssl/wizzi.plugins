@@ -1,0 +1,136 @@
+﻿loader( if-switch )
+
+    stm( xif
+        _ u.writeComments(model, ctx)
+        _ u.emitBlock
+            @ cnt
+            @ 'if'
+            @ model
+            @ model.statements
+            @ model.statements.length
+            @ ctx
+			@ callback
+    
+	stm( elif
+		_ u.writeComments(model, ctx)
+        _ u.emitBlock
+			@ cnt
+			@ 'else if'
+			@ model
+			@ model.statements
+			@ model.statements.length
+			@ ctx
+			@ callback
+    
+	stm( xelse
+        var xmodel = writeComments(model, ctx)
+        if xmodel.wzParent.wzElement === 'iif'
+            if xmodel.statements.length > 0
+                _ cnt.genItems
+                    @ xmodel.statements
+                    @ ctx
+                    { 
+                        @ indent true
+					@ callback
+            else 
+                _ ctx.write
+                    @ xmodel.wzName
+				r_cb()
+        else 
+            _ u.emitBlock
+                @ cnt
+                @ 'else'
+                @ xmodel
+                @ xmodel.statements
+                @ xmodel.statements.length
+                @ ctx
+				@ callback
+    
+	stm( xswitch
+        function doCases
+            _ cnt.genItems
+                @ model.statements
+                @ ctx
+                { 
+                    @ indent true
+                a_cb()
+                    _ ctx.w('}')
+                    r_cb()
+        _ u.writeComments(model, ctx)
+        if verify.isEmpty(model.wzName)
+            var condition
+            var temp = []
+            foreach item in model.statements
+                if ['xcase', 'xdefault'].indexOf(item.wzElement) < 0
+                    set condition = item
+                else
+                    _ temp.push
+                        @ item
+            set model.statements = temp
+            _ ctx.write('switch (')
+            _ cnt.genItem
+                @ condition
+                @ ctx
+                a_cb()
+                    _ ctx.w(') {')
+                    _ doCases
+        else
+            _ ctx.w('switch (' + u.unparen(model.wzName) + ') {')
+            _ doCases
+    
+	stm( xcase
+        var 
+            decl items = model.statements
+            decl count = model.statements.length
+            decl tag = 'case'
+        if count === 0
+            _ ctx.w(tag + ' ' + model.wzName + ':')
+            r_cb()
+        if ctx.values.__preserveBlock
+            if count > 0 && items[0].wzElement === 'block'
+                _ ctx.w(tag + ' ' + model.wzName + ': {')
+            else 
+                _ ctx.w(tag + ' ' + model.wzName + ':')
+        else 
+            _ ctx.w(tag + ' ' + model.wzName + ': {')
+        _ cnt.genItems
+            @ items
+            @ ctx
+            { 
+                @ indent true
+			a_cb()
+				if ctx.values.__preserveBlock
+					if count > 0 && items[0].wzElement === 'block'
+						_ ctx.w('}')
+					else 
+						+ ;
+				else 
+					_ ctx.w('}')
+				r_cb()
+    
+	stm( xdefault
+        var 
+            decl items = model.statements
+            decl count = model.statements.length
+            decl tag = 'default'
+        if ctx.values.__preserveBlock
+            if count > 0 && items[0].wzElement === 'block'
+                _ ctx.w(tag + ': {')
+            else 
+                _ ctx.w(tag + ':')
+        else 
+            _ ctx.w(tag + ': {')
+		_ cnt.genItems
+            @ items
+            @ ctx
+            { 
+                @ indent true
+			a_cb()
+				if ctx.values.__preserveBlock
+					if count > 0 && items[0].wzElement === 'block'
+						_ ctx.w('}')
+					else 
+						+ ;
+				else
+					_ ctx.w('}')
+				r_cb()

@@ -1,0 +1,372 @@
+﻿loader(html)
+    
+	$append requires
+		var _ = require('lodash')
+		var lineParser = require('../utils/lineParser')
+        var verify = require('wizzi-utils').verify
+		var html_react = require('../react/html')
+	+	
+	$include fb-html-supported-tags
+	+
+	$include fb-html-supported-events
+	+
+	var html_supported_onEvents = []
+	foreach item in fb_html_supported_events
+		_ html_supported_onEvents.push
+			@ 'on' + _.capitalize(item)
+	+
+	foreach item in fb_html_supported_tags
+        set cnt.stm[item]
+            function 
+                param model
+                param ctx
+				param callback
+                _ md._htmlelement
+					@ cnt
+					@ model
+					@ ctx
+					a_cb()
+						# @ callback
+						# loog 'exit fb_html_supported_tags &&&&&&&&&&&&&&&&&&&&&&&&&', model.wzElement
+						r_cb()
+	+
+    stm( htmlelement
+		
+        var 
+            decl p
+                _ lineParser.parseNameValueRaw
+                    @ model.wzName
+                    @ model
+            decl tag = p.name()
+            decl text = p.value()
+		# loog 'enter htmlelement $$$$$$$$$$$$$$$$$$$', tag
+		# loog 'statements/html/htmlelement', tag, text
+        _ md._htmlelement
+			@ cnt
+			@ model
+			@ tag
+			@ text
+			@ ctx
+			a_cb()
+				# @ callback
+				# loog 'exit htmlelement $$$$$$$$$$$$$$$$$$$', tag
+				r_cb()
+    
+   
+	# TODO
+		foreach item in html_supported_onEvents
+			set cnt.stm[item]
+				function 
+
+	stm( js
+        _ ctx.w("__html.push('<script src=\"" + model.wzName + "\"></script>')")
+		r_cb()
+    
+	stm( css
+        _ ctx.w("__html.push('<link href=\"" + model.wzName + "\" rel=\"stylesheet\">')")
+		r_cb()
+
+    
+	stm( doctype
+        _ ctx.w("__html.push('<doctype " + model.wzName + ">')")
+		r_cb()
+    
+	stm( ready
+        if model.kind === 'jquery'
+            _ ctx.w('$(function() {')
+            _ cnt.genItems
+                @ model.statements
+                @ ctx
+                { 
+                    @ indent true
+				a_cb()
+					_ ctx.w('});')
+					r_cb()
+        else 
+            _ ctx.w('window.onload = function() {')
+            _ cnt.genItems
+                @ model.statements
+                @ ctx
+                { 
+                    @ indent true
+				a_cb()
+					_ ctx.w('};')
+					r_cb()
+    
+	stm( tohtml
+        if model.kind === 'dom'
+            _ cnt.stm.html_dom(model, ctx, callback)
+        elif model.kind === 'nh'
+            _ cnt.stm.html_ng(model, ctx, callback)
+        elif model.kind === 'hb'
+            _ cnt.stm.html_hb(model, ctx, callback)
+        else 
+            _ cnt.stm.html_f(model, ctx, callback)
+    
+	stm( html_f
+        _ ctx.w('function ' + model.wzName + '(ctx) {')
+        _ ctx.indent()
+        _ ctx.w('var __html = [];')
+        set ctx.__inside_html = true
+        _ cnt.genItems
+            @ model.statements
+            @ ctx
+            { 
+                @ indent false
+			a_cb()
+		        set ctx.__inside_html = false
+				_ ctx.w("return __html.join('');")
+				_ ctx.deindent()
+				_ ctx.w("}")
+				r_cb()
+    
+	stm( html_dom
+        _ ctx.w('function ' + model.wzName + '(ctx) {')
+        _ ctx.indent()
+        _ ctx.w('var __html = [];')
+        set ctx.__inside_html = true
+        _ cnt.genItems
+            @ model.statements
+            @ ctx
+            { 
+                @ indent false
+			a_cb()
+				set ctx.__inside_html = false
+				_ ctx.w("return $(__html.join(''));")
+				_ ctx.deindent()
+				_ ctx.w("}")
+				r_cb()
+    
+	stm( html_hb
+        _ ctx.w('function ' + model.wzName + '(ctx) {')
+        _ ctx.indent()
+        _ ctx.w('var __html = [];')
+        set ctx.__inside_html = true
+        set ctx.__inside_handlebar = true
+        _ cnt.genItems
+            @ model.statements
+            @ ctx
+            { 
+                @ indent false
+			a_cb()
+				set ctx.__inside_handlebar = false
+				set ctx.__inside_html = false
+				_ ctx.w("return Handlebars.compile(__html.join(''));")
+				_ ctx.deindent()
+				_ ctx.w("}")
+				r_cb()
+    
+	set md._htmlelement
+        function 
+            param cnt
+            param model
+            param tag
+            param text
+            param ctx
+			param callback
+
+			if typeof (callback) === 'undefined'
+				set callback = text
+                set ctx = tag
+                set text = model.wzName
+                set tag = model.wzElement
+            
+			#  loog 'enter _htmlelement ----------------', tag
+
+			var attrs = getAttrs(model, ctx)
+            
+			var
+				decl statements = null
+				decl value = null
+			
+			repeater(1, model.statements)
+                if item_1.isEvent
+                    var name = item_1.wzElement
+					if item_1.statements && item_1.statements.length > 0
+						set value = null
+						set statements = item_1.statements
+					else
+						if item_1.wzName.trim().length > 0
+							set value = item_1.wzName.trim()
+						else
+							set value = '{this.' + item_1.wzElement + '}'
+						set statements = null
+					_ attrs.push
+                        { 
+                            @ name name
+                            @ value value
+							@ statements statements
+				elif item_1.wzElement === '_style'
+					set name = 'style'
+					if item_1.statements && item_1.statements.length > 0
+						set value = null
+						set statements = item_1.statements
+					else
+						set value = item_1.wzName.trim()
+						set statements = null
+					_ attrs.push
+                        { 
+                            @ name name
+                            @ value value
+							@ statements statements
+				elif item_1.wzElement === 'jsPropertyOrValue'
+                    var 
+                        decl p
+                            _ lineParser.parseNameValueRaw
+                                @ item_1.wzName
+                                @ item_1
+                        decl name = p.name()
+                        decl value = p.value()
+                    if value
+                        if ctx.__jskind === 'react'
+                            + ;
+                        else 
+                            var ip
+                                _ lineParser.parseInterpolation
+                                    @ value
+                                    @ model
+                                    @ ctx.__inside_handlebar
+                                    @ ctx.__inside_ng
+                            set value = ip.join()
+					set statements = item_1.statements && item_1.statements.length > 0 ? item_1.statements : null
+                    _ attrs.push
+                        { 
+                            @ name name
+                            @ value value.trim()
+							@ statements statements
+				repeater_increment(1)
+
+				$append next
+					_ _htmlelement_end
+						@ cnt
+						@ model
+						@ tag
+						@ text
+						@ ctx
+						@ attrs
+						a_cb()
+							# @ callback
+							# loog 'exit _htmlelement ----------------', tag
+							r_cb()
+            
+	function _htmlelement_end
+        param cnt
+        param model
+        param tag
+        param text
+        param ctx
+		param attrs
+		param callback
+
+		if ctx.__jskind === 'react'
+            var save___inside_html = ctx.__inside_html
+            set ctx.__inside_html = true
+            _ html_react.htmlelement
+				@ cnt
+				@ model
+				@ tag
+				@ text
+				@ ctx
+				@ attrs
+				a_cb()
+					set ctx.__inside_html = save___inside_html
+					r_cb()
+        else 
+            var attrs_string
+                [ 
+            _ attrs.forEach
+                function 
+                    param a
+                    if ['multiple'].indexOf(a.name) >= 0
+                        _ attrs_string.push('\' + ( ' + a.value + ' ? \' ' + a.name + '\' : \'\' ) + \'')
+                    elif a.value !== '@@null'
+                        if a.value.length == 0
+                            _ attrs_string.push((' ' + a.name))
+                        else 
+                            _ attrs_string.push(' ' + a.name + '="\' + ' + a.value + ' + \'"')
+            var isCode = ['script', 'style'].indexOf(tag) >= 0
+            var lf = isCode ? '\\n' : ''
+            if isCode
+                set ctx.__incode = true
+            _ ctx.w("__html.push('" + lf + "<" + tag + attrs_string.join('') + ">" + lf + "');")
+            if text
+                set text = text.trim()
+                var ip
+                    _ lineParser.parseInterpolation
+                        @ text
+                        @ model
+                        @ ctx.__inside_handlebar
+                        @ ctx.__inside_ng
+                _ ctx.w("__html.push(" + ip.join() + ");")
+            _ cnt.genItems
+                @ model.statements
+                @ ctx
+                { 
+                    @ indent false
+				a_cb()
+					_ ctx.w("__html.push('</" + tag + ">" + lf + "');")
+					if isCode
+						set ctx.__incode = false
+					r_cb()
+
+	function getAttrs
+        param model
+        param ctx
+        var 
+            decl name
+            decl value
+            decl retval
+                [ 
+        for var a in model
+            set value = null
+            if html_supported_onEvents.indexOf(a) > -1
+				if model[a] == true
+					set name = a
+					set value = '{this.' +  a + '}'
+            elif isAttrValue(a, model[a])
+                set name = verify.replaceAll(a, '_', '-')
+                set value = model[a]
+			elif a.substr(0, 3) === 'ng-'
+                set name = a
+                set value = model[a]
+            elif a.substr(0, 5) === 'data-'
+                set name = a
+                set value = model[a]
+            elif a.substr(0, 5) === 'aria-'
+                set name = a
+                set value = model[a]
+            if value
+                if ctx.__jskind === 'react'
+					if name == 'class'
+						set name = 'className'
+                else 
+                    var ip
+                        _ lineParser.parseInterpolation
+                            @ value
+                            @ model
+                            @ ctx.__inside_handlebar
+                            @ ctx.__inside_ng
+                    set value = ip.join()
+                _ retval.push
+                    { 
+                        @ name name
+                        @ value value
+        return retval
+    
+	function isAttrValue
+        param a
+        param v
+        if noattrs.indexOf(a) > -1
+            return false
+        if v == null || verify.isArray(v) || verify.isObject(v) || verify.isFunction(v)
+            return false
+        return true
+    
+	var noattrs
+        [ 
+            @ 'wzTag'
+            @ 'wzName'
+            @ 'wzElement'
+            @ 'wzParent'
+            @ 'wzSourceLineInfo'
+            @ '___exportName'

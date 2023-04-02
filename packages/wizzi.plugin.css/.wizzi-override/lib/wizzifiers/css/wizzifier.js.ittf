@@ -1,0 +1,266 @@
+module
+    $
+        var schemaName = 'css';
+    kind es6
+    basewizzifier()
+        $append imports
+            +
+            var css_parser = require('css')
+            var cleanAST = require('./cleanAST')
+            +
+            function parseInternal
+                param tobeWizzified
+                param options
+                param callback
+                var syntax
+                try
+                    set syntax = css_parser.parse(tobeWizzified)
+                    _ cleanAST(syntax)
+                    r_cb( cloner(syntax) )
+                catch ex
+                    return
+                        _ callback
+                            @ ex
+        
+        var format
+            function 
+                param ast
+                param options
+                var formatter = format[ast.type]
+                if verbose
+                    info 'ast.type', ast.type
+                if formatter
+                    return formatter(ast, options)
+                throw 
+                    new Error('no formatter for type: ' + ast.type)
+        
+        +
+        function wizzify
+            param tobeWizzified
+            param options
+            param callback
+            set options = options || {};
+            set options.input = tobeWizzified
+            set options.stack = []
+            set options.formatTextNodes = []
+            set options.verbose = true
+            _ parseInternal
+                @ tobeWizzified
+                @ options
+                a_cb( syntax )
+                    # log stringify(syntax, null, 2)
+                    if false
+                        # standard 
+                        var root
+                            {
+                                @ tag '${schemaName}'
+                                [ children
+                        _ format(root, syntax, options)
+                        return
+                            _ callback
+                                @ null
+                                @ root
+                    else
+                        # simple format
+                        var root = format(syntax)
+                        # log "wizziTree", root
+                        return
+                            _ callback
+                                @ null
+                                @ root                    
+        +
+        $include helper_functions
+        +
+        function isKnownType
+            param type
+            return ['Int', 'Float', 'Boolean', 'String'].indexOf(type) > -1
+        +
+        function getTypeName
+            param type
+            return isKnownType(type) ? type.toLowerCase() : type
+        +
+        f_simple( stylesheet
+            # loog 'stylesheet.ast', ast
+            var ret
+                { 
+                    @ tag 'css'
+                    @ children
+                        [ 
+            _ ast.stylesheet.rules.map
+                function 
+                    param node
+                    _ ret.children.push
+                        _ format(node)
+            return ret
+        
+        f_simple( comment
+            var ret
+                { 
+                    @ tag '#'
+                    @ children
+                        [ 
+            var lines
+                _ file.splitLines
+                    @ ast.comment
+            if lines.length == 1
+                set ret.name = lines[0]
+            else 
+                foreach l in lines
+                    _ ret.children.push
+                        { 
+                            @ tag '#'
+                            @ name l
+                            @ children
+                                [ 
+            return ret
+        
+        f_simple( rule
+            var ret
+                { 
+                    @ tag '<'
+                    @ children
+                        [ 
+            var ls = ast.selectors.length
+            for var i = 0; i < ls; i++
+                if i == 0
+                    set ret.name = ast.selectors[i]
+                    if ret.name.trim()[0] === '.'
+                        set ret.tag = '.'
+                        set ret.name = ret.name.trim().substr(1)
+                    elif ret.name.trim()[0] === '#'
+                        set ret.tag = '#'
+                        set ret.name = ret.name.trim().substr(1)
+                else 
+                    _ ret.children.push
+                        { 
+                            @ tag '+'
+                            @ name ast.selectors[i]
+                            @ children
+                                [ 
+            _ ast.declarations.map
+                function 
+                    param node
+                    _ ret.children.push
+                        _ format(node)
+            return ret
+        
+        f_simple( declaration
+            var ret
+                { 
+                    @ tag ast.property
+                    @ name ast.value
+                    @ children
+                        [ 
+            return ret
+        
+        f_simple( media
+            var ret
+                { 
+                    @ tag 'media'
+                    @ name ast.media
+                    @ children
+                        [ 
+            _ ast.rules.map
+                function 
+                    param node
+                    _ ret.children.push
+                        _ format(node)
+            return ret
+        
+        f_simple( font-face
+            var ret
+                { 
+                    @ tag 'font-face'
+                    @ children
+                        [ 
+            _ ast.declarations.map
+                function 
+                    param node
+                    _ ret.children.push
+                        _ format(node)
+            return ret
+        
+        f_simple( keyframes
+            var ret
+                { 
+                    @ tag 'keyframes'
+                    @ name ast.name
+                    @ children
+                        [ 
+            _ ret.children.push
+                { 
+                    @ tag 'vendor'
+                    @ name ast.vendor
+                    @ children
+                        [ 
+            _ ast.keyframes.map
+                function 
+                    param node
+                    _ ret.children.push
+                        _ format(node)
+            return ret
+        
+        f_simple( keyframe
+            var ret
+                { 
+                    @ tag 'keyframe'
+                    @ children
+                        [ 
+            var ls = ast.values.length
+            for var i = 0; i < ls; i++
+                if i == 0
+                    set ret.name = ast.values[i]
+                else 
+                    _ ret.children.push
+                        { 
+                            @ tag 'value'
+                            @ name ast.values[i]
+                            @ children
+                                [ 
+            _ ast.declarations.map
+                function 
+                    param node
+                    _ ret.children.push
+                        _ format(node)
+            return ret
+        
+        f_simple( import
+            #
+                _ console.log
+                    @ 'import'
+                    _ util.inspect
+                        @ ast
+                        { 
+                            @ depth null
+            var ret
+                { 
+                    @ tag 'import'
+                    @ name ast.import
+                    @ children
+                        [ 
+            return ret
+        
+        f_simple( charset
+            #
+                _ console.log
+                    @ 'charset'
+                    _ util.inspect
+                        @ ast
+                        { 
+                            @ depth null
+            var ret
+                { 
+                    @ tag 'charset'
+                    @ name ast.charset
+                    @ children
+                        [ 
+            return ret
+
+        f_simple( supports
+            _ console.log
+                @ 'supports'
+                _ util.inspect
+                    @ ast
+                    { 
+                        @ depth null
+        

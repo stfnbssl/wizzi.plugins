@@ -1,0 +1,72 @@
+module
+    kind react
+    var a
+        iif b
+            then c
+            else d
+    var a
+        iif b.x(1, 3)
+            then c
+            else
+                _ d
+                    function 
+                        return 0
+    if true
+        _ go()
+    else
+        _ stay()
+    var y = 2
+    if typeof Error === 'undefined'
+        var x = typeof Error
+    else
+        delete x.y
+    switch expr
+        case "Arance"
+            _ console.log("Le arance costano €1,0 al chilo.")
+            break 
+        case "Mele"
+            _ console.log("Le mele costano €0.64 al chilo.")
+            break 
+        case "Banane"
+            _ console.log("Le banane costano €0.92 al chilo.")
+            break 
+        case "Ciliege"
+            _ console.log("Le ciliegie costano €2.59 al chilo.")
+            break 
+        case "Manghi"
+        case "Papaye"
+            _ console.log("I manghi e le papaye costano €1.79 al chilo.")
+            break 
+        default 
+            _ console.log("Spiacenti, non abbiamo " + expr + ".")
+    var 
+        decl stop = false
+        decl age = 23
+    iif age > 18
+        then
+            sequence 
+                _ alert("OK, you can go.")
+                _ location.assign("continue.html")
+        else
+            sequence 
+                set stop = true
+                _ alert("Sorry, you are much too young!")
+    var age = 16
+    var url
+        iif age > 18
+            then
+                sequence 
+                    _ alert("OK, you can go.")
+                    set "continue.html"
+                        # alert returns "undefined", but it will be ignored because
+                        # isn't the last comma-separated value of the parenthesis
+                        # the value to be assigned if age > 18
+            else
+                sequence 
+                    _ alert("You are much too young!")
+                    _ alert("Sorry :-(")
+                    set "stop.html"
+                        # etc. etc.
+                        # the value to be assigned if !(age > 18)
+    _ location.assign(url)
+        # "stop.html"

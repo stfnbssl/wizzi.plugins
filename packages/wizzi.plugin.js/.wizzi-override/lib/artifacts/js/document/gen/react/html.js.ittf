@@ -1,0 +1,144 @@
+module wizzi.plugin.js.artifacts.module.gen.react.html
+	kind jsfile
+	var u = require('../utils/stm')
+
+	var md = module.exports = {}
+	var myname = 'wizzi.js.artifacts.module.gen.react.html'
+
+	set md.htmlelement
+		function
+			param cnt
+			param model
+			param tag
+			param text
+			param ctx
+			param attrs
+			param callback
+
+			# loog 'enter in react/html *****************', tag
+			
+			if u.isGraphEnclosed(tag)
+				_ ctx.w(tag);
+				r_cb()
+			
+			# @style/_style is used as an attribute in react
+			# see /statements/html for attrs extraction
+			if model.wzElement === '_style'
+				r_cb()
+			
+			if u.parentIsHtmlElement(model) == false
+				if u.isArgumentOfCall(model)
+					_ ctx.w()
+				else
+					_ ctx.write(' (')
+					_ ctx.w()
+			
+			_ htmlelement_open
+				@ cnt
+				@ model
+				@ ctx
+				@ tag
+				@ attrs
+				a_cb(done)
+                    if done
+                        r_cb()
+                    else
+                        _ htmlelement_end
+                            @ cnt
+                            @ model
+                            @ ctx
+                            @ tag
+                            @ text
+                            a_cb()
+                                # loog 'exit from react/html *****************', tag
+                                # @ callback
+                                r_cb()
+
+	function htmlelement_open
+		param cnt
+		param model
+		param ctx
+		param tag
+		param attrs
+		param callback
+
+		_ ctx.indent()
+
+		# begin open tag and write attributes
+		_ ctx.write("<" + tag)
+		repeater(1, attrs)
+			_ htmlelement_attribute
+				@ cnt
+				@ item_1
+				@ ctx
+				a_cb()
+					repeater_increment(1)
+			$append next
+                # loog 'htmlelement_open.model.statements.length', model.statements.length
+                if model.statements.length > 0
+				    _ ctx.w(">");
+				    # end of open tag
+				    r_cb(false)
+                else
+				    _ ctx.w(" />");
+				    # end of tag
+				    r_cb(true)
+
+	function htmlelement_attribute
+		param cnt
+		param a
+		param ctx
+		param callback
+
+		if a.statements && a.statements.length > 0
+			_ ctx.write(' ' + a.name + '={')
+			_ cnt.genItems
+				@ a.statements
+				@ ctx
+				{
+					@ indent false
+				a_cb()
+					_ ctx.write('}')
+					r_cb()
+		elif a.value.length || a.value.length == 0
+			if a.value.length == 0
+				_ ctx.write(' ' + a.name)
+			else
+				var quote = a.value.indexOf('{') >= 0 || u.isQuoted(a.value) ? '' : '"'
+				_ ctx.write(' ' + a.name + '=' + quote + a.value + quote)
+			r_cb()
+		else
+			_ ctx.write(' ' + a.name + '="' + a.value + '"')
+			r_cb()
+
+	function htmlelement_end
+		param cnt
+		param model
+		param ctx
+		param tag
+		param text
+		param callback
+
+		if text
+			_ ctx.w(text)
+
+		_ cnt.genItems
+			@ model.statements
+			@ ctx
+			{
+				@ indent false
+			a_cb()
+				_ ctx.w("</" + tag + ">");
+				_ ctx.deindent()
+				if u.parentIsHtmlElement(model)
+					_ ctx.w()
+				else
+					if u.isArgumentOfCall(model)
+						# _ ctx.write(')')
+					else
+						# _ ctx.w(');') // 7/4/2017
+						_ ctx.w(')')
+				r_cb()
+
+				
+

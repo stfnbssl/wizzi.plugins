@@ -1,0 +1,166 @@
+﻿$group
+
+	function generateParamConstraints
+		param methodName
+		param parameters
+		param hasCallback
+		param hasOptionsCallback
+		param ctx
+		param callback
+	
+		if hasCallback
+			_ ctx.w("if (typeof(callback) !== 'function') {")
+			_ ctx.w("    throw new Error(")
+			_ ctx.w("        error('InvalidArgument', '" + methodName + "', 'The callback parameter must be a function. Received: ' + callback)")
+			_ ctx.w("    );")
+			_ ctx.w("};")
+		elif hasOptionsCallback
+			_ ctx.w("if (verify.isFunction(callback) === false && verify.isFunction(options) === true) {")
+			_ ctx.indent()
+			_ ctx.w("callback = options;")
+			_ ctx.w("options = {};")
+			_ ctx.deindent()
+			_ ctx.w("}")
+			_ ctx.w("if (verify.isFunction(callback) === false) {")
+			_ ctx.w("    throw new Error(")
+			_ ctx.w("        error('InvalidArgument', '" + methodName + "', 'The callback parameter must be a function. Received: ' + callback)")
+			_ ctx.w("    );")
+			_ ctx.w("};")
+		
+		foreach p in parameters
+			var state = prmAnalizeParam(p)
+			# loog 'wizzi-codegen.js2.function.generateParamConstraints.state', state
+			foreach item in state.candidates
+				foreach c in item.constraints
+					if c.constraintType === 'required'
+						if c.paramType === 'string'
+							_ ctx.w("if (verify.isNotEmpty(" + c.accessPath + ") === false) {")
+							_ invalidParam(methodName, c.accessPath, 'a string', hasCallback, ctx)
+						elif c.paramType === 'number'
+							_ ctx.w("if (verify.isNumber(" + c.accessPath + ") === false) {")
+							_ invalidParam(methodName, c.accessPath, 'a number', hasCallback, ctx)
+						elif c.paramType === 'date'
+							_ ctx.w("if (verify.isDate(" + c.accessPath + ") === false) {")
+							_ invalidParam(methodName, c.accessPath, 'a date', hasCallback, ctx)
+						elif c.paramType === 'boolean'
+							_ ctx.w("if (verify.isBoolean(" + c.accessPath + ") === false) {")
+							_ invalidParam(methodName, c.accessPath, 'a boolean', hasCallback, ctx)
+						elif c.paramType === 'object'
+							_ ctx.w("if (verify.isObject(" + c.accessPath + ") === false) {")
+							_ invalidParam(methodName, c.accessPath, 'an object', hasCallback, ctx)
+						elif c.paramType === 'array'
+							_ ctx.w("if (verify.isArray(" + c.accessPath + ") === false) {")
+							_ invalidParam(methodName, c.accessPath, 'an array', hasCallback, ctx)
+						elif c.paramType === 'arrayOrObject'
+							_ ctx.w("if (verify.isArrayOrObject(" + c.accessPath + ") === false) {")
+							_ invalidParam(methodName, c.accessPath, 'an array or an object', hasCallback, ctx)
+						elif c.paramType === 'function'
+							_ ctx.w("if (verify.isFunction(" + c.accessPath + ") === false) {")
+							_ invalidParam(methodName, c.accessPath, 'a function', hasCallback, ctx)
+						elif c.paramType === 'any'
+							# do nothing
+						elif c.paramType === 'optionsCallback'
+							# done already
+							# see above "if hasOptionsCallback" statement
+						elif c.paramType === 'callback'
+							# done already
+							# see above "if hasCallback" statement
+						else
+							return
+								_ callback
+									_ ctx.error(myname + '.generateParamConstraints. Unknown param type: ' + c.paramType, item.prm)
+					if c.constraintType === 'optional'
+						if c.paramType === 'string'
+							_ ctx.w("if (verify.isNullOrUndefined(" + c.accessPath + ") === false) {")
+							_ ctx.indent()
+							_ ctx.w("if (verify.isNotEmpty(" + c.accessPath + ") === false) {")
+							_ invalidParam(methodName, c.accessPath, 'a string', hasCallback, ctx)
+							_ ctx.deindent()
+							_ ctx.w("}")
+						elif c.paramType === 'number'
+							_ ctx.w("if (verify.isNullOrUndefined(" + c.accessPath + ") === false) {")
+							_ ctx.indent()
+							_ ctx.w("if (verify.isNumber(" + c.accessPath + ") === false) {")
+							_ invalidParam(methodName, c.accessPath, 'a number', hasCallback, ctx)
+							_ ctx.deindent()
+							_ ctx.w("}")
+						elif c.paramType === 'date'
+							_ ctx.w("if (verify.isNullOrUndefined(" + c.accessPath + ") === false) {")
+							_ ctx.indent()
+							_ ctx.w("if (verify.isDate(" + c.accessPath + ") === false) {")
+							_ invalidParam(methodName, c.accessPath, 'a date', hasCallback, ctx)
+							_ ctx.deindent()
+							_ ctx.w("}")
+						elif c.paramType === 'boolean'
+							_ ctx.w("if (verify.isNullOrUndefined(" + c.accessPath + ") === false) {")
+							_ ctx.indent()
+							_ ctx.w("if (verify.isBoolean(" + c.accessPath + ") === false) {")
+							_ invalidParam(methodName, c.accessPath, 'a boolean', hasCallback, ctx)
+							_ ctx.deindent()
+							_ ctx.w("}")
+						elif c.paramType === 'object'
+							_ ctx.w("if (verify.isNullOrUndefined(" + c.accessPath + ") === false) {")
+							_ ctx.indent()
+							_ ctx.w("if (verify.isObject(" + c.accessPath + ") === false) {")
+							_ invalidParam(methodName, c.accessPath, 'an object', hasCallback, ctx)
+							_ ctx.deindent()
+							_ ctx.w("}")
+						elif c.paramType === 'array'
+							_ ctx.w("if (verify.isNullOrUndefined(" + c.accessPath + ") === false) {")
+							_ ctx.indent()
+							_ ctx.w("if (verify.isArray(" + c.accessPath + ") === false) {")
+							_ invalidParam(methodName, c.accessPath, 'an array', hasCallback, ctx)
+							_ ctx.deindent()
+							_ ctx.w("}")
+						elif c.paramType === 'arrayOrObject'
+							_ ctx.w("if (verify.isNullOrUndefined(" + c.accessPath + ") === false) {")
+							_ ctx.indent()
+							_ ctx.w("if (verify.isArrayOrObject(" + c.accessPath + ") === false) {")
+							_ invalidParam(methodName, c.accessPath, 'an array or an object', hasCallback, ctx)
+							_ ctx.deindent()
+							_ ctx.w("}")
+						elif c.paramType === 'function'
+							_ ctx.w("if (verify.isNullOrUndefined(" + c.accessPath + ") === false) {")
+							_ ctx.indent()
+							_ ctx.w("if (verify.isFunction(" + c.accessPath + ") === false) {")
+							_ invalidParam(methodName, c.accessPath, 'a function', hasCallback, ctx)
+							_ ctx.deindent()
+							_ ctx.w("}")
+						elif c.paramType === 'any'
+							# do nothing
+						elif c.paramType === 'optionsCallback'
+							# done already
+							# see above "if hasOptionsCallback" statement
+						elif c.paramType === 'callback'
+							# done already
+							# see above "if hasCallback" statement
+						else
+							return
+								_ callback
+									_ ctx.error(myname + '.generateParamConstraints. Unknown param type: ' + c.paramType, item.prm)
+		r_cb()
+	
+	function invalidParam
+		param methodName
+		param name
+		param type
+		param hasCallback
+		param ctx
+		# loog 'wizzi-codegen.js2.function.invalidParam.methodName', methodName, name, type 
+		if hasCallback
+			_ ctx.w("    return callback(error(")
+			_ ctx.w("        'InvalidArgument', '" + methodName + "', { parameter: '" + name + "', message: 'The " + name + " parameter must be " + type + ". Received: ' + " + name + " }")
+			_ ctx.w("    ));")
+			_ ctx.w("}")
+		elif methodName === 'ctor' || methodName === 'iife'
+			_ ctx.w("    throw new Error(error(")
+			_ ctx.w("        'InvalidArgument', '" + methodName + "', { parameter: '" + name + "', message: 'The " + name + " parameter must be " + type + ". Received: ' + " + name + " }")
+			_ ctx.w("    ));")
+			_ ctx.w("}")
+		else
+			_ ctx.w("    return error(")
+			_ ctx.w("        'InvalidArgument', '" + methodName + "', { parameter: '" + name + "', message: 'The " + name + " parameter must be " + type + ". Received: ' + " + name + " }")
+			_ ctx.w("    );")
+			_ ctx.w("}")
+
+	$include ./paramAnalizer

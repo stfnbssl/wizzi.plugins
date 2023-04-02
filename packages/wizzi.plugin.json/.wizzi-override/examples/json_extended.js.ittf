@@ -1,0 +1,74 @@
+module
+    kind es6
+    $
+        var md = {
+            name: 'json',
+        };
+    v08/examples/plugin( &md )
+        $append plugins
+            [ items
+                @ './index.js'
+            @ pluginsBaseFolder
+                _ path.resolve
+                    @ __dirname
+                    @ '..'
+        _ executeGenerateModules
+            [
+                @ 'first'
+            a_cb_no_throw( result )
+                if err
+                    error 'json.examples.executeGenerateModules.err', err
+                    error 'json.examples.executeGenerateModules.err.toString()', err.toString()
+                    if err.inner
+                        error 'json.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
+                else
+        function executeGenerateModules
+            param modules
+            param callback
+            _ async.mapSeries
+                @ modules
+                =>
+                    param module
+                    param callback
+                    log 'json.example.executeGenerateModules.module: ' + module
+                    var ittfDocumentUri
+                        _ path.join
+                            @ __dirname
+                            @ 'ittf'
+                            @ module + '.json.ittf'
+                    var outputLoadedPath
+                        _ path.join
+                            @ __dirname
+                            @ 'results'
+                            @ module + '.json.json'
+                    var outputTransformedPath
+                        _ path.join
+                            @ __dirname
+                            @ 'results'
+                            @ module + '.json.extended.json'
+                    _ loadWizziModel
+                        @ ittfDocumentUri
+                        {
+                        a_cb( model )
+                            log 'json.example.executeGenerateModules.outputLoadedPath: ' + outputLoadedPath
+                            if model.toJson && verify.isFunction(model.toJson)
+                                _ file.write
+                                    @ outputLoadedPath
+                                    _ stringify
+                                        @ model.toJson()
+                                        @ null
+                                        @ 4
+                            _ loadModelAndTransform
+                                @ ittfDocumentUri
+                                {
+                                @ "json/extended"
+                                a_cb( model )
+                                    log 'json.example.executeGenerateModules.outputTransformedPath: ' + outputTransformedPath
+                                    _ file.write
+                                        @ outputTransformedPath
+                                        _ stringify
+                                            @ model
+                                            @ null
+                                            @ 4
+                                    r_cb( )
+                @ callback

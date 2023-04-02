@@ -19,6 +19,8 @@ module.exports = {
         'css'
     ], 
     globalContext: {
-        wzConfigIsDevelopment: true
+        wzConfigIsDevelopment: true, 
+        wzConfigIsPackageDeploy: false, 
+        wzConfigIsDocumentation: true
      }
  };

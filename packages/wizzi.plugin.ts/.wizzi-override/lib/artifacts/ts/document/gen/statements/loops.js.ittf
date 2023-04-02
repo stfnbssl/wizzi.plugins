@@ -1,0 +1,199 @@
+﻿loader(loops)
+
+    stm( xfor
+        if model.statements.length > 1 && 
+            \b model.statements[0].wzElement == 'xleft' &&
+            \b (model.statements[1].wzElement == 'xof' || model.statements[1].wzElement == 'xin')
+            var bodystatementes = model.statements.slice(2)
+            _ ctx.write('for (')
+            set ctx.__inline = true
+            set ctx.__nosemicolon = true
+            _ cnt.genItem
+                @ model.statements[0]
+                @ ctx
+                a_cb()
+                    _ ctx.write(model.statements[1].wzElement == 'xin' ? ' in ' : ' of ')
+                    _ cnt.genItem
+                        @ model.statements[1]
+                        @ ctx
+                        a_cb()
+                            set ctx.__inline = false
+                            set ctx.__nosemicolon = false
+                            _ ctx.w(') {')
+                            _ cnt.genItems
+                                @ bodystatementes
+                                @ ctx
+                                { 
+                                    @ indent true
+                                a_cb()
+                                    _ ctx.w('}')
+                                    r_cb()
+        else
+            _ u.emitBlock
+                @ cnt
+                @ 'for'
+                @ model
+                @ model.statements
+                @ model.statements.length
+                @ ctx
+                @ callback
+    
+	stm( xleft
+        if model.statements.length > 0
+            _ cnt.genItems
+                @ model.statements
+                @ ctx
+                { 
+                @ callback
+        else
+            _ ctx.write(model.wzName)
+            r_cb()
+
+	stm( xof
+        if model.statements.length > 0
+            _ cnt.genItems
+                @ model.statements
+                @ ctx
+                { 
+                @ callback
+        else
+            _ ctx.write(model.wzName)
+            r_cb()
+
+	stm( xin
+        if model.statements.length > 0
+            _ cnt.genItems
+                @ model.statements
+                @ ctx
+                { 
+                @ callback
+        else
+            _ ctx.write(model.wzName)
+            r_cb()
+
+    stm( foreach
+        var ss
+            _ model.wzName.trim()
+                ._ split(' ')
+        if ss.length != 3 || ss[1] !== 'in'
+			return
+				_ callback
+					_ ctx.error("Malformed foreach. Should be: foreach <item> in <coll>. Is " + model.wzName, model)
+        var 
+            decl item = ss[0]
+            decl coll = ss[2]
+        var nidif = (ctx.__for_nidif || 0)
+        if nidif >= max_for_nidif
+			return
+				_ callback
+					_ ctx.error(myname + '. Maximum number of nested foreach loop is ' + max_for_nidif, model)
+        var letter = forloopLetters[nidif]
+		var items = (letter + '_items')
+        var len = (letter + '_len')
+        set ctx.__for_nidif = (nidif + 1)
+        _ ctx.w('var ' + letter + ', ' + 
+			\b items + '=' + coll + ', ' +
+			\b len + '=' + coll + '.length, ' + 
+			\b item + ';')
+        _ ctx.w('for (' + letter + '=0; ' + letter + '<' + len + '; ' + letter + '++) {')
+        _ ctx.w('    ' + item + ' = ' + coll + '[' + letter + '];')
+        _ cnt.genItems
+            @ model.statements
+            @ ctx
+            { 
+                @ indent true
+			a_cb()
+				_ ctx.w('}')
+				set ctx.__for_nidif = (ctx.__for_nidif - 1)
+				r_cb()
+    
+	stm( backeach
+        var ss
+            _ model.wzName.trim()
+                ._ split(' ')
+        if ss.length != 3 || ss[1] !== 'in'
+			return
+				_ callback
+					_ ctx.error("Malformed backeach. Should be: backeach <item> in <coll>. Is " + model.wzName, model)
+        var 
+            decl item = ss[0]
+            decl coll = ss[2]
+        var nidif = (ctx.__for_nidif || 0)
+        if nidif >= max_for_nidif
+			return
+				_ callback
+					_ ctx.error(myname + '. Maximum number of nested backeach loop is ' + max_for_nidif, model)
+        var letter = forloopLetters[nidif]
+        var len = (letter + '_len')
+        set ctx.__for_nidif = (nidif + 1)
+        _ ctx.w('var ' + letter + ', ' + len + '=' + coll + '.length, ' + item + ';')
+        _ ctx.w('for (' + letter + '= (' + len + '-1); ' + letter + '>-1; ' + letter + '--) {')
+        _ ctx.w('    ' + item + ' = ' + coll + '[' + letter + '];')
+        _ cnt.genItems
+            @ model.statements
+            @ ctx
+            { 
+                @ indent true
+			a_cb()
+				_ ctx.w('}')
+				set ctx.__for_nidif = ctx.__for_nidif - 1
+				r_cb()
+    
+	stm( xbreak
+        _ ctx.write('break')
+        _ ctx.write((model.wzName || '').trim().length > 0 ? (' ' + model.wzName) : '')
+        _ ctx.w(';')
+		r_cb()
+    
+	stm( xcontinue
+        _ ctx.write('continue')
+        _ ctx.write((model.wzName || '').trim().length > 0 ? (' ' + model.wzName) : '')
+        _ ctx.w(';')
+		r_cb()
+    
+	stm( xwhile
+        _ u.emitBlock
+            @ cnt
+            @ 'while'
+            @ model
+            @ model.statements
+            @ model.statements.length
+            @ ctx
+			@ callback
+    
+	stm( xdo
+        var items = model.statements
+        var count = model.statements.length
+        _ ctx.write('do')
+        if ctx.values.__preserveBlock
+            if (count > 1) || (count == 1 && items[0].wzElement === 'block')
+                _ ctx.w(' {')
+            else 
+                _ ctx.w('')
+        else 
+            _ ctx.w(' {')
+        _ cnt.genItems
+            @ model.statements
+            @ ctx
+            { 
+                @ indent true
+			a_cb()
+				if ctx.values.__preserveBlock
+					if (count > 1) || (count == 1 && items[0].wzElement === 'block')
+						_ ctx.write('}')
+				else 
+					_ ctx.write('}')
+				_ ctx.w(' while (' + u.unparen(model.wzName) + ')')
+				r_cb()
+    
+	stm( xlabel
+        _ ctx.w(model.wzName + ':')
+        _ cnt.genItems
+            @ model.statements
+            @ ctx
+            { 
+                @ indent false
+			@ callback
+
+	var forloopLetters = "ijklmn"
+	var max_for_nidif = forloopLetters.length

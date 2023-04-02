@@ -1,0 +1,123 @@
+loader(iife)
+
+	$append requires
+		var lineParser = require('../utils/lineParser')
+            
+	stm( wzIife
+        var invokeCall = null
+        if model.statements.length > 0 && model.statements[(model.statements.length - 1)].wzElement === 'callOnValue'
+            set invokeCall = model.statements[model.statements.length - 1]
+            _ model.statements.splice(model.statements.length - 1, 1)
+
+        var parameters
+            _ _.concat
+                [
+                    @ '__'
+                @ model.paramNames
+
+        _ ctx.w('var ' + model.wzName + ' = (function(' + parameters.join(',') + ') {')
+
+        # constraints
+        _ ctx.indent()
+        
+        # sync function
+        _ generateParamConstraints
+            @ 'iife ' + model.wzName
+            @ model.constrainedParams
+            @ model.hasCallbackParam
+            @ model.hasOptionsCallbackParam
+            @ ctx
+            a_cb()
+                repeater( 1, model.statements )
+                    # loog 'wizzi-js.wziife', item_1.wzElement, item_1.wzName
+                    _ statement.gen
+                        @ item_1
+                        @ ctx
+                        a_cb()
+                            repeater_increment( 1 )
+                    $append next
+                        var seen = false
+                        _ ctx.w('return {')
+                        foreach item in model.__wzItems.vars
+                            if seen
+                                _ ctx.w(',')
+                            var ss = item.wzName.split(' ')
+                            _ ctx.write('    ' + ss[0] + ': ' + ss[0])
+                            set seen = true;
+                        foreach item in model.__wzItems.consts
+                            if seen
+                                _ ctx.w(',')
+                            var ss = item.wzName.split(' ')
+                            _ ctx.write('    ' + ss[0] + ': ' + ss[0])
+                            set seen = true;
+                        foreach item in model.__wzItems.functions
+                            if seen
+                                _ ctx.w(',')
+                            _ ctx.write('    ' + item.wzName + ': ' + item.wzName)
+                            set seen = true;
+                        foreach item in model.__wzItems.classes
+                            if seen
+                                _ ctx.w(',')
+                            _ ctx.write('    ' + item.wzName + ': ' + item.wzName)
+                            set seen = true;
+                        if seen
+                            _ ctx.w('')
+                        _ ctx.w('};');
+                        _ ctx.deindent()
+                        _ ctx.w('})')
+
+                        if invokeCall
+                            _ statement.gen
+                                @ invokeCall
+                                @ ctx
+                                a_cb()
+                                    _ ctx.w(';')
+                                    r_cb()
+                        else
+                            _ ctx.w('()')
+                            _ ctx.w(';')
+                            r_cb()
+
+    $* OLD ???
+    stm( iife
+		var invokeCall = null
+		if model.statements.length > 0 && model.statements[(model.statements.length - 1)].wzElement === 'callOnValue'
+			set invokeCall = model.statements[model.statements.length - 1]
+			_ model.statements.splice(model.statements.length - 1, 1)
+
+        if model.unary_prefix
+            _ ctx.write
+                @ model.unary_prefix
+        
+		var iifeName = model.wzName.length > 0 ? ' ' + model.wzName : ''
+        _ ctx.w('(function' + iifeName + '(' + model.paramNames.join(', ') + ') {')
+		# constraints
+		_ ctx.indent()
+		_ generateParamConstraints
+			@ 'iife'
+			@ model.constrainedParams
+			@ model.hasCallbackParam
+			@ model.hasOptionsCallbackParam
+			@ ctx
+			a_cb()
+				_ cnt.genItems
+					@ model.statements
+					@ ctx
+					{ 
+						@ indent false
+					a_cb()
+						_ ctx.deindent()
+						_ ctx.write('})')
+						if invokeCall
+							_ cnt.genItem
+								@ invokeCall
+								@ ctx
+								a_cb()
+									_ ctx.w(';')
+									r_cb()
+						else
+							_ ctx.w('();')
+							r_cb()
+    *$                            
+
+	$include generateParamConstraints

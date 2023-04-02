@@ -1,0 +1,40 @@
+﻿loader( class )
+
+	$append requires
+		var xclass
+		var xclass_es6
+		var xclass_react
+		var method
+		var html
+            
+	stm( xclass
+        if ctx.__jskind === 'react'
+            # log 111
+			if !xclass_react
+                set xclass_react = require('../react/class')
+            _ xclass_react.gen(model, ctx, callback)
+        elif ctx.__ecma === 'es6'
+			# log 112
+            if !xclass_es6
+                set xclass_es6 = require('../es6/class')
+            _ xclass_es6.gen(model, ctx, callback)
+        else 
+			# log 113
+            if !xclass
+                set xclass = require('../class')
+            new xclass.gen(model, ctx, callback)
+    
+	stm( ctor
+		# done by zclass
+        + ;
+		r_cb()
+    
+	stm( method
+        if !method
+            set method = require('../method')
+        new method.gen(model, ctx, callback)
+    
+	stm( tohtml
+        if !html
+            set html = require('../html')
+        new html.gen(model, ctx, callback)

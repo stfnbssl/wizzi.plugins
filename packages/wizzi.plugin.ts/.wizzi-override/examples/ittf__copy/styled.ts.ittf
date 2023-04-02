@@ -1,0 +1,66 @@
+module
+
+    styled Title .h1
+        font-size 1.5em
+        text-align center
+        color palevioletred
+
+    styled Input .input.attrs
+        =>
+            param props
+            return
+                {
+                    @ type "text"
+                    @ size props.size || "1em"
+        border 2px solid palevioletred
+        margin
+            => props.size
+        padding
+            => props.size 
+
+
+    styled Button .button
+        padding 5px
+        => 
+            && 
+                + props.loading
+                css
+                    & :before
+                        display inline-block
+                        content ""
+                        border-width 2px
+
+    styled Input .input.attrs
+        =>
+            param props
+            return
+                {
+                    @ type "text"
+                    @ size props.size || "1em"
+        border 2px solid palevioletred
+        margin
+            => props.size
+        padding
+            => props.size 
+        if props.loading
+            display inline-block
+            content ""
+            border-width 2px
+
+    styled ${Comp} (Box).attrs
+        =>
+            { 
+                    @ wrap
+                    @ align
+                    @ justify
+                    @ ...props
+            (
+                {
+                    @ flexWrap wrap ? 'wrap' : undefined,
+                    @ alignItems align
+                    @ justifyContent justify
+                    @ ...props
+        display flex
+        ${'$'} applyVariations('Flex')
+
+

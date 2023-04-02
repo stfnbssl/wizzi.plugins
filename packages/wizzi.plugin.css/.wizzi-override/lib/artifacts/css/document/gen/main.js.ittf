@@ -1,0 +1,179 @@
+module wizzi.plugin.css@${wzCtx.version}.lib.artifacts.css.document.gen.main
+    kind es6
+    $include versions
+    $
+        var md = {
+            plugin: 'wizzi.plugin.css',
+            name: 'document',
+            schema: 'css',
+            checkSchema: true,
+            isAsync: true,
+        };
+    +
+    gen( &md )
+        $append imports
+            var included_writers = require('./included_writers')
+            var postcss = require("postcss")
+            var colorFunction = require("postcss-color-function")    
+            var rule = require('./rule')
+            
+
+        $append main
+            _ rule.load(md)
+            _ main_init
+                @ model
+                @ ctx
+            if true
+                set ctx.__comment_level = 0
+                _ md.myGetGenItem
+                    @ ctx
+                    (
+                        @ model
+                        a_cb()
+                            if ctx.artifactGenerationErrors.length > 0
+                                r_cb_err( ctx.artifactGenerationErrors )
+                            else
+                                try
+                                    var postCssResult
+                                        _ postcss
+                                            ._ use
+                                                _ colorFunction
+                                                    { 
+                                                        @ preserveCustomProps true
+                                            ._ process
+                                                _ ctx.getContent
+                                            . css
+                                catch ex
+                                    if ex.name === 'CssSyntaxError'
+                                        r_cb(ctx)
+                                _ ctx.hydrate
+                                    {
+                                        [ lines
+                                            {
+                                                @ indentValue 0
+                                                [ text
+                                                    @ postCssResult                        
+                                r_cb(ctx)
+            else
+                _ md.css
+                    @ model
+                    @ ctx
+                    a_cb( )
+                        if ctx.artifactGenerationErrors.length > 0
+                            r_cb_err( ctx.artifactGenerationErrors )
+                        else
+                            # generation OK
+                            r_cb( ctx )
+        async-md( css )
+            _ ctx.w('<css>')
+            _ md.genItems
+                @ model.nodes
+                @ ctx
+                {
+                    @ indent true
+                a_cb()
+                    _ ctx.w('</css>')
+                    r_cb()
+        async-md( css )
+            # css is container only
+            if model.charset
+                _ ctx.write('@charset "' + model.charset + '";')
+            _ emitResources(model.resources, ctx)
+            _ md.genItems
+                @ model.statements
+                @ ctx
+                {
+                    @ indent false
+                a_cb()
+                    _ md.genItems
+                        @ model.rules
+                        @ ctx
+                        {
+                            @ indent false
+                        @ callback
+
+        async-md( statement )
+            _ ctx.w(model.wzName)
+            r_cb()
+        +
+        set md.myGetGenItem
+            function
+                param ctx
+                return
+                    function
+                        param model
+                        param callback
+                        var stm = md[model.wzElement]
+                        if stm
+                            _ stm
+                                @ model
+                                @ ctx
+                                @ callback
+                        else 
+                            # this is an abnormal end
+                            throw ctx.error(myname + '. Unknown tag/element: ' + model.wzTag + '/' + model.wzElement, model)
+        +
+        function main_init
+            param model
+            param ctx
+
+            # loog 'css.document.gen.main, ctx.values', ctx.values, !!ctx.values.noGeneratorComments
+            
+            if (!!ctx.values.noGeneratorComments) == false
+                _ ctx.w('/*')
+                _ ctx.w('    artifact generator: ' + __filename)
+                _ ctx.w('    package: wizzi-web@${versions['wizzi-web@next']}')
+                _ ctx.w('    primary source IttfDocument: ' + model.wzSourceFilepath('f1'))
+                if (!!ctx.values.wzConfigIsPackageDeploy) == false
+                    _ ctx.w('    utc time: ' + new Date().toUTCString())
+                _ ctx.w('*/')
+        +
+        function emitResources
+            param requestedResources
+            param ctx
+
+            if requestedResources.length > 0 && ctx.values.cssResources
+                var resourceRepo = ctx.values.cssResources
+                _ resourceRepo.clearCssDependencies()
+                foreach item in requestedResources
+                    _ resourceRepo.addCssDependency(item.wzName)
+                _ resourceRepo.emitCssDependencies(ctx)
+        +
+        var noattrs
+            [
+                @ 'wzTag'
+                @ 'wzName'
+                @ 'wzElement'
+                @ 'wzParent'
+                @ 'wzSourceLineInfo'
+                @ '___exportName'
+        +
+        function isAttrValue
+            param a
+            param v
+            if noattrs.indexOf(a) > -1
+                return false
+            if v == null || verify.isArray(v) || verify.isObject(v) || verify.isFunction(v)
+                return false
+            return true
+        +
+        function getAttrs
+            param e
+            var retval = []
+            for var a in e
+                if isAttrValue(a, e[a])
+                    _ retval.push({ name: verify.replaceAll(a, '_', '-'), value: e[a] })
+                elif a.substr(0, 3) === 'ng-'
+                    _ retval.push({ name: a, value: e[a] })
+                elif a.substr(0, 5) === 'data-'
+                    _ retval.push({ name: a, value: e[a] })
+                elif a.substr(0, 5) === 'aria-'
+                    _ retval.push({ name: a, value: e[a] })
+            if e.attributes
+                foreach a in e.attributes
+                    var p = lineParser.parseNameValueRaw(a.wzName, a)
+                    if p.hasValue()
+                        _ retval.push({ name: p.name(), value: p.value() })
+                    else
+                        _ retval.push({ name: p.name() })
+            return retval

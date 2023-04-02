@@ -1,0 +1,78 @@
+$group
+
+    if ['styleJsx'].indexOf(key) >= 0 && model.get_css
+        var global = model.global ? ' global' : ''
+        _ ctx.write("<style jsx")
+        if model.global
+            _ ctx.write(" global")
+        _ ctx.w(">{`")
+        _ include_writers.writeIncludeCss
+            @ ctx
+            @ model
+            a_cb()
+                _ ctx.w("`}</style>")
+                r_cb()
+    
+    elif ['styled'].indexOf(key) >= 0 && model.get_css
+        var global = model.global ? ' global' : ''
+        var nv = verify.parseNameValue(model.wzName)
+        if model.statements.length == 1
+            if model.wzName && model.wzName.length > 0
+                _ ctx.w("const " + nv.name() + " = styled" + nv.value() + "(")
+            else
+                _ ctx.w("return css`")
+            _ ctx.indent
+            _ md.genItem
+                @ model.statements[0]
+                @ ctx
+                a_cb()
+                    _ ctx.deindent
+                    _ ctx.w(")`")
+                    _ include_writers.writeIncludeCss
+                        @ ctx
+                        @ model
+                        a_cb()
+                            _ ctx.w("`")
+                            r_cb()
+        else
+            if model.wzName && model.wzName.length > 0
+                _ ctx.w("const " + nv.name() + " = styled" + nv.value() + "`")
+            else
+                _ ctx.w("return css`")
+            _ include_writers.writeIncludeCss
+                @ ctx
+                @ model
+                a_cb()
+                    _ ctx.w("`")
+                    r_cb()
+    
+    elif ['keyframes'].indexOf(key) >= 0 && model.get_css
+        var global = model.global ? ' global' : ''
+        var nv = verify.parseNameValue(model.wzName)
+        if model.wzName && model.wzName.length > 0
+            _ ctx.w("const " + nv.name() + " = keyframes`")
+        else
+            _ ctx.w("keyframes`")
+        $*
+        if model.global
+            _ ctx.write(" global")
+        *$
+        _ include_writers.writeIncludeCss
+            @ ctx
+            @ model
+            a_cb()
+                _ ctx.w("`")
+                r_cb()
+
+    elif ['styledCss'].indexOf(key) >= 0 && model.get_css
+        var nv = verify.parseNameValue(model.wzName)
+        if model.wzName && model.wzName.length > 0
+            _ ctx.w("const " + nv.name() + " = css`")
+        else
+            _ ctx.w("css`")
+        _ include_writers.writeIncludeCss
+            @ ctx
+            @ model
+            a_cb()
+                _ ctx.w("`")
+                r_cb()

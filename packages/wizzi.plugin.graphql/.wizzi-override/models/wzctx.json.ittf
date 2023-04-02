@@ -15,16 +15,20 @@
         { utils
             useStringifySafe true
             useObjectInspect true
-        useGraphql true
+        useGraphqlParser true
     [ Schemas
         {
             name "graphql"
             title "graphql wizzi schema"
             builtin false
+            hasWizzifier true
             [ modelTransformers
                 {
                     name "extended"
             [ artifactGenerators
                 {
                     name "document"
+            [ wizzifiers
+                {
+                    name "graphql"
             [ includes

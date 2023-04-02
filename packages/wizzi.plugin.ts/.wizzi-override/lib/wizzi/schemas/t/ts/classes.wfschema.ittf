@@ -1,0 +1,123 @@
+﻿$group
+
+	e typeImplements : statement
+		tag :implements
+
+	e class : statement
+		# A javascript class
+		a extends
+		a_flag( typeAbstract, :abstract )
+
+		r typeParameterDecl/s
+		r superType
+			one-to-one
+
+		m findCtor
+			return _.find(this.statements, function(item) { return item.wzElement === 'ctor' })
+
+		m wzInitialize
+			set ctx.modelState = ctx.modelState || {}
+			
+			# loog 'wizzi-js.model.class.modelState', ctx.modelState
+			set ctx.modelState.hasClasses = true
+			
+			if this.extends && this.extends.length > 0
+				set this.super = this.extends
+			elif this.superType
+				set this.super = this.superType.wzName
+			else
+				var tokens = this.wzName.split(':')
+				if tokens.length == 2
+					set this.wzName = tokens[0]
+					set this.super = tokens[1]
+
+			set this.extends = []
+			set this.implements = []
+			var temp = []
+			foreach s in this.statements
+				if s.wzElement === 'typeExtends'
+					_ this.extends.push
+						@ s
+				elif s.wzElement === 'typeImplements'
+					_ this.implements.push
+						@ s
+				else
+					_ temp.push
+						@ s
+			set this.statements = temp
+
+	e superType : statement
+		tag super
+		r typeParameterInst/s
+
+	e ctor : function
+		a_flag( typePrivate, :private )
+		a_flag( typePublic, :public )
+		a_flag( typeProtected, :protected )
+
+		r base/s
+
+		m getBaseArgs
+			var ret = []
+			foreach item in this.bases
+				_ ret.push(item.wzName)
+			return ret
+
+	e base : statement
+
+	e get : function
+		
+		tag get
+
+		# es6 - Defines a getter on a new object in the object initializer
+		# reference https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Functions/get
+		#
+		# ittf
+		#   var obj
+		#     {
+		#       @ log ['test']
+		#       get latest
+		#         if this.log.length == 0
+		#           return undefined
+		#         return this.log[this.log.length - 1]
+		#
+
+	e method : function
+		tag m
+		a_flag( typeAbstract, :abstract )
+		a_flag( static )
+		a_flag( async )
+		a_flag( generator )
+		a_flag( typePrivate, :private )
+		a_flag( typePublic, :public )
+		a_flag( typeProtected, :protected )
+        r typeReturn
+			one-to-one
+
+	e p : statement
+		a_flag( typeAbstract, :abstract )
+		a_flag( static )
+		a_flag( typePrivate, :private )
+		a_flag( typePublic, :public )
+		a_flag( typeProtected, :protected )
+		a_flag( typeReadonly, :readonly )
+        r typeReturn
+			one-to-one
+
+	e new : statement
+		m wzInitialize
+            var tpi = []
+            var ss = []
+            # loog 'wzInitialize', this.statements.length
+            foreach s in this.statements
+                # loog 'wzInitialize.s', s.wzElement
+                if s.wzElement == 'typeParameterInst'
+                    _ tpi.push(s)
+                else
+                    _ ss.push(s)
+            if tpi.length > 0
+                set this.typeParameterInsts = tpi
+                set this.statements = ss
+                # loog 'this.typeParameterInsts', this.typeParameterInsts
+	
+	e type : statement

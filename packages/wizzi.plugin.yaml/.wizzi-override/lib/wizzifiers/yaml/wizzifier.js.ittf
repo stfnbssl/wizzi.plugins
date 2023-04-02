@@ -1,0 +1,219 @@
+module
+    $
+        var schemaName = 'yaml';
+    kind es6
+    basewizzifier()
+        $append imports
+            var yaml_parser = require('js-yaml')
+            var cleanAST = require('./cleanAST')
+            +
+            function parseInternal
+                param tobeWizzified
+                param options
+                param callback
+                var syntax
+                try
+                    set syntax
+                        _ yaml_parser.load
+                        	@ tobeWizzified
+                    _ cleanAST(syntax)
+                    log 'syntax', syntax
+                catch ex
+                    return
+                        _ callback
+                            @ ex
+                return
+                    _ callback
+                        @ null
+                        @ syntax
+        +
+        var analizeAstArray
+            function
+                param ast
+                param handler
+                foreach item in ast
+                    if verify.isObject(item)
+                        _ handler.onObject(true)
+                        _ analizeAstObject(item, handler)
+                        _ handler.onObject(false)
+                    elif verify.isArray(item)
+                        _ handler.onArray(true)
+                        _ analizeAstArray(item, handler)
+                        _ handler.onArray(false)
+                    else
+                        _ handler.onArrayValue(item)
+
+
+        var analizeAstObject
+            function
+                param ast
+                param handler
+                for var k in ast
+                    var item = ast[k]
+                    if verify.isObject(item)
+                        _ handler.onObject(true)
+                        _ analizeAstObject(item, handler)
+                        _ handler.onObject(false)
+                    elif verify.isArray(item)
+                        _ handler.onArray(true)
+                        _ analizeAstArray(item, handler)
+                        _ handler.onArray(false)
+                    else
+                        _ handler.onProp(k, item)
+        +
+        var format
+            function
+                param parent
+                param ast
+                param options
+                var wizziTree = parent
+                _ analizeAstObject
+                    @ ast
+                    { 
+                        @ onObject
+                            function 
+                                param open
+                                log  'onObject', open
+                                if open
+                                    var n
+                                        { 
+                                            @ tag '{'
+                                            @ name ''
+                                            @ children
+                                                [ 
+                                    set n.parent = wizziTree
+                                    _ wizziTree.children.push(n)
+                                    set wizziTree = n
+                                else
+                                    # log  "onObject wizziTree.tag", wizziTree.tag
+                                    set wizziTree = wizziTree.parent
+                                    # log  "onObject wizziTree.tag", wizziTree.tag
+                        @ onArray
+                            function
+                                param open
+                                log  'onArray', open
+                                if open
+                                    var n
+                                        { 
+                                            @ tag '['
+                                            @ name ''
+                                            @ children
+                                                [ 
+                                    set n.parent = wizziTree
+                                    _ wizziTree.children.push(n)
+                                    set wizziTree = n
+                                else
+                                    # FIXME
+                                    # log  "onArray wizziTree.tag", wizziTree.tag
+                                    set wizziTree = wizziTree.parent
+                                    # log  "onArray wizziTree.tag", wizziTree.tag
+                        @ onPropName
+                            function 
+                                param name
+                                log  "onPropName", name
+                                var n
+                                    { 
+                                        @ tag name
+                                        @ name ''
+                                        @ children
+                                            [ 
+                                set n.parent = wizziTree
+                                _ wizziTree.children.push(n)
+                                # log  wizziTree.tag
+                                set wizziTree = n
+                                # log  wizziTree.tag
+                        @ onProp
+                            function 
+                                param name
+                                param value
+                                log  "onProp", name, value
+                                var n
+                                    { 
+                                        @ tag name
+                                        @ name value
+                                        @ children
+                                            [ 
+                                set n.parent = wizziTree
+                                _ wizziTree.children.push(n)
+                        @ onObjectProp
+                            function 
+                                param name
+                                log  "onObjectProp", name
+                                var n
+                                    { 
+                                        @ tag '{'
+                                        @ name name
+                                        @ children
+                                            [ 
+                                set n.parent = wizziTree
+                                _ wizziTree.children.push(n)
+                                set wizziTree = n
+                        @ onArrayProp
+                            function 
+                                param name
+                                log  "onObjectProp", name
+                                var n
+                                    { 
+                                        @ tag '['
+                                        @ name name
+                                        @ children
+                                            [ 
+                                set n.parent = wizziTree
+                                _ wizziTree.children.push(n)
+                                set wizziTree = n
+                        @ onClosePropName
+                            function
+                                log  'onClosePropName'
+                                set wizziTree = wizziTree.parent
+                        @ onArrayValue
+                            function 
+                                param value
+                                log  "onArrayValue", value
+                                var n
+                                    { 
+                                        @ tag value
+                                        @ name ''
+                                        @ children
+                                            [ 
+                                _ wizziTree.children.push(n)
+        +
+        function wizzify
+            param tobeWizzified
+            param options
+            param callback
+            set options = options || {};
+            set options.input = tobeWizzified
+            set options.stack = []
+            set options.formatTextNodes = []
+            set options.verbose = true
+            _ parseInternal
+                @ tobeWizzified
+                @ options
+                a_cb( syntax )
+                    # log stringify(syntax, null, 2)
+                    var root
+                        { 
+                            @ tag 'yaml'
+                            @ children
+                                [ 
+                    _ format(root, syntax, options)
+                    log stringify(root, null, 2)
+                    return
+                        _ callback
+                            @ null
+                            @ root$$.children[0]
+        $include helper_functions
+        +
+        function isKnownType
+            param type
+            return ['Int', 'Float', 'Boolean', 'String'].indexOf(type) > -1
+        +
+        function getTypeName
+            param type
+            return isKnownType(type) ? type.toLowerCase() : type
+        f( Name, name )
+            # name( value )
+            #
+                # loog 'Name.tag', ret.tag
+                # loog 'Name.name', ret.name
+                # loog 'Name.textified', ret.textified

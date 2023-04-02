@@ -1,0 +1,31 @@
+frag-1()
+    - when the script tag id the last tag of a document
+    - it is not closed correctly and
+    - the script is not executed.
+    $append head-styles
+        css ./styles.css.ittf
+    
+    div
+        + Hello
+
+    $append body-scripts
+        script
+            let timVine = document.getElementById("tim-vine")
+            let navbar = document.getElementById("main-nav")
+            let navPos = navbar.getBoundingClientRect().top
+            _ window.addEventListener
+                @ "scroll"
+                => 
+                    param e
+                    
+                    let scrollPos = window.scrollY
+                    info 'pre sticki', navPos, scrollPos, scrollPos > navPos
+                    if scrollPos > navPos
+                        _ navbar.classList.add('sticky')
+                        _ header.classList.add('navbarOffsetMargin')
+                        info 'sticki', scrollPos
+                    else
+                        _ navbar.classList.remove('sticky')
+                        _ header.classList.remove('navbarOffsetMargin')
+
+

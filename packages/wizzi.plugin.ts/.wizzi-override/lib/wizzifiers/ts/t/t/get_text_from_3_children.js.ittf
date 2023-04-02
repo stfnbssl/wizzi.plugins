@@ -1,0 +1,20 @@
+﻿$group
+	$params expr, tag|@@null
+
+	var got_text_3 = false
+
+	if isChildrenCountGreaterEqualThen(ret, 3) 
+		
+		if (ret.children[0].textified || ret.children[0].isText) &&
+			\b (ret.children[1].textified || ret.children[1].isText)
+			\b (ret.children[2].textified || ret.children[2].isText)
+			var c1 = ret.children[0].textified || ret.children[0].name
+			var c2 = ret.children[1].textified || ret.children[1].name
+			var c3 = ret.children[2].textified || ret.children[2].name
+			set ret.name = ${expr}
+			set ret.textified = ret.name
+			set ret.children = []
+			$if tag != null
+				set ret.tag = '${tag}'
+			set got_text_3 = true
+

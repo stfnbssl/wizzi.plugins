@@ -1,0 +1,51 @@
+module
+    $
+        var schemaName = 'json';
+    kind es6
+    basewizzifier()
+        $append imports
+            var json_parser = require('./parser')
+            var cleanAST = require('./cleanAST')
+            +
+            function parseInternal
+                param tobeWizzified
+                param options
+                param callback
+                var syntax
+                try
+                    set syntax
+                         _ json_parser.parseString
+                         @ tobeWizzified
+                    _ cleanAST(syntax)
+                catch ex
+                    return
+                        _ callback
+                            @ ex
+                return
+                    _ callback
+                        @ null
+                        @ syntax
+        +
+        function wizzify
+            param tobeWizzified
+            param options
+            param callback
+            set options = options || {};
+            set options.input = tobeWizzified
+            set options.stack = []
+            set options.formatTextNodes = []
+            set options.verbose = true
+            _ parseInternal
+                @ tobeWizzified
+                @ options
+                a_cb( syntax )
+                    # log stringify(syntax, null, 2)
+                    r_cb( syntax )
+        +
+        function isKnownType
+            param type
+            return ['Int', 'Float', 'Boolean', 'String'].indexOf(type) > -1
+        +
+        function getTypeName
+            param type
+            return isKnownType(type) ? type.toLowerCase() : type

@@ -1,0 +1,112 @@
+﻿loader( interface )
+
+	stm( typeInterface
+        var model = writeComments(model, ctx)
+        # loog 'stm( typeInterface', model.extends
+		_ ctx.write('interface ' + model.wzName)
+		_ u.genTSTypeParameters
+			@ model
+			@ ctx
+			@ cnt
+			a_cb()
+				_ ctx.w(' {')
+				_ cnt.genItems
+					@ model.statements
+					@ ctx
+					a_cb()
+						_ ctx.w('}')
+						r_cb()
+
+	stm( typeProperty
+        var model = writeComments(model, ctx)
+		_ u.genAccessorsAndExtra
+			@ model
+			@ ctx
+		_ ctx.write(model.wzName)
+		if model.typeOptional
+			_ ctx.write('?')
+		var ptype 
+			_ u.extractTSSimpleType
+				@ model
+		if ptype
+			_ ctx.write(': ')
+			_ cnt.stm[ptype.wzElement]
+				@ ptype
+				@ ctx
+				a_cb()
+					var ivalue
+						_ u.extractTS
+							@ model
+							@ 'typeInitValue'
+					if ivalue
+						_ ctx.write(' = ')
+						_ statement.stm[ivalue.wzElement]
+							@ ivalue
+							@ ctx
+							a_cb()
+								_ ctx.w(';');
+								r_cb()
+					elif model.statements.length > 0
+						_ ctx.indent();
+						set model.wzElement = 'jsObject'
+						_ cnt.genItem
+							@ model
+							@ ctx
+							a_cb()
+								set model.wzElement = ':p'
+								_ ctx.deindent()
+								_ ctx.w('')
+						        r_cb()
+					else
+						_ ctx.w(";")
+						r_cb()
+        elif model.statements.length == 1
+            _ ctx.write(': ')
+            _ cnt.genItem
+                @ model.statements[0]
+                @ ctx
+                a_cb()
+                    _ ctx.w(';')
+                    r_cb()
+        else
+            _ callback
+                _ ctx.error(':type typeProperty must have one children. found: ' + model.statements.length, model)
+
+	stm( typeMethod
+        var model = writeComments(model, ctx)
+		_ u.genAccessorsAndExtra
+			@ model
+			@ ctx
+		var atype
+			_ u.extractTSSimpleType
+				@ model
+		# loog 'typeMethod atype', atype
+		_ ctx.write(model.wzName)
+		_ ctx.write('(')
+		_ u.genTSParams
+			@ model
+			@ ctx
+			@ cnt
+			a_cb()
+				_ ctx.write(')')
+				if atype
+					if !cnt.stm[atype.wzElement]
+						error 'ts.module.gen.item.wzElement not managed', atype.wzElement
+					_ ctx.write(': ')
+					_ cnt.stm[atype.wzElement]
+						@ atype
+						@ ctx
+						a_cb()
+							_ cnt.genItems
+								@ model.statements
+								@ ctx
+								a_cb()
+									_ ctx.w(';')
+									r_cb()
+				else
+					_ cnt.genItems
+						@ model.statements
+						@ ctx
+						a_cb()
+							_ ctx.w(';')
+							r_cb()

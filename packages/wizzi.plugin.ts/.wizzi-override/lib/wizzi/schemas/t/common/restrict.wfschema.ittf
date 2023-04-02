@@ -1,0 +1,69 @@
+﻿$group
+
+	e restrict
+		# Group of restrictions to the element or attribute values
+		r facet/s
+		r comment/s
+	
+	e facet
+		# The abstract base class for facet restrictions
+		is-abstract
+		r comment/s
+	
+	e enumFacet : facet
+		# A restriction of type enumeration
+		tag enum
+	
+	e maxLengthFacet : facet
+		# A restriction of type maximum length
+		tag max-length
+	
+	e minLengthFacet : facet
+		# A restriction of type minimum length
+		tag min-length
+	
+	e maxValueFacet : facet
+		# A restriction of type maximum value
+		tag max-value
+	
+	e minValueFacet : facet
+		# A restriction of type minimum value
+		tag min-value
+
+	e rangeFacet : facet
+		# A restriction of type range (from to)
+		tag range
+		a from
+		a to
+
+		m wzinitialize
+			if this.wzName && this.wzName.length > 0
+				var ss = this.wzName.split('-')
+				if ss.length == 2
+					set this.from = ss[0].trim()
+					set this.to = ss[1].trim()
+				else
+					set ss = this.wzName.split(' ')
+					if ss.length == 2
+						set this.from = ss[0].trim()
+						set this.to = ss[1].trim()
+
+	e regexpFacet : facet
+		# A restriction of type regular expression
+		tag regexp
+
+	e arrayOf : facet
+		# A restriction to an array of items of a particular type
+		tag array-of
+
+	e instanceOf : facet
+		# A restriction to an object of a particular type
+		tag instance-of
+
+	e oneOf : facet
+		# A restriction to an object of a particular type
+		tag one-of
+	
+	e oneOfType : facet
+		# A restriction to an object of a particular type
+		tag one-of-type

@@ -1,0 +1,79 @@
+module
+	kind jsfile
+
+	var md = module.exports = {}
+	var myname = 'js.module.preprocess'
+
+	set md.exec
+		function
+			param model
+			param ctx
+
+			set ctx.__wzModule
+				{
+					@ seen false
+					@ vars []
+					@ consts []
+					@ functions []
+					@ classes []
+					@ requires []
+			
+			set ctx.__wzItems = []
+			
+			foreach topitem in model.statements
+				if checkWzItem(topitem, ctx.__wzModule)
+				elif topitem.wzElement === "wzIife"
+					_ ctx.__wzItems.push
+						_ wzTopLevel
+							@ topitem
+
+	function wzTopLevel
+		param topitem
+
+		var wzItems = topitem.__wzItems = wzItems
+			{
+				@ seen false
+				@ vars []
+				@ consts []
+				@ functions []
+				@ classes []
+				@ requires []
+		
+		foreach item in topitem.statements
+			_ checkWzItem(item, wzItems)
+
+		# loog 'wzItems.requires.length', wzItems.requires.length
+		# loog 'wzItems.vars.length', wzItems.vars.length
+		# loog 'wzItems.consts.length', wzItems.consts.length
+		# loog 'wzItems.functions.length', wzItems.functions.length
+		# loog 'wzItems.classes.length', wzItems.classes.length
+
+		return wzItems
+
+	function checkWzItem
+		param item
+		param wzItems
+
+		if item.wzElement === "wzVar"
+			_ wzItems.vars.push(item)
+			set wzItems.seen = true
+			return true
+		elif item.wzElement === "wzConst"
+			_ wzItems.consts.push(item)
+			set wzItems.seen = true
+			return true
+		elif item.wzElement === "wzFunction"
+			_ wzItems.functions.push(item)
+			set wzItems.seen = true
+			return true
+		elif item.wzElement === "wzClass"
+			_ wzItems.functions.push(item)
+			set wzItems.seen = true
+			return true
+		elif item.wzElement === "wzRequire"
+			_ wzItems.requires.push(item)
+			set wzItems.seen = true
+			return true
+		
+		return false
+

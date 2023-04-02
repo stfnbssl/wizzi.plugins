@@ -1,0 +1,115 @@
+﻿module
+	$params name
+	kind jsfile
+
+	var util = require('util')
+	var verify = require('wizzi-utils').verify
+	var node = require('wizzi-utils').node
+    var errors = require('wizzi-utils').errors
+	var u = require('../utils/stm')
+	$hook requires
+	+
+	var myname = 'wizzi-js.artifacts.ts.module.gen.codegen.statements.${name}';
+	var md = module.exports = {};
+	+
+	function hasStatements
+		param model
+		return countStatements(model) > 0 
+	
+	function countStatements
+		param model
+        var count = 0
+        foreach item in model.statements
+            if item.wzElement != 'comment' && item.wzElement != 'commentmultiline' && item.wzElement != 'decorator'
+                set count++
+		return count
+
+	function writeComments
+		param model
+        param ctx
+        var temp = []
+        foreach item in model.statements
+            if item.wzElement == 'comment'
+                _ __writeComments
+                    @ item
+                    @ ctx
+                    @ false
+            elif item.wzElement == 'commentmultiline'
+                _ __writeComments
+                    @ item
+                    @ ctx
+                    @ true
+            else
+                _ temp.push(item)
+        set model.statements = temp
+        return model
+
+	function __writeComments
+		param model
+        param ctx
+        param multi
+        # loog '__writeComments-model', model
+        if multi || model.statements.length > 0
+            _ ctx.w('/**')
+            _ ctx.indent
+            if verify.isNotEmpty(model.wzName)
+                _ ctx.w(model.wzName)
+            foreach item in model.statements
+                _ __writeCommentLine
+                    @ item
+                    @ ctx
+        else
+            _ ctx.w('// ' + model.wzName)
+        if multi || model.statements.length > 0
+            _ ctx.deindent
+            _ ctx.w('*/')
+
+    function __writeCommentLine            
+		param model
+        param ctx
+        _ ctx.w('// ' + model.wzName)
+        if model.statements.length > 0
+            _ ctx.indent
+            foreach item in model.statements
+                _ __writeCommentLine
+                    @ item
+                    @ ctx
+            _ ctx.deindent
+
+	function writeDecorators
+		param model
+        param ctx
+        var temp = []
+        foreach item in model.statements
+            if item.wzElement == 'decorator'
+                _ __writeDecorator
+                    @ item
+                    @ ctx
+            else
+                _ temp.push(item)
+        set model.statements = temp
+        return model
+
+	function __writeDecorator
+		param model
+        param ctx
+        var name = (model.__name || '')
+        _ ctx.write('@' + name)
+        if model.statements && model.statements.length > 0
+            _ ctx.write('(')
+            _ u.checkInlineEnter(model, ctx)
+            _ cnt.genItems
+                @ model.statements
+                @ ctx
+                { 
+                a_cb()
+                    _ u.checkInlineExit(model, ctx)
+                    _ ctx.w(')')
+                    r_cb()
+        else
+            r_cb()        
+
+	set md.load
+		function
+			param cnt
+			$hook

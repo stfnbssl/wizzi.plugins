@@ -70,7 +70,7 @@ wizzi.executeWizziJob({
         })
         ,
         globalContext: {
-            isPackageDeploy: true
+            wzConfigIsPackageDeploy: true
         }
 
     }

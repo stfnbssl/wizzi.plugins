@@ -1,0 +1,107 @@
+﻿$group
+
+	function prmAnalizeParam
+		param prm
+		
+		var state
+			{
+				@ candidates []
+		var candidate
+			{
+				@ prm prm
+				@ accessPath prm.wzName
+				@ parent null
+				@ isRequired false
+				@ constraints []
+		_ state.candidates.push(candidate)
+		_ prmSelectAnalizer(candidate, state)
+		return state
+
+	function prmSelectAnalizer
+		param candidate
+		param state
+		# loog 'wizzi-codegen.js2.paramAnalizer.prmSelectAnalizer.candidate.name', candidate.prm.wzElement, candidate.prm.wzName
+		if candidate.prm.wzElement === 'objectParam'
+			_ prmAnalizeObject(candidate, state)
+		elif candidate.prm.wzElement === 'arrayParam'
+			_ prmAnalizeArray(candidate, state)
+		else
+			_ prmAnalizeLeaf(candidate, state)
+
+	function prmAnalizeObject
+		param candidate
+		param state
+		_ prmAnalizeLeaf(candidate, state)
+		# loog 'wizzi-codegen.js2.paramAnalizer.prmAnalizeObject.candidate.name', candidate.prm.wzElement, candidate.prm.wzName
+		foreach item in candidate.prm.params
+			var subcandidate
+				{
+					@ prm item
+					@ accessPath candidate.accessPath + '.' + item.wzName
+					@ parent candidate
+					@ isRequired false
+					@ constraints []
+			_ state.candidates.push(subcandidate)
+			_ prmSelectAnalizer(subcandidate, state)
+	
+	function prmAnalizeArray
+		param candidate
+		param state
+		_ prmAnalizeLeaf(candidate, state)
+		if candidate.prm.params.length == 1
+			# TODO assume arrayOf ???
+
+	function prmAnalizeLeaf
+		param candidate
+		param state
+		# loog 'wizzi-codegen.js2.paramAnalizer.prmAnalizeLeaf.candidate.name', candidate.prm.wzElement, candidate.prm.wzName, candidate.accessPath
+		if candidate.prm.isRequired || candidate.prm.isOptional
+			_ candidate.constraints.push
+				{
+					@ constraintType (candidate.prm.isRequired ? 'required' : 'optional')
+					@ paramName candidate.prm.wzName
+					@ paramType prmTypeFromElement(candidate.prm.wzElement)
+					@ accessPath candidate.accessPath
+			set candidate.isRequired = true
+			if candidate.prm.isRequired
+				_ requireParents(candidate)
+
+	function requireParents
+		param candidate
+		var ancestor = candidate.parent
+		while ancestor
+			if !ancestor.isRequired
+				_ ancestor.constraints.push
+					{
+						@ constraintType 'required'
+						@ paramName ancestor.prm.wzName
+						@ paramType prmTypeFromElement(ancestor.prm.wzElement)
+						@ accessPath ancestor.accessPath
+				set ancestor.isRequired = true
+			set ancestor = ancestor.parent
+
+
+	function prmTypeFromElement
+		param wzElement
+		if wzElement === 'stringParam'
+			return 'string'
+		elif wzElement === 'numberParam'
+			return 'number'
+		elif wzElement === 'booleanParam'
+			return 'boolean'
+		elif wzElement === 'anyParam'
+			return 'any'
+		elif wzElement === 'functionParam'
+			return 'function'
+		elif wzElement === 'objectParam'
+			return 'object'
+		elif wzElement === 'arrayParam'
+			return 'array'
+		elif wzElement === 'arrayOrObjectParam'
+			return 'arrayOrObject'
+		elif wzElement === 'callbackParam'
+			return 'callback'
+		elif wzElement === 'optionsCallbackParam'
+			return 'optionsCallback'
+
+			

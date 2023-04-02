@@ -19,6 +19,9 @@ module
     var window_transformers
         {
             @ 'md/extended' require('./lib/artifacts/md/extended/trans/main')
+    var window_wizzifiers
+        {
+            @ 'md/wizzifier' require('./lib/wizzifiers/md/wizzifier')
     var window_schemaDefinitions
         {
     +
@@ -33,6 +36,7 @@ module
             set this.modelFactories = {}
             set this.modelTransformers = {}
             set this.artifactGenerators = {}
+            set this.wizzifiers = {}
             set this.schemaDefinitions = {}
         +
         m initialize
@@ -56,6 +60,8 @@ module
         $include model-transformation
         +
         $include artifact-generation
+        +
+        $include wizzification
         +
         $include schema-definition
     +
@@ -92,6 +98,11 @@ module
                             $foreach schema in wzCtx.Schemas
                                 $foreach artifact in schema.artifactGenerators
                                     @ '${schema.name}/${artifact.name}'
+                    @ wizzifiers
+                        [
+                            $foreach schema in wzCtx.Schemas
+                                $if schema.hasWizzifier
+                                    @ '${schema.name}'
             @ createFactoryPlugin
                 function
                     param wizziPackage

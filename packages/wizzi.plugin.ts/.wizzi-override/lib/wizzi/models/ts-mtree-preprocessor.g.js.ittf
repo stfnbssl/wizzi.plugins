@@ -1,0 +1,88 @@
+module
+	kind jsfile
+
+	$include html_tags
+	$include svg_tags
+
+	set module.exports
+		function
+			param mTree
+			param context
+
+			# loog 'preprocess.mTree', mTree
+
+			var state
+                {
+                    @ svgOn false
+                    @ htmlOn false
+                    @ styledOn false
+			foreach item in mTree.nodes[0].children
+				_ traverse(item, state)
+
+			return mTree
+
+	function traverse
+		param node
+		param state
+
+		if preprocessNode(node, state)
+			return
+		var saveHtmlOn = state.htmlOn
+		var saveSvgOn = state.svgOn
+        var savestyledOn = state.styledOn
+		var saveParent = state.parent
+		foreach item in node.children
+			set state.parent = node
+			_ traverse(item, state)
+		set state.htmlOn = saveHtmlOn
+		set state.svgOn = saveSvgOn
+        set state.styledOn = savestyledOn
+		set state.parent = saveParent
+
+	function preprocessNode
+		param node
+		param state
+		if state.parent && (node.n === 'p' && state.parent.n === 'class')
+			# do nothing
+		elif state.svgOn && svg_supported_attrs.indexOf(node.n) > -1
+			var name = svg_supported_attrs_map[node.n] || node.n
+			set node.v = name + ' ' + node.v
+			set node.n = '@'
+		elif state.htmlOn && html_supported_attrs.indexOf(node.n) > -1
+			set node.v = node.n + ' ' + node.v
+			set node.n = '@'
+		elif html_supported_tags.indexOf(node.n) > -1
+			var tag = node.n
+			if node.n[0] === '@'
+				set tag = node.n.substr(1)
+			set node.v = tag + ' ' + node.v
+			set node.n = '<'
+			set state.htmlOn = true
+			if node.n === 'svg'
+				set state.svgOn = true
+		elif node.n === '<'
+			set state.htmlOn = true
+			if node.v === 'svg'
+				set state.svgOn = true
+		elif node.n === 'svg'
+			set state.htmlOn = true
+			set state.svgOn = true
+        
+        $include mtree_preprocessor_styled
+
+		return false
+
+    function createNode
+        param node
+        param name
+        param value
+        param childrenFrom
+        return
+            {
+                @ n name
+                @ v value
+                @ r node.r
+                @ c node.c
+                @ s node.s
+                @ u node.u
+                @ children childrenFrom || []

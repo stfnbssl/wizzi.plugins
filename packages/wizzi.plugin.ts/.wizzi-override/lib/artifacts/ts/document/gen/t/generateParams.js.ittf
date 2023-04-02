@@ -1,0 +1,20 @@
+﻿$group
+
+	function generateReturnType
+		param model
+		param ctx
+		var rtype
+			_ u.extractTS
+				@ model
+				@ 'typeReturn'
+		if rtype
+			_ cnt.stm[rtype.wzElement](rtype, ctx, () => {})
+
+	function generateParams
+		param methodName
+		param parameters
+		param hasCallback
+		param hasOptionsCallback
+		param ctx
+		param callback
+		r_cb()

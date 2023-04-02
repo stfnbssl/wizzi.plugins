@@ -1,0 +1,222 @@
+module
+	kind jsfile
+    var verify = require('wizzi-utils').verify
+
+	$include html_tags
+	$include svg_tags
+
+	set module.exports
+		function
+			param mTree
+			param context
+
+			var state
+				{
+                    @ svgOn false
+                    @ htmlOn false
+                    @ styledOn false
+					[ actions
+			
+			foreach item in mTree.nodes[0].children
+				_ traverse(item, state)
+
+			foreach item in state.actions
+				if item.code === 'add-attr'
+					var children = item.to.children
+					set item.to.children
+						[
+							{
+								@ n item.n
+								@ v item.v
+								@ r item.to.r
+								@ c item.to.c
+								@ s item.to.s
+								@ u item.to.u
+								[ children
+					foreach c in children
+						_ item.to.children.push
+							@ c
+			return mTree
+
+	function traverse
+		param node
+		param state
+
+		if preprocessNode(node, state)
+			return
+		var saveHtmlOn = state.htmlOn
+		var saveSvgOn = state.svgOn
+		var saveParent = state.parent
+		foreach item in node.children
+			set state.parent = node
+			_ traverse(item, state)
+		set state.htmlOn = saveHtmlOn
+		set state.svgOn = saveSvgOn
+		set state.parent = saveParent
+
+	function preprocessNode
+		param node
+		param state
+		# loog 'js-mtree-processor preprocessNode', node.n, node.v, state.htmlOn, state.svgOn
+		if node.n === 'async-m'
+			set node.n = 'm'
+			_ addAttr
+				@ state
+				@ node
+				@ 'async'
+		elif node.n === 'async=>*'
+			set node.n = '=>'
+			_ addAttr
+				@ state
+				@ node
+				@ 'async'
+			_ addAttr
+				@ state
+				@ node
+				@ 'generator'
+		elif node.n === 'async=>'
+			set node.n = '=>'
+			_ addAttr
+				@ state
+				@ node
+				@ 'async'
+		elif node.n === 'async=>*'
+			set node.n = '=>'
+			_ addAttr
+				@ state
+				@ node
+				@ 'async'
+			_ addAttr
+				@ state
+				@ node
+				@ 'generator'
+		if state.svgOn
+			# loog 'js-mtree-processor svgOn', node.n, node.v
+		if node.n === 'p' && state.parent && (state.parent.n === 'class' || state.parent.n === 'react')
+			# log "node.n === 'p' && state.parent && (state.parent.n === 'class' || state.parent.n === 'react'"
+            # do nothing
+        elif node.n === 'set' && state.parent && (state.parent.n === '`lit')
+            # literal var 'set' is an error by 'wizzi-tools/wizzify/js'
+			set node.n = '@'
+		elif state.svgOn && svg_supported_attrs.indexOf(node.n) > -1
+			var name = svg_supported_attrs_map[node.n] || node.n
+			set node.v = name + ' ' + node.v
+			set node.n = '@'
+		elif state.htmlOn && html_supported_attrs.indexOf(node.n) > -1
+			set node.v = node.n + ' ' + node.v
+			set node.n = '@'
+		elif html_supported_tags.indexOf(node.n) > -1
+			set state.htmlOn = true
+			if node.n === 'svg'
+				set state.svgOn = true
+			set node.v = node.n + ' ' + node.v
+			set node.n = '<'
+		elif node.n === '<'
+			set state.htmlOn = true
+			if node.v === 'svg'
+				set state.svgOn = true
+		elif node.n === 'svg'
+			set state.htmlOn = true
+			set state.svgOn = true
+			# loog 'js-mtree-processor svgOn'
+        
+        $include mtree_preprocessor_styled
+		
+        return false
+
+	function addAttr
+		param state
+		param node
+		param attr
+		_ state.actions.push
+			{
+				@ code 'add-attr'
+				@ to node
+				@ n attr
+				@ v ''
+
+    function createNode
+        param node
+        param name
+        param value
+        param childrenFrom
+        return
+            {
+                @ n name
+                @ v value
+                @ r node.r
+                @ c node.c
+                @ s node.s
+                @ u node.u
+                @ children childrenFrom || []
+
+    function childNameIsOneOf
+        param node
+        param names
+        foreach child in node.children
+            foreach name in names
+                if child.n === name
+                    return true
+        return false
+    
+    function descendentNameIsOneOf
+        param node
+        param names
+        var found
+        foreach child in node.children
+            foreach name in names
+                if child.n == name
+                    return true
+            set found
+                _ descendentNameIsOneOf
+                    @ child
+                    @ names
+            if found
+                return true
+        return false
+    
+    function extractRemove
+        param node
+        param n
+        var ret
+        var children = node.children
+        set node.children = []
+        foreach item in children
+            if item.n === n
+            else
+                _ node.children.push
+                    @ item
+    
+    function wrapChilds
+        param node
+        param newN
+        _ copyNodeAttrsDeep
+            @ node
+            @ newN
+        var children = node.children
+        set newN.parent = node.parent
+        set node.children = [ newN ]
+        foreach item in children
+            _ newN.children.push
+                @ item
+    
+    function copyNodeAttrsDeep
+        param nfrom
+        param nto
+        _ copyNodeAttrs
+            @ nfrom
+            @ nto
+        foreach item in nto.children
+            _ copyNodeAttrsDeep
+                @ nfrom
+                @ item
+    
+    function copyNodeAttrs
+        param nfrom
+        param nto
+        set nto.r = nfrom.r
+        set nto.c = nfrom.c
+        set nto.s = nfrom.s
+        set nto.u = nfrom.u
+        if typeof nto.children === 'undefined'
+            set nto.children = []   

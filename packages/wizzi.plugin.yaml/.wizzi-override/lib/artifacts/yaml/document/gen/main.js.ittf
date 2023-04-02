@@ -1,0 +1,24 @@
+module
+    kind es6
+    $
+        var md = {
+            plugin: 'wizzi.plugin.yaml',
+            name: 'document',
+            schema: 'yaml',
+            rootElement: '',
+            checkSchema: false,
+            isAsync: true,
+        };
+    gen( &md )
+        $append imports
+            var yaml = require('js-yaml')
+        $append main
+            delete model.___exportName
+            _ ctx.w
+                _ yaml.dump
+                    @ model
+                    {
+                        @ flowLevel 100
+                        { styles
+                            @ '!!null' 'camelcase' 
+            r_cb( ctx )

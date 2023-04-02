@@ -1,0 +1,75 @@
+﻿$group
+
+	# TODO react members could have a base class
+	#      verify that a base class could enhance parser performance
+
+	e reactComponent : statement
+		tag react
+		a super
+		a extends
+
+		m wzInitialize
+			set ctx.modelState = ctx.modelState || {}
+			# loog 'wizzi-js.model.class.modelState', ctx.modelState
+			set ctx.modelState.hasClasses = true
+			
+			if this.extends && this.extends.length > 0
+				set this.super = this.extends
+			else
+				var tokens = this.wzName.split(':')
+				if tokens.length == 2
+					set this.wzName = tokens[0]
+					set this.super = tokens[1]
+		
+	e reactFunction : statement
+		tag react-f
+
+	e style : statement
+
+	e prop : statement
+		tag prop
+		a_flag( isRequired, required )
+		a defaultValue
+			tag default
+
+		r param
+			one-to-one
+			# react propType
+
+	e reactMember : statement
+		is-abstract
+
+	e state : reactMember
+
+	e setState : reactMember
+		tag set-state
+
+	e render : reactMember
+	
+	e willMount : reactMember
+		tag will-mount
+
+	e didMount : reactMember
+		tag did-mount
+
+	e willUnmount : reactMember
+		tag will-unmount
+
+	e shouldUpdate : reactMember
+		tag should-update
+
+	e didUpdate : reactMember
+		tag did-update
+
+	e willUpdate : reactMember
+		tag will-update
+
+	e willReceiveProps : reactMember
+		tag will-receive-props
+
+	#
+	# PropTypes
+	#
+
+	# see common/parameters for prop types
+	

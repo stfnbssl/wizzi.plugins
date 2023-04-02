@@ -1,0 +1,320 @@
+﻿module data-wz1
+    kind jsfile
+
+    $
+        var data = { 
+            tables: [
+                { 
+                    name: 'category', 
+					names: 'categories', 
+                    primaryKey : {
+                        columns: [
+							{ name: 'id' }
+						]
+                    },
+                    indexes: [],
+                    columns: [
+						{ name: 'id', type: 'int' },
+						{ name: 'name' }
+					],
+                    foreigns: [],
+                    foreignColumns: [],
+                    seed: []
+                }
+            ]
+        }
+        var tHash = {};
+        var i, i_items=data.tables, i_len=data.tables.length, t;
+        for (i=0; i<i_len; i++) {
+            t = data.tables[i];
+            if (!t.indexes) {
+                t.indexes = [];
+            }
+            if (!t.foreigns) {
+                t.foreigns = [];
+            }
+            if (!t.primaryKey) {
+                t.primaryKey = {
+                    columns: [
+                    ]
+                };
+            }
+            t.foreignColumns = [];
+            t.cHash = {};
+            var j, j_items=t.primaryKey.columns, j_len=t.primaryKey.columns.length, c;
+            for (j=0; j<j_len; j++) {
+                c = t.primaryKey.columns[j];
+                t.cHash[c.name] = c;
+            }
+            var j, j_items=t.columns, j_len=t.columns.length, c;
+            for (j=0; j<j_len; j++) {
+                c = t.columns[j];
+                t.cHash[c.name] = c;
+            }
+            tHash[t.name] = t;
+        }
+        var i, i_items=data.tables, i_len=data.tables.length, t;
+        for (i=0; i<i_len; i++) {
+            t = data.tables[i];
+            var j, j_items=t.foreigns, j_len=t.foreigns.length, f;
+            for (j=0; j<j_len; j++) {
+                f = t.foreigns[j];
+                var fTable = tHash[f.name];
+                var k, k_items=f.columns, k_len=f.columns.length, fc;
+                for (k=0; k<k_len; k++) {
+                    fc = f.columns[k];
+                    var fColumn = fTable.cHash[fc.ref];
+                    t.foreignColumns.push({
+                        name: fc.name,
+                        type: fColumn.type
+                    });
+                }
+            }
+        }
+        var i, i_items=data.tables, i_len=data.tables.length, t;
+        for (i=0; i<i_len; i++) {
+            t = data.tables[i];
+            var j, j_items=t.columns, j_len=t.columns.length, c;
+            for (j=0; j<j_len; j++) {
+                c = t.columns[j];
+                if (c.type === 'boolean') {
+                    c.sqlType = 'tinyint(1)';
+                }
+                else if (c.type === 'int') {
+                    c.sqlType = 'int';
+                }
+                else {
+                    c.sqlType = 'varchar(255)';
+                }
+                if (!c.nullable) {
+                    c.sqlType += ' not null';
+                }
+            }
+            var j, j_items=t.foreignColumns, j_len=t.foreignColumns.length, c;
+            for (j=0; j<j_len; j++) {
+                c = t.foreignColumns[j];
+                if (c.type === 'boolean') {
+                    c.sqlType = 'tinyint(1)';
+                }
+                else if (c.type === 'int') {
+                    c.sqlType = 'int';
+                }
+                else {
+                    c.sqlType = 'varchar(255)';
+                }
+                if (!c.nullable) {
+                    c.sqlType += ' not null';
+                }
+            }
+        }
+    
+    const DataWz1
+        function
+            param sqldb
+            const impl
+                {
+                    { query
+                        $foreach t in data.tables
+                            
+                            @ ${t.name}
+                                function
+                                    $foreach c in t.primaryKey.columns
+                                        param id
+                                    param callback
+
+                                    var WHERE
+                                        [
+                                            $foreach c in t.primaryKey.columns
+                                                @ '${c.name}=?'
+                                            ._ join(' AND ')
+
+                                    var sql = "SELECT * FROM ${t.names} WHERE " + WHERE
+                                    var sql_values
+                                        [
+                                            $foreach c in t.primaryKey.columns
+                                                @ ${c.name}
+                                    sql_query()
+                            @ ${t.names}
+                                function
+                                    param callback
+                                    var sql = "SELECT * FROM ${t.names}"
+                                    var sql_values = []
+                                    sql_query()
+
+                            $foreach ndx in t.indexes
+                                @ ${t.name}${ndx.get}
+                                    function
+                                        $foreach c in ndx.columns
+                                            param ${c.name}
+                                        var WHERE
+                                            [
+                                                $foreach c in ndx.columns
+                                                    @ '${c.name}=?'
+                                                ._ join(' AND ')
+                                        var sql = "SELECT * FROM ${t.names} WHERE " + WHERE
+                                        var sql_values
+                                            [
+                                                $foreach c in ndx.columns
+                                                    @ ${c.name}
+                                        sql_query()
+                            
+							$foreach f in t.foreigns
+                                @ ${t.names}${f.get}
+                                    function
+                                        $foreach c in f.columns
+                                            param ${c.name}
+                                        var WHERE
+                                            [
+                                                $foreach c in f.columns
+                                                    @ '${c.name}=?'
+                                                ._ join(' AND ')
+                                        var sql = "SELECT * FROM ${t.names} WHERE " + WHERE
+                                        var sql_values
+                                            [
+                                                $foreach c in f.columns
+                                                    @ ${c.name}
+                                        sql_query()
+
+                    @ mutation
+                        {
+                            $foreach t in data.tables
+
+                                @ create${t.Name}
+                                    function
+                                        $foreach c in t.columns
+                                            param ${c.name}
+                                        $foreach c in t.foreignColumns
+                                            param ${c.name}
+                                        param callback
+
+                                        var NAMES
+                                            [
+                                                $foreach c in t.columns
+                                                    @ '${c.name}'
+                                                $foreach c in t.foreignColumns
+                                                    @ '${c.name}'
+                                                
+                                        var VALUES
+                                            [
+                                                $foreach c in t.columns
+                                                    @ '?'
+                                                $foreach c in t.foreignColumns
+                                                    @ '?'
+
+                                        var sql_values
+                                            [
+                                                $foreach c in t.columns
+                                                    @ ${c.name}
+                                                $foreach c in t.foreignColumns
+                                                    @ ${c.name}
+
+                                        var sql = "INSERT INTO ${t.names} ( " + NAMES.join(", ") + " ) VALUES ( " + VALUES.join(", ") + ")"
+                                        sql_query()
+
+                                @ update${t.Name}
+                                    function
+                                        $foreach c in t.columns
+                                            param ${c.name}
+                                        $foreach c in t.foreignColumns
+                                            param ${c.name}
+                                        param callback
+                                        var SET
+                                            [
+                                                $foreach c in t.columns
+                                                    @ '${c.name}=?'
+                                                $foreach c in t.foreignColumns
+                                                    @ '${c.name}=?'
+                                        var WHERE
+                                            [
+                                                $foreach c in t.primaryKey.columns
+                                                    @ '${c.name}=?'
+                                                ._ join(' AND ')
+
+                                        var sql = "UPDATE ${t.names} " + SET.join(", ") + " WHERE " + WHERE
+                                        var sql_values
+                                            [
+                                                $foreach c in t.columns
+                                                    $if c.type !== 'ID'
+                                                        @ ${c.name}
+                                                $foreach c in t.primaryKey.columns
+                                                    @ ${c.name}
+                                        sql_query()
+                                
+								@ delete${t.Name}
+                                    function
+                                        $foreach c in t.primaryKey.columns
+                                            param id
+                                        param callback
+                                        var WHERE
+                                            [
+                                                $foreach c in t.primaryKey.columns
+                                                    @ '${c.name}=?'
+                                                ._ join(' AND ')
+                                        var sql = "DELETE FROM ${t.names} WHERE " + WHERE
+                                        var sql_values
+                                            [
+                                                $foreach c in t.primaryKey.columns
+                                                    @ ${c.name}
+                                        sql_query()
+
+                    @ dba
+                        {
+                            $foreach t in data.tables
+
+                                @ createTable${t.Name}
+                                    function
+                                        param callback
+                                        var COLUMNS
+                                            [
+                                                $if t.primaryKey && t.primaryKey.autoincrement
+                                                    @ 'id int primary key auto_increment'
+                                                $foreach c in t.columns
+                                                    @ '${c.name} ${c.sqlType}'
+                                                $foreach c in t.foreignColumns
+                                                    @ '${c.name} ${c.sqlType}'
+                                                ._ join(',')
+                                        var sql = "CREATE TABLE IF NOT EXISTS ${t.names} (" + COLUMNS
+                                        $if t.primaryKey && !t.primaryKey.autoincrement
+                                            var PK_COLUMNS
+                                                [
+                                                    $foreach c in t.primaryKey.columns
+                                                        @ '${c.name}'
+                                                    ._ join(', ')
+                                            set sql += ", PRIMARY KEY (" + PK_COLUMNS + ")"
+                                        $foreach ndx in t.indexes
+                                            var NDX_COLUMNS
+                                                [
+                                                    $foreach c_ndx in ndx.columns
+                                                        @ '${c_ndx.name}'
+                                                    ._ join(', ')
+                                            set sql += ", UNIQUE KEY (" + NDX_COLUMNS + ")"
+                                        set sql += ") "
+                                        const sql_values = null
+                                        sql_query()
+
+                                @ seed${t.Name}
+                                    function
+                                        param callback
+                                        const seed_len = ${t.seed.length}
+                                        var count = 0
+                                        function exitCheck
+                                            set count++
+                                            if count == seed_len
+                                                return callback(null)
+                                        $foreach s in t.seed
+                                            _ impl.mutation.create${t.Name}
+                                                $foreach c in t.columns
+                                                    $if c.type === 'string'
+                                                        @ '${s[c.name]}'
+                                                    $else
+                                                        @ ${s[c.name]}
+                                                $foreach c in t.foreignColumns
+                                                    $if c.type === 'string'
+                                                        @ '${s[c.name]}'
+                                                    $else
+                                                        @ ${s[c.name]}
+                                                a_cb( result )
+                                                    _ exitCheck
+            return impl                                                    
+                
+    set module.exports = DataWz1

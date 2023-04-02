@@ -1,0 +1,85 @@
+﻿$group
+
+	$include common/html_tags_attrs_events
+
+	e htmlevent : statement
+		tag event
+	$foreach item in html_supported_onEvents
+		$if item
+			e ${item} : htmlevent
+
+	e htmlelement : statement
+		a autoCapitalize
+		a autoCorrect
+		a property
+		a itemProp
+		a itemScope
+		a itemType
+		a itemRef
+		a itemID
+		a unselectable
+		a results
+		a autoSave
+		a class
+		a aria-*
+		a data-*
+		$* STOP 27/1/19 see wizzi\models\js-mtree-preprocessor.g.js.ittf
+		$foreach item in html_supported_attrs
+			$if item
+				a ${item}
+		$foreach item in svg_supported_attrs
+			$if item
+				a ${item}
+		*$
+		tag <
+
+	e doctype : htmlelement
+
+	e p : htmlelement
+		a_flag( static )
+
+	$* STOP 27/1/19 see wizzi\models\js-mtree-preprocessor.g.js.ittf
+	$foreach item in html_supported_tags
+		$if item
+			e ${item} : htmlelement
+	*$
+	
+	e htmlevent : htmlelement
+		a isEvent
+			type boolean
+			default true
+
+	$foreach item in html_supported_onEvents
+		$if item
+			e ${item} : htmlevent
+
+    $include common/html            
+
+	e tohtml : statement
+		a kind
+			default wizzi
+			restrict
+				enum wizzi
+				enum ng
+					# create a function
+					# that returns am html string preserving {{ }}, for interpolation use [[ ]]
+				enum dom
+					# that returns am html dom tree using jQuery
+				enum hb
+					# that returns a compiled handlebar template
+	
+	e html_f : statement
+		# create a function 
+		# that returns an html string
+	
+	e html_ng : statement
+		# create a function 
+		# that returns an html string preserving {{ }}, for interpolation use [[ ]]
+	
+	e html_dom : statement
+		# create a function 
+		# that returns an html dom tree using jQuery
+	
+	e html_hb : statement
+		# create a function 
+		# that returns a compiled handlebar template
