@@ -1,0 +1,154 @@
+﻿module 
+    kind jsfile
+
+    var fs = require('fs')
+    var path = require('path')
+    var iconv = require('iconv-lite')
+    
+	var md
+        set module.exports =
+            { 
+    var pathSeparatorRe = /[\/\\]/g
+	set md.defaultEncoding = 'utf8'
+    set md.preserveBOM = false
+	var win32 = process.platform === 'win32'
+    
+	set md.unixifyPath =
+        function 
+            param path_string
+            if win32
+                return path_string.replace(/\\/g, '/')
+            else 
+                return path_string
+    
+	# sync read
+	set md.read
+        function 
+            param path_string
+            param options
+            if !(options)
+                set options =
+                    { 
+            var contents = fs.readFileSync(String(path_string))
+            if options.encoding !== null
+                set contents = iconv.decode(contents, (options.encoding || md.defaultEncoding))
+                if !md.preserveBOM && contents.charCodeAt(0) === 0xFEFF
+                    set contents = contents.substring(1)
+            return contents
+    
+	# sync readJSON
+	set md.readJSON
+        function 
+            param path_string
+            param options
+            var src = md.read(path_string, options)
+            var result
+            try 
+                set result = JSON.parse(src)
+                return result
+            catch ex
+                throw 
+					new errors.FileError
+						@ 'Unable to parse "' + path_string + '" file (' + ex.message + ').'
+						@ ex
+    
+	# async read
+	set md.readFile
+        function 
+            param path_string
+            param callback
+            _ fs.readFile
+                @ path_string
+                function 
+                    param err
+                    param data
+                    if err
+                        _ callback(err)
+                    _ callback(null, data)
+    
+    
+	set md.write
+        function 
+            param path_string
+            param contents
+            param options
+            if !options
+                set options =
+                    { 
+            _ md.mkpath(path_string)
+            try 
+                if !Buffer.isBuffer(contents)
+                    set contents = iconv.encode(contents, (options.encoding || md.defaultEncoding))
+                _ fs.writeFileSync(path_string, contents)
+                return true
+            catch ex
+                set ex.message = 'Writing file ' + path_string + '.\n' + ex.message
+                throw ex
+    
+	set md.writeJSON
+        function 
+            param path_string
+            param contentObject
+            _ md.write
+                @ path_string
+                _ JSON.stringify(contentObject, null, 2)
+    
+	set md.mkpath
+        function 
+            param path_string
+            var dir = path.dirname(path_string)
+            _ md.mkdir(dir)
+    
+	set md.mkdir
+        function 
+            param dirpath
+            param mode
+            if mode == null
+                set mode = parseInt('0777', 8) & ~ (process.umask())
+            _ dirpath.split(pathSeparatorRe)
+                ._ reduce
+                    function 
+                        param parts
+                        param part
+                        set parts += part + '/'
+                        var subpath = path.resolve(parts)
+                        if !md.exists(subpath)
+                            try 
+                                _ fs.mkdirSync(subpath, mode)
+                            catch ex
+								throw 
+									new errors.FileError
+										@ 'Unable to create directory "' + subpath + '" (Error code: ' + ex.code + ').'
+										@ ex
+                        return parts
+                    @ ''
+    
+	set md.exists
+        function
+            param path_string
+            try 
+				var stat = fs.lstatSync(String(path_string))
+                return stat.isFile() || stat.isDirectory()
+            catch ex
+            return false
+    
+	set md.isDirectory =
+        function 
+            param path_string
+            try 
+                return 
+                    _ fs.lstatSync(String(path_string))
+                        ._ isDirectory()
+            catch ex
+            return false
+    
+	set md.isFile
+        function 
+            param path_string
+            try 
+                return 
+                    _ fs.lstatSync(String(path_string))
+                        ._ isFile()
+            catch ex
+            return false
+

@@ -1,7 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.14
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\root\index.js.ittf
+    utc time: Fri, 07 Apr 2023 16:29:49 GMT
 */
 'use strict';
 
@@ -18,7 +19,7 @@ var window_modelFactories = {
     'js': require('./lib/wizzi/models/js-factory.g')
  };
 var window_artifactGenerators = {
-    'js/document': require('./lib/artifacts/js/document/gen/main')
+    'js/module': require('./lib/artifacts/js/module/gen/main')
  };
 var window_transformers = {
     'js/extended': require('./lib/artifacts/js/extended/trans/main')

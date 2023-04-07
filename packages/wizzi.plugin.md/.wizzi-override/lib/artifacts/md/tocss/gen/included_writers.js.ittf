@@ -1,0 +1,29 @@
+module
+    kind es6
+    +
+    var myname = 'md.document.included_writers'
+    +
+    var verify = require('wizzi-utils').verify
+    +
+    var md = module.exports = {}
+    set md.writeIncludeCss
+        function
+            param ctx
+            param element
+            param callback
+            # log myname, 'enter writeIncludeCss'
+            _ element.get_css
+                a_cb( cssModel )
+                    # log myname, 'cssModel', cssModel
+                    _ ctx.wizziFactory.generateArtifact
+                        @ cssModel
+                        @ 'generated from md model'
+                        @ 'css/document'
+                        {
+							@ forHtmlStyle true
+							@ noGeneratorComments true
+                        a_cb( artifactText )
+                            # log myname, 'css module artifactText', artifactText
+                            _ ctx.writeAligned(artifactText)
+                            return
+                                _ callback

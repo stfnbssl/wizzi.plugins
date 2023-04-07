@@ -61,6 +61,7 @@
                 set _codeLines = statement.__codeLines || []
             var json = this.stringifyWizziStatement(_statement, null)
             var item = new Statement(stringify(json))
+            # VIA var item = new Statement('[]')
             set item.codeLines = _codeLines
             set item.wzParent = this;
             _ this.statements.push(item)

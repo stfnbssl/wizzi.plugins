@@ -14,7 +14,7 @@ module.exports = {
         './wizzi-js/index.js', 
         './wizzi-web/index.js'
     ], 
-    pluginsBaseFolder: "C:/My/wizzi/stfnbssl/wizzi/packages", 
+    pluginsBaseFolder: "C:/My/wizzi/stfnbssl/wizzi.v07/packages", 
     schemas: [
         'ts'
     ], 

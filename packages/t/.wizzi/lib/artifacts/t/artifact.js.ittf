@@ -1,0 +1,40 @@
+﻿module 
+	$params schema, artifactName, commands|@@null
+    kind jsfile
+
+	$
+		var cmds = commands ? commands.split(';') : [];
+		var noschemacheck = false;
+		for (var i=0; i<cmds.length; i++ ) {
+			if (cmds[i] == 'noschemacheck') {
+				noschemacheck = true;
+			}
+		}
+    
+	var util = require('util')
+	$hook imports
+
+    +
+	var md
+        set module.exports =
+            { 
+    var myname = '${schema}.${artifactName}.main'
+    +
+	md-gen-main(
+		$if noschemacheck == false
+			if model.wzElement !== '${schema}'
+				error 'wizzi-core', 'artifact', 'model', model
+				_ callback
+					_ error
+						@ 'Invalid model schema. Expected "${schema}". Received: ' + model.wzElement
+		$hook main
+
+	$hook
+
+	function error
+		param message
+		return
+			{
+				@ __is_error true
+				@ source 'wizzi-core/lib/artifacts/${schema}/${artifactName}'
+				@ message message

@@ -32,7 +32,6 @@ module
                 =>
                     param module
                     param callback
-                    log 'js.example.executeGenerateModules.module: ' + module
                     var ittfDocumentUri
                         _ path.join
                             @ __dirname
@@ -59,7 +58,6 @@ module
                                 {
                                 @ 'js/document'
                                 a_cb( artifactText )
-                                    log 'js.example.executeGenerateModules.outputPath: ' + outputPath
                                     _ file.write
                                         @ outputPath
                                         @ artifactText

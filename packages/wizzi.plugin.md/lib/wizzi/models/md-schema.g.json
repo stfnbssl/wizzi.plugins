@@ -5,47 +5,6 @@
   "exportTos": [],
   "elements": [
     {
-      "name": "md",
-      "super": null,
-      "isRoot": true,
-      "tags": [
-        "md"
-      ],
-      "flags": "",
-      "attributes": [],
-      "relations": [
-        {
-          "name": "element",
-          "role": "elements",
-          "tags": [
-            "<"
-          ],
-          "cardinality": "one-to-many",
-          "flags": "",
-          "inheritedFrom": null,
-          "comments": []
-        },
-        {
-          "name": "comment",
-          "role": "comments",
-          "tags": [
-            "#"
-          ],
-          "cardinality": "one-to-many",
-          "flags": "",
-          "inheritedFrom": null,
-          "comments": []
-        }
-      ],
-      "derived": [],
-      "restricts": [],
-      "methods": [],
-      "comments": [
-        "The root element of the markdown schema.",
-        "Comments allowed at root level only"
-      ]
-    },
-    {
       "name": "attribute",
       "super": null,
       "isRoot": false,
@@ -336,11 +295,64 @@
           "tags": [
             "ref"
           ]
+        },
+        {
+          "name": "htmlInclude",
+          "tags": [
+            "::html"
+          ]
+        },
+        {
+          "name": "cssInclude",
+          "tags": [
+            "::css"
+          ]
         }
       ],
       "restricts": [],
       "methods": [],
       "comments": []
+    },
+    {
+      "name": "md",
+      "super": null,
+      "isRoot": true,
+      "tags": [
+        "md"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "element",
+          "role": "elements",
+          "tags": [
+            "<"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "The root element of the markdown schema.",
+        "Comments allowed at root level only"
+      ]
     },
     {
       "name": "frontmatter",
@@ -1927,6 +1939,82 @@
           "comments": []
         }
       ],
+      "relations": [
+        {
+          "name": "attribute",
+          "role": "attributes",
+          "tags": [
+            "@"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "element",
+          "comments": []
+        },
+        {
+          "name": "element",
+          "role": "elements",
+          "tags": [
+            "<"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "element",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "htmlInclude",
+      "super": "element",
+      "isRoot": false,
+      "tags": [
+        "::html"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "attribute",
+          "role": "attributes",
+          "tags": [
+            "@"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "element",
+          "comments": []
+        },
+        {
+          "name": "element",
+          "role": "elements",
+          "tags": [
+            "<"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "element",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "cssInclude",
+      "super": "element",
+      "isRoot": false,
+      "tags": [
+        "::css"
+      ],
+      "flags": "",
+      "attributes": [],
       "relations": [
         {
           "name": "attribute",

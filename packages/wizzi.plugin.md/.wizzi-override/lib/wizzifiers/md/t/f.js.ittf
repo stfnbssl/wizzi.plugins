@@ -2,7 +2,9 @@ $group
     $params name, commands|none
     # process AST node ${name}
     $
-        var items = commands.split(';'), cmd, tag = name, skip = false, isName = false, tagIsVar = false, isText = false, mustBeText = false, couldBeText = false, retIsArray = false, ignore = false;
+        var items = commands.split(';'), cmd, tag = name, skip = false, isName = false, 
+            tagIsVar = false, isText = false, mustBeText = false, couldBeText = false, 
+            retIsArray = false, ignore = false;
         for (var i=0; i<items.length; i++) {
             cmd = items[i];
             if (cmd == 'skip') { skip = true; }
@@ -13,7 +15,7 @@ $group
             else if (cmd == 'could-be-text') { couldBeText = true; }
             else if (cmd == 'ret-is-array') { retIsArray = true; }
             else if (cmd == 'ignore') { ignore = true; }
-            else {tag = cmd} ;
+            else {tag = cmd != "none" ? cmd : tag} ;
         }
     set format.${name}
         function

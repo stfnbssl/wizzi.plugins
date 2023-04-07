@@ -25,15 +25,17 @@ $group
             {
     set md.getCodeAST
         function
-            param input
+            param tobeWizzified
             param options
             param callback
             if typeof callback === 'undefined'
                 set callback = options
                 set options = {}
             set options = options || {}
+            set options.input = tobeWizzified
+            set options.stack = []
             _ parseInternal
-                @ input
+                @ tobeWizzified
                 @ options
                 @ callback
     set md.getWizziTree

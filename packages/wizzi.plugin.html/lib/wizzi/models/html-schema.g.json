@@ -47385,28 +47385,9 @@
           "params": [],
           "statements": [
             {
-              "tag": "var",
-              "name": "xvar",
-              "value": "ret = []",
-              "statements": []
-            },
-            {
-              "tag": "foreach",
-              "name": "foreach",
-              "value": "item in this.params",
-              "statements": [
-                {
-                  "tag": "_",
-                  "name": "call",
-                  "value": "ret.push(item.wzName)",
-                  "statements": []
-                }
-              ]
-            },
-            {
-              "tag": "return",
-              "name": "xreturn",
-              "value": "ret",
+              "tag": "+",
+              "name": "statement",
+              "value": "",
               "statements": []
             }
           ],
@@ -48238,15 +48219,9 @@
           "params": [],
           "statements": [
             {
-              "tag": "set",
-              "name": "set",
-              "value": "this.ruleParts = this.getAscendingRuleParts()",
-              "statements": []
-            },
-            {
-              "tag": "set",
-              "name": "set",
-              "value": "this.canHaveContent = ['idRule', 'classRule', 'elementRule', 'gtRule', 'ampersand', 'placeholder'].indexOf(this.wzElement) > -1",
+              "tag": "+",
+              "name": "statement",
+              "value": "",
               "statements": []
             }
           ],
@@ -48259,121 +48234,10 @@
           "params": [],
           "statements": [
             {
-              "tag": "if",
-              "name": "xif",
-              "value": "typeof this.wzName === 'string' && this.wzName.length > 0",
-              "statements": [
-                {
-                  "tag": "var",
-                  "name": "xvar",
-                  "value": "ruleParts = this.wzName.trim().split(',')",
-                  "statements": []
-                },
-                {
-                  "tag": "if",
-                  "name": "xif",
-                  "value": "ruleParts.length > 0",
-                  "statements": [
-                    {
-                      "tag": "if",
-                      "name": "xif",
-                      "value": "this.wzElement === 'idRule'",
-                      "statements": [
-                        {
-                          "tag": "set",
-                          "name": "set",
-                          "value": "ruleParts[0] = '#' + ruleParts[0]",
-                          "statements": []
-                        }
-                      ]
-                    },
-                    {
-                      "tag": "elif",
-                      "name": "elif",
-                      "value": "this.wzElement === 'classRule'",
-                      "statements": [
-                        {
-                          "tag": "set",
-                          "name": "set",
-                          "value": "ruleParts[0] = '.' + ruleParts[0]",
-                          "statements": []
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "tag": "if",
-                  "name": "xif",
-                  "value": "this.wzParent && this.wzParent.getAscendingRuleParts",
-                  "statements": [
-                    {
-                      "tag": "var",
-                      "name": "xvar",
-                      "value": "parentRuleParts = this.wzParent.getAscendingRuleParts()",
-                      "statements": []
-                    },
-                    {
-                      "tag": "var",
-                      "name": "xvar",
-                      "value": "ret = []",
-                      "statements": []
-                    },
-                    {
-                      "tag": "foreach",
-                      "name": "foreach",
-                      "value": "prp in parentRuleParts",
-                      "statements": [
-                        {
-                          "tag": "foreach",
-                          "name": "foreach",
-                          "value": "rp in ruleParts",
-                          "statements": [
-                            {
-                              "tag": "_",
-                              "name": "call",
-                              "value": "ret.push(prp + ' ' + rp)",
-                              "statements": []
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "tag": "return",
-                      "name": "xreturn",
-                      "value": "ret",
-                      "statements": []
-                    }
-                  ]
-                },
-                {
-                  "tag": "else",
-                  "name": "xelse",
-                  "value": "",
-                  "statements": [
-                    {
-                      "tag": "return",
-                      "name": "xreturn",
-                      "value": "ruleParts",
-                      "statements": []
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "tag": "else",
-              "name": "xelse",
+              "tag": "+",
+              "name": "statement",
               "value": "",
-              "statements": [
-                {
-                  "tag": "return",
-                  "name": "xreturn",
-                  "value": "[]",
-                  "statements": []
-                }
-              ]
+              "statements": []
             }
           ],
           "comments": []
@@ -48387,54 +48251,9 @@
           ],
           "statements": [
             {
-              "tag": "if",
-              "name": "xif",
-              "value": "this.canHaveContent && this.getSelector() === name",
-              "statements": [
-                {
-                  "tag": "return",
-                  "name": "xreturn",
-                  "value": "this",
-                  "statements": []
-                }
-              ]
-            },
-            {
-              "tag": "var",
-              "name": "xvar",
-              "value": "ret = null",
-              "statements": []
-            },
-            {
-              "tag": "foreach",
-              "name": "foreach",
-              "value": "item in this.rules",
-              "statements": [
-                {
-                  "tag": "set",
-                  "name": "set",
-                  "value": "ret = item.findRuleBySelector(name)",
-                  "statements": []
-                },
-                {
-                  "tag": "if",
-                  "name": "xif",
-                  "value": "ret",
-                  "statements": [
-                    {
-                      "tag": "return",
-                      "name": "xreturn",
-                      "value": "ret",
-                      "statements": []
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "tag": "return",
-              "name": "xreturn",
-              "value": "ret",
+              "tag": "+",
+              "name": "statement",
+              "value": "",
               "statements": []
             }
           ],
@@ -48447,29 +48266,9 @@
           "params": [],
           "statements": [
             {
-              "tag": "foreach",
-              "name": "foreach",
-              "value": "item in this.rules",
-              "statements": [
-                {
-                  "tag": "if",
-                  "name": "xif",
-                  "value": "item.canHaveContent",
-                  "statements": [
-                    {
-                      "tag": "return",
-                      "name": "xreturn",
-                      "value": "true",
-                      "statements": []
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "tag": "return",
-              "name": "xreturn",
-              "value": "this.getProperties().length > 0",
+              "tag": "+",
+              "name": "statement",
+              "value": "",
               "statements": []
             }
           ],
@@ -48484,30 +48283,10 @@
           ],
           "statements": [
             {
-              "tag": "if",
-              "name": "xif",
-              "value": "final && this.wzElement === 'placeholder'",
-              "statements": [
-                {
-                  "tag": "return",
-                  "name": "xreturn",
-                  "value": "this.parentRuleParts.slice(1).join(', ')",
-                  "statements": []
-                }
-              ]
-            },
-            {
-              "tag": "else",
-              "name": "xelse",
+              "tag": "+",
+              "name": "statement",
               "value": "",
-              "statements": [
-                {
-                  "tag": "return",
-                  "name": "xreturn",
-                  "value": "this.parentRuleParts.join(', ')",
-                  "statements": []
-                }
-              ]
+              "statements": []
             }
           ],
           "comments": []
@@ -48519,94 +48298,9 @@
           "params": [],
           "statements": [
             {
-              "tag": "var",
-              "name": "xvar",
-              "value": "retval = []",
-              "statements": []
-            },
-            {
-              "tag": "foreach",
-              "name": "foreach",
-              "value": "prop in this.properties",
-              "statements": [
-                {
-                  "tag": "if",
-                  "name": "xif",
-                  "value": "prop.wzElement === 'property'",
-                  "statements": [
-                    {
-                      "tag": "var",
-                      "name": "xvar",
-                      "value": "p = verify.parseNameValue(prop.wzName, prop)",
-                      "statements": []
-                    },
-                    {
-                      "tag": "if",
-                      "name": "xif",
-                      "value": "prop.properties.length > 0",
-                      "statements": [
-                        {
-                          "tag": "if",
-                          "name": "xif",
-                          "value": "p.hasValue()",
-                          "statements": [
-                            {
-                              "tag": "_",
-                              "name": "call",
-                              "value": "retval.push({ name: p.name(), value: p.value() })",
-                              "statements": []
-                            }
-                          ]
-                        },
-                        {
-                          "tag": "foreach",
-                          "name": "foreach",
-                          "value": "nestedprop in prop.properties",
-                          "statements": [
-                            {
-                              "tag": "var",
-                              "name": "xvar",
-                              "value": "p_nested = lineParser.parseNameValueRaw(nestedprop.wzName, nestedprop)",
-                              "statements": []
-                            },
-                            {
-                              "tag": "_",
-                              "name": "call",
-                              "value": "retval.push({ name: p.name() + '-' + p_nested.name(), value: p_nested.value() })",
-                              "statements": []
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "tag": "else",
-                      "name": "xelse",
-                      "value": "",
-                      "statements": [
-                        {
-                          "tag": "if",
-                          "name": "xif",
-                          "value": "p.hasValue()",
-                          "statements": [
-                            {
-                              "tag": "_",
-                              "name": "call",
-                              "value": "retval.push({ name: p.name(), value: p.value() })",
-                              "statements": []
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "tag": "return",
-              "name": "xreturn",
-              "value": "retval",
+              "tag": "+",
+              "name": "statement",
+              "value": "",
               "statements": []
             }
           ],

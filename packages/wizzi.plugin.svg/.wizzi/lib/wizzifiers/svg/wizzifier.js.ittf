@@ -15,17 +15,17 @@ module
                 var syntax
                 try
                     set syntax
-                         _ svg_parser.parseString
-                         @ tobeWizzified
+                        _ svg_parser.parseString
+                        	@ tobeWizzified
                     _ cleanAST(syntax)
+                    return
+                        _ callback
+                            @ null
+                            @ syntax
                 catch ex
                     return
                         _ callback
                             @ ex
-                return
-                    _ callback
-                        @ null
-                        @ syntax
         +
         function wizzify
             param tobeWizzified
@@ -40,7 +40,6 @@ module
                 @ tobeWizzified
                 @ options
                 a_cb( syntax )
-                    # log stringify(syntax, null, 2)
                     r_cb( syntax )
         +
         function isKnownType

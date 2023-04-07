@@ -8,12 +8,7 @@ wizzi.plugin.svg
 
 <table>
 <tr>
-<th>Schema</th>
-<th>Descriptionn</th>
-<th>Builtin</th>
-<th>Model transformers</th>
-<th>Artifacts</th>
-</tr>
+<th>Schema<th>Descriptionn<th>Builtin<th>Model transformers<th>Artifacts</tr>
 <tr>
 <td>
 <a href https://github.com//wizzi.plugin.svg/tree/master/.wizzi/ittf/lib/wizzi/schemas/svg.wfschema.ittf>svg</a><td>svg wizzi schema</td>
@@ -58,10 +53,10 @@ One machinery many productions.
 <p><a href="https://stfnbssl.github.io/wizzi">Project page</a></p>
 
 ## Built With
-* [Nodejs](https://nodejs.org)
-
-* [Wizzi](https://github.com/stfnbssl/wizzi)
-
+    * [Nodejs](https://nodejs.org)
+    
+    * [Wizzi](https://github.com/stfnbssl/wizzi)
+    
 
 ## License
 

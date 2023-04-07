@@ -1250,114 +1250,9 @@
           "params": [],
           "statements": [
             {
-              "tag": "var",
-              "name": "xvar",
-              "value": "retval = []",
-              "statements": []
-            },
-            {
-              "tag": "foreach",
-              "name": "foreach",
-              "value": "prop in this.properties",
-              "statements": [
-                {
-                  "tag": "if",
-                  "name": "xif",
-                  "value": "prop.wzElement === 'property'",
-                  "statements": [
-                    {
-                      "tag": "var",
-                      "name": "xvar",
-                      "value": "p = verify.parseNameValue(prop.wzName, prop)",
-                      "statements": []
-                    },
-                    {
-                      "tag": "if",
-                      "name": "xif",
-                      "value": "prop.properties.length > 0",
-                      "statements": [
-                        {
-                          "tag": "if",
-                          "name": "xif",
-                          "value": "p.hasValue()",
-                          "statements": [
-                            {
-                              "tag": "_",
-                              "name": "call",
-                              "value": "retval.push({ name: p.name(), value: p.value() })",
-                              "statements": []
-                            }
-                          ]
-                        },
-                        {
-                          "tag": "foreach",
-                          "name": "foreach",
-                          "value": "nestedprop in prop.properties",
-                          "statements": [
-                            {
-                              "tag": "var",
-                              "name": "xvar",
-                              "value": "p_nested = lineParser.parseNameValueRaw(nestedprop.wzName, nestedprop)",
-                              "statements": []
-                            },
-                            {
-                              "tag": "_",
-                              "name": "call",
-                              "value": "retval.push({ name: p.name() + '-' + p_nested.name(), value: p_nested.value() })",
-                              "statements": []
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "tag": "else",
-                      "name": "xelse",
-                      "value": "",
-                      "statements": [
-                        {
-                          "tag": "if",
-                          "name": "xif",
-                          "value": "p.hasValue()",
-                          "statements": [
-                            {
-                              "tag": "_",
-                              "name": "call",
-                              "value": "retval.push({ name: p.name(), value: p.value() })",
-                              "statements": []
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "tag": "else",
-                  "name": "xelse",
-                  "value": "",
-                  "statements": [
-                    {
-                      "tag": "if",
-                      "name": "xif",
-                      "value": "verify.isNotEmpty(prop.wzName)",
-                      "statements": [
-                        {
-                          "tag": "_",
-                          "name": "call",
-                          "value": "retval.push({ name: prop.wzTag, value: prop.wzName })",
-                          "statements": []
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "tag": "return",
-              "name": "xreturn",
-              "value": "retval",
+              "tag": "+",
+              "name": "statement",
+              "value": "",
               "statements": []
             }
           ],
@@ -7602,28 +7497,9 @@
           "params": [],
           "statements": [
             {
-              "tag": "var",
-              "name": "xvar",
-              "value": "sb = [this.wzName]",
-              "statements": []
-            },
-            {
-              "tag": "foreach",
-              "name": "foreach",
-              "value": "item in this.properties",
-              "statements": [
-                {
-                  "tag": "_",
-                  "name": "call",
-                  "value": "sb.push('\"' + item.wzName + '\"\\n    ')",
-                  "statements": []
-                }
-              ]
-            },
-            {
-              "tag": "set",
-              "name": "set",
-              "value": "this.wzName = sb.join(' ')",
+              "tag": "+",
+              "name": "statement",
+              "value": "",
               "statements": []
             }
           ],

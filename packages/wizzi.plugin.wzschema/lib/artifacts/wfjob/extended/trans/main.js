@@ -1,9 +1,11 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\.wizzi\lib\artifacts\wfjob\extended\trans\main.js.ittf
 */
 'use strict';
+
+
 var util = require('util');
 var async = require('async');
 var verify = require('wizzi-utils').verify;
@@ -14,9 +16,14 @@ var md = module.exports = {};
 var myname = 'wizzi.plugin.wzschema.wfjob.extended.trans.main';
 
 md.trans = function(model, ctx, callback) {
-    var transformedModel = {};
+    if (typeof(callback) !== 'function') {
+        throw new Error(error('InvalidArgument', 'gen', 'The callback parameter must be a function. Received: ' + callback, model));
+    }
+    if (verify.isObject(model) == false) {
+        return callback(error('InvalidArgument', 'gen', 'The model parameter must be an object. Received: ' + model, model));
+    }
     if (model.wzElement !== 'wfjob') {
-        callback(error('InvalidArgument', 'gen', 'Invalid model schema. Expected "wfjob". Received: ' + model.wzElement, model))
+        return callback(error('InvalidArgument', 'gen', 'Invalid model schema. Expected "wfjob". Received: ' + model.wzElement, model));
     }
     
     try {
@@ -30,7 +37,6 @@ md.trans = function(model, ctx, callback) {
     catch (ex) {
         return callback(ex);
     } 
-    callback(null, transformedModel);
 }
 ;
 

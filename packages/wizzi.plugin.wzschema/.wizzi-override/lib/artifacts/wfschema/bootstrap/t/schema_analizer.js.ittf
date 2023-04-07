@@ -48,6 +48,9 @@
                     _ this.addRequire("parsedate", 'function')
 			
 			foreach method in element.methods
+                $$ loog 'wfschemaModel.element.method', method.wzElement, method.wzName, Object.keys(method)
+                foreach statement in method.statements
+                    $$ loog 'wfschemaModel.element.method.statement', statement.wzElement, statement.wzName, Object.keys(method)
                 foreach require in method.requires
                     _ this.addRequire(require.wzName, require.kind)
         

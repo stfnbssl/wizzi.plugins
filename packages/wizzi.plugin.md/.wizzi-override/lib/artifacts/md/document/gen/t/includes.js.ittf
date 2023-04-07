@@ -1,37 +1,13 @@
 $group
     async-md( htmlInclude )
-        _ ctx.write('<script')
-        foreach a in getAttrs(model)
-            if (a.name in attrsneedsvalue) || (a.value && a.value.length > 0)
-                _ ctx.write(' ' + a.name + '="' + verify.unquote(a.value || '') + '"')
-            else
-                _ ctx.write(' ' + a.name)
-        _ ctx.w('>')
         if model.get_html
             _ included_writers.writeIncludeHtml
                 @ ctx
                 @ model
                 a_cb( notUsed )
-                    _ ctx.w("</script>")
                     r_cb( true )
         else
-            _ ctx.w("</script>")
             r_cb( true )
-    async-md( svgInclude )
-        _ ctx.write('<script')
-        foreach a in getAttrs(model)
-            if (a.name in attrsneedsvalue) || (a.value && a.value.length > 0)
-                _ ctx.write(' ' + a.name + '="' + verify.unquote(a.value || '') + '"')
-            else
-                _ ctx.write(' ' + a.name)
-        _ ctx.w('>')
-        if model.get_svg
-            _ included_writers.writeIncludeSvg
-                @ ctx
-                @ model
-                a_cb( notUsed )
-                    _ ctx.w("</script>")
-                    r_cb( true )
-        else
-            _ ctx.w("</script>")
-            r_cb( true )
+    async-md( cssInclude )
+        # do nothing, css must be produced by the 'tocss' artifact generator
+        r_cb( true )

@@ -1,0 +1,121 @@
+﻿$group
+	
+	e model
+
+		# A wizzi model instance or a POJO acting as a context during an mTree loading.
+		# The ittf node value (wzName) is the name of the model that must be unique
+		# in a "wfjob"; it will become the default export name of the context
+		# property that exposes the model.
+		# A "model" will be loaded once, and will be reused if
+		# referenced in many evaluations.
+
+		a src
+			# The path to the primary ittf document of the "model" or to the the POJO source.
+			# When relative, the base path is the "modelsBaseFolder"
+			# declared on the "wfjob" element.
+		
+		a schema
+			# In case of a wizzi model is the name of its wizzi schema.
+			# Is alternative to the attribute 'format'.
+		
+		a format
+			# In case of a POJO model is the native format of the source file.
+			# Is alternative to the attribute 'schema'.
+			restrict
+				enum json
+					# Native JSON file.
+				enum xml
+					# Native Xml file.
+				enum js
+					# Native javascript module file that may export object properties or 
+					# a function named 'toModel'.
+
+		a_tag( dumpFile, dump-file )
+			# A filepath where the loaded model must be dumped for test.
+			# The model must implement the toJson method. See the "exportTo" attribute in wizzischema root nodes.
+			# When declared the loaded model is JSON.stringyfied and written
+			# to the "dumpFile" filepath.
+
+		a_tag( exportName, export-name )
+            # The name of the context property that will expose the loaded model.
+			# When declared on the "model" element means that the model will be globally available 
+            # for all the transformations of the job.
+
+
+		r modelRef/s
+			# References to "model" instances acting as data context during this "model" evaluation.
+			# A "model" is referenced by its name.
+
+		r comment/s
+	
+	e_tag( modelRef, model-ref )
+        # Can be a child element of a "model" element, an "artifact" element and a "transformer" element.
+		
+		a_tag( exportName, export-name )
+			# The name of the context property that will expose the loaded model during
+			# an evaluation. Overrides the name of the "model" that is the default export name.
+		
+		r transformer/s
+			# A model may have one or more transformers.
+			# Transformers are chained and the output of a transformation
+			# is the input for the next one.
+
+		r modelCollection/s
+			# TODO This is a one-to-one relation, not yet implemented.
+			# Single items of a collection contained in the "model" may act as a context property
+			# for artifacts where each collection item generates a separate artifact.
+
+		r comment/s
+		
+		m wzinitialize
+
+			if this.modelCollections.length > 0
+				
+				set this.modelCollection = this.modelCollections[0]
+				set this.collName = this.modelCollection.wzName
+				set this.collItemName = this.modelCollection.itemName
+				set this.collPathTemplateValues = []
+				
+				foreach item in this.modelCollection.pathTemplateValues
+					_ this.collPathTemplateValues.push
+						{
+							@ token item.token
+							@ attribute item.attribute
+							@ function item.function
+
+				# loog 'this.modelCollection.wzName', this.modelCollection.wzName
+				# loog 'this.collName', this.collName
+				# loog 'this.collItemName', this.collItemName
+	
+	e_tag( modelCollection, model-coll )
+		
+		# Single items of a collection contained in a "model" may act as data contexts
+		# of artifacts where each collection item generates a separate artifact.
+		# This element, contained in a "modelRef" element, specifies:
+		# . the collection name: the IttfNodeValue of this element
+		# . the export name of the collection item when acting as a context property: the "item-name" attribute
+		# . the property names of the collection item that will be used to build the destination path
+		#   of the artifact: the "pathTemplateValues" child elements
+		
+		a_tag( itemName, item-name )
+			# The export name of a collection item when acting as a context property.
+		
+		r pathTemplateValue/s
+
+		r comment/s
+	
+	e_tag( pathTemplateValue, path-template-value )
+		a attribute
+			# The property of the context object (a collection item) containing the value which will replace 
+			# the "token" value in the generated artifact path template.
+			# Is alternative to "function"
+		a function
+			# The function of the context object (a collection item) that returns the value which will replace 
+			# the "token" value in the generated artifact path template.
+			# Is alternative to "attribute"
+		a token
+			# The token that will be replaced by the value returned accessing "attribute" or calling "function"
+			# on a context object.
+
+		r comment/s
+	

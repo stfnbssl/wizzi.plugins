@@ -96,10 +96,14 @@
                 set this.elements[0].isRoot = true;
 				set this.rootElement = this.elements[0]
 
-			foreach item in this.elements
+			$$ loog 'wfschema-boot.initialize.start'
+            foreach item in this.elements
 				_ item.wzInitialize(ctx)
+            $$ loog 'wfschema-boot.initialize.finish'
 
-			_ this.analize()
+			$$ loog 'wfschema-boot.analize.start'
+            _ this.analize()
+            $$ loog 'wfschema-boot.analize.finish'
 
 			var d = ctx.tagElementMapping
             if typeof d === 'object'

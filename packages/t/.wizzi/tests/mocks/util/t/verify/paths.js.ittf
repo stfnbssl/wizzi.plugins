@@ -1,0 +1,27 @@
+﻿$group
+
+	set md.stripIttfExtension
+		function 
+			param path_string
+			if !path_string
+				return path_string
+			if md.endsWith(path_string, '.ittf')
+				return md.stripExtension(path_string)
+			else
+				return path_string
+
+	set md.stripExtension
+		function 
+			param path_string
+			if !path_string
+				return path_string
+			var pos = path_string.lastIndexOf('.')
+			return path_string.substr(0, pos)
+
+	set md.replaceExtension
+		function 
+			param path_string
+			param newExtension
+			if !path_string
+				return path_string
+			return md.stripExtension(path_string) + '.' + newExtension

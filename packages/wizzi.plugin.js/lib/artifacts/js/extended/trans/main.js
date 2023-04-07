@@ -1,7 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.14
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\artifacts\js\extended\trans\main.js.ittf
+    utc time: Fri, 07 Apr 2023 16:29:54 GMT
 */
 'use strict';
 
@@ -16,7 +17,12 @@ var md = module.exports = {};
 var myname = 'wizzi.plugin.js.js.extended.trans.main';
 
 md.trans = function(model, ctx, callback) {
-    var transformedModel = {};
+    if (typeof(callback) !== 'function') {
+        throw new Error(error('InvalidArgument', 'gen', 'The callback parameter must be a function. Received: ' + callback, model));
+    }
+    if (verify.isObject(model) == false) {
+        return callback(error('InvalidArgument', 'gen', 'The model parameter must be an object. Received: ' + model, model));
+    }
     if (model.wzElement !== 'js') {
         return callback(error('InvalidArgument', 'gen', 'Invalid model schema. Expected "js". Received: ' + model.wzElement, model));
     }
@@ -32,7 +38,6 @@ md.trans = function(model, ctx, callback) {
     catch (ex) {
         return callback(ex);
     } 
-    callback(null, transformedModel);
 }
 ;
 

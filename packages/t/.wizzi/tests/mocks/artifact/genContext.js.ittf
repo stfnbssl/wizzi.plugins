@@ -1,0 +1,136 @@
+﻿module 
+    kind jsfile
+
+    var StringWriter = require('../util/stringwriter')
+    var verify = require('../util/verify')
+    var block = require('./block')
+    var interpolate = require('../util/interpolate')
+    var errors = require('../errors')
+    
+	class GenContext
+        ctor
+            param genconfig
+            if !verify.isObject(genconfig)
+                throw 
+                    new Error('GenContext: genconfig argument must be an Object')
+            if !verify.isObject(genconfig.options)
+                throw 
+                    new Error('GenContext: genconfig.options argument must be an Object')
+            set this.genconfig = genconfig
+            set this.model = genconfig.model
+            set this.srcPath = genconfig.srcPath
+            set this.pman = genconfig.pman
+            set this.block = new block(this.genconfig.options)
+            set this.values = this.genconfig.options.data || {}
+    
+		m forceIndent
+            param value
+            return this.block.forceIndent(value)
+    
+		m indent
+            param value
+            _ this.block.indent(value)
+    
+		m deindent
+            param value
+            _ this.block.deindent(value)
+    
+		m a
+            param name
+            param value
+            set this.values[name] = value
+    
+		m g
+            param name
+            return this.values[name]
+    
+		m r
+            param name
+            if this.values[name]
+                set delete (this.values[name])
+    
+		m w
+            param text
+            if verify.isString(text)
+                _ this.block.w
+                    iif text.indexOf('{') > - (1)
+                        then 
+                            _ interpolate
+                                @ text
+                                @ this.values
+                        else text
+            else 
+                _ this.block.w('')
+    
+		m write
+            param text
+            if !verify.isString(text)
+                return 
+            _ this.block.write
+                _ interpolate
+                    @ text
+                    @ this.values
+    
+		m writeFile
+            param filePath
+            _ this.block.writeFile
+                _ interpolate
+                    @ filePath
+                    @ this.values
+    
+		m toStream
+            param stream
+            _ this.block.toStream(stream)
+    
+		m getContent
+            var sw = new StringWriter()
+            _ this.block.toStream(sw)
+            return sw.toString()
+    
+		m getContentInLine
+            return 
+                _ verify.replaceAll
+                    _ this.getContent()
+                    @ '\n'
+                    @ '__1_2_3__'
+    
+		m error
+            param message
+            param node
+            return 
+                new errors.NodeError(message, node)
+    
+		m artifactGenerationError
+            param message
+            param location
+            param node
+            _ errors.ArtifactGenerationError(message, location, node)
+    
+		m terminate
+            set delete this.pman
+            set delete this.genconfig.pman
+            _ this.block.terminate()
+    
+		m hydrate
+            param block
+            param options
+            set this.block = new block(options)
+            _ this.block.hydrate
+                @ block.lines
+                @ options
+    
+		m toStringFromJSON
+            param block
+            param options
+            if !block || !block.lines
+                return 'NO TEXT'
+            var gw
+                new GenContext
+                    { 
+                        @ options options
+            _ gw.block.hydrate
+                @ block.lines
+                @ options
+            return gw.getContent()
+
+    set module.exports = GenContext

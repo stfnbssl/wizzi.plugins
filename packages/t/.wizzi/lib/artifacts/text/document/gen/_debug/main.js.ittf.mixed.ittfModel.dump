@@ -1,0 +1,26 @@
+  module  ids: 1 19
+    kind jsfile ids: 2 20
+    var util = require('util') ids: 3 21
+    var errors = require('../../../../errors') ids: 4 22
+    var md ids: 5 23
+      set module.exports = ids: 6 24
+        {  ids: 7 25
+    var myname = 'text.document.main' ids: 8 26
+    set md.gen ids: 37 44
+      function  ids: 38 45
+        param model ids: 39 46
+        param ctx ids: 40 47
+        param callback ids: 41 48
+        foreach item in model.childs ids: 10 28
+          _ md.genItem(item, ctx) ids: 11 29
+        _ callback(null, ctx) ids: 43 50
+    set md.genItem ids: 51 56
+      function  ids: 52 57
+        param model ids: 53 58
+        param ctx ids: 54 59
+        _ ctx.w ids: 13 31
+          @ model.v ids: 14 32
+        _ ctx.indent() ids: 15 33
+        foreach item in model.childs ids: 16 34
+          _ md.genItem(item, ctx) ids: 17 35
+        _ ctx.deindent() ids: 18 36

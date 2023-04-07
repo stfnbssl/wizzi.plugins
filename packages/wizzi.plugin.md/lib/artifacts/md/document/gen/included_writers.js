@@ -1,7 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.14
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.md\.wizzi-override\lib\artifacts\md\document\gen\included_writers.js.ittf
+    utc time: Fri, 07 Apr 2023 21:14:22 GMT
 */
 'use strict';
 
@@ -18,39 +19,15 @@ md.writeIncludeHtml = function(ctx, element, callback) {
             return callback(err);
         }
         // log myname, 'htmlModel', htmlModel
-        ctx.wizziFactory.generateArtifact(htmlModel, 'generated from md model', 'html/document', {}, (err, artifactText) => {
+        ctx.wizziFactory.generateArtifact(htmlModel, 'generated from md model', 'html/document', {
+            noGeneratorComments: true
+         }, (err, artifactText) => {
         
             if (err) {
                 return callback(err);
             }
             // log myname, 'html module artifactText', artifactText
-            ctx.indent();
             ctx.writeAligned(artifactText);
-            ctx.deindent();
-            return callback();
-        }
-        )
-    }
-    )
-}
-;
-md.writeIncludeSvg = function(ctx, element, callback) {
-    // log myname, 'enter writeIncludeSvg'
-    element.get_svg((err, svgModel) => {
-    
-        if (err) {
-            return callback(err);
-        }
-        // log myname, 'svgModel', svgModel
-        ctx.wizziFactory.generateArtifact(svgModel, 'generated from md model', 'svg/document', {}, (err, artifactText) => {
-        
-            if (err) {
-                return callback(err);
-            }
-            // log myname, 'svg module artifactText', artifactText
-            ctx.indent();
-            ctx.writeAligned(artifactText);
-            ctx.deindent();
             return callback();
         }
         )

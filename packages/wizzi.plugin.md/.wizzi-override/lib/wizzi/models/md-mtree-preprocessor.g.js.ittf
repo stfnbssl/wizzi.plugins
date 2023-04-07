@@ -1,26 +1,81 @@
 module
-    kind es6
+	kind es6
+
     var verify = require('wizzi-utils').verify
-    
+
+    set module.exports
+        function
+            param mTree
+            param context
+            var state
+                {
+                    @ mTree mTree
+                    @ parent null
+            foreach item in mTree.nodes[0].children
+                _ traverse(item, state)
+            return mTree
+
+    function traverse
+        param node
+        param state
+        if preprocessNode(node, state)
+            return
+        var saveParent = state.parent
+        foreach item in node.children
+            _ traverse(item, state)
+        set state.parent = saveParent
+
     function preprocessNode
         param node
         param state
-        
-        # write here your prepocessing code
-        
-        if node.n === 'ittf-panel'
+
+        if node.n === '--css' || inferCssInclude(node)
+            set node.n = '::html'
+            if childNameIsOneOf(node, ['html']) == false
+                var scoped
+                    _ extractRemove
+                        @ node
+                        @ 'scoped'
+                _ wrapChilds
+                    @ node
+                    {
+                        @ n 'html'
+                        @ v ''
+                if scoped
+                    _ node.children.push
+                        @ scoped
+                return true
+        elif ['ittf-panel', 'js-panel', 'bash-panel'].indexOf(node.n) >-1
+            # loog '%$%$%$%$%$'
             set node.wzMTreeData
                 {
                     @ mTree state.mTree
             foreach item in node.children
                 if item.n === 'ittf'
-                    set node.wzMTreeData[item.n] = item
+                    set node.wzMTreeData[item.n] = processIttf(item)
                 else
                     set node.wzMTreeData[item.n] = item.v
             set node.children = []
         else
             return false
-    
+
+    function inferHtmlInclude
+        param node
+        if node.n === 'html'
+            if descendentNameIsOneOf(node, ['div'])
+                return true
+        return false
+
+    function processIttf
+        param node
+        if node.n === '$raw'
+            set node.n = node.v
+            set node.v = ''
+        foreach child in node.children
+            _ processIttf
+                @ child
+        return node
+
     function childNameIsOneOf
         param node
         param names
@@ -90,26 +145,4 @@ module
         set nto.s = nfrom.s
         set nto.u = nfrom.u
         if typeof nto.children === 'undefined'
-            set nto.children = []
-    
-    function traverse
-        param node
-        param state
-        if preprocessNode(node, state)
-            return
-        var saveParent = state.parent
-        foreach item in node.children
-            _ traverse(item, state)
-        set state.parent = saveParent
-    
-    set module.exports
-        function
-            param mTree
-            param context
-            var state
-                {
-                    @ mTree mTree
-                    @ parent null
-            foreach item in mTree.nodes[0].children
-                _ traverse(item, state)
-            return mTree
+            set nto.children = []    

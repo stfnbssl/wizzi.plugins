@@ -1,0 +1,30 @@
+﻿module
+	kind jsfile
+
+    var util = require('util')
+    var path = require('path')
+    var legacy = require('../../../../../legacy')
+
+    var md = module.exports = {}
+    var myname = 'wfschema.html.docs.main'
+
+    set md.gen
+        function
+            param model
+            param ctx
+            param callback
+
+            var ittfDocumentPath = path.join(__dirname, 'ittf', 'wfschema-docs.html.ittf')
+
+            var mTreeBuildupContext
+                {
+                    @ schema model
+                    @ request
+                        {
+            # loog 'htmlContext', util.inspect(htmlContext, { depth: 2 })
+            _ legacy.htmlDocument
+                @ ittfDocumentPath
+                @ mTreeBuildupContext
+                f_cb( result )
+                    _ ctx.w(result)
+                    _ callback(null, ctx)

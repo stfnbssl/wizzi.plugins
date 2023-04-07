@@ -245,7 +245,7 @@
 								_ item.node.children.push
 									@ ittf
 								r_cb()
-				f_cb()
+				a_cb()
 					r_cb( root )
 
 	set md.getWizziIttf
@@ -258,7 +258,7 @@
 			_ md.getWizziTree
 				@ input
 				@ options
-				f_cb( root ) 
+				a_cb( root ) 
 					var ittf = ittfwriter.stringify(root, { lang: 'js' });
 					# log "md.getWizziIttf\n" + ittf
 					_ callback(null, ittf)

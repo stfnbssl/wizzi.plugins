@@ -1,0 +1,37 @@
+﻿artifact( xml, document)
+    
+	$append main
+		_ ctx.w
+			@ '<?xml version="1.0"' + 
+				\b (model.encoding ? ' encoding="' + model.encoding + '"' : '') +
+				\b (model.standalone ? ' standalone="' + model.standalone + '"' : '') +
+				\b '>'
+		foreach el in model.elements
+			_ md.genItem(el, ctx)
+    
+	md-gen-item(
+		if model.tag
+            if model.tag == '<--'
+                _ ctx.w('<-- ' + model.text + ' -->')
+            else
+                _ ctx.write('<' + model.tag)
+                foreach item in model.attributes
+                    _ ctx.write(' ' + item.name + '="')
+                    _ ctx.write
+                        @ item.value
+                    _ ctx.write('"')
+                if (model.elements && model.elements.length > 0) || model.text
+                    _ ctx.write('>')
+                    if model.text
+                        _ ctx.write(model.text)
+                    if model.elements && model.elements.length > 0
+                        _ ctx.w()
+                        _ ctx.indent()
+                        foreach item in model.elements
+                            _ md.genItem(item, ctx)
+                        _ ctx.deindent()
+                    _ ctx.w('</' + model.tag + '>')
+                else 
+                    _ ctx.w(' />')
+		else
+			_ ctx.write(model.text)

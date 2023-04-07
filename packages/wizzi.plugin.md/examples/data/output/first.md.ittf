@@ -1,0 +1,319 @@
+md
+    h1 
+        + Markdown Quick Reference
+    p 
+        + This guide is a very brief overview, with examples, of the syntax that
+        a 
+            href http://daringfireball.net/projects/markdown/
+            title 
+            + Markdown
+        + supports. It is itself written in Markdown and you can copy the samples over to the left-hand pane for experimentation. It&#39;s shown as
+        em 
+            + text
+        + and not
+        em 
+            + rendered HTML
+        + .
+    br 
+    h1 
+        + Simple Text Formatting
+    p 
+        + First thing is first. You can use
+        em 
+            + stars
+        + or
+        em 
+            + underscores
+        + for italics.
+        b 
+            + Double stars
+        + and
+        b 
+            + double underscores
+        + for bold.
+        em 
+            b 
+                + Three together
+        + for
+        em 
+            b 
+                + both
+        + .
+    br 
+    p 
+        + Paragraphs are pretty easy too. Just have a blank line between chunks of text.
+    br 
+    quote 
+        p 
+            + This chunk of text is in a block quote. Its multiple lines will all be
+            + indented a bit from the rest of the text.
+        br 
+        quote 
+            p 
+                + Multiple levels of block quotes also work.
+    p 
+        + Sometimes you want to include code, such as when you are explaining how
+        code &lt;h1&gt;
+        + HTML tags work, or maybe you are a programmer and you are discussing
+        code someMethod()
+        + .
+    br 
+    p 
+        + If you want to include code and have new
+        + lines preserved, indent the line with a tab
+        + or at least four spaces:
+    br 
+    code 
+        indented 
+        + Extra spaces work here too.
+        + This is also called preformatted text and it is useful for showing examples.
+        + The text will stay as text, so any *markdown* or <u>HTML</u> you add will
+        + not show up formatted. This way you can show markdown examples in a
+        + markdown document.
+    quote 
+        code 
+            indented 
+            + You can also use preformatted text with your blockquotes
+            + as long as you add at least five spaces.
+    br 
+    h1 
+        + Headings
+    p 
+        + There are a couple of ways to make headings. Using three or more equals signs on a line under a heading makes it into an &quot;h1&quot; style. Three or more hyphens under a line makes it &quot;h2&quot; (slightly smaller). You can also use multiple pound symbols (
+        code #
+        + ) before and after a heading. Pounds after the title are ignored. Here are some examples:
+    br 
+    h1 
+        + This is H1
+    h2 
+        + This is H2
+    h1 
+        + This is H1
+    h2 
+        + This is H2
+    h3 
+        + This is H3 with some extra pounds
+    h4 
+        + You get the idea
+    h5 
+        + I don&#39;t need extra pounds at the end
+    h6 
+        + H6 is the max
+    h1 
+        + Links
+    p 
+        + Let&#39;s link to a few sites. First, let&#39;s use the bare URL, like
+        a 
+            href https://www.github.com
+            title
+            + https://www.github.com
+        + . Great for text, but ugly for HTML.
+        + Next is an inline link to
+        a 
+            href https://www.google.com
+            title 
+            + Google
+        + . A little nicer.
+        + This is a reference-style link to [Wikipedia]
+        a 
+            href https://www.wikipedia.org
+            title 
+            + 1
+        + .
+        + Lastly, here&#39;s a pretty link to
+        a 
+            href https://www.yahoo.com
+            title 
+            + Yahoo
+        + . The reference-style and pretty links both automatically use the links defined below, but they could be defined
+        em 
+            + anywhere
+        + in the markdown and are removed from the HTML. The names are also case insensitive, so you can use
+        a 
+            href https://www.yahoo.com
+            title 
+            + YaHoO
+        + and have it link properly.
+    br 
+    p 
+        + Title attributes may be added to links by adding text after a link.
+        + This is the
+        a 
+            href https://www.bing.com
+            title Bing
+            + inline link
+        + with a &quot;Bing&quot; title.
+        + You can also go to [W3C]
+        a 
+            href https://w3c.org
+            title The W3C puts out specs for web-based things
+            + 2
+        + and maybe visit a
+        a 
+            href https://facebook.com
+            title Facebook!
+            + friend
+        + .
+    br 
+    p 
+        + Email addresses in plain text are not linked:
+        a 
+            href mailto:&#116;&#x65;&#x73;&#x74;&#64;&#x65;&#120;&#97;&#x6d;&#112;&#x6c;&#101;&#x2e;&#99;&#111;&#109;
+            title
+            + &#116;&#x65;&#x73;&#x74;&#64;&#x65;&#120;&#97;&#x6d;&#112;&#x6c;&#101;&#x2e;&#99;&#111;&#109;
+        + .
+        + Email addresses wrapped in angle brackets are linked:
+        a 
+            href mailto:&#x74;&#x65;&#115;&#116;&#64;&#x65;&#120;&#x61;&#109;&#112;&#108;&#x65;&#46;&#99;&#x6f;&#x6d;
+            title
+            + &#x74;&#x65;&#115;&#116;&#64;&#x65;&#120;&#x61;&#109;&#112;&#108;&#x65;&#46;&#99;&#x6f;&#x6d;
+        + .
+        + They are also obfuscated so that email harvesting spam robots hopefully won&#39;t get them.
+    br 
+    h1 
+        + Lists
+    ul 
+        li 
+            + This is a bulleted list
+        li 
+            + Great for shopping lists
+    ul 
+        li 
+            + You can also use hyphens
+    ul 
+        li 
+            + Or plus symbols
+    br 
+    p 
+        + The above is an &quot;unordered&quot; list. Now, on for a bit of order.
+    br 
+    ul 
+        ordered 
+        li 
+            + Numbered lists are also easy
+        li 
+            + Just start with a number
+        li 
+            + However, the actual number doesn&#39;t matter when converted to HTML.
+        li 
+            + This will still show up as 4.
+    br 
+    p 
+        + You might want a few advanced lists:
+    br 
+    ul 
+        loose 
+        li 
+            + This top-level list is wrapped in paragraph tags
+        li 
+            + This generates an extra space between each top-level item.
+        li 
+            + You do it by adding a blank line
+        li 
+            + This nested list also has blank lines between the list items.
+        li 
+            + How to create nested lists
+            ul 
+                ordered 
+                li 
+                    + Start your regular list
+                li 
+                    + Indent nested lists with two spaces
+                li 
+                    + Further nesting means you should indent with two more spaces
+            ul 
+                li 
+                    + This line is indented with four spaces.
+        li 
+            + List items can be quite lengthy. You can keep typing and either continue
+            + them on the next line with no indentation.
+        li 
+            + Alternately, if that looks ugly, you can also
+            + indent the next line a bit for a prettier look.
+        li 
+            + You can put large blocks of text in your list by just indenting with two spaces.
+            br 
+            + This is formatted the same as code, but you can inspect the HTML
+            + and find that it&#39;s just wrapped in a
+            code &lt;p&gt;
+            + tag and
+            em 
+                + won&#39;t
+            + be shown
+            + as preformatted text.
+            br 
+            + You can keep adding more and more paragraphs to a single
+            + list item by adding the traditional blank line and then keep
+            + on indenting the paragraphs with two spaces.
+            br 
+            + You really only need to indent the first line,
+    p 
+        + but that looks ugly.
+    br 
+    ul 
+        loose 
+        li 
+            + Lists support blockquotes
+            br 
+            quote 
+                p 
+                    + Just like this example here. By the way, you can
+                    + nest lists inside blockquotes!
+                ul 
+                    li 
+                        + Fantastic!
+        li 
+            + Lists support preformatted text
+            br 
+            code 
+                indented 
+                + You just need to indent an additional four spaces.
+    br 
+    h1 
+        + Even More
+    h2 
+        + Horizontal Rule
+    p 
+        + If you need a horizontal rule you just need to put at least three hyphens, asterisks, or underscores on a line by themselves. You can also even put spaces between the characters.
+    br 
+    hr 
+    hr 
+    hr 
+    p 
+        + Those three all produced horizontal lines. Keep in mind that three hyphens under any text turns that text into a heading, so add a blank like if you use hyphens.
+    br 
+    h2 
+        + Images
+    p 
+        + Images work exactly like links, but they have exclamation points in front. They work with references and titles too.
+    br 
+    p 
+        img 
+            href https://www.google.com/images/errors/logo_sm.gif
+            title 
+        + and
+        img 
+            href https://wpclipart.com/smiley/happy/simple_colors/smiley_face_simple_green_small.png
+            title &quot;Smiley face&quot;
+        + .
+    br 
+    h2 
+        + Inline HTML
+    p 
+        + If markdown is too limiting, you can just insert your own
+        html <strike>
+        + crazy
+        html </strike>
+        + HTML. Span-level HTML
+        html <u>
+        + can
+        em 
+            + still
+        + use markdown
+        html </u>
+        + . Block level elements must be separated from text by a blank line and must not have any spaces before the opening and closing HTML.
+    br 
+    html <div style='font-family: "Comic Sans MS", "Comic Sans", cursive;'>
+It is a pity, but markdown does **not** work in here for most markdown parsers.
+[Marked] handles it pretty well.
+</div>

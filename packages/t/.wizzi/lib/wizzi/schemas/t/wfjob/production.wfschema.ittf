@@ -1,0 +1,66 @@
+﻿$group
+	
+	e line
+		# A line is a group of artifacts having the same source "cwdFolder".
+		
+		a_tag( cwdFolder, cwd-folder )
+			# The source folder of the artifact templates of this line. 
+		
+		a_tag( destFolder, dest-folder )
+			# The destination folder of the generated artifacts of this line. 
+			# Overrides the attribute "destFolder" of the "production" element.
+		
+		r artifact/s
+			# The artifacts of the "line"
+		r comment/s
+	
+	e_tag( lineRef, line-ref )
+		
+		# A reference to a line.
+
+		r comment/s
+	
+	e production
+		# A job execution unit that generates a set of Software artifacts 
+		# into one destination folder.
+		
+		a_tag( destFolder, dest-folder )
+			# The destination folder of the generated artifacts.
+		
+		r modelRef/s
+			# References to the context WizziWodels used by this "production".
+		
+		r lineRef/s
+			# References to the "line(s)" to be generated.
+
+		r comment/s
+		
+		m wzinitialize
+			
+			set this.wfjob = this.wzParent;
+			
+			foreach modelRef in this.modelRefs
+				# loog 'production.wzinitialize.modelRef', modelRef.wzName
+				var model = this.wfjob.getModel(modelRef.wzName)
+				if model == null
+					_ this.error('Model ' + modelRef.wzName + ' not found.', modelRef)
+				set modelRef.___model = model
+
+			set this.lines = [];
+			
+			foreach lineRef in this.lineRefs
+				# loog 'production.wzinitialize.lineRef', lineRef.wzName
+                var line = this.wfjob.getLine(lineRef.wzName)
+				if line == null
+					_ this.error('line ' + lineRef.wzName + ' not found.', lineRef)
+				_ this.lines.push(line)
+				
+				foreach artifact in line.artifacts
+					# loog 'production.wzinitialize.artifact', artifact.wzName
+					
+					foreach modelRef in artifact.modelRefs
+						# loog 'production.wzinitialize.artifact.modelRef', modelRef.wzName
+						var model = this.wfjob.getModel(modelRef.wzName)
+						if model == null
+							_ this.error('Model ' + modelRef.wzName + ' not found.', modelRef)
+						set modelRef.___model = model;

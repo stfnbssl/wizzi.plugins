@@ -1,0 +1,110 @@
+module wizzi.plugin.md@${wzCtx.version}.lib.artifacts.md.document.gen.main
+    kind es6
+    $
+        var md = {
+            plugin: 'wizzi.plugin.md',
+            name: 'tohtml',
+            schema: 'md',
+            checkSchema: true,
+            isAsync: true,
+        };
+    
+    gen( &md )
+        $append imports
+            const wizzi = require('wizzi')
+            const createDOMPurify = require('dompurify')
+            const { JSDOM } = require('jsdom')
+            var marked = require('marked')
+        $append main
+            log '=====================> generateCssDocument'
+            _ generateCssDocument
+                @ model
+                a_cb( cssArtifactText )
+                    log '=====================> generateMdDocument'
+                    _ generateMdDocument
+                        @ model
+                        a_cb( mdArtifactText )
+                            try
+                                const window = new JSDOM('').window
+                                const DOMPurify = createDOMPurify(window);
+                                const clean
+                                    _ DOMPurify.sanitize
+                                        _ marked.parse
+                                            @ mdArtifactText
+                                _ ctx.w 
+                                    _ generateHtml
+                                        @ cssArtifactText
+                                        @ clean
+                                r_cb( ctx )
+                            catch ex
+                                _ callback
+                                    @ ex
+
+    function generateHtml
+        param css
+        param body
+        var sb = []
+        _ sb.push('<html>')
+        _ sb.push('<head>')
+        _ sb.push('<style>')
+        _ sb.push(css)
+        _ sb.push('</style>')
+        _ sb.push('</head>')
+        _ sb.push('<body>')
+        _ sb.push(body)
+        _ sb.push('</body>')
+        _ sb.push('</html>')
+        return sb.join('\n')
+    
+    function createWizziFactory
+        param callback
+        _ wizzi.fsFactory
+            {
+                { plugins
+                    [ items
+                        @ './wizzi.plugin.md/index'
+                        @ './wizzi.plugin.html/index'
+                        @ './wizzi.plugin.css/index'
+                        @ './wizzi.plugin.svg/index'
+                    @ pluginsBaseFolder
+                        _ path.resolve
+                            @ __dirname
+                            @ '..'
+                            @ '..'
+                            @ '..'
+                            @ '..'
+                            @ '..'
+                            @ '..'
+            @ callback
+
+    function generateMdDocument
+        param model
+        param callback
+        var artifactRequestContext
+            {
+        _ createWizziFactory
+            a_cb( wf )
+                _ wf.generateArtifact
+                    @ model
+                    @ 'from artifact md/tohtml'
+                    @ 'md/document'
+                    @ artifactRequestContext
+                    a_cb( artifactText )
+                        # loog 'md/tohtml.artifactText', artifactText
+                        r_cb( artifactText )
+
+    function generateCssDocument
+        param model
+        param callback
+        var artifactRequestContext
+            {
+        _ createWizziFactory
+            a_cb( wf )
+                _ wf.generateArtifact
+                    @ model
+                    @ 'from artifact md/tohtml'
+                    @ 'md/tocss'
+                    @ artifactRequestContext
+                    a_cb( artifactText )
+                        # loog 'md/tocss.artifactText', artifactText
+                        r_cb( artifactText )                        

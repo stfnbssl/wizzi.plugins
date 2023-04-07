@@ -1,0 +1,79 @@
+﻿module 
+    kind jsfile
+
+	#
+		# This basic loader is for testing plugins.
+		# The loadMTree function loads an mTree from a 
+		# single IttfDocument without include, mix, append and evaluate.
+		# Does not require a requestContext.
+		# The IttfDocument must be stored in the
+		# filesystem (mongodb and localstorage store kinds 
+		# are not supported).
+    
+	var util = require('util')
+    var path = require('path')
+	var file = require('./file')
+    var liner = require('./liner')
+    var nodifier = require('./nodifier')
+	var MTree = require('./mTree').MTree
+    
+	var md
+        set module.exports =
+            { 
+    
+	set md.loadMTree
+        function 
+            param primaryIttfDocumentUri
+			param notUsed
+            param callback
+
+			if typeof(callback) !== 'function'
+                throw 
+                    new Error("tests/mocks/basicloader/loadMTree. A callback is required. Uri: " + primaryIttfDocumentUri)
+
+			var sourceText 
+				_ file.read
+					@ primaryIttfDocumentUri
+
+			var mTree = new MTree(primaryIttfDocumentUri)
+			_ mTree.load
+				@ sourceText
+				{
+					@ sourceKey 's1'
+			var nodes = mTree.nodes
+			set mTree.nodes = []
+			foreach item in nodes
+				var final_node = _to_final_mtree(null, item)
+				_ mTree.nodes.push
+					@ final_node
+			return
+				_ callback
+					@ null
+					@ mTree
+
+	function _to_final_mtree
+		param parent
+		param node
+		var final_node
+			{
+				@ parent parent
+				@ children []
+				@ n node.name
+				@ v node.value
+				@ r node.row
+				@ c node.col
+				@ s node.modelKey
+				@ u node.sourceKey
+		foreach item in node.children
+			var final_node_child = _to_final_mtree(final_node, item)
+			_ final_node.children.push
+				@ final_node_child
+		return final_node
+
+	function error
+		param message
+		return
+			{
+				@ __is_error true
+				@ operation 'wizzi-mtree/lib/basicloader/index'
+				@ message message

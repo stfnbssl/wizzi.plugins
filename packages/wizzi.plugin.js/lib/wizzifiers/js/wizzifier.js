@@ -1,7 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.14
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\wizzifiers\js\wizzifier.js.ittf
+    utc time: Fri, 07 Apr 2023 16:29:54 GMT
 */
 'use strict';
 var util = require('util');
@@ -308,26 +309,6 @@ function wizzify(tobeWizzified, options, callback) {
     }
     )
 }
-
-md.getCodeAST = function(input, options, callback) {
-    options = options || {};
-    options.input = input;
-    options.stack = [];
-    options.formatTextNodes = [];
-    options.wizziIncludes = [];
-    options.stateAST = [];
-    var babelOptions = options.babel || {};
-    var syntax;
-    try {
-        syntax = md.parse(input, babelOptions);
-    } 
-    catch (ex) {
-        return callback(ex);
-    } 
-    cleanAST(syntax);
-    callback(null, syntax)
-}
-;
 
 function splitComments(ret) {
     var a = [];

@@ -1,5 +1,5 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\root\index.js.ittf
 */
@@ -18,7 +18,7 @@ var window_modelFactories = {
     'ts': require('./lib/wizzi/models/ts-factory.g')
  };
 var window_artifactGenerators = {
-    'ts/document': require('./lib/artifacts/ts/document/gen/main')
+    'ts/module': require('./lib/artifacts/ts/module/gen/main')
  };
 var window_transformers = {
     'ts/extended': require('./lib/artifacts/ts/extended/trans/main')

@@ -8,7 +8,7 @@ module
         $append plugins
             [ items
                 @ './index.js'
-                @ 'wizzi-js'
+                @ '@wizzi/plugin-js'
             @ pluginsBaseFolder
                 _ path.resolve
                     @ __dirname
@@ -31,7 +31,6 @@ module
                 =>
                     param module
                     param callback
-                    log 'svg.example.executeGenerateModules.module: ' + module
                     var ittfDocumentUri
                         _ path.join
                             @ __dirname
@@ -51,19 +50,18 @@ module
                         @ ittfDocumentUri
                         {
                         a_cb( model )
-                            log 'svg.example.executeGenerateModules.outputLoadedPath: ' + outputLoadedPath
-                            _ file.write
-                                @ outputLoadedPath
-                                _ stringify
-                                    @ model.toJson()
-                                    @ null
-                                    @ 4
+                            if model.toJson && verify.isFunction(model.toJson)
+                                _ file.write
+                                    @ outputLoadedPath
+                                    _ stringify
+                                        @ model.toJson()
+                                        @ null
+                                        @ 4
                             _ loadModelAndTransform
                                 @ ittfDocumentUri
                                 {
                                 @ "svg/extended"
                                 a_cb( model )
-                                    log 'svg.example.executeGenerateModules.outputExtendedPath: ' + outputExtendedPath
                                     _ file.write
                                         @ outputExtendedPath
                                         _ stringify

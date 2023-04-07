@@ -8,12 +8,7 @@ wizzi.plugin.css
 
 <table>
 <tr>
-<th>Schema</th>
-<th>Descriptionn</th>
-<th>Builtin</th>
-<th>Model transformers</th>
-<th>Artifacts</th>
-</tr>
+<th>Schema<th>Descriptionn<th>Builtin<th>Model transformers<th>Artifacts</tr>
 <tr>
 <td>
 <a href https://github.com//wizzi.plugin.css/tree/master/.wizzi/ittf/lib/wizzi/schemas/css.wfschema.ittf>css</a><td>css wizzi schema</td>
@@ -58,10 +53,10 @@ One machinery many productions.
 <p><a href="https://stfnbssl.github.io/wizzi">Project page</a></p>
 
 ## Built With
-* [Nodejs](https://nodejs.org)
-
-* [Wizzi](https://github.com/stfnbssl/wizzi)
-
+    * [Nodejs](https://nodejs.org)
+    
+    * [Wizzi](https://github.com/stfnbssl/wizzi)
+    
 
 ## License
 

@@ -1,0 +1,54 @@
+﻿base_test( model ittf )
+
+	$append imports
+		var ittf_factory = require('../../../lib/wizzi/models/ittf-factory.g')
+		var ittf_artifact = require('../../../lib/artifacts/ittf/document/gen/main')
+
+	var loadModel
+
+	before
+		set loadModel
+			_ ittf_factory.createLoadModel
+				_ getWizziObject
+
+	it-async should load a basic ittf ittf document
+
+		_ loadModel
+			_ path.join
+				@ __dirname
+				@ 'ittf'
+				@ 'basic.ittf.ittf'
+			_ getLoadModelContext
+				{
+			f_cb_test( wizziModel )
+				# log? wizziModel
+				var ctx = new mocks.getGenContext()
+				_ ittf_artifact.gen
+					@ wizziModel
+					@ ctx
+					f_cb_test( result )
+						var artifactText = result.getContent()
+						tobe_string( artifactText, ittf\n    Hello stefi\n )
+						_ done
+						
+
+	it-async should load a mixed ittf ittf document
+
+		_ loadModel
+			_ path.join
+				@ __dirname
+				@ 'ittf'
+				@ 'mixed.ittf.ittf'
+			_ getLoadModelContext
+				{
+			f_cb_test( wizziModel )
+				# log? wizziModel
+				var ctx = new mocks.getGenContext()
+				_ ittf_artifact.gen
+					@ wizziModel
+					@ ctx
+					f_cb_test( result )
+						var artifactText = result.getContent()
+						tobe_string( artifactText, ittf\n    Copyright (c) Wizzi\n )
+						_ done
+						

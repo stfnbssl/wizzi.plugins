@@ -1,0 +1,34 @@
+  module  ids: undefined undefined
+    kind jsfile ids: undefined undefined
+    var toxml = require('./ittf_to_xml') ids: undefined undefined
+    var md ids: undefined undefined
+      set module.exports = ids: undefined undefined
+        {  ids: undefined undefined
+    var myname = 'xml.document.main' ids: undefined undefined
+    set md.gen ids: undefined undefined
+      function  ids: undefined undefined
+        param model ids: undefined undefined
+        param ctx ids: undefined undefined
+        param callback ids: undefined undefined
+        var xml = toxml(model) ids: undefined undefined
+        _ md.element(xml, ctx) ids: undefined undefined
+        _ callback(null, ctx) ids: undefined undefined
+    set md.genItem ids: undefined undefined
+      function  ids: undefined undefined
+        param model ids: undefined undefined
+        param ctx ids: undefined undefined
+        _ ctx.write('<' + model.tag) ids: undefined undefined
+        foreach item in model.attribs ids: undefined undefined
+          _ ctx.write(' ' + item.name + '="') ids: undefined undefined
+          _ ctx.write ids: undefined undefined
+            @ item.value ids: undefined undefined
+          _ ctx.write('"') ids: undefined undefined
+        if model.elements.length > 0 ids: undefined undefined
+          _ ctx.w('>') ids: undefined undefined
+          _ ctx.indent() ids: undefined undefined
+          foreach item in model.elements ids: undefined undefined
+            _ md.element(item, ctx) ids: undefined undefined
+          _ ctx.deindent() ids: undefined undefined
+          _ ctx.w('</' + model.tag + '>') ids: undefined undefined
+        else  ids: undefined undefined
+          _ ctx.w(' />') ids: undefined undefined

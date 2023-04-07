@@ -1,0 +1,16 @@
+﻿$group
+
+	function isAttribute
+		param name
+		# loog 'isAttribute', name
+		return
+			iif attributes.indexOf(name) > -1
+				then true
+				else false 
+
+	var attributes
+		[
+			@ 'xclass/xsuper'
+			@ 'method/xstatic'
+			@ 'property/xstatic'
+			@ 'prop/defaultValue'

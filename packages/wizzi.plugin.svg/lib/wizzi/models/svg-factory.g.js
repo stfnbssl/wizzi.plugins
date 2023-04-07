@@ -1,35 +1,24 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\node_modules\wizzi-legacy-v5\lib\artifacts\js\module\gen\main.js
-    primary source IttfDocument: c:\my\wizzi\stfnbssl\wizzi\packages\wizzi-core\lib\artifacts\wfschema\factory\gen\ittf\wfschema-factory.js.ittf
-    utc time: Fri, 31 Mar 2023 06:28:37 GMT
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@0.7.13
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\lib\artifacts\wfschema\factory\gen\ittf\wfschema-factory.js.ittf
 */
 'use strict';
-/**
-     svg WizziModelFactory
-*/
+//
 var path = require('path');
 var util = require('util');
 var _ = require('lodash');
+
 var stringify = require('json-stringify-safe');
 var svgmTreePreProcessor = require('./svg-mtree-preprocessor.g');
+
 var svgschema = require('./svg-model.g');
+
 var md = module.exports = {};
+
 //
 // called from the wizzi.wizziFactory.getLoadModel method
-/**
-    params
-        { wizziObject
-            func loadMTree
-             api-ref wizzi-mtree.loader.loadMTree
-            { file
-             api-ref wizzi-utils.file
-            { verify
-             api-ref wizzi-utils.verify
-            { errors
-             type WizziModelLoadError
-            { wizziFactory
-             api-ref wizzi.wizziFactory
-*/
+// params
 md.createLoadModel = function(wizziObject) {
     var options = wizziObject.options || {};
     var loadMTree = wizziObject.loadMTree;
@@ -38,13 +27,15 @@ md.createLoadModel = function(wizziObject) {
     var errors = wizziObject.errors;
     var wizziFactory = wizziObject.wizziFactory;
     function loadModelFromMTree(mTree, ittfDocumentUri, wizziModelRequest, options, callback) {
+        
         var start = Date.now(),
             svgmodel;
         if (mTree.nodes.length == 0) {
             var svgmodel = new svgmodelType('EmptyIttfDocument');
         }
+        // Get the model type of the root node of the ittf model.
+        // Load the WizziModel from the root node of the mTree
         else {
-            // Get the model type of the root node of the ittf model.
             var rootNode = mTree.nodes[0];
             var svgmodelType = svgschema[rootNode.n];
             if (!svgmodelType) {
@@ -57,7 +48,6 @@ md.createLoadModel = function(wizziObject) {
                     return callback(error);
                 }
             }
-            // Load the WizziModel from the root node of the mTree
             svgmodel = new svgmodelType(rootNode.v);
             svgmodel.loadHistory = mTree.loadHistory;
             svgmodel.wzFactory = options.wizziFactory;
@@ -86,8 +76,9 @@ md.createLoadModel = function(wizziObject) {
         }
         // TODO implement a stats object inside the wizziModelRequest object
         // _ log.info('Initialized wmt model ' + ittfDocumentUri + ' in ' + (Date.now() - start) + ' ms')
+        
+        // dump for debug
         if ((wizziModelRequest.dumpAll || wizziModelRequest.dumpModel) && svgmodel.toJson && file.isFilePath(ittfDocumentUri)) {
-            // dump for debug
             var mTreeDump = path.join(path.dirname(ittfDocumentUri), '_debug', path.basename(ittfDocumentUri) + '.dump.json');
             file.write(mTreeDump, stringify(svgmodel.toJson(), null, 2));
         }
@@ -96,18 +87,20 @@ md.createLoadModel = function(wizziObject) {
             if (err) {
                 return callback(err, null);
             }
+            
+            // dump for debug
             if ((wizziModelRequest.dumpAll || wizziModelRequest.dumpModelAfterInitializeAsync) && svgmodel.toJson && file.isFilePath(ittfDocumentUri)) {
-                // dump for debug
                 var mTreeDump = path.join(path.dirname(ittfDocumentUri), '_debug', path.basename(ittfDocumentUri) + '.dump.after.initializeasync.json');
                 file.write(mTreeDump, stringify(svgmodel.toJson(), null, 2));
             }
             callback(null, svgmodel);
-        });
+        })
     }
+    
+    /**
+        * Load a WizziModel of type 'svg' from an mTree
+    */
     if (options.loadFromMTree) {
-        /**
-             Load a WizziModel of type 'svg' from an mTree
-        */
         return function(mTree, wizziModelRequest, callback) {
                 if (verify.isFunction(callback) !== true) {
                     callback = wizziModelRequest;
@@ -121,30 +114,30 @@ md.createLoadModel = function(wizziObject) {
                 }
                 loadModelFromMTree(mTree, 'Unavailable (loaded from mTree)', wizziModelRequest || {}, {
                     wizziFactory: wizziFactory
-                }, callback);
+                 }, callback)
             };
     }
+    /**
+        // Load a WizziModel of type 'svg' from an IttfDocument uri
+        // params
+            // string ittfDocumentUri
+            // { loadContext
+                // { __productionManager
+                    // { productionContext
+                        // { aclstat
+                // { __ittfDocumentStore
+                // { mTreeBuildupContext
+                    // optional
+                // { __request
+                    // This is a legacy that should disappear.
+                    // See the wizzi.production.productionContext class.
+                    // boolean dumpAll
+                    // boolean dumpIttfModel
+                    // boolean dumpModel
+                    // boolean dumpModelAfterInitializeAsync
+            // callback
+    */
     else {
-        /**
-             Load a WizziModel of type 'svg' from an IttfDocument uri
-                params
-                 string ittfDocumentUri
-                    { loadContext
-                        { __productionManager
-                            { productionContext
-                             { aclstat
-                     { __ittfDocumentStore
-                        { mTreeBuildupContext
-                         optional
-                        { __request
-                         This is a legacy that should disappear.
-                         See the wizzi.production.productionContext class.
-                         boolean dumpAll
-                         boolean dumpIttfModel
-                         boolean dumpModel
-                         boolean dumpModelAfterInitializeAsync
-                 callback
-        */
         return function loadModel(ittfDocumentUri, loadContext, callback) {
                 if (typeof callback !== 'function') {
                     throw new TypeError('callback must be a function');
@@ -158,7 +151,8 @@ md.createLoadModel = function(wizziObject) {
                 if (verify.isObject(loadContext.__productionManager) !== true) {
                     return callback(error('InvalidArgument', 'loadModel', 'The loadContext.__productionManager parameter must be an object'));
                 }
-                loadContext.mTreeBuildupContext = Object.assign({}, loadContext.__productionManager.globalContext(), loadContext.mTreeBuildupContext);
+                loadContext.mTreeBuildupContext = Object.assign({}, loadContext.__productionManager.globalContext(), loadContext.mTreeBuildupContext)
+                ;
                 var wizziModelRequest = loadContext.__request || {};
                 var start = Date.now();
                 // load the magical tree
@@ -170,16 +164,18 @@ md.createLoadModel = function(wizziObject) {
                     // _ log.info('Loaded Wizzi model instance of schema svg from Ittf document ' + ittfDocumentUri + ' in ' + (Date.now() - start) + ' ms')
                     if ((wizziModelRequest.dumpAll || wizziModelRequest.dumpIttfModel) && file.isFilePath(ittfDocumentUri)) {
                         var ittfDumpPath = path.join(path.dirname(ittfDocumentUri), '_debug', path.basename(ittfDocumentUri) + '.ittf.json');
-                        file.write(ittfDumpPath, stringify(mTree, null, 2));
+                        file.write(ittfDumpPath, stringify(mTree, null, 2))
                     }
-                    mTree = svgmTreePreProcessor(mTree, loadContext);
+                    mTree = svgmTreePreProcessor(mTree, loadContext)
+                    ;
                     loadModelFromMTree(mTree, ittfDocumentUri, wizziModelRequest, {
                         wizziFactory: wizziFactory
-                    }, callback);
-                });
+                     }, callback)
+                })
             };
     }
-};
+}
+;
 function error(code, method, message) {
     return {
             __is_error_: true, 
@@ -187,6 +183,6 @@ function error(code, method, message) {
             method: method, 
             message: message, 
             source: __filename
-        };
+         };
 }
 

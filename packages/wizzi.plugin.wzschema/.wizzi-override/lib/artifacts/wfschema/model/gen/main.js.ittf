@@ -16,7 +16,16 @@
             param callback
             
             # loog 'wizzi-core.wfschema.gen.model started', ittfDocumentPath
-            # loog 'wizzi-core.artifacts.wfschema.model.model', model
+            # loog 'wizzi-core.artifacts.wfschema.model.model', Object.keys(model)
+            
+            $*
+            foreach e in model.elements
+                foreach m in e.methods
+                    foreach s in m.statements
+                        log 'wizzi-core.artifacts.wfschema.model.elements', e.wzName, Object.keys(e)
+                        log 'wizzi-core.artifacts.wfschema.model.elements.methods', m.wzName, Object.keys(m)
+                        log 'wizzi-core.artifacts.wfschema.model.elements.methods.statements', Object.keys(s)
+            *$
 
             var bootWizziModel = new BootWizziSchema(model.wzName)
             _ bootWizziModel.loadFromWizziModel

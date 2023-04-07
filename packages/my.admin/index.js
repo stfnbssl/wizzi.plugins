@@ -37,6 +37,14 @@ folders.forEach(folderName => {
                 packagedata.item.transformations.push(artifactsData.transformations[k]);
             }
         }
+        var wizzifierData = { ok: false, wizzifiers: {} };
+        detectWizzifier(packagedata, ".wizzi-override", wizzifierData);
+        if (wizzifierData.ok) {
+            packagedata.item.wizzifiers = []
+            for (var k in wizzifierData.wizzifiers) {
+                packagedata.item.wizzifiers.push(wizzifierData.wizzifiers[k]);
+            }
+        }
     }
 })
 
@@ -103,7 +111,7 @@ function detectSchemas(packageFolder, packageData) {
                         fullPath: path.join(path.dirname(configModule.wfjobPath), 'lib', 'wizzi', 'schemas', schema + '.wfschema.ittf'),
                         genConfig: configFileObj.name
                     };
-                    data.schemas[schema].content = file.read(data.schemas[schema].fullPath);
+                    try {data.schemas[schema].content = file.read(data.schemas[schema].fullPath);} catch {}
                 }
             });
         }
@@ -165,5 +173,31 @@ function detectArtifacts(packageData, wizziFolder, artifactData) {
     
 }
 
+function detectWizzifier(packageData, wizziFolder, wizzifierData) {
+    
+    var wizzifiersFolder = path.join(packageData.item.fullPath, wizziFolder, 'lib', 'wizzifiers');
+    if (file.exists(wizzifiersFolder)) {
+        var wizzifierFolderSchemas = file.getFolders(
+            wizzifiersFolder,
+            { deep: false }
+        );
+        wizzifierFolderSchemas.forEach(schema => {
+            var wizzifierFullPath = path.join(packageData.item.fullPath, wizziFolder, 'lib', 'wizzifiers', schema, 'wizzifier.js.ittf');
+            if (file.exists(wizzifierFullPath)) {
+                wizzifierData.ok = true;
+                var key = schema;
+                wizzifierData.wizzifiers[key] = {
+                    name: key,
+                    schema: schema,
+                    fullPath: wizzifierFullPath,
+                    content: file.read(wizzifierFullPath)
+                };
+            }
+        });
+    }
+    
+}
+
 file.write('scaffolding.json', JSON.stringify(result, null, 4));
+file.write('C:/My/wizzi/stfnbssl/wizzi.cli/packages/wizzi.cli.meta/src/cmds/data/wizzi.plugins.data.json', JSON.stringify(result, null, 4));
 

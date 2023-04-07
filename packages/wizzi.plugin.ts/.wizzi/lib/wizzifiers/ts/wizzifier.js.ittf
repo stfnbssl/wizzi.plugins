@@ -34,14 +34,14 @@ module
                         		@ sourceType 'module'
                         		@ plugins plugins
                     _ cleanAST(syntax)
+                    return
+                        _ callback
+                            @ null
+                            @ syntax
                 catch ex
                     return
                         _ callback
                             @ ex
-                return
-                    _ callback
-                        @ null
-                        @ syntax
         +
         var format
             function

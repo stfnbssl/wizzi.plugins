@@ -12,31 +12,14 @@ module
                 param tobeWizzified
                 param options
                 param callback
-                var syntax 
-                    _ md_Lexer.lex
-                        @ tobeWizzified
-                $*
-                    {
-                        [ tokens
-                const walkTokens
-                    =>
-                        param token
-                        log 'token', token
-                        _ syntax.tokens.push
-                            @ token
-                _ md_parser.use
-                    { 
-                        @ walkTokens
-                *$
                 try
-                    _ md_parser.parse
-                    	@ tobeWizzified
-                    	a_cb( html )
-                            # _ cleanAST(syntax)
-                            return
-                                _ callback
-                                    @ null
-                                    @ syntax
+                    var syntax 
+                        _ md_Lexer.lex
+                            @ tobeWizzified
+                    return
+                        _ callback
+                            @ null
+                            @ syntax
                 catch ex
                     return
                         _ callback
@@ -56,7 +39,232 @@ module
                 @ options
                 a_cb( syntax )
                     # log stringify(syntax, null, 2)
-                    r_cb( syntax )
+                    var root
+                        {
+                            @ tag '${schemaName}'
+                            [ children
+                    foreach item in syntax
+                        _ format(root, item, options)
+
+                    r_cb( root )
+        +
+        var format
+            function
+                param parent
+                param ast
+                param options
+                if !ast
+                    throw new Error('missing ast. parent is: ' + util.inspect(parent, { depth: 2 }))
+                if parent === null
+                    if options.starter
+                        set options.starter = false
+                    elif options.returnText
+                        # ok
+                    else
+                        _ showstack(options)
+                        throw new Error('parent is null.' + util.inspect(ast, 4))
+                if options.verbose
+                    info 'ast.type', ast.type
+                var type = ast.type === 'arguments' ? 'xarguments' : ast.type
+                var formatter = format[type]
+                if formatter
+                    if !options.stack
+                        log "options.stack", options
+                    _ options.stack.push(ast)
+                    var result = formatter(parent, ast, options)
+                    _ options.stack.pop()
+                    return result
+                else
+                    throw new Error('no formatter for type: ' + ast.type)
+        
+        f( blockquote, quote )
+            # "tokens": [
+            foreach item in node.tokens
+                _ format(ret, item, options)
+        f( code )
+            if verify.isNotEmpty(node.codeBlockStyle)
+                _ format.style
+                    @ ret
+                    {
+                        @ text node.codeBlockStyle
+                    @ options
+            if verify.isNotEmpty(node.lang)
+                _ format.lang
+                    @ ret
+                    {
+                        @ text node.lang
+                    @ options
+            _ format.text
+                @ ret
+                {
+                    @ text node.text
+                    @ tokens node.tokens
+                @ options
+        f( codespan, code )
+            # "text": ""
+            set ret.name = node.text
+        f( del )
+            # "tokens": [
+            foreach item in node.tokens
+                _ format(ret, item, options)
+        f( em )
+            # "tokens": [
+            foreach item in node.tokens
+                _ format(ret, item, options)
+        f( escape )
+        f( heading )
+            # "depth": 1
+            # "tokens": [
+            set ret.tag = 'h' + node.depth
+            foreach item in node.tokens
+                _ format(ret, item, options)
+        f( hr )
+        f( html )
+            set ret.name = node.text
+        f( image, img )
+            _ format.href
+                @ ret
+                {
+                    @ text node.href
+                @ options
+            _ format.title
+                @ ret
+                {
+                    @ text node.title
+                @ options
+        f( link, a )
+            # "href": ""
+            # "title": null
+            # "tokens": [
+            _ format.href
+                @ ret
+                {
+                    @ text node.href
+                @ options
+            _ format.title
+                @ ret
+                {
+                    @ text node.title
+                @ options
+            foreach item in node.tokens
+                _ format(ret, item, options)
+        f( list, ul )
+            # "ordered": false
+            # "start": ""
+            # "loose": false
+            # "items": [
+            if node.ordered
+                _ format.ordered
+                    @ ret
+                    {
+                    @ options
+            if node.loose
+                _ format.loose
+                    @ ret
+                    {
+                    @ options
+            if verify.isNotEmpty(node.start)
+                _ format.start
+                    @ ret
+                    {
+                        @ text node.start
+                    @ options
+            foreach item in node.items
+                _ format(ret, item, options)
+        f( list_item, li )
+            # "task": false
+            # "loose": false
+            # "tokens": [
+            if verify.isNotEmpty(node.task)
+                _ format.task
+                    @ ret
+                    {
+                        @ text node.task
+                    @ options
+            if node.ordered
+                _ format.ordered
+                    @ ret
+                    {
+                    @ options
+            foreach item in node.tokens
+                _ format(ret, item, options)
+        f( paragraph, p )
+            # tokens [
+            # text ""
+            foreach item in node.tokens
+                _ format(ret, item, options)
+        f( space, br )
+        f( strong, b )
+            # tokens [
+            foreach item in node.tokens
+                _ format(ret, item, options)
+        f( table )
+            foreach item in node.header
+                _ format
+                    @ ret
+                    {
+                        @ type "th"
+                        @ item item
+                    @ options
+            foreach item in node.rows
+                _ format
+                    @ ret
+                    {
+                        @ type "tr"
+                        @ items item
+                    @ options
+        f( tr )
+            foreach item in node.items
+                _ format
+                    @ ret
+                    {
+                        @ type "td"
+                        @ item item
+                    @ options
+        f( td )
+            log 'td.node.item', node.item
+            set node.item.type = node.item.type || 'text'
+            _ format(ret, node.item, options)
+        f( th )
+            log 'th.node.item', node.item
+            set node.item.type = node.item.type || 'text'
+            _ format(ret, node.item, options)
+        f( text, +;ret-is-array )
+            if node.tokens
+                foreach item in node.tokens
+                    _ format(ret, item, options)
+                set ret = ret.children 
+            else
+                var retcontainer
+                    {
+                        [ children
+                var ss = node.text.split('\n')
+                set ret.name = ss[0]
+                set retcontainer.children.push(ret)
+                if ss.length > 1
+                    for var i=1; i<ss.length; i++
+                        _ format.text
+                            @ retcontainer
+                            {
+                                @ text ss[i]
+                            @ options
+                set ret = retcontainer.children
+        f( href )
+            set ret.name = node.text
+        f( lang )
+            set ret.name = node.text
+        f( loose )
+        f( ordered )
+        f( start )
+            set ret.name = node.text
+        f( style )
+            set ret.tag = node.text
+        f( task )
+            set ret.name = node.text
+        f( title )
+            set ret.name = node.text
+        +
+        $include helper_functions
         +
         function isKnownType
             param type

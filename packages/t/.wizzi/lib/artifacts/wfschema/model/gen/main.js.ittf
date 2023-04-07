@@ -1,0 +1,40 @@
+﻿module
+	kind jsfile
+
+    var util = require('util')
+    var path = require('path')
+    var legacy = require('../../../../../legacy')
+
+    var md = module.exports = {}
+    var myname = 'wfschema.model.main'
+
+    set md.gen
+        function
+            param model
+            param ctx
+            param callback
+
+            var ittfDocumentPath = path.join(__dirname, 'ittf', 'wfschema-model.js.ittf')
+            # loog 'wizzi-core.wfschema.gen.model started', ittfDocumentPath
+            # loog 'wizzi-core.artifacts.wfschema.model.model', model
+
+            var mTreeBuildupContext
+                {
+                    @ schema model
+                    @ request
+                        {
+                            @ emitKey ctx.emitKey || null
+                            @ toJson model.exportToJson()
+                            @ toXml model.exportToXml()
+                            @ toPrettify model.exportToPrettify()
+            
+            _ legacy.jsModule
+                @ ittfDocumentPath
+                @ mTreeBuildupContext 
+                f_cb_no_err( result )
+                    if err
+                        error __dirname, myname, 'err', err
+                    # loog 'wizzi-core.wfschema.gen.model ended', ittfDocumentPath
+                    _ ctx.w(result)
+                    _ callback(null, ctx)
+

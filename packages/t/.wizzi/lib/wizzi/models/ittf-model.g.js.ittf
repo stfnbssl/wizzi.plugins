@@ -1,0 +1,56 @@
+﻿module
+	kind jsfile
+
+	#
+		# Pseudo schema ittf
+	var util = require('util')
+	var lineparser = require('../../util/lineParser')
+	+
+    set module.exports
+		function
+			param mTree
+			param ittfDocumentUri
+			param request
+			param callback
+
+			if !mTree.nodes || mTree.nodes.length != 1
+				return
+					_ callback
+						_ error
+							@ 'Malformed mTree. Must have one root node. Found mTree.nodes: ' + mTree.nodes.length
+
+			var root = mTree.nodes[0]
+
+			checked_call( ittf )
+				_ toIttfNode
+					@ root
+
+			set ittf.wzElement = 'ittf'
+			set ittf.mTree = mTree
+			
+			return
+				_ callback
+					@ null
+					@ ittf
+
+	function toIttfNode
+		param node
+		var ret
+			{
+				@ name node.n
+				@ value node.v
+				@ children []
+		if node.children
+			foreach child in node.children
+				_ ret.children.push
+					_ toIttfNode
+						@ child
+		return ret
+
+	function error
+		param message
+		return
+			{
+				@ __is_error true
+				@ source 'wizzi-core/lib/wizzi/models/ittf-model.g'
+				@ message message

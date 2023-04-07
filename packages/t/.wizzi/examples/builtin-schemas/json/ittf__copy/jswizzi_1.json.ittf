@@ -1,0 +1,18 @@
+﻿{
+    kind "grid"
+    $
+        var cgs = ['xx','yy'];
+
+
+    $foreach cg in cgs
+        
+        $
+            $.n();
+            for (var ii = 0; ii < $60.children.length; ii++) {
+                _.log ( $60.children[ii].n, $60.children[ii].v );
+            }
+
+        { tot
+            num "${cg}"
+            count "${cg_count}"
+            index "${cg_index}"

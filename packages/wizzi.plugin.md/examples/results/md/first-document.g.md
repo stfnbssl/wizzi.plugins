@@ -1,0 +1,67 @@
+
+<div><style>p { color:darkgreen; }
+</style><p>Hello world by colored div
+</p></div>
+
+
+<div>Hello world by div
+</div>
+
+# Heading 1
+## Heading 2
+### Heading 3
+#### Heading 4
+##### Heading 5
+##### Heading 6
+[link to](http:/wizzi-factory.org)
+line p 1
+
+line p 2
+
+line p 3
+
+* * *
+`line + 1`
+`line + 2`
+`line + 3`
+ul list
+
+    * item 1 
+    * item 2 
+    * item 3 
+ol list
+
+* item 1 
+* item 2 
+* item 3 
+![](xxx)
+```javascript
+var i
+
+for (i = 0; i <10; i++) {
+
+}
+
+```
+
+<table>
+<tr>
+<td>column 1.1</td>
+<td>column 1.2</td>
+</tr>
+<tr>
+<td>column 2.1</td>
+<td>column 2.2</td>
+</tr>
+</table>
+
+* * *
+<!doctype html>
+<html>
+<header>
+    <ul>
+        <li>Hello</li>
+    </ul>
+</header>
+
+</html>

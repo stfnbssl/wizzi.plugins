@@ -1,5 +1,5 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\.wizzi-override\lib\artifacts\wfschema\bootstrap\wfschema-boot-model.js.ittf
 */
@@ -106,6 +106,8 @@ var Node = (function () {
         return item;
     }
     Node.prototype.importMethods = function(other) {
+        if (other.methods.length > 0) {
+        }
         var i, i_items=other.methods, i_len=other.methods.length, methodFrom;
         for (i=0; i<i_len; i++) {
             methodFrom = other.methods[i];
@@ -1304,6 +1306,7 @@ var Method = (function (Node) {
         }
         var json = this.stringifyWizziStatement(_statement, null);
         var item = new Statement(stringify(json));
+        // VIA var item = new Statement('[]')
         item.codeLines = _codeLines;
         item.wzParent = this;
         this.statements.push(item);
@@ -1511,6 +1514,10 @@ var WizziSchema = (function (Node) {
             var j, j_items=element.methods, j_len=element.methods.length, method;
             for (j=0; j<j_len; j++) {
                 method = element.methods[j];
+                var k, k_items=method.statements, k_len=method.statements.length, statement;
+                for (k=0; k<k_len; k++) {
+                    statement = method.statements[k];
+                }
                 var k, k_items=method.requires, k_len=method.requires.length, require;
                 for (k=0; k<k_len; k++) {
                     require = method.requires[k];
@@ -1617,13 +1624,11 @@ var WizziSchema = (function (Node) {
     }
     //
     WizziSchema.prototype.loadFromWizziModel = function(wfschemaWizziModel, ctx, callback) {
-        console.log('-----------------> enter loadFromWizziModel', __filename);
         exec_loadFromWizziModel_asyncs(wfschemaWizziModel, ctx, (err, notUsed) => {
         
             if (err) {
                 return callback(err);
             }
-            console.log('exec_loadFromWizziModel_asyncs.result', 'err', err, 'done', __filename);
             this.wzName = wfschemaWizziModel.wzName;
             this.unknownElementReplacer = wfschemaWizziModel.unknownElementReplacer || false;
             this.mTreeIsPreprocessed = wfschemaWizziModel.mTreeIsPreprocessed || false;
@@ -1713,7 +1718,6 @@ var WizziSchema = (function (Node) {
     }
     function exec_loadFromWizziModel_asyncs(wfschemaWizziModel, ctx, callback) {
         const jsIncludes = collectJsIncludes(wfschemaWizziModel);
-        console.log('exec_loadFromWizziModel_asyncs.jsIncludes', jsIncludes.length, __filename);
         async.map(jsIncludes, function(item, callback) {
             item.get_js((err, wizziModel) => {
             
@@ -1721,13 +1725,11 @@ var WizziSchema = (function (Node) {
                     return callback(err);
                 }
                 item.__wizziModel = wizziModel;
-                console.log('==================> statementFrom.get_js.wizziModel', wizziModel.wzElement, wizziModel.wzName, Object.keys(wizziModel), __filename);
                 ctx.wizziFactory.generateArtifact(wizziModel, 'generated from wfschema model', 'js/module', {}, (err, artifactText) => {
                 
                     if (err) {
                         return callback(err);
                     }
-                    console.log('==================> statementFrom.get_js.artifactText', artifactText, __filename);
                     const lines = artifactText.split('\n');
                     item.__codeLines = [];
                     var i, i_items=lines, i_len=lines.length, line;
@@ -1746,7 +1748,10 @@ var WizziSchema = (function (Node) {
             )
         }, (err, result) => {
         
-            console.log('++++++', err, result, __filename);
+            if (err) {
+                console.log("[31m%s[0m", err);
+                callback(err)
+            }
             return callback(null, result);
         }
         , callback)
@@ -1767,11 +1772,10 @@ var WizziSchema = (function (Node) {
         var i, i_items=wfschemaWizziModel.methods, i_len=wfschemaWizziModel.methods.length, methodFrom;
         for (i=0; i<i_len; i++) {
             methodFrom = wfschemaWizziModel.methods[i];
-            console.log('methodFrom.wzName', methodFrom.wzName, __filename);
+            // loog 'methodFrom.wzName', methodFrom.wzName
             var j, j_items=methodFrom.statements, j_len=methodFrom.statements.length, statementFrom;
             for (j=0; j<j_len; j++) {
                 statementFrom = methodFrom.statements[j];
-                console.log('statementFrom.wzName', statementFrom.wzElement, statementFrom.wzName, statementFrom.get_js, __filename);
                 if (statementFrom.get_js) {
                     ret.push(statementFrom)
                 }
@@ -1780,15 +1784,15 @@ var WizziSchema = (function (Node) {
         var i, i_items=wfschemaWizziModel.elements, i_len=wfschemaWizziModel.elements.length, eFrom;
         for (i=0; i<i_len; i++) {
             eFrom = wfschemaWizziModel.elements[i];
-            console.log('eFrom.wzName', eFrom.wzName, __filename);
+            // loog 'eFrom.wzName', eFrom.wzName
             var j, j_items=eFrom.methods, j_len=eFrom.methods.length, methodFrom;
             for (j=0; j<j_len; j++) {
                 methodFrom = eFrom.methods[j];
-                console.log('methodFrom.wzName', methodFrom.wzName, __filename);
+                // loog 'methodFrom.wzName', methodFrom.wzName
                 var k, k_items=methodFrom.statements, k_len=methodFrom.statements.length, statementFrom;
                 for (k=0; k<k_len; k++) {
                     statementFrom = methodFrom.statements[k];
-                    console.log('statementFrom.wzName', statementFrom.wzElement, statementFrom.wzName, statementFrom.get_js, __filename);
+                    // loog 'statementFrom.wzName', statementFrom.wzElement, statementFrom.wzName, statementFrom.get_js
                     if (statementFrom.get_js) {
                         ret.push(statementFrom)
                     }

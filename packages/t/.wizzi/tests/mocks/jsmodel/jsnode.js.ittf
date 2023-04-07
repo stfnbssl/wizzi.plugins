@@ -1,0 +1,93 @@
+﻿module
+	kind jsfile
+
+	var _ = require('lodash')
+
+	$include jsnode/keywords
+	$include jsnode/attributes
+
+	class JsNode
+		ctor
+			param element
+			param name
+			set this.wzElement = checkKeyword(element)
+			set this.wzName = name || ''
+			set this.statements = []
+			set this.wzParent = null
+
+		m addStatement
+			param element
+			param name
+			# loog 'addStatement', element, name, checkKeyword(element)
+			if isAttribute(this.wzElement + '/' + checkKeyword(element))
+				set this[checkKeyword(element)] = name
+				return this
+			else
+				var s = new JsNode(element, name)
+				set s.wzParent = this
+				_ this.statements.push(s)
+				return s
+
+		m getParams
+			if !this.params
+				set this.params = []
+				var stms = []
+				foreach item in this.statements
+					if item.wzElement == 'param'
+						# loog 'param', item.wzName
+						_ this.params.push(item.wzName)
+					else
+						_ stms.push(item)
+				set this.statements = stms
+			return this.params
+
+		m findCtor
+			return 
+				_ _.find
+					@ this.statements
+					function
+						param item
+						return item.wzElement === 'ctor'
+
+		m getBaseArgs
+			param name
+			if !this.bases
+				set this.bases = []
+				var stms = []
+				foreach item in this.statements
+					if item.wzElement == 'base'
+						# loog 'base', item.wzName
+						_ this.bases.push(item)
+					else
+						_ stms.push(item)
+				set this.statements = stms
+			var found = null
+			_ this.bases.forEach
+				function
+					param item
+					set found = found || (item.wzName === name ? item : null)
+					return found
+
+		m loadFromMTree
+			param mTree
+			+
+			if mTree.nodes.length != 1
+				throw new Error('JsNode.loadFromMTree error: mTree.nodes.length must be == 1')
+			var n = mTree.nodes[0]
+			set this.wzElement = checkKeyword(n.n)
+			set this.wzName = checkKeyword(n.v)
+			+
+			foreach item in n.children
+				_ statement(this, item)
+			+
+			function statement
+				param jsnode
+				param node
+				var c_jsnode
+					_ jsnode.addStatement
+						@ node.n
+						@ node.v
+				foreach item in node.children
+					_ statement(c_jsnode, item)
+
+	set module.exports = JsNode

@@ -1,5 +1,5 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\examples\ts_document.js.ittf
 */
@@ -47,7 +47,7 @@ function executeExample() {
                 if (wizziModel.toJson) {
                     file.write(outputPath + '.json', stringify(wizziModel.toJson(), null, 4))
                 }
-                loadModelAndGenerateArtifact(ittfDocumentUri, {}, 'ts/document', (err, artifactText) => {
+                loadModelAndGenerateArtifact(ittfDocumentUri, {}, 'ts/module', (err, artifactText) => {
                 
                     if (err) {
                         return callback(err);

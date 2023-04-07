@@ -1,0 +1,62 @@
+module
+    kind es6
+    $
+        var md = {
+            name: 'md',
+            artifact: 'tohtml',
+        };
+    v08/examples/plugin( &md )
+        $append plugins
+            [ items
+                @ './wizzi.plugin.md/index.js'
+                @ './wizzi.plugin.html/index.js'
+                @ './wizzi.plugin.css/index.js'
+                @ './wizzi.plugin.svg/index.js'
+            @ pluginsBaseFolder
+                _ path.resolve
+                    @ __dirname
+                    @ '..'
+                    @ '..'
+        let arg = process.argv[2]
+        const moduleName = arg && arg.length > 0 ? arg : 'first'
+        _ executeGenerateModules
+            [
+                @ moduleName
+            a_cb_no_throw( result )
+                if err
+                    error 'md/document.examples.executeGenerateModules.err', err
+                    error 'md/document.examples.executeGenerateModules.err.toString()', err.toString()
+                    if err.inner
+                        error 'md/document.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
+                else
+        function executeGenerateModules
+            param modules
+            param callback
+            _ async.mapSeries
+                @ modules
+                =>
+                    param module
+                    param callback
+                    log 'md/document.example.executeGenerateModules.module: ' + module
+                    var ittfDocumentUri
+                        _ path.join
+                            @ __dirname
+                            @ 'ittf'
+                            @ module + '.md.ittf'
+                    var outputPath
+                        _ path.join
+                            @ __dirname
+                            @ 'results'
+                            @ 'md'
+                            @ module + '-tohtml.g.html'
+                    _ loadModelAndGenerateArtifact
+                        @ ittfDocumentUri
+                        {
+                        @ 'md/tohtml'
+                        a_cb( artifactText )
+                            log 'md/document.example.executeGenerateModules.outputPath: ' + outputPath
+                            _ file.write
+                                @ outputPath
+                                @ artifactText
+                            r_cb( artifactText )
+                @ callback

@@ -1,0 +1,14 @@
+﻿artifact( xml, export )
+    
+	$append main
+		var xml
+		if model.toXml
+			set xml
+				_ model.toXml()
+		else
+			return
+				_ callback
+					_ error
+						@ 'The model has no toXml method'
+		_ ctx.w
+			@ xml

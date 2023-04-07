@@ -1,7 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.14
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.md\.wizzi-override\lib\artifacts\md\document\gen\main.js.ittf
+    utc time: Fri, 07 Apr 2023 21:14:22 GMT
 */
 'use strict';
 
@@ -12,7 +13,7 @@ var async = require('async');
 var verify = require('wizzi-utils').verify;
 var lineparser = require('wizzi-utils').helpers.lineparser;
 var errors = require('../../../../../errors');
-// var included_writers = require('./included_writers')
+var included_writers = require('./included_writers');
 
 var myname = 'wizzi.plugin.md.artifacts.md.document.gen.main';
 
@@ -27,7 +28,7 @@ md.gen = function(model, ctx, callback) {
         return callback(error('InvalidArgument', 'gen', 'The model parameter must be an object. Received: ' + model, model));
     }
     if (model.wzElement !== 'md') {
-        callback(error('InvalidArgument', 'gen', 'Invalid model schema. Expected root element "md". Received: ' + model.wzElement, model))
+        return callback(error('InvalidArgument', 'gen', 'Invalid model schema. Expected root element "md". Received: ' + model.wzElement, model));
     }
     try {
         md.md(model, ctx, (err, notUsed) => {
@@ -48,7 +49,7 @@ md.gen = function(model, ctx, callback) {
     catch (ex) {
         return callback(error('Exception', 'gen', 'An exception encountered during generation', model, ex));
     } 
-    function terminate_gen(model, ctx) {
+    function terminate_gen(model, ctx, callback) {
         if (ctx.artifactGenerationErrors.length > 0) {
             return callback(ctx.artifactGenerationErrors);
         }
@@ -654,8 +655,10 @@ md.comment = function(model, ctx, callback) {
     return callback(null);
 }
 ;
+
 md.writeHtml = function(tag, model, ctx, callback) {
     var saveIsHtml = ctx.isHtml;
+    var saveIsCode = ctx.isCode;
     ctx.isHtml = true;
     if (!saveIsHtml) {
         ctx.w();
@@ -667,12 +670,13 @@ md.writeHtml = function(tag, model, ctx, callback) {
         var nv = verify.parseNameValue(a.wzName, a);
         ctx.write(' ' + nv.name() + '="' + nv.value() + '"');
     }
-    if (model.wzName.length > 0) {
+    if (model.wzElement != 'element' && model.wzName.length > 0) {
         ctx.write('>' + model.wzName);
     }
     else {
         ctx.write('>');
     }
+    ctx.isCode = true;
     md.genItems(model.elements, ctx, {
         indent: false, 
         from: 0
@@ -687,14 +691,17 @@ md.writeHtml = function(tag, model, ctx, callback) {
             ctx.w();
         }
         ctx.isHtml = saveIsHtml;
+        ctx.isCode = saveIsCode;
         return callback(null);
     }
     )
 }
 ;
+
 function isLineTag(model) {
     return ['p', 'br'].indexOf(model.wzElement) > -1;
 }
+
 var knownAttributes = [
     'href', 
     'src', 
@@ -702,6 +709,7 @@ var knownAttributes = [
     'id', 
     'alt'
 ];
+
 function getAttributes(model) {
     var ret = [];
     var i, i_items=model.attributes, i_len=model.attributes.length, a;
@@ -720,6 +728,28 @@ function getAttributes(model) {
     }
     return ret;
 }
+md.htmlInclude = function(model, ctx, callback) {
+    if (model.get_html) {
+        included_writers.writeIncludeHtml(ctx, model, (err, notUsed) => {
+        
+            if (err) {
+                return callback(err);
+            }
+            return callback(null, true);
+        }
+        )
+    }
+    else {
+        return callback(null, true);
+    }
+}
+;
+md.cssInclude = function(model, ctx, callback) {
+    // do nothing, css must be produced by the 'tocss' artifact generator
+    return callback(null, true);
+}
+;
+
 var noattrs = [
     'wzTag', 
     'wzName', 
@@ -728,6 +758,7 @@ var noattrs = [
     'wzSourceLineInfo', 
     '___exportName'
 ];
+
 function isAttrValue(a, v) {
     if (noattrs.indexOf(a) > -1) {
         return false;
@@ -737,6 +768,7 @@ function isAttrValue(a, v) {
     }
     return true;
 }
+
 function getAttrs(e) {
     var retval = [];
     for (var a in e) {

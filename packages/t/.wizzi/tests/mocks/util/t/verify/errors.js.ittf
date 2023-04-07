@@ -1,0 +1,108 @@
+﻿$group
+
+	set md.code
+        { 
+            @ FATAL_ERROR 1
+            @ WARNING 10
+	
+	set md.error
+        function 
+			var 
+				decl args = Array.prototype.slice.call(arguments, 0)
+				decl name = null
+				decl inner = null
+				decl shortmessage = null
+				decl message = null
+				decl info = {}
+				decl sprintf_args = []
+			
+			foreach arg in args
+				if md.isError(arg)
+					set inner = arg
+				elif typeof (arg) === 'object' && sprintf_args.length == 0
+					for var k in arg
+						if k === 'name'
+							_ md.assert.notEmpty
+								@ arg[k]
+								@ 'error\'s "name" must be a string. Received: ' + util.inspect(arg[k], { depth: null })
+							set name = arg[k]
+						else
+							set info[k] = arg[k]
+				else
+					if sprintf_args.length == 0 && arg === null || typeof(arg) === 'undefined'
+						# skip empty inner error or empty object
+					else
+						_ sprintf_args.push(arg)
+			
+			if sprintf_args.length > 0
+				_ md.assert.notEmpty
+					@ sprintf_args[0]
+					@ 'First sprintf argument to wzError ' +
+						\b 'constructor must be a string. Received: ' + util.inspect(sprintf_args[0], { depth: null })
+			
+			set shortmessage
+				iif sprintf_args.length === 0
+					then ''
+					else sprintf.apply(null, sprintf_args)
+
+			set message = shortmessage
+			if inner && md.isError(inner)
+				set message += ': ' + inner.message
+			
+			return 
+				new wzError
+					@ name
+					@ inner
+					@ shortmessage
+					@ message
+					@ info
+
+	set md.fatal
+        function 
+            param err
+            param errcode
+            
+			error 'wizzi-utils.errors.fatal', util.inspect(err, { depth: null })
+			throw new Error(err)
+			_ logerror
+				@ "Fatal error: " + String(err.message || err)
+            
+			_ dumpStack
+				@ err
+            
+			var code
+                iif typeof(errcode) === 'number'
+                    then errcode
+                    else 
+                        set md.code.FATAL_ERROR
+			_ process.exit
+				@ code
+
+	function loginfo
+        param msg
+        _ console.log(msg)
+
+	function logwarn
+        param msg
+        _ console.log
+            _ chalk.yellow(msg)
+    
+	function logerror
+        param msg
+        _ console.log
+            _ chalk.red(msg)
+
+	function dumpStack
+        param e
+        if e.origError && e.origError.stack
+            _ loginfo
+                @ e.origError.stack
+        elif e.stack
+            _ loginfo
+                @ e.stack
+		else
+			_ loginfo
+				new Error().stack
+
+
+    

@@ -1,0 +1,31 @@
+﻿artifact( ittf, document, noschemacheck )
+    
+	$append main
+		_ toIttf
+			@ model
+			@ ctx
+
+	function toIttf
+		param node
+		param ctx
+        var n = node.n || node.name
+        var v = node.v || node.value || ''
+        if n == '---' && v.length == 0
+            _ ctx.write()
+        elif n == '\\---' && v.length == 0
+            _ ctx.write('---')
+        else
+            _ ctx.write(n)
+		if node.v && node.v.length > 0
+			_ ctx.w(' ' + node.v)
+		elif node.value && node.value.length > 0
+			_ ctx.w(' ' + node.value)
+		else
+			_ ctx.w()
+		if node.children && node.children.length > 0
+			_ ctx.indent
+			foreach child in node.children
+				_ toIttf
+					@ child
+					@ ctx
+			_ ctx.deindent   

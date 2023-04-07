@@ -9,7 +9,7 @@ module
         $append plugins
             [ items
                 @ './index.js'
-                @ 'wizzi-js'
+                @ '@wizzi/plugin-js'
             @ pluginsBaseFolder
                 _ path.resolve
                     @ __dirname
@@ -34,7 +34,6 @@ module
                 =>
                     param module
                     param callback
-                    log 'svg/document.example.executeGenerateModules.module: ' + module
                     var ittfDocumentUri
                         _ path.join
                             @ __dirname
@@ -51,7 +50,6 @@ module
                         {
                         @ 'svg/document'
                         a_cb( artifactText )
-                            log 'svg/document.example.executeGenerateModules.outputPath: ' + outputPath
                             _ file.write
                                 @ outputPath
                                 @ artifactText

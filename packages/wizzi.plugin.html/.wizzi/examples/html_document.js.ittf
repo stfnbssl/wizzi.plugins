@@ -9,8 +9,10 @@ module
         $append plugins
             [ items
                 @ './index.js'
-                @ 'wizzi-js'
-                @ 'wizzi-web'
+                @ '@wizzi/plugin.js'
+                @ '@wizzi/plugin.css'
+                @ '@wizzi/plugin.svg'
+                @ '@wizzi/plugin.vtt'
             @ pluginsBaseFolder
                 _ path.resolve
                     @ __dirname
@@ -35,7 +37,6 @@ module
                 =>
                     param module
                     param callback
-                    log 'html/document.example.executeGenerateModules.module: ' + module
                     var ittfDocumentUri
                         _ path.join
                             @ __dirname
@@ -52,7 +53,6 @@ module
                         {
                         @ 'html/document'
                         a_cb( artifactText )
-                            log 'html/document.example.executeGenerateModules.outputPath: ' + outputPath
                             _ file.write
                                 @ outputPath
                                 @ artifactText

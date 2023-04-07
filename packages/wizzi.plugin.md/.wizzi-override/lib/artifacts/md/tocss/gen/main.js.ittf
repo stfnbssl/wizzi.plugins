@@ -1,0 +1,51 @@
+module wizzi.plugin.md@${wzCtx.version}.lib.artifacts.md.tocss.gen.main
+    kind es6
+    $
+        var md = {
+            plugin: 'wizzi.plugin.md',
+            name: 'tocss',
+            schema: 'md',
+            checkSchema: true,
+            isAsync: true,
+        };
+    
+    gen( &md )
+        $append imports
+            var included_writers = require('./included_writers')
+        $append main
+            _ md.md
+                @ model
+                @ ctx
+                a_cb( )
+                    if ctx.artifactGenerationErrors.length > 0
+                        r_cb_err( ctx.artifactGenerationErrors )
+                    else
+                        # generation OK
+                        r_cb( ctx )
+        
+        async-md( md )
+            _ async.mapSeries
+                @ model.elements
+                =>
+                    param childmodel
+                    param callback
+                    if childmodel.wzElement == 'cssInclude'
+                        _ md.cssInclude
+                            @ childmodel
+                            @ ctx
+                            @ callback
+                    else
+                        r_cb()
+                a_cb()
+                    r_cb()
+    
+    async-md( cssInclude )
+        if model.get_css
+            _ included_writers.writeIncludeCss
+                @ ctx
+                @ model
+                a_cb( notUsed )
+                    r_cb( true )
+        else
+            r_cb( true )
+

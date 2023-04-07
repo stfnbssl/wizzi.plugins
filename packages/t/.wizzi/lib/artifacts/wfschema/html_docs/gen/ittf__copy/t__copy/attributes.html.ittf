@@ -1,0 +1,40 @@
+﻿$group
+
+	h5 Attributes
+	small 
+		table( 100 )
+			thead
+				tr
+					th Name
+					th Tag
+					th Type
+					th Default
+					th Inherited
+					th Flags
+					th Description
+			tbody
+				$foreach attribute in element.attributes
+					tr
+						td ${attribute.name}
+						$if attribute.tags
+							td ${attribute.tags.join('|')}
+						td ${attribute.type}
+						td ${attribute.default}
+						td ${attribute.inheritedFrom}
+						td ${attribute.flags}
+						td
+							$if attribute.comments.length > 0
+								div
+									$foreach comment in attribute.comments
+										span ${comment} &nbsp;
+							$if attribute.restricts.length > 0
+								h5 restrict
+								$foreach restrict in attribute.restricts
+									$foreach facet in restrict.facets
+										table
+											tr
+												td ${facet.name} ${facet.value}
+												td
+													$foreach comment in facet.comments
+														span ${comment} &nbsp;
+

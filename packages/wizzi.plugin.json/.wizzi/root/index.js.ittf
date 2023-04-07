@@ -21,7 +21,9 @@ module
             @ 'json/extended' require('./lib/artifacts/json/extended/trans/main')
     var window_wizzifiers
         {
-            @ 'json/wizzifier' require('./lib/wizzifiers/json/wizzifier')
+            $if wzCtx.Schemas && wzCtx.Schemas.length > 0
+                $if wzCtx.Schemas[0].hasWizzifier
+                    @ '${wzCtx.Schemas[0].name}/wizzifier' require('./lib/wizzifiers/${wzCtx.Schemas[0].name}/wizzifier')
     var window_schemaDefinitions
         {
     +

@@ -1,0 +1,55 @@
+﻿wfschema wfschema
+
+	e comment
+		# A comment line for describing entities.
+		tag #
+		r comment/s
+
+	e schemaitem : comment
+	
+	e wfschema : schemaitem
+		# The root element of a wizzi factory schema.
+		is-root
+		
+		a_tag_flag( preserveTags, preserve-tags )
+			# If declared, the WizziModelLoader will preserve, in the loaded WizziModelInstance,
+			# the tags used in the source IttfDocuments.
+
+		a_tag_flag( mTreeIsPreprocessed, mtree-is-preprocessed )
+			# If declared, the WizziModelLoader will preprocess the builded mTree 
+			# before loading the WizziModelInstance,
+
+		a_tag( unknownElementReplacer, unknown-element-replacer )
+			# v4 (pre-release) implementation
+
+		r element/s
+		# r include/s
+		
+		r exportTo/s
+		r require/s
+		r method/s
+		r declare/s
+
+	e include : schemaitem
+		# Represent the root node of another external schema.
+		# The wzName contains a blank separated name-value pair:
+		# - the name is the type name of the external wfschema
+		# - the value is the wzTag of the root node of the external wfschema (defaults to name)
+		# see wizzi/models/bootstrap/t/wfschema/include.js.ittf
+		# examples
+		#   include js module
+		#   - js : the external wfschema
+		#   - module : the wzTag of the root node of the js wfschema 
+		#   include css
+		#   - css : the external wfschema
+		#   - css : the wzTag of the root node of the css wfschema 
+		# Children nodes will be loaded by the model factory of the external schema,
+		# whose plugin must be listed in the plugin configuration when creating
+		# the wizzi.wizziFactory instance.
+	
+	$include wfschema/element
+	$include wfschema/attribute
+	$include wfschema/relation
+	$include wfschema/restrict
+	$include wfschema/code
+	$include wfschema/statements

@@ -4,13 +4,49 @@ $group
         @azure/identity "^2.0.4"
         @azure/keyvault-secrets "^4.4.0"
     
-    $if wzCtx.Build.useBabel
-        $if wzCtx.Build.babel.useParser
-            @babel/parser "^7.12.16"
-        $if wzCtx.Build.useRegeneratorRuntime
-            @babel/polyfill "^7.12.1"
-        $if wzCtx.Build.babel.useRuntime
-            @babel/runtime "^7.12.5"
+    $
+        var use_babel_cli = wzCtx.Build.useBabelNode
+            || wzCtx.Build.useBabelParser;
+        var use_babel_core = wzCtx.Build.useBabelParser;
+        var use_babel_parser = (wzCtx.Build.useBabel && wzCtx.Build.babel.useParser)
+            || wzCtx.Build.useBabelParser;
+        var use_babel_polyfill = wzCtx.Build.useBabel
+            && wzCtx.Build.babel.useRegeneratorRuntime
+        var use_babel_runtime = wzCtx.Build.useBabel
+            && wzCtx.Build.babel.useRuntime
+        var use_babel_preset_typescript = (wzCtx.Build.useBabel && wzCtx.Build.useTypescript)
+            || wzCtx.Build.useBabelParserTypescript;
+        var use_babel_preset_env = wzCtx.Build.useBabel
+            || wzCtx.Build.useBabelNode
+            || wzCtx.Build.useTypescript;
+        var use_babel_plugin_proposal_class_properties = wzCtx.Build.useBabel
+            || wzCtx.Build.useBabelParser;
+        var use_babel_plugin_proposal_class_properties = wzCtx.Build.useBabel
+            || wzCtx.Build.useBabelParser;
+        var use_babel_plugin_proposal_object_rest_spread = wzCtx.Build.useBabel
+            || wzCtx.Build.useBabelParser;
+        var use_babel_plugin_proposal_decorators = wzCtx.Build.useBabelParser;
+        var use_babel_plugin_transform_object_assign = wzCtx.Build.useBabel;
+    $if use_babel_cli
+        @babel/cli "^7.2.0"
+    $if use_babel_core
+        @babel/core "^7.2.2"
+    $if use_babel_parser
+        @babel/parser "latest"
+    $if use_babel_plugin_proposal_decorators
+        @babel/plugin-proposal-decorators "latest"
+    $if use_babel_polyfill
+        @babel/polyfill "^7.2.5"
+    $if use_babel_preset_env
+        @babel/preset-env "^7.2.0"
+    $if use_babel_preset_typescript
+        @babel/preset-typescript "^7.1.0"
+    $if use_babel_plugin_proposal_class_properties
+        @babel/plugin-proposal-class-properties "latest"
+    $if use_babel_plugin_proposal_object_rest_spread
+        @babel/plugin-proposal-object-rest-spread "latest"
+    $if use_babel_runtime
+        @babel/runtime "^7.12.5"
     $if wzCtx.Build.useReact && wzCtx.Build.react.useMui
         @emotion/react "latest"
         @emotion/styled "latest"
@@ -52,6 +88,18 @@ $group
     $if wzCtx.Build.useReact &&  wzCtx.Build.react.useMarkdownPreview
         @uiw/react-markdown-preview "latest"
     
+    $if wzCtx.Build.isWizziPlugin && wzCtx.Build.useWizziV08
+        @wizzi/mtree "latest"
+        @wizzi/utils "latest"
+        $foreach schema in wzCtx.Schemas
+            $foreach include in schema.includes
+                @wizzi/plugin.${include.name} "latest"
+    $if wzCtx.Build.useWizzi && wzCtx.Build.wizzi.useV08
+        @wizzi/factory "latest"
+        @wizzi/utils "latest"
+        $foreach item in wzCtx.Build.wizzi.v08.plugins
+            @wizzi/plugin.${item} "latest"
+    
     $if wzCtx.Build.useAuthentication
         argon2 "^0.30.3"
     $if wzCtx.Build.useAphrodite
@@ -65,6 +113,8 @@ $group
     $if wzCtx.Build.useExpress
         $if wzCtx.Build.useNetlify
             aws-serverless-express "^3.2.0"
+    $if wzCtx.Build.useBabelParser
+        babel-plugin-parameter-decorator "latest"
     $if wzCtx.Build.useExpress
         body-parser "^1.18.3"
     $if wzCtx.Build.useBootstrap
@@ -91,6 +141,8 @@ $group
         cors "^2.8.4"
     $if wzCtx.Build.useCrypto
         crypto "^1.0.1"
+    $if wzCtx.Build.useCssParser
+        css "^3.0.0"
     
     $if wzCtx.Build.utils.useDateFns || wzCtx.Build.useReact && wzCtx.Build.react.useDate
         date-fns "^2.0.0"
@@ -102,6 +154,8 @@ $group
         debug "~2.6.9"
     $if wzCtx.Build.utils.useDiffMatchPatch
         diff-match-patch "^1.0.5"
+    $if wzCtx.Build.useDomPurify
+        dompurify "^3.0.1"
     $if wzCtx.Build.useDomHelpers
         dom-helpers "^3.4.0"
     
@@ -138,7 +192,7 @@ $group
             gatsby "^2.32.3"
     $if wzCtx.Build.utils.useGitUrlParse
         git-url-parse "^11.4.4"
-    $if wzCtx.Build.useGraphql
+    $if wzCtx.Build.useGraphqlParser
         graphql "^15.5.0"
         graphql-request "^3.4.0"
     
@@ -165,6 +219,10 @@ $group
     
     $if wzCtx.Build.utils.useJsCookie
         js-cookie "^2.2.1"
+    $if wzCtx.Build.useYamlParser
+        js-yaml "^4.1.0"
+    $if wzCtx.Build.useDomPurify
+        jsdom "^21.1.1"
     $if wzCtx.Build.isClientServer || wzCtx.Build.isServer || wzCtx.Build.usePages
         jsesc "^2.5.2"
     $if wzCtx.Build.utils.useStringifySafe
@@ -184,6 +242,8 @@ $group
             marked "^2.0.0"
         $else
             marked "^2.0.3"
+    $if wzCtx.Build.useMarkdownParser
+        marked "^4.3.0"
     $if wzCtx.Build.useGithub || wzCtx.Build.useFeatureGithub
         memfs "^3.4.7"
     $if wzCtx.Build.utils.useMinimist
@@ -307,6 +367,8 @@ $group
     $if wzCtx.Build.useExpress
         $if wzCtx.Build.useNetlify
             serverless-http "^1.6.0"
+    $if wzCtx.Build.utils.useScssParser
+        scss-parser "^1.0.4"
     $if wzCtx.Build.useSequelize
         sequelize "^6.21.4"
         sequelize-cli "^6.4.1"
@@ -338,16 +400,19 @@ $group
     
     $if wzCtx.Build.utils.useWebVitals
         web-vitals "^1.0.1"
-    $if wzCtx.Build.isWizziPlugin
+    $if wzCtx.Build.isWizziPlugin && !wzCtx.Build.useWizziV08
         wizzi-mtree "^0.7.18"
         wizzi-utils "^0.7.22"
-    $if wzCtx.Build.useWizzi
+    $if wzCtx.Build.useWizzi && !wzCtx.Build.wizzi.useV08
         wizzi "^0.7.35"
         wizzi-tools "^0.7.7"
         wizzi-utils "^0.7.22"
         wizzi-core "^0.7.8"
         wizzi-web "^0.7.16"
         wizzi-js "^0.7.13"
+    
+    $if wzCtx.Build.useXml2Parser
+        xml2js "^0.4.23"
     
     $if wzCtx.Build.useYup
         yup "^0.27.0"

@@ -8,8 +8,10 @@ module
         $append plugins
             [ items
                 @ './index.js'
-                @ 'wizzi-js'
-                @ 'wizzi-web'
+                @ '@wizzi/plugin.js'
+                @ '@wizzi/plugin.css'
+                @ '@wizzi/plugin.svg'
+                @ '@wizzi/plugin.vtt'
             @ pluginsBaseFolder
                 _ path.resolve
                     @ __dirname
@@ -32,7 +34,6 @@ module
                 =>
                     param module
                     param callback
-                    log 'html.example.executeGenerateModules.module: ' + module
                     var ittfDocumentUri
                         _ path.join
                             @ __dirname
@@ -52,19 +53,18 @@ module
                         @ ittfDocumentUri
                         {
                         a_cb( model )
-                            log 'html.example.executeGenerateModules.outputLoadedPath: ' + outputLoadedPath
-                            _ file.write
-                                @ outputLoadedPath
-                                _ stringify
-                                    @ model.toJson()
-                                    @ null
-                                    @ 4
+                            if model.toJson && verify.isFunction(model.toJson)
+                                _ file.write
+                                    @ outputLoadedPath
+                                    _ stringify
+                                        @ model.toJson()
+                                        @ null
+                                        @ 4
                             _ loadModelAndTransform
                                 @ ittfDocumentUri
                                 {
                                 @ "html/extended"
                                 a_cb( model )
-                                    log 'html.example.executeGenerateModules.outputExtendedPath: ' + outputExtendedPath
                                     _ file.write
                                         @ outputExtendedPath
                                         _ stringify

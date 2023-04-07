@@ -1,0 +1,47 @@
+  module  ids: 1 48
+    kind jsfile ids: 2 49
+    var myname = 'ittf_to_xml' ids: 3 50
+    set module.exports = ids: 4 51
+      function  ids: 5 52
+        param ittf ids: 6 53
+        return toxml(ittf) ids: 7 54
+    function toxml ids: 8 55
+      param model ids: 9 56
+      var ret ids: 10 57
+        {  ids: 11 58
+          @ tag model.n ids: 12 59
+          @ attribs ids: 13 60
+            [  ids: 14 61
+          @ elements ids: 15 62
+            [  ids: 16 63
+      foreach item in model.childs ids: 17 64
+        if item.n === '@' ids: 18 65
+          _ ret.attribs.push ids: 19 66
+            _ toattr ids: 20 67
+              @ item.v ids: 21 68
+        else  ids: 22 69
+          _ ret.elements.push ids: 23 70
+            _ toxml(item) ids: 24 71
+      return ret ids: 25 72
+    function toattr ids: 26 73
+      param text ids: 27 74
+      var  ids: 28 75
+        decl ret ids: 29 76
+          {  ids: 30 77
+            @ name '' ids: 31 78
+            @ value '' ids: 32 79
+        decl state = 0 ids: 33 80
+      for var i = 0; i < text.length; i++ ids: 34 81
+        var ch = text[i] ids: 35 82
+        if state == 0 && (ch == ' ' || ch == '\t') ids: 36 83
+          + ; ids: 37 84
+        elif state == 0 ids: 38 85
+          set ret.name += ch ids: 39 86
+          set state = 1 ids: 40 87
+        elif state == 1 && (ch == ' ' || ch == '\t') ids: 41 88
+          set state = 2 ids: 42 89
+        elif state == 1 ids: 43 90
+          set ret.name += ch ids: 44 91
+        elif state == 2 ids: 45 92
+          set ret.value += ch ids: 46 93
+      return ret ids: 47 94

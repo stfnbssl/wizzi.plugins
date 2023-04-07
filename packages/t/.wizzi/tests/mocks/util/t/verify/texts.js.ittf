@@ -1,0 +1,27 @@
+﻿$group
+
+	set md.splitLines
+		function 
+			param text
+			param options
+			if !text
+				return []
+			set options = options || {}
+			if options.numbered
+				var lines = text.split(/\r?\n/)
+				var ret = []
+				foreach line in lines
+					_ ret.push
+						{
+							@ num i
+							@ numFmt
+								iif i < 10
+									then '000' + i
+									else
+										iif i <100
+											then '00' + i
+											else '0' + i
+							@ text line
+				return ret
+			else
+				return text.split(/\r?\n/)

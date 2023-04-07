@@ -8,8 +8,10 @@ module
         $append plugins
             [ items
                 @ './index.js'
-                @ 'wizzi-js'
-                $$ @ 'wizzi-web'
+                @ '@wizzi/plugin.js'
+                @ '@wizzi/plugin.css'
+                @ '@wizzi/plugin.svg'
+                @ '@wizzi/plugin.vtt'
             @ pluginsBaseFolder
                 _ path.resolve
                     @ __dirname

@@ -1,0 +1,35 @@
+﻿module
+	kind jsfile
+
+    var util = require('util')
+    var path = require('path')
+    var legacy = require('../../../../../legacy')
+
+    var md = module.exports = {}
+    var myname = 'wfschema.factory_darvin.main'
+
+    set md.gen
+        function
+            param model
+            param ctx
+            param callback
+
+            var wfschemaIttfPath = path.join(__dirname, 'ittf', 'wfschema-factory.js.ittf')
+            var mTreeBuildupContext
+                {
+                    @ schema model
+                    @ request
+                        {
+                            @ emitKey ctx.emitKey || 'node-js'
+                            @ toJson ctx.toJson || false
+                            @ isWizziPackageSchema isWizziPackageSchema(model.wzName)
+
+            _ legacy.jsModule
+                @ wfschemaIttfPath
+                @ mTreeBuildupContext
+                f_cb( result )
+                    _ ctx.w(result)
+                    _ callback(null, ctx)
+
+    $include isWizziPackageSchema
+    

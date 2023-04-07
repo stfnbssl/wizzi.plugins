@@ -1,5 +1,5 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\.wizzi\examples\wfschema_json_docs.js.ittf
 */
@@ -16,6 +16,7 @@ var mtree = require('wizzi-mtree');
 var errors = wizziUtils.exampleErrors;
 var stringify = require('json-stringify-safe');
 function executeExample() {
+    let arg = process.argv[2];
     const moduleName = arg && arg.length > 0 ? arg : 'first';
     executeGenerateModules([
         moduleName

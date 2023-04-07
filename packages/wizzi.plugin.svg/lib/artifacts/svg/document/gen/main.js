@@ -1,7 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.14
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\artifacts\svg\document\gen\main.js.ittf
+    utc time: Fri, 07 Apr 2023 16:35:47 GMT
 */
 'use strict';
 // Language artifact that targets
@@ -10,6 +11,7 @@
 //
 // This is a code write based artifact generator.
 //
+
 
 var util = require('util');
 var path = require('path');
@@ -34,7 +36,7 @@ md.gen = function(model, ctx, callback) {
         return callback(error('InvalidArgument', 'gen', 'The model parameter must be an object. Received: ' + model, model));
     }
     if (model.wzElement !== 'svg') {
-        callback(error('InvalidArgument', 'gen', 'Invalid model schema. Expected root element "svg". Received: ' + model.wzElement, model))
+        return callback(error('InvalidArgument', 'gen', 'Invalid model schema. Expected root element "svg". Received: ' + model.wzElement, model));
     }
     try {
         
@@ -78,7 +80,7 @@ md.gen = function(model, ctx, callback) {
     catch (ex) {
         return callback(error('Exception', 'gen', 'An exception encountered during generation', model, ex));
     } 
-    function terminate_gen(model, ctx) {
+    function terminate_gen(model, ctx, callback) {
         if (ctx.artifactGenerationErrors.length > 0) {
             return callback(ctx.artifactGenerationErrors);
         }

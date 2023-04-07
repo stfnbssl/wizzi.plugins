@@ -11,7 +11,7 @@ module wizzi.plugin.md@${wzCtx.version}.lib.artifacts.md.document.gen.main
     
     gen( &md )
         $append imports
-            # var included_writers = require('./included_writers')
+            var included_writers = require('./included_writers')
         $append main
             _ md.md
                 @ model
@@ -173,7 +173,6 @@ module wizzi.plugin.md@${wzCtx.version}.lib.artifacts.md.document.gen.main
                 _ ctx.w('</tr>')
                 r_cb()
 
-
         async-md( td )
             _ ctx.write('<td>')
             if model.wzName
@@ -320,6 +319,7 @@ module wizzi.plugin.md@${wzCtx.version}.lib.artifacts.md.document.gen.main
             _ ctx.write('[comment]: # ' + model.wzName)
             r_cb()
 
+        +
         set md.writeHtml
             function
                 param tag
@@ -327,6 +327,7 @@ module wizzi.plugin.md@${wzCtx.version}.lib.artifacts.md.document.gen.main
                 param ctx
                 param callback
                 var saveIsHtml = ctx.isHtml
+                var saveIsCode = ctx.isCode
                 set ctx.isHtml = true
                 if !saveIsHtml
                     _ ctx.w
@@ -334,22 +335,26 @@ module wizzi.plugin.md@${wzCtx.version}.lib.artifacts.md.document.gen.main
                 foreach a in getAttributes(model)
                     var nv = verify.parseNameValue(a.wzName, a)
                     _ ctx.write(' ' + nv.name() + '="' + nv.value() + '"')
-                if model.wzName.length > 0
+                if model.wzElement != 'element' && model.wzName.length > 0
                     _ ctx.write('>' + model.wzName)
                 else
                     _ ctx.write('>')
+                set ctx.isCode = true
                 _md_gen_items( elements )
                     _ ctx.write('</' + tag + '>')
                     if !saveIsHtml
                         _ ctx.w
                         _ ctx.w
                     set ctx.isHtml = saveIsHtml 
+                    set ctx.isCode = saveIsCode
                     r_cb()
 
+        +
         function isLineTag
             param model
             return ['p', 'br'].indexOf(model.wzElement) > -1;
 
+        +
         var knownAttributes
             [
                 @ 'href'
@@ -358,6 +363,7 @@ module wizzi.plugin.md@${wzCtx.version}.lib.artifacts.md.document.gen.main
                 @ 'id'
                 @ 'alt'
 
+        +
         function getAttributes
             param model
             var ret = []
@@ -370,8 +376,9 @@ module wizzi.plugin.md@${wzCtx.version}.lib.artifacts.md.document.gen.main
                             @ wzName name + ' ' + model[name]
             return ret
 
-        $$ $include includes
+        $include includes
         
+        +
         var noattrs
             [
                 @ 'wzTag'
@@ -380,6 +387,8 @@ module wizzi.plugin.md@${wzCtx.version}.lib.artifacts.md.document.gen.main
                 @ 'wzParent'
                 @ 'wzSourceLineInfo'
                 @ '___exportName'
+        
+        +
         function isAttrValue
             param a
             param v
@@ -388,6 +397,7 @@ module wizzi.plugin.md@${wzCtx.version}.lib.artifacts.md.document.gen.main
             if v == null || verify.isArray(v) || verify.isObject(v) || verify.isFunction(v)
                 return false
             return true
+        +
         function getAttrs
             param e
             var retval = []

@@ -1,5 +1,5 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\.wizzi-override\lib\artifacts\wfschema\model\gen\main.js.ittf
 */
@@ -12,7 +12,7 @@ var myname = 'wfschema.model.main';
 var BootWizziSchema = require('../../bootstrap/wfschema-boot-model').WizziSchema;
 md.gen = function(model, ctx, callback) {
     // loog 'wizzi-core.wfschema.gen.model started', ittfDocumentPath
-    // loog 'wizzi-core.artifacts.wfschema.model.model', model
+    // loog 'wizzi-core.artifacts.wfschema.model.model', Object.keys(model)
     var bootWizziModel = new BootWizziSchema(model.wzName);
     bootWizziModel.loadFromWizziModel(model, ctx, (err, notUsed) => {
     

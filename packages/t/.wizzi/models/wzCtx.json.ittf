@@ -1,0 +1,83 @@
+{
+    $include versions
+    name 'wizzi-core'
+    version '${versions['wizzi-core@next']}'
+    title 'A Wizzi Plugin with core schemas and artifact generators. This plugin is integrated in the Wizzi API.'
+    license 'MIT'
+    [ schemas
+        {
+            name 'wfjob'
+            title 'Wizzi job definition'
+            [ transformers
+            [ artifacts
+        {
+            name 'wfschema'
+            title 'Wizzi Schema definition'
+            [ transformers
+                {
+                    name 'wfschema/json_docs'
+            [ artifacts
+                {
+                    name 'wfschema/factory'
+                {
+                    name 'wfschema/model'
+                {
+                    name 'wfschema/html_docs'
+                {
+                    name 'wfschema/test'
+        {
+            name 'json'
+            title 'json wizzi language model'
+            builtin true
+            commentTag "#"
+            [ transformers
+            [ artifacts
+                {
+                    name 'json/document'
+                {
+                    name 'json/toyaml'
+                {
+                    name 'json/toml'
+                {
+                    name 'json/export'
+        {
+            name 'xml'
+            title 'xml wizzi language model'
+            builtin true
+            [ transformers
+            [ artifacts
+                {
+                    name 'xml/document'
+                {
+                    name 'xml/export'
+        {
+            name 'text'
+            title 'text wizzi language model'
+            builtin true
+            [ transformers
+            [ artifacts
+                {
+                    name 'text/document'
+        {
+            name 'ittf'
+            title 'ittf wizzi language model'
+            builtin true
+            [ transformers
+                {
+                    name 'ittf/cheatsheet'
+                {
+                    name 'ittf/html-pretty'
+            [ artifacts
+                {
+                    name 'ittf/document'
+                {
+                    name 'ittf/tojson'
+        {
+            name 'yaml'
+            title 'yaml wizzi language model'
+            builtin true
+            commentTag "#"
+            [ transformers
+            [ artifacts
+                {
+                    name 'yaml/document'

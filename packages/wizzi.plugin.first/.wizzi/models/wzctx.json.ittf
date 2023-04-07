@@ -1,0 +1,35 @@
+{
+    $include versions
+    name "wizzi.plugin.first"
+    npnName "@wizzi/plugin.first"
+    pluginBasename "first"
+    version '${versions['@wizzi/plugin.first@next']}'
+    description "wizzi.plugin.first"
+    { author
+        name "Stefano Bassoli"
+        email "stfn.bssl@gmail.com"
+    { github
+        userid "stfnbssl"
+    { license
+        name "MIT"
+        copy "copy 2023"
+    { Build
+        isWizziPlugin true
+        useWizziV08 true
+        { wizziV08
+        { utils
+            useStringifySafe true
+            useObjectInspect true
+    [ Schemas
+        {
+            name "first"
+            title "first wizzi schema"
+            builtin false
+            [ modelTransformers
+                {
+                    name "extended"
+            [ artifactGenerators
+                {
+                    name "document"
+            [ wizzifiers
+            [ includes

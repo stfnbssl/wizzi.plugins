@@ -1,0 +1,35 @@
+module
+	kind jsfile
+
+    $
+        var opt = {
+            level: 0,
+            step: 1,
+            name: 'Schemas_json_step_2',
+            title: 'Schemas yaml step 2 - generate yaml document',
+            folderLevel: 3
+        }
+
+    common\example\core(&opt)
+
+        $append plugins
+            [ items
+                @ 'wizzi-js'
+                @ 'wizzi-web'
+                @ './index'
+            @ pluginsBaseFolder
+                _ path.resolve
+                    @ __dirname
+                    @ '..'
+                    @ '..'
+                    @ '..'
+
+        _ loadModelAndGenerateArtifact
+			_ path.join
+				@ __dirname
+				@ 'ittf'
+				@ 'basic.yaml.ittf'
+            {
+            @ "yaml/document"
+            f_cb_test( artifactText )
+                _ printValue('yaml', artifactText)

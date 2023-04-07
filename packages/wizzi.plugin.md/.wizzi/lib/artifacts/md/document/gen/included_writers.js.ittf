@@ -11,38 +11,34 @@ module
             param ctx
             param element
             param callback
-            # log myname, 'enter writeIncludeHtml'
+            # loog myname, 'enter writeIncludeHtml'
             _ element.get_html
                 a_cb( htmlModel )
-                    # log myname, 'htmlModel', htmlModel
                     _ ctx.wizziFactory.generateArtifact
                         @ htmlModel
                         @ 'generated from md model'
                         @ 'html/document'
                         {
                         a_cb( artifactText )
-                            # log myname, 'html module artifactText', artifactText
                             _ ctx.indent
                             _ ctx.writeAligned(artifactText)
                             _ ctx.deindent
                             return
                                 _ callback
-    set md.writeIncludeSvg
+    set md.writeIncludeCss
         function
             param ctx
             param element
             param callback
-            # log myname, 'enter writeIncludeSvg'
-            _ element.get_svg
-                a_cb( svgModel )
-                    # log myname, 'svgModel', svgModel
+            # loog myname, 'enter writeIncludeCss'
+            _ element.get_css
+                a_cb( cssModel )
                     _ ctx.wizziFactory.generateArtifact
-                        @ svgModel
+                        @ cssModel
                         @ 'generated from md model'
-                        @ 'svg/document'
+                        @ 'css/document'
                         {
                         a_cb( artifactText )
-                            # log myname, 'svg module artifactText', artifactText
                             _ ctx.indent
                             _ ctx.writeAligned(artifactText)
                             _ ctx.deindent

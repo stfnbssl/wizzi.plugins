@@ -1,5 +1,5 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\wizzifiers\ts\wizzifier.js.ittf
 */
@@ -308,26 +308,6 @@ function wizzify(tobeWizzified, options, callback) {
     }
     )
 }
-
-md.getCodeAST = function(input, options, callback) {
-    options = options || {};
-    options.input = input;
-    options.stack = [];
-    options.formatTextNodes = [];
-    options.wizziIncludes = [];
-    options.stateAST = [];
-    var babelOptions = options.babel || {};
-    var syntax;
-    try {
-        syntax = md.parse(input, babelOptions);
-    } 
-    catch (ex) {
-        return callback(ex);
-    } 
-    cleanAST(syntax);
-    callback(null, syntax)
-}
-;
 
 function splitComments(ret) {
     var a = [];

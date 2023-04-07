@@ -1,6 +1,8 @@
 {
     "name": "wizzi.plugin.md",
-    "version": "0.0.1",
+    "npnName": "@wizzi/plugin.md",
+    "pluginBasename": "md",
+    "version": "0.8.1",
     "description": "wizzi.plugin.md",
     "author": {
         "name": "Stefano Bassoli",
@@ -11,20 +13,25 @@
     },
     "license": {
         "name": "MIT",
-        "copy": "copy 2022"
+        "copy": "copy 2023"
     },
     "Build": {
         "isWizziPlugin": true,
+        "useWizziV08": true,
+        "wizziV08": {},
         "utils": {
             "useStringifySafe": true,
             "useObjectInspect": true
-        }
+        },
+        "useMarkdownParser": true,
+        "useDomPurify": true
     },
     "Schemas": [
         {
             "name": "md",
             "title": "md wizzi schema",
             "builtin": false,
+            "hasWizzifier": true,
             "modelTransformers": [
                 {
                     "name": "extended"
@@ -35,6 +42,11 @@
                     "name": "document"
                 }
             ],
+            "wizzifiers": [
+                {
+                    "name": "md"
+                }
+            ],
             "includes": [
                 {
                     "Name": "Html",
@@ -42,8 +54,8 @@
                     "options": []
                 },
                 {
-                    "Name": "Svg",
-                    "name": "svg",
+                    "Name": "Css",
+                    "name": "css",
                     "options": []
                 }
             ]

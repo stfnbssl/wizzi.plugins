@@ -64,3 +64,18 @@ wfschema second
     m methodX
         param alpha
         log 'Bye'
+
+	e statement
+        r statement/s
+
+    e param
+    
+    e function : statement
+		r param/s
+
+		m getParams
+			var ret = []
+			foreach item in this.params
+				_ ret.push(item.wzName)
+			return ret
+

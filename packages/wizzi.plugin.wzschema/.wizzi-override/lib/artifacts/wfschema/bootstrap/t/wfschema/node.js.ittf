@@ -83,7 +83,10 @@
 
 	m importMethods
 		param other
+        if other.methods.length > 0
+            $$ loog 'wfschema-boot.importMethods of', other.wzElement, other.wzName
 		foreach methodFrom in other.methods
+            $$ loog 'wfschema-boot.importMethod', methodFrom.wzElement, methodFrom.wzName, Object.keys(methodFrom)
 			var method = this.addMethod(methodFrom.wzName)
 			set method.emitKey = methodFrom.emitKey
 			_ method.importComments(methodFrom)
@@ -94,8 +97,8 @@
 				set require.declareVar = requireFrom.declareVar
 				set require.invoke = requireFrom.invoke
 				set require.kind = requireFrom.kind
-
 			foreach statementFrom in methodFrom.statements
+                $$ loog 'wfschema-boot.importStatement', statementFrom.wzElement, statementFrom.wzName, Object.keys(statementFrom)
 				_ method.importStatement(statementFrom)
 
 	m addMethod

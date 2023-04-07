@@ -1,0 +1,77 @@
+﻿artifact( json, document, noschemacheck )
+    
+	$append imports
+		var stringify = require('json-stringify-safe')
+		var lineParser = require('../../../../util/lineParser')
+    
+	$append main
+		if model.n && model.r && model.c && model.sourceKey
+			# deprecated old ittf schema
+			_ md.genItem(model, ctx)
+		else
+			delete model.___exportName
+			_ ctx.w
+				_ stringify(model, null, 4)
+    
+	md-gen-item(
+        
+		var n = model.n.trim()
+        if n === '#'
+            return false
+        
+		if model.children.length > 0
+            if n === '{' || n === '['
+                _ ctx.w(n)
+                _ md.genItems(model.children, ctx, { parent: n })
+            else 
+                _ ctx.w('"' + model.n + '":')
+                _ md.genItems(model.children, ctx, { parent: null })
+            if n === '{'
+                _ ctx.write('}')
+            elif n === '['
+                _ ctx.write(']')
+        else 
+            if n === '{'
+                _ ctx.w('{}')
+            elif n === '['
+                _ ctx.w('[]')
+            else 
+                if model.parent === '{'
+                    if model.n === '@'
+                        var nv
+                            _ lineParser.parseNameValueRaw
+                                @ model.v
+                        _ ctx.write('"' + nv.name() + '": ' + nv.value())
+                    else 
+                        _ ctx.write('"' + model.n + '": ' + model.v)
+                elif model.parent === '['
+                    if model.n === '@'
+                        var nv
+                            _ lineParser.parseNameValueRaw
+                                @ model.v
+                        _ ctx.write
+                            @ model.v
+                    else 
+                        _ ctx.write
+                            @ model.n
+                else 
+                    _ ctx.write
+                        @ model.n
+        return true
+    
+	md-gen-items(
+        
+		_ ctx.indent()
+        
+		var first = true
+        var written = false
+        foreach item in items
+            if !first && written
+                _ ctx.w(',')
+            set first = false
+            if options.parent
+                set item.parent = options.parent
+            set written = md.genItem(item, ctx)
+        _ ctx.w('')
+        
+		_ ctx.deindent()

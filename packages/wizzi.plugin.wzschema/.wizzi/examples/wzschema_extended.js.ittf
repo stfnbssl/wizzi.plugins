@@ -52,12 +52,13 @@ module
                         {
                         a_cb( model )
                             log 'wzschema.example.executeGenerateModules.outputLoadedPath: ' + outputLoadedPath
-                            _ file.write
-                                @ outputLoadedPath
-                                _ stringify
-                                    @ model.toJson()
-                                    @ null
-                                    @ 4
+                            if model.toJson && verify.isFunction(model.toJson)
+                                _ file.write
+                                    @ outputLoadedPath
+                                    _ stringify
+                                        @ model.toJson()
+                                        @ null
+                                        @ 4
                             _ loadModelAndTransform
                                 @ ittfDocumentUri
                                 {

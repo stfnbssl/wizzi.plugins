@@ -1,0 +1,10 @@
+﻿artifact( text, document )
+
+	$append main
+		# loog 'wizzi-core.artifact.text.document', model, model.toText
+		if model.toText
+			_ ctx.write
+				_ model.toText
+		else
+			_ ctx.write
+				@ model.content   

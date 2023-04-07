@@ -15,17 +15,18 @@
         param ctx
         param callback
 
-        log '-----------------> enter loadFromWizziModel'
+        $$ loog '-----------------> enter loadFromWizziModel'
         _ exec_loadFromWizziModel_asyncs
             @ wfschemaWizziModel
             @ ctx
             a_cb()
-                log 'exec_loadFromWizziModel_asyncs.result', 'err', err, 'done'
+                $$ loog 'wfschema-boot.wfschemaWizziModel loaded', 'err', err
 
                 set this.wzName = wfschemaWizziModel.wzName
                 set this.unknownElementReplacer = wfschemaWizziModel.unknownElementReplacer || false
                 set this.mTreeIsPreprocessed = wfschemaWizziModel.mTreeIsPreprocessed || false
 
+                $$ loog 'wfschema-boot.importComments done'
                 _ this.importComments(wfschemaWizziModel)
                 
                 foreach requireFrom in wfschemaWizziModel.requires
@@ -35,9 +36,12 @@
                     if requireFrom.invoke && requireFrom.invoke.length > 0
                         set require.invoke = requireFrom.invoke
                     set require.kind = requireFrom.kind
+                
 
                 _ this.importDeclares(wfschemaWizziModel)
+                $$ loog 'wfschema-boot.importDeclares done'
                 _ this.importMethods(wfschemaWizziModel)
+                $$ loog 'wfschema-boot.importMethods done'
 
                 foreach eFrom in wfschemaWizziModel.elements
                     var element = this.addElement(eFrom.wzName)
@@ -107,7 +111,7 @@
         const jsIncludes
             _ collectJsIncludes
                 @ wfschemaWizziModel
-        log 'exec_loadFromWizziModel_asyncs.jsIncludes', jsIncludes.length
+        $$ loog 'exec_loadFromWizziModel_asyncs.jsIncludes', jsIncludes.length
         _ async.map
             @ jsIncludes
             function
@@ -116,14 +120,14 @@
                 _ item.get_js
                     a_cb( wizziModel )
                         set item.__wizziModel = wizziModel
-                        log '==================> statementFrom.get_js.wizziModel', wizziModel.wzElement, wizziModel.wzName, Object.keys(wizziModel)
+                        $$ loog '==================> statementFrom.get_js.wizziModel', wizziModel.wzElement, wizziModel.wzName, Object.keys(wizziModel)
                         _ ctx.wizziFactory.generateArtifact
                             @ wizziModel
                             @ 'generated from wfschema model'
                             @ 'js/module'
                             {
                             a_cb( artifactText )
-                                log '==================> statementFrom.get_js.artifactText', artifactText
+                                $$ loog '==================> statementFrom.get_js.artifactText', artifactText
                                 const lines = artifactText.split('\n')
                                 set item.__codeLines = []
                                 foreach line in lines
@@ -135,12 +139,16 @@
             =>
                 param err
                 param result
-                log '++++++', err, result
+                if err
+                    error err
+                    _ callback
+                        @ err
                 r_cb( result )
             @ callback
 
     function collectJsIncludes
         param wfschemaWizziModel
+        $$ loog 'wfschema-boot', 'collectJsIncludes', 'Object.keys(wfschemaWizziModel)', Object.keys(wfschemaWizziModel)
         const ret = []
 		foreach declareFrom in wfschemaWizziModel.declares
 			foreach statementFrom in declareFrom.statements
@@ -148,19 +156,20 @@
                     _ ret.push
                         @ statementFrom
         foreach methodFrom in wfschemaWizziModel.methods
-            log 'methodFrom.wzName', methodFrom.wzName
+            # loog 'methodFrom.wzName', methodFrom.wzName
             foreach statementFrom in methodFrom.statements
-                log 'statementFrom.wzName', statementFrom.wzElement, statementFrom.wzName, statementFrom.get_js
+                $$ loog 'statementFrom.wzName', statementFrom.wzElement, statementFrom.wzName, statementFrom.get_js
                 if statementFrom.get_js
                     _ ret.push
                         @ statementFrom
         foreach eFrom in wfschemaWizziModel.elements
-            log 'eFrom.wzName', eFrom.wzName
+            # loog 'eFrom.wzName', eFrom.wzName
             foreach methodFrom in eFrom.methods
-                log 'methodFrom.wzName', methodFrom.wzName
+                # loog 'methodFrom.wzName', methodFrom.wzName
                 foreach statementFrom in methodFrom.statements
-                    log 'statementFrom.wzName', statementFrom.wzElement, statementFrom.wzName, statementFrom.get_js
+                    # loog 'statementFrom.wzName', statementFrom.wzElement, statementFrom.wzName, statementFrom.get_js
                     if statementFrom.get_js
+                        $$ loog 'wfschema-boot.collectJsIncludes.method', methodFrom.wzName, 'statement', statementFrom.wzName
                         _ ret.push
                             @ statementFrom
         return ret

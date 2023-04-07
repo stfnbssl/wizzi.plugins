@@ -3,12 +3,6 @@ wfschema md
 	# A schema modeling a markdown document
 	# using an html-like sinthax
 
-	e md
-		# The root element of the markdown schema.
-        r element/s
-		# Comments allowed at root level only
-        r comment/s
-
 	e attribute
 		tag @
 
@@ -20,7 +14,14 @@ wfschema md
 		r attribute/s
 		r element/s
 
-	e frontmatter : element
+	e md
+        is-root
+		# The root element of the markdown schema.
+        r element/s
+		# Comments allowed at root level only
+        r comment/s
+	
+    e frontmatter : element
 		r attribute/s
 
 	e h1 : element
@@ -37,7 +38,8 @@ wfschema md
 	e i : element
 	e b : element
 	e p : element
-	e span : element
+	
+    e span : element
 
 	e ul : element
 	e ol : element
@@ -87,3 +89,12 @@ wfschema md
 	e ref : element
 		a href
 		a title
+
+    e htmlInclude : element
+        tag ::html
+        include html html
+
+    e cssInclude : element
+        tag ::css
+        include css css
+

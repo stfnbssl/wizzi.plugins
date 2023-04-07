@@ -1,0 +1,54 @@
+﻿base_test( model json )
+
+	$append imports
+		var json_factory = require('../../../lib/wizzi/models/json-factory.g')
+		var json_artifact = require('../../../lib/artifacts/json/document/gen/main')
+
+	var loadModel
+
+	before
+		set loadModel
+			_ json_factory.createLoadModel
+				_ getWizziObject
+
+	it-async should load a basic json ittf document
+
+		_ loadModel
+			_ path.join
+				@ __dirname
+				@ 'ittf'
+				@ 'basic.json.ittf'
+			_ getLoadModelContext
+				{
+			f_cb_test( wizziModel )
+				# log? wizziModel
+				var ctx = new mocks.getGenContext()
+				_ json_artifact.gen
+					@ wizziModel
+					@ ctx
+					f_cb_test( result )
+						var artifactText = result.getContent()
+						tobe_string( artifactText, {\n    "Hello": "stefi"\n}\n )
+						_ done
+						
+
+	it-async should load a mixed json ittf document
+
+		_ loadModel
+			_ path.join
+				@ __dirname
+				@ 'ittf'
+				@ 'mixed.json.ittf'
+			_ getLoadModelContext
+				{
+			f_cb_test( wizziModel )
+				# log? wizziModel
+				var ctx = new mocks.getGenContext()
+				_ json_artifact.gen
+					@ wizziModel
+					@ ctx
+					f_cb_test( result )
+						var artifactText = result.getContent()
+						tobe_string( artifactText, {\n    "Copyright": "(c) Wizzi"\n}\n )
+						_ done
+						

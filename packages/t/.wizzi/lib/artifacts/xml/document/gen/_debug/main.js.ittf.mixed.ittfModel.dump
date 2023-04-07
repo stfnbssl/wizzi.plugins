@@ -1,0 +1,34 @@
+  module  ids: 1 27
+    kind jsfile ids: 2 28
+    var toxml = require('./ittf_to_xml') ids: 3 29
+    var md ids: 4 30
+      set module.exports = ids: 5 31
+        {  ids: 6 32
+    var myname = 'xml.document.main' ids: 7 33
+    set md.gen ids: 53 60
+      function  ids: 54 61
+        param model ids: 55 62
+        param ctx ids: 56 63
+        param callback ids: 57 64
+        var xml = toxml(model) ids: 9 35
+        _ md.element(xml, ctx) ids: 10 36
+        _ callback(null, ctx) ids: 59 66
+    set md.genItem ids: 67 72
+      function  ids: 68 73
+        param model ids: 69 74
+        param ctx ids: 70 75
+        _ ctx.write('<' + model.tag) ids: 12 38
+        foreach item in model.attribs ids: 13 39
+          _ ctx.write(' ' + item.name + '="') ids: 14 40
+          _ ctx.write ids: 15 41
+            @ item.value ids: 16 42
+          _ ctx.write('"') ids: 17 43
+        if model.elements.length > 0 ids: 18 44
+          _ ctx.w('>') ids: 19 45
+          _ ctx.indent() ids: 20 46
+          foreach item in model.elements ids: 21 47
+            _ md.element(item, ctx) ids: 22 48
+          _ ctx.deindent() ids: 23 49
+          _ ctx.w('</' + model.tag + '>') ids: 24 50
+        else  ids: 25 51
+          _ ctx.w(' />') ids: 26 52

@@ -3,6 +3,7 @@ module
     $
         var md = {
             name: 'vtt',
+            artifact: 'document',
         };
     v08/examples/plugin( &md )
         $append plugins
@@ -19,10 +20,10 @@ module
                 @ moduleName
             a_cb_no_throw( result )
                 if err
-                    error 'vtt.examples.executeGenerateModules.err', err
-                    error 'vtt.examples.executeGenerateModules.err.toString()', err.toString()
+                    error 'vtt/document.examples.executeGenerateModules.err', err
+                    error 'vtt/document.examples.executeGenerateModules.err.toString()', err.toString()
                     if err.inner
-                        error 'vtt.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
+                        error 'vtt/document.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
                 else
         function executeGenerateModules
             param modules
@@ -32,7 +33,6 @@ module
                 =>
                     param module
                     param callback
-                    log 'vtt.example.executeGenerateModules.module: ' + module
                     var ittfDocumentUri
                         _ path.join
                             @ __dirname
@@ -42,26 +42,15 @@ module
                         _ path.join
                             @ __dirname
                             @ 'results'
-                            @ module + '.vtt.document.html'
-                    _ loadWizziModel
+                            @ 'vtt'
+                            @ module + '-document.g.vtt'
+                    _ loadModelAndGenerateArtifact
                         @ ittfDocumentUri
                         {
-                        a_cb( wizziModel )
-                            if wizziModel.toJson
-                                _ file.write
-                                    @ outputPath + '.json'
-                                    _ stringify
-                                        _ wizziModel.toJson
-                                        @ null
-                                        @ 4
-                            _ loadModelAndGenerateArtifact
-                                @ ittfDocumentUri
-                                {
-                                @ 'vtt/document'
-                                a_cb( artifactText )
-                                    log 'vtt.example.executeGenerateModules.outputPath: ' + outputPath
-                                    _ file.write
-                                        @ outputPath
-                                        @ artifactText
-                                    r_cb( artifactText )
+                        @ 'vtt/document'
+                        a_cb( artifactText )
+                            _ file.write
+                                @ outputPath
+                                @ artifactText
+                            r_cb( artifactText )
                 @ callback

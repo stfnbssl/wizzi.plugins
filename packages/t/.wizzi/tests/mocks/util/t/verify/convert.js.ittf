@@ -1,0 +1,92 @@
+﻿$group
+
+	set md.convert
+		function convert
+			param value
+			param type
+			param unquote
+            
+			if value === '@@null'
+				return null
+            
+			if value === '@@undefined'
+				return undefined
+            
+			if md.isIttfMacro(value)
+				return value
+            
+			if md.isEmpty(type) || type === 'string'
+				if md.isString(value)
+					if unquote
+						return md.unquote(value)
+					else 
+						return value
+				else 
+					return ''
+			elif type == 'integer'
+				if md.canConvertTo(type, value)
+					return parseInt(value, 10)
+				else 
+					return
+						_ error
+							@ 'TypeError'
+							@ 'convert'
+							@ 'Cannot convert ' + value + ' to integer'
+							
+			elif type == 'float'
+				if md.canConvertTo(type, value)
+					return parseFloat(value)
+				else 
+					return
+						_ error
+							@ 'TypeError'
+							@ 'convert'
+							@ 'Cannot convert ' + value + ' to float'
+							
+			elif type == 'boolean'
+				if md.canConvertTo(type, value)
+					return value === 'true' ? true : false
+				else 
+					return
+						_ error
+							@ 'TypeError'
+							@ 'convert'
+							@ 'Cannot convert ' + value + ' to boolean'
+			elif type == 'date'
+				if md.canConvertTo(type, value)
+					var parts = value.split('-')
+					return 
+						new Date
+							@ parts[0]
+							@ parts[1] - 1
+							@ parts[2]
+				else 
+					return
+						_ error
+							@ 'TypeError'
+							@ 'convert'
+							@ 'Cannot convert ' + value + ' to date'
+			return
+				_ error
+					@ 'TypeError'
+					@ 'convert'
+					@ 'Invalid type: "' + type + '", expected (string, integer, float, boolean, date)'
+    
+    
+	# means can convert a not empty string value to a given type
+	set md.canConvertTo
+		function
+			param type
+			param value
+			if type === 'boolean'
+				return value === 'true' || value === 'false'
+			elif type === 'integer'
+				return /^\-?[0-9]+$/.test(value)
+			elif type === 'float'
+				return /^\-?[0-9]*\.?[0-9]+$/.test(value)
+			elif type === 'date'
+				return /\d{4}-\d{1,2}-\d{1,2}/.test(value)
+			elif type === 'string'
+				return true
+    
+	
