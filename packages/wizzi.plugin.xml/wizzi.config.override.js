@@ -1,7 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.cli\packages\wizzi.cli.meta\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.13
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:/My/wizzi/stfnbssl/wizzi.cli/packages/wizzi.cli.meta/meta-templates/__temp/js-wizzi-plugin/wizzi.plugin.xml/wizzi.config.override.js.ittf
+    utc time: Tue, 11 Apr 2023 16:00:03 GMT
 */
 'use strict';
 const path = require('path');
@@ -10,11 +11,23 @@ module.exports = {
     wfjobPath: path.join(__dirname, '.wizzi-override', 'generate.wfjob.ittf'), 
     destPath: __dirname, 
     plugins: [
-        './wizzi-core/index.js', 
-        './wizzi-js/index.js', 
-        './wizzi-web/index.js'
+        "./wizzi.plugin.css/index.js", 
+        "./wizzi.plugin.graphql/index.js", 
+        "./wizzi.plugin.html/index.js", 
+        "./wizzi.plugin.ittf/index.js", 
+        "./wizzi.plugin.js/index.js", 
+        "./wizzi.plugin.ts/index.js", 
+        "./wizzi.plugin.json/index.js", 
+        "./wizzi.plugin.md/index.js", 
+        "./wizzi.plugin.text/index.js", 
+        "./wizzi.plugin.text/index.js", 
+        "./wizzi.plugin.svg/index.js", 
+        "./wizzi.plugin.wzjob/index.js", 
+        "./wizzi.plugin.wzschema/index.js", 
+        "./wizzi.plugin.xml/index.js", 
+        "./wizzi.plugin.yaml/index.js"
     ], 
-    pluginsBaseFolder: "C:/My/wizzi/stfnbssl/wizzi.v07/packages", 
+    pluginsBaseFolder: "C:/My/wizzi/stfnbssl/wizzi.plugins/packages", 
     schemas: [
         
     ], 

@@ -1,6 +1,9 @@
 {
+    $include versions
     name "wizzi.plugin.ittf"
-    version "0.0.1"
+    npnName "@wizzi/plugin.ittf"
+    pluginBasename "ittf"
+    version '${versions['@wizzi/plugin.ittf@next']}'
     description "wizzi.plugin.ittf"
     { author
         name "Stefano Bassoli"
@@ -9,9 +12,11 @@
         userid "stfnbssl"
     { license
         name "MIT"
-        copy "copy 2022"
+        copy "copy 2023"
     { Build
         isWizziPlugin true
+        useWizziV08 true
+        { wizziV08
         { utils
             useStringifySafe true
             useObjectInspect true
@@ -22,9 +27,22 @@
             builtin true
             [ modelTransformers
                 {
-                    name "extended"
+                    name "html-pretty"
+                {
+                    name "cheatsheet"
             [ artifactGenerators
                 {
                     name "document"
+                    outmime "ittf"
+                    contentType "text/plain"
+                    isDefault true
+                {
+                    name "tojson"
+                    outmime "json"
+                    contentType "application/json"
+                    isDefault false
+            defaultArtifact "document"
             [ wizzifiers
+            [ fileExtensions
+                "ittf"
             [ includes

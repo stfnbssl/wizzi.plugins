@@ -16,9 +16,6 @@ wizzi.plugin.json
 yes<td>
 
 <table>
-<tr>
-<td>extended</td>
-</tr>
 </table>
 
 <td>
@@ -26,6 +23,15 @@ yes<td>
 <table>
 <tr>
 <td>document</td>
+</tr>
+<tr>
+<td>export</td>
+</tr>
+<tr>
+<td>toml</td>
+</tr>
+<tr>
+<td>toyaml</td>
 </tr>
 </table>
 

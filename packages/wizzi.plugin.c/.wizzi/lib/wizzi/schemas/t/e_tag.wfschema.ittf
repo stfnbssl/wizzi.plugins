@@ -1,7 +1,8 @@
 $group
+    $params name, tag|@@null, xsuper|@@null
     e ${name}
-        $params name, tag|@@null, xsuper|@@null
         $if tag != null
             tag ${tag}
         $if xsuper != null
             super ${xsuper}
+        $hook

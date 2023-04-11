@@ -88,6 +88,18 @@ $group
     $if wzCtx.Build.useReact &&  wzCtx.Build.react.useMarkdownPreview
         @uiw/react-markdown-preview "latest"
     
+    $if wzCtx.Build.isWizziPlugin && wzCtx.Build.useWizziV08
+        @wizzi/mtree "latest"
+        @wizzi/utils "latest"
+        $foreach schema in wzCtx.Schemas
+            $foreach include in schema.includes
+                @wizzi/plugin.${include.name} "latest"
+    $if wzCtx.Build.useWizzi && wzCtx.Build.wizzi.useV08
+        @wizzi/factory "latest"
+        @wizzi/utils "latest"
+        $foreach item in wzCtx.Build.wizzi.v08.plugins
+            @wizzi/plugin.${item} "latest"
+    
     $if wzCtx.Build.useAuthentication
         argon2 "^0.30.3"
     $if wzCtx.Build.useAphrodite
@@ -142,6 +154,8 @@ $group
         debug "~2.6.9"
     $if wzCtx.Build.utils.useDiffMatchPatch
         diff-match-patch "^1.0.5"
+    $if wzCtx.Build.useDomPurify
+        dompurify "^3.0.1"
     $if wzCtx.Build.useDomHelpers
         dom-helpers "^3.4.0"
     
@@ -205,6 +219,10 @@ $group
     
     $if wzCtx.Build.utils.useJsCookie
         js-cookie "^2.2.1"
+    $if wzCtx.Build.useYamlParser
+        js-yaml "^4.1.0"
+    $if wzCtx.Build.useDomPurify
+        jsdom "^21.1.1"
     $if wzCtx.Build.isClientServer || wzCtx.Build.isServer || wzCtx.Build.usePages
         jsesc "^2.5.2"
     $if wzCtx.Build.utils.useStringifySafe
@@ -259,11 +277,14 @@ $group
         palx '^1.0.3'
     $if wzCtx.Build.utils.useParseUrl
         parseurl "^1.3.3"
-    $if wzCtx.Build.usePrismjs
-        prismjs "^1.21.0"
     $if wzCtx.Build.usePostgres || (wzCtx.Build.useSequelize && wzCtx.Build.sequelize.usePostgres)
         pg "^8.8.0"
         pg-hstore "^2.3.4"
+    $if wzCtx.Build.usePostCss
+        postcss "^8.4.21"
+        postcss-color-function "^4.1.0"
+    $if wzCtx.Build.usePrismjs
+        prismjs "^1.21.0"
     
     $if wzCtx.Build.utils.useQueryString
         query-string "^7.0.0"
@@ -382,20 +403,19 @@ $group
     
     $if wzCtx.Build.utils.useWebVitals
         web-vitals "^1.0.1"
-    $if wzCtx.Build.isWizziPlugin
+    $if wzCtx.Build.isWizziPlugin && !wzCtx.Build.useWizziV08
         wizzi-mtree "^0.7.18"
         wizzi-utils "^0.7.22"
-    $if wzCtx.Build.useWizzi
+    $if wzCtx.Build.useWizzi && !wzCtx.Build.wizzi.useV08
         wizzi "^0.7.35"
         wizzi-tools "^0.7.7"
         wizzi-utils "^0.7.22"
         wizzi-core "^0.7.8"
         wizzi-web "^0.7.16"
         wizzi-js "^0.7.13"
+    
     $if wzCtx.Build.useXml2Parser
         xml2js "^0.4.23"
     
-    $if wzCtx.Build.useYamlParser
-        js-yaml "^4.1.0"
     $if wzCtx.Build.useYup
         yup "^0.27.0"

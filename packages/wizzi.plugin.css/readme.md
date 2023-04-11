@@ -16,9 +16,6 @@ wizzi.plugin.css
 no<td>
 
 <table>
-<tr>
-<td>extended</td>
-</tr>
 </table>
 
 <td>

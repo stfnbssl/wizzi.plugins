@@ -27,12 +27,27 @@
             builtin true
             hasWizzifier true
             [ modelTransformers
-                {
-                    name "extended"
             [ artifactGenerators
                 {
                     name "document"
+                    outmime "json"
+                    isDefault true
+                {
+                    name "export"
+                    outmime "json"
+                    isDefault false
+                {
+                    name "toml"
+                    outmime "ml"
+                    isDefault false
+                {
+                    name "toyaml"
+                    outmime "yaml"
+                    isDefault false
+            defaultArtifact "document"
             [ wizzifiers
                 {
                     name "json"
+            [ fileExtensions
+                "json"
             [ includes

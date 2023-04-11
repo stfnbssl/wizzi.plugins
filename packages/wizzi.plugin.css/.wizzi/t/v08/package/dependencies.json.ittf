@@ -94,6 +94,8 @@ $group
         $foreach schema in wzCtx.Schemas
             $foreach include in schema.includes
                 @wizzi/plugin.${include.name} "latest"
+    $if wzCtx.Build.isWizziMeta
+        @wizzi/utils "latest"
     $if wzCtx.Build.useWizzi && wzCtx.Build.wizzi.useV08
         @wizzi/factory "latest"
         @wizzi/utils "latest"

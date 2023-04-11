@@ -9,21 +9,6 @@ module
     var md = module.exports = {}
     set md.name = '${wzCtx.name}.index'
     +
-    # window(s) vars must be declared even if empty
-    var window_modelFactories
-        {
-            @ 'ittf' require('./lib/wizzi/models/ittf-factory.g')
-    var window_artifactGenerators
-        {
-            @ 'ittf/document' require('./lib/artifacts/ittf/document/gen/main')
-    var window_transformers
-        {
-            @ 'ittf/extended' require('./lib/artifacts/ittf/extended/trans/main')
-    var window_wizzifiers
-        {
-    var window_schemaDefinitions
-        {
-    +
     #
         # FactoryPlugin class
     class FactoryPlugin
@@ -87,6 +72,26 @@ module
                         [
                             $foreach schema in wzCtx.Schemas
                                 @ '${schema.name}'
+                    @ schemasExt
+                        [
+                            $foreach schema in wzCtx.Schemas
+                                {
+                                    @ name '${schema.name}'
+                                    $if schema.rootElement
+                                        @ rootElement '${schema.rootElement}'
+                                    $if schema.rootTag
+                                        @ rootTag '${schema.rootTag}'
+                                    [ fileExtensions
+                                        $foreach ext in schema.fileExtensions
+                                            @ "${ext}"
+                                    [ artifactsGenerators
+                                        $foreach art in schema.artifactGenerators
+                                            {
+                                                @ name "${art.name}"
+                                                @ outmime "${art.outmime}"
+                                                @ contentType "${art.contentType}"
+                                                @ isDefault ${art.isDefault ? 'true' : 'false'}
+                                    @ defaultArtifact '${schema.defaultArtifact}'
                     @ modelTransformers
                         [
                             $foreach schema in wzCtx.Schemas

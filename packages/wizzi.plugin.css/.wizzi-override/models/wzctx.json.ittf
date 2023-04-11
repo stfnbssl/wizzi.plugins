@@ -29,14 +29,18 @@
             builtin false
             hasWizzifier true
             [ modelTransformers
-                {
-                    name "extended"
             [ artifactGenerators
                 {
                     name "document"
+                    outmime "css"
+                    contentType "text/css"
+                    isDefault true
+            defaultArtifact "document"
             [ wizzifiers
                 {
                     name "css"
+            [ fileExtensions
+                "css"
             [ includes
                 {
                     Name "Svg"

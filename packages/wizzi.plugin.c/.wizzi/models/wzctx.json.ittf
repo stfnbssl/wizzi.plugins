@@ -1,6 +1,9 @@
 {
+    $include versions
     name "wizzi.plugin.c"
-    version "0.0.1"
+    npnName "@wizzi/plugin.c"
+    pluginBasename "c"
+    version '${versions['@wizzi/plugin.c@next']}'
     description "wizzi.plugin.c"
     { author
         name "Stefano Bassoli"
@@ -9,9 +12,11 @@
         userid "stfnbssl"
     { license
         name "MIT"
-        copy "copy 2022"
+        copy "copy 2023"
     { Build
         isWizziPlugin true
+        useWizziV08 true
+        { wizziV08
         { utils
             useStringifySafe true
             useObjectInspect true
@@ -26,4 +31,13 @@
             [ artifactGenerators
                 {
                     name "document"
+            [ artifacts
+                {
+                    name "module"
+                    outmime "c"
+                    isDefault true
+            defaultArtifact "module"
+            [ wizzifiers
+            [ fileExtensions
+                "c"
             [ includes

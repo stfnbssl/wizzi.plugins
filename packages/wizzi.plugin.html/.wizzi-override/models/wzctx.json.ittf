@@ -27,14 +27,18 @@
             builtin false
             hasWizzifier true
             [ modelTransformers
-                {
-                    name "extended"
             [ artifactGenerators
                 {
                     name "document"
+                    outmime "html"
+                    contentType "text/html"
+                    isDefault true
+            defaultArtifact "document"
             [ wizzifiers
                 {
                     name "html"
+            [ fileExtensions
+                "html"
             [ includes
                 {
                     Name "Js"

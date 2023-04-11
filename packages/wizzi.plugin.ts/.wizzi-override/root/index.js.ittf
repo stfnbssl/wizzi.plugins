@@ -15,13 +15,15 @@ module
             @ 'ts' require('./lib/wizzi/models/ts-factory.g')
     var window_artifactGenerators
         {
-            @ 'ts/module' require('./lib/artifacts/ts/module/gen/main')
+            @ 'ts/document' require('./lib/artifacts/ts/document/gen/main')
     var window_transformers
         {
             @ 'ts/extended' require('./lib/artifacts/ts/extended/trans/main')
     var window_wizzifiers
         {
-            @ 'ts/wizzifier' require('./lib/wizzifiers/ts/wizzifier')
+            $if wzCtx.Schemas && wzCtx.Schemas.length > 0
+                $if wzCtx.Schemas[0].hasWizzifier
+                    @ '${wzCtx.Schemas[0].name}/wizzifier' require('./lib/wizzifiers/${wzCtx.Schemas[0].name}/wizzifier')
     var window_schemaDefinitions
         {
     +
@@ -88,6 +90,18 @@ module
                         [
                             $foreach schema in wzCtx.Schemas
                                 @ '${schema.name}'
+                    @ schemasExt
+                        [
+                            $foreach schema in wzCtx.Schemas
+                                {
+                                    @ name '${schema.name}'
+                                    [ fileExtensions
+                                        $foreach ext in schema.fileExtensions
+                                            @ "${ext}"
+                                    [ artifactsGenerators
+                                        $foreach art in schema.artifacts
+                                            @ "${art.name}"
+                                    @ defaultArtifact '${schema.defaultArtifact}'
                     @ modelTransformers
                         [
                             $foreach schema in wzCtx.Schemas

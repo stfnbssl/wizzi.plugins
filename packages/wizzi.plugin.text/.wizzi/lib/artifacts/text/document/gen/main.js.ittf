@@ -12,11 +12,22 @@ module
     gen( &md )
         $append imports
         $append main
-            # loog 'wizzi.plugi.text.lib.artifacts.text.document', model, model.toText
-            if model.toText
-                _ ctx.write
-                    _ model.toText
-            else
-                _ ctx.write
-                    @ model.content
-            r_cb( ctx )
+            _ md.text
+                @ model
+                @ ctx
+                a_cb( )
+                    if ctx.artifactGenerationErrors.length > 0
+                        r_cb_err( ctx.artifactGenerationErrors )
+                    else
+                        # generation OK
+                        r_cb( ctx )
+        async-md( text )
+            _ ctx.w('<text>')
+            _ md.genItems
+                @ model.items
+                @ ctx
+                {
+                    @ indent true
+                a_cb()
+                    _ ctx.w('</text>')
+                    r_cb()

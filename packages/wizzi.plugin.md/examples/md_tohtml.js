@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.md\.wizzi-override\examples\md_tohtml.js.ittf
-    utc time: Fri, 07 Apr 2023 21:14:21 GMT
+    utc time: Tue, 11 Apr 2023 14:24:30 GMT
 */
 'use strict';
 var path = require('path');

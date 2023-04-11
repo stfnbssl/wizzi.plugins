@@ -1,7 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.14
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ittf\.wizzi-override\root\index.js.ittf
+    utc time: Tue, 11 Apr 2023 19:36:12 GMT
 */
 'use strict';
 
@@ -12,19 +13,6 @@ var errors = require('./errors');
 
 var md = module.exports = {};
 md.name = 'wizzi.plugin.ittf.index';
-
-// window(s) vars must be declared even if empty
-var window_modelFactories = {
-    'ittf': require('./lib/wizzi/models/ittf-factory.g')
- };
-var window_artifactGenerators = {
-    'ittf/document': require('./lib/artifacts/ittf/document/gen/main')
- };
-var window_transformers = {
-    'ittf/extended': require('./lib/artifacts/ittf/extended/trans/main')
- };
-var window_wizzifiers = {};
-var window_schemaDefinitions = {};
 
 //
 class FactoryPlugin {
@@ -188,11 +176,36 @@ module.exports = {
         schemas: [
             'ittf'
         ], 
+        schemasExt: [
+            {
+                name: 'ittf', 
+                fileExtensions: [
+                    "ittf"
+                ], 
+                artifactsGenerators: [
+                    {
+                        name: "document", 
+                        outmime: "ittf", 
+                        contentType: "text/plain", 
+                        isDefault: true
+                     }, 
+                    {
+                        name: "tojson", 
+                        outmime: "json", 
+                        contentType: "application/json", 
+                        isDefault: false
+                     }
+                ], 
+                defaultArtifact: 'document'
+             }
+        ], 
         modelTransformers: [
-            'ittf/extended'
+            'ittf/html-pretty', 
+            'ittf/cheatsheet'
         ], 
         artifactGenerators: [
-            'ittf/document'
+            'ittf/document', 
+            'ittf/tojson'
         ], 
         wizzifiers: []
      }, 

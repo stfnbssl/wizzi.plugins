@@ -387,74 +387,10 @@
           "params": [],
           "statements": [
             {
-              "tag": "if",
-              "name": "xif",
-              "value": "this.modelCollections.length > 0",
-              "statements": [
-                {
-                  "tag": "set",
-                  "name": "set",
-                  "value": "this.modelCollection = this.modelCollections[0]",
-                  "statements": []
-                },
-                {
-                  "tag": "set",
-                  "name": "set",
-                  "value": "this.collName = this.modelCollection.wzName",
-                  "statements": []
-                },
-                {
-                  "tag": "set",
-                  "name": "set",
-                  "value": "this.collItemName = this.modelCollection.itemName",
-                  "statements": []
-                },
-                {
-                  "tag": "set",
-                  "name": "set",
-                  "value": "this.collPathTemplateValues = []",
-                  "statements": []
-                },
-                {
-                  "tag": "foreach",
-                  "name": "foreach",
-                  "value": "item in this.modelCollection.pathTemplateValues",
-                  "statements": [
-                    {
-                      "tag": "_",
-                      "name": "call",
-                      "value": "this.collPathTemplateValues.push",
-                      "statements": [
-                        {
-                          "tag": "{",
-                          "name": "jsObject",
-                          "value": "",
-                          "statements": [
-                            {
-                              "tag": "@",
-                              "name": "jsPropertyOrValue",
-                              "value": "token item.token",
-                              "statements": []
-                            },
-                            {
-                              "tag": "@",
-                              "name": "jsPropertyOrValue",
-                              "value": "attribute item.attribute",
-                              "statements": []
-                            },
-                            {
-                              "tag": "@",
-                              "name": "jsPropertyOrValue",
-                              "value": "function item.function",
-                              "statements": []
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
             }
           ],
           "comments": []
@@ -1040,119 +976,10 @@
           "params": [],
           "statements": [
             {
-              "tag": "set",
-              "name": "set",
-              "value": "this.wfjob = this.wzParent;",
+              "tag": "+",
+              "name": "statement",
+              "value": "",
               "statements": []
-            },
-            {
-              "tag": "foreach",
-              "name": "foreach",
-              "value": "modelRef in this.modelRefs",
-              "statements": [
-                {
-                  "tag": "var",
-                  "name": "xvar",
-                  "value": "model = this.wfjob.getModel(modelRef.wzName)",
-                  "statements": []
-                },
-                {
-                  "tag": "if",
-                  "name": "xif",
-                  "value": "model == null",
-                  "statements": [
-                    {
-                      "tag": "_",
-                      "name": "call",
-                      "value": "this.error('Model ' + modelRef.wzName + ' not found.', modelRef)",
-                      "statements": []
-                    }
-                  ]
-                },
-                {
-                  "tag": "set",
-                  "name": "set",
-                  "value": "modelRef.___model = model",
-                  "statements": []
-                }
-              ]
-            },
-            {
-              "tag": "set",
-              "name": "set",
-              "value": "this.lines = [];",
-              "statements": []
-            },
-            {
-              "tag": "foreach",
-              "name": "foreach",
-              "value": "lineRef in this.lineRefs",
-              "statements": [
-                {
-                  "tag": "var",
-                  "name": "xvar",
-                  "value": "line = this.wfjob.getLine(lineRef.wzName)",
-                  "statements": []
-                },
-                {
-                  "tag": "if",
-                  "name": "xif",
-                  "value": "line == null",
-                  "statements": [
-                    {
-                      "tag": "_",
-                      "name": "call",
-                      "value": "this.error('line ' + lineRef.wzName + ' not found.', lineRef)",
-                      "statements": []
-                    }
-                  ]
-                },
-                {
-                  "tag": "_",
-                  "name": "call",
-                  "value": "this.lines.push(line)",
-                  "statements": []
-                },
-                {
-                  "tag": "foreach",
-                  "name": "foreach",
-                  "value": "artifact in line.artifacts",
-                  "statements": [
-                    {
-                      "tag": "foreach",
-                      "name": "foreach",
-                      "value": "modelRef in artifact.modelRefs",
-                      "statements": [
-                        {
-                          "tag": "var",
-                          "name": "xvar",
-                          "value": "model = this.wfjob.getModel(modelRef.wzName)",
-                          "statements": []
-                        },
-                        {
-                          "tag": "if",
-                          "name": "xif",
-                          "value": "model == null",
-                          "statements": [
-                            {
-                              "tag": "_",
-                              "name": "call",
-                              "value": "this.error('Model ' + modelRef.wzName + ' not found.', modelRef)",
-                              "statements": []
-                            }
-                          ]
-                        },
-                        {
-                          "tag": "set",
-                          "name": "set",
-                          "value": "modelRef.___model = model;",
-                          "statements": []
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
             }
           ],
           "comments": []
@@ -1240,21 +1067,9 @@
           "params": [],
           "statements": [
             {
-              "tag": "var",
-              "name": "xvar",
-              "value": "nv = verify.parseNameValue(this.wzName)",
-              "statements": []
-            },
-            {
-              "tag": "set",
-              "name": "set",
-              "value": "this.__name = nv.name",
-              "statements": []
-            },
-            {
-              "tag": "set",
-              "name": "set",
-              "value": "this.__value = verify.convert(nv.value, this.type)",
+              "tag": "+",
+              "name": "statement",
+              "value": "",
               "statements": []
             }
           ],
@@ -1339,42 +1154,10 @@
           "params": [],
           "statements": [
             {
-              "tag": "var",
-              "name": "xvar",
-              "value": "nv = verify.parseNameValue(this.wzName)",
-              "statements": []
-            },
-            {
-              "tag": "if",
-              "name": "xif",
-              "value": "nv.value && nv.value.length > 0",
-              "statements": [
-                {
-                  "tag": "set",
-                  "name": "set",
-                  "value": "this.__name = nv.name",
-                  "statements": []
-                },
-                {
-                  "tag": "set",
-                  "name": "set",
-                  "value": "this.__value = verify.convert(nv.value, this.type)",
-                  "statements": []
-                }
-              ]
-            },
-            {
-              "tag": "else",
-              "name": "xelse",
+              "tag": "+",
+              "name": "statement",
               "value": "",
-              "statements": [
-                {
-                  "tag": "set",
-                  "name": "set",
-                  "value": "this.__value = verify.convert(nv.name, this.type)",
-                  "statements": []
-                }
-              ]
+              "statements": []
             }
           ],
           "comments": []

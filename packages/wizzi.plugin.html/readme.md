@@ -16,9 +16,6 @@ wizzi.plugin.html
 no<td>
 
 <table>
-<tr>
-<td>extended</td>
-</tr>
 </table>
 
 <td>

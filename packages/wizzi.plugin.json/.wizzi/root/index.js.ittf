@@ -9,24 +9,6 @@ module
     var md = module.exports = {}
     set md.name = '${wzCtx.name}.index'
     +
-    # window(s) vars must be declared even if empty
-    var window_modelFactories
-        {
-            @ 'json' require('./lib/wizzi/models/json-factory.g')
-    var window_artifactGenerators
-        {
-            @ 'json/document' require('./lib/artifacts/json/document/gen/main')
-    var window_transformers
-        {
-            @ 'json/extended' require('./lib/artifacts/json/extended/trans/main')
-    var window_wizzifiers
-        {
-            $if wzCtx.Schemas && wzCtx.Schemas.length > 0
-                $if wzCtx.Schemas[0].hasWizzifier
-                    @ '${wzCtx.Schemas[0].name}/wizzifier' require('./lib/wizzifiers/${wzCtx.Schemas[0].name}/wizzifier')
-    var window_schemaDefinitions
-        {
-    +
     #
         # FactoryPlugin class
     class FactoryPlugin
@@ -90,6 +72,18 @@ module
                         [
                             $foreach schema in wzCtx.Schemas
                                 @ '${schema.name}'
+                    @ schemasExt
+                        [
+                            $foreach schema in wzCtx.Schemas
+                                {
+                                    @ name '${schema.name}'
+                                    [ fileExtensions
+                                        $foreach ext in schema.fileExtensions
+                                            @ "${ext}"
+                                    [ artifactsGenerators
+                                        $foreach art in schema.artifactGenerators
+                                            @ "${art.name}"
+                                    @ defaultArtifact '${schema.defaultArtifact}'
                     @ modelTransformers
                         [
                             $foreach schema in wzCtx.Schemas

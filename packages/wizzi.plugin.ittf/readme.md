@@ -8,12 +8,7 @@ wizzi.plugin.ittf
 
 <table>
 <tr>
-<th>Schema</th>
-<th>Descriptionn</th>
-<th>Builtin</th>
-<th>Model transformers</th>
-<th>Artifacts</th>
-</tr>
+<th>Schema<th>Descriptionn<th>Builtin<th>Model transformers<th>Artifacts</tr>
 <tr>
 <td>
 <a href https://github.com//wizzi.plugin.ittf/tree/master/.wizzi/ittf/lib/wizzi/schemas/ittf.wfschema.ittf>ittf</a><td>ittf wizzi schema</td>
@@ -22,7 +17,10 @@ yes<td>
 
 <table>
 <tr>
-<td>extended</td>
+<td>html-pretty</td>
+</tr>
+<tr>
+<td>cheatsheet</td>
 </tr>
 </table>
 
@@ -31,6 +29,9 @@ yes<td>
 <table>
 <tr>
 <td>document</td>
+</tr>
+<tr>
+<td>tojson</td>
 </tr>
 </table>
 
@@ -58,10 +59,10 @@ One machinery many productions.
 <p><a href="https://stfnbssl.github.io/wizzi">Project page</a></p>
 
 ## Built With
-* [Nodejs](https://nodejs.org)
-
-* [Wizzi](https://github.com/stfnbssl/wizzi)
-
+    * [Nodejs](https://nodejs.org)
+    
+    * [Wizzi](https://github.com/stfnbssl/wizzi)
+    
 
 ## License
 

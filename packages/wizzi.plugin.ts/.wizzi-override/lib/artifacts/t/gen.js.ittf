@@ -54,6 +54,7 @@ $group
         function terminate_gen
             param model
             param ctx
+            param callback
             if ctx.artifactGenerationErrors.length > 0
                 return
                     _ callback(ctx.artifactGenerationErrors)

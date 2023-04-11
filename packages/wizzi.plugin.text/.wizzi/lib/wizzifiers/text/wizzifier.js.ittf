@@ -5,6 +5,7 @@ module
     basewizzifier()
         $append imports
             var text_parser = require('./parser')
+            var cleanAST = require('./cleanAST')
             +
             function parseInternal
                 param tobeWizzified
@@ -13,8 +14,9 @@ module
                 var syntax
                 try
                     set syntax
-                         _ text_parser.parse
-                            @ tobeWizzified
+                        _ text_parser.parseString
+                        	@ tobeWizzified
+                    _ cleanAST(syntax)
                     return
                         _ callback
                             @ null
@@ -31,21 +33,18 @@ module
             set options = options || {};
             set options.input = tobeWizzified
             set options.stack = []
-            set options.verbose = false
+            set options.formatTextNodes = []
+            set options.verbose = true
             _ parseInternal
                 @ tobeWizzified
                 @ options
                 a_cb( syntax )
-                    # log stringify(syntax, null, 2)
-                    var wizziTree
-                        { 
-                            @ n 'text'
-                            @ v ''
-                            [ children
-                    foreach line in syntax
-                        _ wizziTree.children.push
-                            {
-                                @ n line
-                                @ v ''
-                                [ children
-                    r_cb( wizziTree )
+                    r_cb( syntax )
+        +
+        function isKnownType
+            param type
+            return ['Int', 'Float', 'Boolean', 'String'].indexOf(type) > -1
+        +
+        function getTypeName
+            param type
+            return isKnownType(type) ? type.toLowerCase() : type

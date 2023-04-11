@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.json\.wizzi-override\root\index.js.ittf
-    utc time: Fri, 07 Apr 2023 21:05:31 GMT
+    utc time: Tue, 11 Apr 2023 15:04:14 GMT
 */
 'use strict';
 
@@ -13,21 +13,6 @@ var errors = require('./errors');
 
 var md = module.exports = {};
 md.name = 'wizzi.plugin.json.index';
-
-// window(s) vars must be declared even if empty
-var window_modelFactories = {
-    'json': require('./lib/wizzi/models/json-factory.g')
- };
-var window_artifactGenerators = {
-    'json/document': require('./lib/artifacts/json/document/gen/main')
- };
-var window_transformers = {
-    'json/extended': require('./lib/artifacts/json/extended/trans/main')
- };
-var window_wizzifiers = {
-    'json/wizzifier': require('./lib/wizzifiers/json/wizzifier')
- };
-var window_schemaDefinitions = {};
 
 //
 class FactoryPlugin {
@@ -191,11 +176,27 @@ module.exports = {
         schemas: [
             'json'
         ], 
-        modelTransformers: [
-            'json/extended'
+        schemasExt: [
+            {
+                name: 'json', 
+                fileExtensions: [
+                    "json"
+                ], 
+                artifactsGenerators: [
+                    "document", 
+                    "export", 
+                    "toml", 
+                    "toyaml"
+                ], 
+                defaultArtifact: 'document'
+             }
         ], 
+        modelTransformers: [], 
         artifactGenerators: [
-            'json/document'
+            'json/document', 
+            'json/export', 
+            'json/toml', 
+            'json/toyaml'
         ], 
         wizzifiers: [
             'json'

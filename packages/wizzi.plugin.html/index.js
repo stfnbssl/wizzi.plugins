@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.html\.wizzi-override\root\index.js.ittf
-    utc time: Fri, 07 Apr 2023 18:44:39 GMT
+    utc time: Tue, 11 Apr 2023 20:04:01 GMT
 */
 'use strict';
 
@@ -13,21 +13,6 @@ var errors = require('./errors');
 
 var md = module.exports = {};
 md.name = 'wizzi.plugin.html.index';
-
-// window(s) vars must be declared even if empty
-var window_modelFactories = {
-    'html': require('./lib/wizzi/models/html-factory.g')
- };
-var window_artifactGenerators = {
-    'html/document': require('./lib/artifacts/html/document/gen/main')
- };
-var window_transformers = {
-    'html/extended': require('./lib/artifacts/html/extended/trans/main')
- };
-var window_wizzifiers = {
-    'html/wizzifier': require('./lib/wizzifiers/html/wizzifier')
- };
-var window_schemaDefinitions = {};
 
 //
 class FactoryPlugin {
@@ -191,9 +176,30 @@ module.exports = {
         schemas: [
             'html'
         ], 
-        modelTransformers: [
-            'html/extended'
+        schemasExt: [
+            {
+                name: 'html', 
+                fileExtensions: [
+                    "html"
+                ], 
+                artifactsGenerators: [
+                    {
+                        name: "document", 
+                        outmime: "html", 
+                        contentType: "text/html", 
+                        isDefault: true
+                     }
+                ], 
+                defaultArtifact: 'document', 
+                dependency: [
+                    "js", 
+                    "css", 
+                    "svg", 
+                    "vtt"
+                ]
+             }
         ], 
+        modelTransformers: [], 
         artifactGenerators: [
             'html/document'
         ], 

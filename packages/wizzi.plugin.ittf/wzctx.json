@@ -1,6 +1,8 @@
 {
     "name": "wizzi.plugin.ittf",
-    "version": "0.0.1",
+    "npnName": "@wizzi/plugin.ittf",
+    "pluginBasename": "ittf",
+    "version": "0.8.2",
     "description": "wizzi.plugin.ittf",
     "author": {
         "name": "Stefano Bassoli",
@@ -11,10 +13,12 @@
     },
     "license": {
         "name": "MIT",
-        "copy": "copy 2022"
+        "copy": "copy 2023"
     },
     "Build": {
         "isWizziPlugin": true,
+        "useWizziV08": true,
+        "wizziV08": {},
         "utils": {
             "useStringifySafe": true,
             "useObjectInspect": true
@@ -27,15 +31,31 @@
             "builtin": true,
             "modelTransformers": [
                 {
-                    "name": "extended"
+                    "name": "html-pretty"
+                },
+                {
+                    "name": "cheatsheet"
                 }
             ],
             "artifactGenerators": [
                 {
-                    "name": "document"
+                    "name": "document",
+                    "outmime": "ittf",
+                    "contentType": "text/plain",
+                    "isDefault": true
+                },
+                {
+                    "name": "tojson",
+                    "outmime": "json",
+                    "contentType": "application/json",
+                    "isDefault": false
                 }
             ],
+            "defaultArtifact": "document",
             "wizzifiers": [],
+            "fileExtensions": [
+                "ittf"
+            ],
             "includes": []
         }
     ]

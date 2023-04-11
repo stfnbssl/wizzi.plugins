@@ -94,6 +94,8 @@ $group
         $foreach schema in wzCtx.Schemas
             $foreach include in schema.includes
                 @wizzi/plugin.${include.name} "latest"
+    $if wzCtx.Build.isWizziMeta
+        @wizzi/utils "latest"
     $if wzCtx.Build.useWizzi && wzCtx.Build.wizzi.useV08
         @wizzi/factory "latest"
         @wizzi/utils "latest"
@@ -277,11 +279,14 @@ $group
         palx '^1.0.3'
     $if wzCtx.Build.utils.useParseUrl
         parseurl "^1.3.3"
-    $if wzCtx.Build.usePrismjs
-        prismjs "^1.21.0"
     $if wzCtx.Build.usePostgres || (wzCtx.Build.useSequelize && wzCtx.Build.sequelize.usePostgres)
         pg "^8.8.0"
         pg-hstore "^2.3.4"
+    $if wzCtx.Build.usePostCss
+        postcss "^8.4.21"
+        postcss-color-function "^4.1.0"
+    $if wzCtx.Build.usePrismjs
+        prismjs "^1.21.0"
     
     $if wzCtx.Build.utils.useQueryString
         query-string "^7.0.0"

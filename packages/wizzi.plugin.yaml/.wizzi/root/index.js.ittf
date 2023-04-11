@@ -21,7 +21,9 @@ module
             @ 'yaml/extended' require('./lib/artifacts/yaml/extended/trans/main')
     var window_wizzifiers
         {
-            @ 'yaml/wizzifier' require('./lib/wizzifiers/yaml/wizzifier')
+            $if wzCtx.Schemas && wzCtx.Schemas.length > 0
+                $if wzCtx.Schemas[0].hasWizzifier
+                    @ '${wzCtx.Schemas[0].name}/wizzifier' require('./lib/wizzifiers/${wzCtx.Schemas[0].name}/wizzifier')
     var window_schemaDefinitions
         {
     +

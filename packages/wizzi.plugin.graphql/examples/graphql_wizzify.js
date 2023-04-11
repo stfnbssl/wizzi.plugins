@@ -1,7 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.14
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.graphql\.wizzi\examples\graphql_wizzify.js.ittf
+    utc time: Sat, 08 Apr 2023 04:30:08 GMT
 */
 'use strict';
 
@@ -28,7 +29,7 @@ function wizzify(name, callback) {
     var source = path.join(__dirname, 'data', name + '.graphql');
     
     graphqlwizzifier.getWizziIttf(file.read(source), {
-        syntaxOutFile: path.join(__dirname, 'data', 'output', name + '.graphql.sinthax')
+        syntaxOutFile: path.join(__dirname, 'data', 'output', name + '.graphql.syntax')
      }, (err, ittf) => {
     
         if (err) {

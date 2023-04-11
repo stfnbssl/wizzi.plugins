@@ -1,6 +1,8 @@
 {
     "name": "wizzi.plugin.yaml",
-    "version": "0.0.1",
+    "npnName": "@wizzi/plugin.yaml",
+    "pluginBasename": "yaml",
+    "version": "0.8.2",
     "description": "wizzi.plugin.yaml",
     "author": {
         "name": "Stefano Bassoli",
@@ -11,10 +13,12 @@
     },
     "license": {
         "name": "MIT",
-        "copy": "copy 2022"
+        "copy": "copy 2023"
     },
     "Build": {
         "isWizziPlugin": true,
+        "useWizziV08": true,
+        "wizziV08": {},
         "utils": {
             "useStringifySafe": true,
             "useObjectInspect": true
@@ -37,10 +41,22 @@
                     "name": "document"
                 }
             ],
+            "artifacts": [
+                {
+                    "name": "document",
+                    "outmime": "yaml",
+                    "isDefault": true
+                }
+            ],
+            "defaultArtifact": "document",
             "wizzifiers": [
                 {
                     "name": "yaml"
                 }
+            ],
+            "fileExtensions": [
+                "yaml",
+                "yml"
             ],
             "includes": []
         }

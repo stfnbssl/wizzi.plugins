@@ -1,18 +1,19 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.14
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.graphql\.wizzi\examples\graphql_extended.js.ittf
+    utc time: Sat, 08 Apr 2023 04:30:08 GMT
 */
 'use strict';
 var path = require('path');
 var fs = require('fs');
 var async = require('async');
 var wizzi = null;
-var wizziUtils = require('wizzi-utils');
+var wizziUtils = require('@wizzi/utils');
+var mtree = require('@wizzi/mtree');
 var verify = wizziUtils.verify;
 var file = wizziUtils.file;
 var mocks = wizziUtils.mocks;
-var mtree = require('wizzi-mtree');
 var errors = wizziUtils.exampleErrors;
 var stringify = require('json-stringify-safe');
 function executeExample() {
@@ -34,7 +35,6 @@ function executeExample() {
     function executeGenerateModules(modules, callback) {
         async.mapSeries(modules, (module, callback) => {
         
-            console.log('graphql.example.executeGenerateModules.module: ' + module, __filename);
             var ittfDocumentUri = path.join(__dirname, 'ittf', module + '.graphql.ittf');
             var outputLoadedPath = path.join(__dirname, 'results', module + '.graphql.json');
             var outputExtendedPath = path.join(__dirname, 'results', module + '.graphql.extended.json');
@@ -43,14 +43,14 @@ function executeExample() {
                 if (err) {
                     return callback(err);
                 }
-                console.log('graphql.example.executeGenerateModules.outputLoadedPath: ' + outputLoadedPath, __filename);
-                file.write(outputLoadedPath, stringify(model.toJson(), null, 4))
+                if (model.toJson && verify.isFunction(model.toJson)) {
+                    file.write(outputLoadedPath, stringify(model.toJson(), null, 4))
+                }
                 loadModelAndTransform(ittfDocumentUri, {}, "graphql/extended", (err, model) => {
                 
                     if (err) {
                         return callback(err);
                     }
-                    console.log('graphql.example.executeGenerateModules.outputExtendedPath: ' + outputExtendedPath, __filename);
                     file.write(outputExtendedPath, stringify(model, null, 4))
                     return callback(null);
                 }
@@ -65,7 +65,7 @@ function createWizziFactory(globalContext, callback) {
     
     // The wizzi package will be the npm version from wizzi/node_modules
     if (wizzi == null) {
-        wizzi = require('wizzi');
+        wizzi = require('@wizzi/factory');
     }
     console.log('"wizzi" package version', wizzi.version);
     wizzi.fsFactory({

@@ -2,7 +2,7 @@
     "name": "wizzi.plugin.js",
     "npnName": "@wizzi/plugin.js",
     "pluginBasename": "js",
-    "version": "0.8.1",
+    "version": "0.8.2",
     "description": "wizzi.plugin.js",
     "author": {
         "name": "Stefano Bassoli",
@@ -30,22 +30,28 @@
         {
             "name": "js",
             "title": "js wizzi schema",
+            "rootElement": "xmodule",
+            "rootTag": "module",
             "builtin": false,
             "hasWizzifier": true,
-            "modelTransformers": [
-                {
-                    "name": "extended"
-                }
-            ],
+            "modelTransformers": [],
             "artifactGenerators": [
                 {
-                    "name": "document"
+                    "name": "module",
+                    "outmime": "js",
+                    "contentType": "text/javascript",
+                    "isDefault": true
                 }
             ],
+            "defaultArtifact": "module",
             "wizzifiers": [
                 {
                     "name": "js"
                 }
+            ],
+            "fileExtensions": [
+                "js",
+                "jsx"
             ],
             "includes": []
         }

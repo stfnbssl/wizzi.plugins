@@ -1,0 +1,56 @@
+module
+    kind es6
+    $
+        var md = {
+            name: 'json',
+            artifact: 'toyaml',
+        };
+    v08/examples/plugin( &md )
+        $append plugins
+            [ items
+                @ './index.js'
+            @ pluginsBaseFolder
+                _ path.resolve
+                    @ __dirname
+                    @ '..'
+        let arg = process.argv[2]
+        const moduleName = arg && arg.length > 0 ? arg : 'first'
+        _ executeGenerateModules
+            [
+                @ moduleName
+            a_cb_no_throw( result )
+                if err
+                    error 'json/toyaml.examples.executeGenerateModules.err', err
+                    error 'json/toyaml.examples.executeGenerateModules.err.toString()', err.toString()
+                    if err.inner
+                        error 'json/toyaml.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
+                else
+        function executeGenerateModules
+            param modules
+            param callback
+            _ async.mapSeries
+                @ modules
+                =>
+                    param module
+                    param callback
+                    var ittfDocumentUri
+                        _ path.join
+                            @ __dirname
+                            @ 'ittf'
+                            @ module + '.json.ittf'
+                    var outputPath
+                        _ path.join
+                            @ __dirname
+                            @ 'results'
+                            @ 'json'
+                            @ module + '-toyaml.g.yaml'
+                    _ loadModelAndGenerateArtifact
+                        @ ittfDocumentUri
+                        {
+                        @ 'json/toyaml'
+                        a_cb( artifactText )
+                            _ file.write
+                                @ outputPath
+                                @ artifactText
+                            r_cb( artifactText )
+                @ callback

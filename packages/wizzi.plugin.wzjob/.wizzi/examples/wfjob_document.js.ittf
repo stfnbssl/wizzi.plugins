@@ -3,6 +3,7 @@ module
     $
         var md = {
             name: 'wfjob',
+            artifact: 'document',
         };
     v08/examples/plugin( &md )
         $append plugins
@@ -12,15 +13,17 @@ module
                 _ path.resolve
                     @ __dirname
                     @ '..'
+        let arg = process.argv[2]
+        const moduleName = arg && arg.length > 0 ? arg : 'first'
         _ executeGenerateModules
             [
-                @ 'first'
+                @ moduleName
             a_cb_no_throw( result )
                 if err
-                    error 'wfjob.examples.executeGenerateModules.err', err
-                    error 'wfjob.examples.executeGenerateModules.err.toString()', err.toString()
+                    error 'wfjob/document.examples.executeGenerateModules.err', err
+                    error 'wfjob/document.examples.executeGenerateModules.err.toString()', err.toString()
                     if err.inner
-                        error 'wfjob.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
+                        error 'wfjob/document.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
                 else
         function executeGenerateModules
             param modules
@@ -30,7 +33,6 @@ module
                 =>
                     param module
                     param callback
-                    log 'wfjob.example.executeGenerateModules.module: ' + module
                     var ittfDocumentUri
                         _ path.join
                             @ __dirname
@@ -40,13 +42,13 @@ module
                         _ path.join
                             @ __dirname
                             @ 'results'
-                            @ module + '.wfjob.html'
+                            @ 'wfjob'
+                            @ module + '-document.g.wzjob'
                     _ loadModelAndGenerateArtifact
                         @ ittfDocumentUri
                         {
                         @ 'wfjob/document'
                         a_cb( artifactText )
-                            log 'wfjob.example.executeGenerateModules.outputPath: ' + outputPath
                             _ file.write
                                 @ outputPath
                                 @ artifactText

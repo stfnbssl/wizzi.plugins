@@ -4,6 +4,9 @@ $group
         if (!md.rootElement) {
             md.rootElement = md.schema;
         }
+    +
+    $hook description
+    +
     var util = require('util')
     var path = require('path')
     var async = require('async')
@@ -26,12 +29,13 @@ $group
     md-gen-main(&md)
         $if md.checkSchema
             if model.wzElement !== '${md.rootElement}'
-                _ callback
-                    _ error
-                        @ 'InvalidArgument'
-                        @ 'gen'
-                        @ 'Invalid model schema. Expected root element "${md.rootElement}". Received: ' + model.wzElement
-                        @ model
+                return
+                    _ callback
+                        _ error
+                            @ 'InvalidArgument'
+                            @ 'gen'
+                            @ 'Invalid model schema. Expected root element "${md.rootElement}". Received: ' + model.wzElement
+                            @ model
         try
             $if md.mainStart
                 _ mainStart
@@ -50,6 +54,7 @@ $group
         function terminate_gen
             param model
             param ctx
+            param callback
             if ctx.artifactGenerationErrors.length > 0
                 return
                     _ callback(ctx.artifactGenerationErrors)

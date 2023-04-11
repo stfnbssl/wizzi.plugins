@@ -1,6 +1,7 @@
 $group
+    $params name, tag|@@null, defaultValue|@@null
     a ${name}
-        $params name, tag|@@null, defaultValue|@@null
         tag ${tag}
         $if defaultValue
             default ${defaultValue}
+        $hook

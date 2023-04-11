@@ -1,7 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.14
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.xml\.wizzi-override\root\index.js.ittf
+    utc time: Tue, 11 Apr 2023 14:20:48 GMT
 */
 'use strict';
 
@@ -189,6 +190,18 @@ module.exports = {
     provides: {
         schemas: [
             'xml'
+        ], 
+        schemasExt: [
+            {
+                name: 'xml', 
+                fileExtensions: [
+                    "xml"
+                ], 
+                artifactsGenerators: [
+                    "document"
+                ], 
+                defaultArtifact: 'document'
+             }
         ], 
         modelTransformers: [
             'xml/extended'

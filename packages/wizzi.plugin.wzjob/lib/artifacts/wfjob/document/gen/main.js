@@ -1,9 +1,12 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.14
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzjob\.wizzi-override\lib\artifacts\wfjob\document\gen\main.js.ittf
+    utc time: Sun, 09 Apr 2023 09:35:25 GMT
 */
 'use strict';
+
+
 var util = require('util');
 var path = require('path');
 var async = require('async');
@@ -24,7 +27,7 @@ md.gen = function(model, ctx, callback) {
         return callback(error('InvalidArgument', 'gen', 'The model parameter must be an object. Received: ' + model, model));
     }
     if (model.wzElement !== 'wfjob') {
-        callback(error('InvalidArgument', 'gen', 'Invalid model schema. Expected root element "wfjob". Received: ' + model.wzElement, model))
+        return callback(error('InvalidArgument', 'gen', 'Invalid model schema. Expected root element "wfjob". Received: ' + model.wzElement, model));
     }
     try {
         md.wfjob(model, ctx, (err, notUsed) => {
@@ -45,7 +48,7 @@ md.gen = function(model, ctx, callback) {
     catch (ex) {
         return callback(error('Exception', 'gen', 'An exception encountered during generation', model, ex));
     } 
-    function terminate_gen(model, ctx) {
+    function terminate_gen(model, ctx, callback) {
         if (ctx.artifactGenerationErrors.length > 0) {
             return callback(ctx.artifactGenerationErrors);
         }
@@ -103,7 +106,6 @@ md.genItem = function(model, ctx, callback) {
 ;
 md.wfjob = function(model, ctx, callback) {
     ctx.write('<wfjob');
-    console.log('model.wzName', model.wzName, __filename);
     if (model.wzName && model.wzName.length > 0) {
         ctx.write(' wzName=' + model.wzName);
     }
@@ -118,66 +120,71 @@ md.wfjob = function(model, ctx, callback) {
     }
     ctx.w('>');
     md.genItems(model.requires, ctx, {
-        indent: true
+        indent: true, 
+        from: 0
      }, (err, notUsed) => {
     
         if (err) {
             return callback(err);
         }
-    }
-    )
-    md.genItems(model.models, ctx, {
-        indent: true
-     }, (err, notUsed) => {
-    
-        if (err) {
-            return callback(err);
+        md.genItems(model.models, ctx, {
+            indent: true, 
+            from: 0
+         }, (err, notUsed) => {
+        
+            if (err) {
+                return callback(err);
+            }
+            md.genItems(model.lines, ctx, {
+                indent: true, 
+                from: 0
+             }, (err, notUsed) => {
+            
+                if (err) {
+                    return callback(err);
+                }
+                md.genItems(model.productions, ctx, {
+                    indent: true, 
+                    from: 0
+                 }, (err, notUsed) => {
+                
+                    if (err) {
+                        return callback(err);
+                    }
+                    md.genItems(model.execFiles, ctx, {
+                        indent: true, 
+                        from: 0
+                     }, (err, notUsed) => {
+                    
+                        if (err) {
+                            return callback(err);
+                        }
+                        md.genItems(model.comments, ctx, {
+                            indent: true, 
+                            from: 0
+                         }, (err, notUsed) => {
+                        
+                            if (err) {
+                                return callback(err);
+                            }
+                            ctx.w('</wfjob>');
+                            return callback(null);
+                        }
+                        )
+                    }
+                    )
+                }
+                )
+            }
+            )
         }
+        )
     }
     )
-    md.genItems(model.lines, ctx, {
-        indent: true
-     }, (err, notUsed) => {
-    
-        if (err) {
-            return callback(err);
-        }
-    }
-    )
-    md.genItems(model.productions, ctx, {
-        indent: true
-     }, (err, notUsed) => {
-    
-        if (err) {
-            return callback(err);
-        }
-    }
-    )
-    md.genItems(model.execFiles, ctx, {
-        indent: true
-     }, (err, notUsed) => {
-    
-        if (err) {
-            return callback(err);
-        }
-    }
-    )
-    md.genItems(model.comments, ctx, {
-        indent: true
-     }, (err, notUsed) => {
-    
-        if (err) {
-            return callback(err);
-        }
-    }
-    )
-    ctx.w('</wfjob>');
-    return callback(null);
 }
 ;
 md.require = function(model, ctx, callback) {
     ctx.write('<require');
-    console.log('model.wzName', model.wzName, __filename);
     if (model.wzName && model.wzName.length > 0) {
         ctx.write(' wzName=' + model.wzName);
     }
@@ -188,7 +195,6 @@ md.require = function(model, ctx, callback) {
 ;
 md.model = function(model, ctx, callback) {
     ctx.write('<model');
-    console.log('model.wzName', model.wzName, __filename);
     if (model.wzName && model.wzName.length > 0) {
         ctx.write(' wzName=' + model.wzName);
     }
@@ -209,30 +215,31 @@ md.model = function(model, ctx, callback) {
     }
     ctx.w('>');
     md.genItems(model.modelRefs, ctx, {
-        indent: true
+        indent: true, 
+        from: 0
      }, (err, notUsed) => {
     
         if (err) {
             return callback(err);
         }
-    }
-    )
-    md.genItems(model.comments, ctx, {
-        indent: true
-     }, (err, notUsed) => {
-    
-        if (err) {
-            return callback(err);
+        md.genItems(model.comments, ctx, {
+            indent: true, 
+            from: 0
+         }, (err, notUsed) => {
+        
+            if (err) {
+                return callback(err);
+            }
+            ctx.w('</model>');
+            return callback(null);
         }
+        )
     }
     )
-    ctx.w('</model>');
-    return callback(null);
 }
 ;
 md.modelRef = function(model, ctx, callback) {
     ctx.write('<modelRef');
-    console.log('model.wzName', model.wzName, __filename);
     if (model.wzName && model.wzName.length > 0) {
         ctx.write(' wzName=' + model.wzName);
     }
@@ -241,39 +248,41 @@ md.modelRef = function(model, ctx, callback) {
     }
     ctx.w('>');
     md.genItems(model.transformers, ctx, {
-        indent: true
+        indent: true, 
+        from: 0
      }, (err, notUsed) => {
     
         if (err) {
             return callback(err);
         }
-    }
-    )
-    md.genItems(model.modelCollections, ctx, {
-        indent: true
-     }, (err, notUsed) => {
-    
-        if (err) {
-            return callback(err);
+        md.genItems(model.modelCollections, ctx, {
+            indent: true, 
+            from: 0
+         }, (err, notUsed) => {
+        
+            if (err) {
+                return callback(err);
+            }
+            md.genItems(model.comments, ctx, {
+                indent: true, 
+                from: 0
+             }, (err, notUsed) => {
+            
+                if (err) {
+                    return callback(err);
+                }
+                ctx.w('</modelRef>');
+                return callback(null);
+            }
+            )
         }
+        )
     }
     )
-    md.genItems(model.comments, ctx, {
-        indent: true
-     }, (err, notUsed) => {
-    
-        if (err) {
-            return callback(err);
-        }
-    }
-    )
-    ctx.w('</modelRef>');
-    return callback(null);
 }
 ;
 md.modelCollection = function(model, ctx, callback) {
     ctx.write('<modelCollection');
-    console.log('model.wzName', model.wzName, __filename);
     if (model.wzName && model.wzName.length > 0) {
         ctx.write(' wzName=' + model.wzName);
     }
@@ -282,30 +291,31 @@ md.modelCollection = function(model, ctx, callback) {
     }
     ctx.w('>');
     md.genItems(model.pathTemplateValues, ctx, {
-        indent: true
+        indent: true, 
+        from: 0
      }, (err, notUsed) => {
     
         if (err) {
             return callback(err);
         }
-    }
-    )
-    md.genItems(model.comments, ctx, {
-        indent: true
-     }, (err, notUsed) => {
-    
-        if (err) {
-            return callback(err);
+        md.genItems(model.comments, ctx, {
+            indent: true, 
+            from: 0
+         }, (err, notUsed) => {
+        
+            if (err) {
+                return callback(err);
+            }
+            ctx.w('</modelCollection>');
+            return callback(null);
         }
+        )
     }
     )
-    ctx.w('</modelCollection>');
-    return callback(null);
 }
 ;
 md.pathTemplateValue = function(model, ctx, callback) {
     ctx.write('<pathTemplateValue');
-    console.log('model.wzName', model.wzName, __filename);
     if (model.wzName && model.wzName.length > 0) {
         ctx.write(' wzName=' + model.wzName);
     }
@@ -320,21 +330,21 @@ md.pathTemplateValue = function(model, ctx, callback) {
     }
     ctx.w('>');
     md.genItems(model.comments, ctx, {
-        indent: true
+        indent: true, 
+        from: 0
      }, (err, notUsed) => {
     
         if (err) {
             return callback(err);
         }
+        ctx.w('</pathTemplateValue>');
+        return callback(null);
     }
     )
-    ctx.w('</pathTemplateValue>');
-    return callback(null);
 }
 ;
 md.comment = function(model, ctx, callback) {
     ctx.write('<comment');
-    console.log('model.wzName', model.wzName, __filename);
     if (model.wzName && model.wzName.length > 0) {
         ctx.write(' wzName=' + model.wzName);
     }
@@ -345,7 +355,6 @@ md.comment = function(model, ctx, callback) {
 ;
 md.line = function(model, ctx, callback) {
     ctx.write('<line');
-    console.log('model.wzName', model.wzName, __filename);
     if (model.wzName && model.wzName.length > 0) {
         ctx.write(' wzName=' + model.wzName);
     }
@@ -357,30 +366,31 @@ md.line = function(model, ctx, callback) {
     }
     ctx.w('>');
     md.genItems(model.artifacts, ctx, {
-        indent: true
+        indent: true, 
+        from: 0
      }, (err, notUsed) => {
     
         if (err) {
             return callback(err);
         }
-    }
-    )
-    md.genItems(model.comments, ctx, {
-        indent: true
-     }, (err, notUsed) => {
-    
-        if (err) {
-            return callback(err);
+        md.genItems(model.comments, ctx, {
+            indent: true, 
+            from: 0
+         }, (err, notUsed) => {
+        
+            if (err) {
+                return callback(err);
+            }
+            ctx.w('</line>');
+            return callback(null);
         }
+        )
     }
     )
-    ctx.w('</line>');
-    return callback(null);
 }
 ;
 md.artifact = function(model, ctx, callback) {
     ctx.write('<artifact');
-    console.log('model.wzName', model.wzName, __filename);
     if (model.wzName && model.wzName.length > 0) {
         ctx.write(' wzName=' + model.wzName);
     }
@@ -425,39 +435,41 @@ md.artifact = function(model, ctx, callback) {
     }
     ctx.w('>');
     md.genItems(model.transformers, ctx, {
-        indent: true
+        indent: true, 
+        from: 0
      }, (err, notUsed) => {
     
         if (err) {
             return callback(err);
         }
-    }
-    )
-    md.genItems(model.modelRefs, ctx, {
-        indent: true
-     }, (err, notUsed) => {
-    
-        if (err) {
-            return callback(err);
+        md.genItems(model.modelRefs, ctx, {
+            indent: true, 
+            from: 0
+         }, (err, notUsed) => {
+        
+            if (err) {
+                return callback(err);
+            }
+            md.genItems(model.comments, ctx, {
+                indent: true, 
+                from: 0
+             }, (err, notUsed) => {
+            
+                if (err) {
+                    return callback(err);
+                }
+                ctx.w('</artifact>');
+                return callback(null);
+            }
+            )
         }
+        )
     }
     )
-    md.genItems(model.comments, ctx, {
-        indent: true
-     }, (err, notUsed) => {
-    
-        if (err) {
-            return callback(err);
-        }
-    }
-    )
-    ctx.w('</artifact>');
-    return callback(null);
 }
 ;
 md.transformer = function(model, ctx, callback) {
     ctx.write('<transformer');
-    console.log('model.wzName', model.wzName, __filename);
     if (model.wzName && model.wzName.length > 0) {
         ctx.write(' wzName=' + model.wzName);
     }
@@ -471,7 +483,6 @@ md.transformer = function(model, ctx, callback) {
 ;
 md.production = function(model, ctx, callback) {
     ctx.write('<production');
-    console.log('model.wzName', model.wzName, __filename);
     if (model.wzName && model.wzName.length > 0) {
         ctx.write(' wzName=' + model.wzName);
     }
@@ -480,58 +491,60 @@ md.production = function(model, ctx, callback) {
     }
     ctx.w('>');
     md.genItems(model.lineRefs, ctx, {
-        indent: true
+        indent: true, 
+        from: 0
      }, (err, notUsed) => {
     
         if (err) {
             return callback(err);
         }
-    }
-    )
-    md.genItems(model.modelRefs, ctx, {
-        indent: true
-     }, (err, notUsed) => {
-    
-        if (err) {
-            return callback(err);
+        md.genItems(model.modelRefs, ctx, {
+            indent: true, 
+            from: 0
+         }, (err, notUsed) => {
+        
+            if (err) {
+                return callback(err);
+            }
+            md.genItems(model.comments, ctx, {
+                indent: true, 
+                from: 0
+             }, (err, notUsed) => {
+            
+                if (err) {
+                    return callback(err);
+                }
+                ctx.w('</production>');
+                return callback(null);
+            }
+            )
         }
+        )
     }
     )
-    md.genItems(model.comments, ctx, {
-        indent: true
-     }, (err, notUsed) => {
-    
-        if (err) {
-            return callback(err);
-        }
-    }
-    )
-    ctx.w('</production>');
-    return callback(null);
 }
 ;
 md.lineRef = function(model, ctx, callback) {
     ctx.write('<lineRef');
-    console.log('model.wzName', model.wzName, __filename);
     if (model.wzName && model.wzName.length > 0) {
         ctx.write(' wzName=' + model.wzName);
     }
     md.genItems(model.comments, ctx, {
-        indent: true
+        indent: true, 
+        from: 0
      }, (err, notUsed) => {
     
         if (err) {
             return callback(err);
         }
+        ctx.w('</lineRef>');
+        return callback(null);
     }
     )
-    ctx.w('</lineRef>');
-    return callback(null);
 }
 ;
 md.env = function(model, ctx, callback) {
     ctx.write('<env');
-    console.log('model.wzName', model.wzName, __filename);
     if (model.wzName && model.wzName.length > 0) {
         ctx.write(' wzName=' + model.wzName);
     }
@@ -551,7 +564,6 @@ md.env = function(model, ctx, callback) {
 ;
 md.arg = function(model, ctx, callback) {
     ctx.write('<arg');
-    console.log('model.wzName', model.wzName, __filename);
     if (model.wzName && model.wzName.length > 0) {
         ctx.write(' wzName=' + model.wzName);
     }
@@ -571,7 +583,6 @@ md.arg = function(model, ctx, callback) {
 ;
 md.execFile = function(model, ctx, callback) {
     ctx.write('<execFile');
-    console.log('model.wzName', model.wzName, __filename);
     if (model.wzName && model.wzName.length > 0) {
         ctx.write(' wzName=' + model.wzName);
     }
@@ -592,7 +603,6 @@ md.execFile = function(model, ctx, callback) {
     }
     ctx.w('>');
     ctx.write('<options');
-    console.log('model.wzName', model.wzName, __filename);
     if (model.wzName && model.wzName.length > 0) {
         ctx.write(' wzName=' + model.wzName);
     }
@@ -608,34 +618,37 @@ md.execFile = function(model, ctx, callback) {
     ctx.w('>');
     ctx.w('</options>');
     md.genItems(model.args, ctx, {
-        indent: true
+        indent: true, 
+        from: 0
      }, (err, notUsed) => {
     
         if (err) {
             return callback(err);
         }
-    }
-    )
-    md.genItems(model.env, ctx, {
-        indent: true
-     }, (err, notUsed) => {
-    
-        if (err) {
-            return callback(err);
+        md.genItems(model.env, ctx, {
+            indent: true, 
+            from: 0
+         }, (err, notUsed) => {
+        
+            if (err) {
+                return callback(err);
+            }
+            md.genItems(model.comments, ctx, {
+                indent: true, 
+                from: 0
+             }, (err, notUsed) => {
+            
+                if (err) {
+                    return callback(err);
+                }
+                ctx.w('</execFile>');
+                return callback(null);
+            }
+            )
         }
+        )
     }
     )
-    md.genItems(model.comments, ctx, {
-        indent: true
-     }, (err, notUsed) => {
-    
-        if (err) {
-            return callback(err);
-        }
-    }
-    )
-    ctx.w('</execFile>');
-    return callback(null);
 }
 ;
 var noattrs = [

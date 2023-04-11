@@ -1,6 +1,5 @@
 $group
     $params name
     _ ctx.write('<${name}')
-    log 'model.wzName', model.wzName
     if model.wzName && model.wzName.length > 0
         _ ctx.write(' wzName=' + model.wzName)

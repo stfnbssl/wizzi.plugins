@@ -2,7 +2,7 @@
     "name": "wizzi.plugin.html",
     "npnName": "@wizzi/plugin.html",
     "pluginBasename": "html",
-    "version": "0.8.1",
+    "version": "0.8.2",
     "description": "wizzi.plugin.html",
     "author": {
         "name": "Stefano Bassoli",
@@ -30,20 +30,23 @@
             "title": "html wizzi schema",
             "builtin": false,
             "hasWizzifier": true,
-            "modelTransformers": [
-                {
-                    "name": "extended"
-                }
-            ],
+            "modelTransformers": [],
             "artifactGenerators": [
                 {
-                    "name": "document"
+                    "name": "document",
+                    "outmime": "html",
+                    "contentType": "text/html",
+                    "isDefault": true
                 }
             ],
+            "defaultArtifact": "document",
             "wizzifiers": [
                 {
                     "name": "html"
                 }
+            ],
+            "fileExtensions": [
+                "html"
             ],
             "includes": [
                 {

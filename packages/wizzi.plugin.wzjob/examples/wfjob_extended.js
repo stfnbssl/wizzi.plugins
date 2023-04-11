@@ -1,7 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.14
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzjob\.wizzi-override\examples\wfjob_extended.js.ittf
+    utc time: Sun, 09 Apr 2023 09:35:24 GMT
 */
 'use strict';
 var path = require('path');
@@ -9,10 +10,10 @@ var fs = require('fs');
 var async = require('async');
 var wizzi = null;
 var wizziUtils = require('wizzi-utils');
+var mtree = require('wizzi-mtree');
 var verify = wizziUtils.verify;
 var file = wizziUtils.file;
 var mocks = wizziUtils.mocks;
-var mtree = require('wizzi-mtree');
 var errors = wizziUtils.exampleErrors;
 var stringify = require('json-stringify-safe');
 function executeExample() {

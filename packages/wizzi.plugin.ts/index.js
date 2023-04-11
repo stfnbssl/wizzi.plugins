@@ -1,7 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.14
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\root\index.js.ittf
+    utc time: Tue, 11 Apr 2023 14:28:46 GMT
 */
 'use strict';
 
@@ -12,21 +13,6 @@ var errors = require('./errors');
 
 var md = module.exports = {};
 md.name = 'wizzi.plugin.ts.index';
-
-// window(s) vars must be declared even if empty
-var window_modelFactories = {
-    'ts': require('./lib/wizzi/models/ts-factory.g')
- };
-var window_artifactGenerators = {
-    'ts/module': require('./lib/artifacts/ts/module/gen/main')
- };
-var window_transformers = {
-    'ts/extended': require('./lib/artifacts/ts/extended/trans/main')
- };
-var window_wizzifiers = {
-    'ts/wizzifier': require('./lib/wizzifiers/ts/wizzifier')
- };
-var window_schemaDefinitions = {};
 
 //
 class FactoryPlugin {
@@ -190,11 +176,23 @@ module.exports = {
         schemas: [
             'ts'
         ], 
+        schemasExt: [
+            {
+                name: 'ts', 
+                fileExtensions: [
+                    "ts"
+                ], 
+                artifactsGenerators: [
+                    "module"
+                ], 
+                defaultArtifact: 'module'
+             }
+        ], 
         modelTransformers: [
             'ts/extended'
         ], 
         artifactGenerators: [
-            'ts/document'
+            'ts/module'
         ], 
         wizzifiers: [
             'ts'

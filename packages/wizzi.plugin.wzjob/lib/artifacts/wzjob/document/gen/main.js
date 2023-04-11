@@ -1,9 +1,12 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.14
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzjob\.wizzi-override\lib\artifacts\wzjob\document\gen\main.js.ittf
+    utc time: Sun, 09 Apr 2023 09:35:25 GMT
 */
 'use strict';
+
+
 var util = require('util');
 var path = require('path');
 var async = require('async');
@@ -24,7 +27,7 @@ md.gen = function(model, ctx, callback) {
         return callback(error('InvalidArgument', 'gen', 'The model parameter must be an object. Received: ' + model, model));
     }
     if (model.wzElement !== 'wzjob') {
-        callback(error('InvalidArgument', 'gen', 'Invalid model schema. Expected root element "wzjob". Received: ' + model.wzElement, model))
+        return callback(error('InvalidArgument', 'gen', 'Invalid model schema. Expected root element "wzjob". Received: ' + model.wzElement, model));
     }
     try {
         md.wzjob(model, ctx, (err, notUsed) => {
@@ -45,7 +48,7 @@ md.gen = function(model, ctx, callback) {
     catch (ex) {
         return callback(error('Exception', 'gen', 'An exception encountered during generation', model, ex));
     } 
-    function terminate_gen(model, ctx) {
+    function terminate_gen(model, ctx, callback) {
         if (ctx.artifactGenerationErrors.length > 0) {
             return callback(ctx.artifactGenerationErrors);
         }

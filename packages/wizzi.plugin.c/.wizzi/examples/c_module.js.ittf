@@ -1,0 +1,56 @@
+module
+    kind es6
+    $
+        var md = {
+            name: 'c',
+            artifact: 'module',
+        };
+    v08/examples/plugin( &md )
+        $append plugins
+            [ items
+                @ './index.js'
+            @ pluginsBaseFolder
+                _ path.resolve
+                    @ __dirname
+                    @ '..'
+        let arg = process.argv[2]
+        const moduleName = arg && arg.length > 0 ? arg : 'first'
+        _ executeGenerateModules
+            [
+                @ moduleName
+            a_cb_no_throw( result )
+                if err
+                    error 'c/module.examples.executeGenerateModules.err', err
+                    error 'c/module.examples.executeGenerateModules.err.toString()', err.toString()
+                    if err.inner
+                        error 'c/module.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
+                else
+        function executeGenerateModules
+            param modules
+            param callback
+            _ async.mapSeries
+                @ modules
+                =>
+                    param module
+                    param callback
+                    var ittfDocumentUri
+                        _ path.join
+                            @ __dirname
+                            @ 'ittf'
+                            @ module + '.c.ittf'
+                    var outputPath
+                        _ path.join
+                            @ __dirname
+                            @ 'results'
+                            @ 'c'
+                            @ module + '-module.g.c'
+                    _ loadModelAndGenerateArtifact
+                        @ ittfDocumentUri
+                        {
+                        @ 'c/module'
+                        a_cb( artifactText )
+                            _ file.write
+                                @ outputPath
+                                @ artifactText
+                            r_cb( artifactText )
+                @ callback

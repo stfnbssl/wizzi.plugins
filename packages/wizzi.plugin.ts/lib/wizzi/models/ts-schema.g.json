@@ -1375,9 +1375,9 @@
           "params": [],
           "statements": [
             {
-              "tag": "set",
-              "name": "set",
-              "value": "this.wzModelState = ctx.modelState = {}",
+              "tag": "+",
+              "name": "statement",
+              "value": "",
               "statements": []
             }
           ],
@@ -1392,29 +1392,9 @@
           ],
           "statements": [
             {
-              "tag": "foreach",
-              "name": "foreach",
-              "value": "f in this.features",
-              "statements": [
-                {
-                  "tag": "if",
-                  "name": "xif",
-                  "value": "f.wzName === name",
-                  "statements": [
-                    {
-                      "tag": "return",
-                      "name": "xreturn",
-                      "value": "true",
-                      "statements": []
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "tag": "return",
-              "name": "xreturn",
-              "value": "false",
+              "tag": "+",
+              "name": "statement",
+              "value": "",
               "statements": []
             }
           ],
@@ -2738,54 +2718,9 @@
           "params": [],
           "statements": [
             {
-              "tag": "set",
-              "name": "set",
-              "value": "this.specifiers = []",
-              "statements": []
-            },
-            {
-              "tag": "var",
-              "name": "xvar",
-              "value": "temp = []",
-              "statements": []
-            },
-            {
-              "tag": "foreach",
-              "name": "foreach",
-              "value": "item in this.statements",
-              "statements": [
-                {
-                  "tag": "if",
-                  "name": "xif",
-                  "value": "item.wzElement === 'jsPropertyOrValue'",
-                  "statements": [
-                    {
-                      "tag": "_",
-                      "name": "call",
-                      "value": "this.specifiers.push(item)",
-                      "statements": []
-                    }
-                  ]
-                },
-                {
-                  "tag": "else",
-                  "name": "xelse",
-                  "value": "",
-                  "statements": [
-                    {
-                      "tag": "_",
-                      "name": "call",
-                      "value": "temp.push(item)",
-                      "statements": []
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "tag": "set",
-              "name": "set",
-              "value": "this.statements = temp",
+              "tag": "+",
+              "name": "statement",
+              "value": "",
               "statements": []
             }
           ],
@@ -2851,54 +2786,9 @@
           "params": [],
           "statements": [
             {
-              "tag": "set",
-              "name": "set",
-              "value": "this.specifiers = []",
-              "statements": []
-            },
-            {
-              "tag": "var",
-              "name": "xvar",
-              "value": "temp = []",
-              "statements": []
-            },
-            {
-              "tag": "foreach",
-              "name": "foreach",
-              "value": "item in this.statements",
-              "statements": [
-                {
-                  "tag": "if",
-                  "name": "xif",
-                  "value": "item.wzElement === 'jsPropertyOrValue'",
-                  "statements": [
-                    {
-                      "tag": "_",
-                      "name": "call",
-                      "value": "this.specifiers.push(item)",
-                      "statements": []
-                    }
-                  ]
-                },
-                {
-                  "tag": "else",
-                  "name": "xelse",
-                  "value": "",
-                  "statements": [
-                    {
-                      "tag": "_",
-                      "name": "call",
-                      "value": "temp.push(item)",
-                      "statements": []
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "tag": "set",
-              "name": "set",
-              "value": "this.statements = temp",
+              "tag": "+",
+              "name": "statement",
+              "value": "",
               "statements": []
             }
           ],
@@ -4185,35 +4075,13 @@
           "params": [],
           "statements": [
             {
-              "tag": "set",
-              "name": "set",
-              "value": "this.isDslCall = false",
+              "tag": "+",
+              "name": "statement",
+              "value": "",
               "statements": []
-            },
-            {
-              "tag": "foreach",
-              "name": "foreach",
-              "value": "item in this.statements",
-              "statements": [
-                {
-                  "tag": "if",
-                  "name": "xif",
-                  "value": "item.wzElement === 'namedCallParam'",
-                  "statements": [
-                    {
-                      "tag": "set",
-                      "name": "set",
-                      "value": "this.isDslCall = true",
-                      "statements": []
-                    }
-                  ]
-                }
-              ]
             }
           ],
-          "comments": [
-            "a Dsl that uses this could be 'graphql'"
-          ]
+          "comments": []
         }
       ],
       "comments": [
@@ -4316,35 +4184,13 @@
           "params": [],
           "statements": [
             {
-              "tag": "set",
-              "name": "set",
-              "value": "this.isDslCall = false",
+              "tag": "+",
+              "name": "statement",
+              "value": "",
               "statements": []
-            },
-            {
-              "tag": "foreach",
-              "name": "foreach",
-              "value": "item in this.statements",
-              "statements": [
-                {
-                  "tag": "if",
-                  "name": "xif",
-                  "value": "item.wzElement === 'namedCallParam'",
-                  "statements": [
-                    {
-                      "tag": "set",
-                      "name": "set",
-                      "value": "this.isDslCall = true",
-                      "statements": []
-                    }
-                  ]
-                }
-              ]
             }
           ],
-          "comments": [
-            "a Dsl that uses this could be 'graphql'"
-          ]
+          "comments": []
         }
       ],
       "comments": [
@@ -4413,35 +4259,13 @@
           "params": [],
           "statements": [
             {
-              "tag": "set",
-              "name": "set",
-              "value": "this.isDslCall = false",
+              "tag": "+",
+              "name": "statement",
+              "value": "",
               "statements": []
-            },
-            {
-              "tag": "foreach",
-              "name": "foreach",
-              "value": "item in this.statements",
-              "statements": [
-                {
-                  "tag": "if",
-                  "name": "xif",
-                  "value": "item.wzElement === 'namedCallParam'",
-                  "statements": [
-                    {
-                      "tag": "set",
-                      "name": "set",
-                      "value": "this.isDslCall = true",
-                      "statements": []
-                    }
-                  ]
-                }
-              ]
             }
           ],
-          "comments": [
-            "a Dsl that uses this could be 'graphql'"
-          ]
+          "comments": []
         }
       ],
       "comments": []
@@ -5790,80 +5614,13 @@
           "params": [],
           "statements": [
             {
-              "tag": "set",
-              "name": "set",
-              "value": "this.extends = []",
-              "statements": []
-            },
-            {
-              "tag": "var",
-              "name": "xvar",
-              "value": "temp = []",
-              "statements": []
-            },
-            {
-              "tag": "foreach",
-              "name": "foreach",
-              "value": "s in this.statements",
-              "statements": [
-                {
-                  "tag": "if",
-                  "name": "xif",
-                  "value": "s.wzElement === 'typeExtends'",
-                  "statements": [
-                    {
-                      "tag": "_",
-                      "name": "call",
-                      "value": "s.wzInitialize",
-                      "statements": []
-                    },
-                    {
-                      "tag": "_",
-                      "name": "call",
-                      "value": "this.extends.push",
-                      "statements": [
-                        {
-                          "tag": "@",
-                          "name": "jsPropertyOrValue",
-                          "value": "s",
-                          "statements": []
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "tag": "else",
-                  "name": "xelse",
-                  "value": "",
-                  "statements": [
-                    {
-                      "tag": "_",
-                      "name": "call",
-                      "value": "temp.push",
-                      "statements": [
-                        {
-                          "tag": "@",
-                          "name": "jsPropertyOrValue",
-                          "value": "s",
-                          "statements": []
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "tag": "set",
-              "name": "set",
-              "value": "this.statements = temp",
+              "tag": "+",
+              "name": "statement",
+              "value": "",
               "statements": []
             }
           ],
-          "comments": [
-            "loog 'typeInterface.statements', this.statements"
-          ]
+          "comments": []
         }
       ],
       "comments": []
@@ -5900,73 +5657,13 @@
           "params": [],
           "statements": [
             {
-              "tag": "var",
-              "name": "xvar",
-              "value": "tpi = []",
+              "tag": "+",
+              "name": "statement",
+              "value": "",
               "statements": []
-            },
-            {
-              "tag": "var",
-              "name": "xvar",
-              "value": "ss = []",
-              "statements": []
-            },
-            {
-              "tag": "foreach",
-              "name": "foreach",
-              "value": "s in this.statements",
-              "statements": [
-                {
-                  "tag": "if",
-                  "name": "xif",
-                  "value": "s.wzElement == 'typeParameterInst'",
-                  "statements": [
-                    {
-                      "tag": "_",
-                      "name": "call",
-                      "value": "tpi.push(s)",
-                      "statements": []
-                    }
-                  ]
-                },
-                {
-                  "tag": "else",
-                  "name": "xelse",
-                  "value": "",
-                  "statements": [
-                    {
-                      "tag": "_",
-                      "name": "call",
-                      "value": "ss.push(s)",
-                      "statements": []
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "tag": "if",
-              "name": "xif",
-              "value": "tpi.length > 0",
-              "statements": [
-                {
-                  "tag": "set",
-                  "name": "set",
-                  "value": "this.typeParameterInsts = tpi",
-                  "statements": []
-                },
-                {
-                  "tag": "set",
-                  "name": "set",
-                  "value": "this.statements = ss",
-                  "statements": []
-                }
-              ]
             }
           ],
-          "comments": [
-            "loog 'typeExtends.wzInitialize', this.statements.length"
-          ]
+          "comments": []
         }
       ],
       "comments": []
@@ -6336,9 +6033,9 @@
           "params": [],
           "statements": [
             {
-              "tag": "return",
-              "name": "xreturn",
-              "value": "_.find(this.statements, function(item) { return item.wzElement === 'ctor' })",
+              "tag": "+",
+              "name": "statement",
+              "value": "",
               "statements": []
             }
           ],
@@ -6351,170 +6048,13 @@
           "params": [],
           "statements": [
             {
-              "tag": "set",
-              "name": "set",
-              "value": "ctx.modelState = ctx.modelState || {}",
-              "statements": []
-            },
-            {
-              "tag": "set",
-              "name": "set",
-              "value": "ctx.modelState.hasClasses = true",
-              "statements": []
-            },
-            {
-              "tag": "if",
-              "name": "xif",
-              "value": "this.extends && this.extends.length > 0",
-              "statements": [
-                {
-                  "tag": "set",
-                  "name": "set",
-                  "value": "this.super = this.extends",
-                  "statements": []
-                }
-              ]
-            },
-            {
-              "tag": "elif",
-              "name": "elif",
-              "value": "this.superType",
-              "statements": [
-                {
-                  "tag": "set",
-                  "name": "set",
-                  "value": "this.super = this.superType.wzName",
-                  "statements": []
-                }
-              ]
-            },
-            {
-              "tag": "else",
-              "name": "xelse",
+              "tag": "+",
+              "name": "statement",
               "value": "",
-              "statements": [
-                {
-                  "tag": "var",
-                  "name": "xvar",
-                  "value": "tokens = this.wzName.split(':')",
-                  "statements": []
-                },
-                {
-                  "tag": "if",
-                  "name": "xif",
-                  "value": "tokens.length == 2",
-                  "statements": [
-                    {
-                      "tag": "set",
-                      "name": "set",
-                      "value": "this.wzName = tokens[0]",
-                      "statements": []
-                    },
-                    {
-                      "tag": "set",
-                      "name": "set",
-                      "value": "this.super = tokens[1]",
-                      "statements": []
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "tag": "set",
-              "name": "set",
-              "value": "this.extends = []",
-              "statements": []
-            },
-            {
-              "tag": "set",
-              "name": "set",
-              "value": "this.implements = []",
-              "statements": []
-            },
-            {
-              "tag": "var",
-              "name": "xvar",
-              "value": "temp = []",
-              "statements": []
-            },
-            {
-              "tag": "foreach",
-              "name": "foreach",
-              "value": "s in this.statements",
-              "statements": [
-                {
-                  "tag": "if",
-                  "name": "xif",
-                  "value": "s.wzElement === 'typeExtends'",
-                  "statements": [
-                    {
-                      "tag": "_",
-                      "name": "call",
-                      "value": "this.extends.push",
-                      "statements": [
-                        {
-                          "tag": "@",
-                          "name": "jsPropertyOrValue",
-                          "value": "s",
-                          "statements": []
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "tag": "elif",
-                  "name": "elif",
-                  "value": "s.wzElement === 'typeImplements'",
-                  "statements": [
-                    {
-                      "tag": "_",
-                      "name": "call",
-                      "value": "this.implements.push",
-                      "statements": [
-                        {
-                          "tag": "@",
-                          "name": "jsPropertyOrValue",
-                          "value": "s",
-                          "statements": []
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "tag": "else",
-                  "name": "xelse",
-                  "value": "",
-                  "statements": [
-                    {
-                      "tag": "_",
-                      "name": "call",
-                      "value": "temp.push",
-                      "statements": [
-                        {
-                          "tag": "@",
-                          "name": "jsPropertyOrValue",
-                          "value": "s",
-                          "statements": []
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "tag": "set",
-              "name": "set",
-              "value": "this.statements = temp",
               "statements": []
             }
           ],
-          "comments": [
-            "loog 'wizzi-js.model.class.modelState', ctx.modelState"
-          ]
+          "comments": []
         }
       ],
       "comments": [
@@ -6701,28 +6241,9 @@
           "params": [],
           "statements": [
             {
-              "tag": "var",
-              "name": "xvar",
-              "value": "ret = []",
-              "statements": []
-            },
-            {
-              "tag": "foreach",
-              "name": "foreach",
-              "value": "item in this.bases",
-              "statements": [
-                {
-                  "tag": "_",
-                  "name": "call",
-                  "value": "ret.push(item.wzName)",
-                  "statements": []
-                }
-              ]
-            },
-            {
-              "tag": "return",
-              "name": "xreturn",
-              "value": "ret",
+              "tag": "+",
+              "name": "statement",
+              "value": "",
               "statements": []
             }
           ],
@@ -7196,73 +6717,13 @@
           "params": [],
           "statements": [
             {
-              "tag": "var",
-              "name": "xvar",
-              "value": "tpi = []",
+              "tag": "+",
+              "name": "statement",
+              "value": "",
               "statements": []
-            },
-            {
-              "tag": "var",
-              "name": "xvar",
-              "value": "ss = []",
-              "statements": []
-            },
-            {
-              "tag": "foreach",
-              "name": "foreach",
-              "value": "s in this.statements",
-              "statements": [
-                {
-                  "tag": "if",
-                  "name": "xif",
-                  "value": "s.wzElement == 'typeParameterInst'",
-                  "statements": [
-                    {
-                      "tag": "_",
-                      "name": "call",
-                      "value": "tpi.push(s)",
-                      "statements": []
-                    }
-                  ]
-                },
-                {
-                  "tag": "else",
-                  "name": "xelse",
-                  "value": "",
-                  "statements": [
-                    {
-                      "tag": "_",
-                      "name": "call",
-                      "value": "ss.push(s)",
-                      "statements": []
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "tag": "if",
-              "name": "xif",
-              "value": "tpi.length > 0",
-              "statements": [
-                {
-                  "tag": "set",
-                  "name": "set",
-                  "value": "this.typeParameterInsts = tpi",
-                  "statements": []
-                },
-                {
-                  "tag": "set",
-                  "name": "set",
-                  "value": "this.statements = ss",
-                  "statements": []
-                }
-              ]
             }
           ],
-          "comments": [
-            "loog 'wzInitialize', this.statements.length"
-          ]
+          "comments": []
         }
       ],
       "comments": []
@@ -7349,66 +6810,13 @@
           "params": [],
           "statements": [
             {
-              "tag": "set",
-              "name": "set",
-              "value": "ctx.modelState = ctx.modelState || {}",
-              "statements": []
-            },
-            {
-              "tag": "set",
-              "name": "set",
-              "value": "ctx.modelState.hasClasses = true",
-              "statements": []
-            },
-            {
-              "tag": "if",
-              "name": "xif",
-              "value": "this.extends && this.extends.length > 0",
-              "statements": [
-                {
-                  "tag": "set",
-                  "name": "set",
-                  "value": "this.super = this.extends",
-                  "statements": []
-                }
-              ]
-            },
-            {
-              "tag": "else",
-              "name": "xelse",
+              "tag": "+",
+              "name": "statement",
               "value": "",
-              "statements": [
-                {
-                  "tag": "var",
-                  "name": "xvar",
-                  "value": "tokens = this.wzName.split(':')",
-                  "statements": []
-                },
-                {
-                  "tag": "if",
-                  "name": "xif",
-                  "value": "tokens.length == 2",
-                  "statements": [
-                    {
-                      "tag": "set",
-                      "name": "set",
-                      "value": "this.wzName = tokens[0]",
-                      "statements": []
-                    },
-                    {
-                      "tag": "set",
-                      "name": "set",
-                      "value": "this.super = tokens[1]",
-                      "statements": []
-                    }
-                  ]
-                }
-              ]
+              "statements": []
             }
           ],
-          "comments": [
-            "loog 'wizzi-js.model.class.modelState', ctx.modelState"
-          ]
+          "comments": []
         }
       ],
       "comments": []
@@ -48913,17 +48321,10 @@
           "params": [],
           "statements": [
             {
-              "tag": "foreach",
-              "name": "foreach",
-              "value": "item in this.statements",
-              "statements": [
-                {
-                  "tag": "set",
-                  "name": "set",
-                  "value": "item.__templateChild = true",
-                  "statements": []
-                }
-              ]
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
             }
           ],
           "comments": []
@@ -48963,17 +48364,10 @@
           "params": [],
           "statements": [
             {
-              "tag": "foreach",
-              "name": "foreach",
-              "value": "item in this.statements",
-              "statements": [
-                {
-                  "tag": "set",
-                  "name": "set",
-                  "value": "item.__templateChild = true",
-                  "statements": []
-                }
-              ]
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
             }
           ],
           "comments": []
@@ -49013,17 +48407,10 @@
           "params": [],
           "statements": [
             {
-              "tag": "foreach",
-              "name": "foreach",
-              "value": "item in this.statements",
-              "statements": [
-                {
-                  "tag": "set",
-                  "name": "set",
-                  "value": "item.__templateChild = true",
-                  "statements": []
-                }
-              ]
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
             }
           ],
           "comments": []
@@ -50755,54 +50142,9 @@
           "params": [],
           "statements": [
             {
-              "tag": "set",
-              "name": "set",
-              "value": "this.specifiers = []",
-              "statements": []
-            },
-            {
-              "tag": "var",
-              "name": "xvar",
-              "value": "temp = []",
-              "statements": []
-            },
-            {
-              "tag": "foreach",
-              "name": "foreach",
-              "value": "item in this.statements",
-              "statements": [
-                {
-                  "tag": "if",
-                  "name": "xif",
-                  "value": "item.wzElement === 'jsPropertyOrValue'",
-                  "statements": [
-                    {
-                      "tag": "_",
-                      "name": "call",
-                      "value": "this.specifiers.push(item)",
-                      "statements": []
-                    }
-                  ]
-                },
-                {
-                  "tag": "else",
-                  "name": "xelse",
-                  "value": "",
-                  "statements": [
-                    {
-                      "tag": "_",
-                      "name": "call",
-                      "value": "temp.push(item)",
-                      "statements": []
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "tag": "set",
-              "name": "set",
-              "value": "this.statements = temp",
+              "tag": "+",
+              "name": "statement",
+              "value": "",
               "statements": []
             }
           ],
@@ -50920,54 +50262,9 @@
           "params": [],
           "statements": [
             {
-              "tag": "set",
-              "name": "set",
-              "value": "this.specifiers = []",
-              "statements": []
-            },
-            {
-              "tag": "var",
-              "name": "xvar",
-              "value": "temp = []",
-              "statements": []
-            },
-            {
-              "tag": "foreach",
-              "name": "foreach",
-              "value": "item in this.statements",
-              "statements": [
-                {
-                  "tag": "if",
-                  "name": "xif",
-                  "value": "item.wzElement === 'jsPropertyOrValue'",
-                  "statements": [
-                    {
-                      "tag": "_",
-                      "name": "call",
-                      "value": "this.specifiers.push(item)",
-                      "statements": []
-                    }
-                  ]
-                },
-                {
-                  "tag": "else",
-                  "name": "xelse",
-                  "value": "",
-                  "statements": [
-                    {
-                      "tag": "_",
-                      "name": "call",
-                      "value": "temp.push(item)",
-                      "statements": []
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "tag": "set",
-              "name": "set",
-              "value": "this.statements = temp",
+              "tag": "+",
+              "name": "statement",
+              "value": "",
               "statements": []
             }
           ],

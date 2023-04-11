@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.md\.wizzi-override\root\index.js.ittf
-    utc time: Fri, 07 Apr 2023 21:14:21 GMT
+    utc time: Tue, 11 Apr 2023 14:24:29 GMT
 */
 'use strict';
 
@@ -24,6 +24,9 @@ var window_artifactGenerators = {
 var window_transformers = {
     'md/extended': require('./lib/artifacts/md/extended/trans/main')
  };
+var window_wizzifiers = {
+    'md/wizzifier': require('./lib/wizzifiers/md/wizzifier')
+ };
 var window_schemaDefinitions = {};
 
 //
@@ -34,6 +37,7 @@ class FactoryPlugin {
         this.modelFactories = {};
         this.modelTransformers = {};
         this.artifactGenerators = {};
+        this.wizzifiers = {};
         this.schemaDefinitions = {};
     }
     
@@ -126,6 +130,30 @@ class FactoryPlugin {
     }
     
     //
+    getWizzifier(wizzifierName) {
+        
+        var wizzifier = this.wizzifiers[wizzifierName] || null;
+        if (wizzifier == null) {
+            if (typeof window !== 'undefined') {
+                wizzifier = window_wizzifiers[wizzifierName];
+            }
+            else {
+                var modulePath = path.resolve(__dirname, './lib/wizzifiers/' + wizzifierName + '/wizzifier.js');
+                if (this.file.exists(modulePath)) {
+                    try {
+                        wizzifier = require('./lib/wizzifiers/' + wizzifierName + '/wizzifier');
+                    } 
+                    catch (ex) {
+                        return error('WizziPluginError', 'getWizzifier', 'Error loading wizzifier: ' + modulePath + ', in plugin: ' + this.getFilename(), ex);
+                    } 
+                }
+            }
+            this.wizzifiers[wizzifierName] = wizzifier;
+        }
+        return wizzifier;
+    }
+    
+    //
     getSchemaDefinition(schemaName) {
         var definition = this.schemaDefinitions[schemaName] || null;
         if (definition == null) {
@@ -163,11 +191,26 @@ module.exports = {
         schemas: [
             'md'
         ], 
+        schemasExt: [
+            {
+                name: 'md', 
+                fileExtensions: [
+                    "md"
+                ], 
+                artifactsGenerators: [
+                    "document"
+                ], 
+                defaultArtifact: 'document'
+             }
+        ], 
         modelTransformers: [
             'md/extended'
         ], 
         artifactGenerators: [
             'md/document'
+        ], 
+        wizzifiers: [
+            'md'
         ]
      }, 
     createFactoryPlugin: function(wizziPackage, options, callback) {

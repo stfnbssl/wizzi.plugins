@@ -140,6 +140,11 @@ $group
     $if wzCtx.Build.useVite
         $if wzCtx.Build.useReact
             @vitejs/plugin-react "^2.1.0"
+    $if wzCtx.Build.isWizziPlugin && wzCtx.Build.useWizziV08
+        @wizzi/factory "latest"
+        @wizzi/utils "latest"
+    $if wzCtx.Build.isWizziMeta
+        @wizzi/factory "latest"
     $if wzCtx.Build.useLint
         babel-eslint "^8.2.3"
     $if wzCtx.Build.useTest && wzCtx.Build.test.useJest
@@ -299,10 +304,12 @@ $group
         $if wzCtx.Build.webpack.useVisualizer
             webpack-visualizer-plugin "^0.1.11"
     $if wzCtx.Build.isWizziPlugin
-        wizzi "^0.7.35"
-        wizzi-core "latest"
-        wizzi-js "latest"
-        wizzi-web "latest"
+        $if wzCtx.Build.useWizziV08
+        $else
+            wizzi "^0.7.35"
+            wizzi-core "latest"
+            wizzi-js "latest"
+            wizzi-web "latest"
     $if wzCtx.Build.useWebpack
         $if wzCtx.Build.webpack.useWorker
             worker-plugin "^5.0.0"

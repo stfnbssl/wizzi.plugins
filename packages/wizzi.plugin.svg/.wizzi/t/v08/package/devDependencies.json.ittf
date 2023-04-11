@@ -143,6 +143,8 @@ $group
     $if wzCtx.Build.isWizziPlugin && wzCtx.Build.useWizziV08
         @wizzi/factory "latest"
         @wizzi/utils "latest"
+    $if wzCtx.Build.isWizziMeta
+        @wizzi/factory "latest"
     $if wzCtx.Build.useLint
         babel-eslint "^8.2.3"
     $if wzCtx.Build.useTest && wzCtx.Build.test.useJest

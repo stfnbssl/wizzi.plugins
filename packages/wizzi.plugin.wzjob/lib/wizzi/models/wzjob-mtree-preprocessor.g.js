@@ -1,9 +1,11 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.14
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzjob\.wizzi-override\lib\wizzi\models\wzjob-mtree-preprocessor.g.js.ittf
+    utc time: Sun, 09 Apr 2023 09:35:25 GMT
 */
 'use strict';
+var verify = require('wizzi-utils').verify;
 module.exports = function(mTree, context) {
     var state = {
         mTree: mTree, 
