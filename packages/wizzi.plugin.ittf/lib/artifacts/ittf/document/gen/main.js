@@ -62,6 +62,7 @@ md.gen = function(model, ctx, callback) {
         return callback(null, ctx);
     } 
     catch (ex) {
+        console.log("err 3", ex)
         return callback(error('Exception', 'gen', 'An exception encountered during generation', model, ex));
     } 
     function terminate_gen(model, ctx, callback) {

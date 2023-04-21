@@ -1,0 +1,31 @@
+module
+    kind es6
+    var path = require('path')
+    var wizziUtils = require('@wizzi/utils')
+    var vfile = wizziUtils.vfile
+    var fsfile =vfile()
+    _ fsfile.getFiles
+        @ "C:/Users/Stefano Bassoli/Pictures/obesi"
+        {
+        a_cb( files )
+            log 'files', files
+            const sb = []
+            _ sb.push('{')
+            _ sb.push('\t[ slides')
+            foreach file in files
+                _ sb.push('\t\t{')
+                _ sb.push('\t\t\t[ objects')
+                _ sb.push('\t\t\t\t{')
+                _ sb.push('\t\t\t\t\tkind "image"')
+                _ sb.push('\t\t\t\t\tposition "full"')
+                _ sb.push('\t\t\t\t\tpath "' + file.fullPath.replaceAll('\\', '/') + '"')
+                _ sb.push('\t\t\t\t{')
+                _ sb.push('\t\t\t\t\tkind "title"')
+                _ sb.push('\t\t\t\t\ttext "' + file.relPath.replaceAll('\\', '/') + '"')
+            log sb.join('\n')
+            _ fsfile.write
+                _ path.join
+                    @ __dirname
+                    @ 'getData.json.ittf'
+                _ sb.join('\n')
+

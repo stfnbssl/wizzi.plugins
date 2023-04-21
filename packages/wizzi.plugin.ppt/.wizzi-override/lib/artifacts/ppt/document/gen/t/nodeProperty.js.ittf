@@ -1,0 +1,22 @@
+$group
+    $params elname, prop, type|num
+
+    $
+        var quote = type == 'string' ? '"' : '';
+        var value = type == 'true' ? 'true' : (type == 'num|perc' ? 'numOrPerc(model.wzName)' : 'respace(model.wzName)');
+        var openPar = "(";
+    
+    async-md( ${elname} )
+        var pptParent = ctx.values.pptStack[ctx.values.pptStack.length-1]
+        $$ loog '++++++++++++++++++++ ${prop} pptParent.kind', pptParent.kind
+        $if type == 'array'
+            if pptParent.kind == 'text_in_para'
+                _ ctx.w(pptParent.node + '.options.${prop} = [' + ${value} + '];')
+            else
+                _ ctx.w(pptParent.node + '.${prop} = [' + ${value} + '];')
+        $else
+            if pptParent.kind == 'text_in_para'
+                _ ctx.w(pptParent.node + '.options.${prop} = ${quote}' + ${value} + '${quote};')
+            else
+                _ ctx.w(pptParent.node + '.${prop} = ${quote}' + ${value} + '${quote};')
+        r_cb()

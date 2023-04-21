@@ -1,0 +1,123 @@
+module
+    kind es6
+    $
+        var md = {
+            name: 'ppt',
+            artifact: 'document',
+        };
+    v08/examples/plugin( &md )
+        $append imports
+            const spawn = require("child_process").spawn
+
+        $append plugins
+            [ items
+                @ './wizzi.plugin.ppt/index.js'
+                @ './wizzi.plugin.json/index.js'
+            @ pluginsBaseFolder
+                _ path.resolve
+                    @ __dirname
+                    @ '..'
+                    @ '..'
+        let arg = process.argv[2]
+        const moduleName = arg && arg.length > 0 ? arg : 'first'
+
+		_ loadWizziModel
+			_ path.join
+				@ __dirname
+				@ 'ittf'
+				@ moduleName + '.json.ittf'
+			{
+                @ imageFolder 'C:/Users/Stefano Bassoli/Pictures/obesi'
+                @ dot '.'
+                @ comma ','
+			=>
+                param err
+                param wzCtx
+                log 'err', err
+                log 'wzCtx', wzCtx
+                _ executeGenerateModules
+                    [
+                        @ moduleName
+                    @ wzCtx
+                    a_cb_no_throw( result )
+                        if err
+                            error 'ppt/document.examples.executeGenerateModules.err', err
+                            error 'ppt/document.examples.executeGenerateModules.err.toString()', err.toString()
+                            if err.inner
+                                error 'ppt/document.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
+                        else
+        function executeGenerateModules
+            param modules
+            param wzCtx
+            param callback
+            _ async.mapSeries
+                @ modules
+                =>
+                    param module
+                    param callback
+                    var ittfDocumentUri
+                        _ path.join
+                            @ __dirname
+                            @ 'ittf'
+                            @ module + '.ppt.ittf'
+                    var outputPath
+                        _ path.join
+                            @ __dirname
+                            @ 'results'
+                            @ 'ppt'
+                            @ module + '-document.g.ppt.js'
+                    _ loadModelAndGenerateArtifact
+                        @ ittfDocumentUri
+                        {
+                            @ wzCtx wzCtx
+                        @ 'ppt/document'
+                        a_cb( artifactText )
+                            _ file.write
+                                @ outputPath
+                                @ artifactText
+                            const pptProcess
+                                _ spawn
+                                    @ 'node'
+                                    [
+                                        @ outputPath
+                            if pptProcess.stdout 
+                                _ pptProcess.stdout.on
+                                    @ 'data'
+                                    function
+                                        param data
+                                        _ printValue
+                                            @ 'c stdout'
+                                            _ data.toString
+                                            @ 'dashes'
+                            if pptProcess.stderr 
+                                _ pptProcess.stderr.on
+                                    @ 'data'
+                                    function
+                                        param data
+                                        _ printValue
+                                            @ 'c stderr'
+                                            _ data.toString
+                                            @ 'dashes'
+                            _ pptProcess.on
+                                @ 'message'
+                                function
+                                    param message
+                                    info `child process message`, message
+                            _ pptProcess.on
+                                @ 'error'
+                                function
+                                    param err
+                                    info `child process error`, err
+                            _ pptProcess.on
+                                @ 'exit'
+                                function
+                                    param code
+                            _ pptProcess.stdout.on
+                                @ 'data'
+                                =>
+                                    param msg
+                                    log msg.toString()
+                            r_cb( artifactText )
+                @ callback
+    
+    v08/examples/prints( ppt_document )

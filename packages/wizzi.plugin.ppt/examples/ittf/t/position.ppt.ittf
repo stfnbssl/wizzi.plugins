@@ -1,0 +1,94 @@
+$group
+    $params kind|left
+
+    $
+        var cMargin = 5;
+        var cTitleBarHeight = 10;
+        var cTop = cTitleBarHeight + (cMargin * 2);
+        var cLeft = cMargin;
+        var cBottom = 100 - cMargin;
+        var cRight = 100 - cMargin;
+        var cWidth = cRight - cLeft;
+        var cHeight = cBottom - cTop;
+        var cHMiddle = cLeft + (cWidth / 2);
+        var cVMiddle = cTop + (cHeight / 2);
+        var cMidHeight = (cHeight / 2) - cMargin;
+        var cMidWidth = (cWidth / 2) - cMargin;
+        _.log("kind", kind, cTop, cLeft, cBottom, cRight, cVMiddle, cHMiddle)
+
+    $if kind == 'left'
+
+        y ${cTop}%
+        x ${cLeft}%
+        h ${cHeight}%
+        w ${cMidWidth - cMargin}%
+
+    $if kind == 'lefttop'
+
+        y ${cTop}%
+        x ${cLeft}%
+        h ${cMidHeight}%
+        w ${cMidWidth}%
+
+    $if kind == 'leftbottom'
+
+        y ${cVMiddle + cMargin}%
+        x ${cLeft}%
+        h ${cMidHeight}%
+        w ${cMidWidth}%
+
+    $if kind == 'right'
+
+        y ${cTop}%
+        x ${cHMiddle + cMargin}%
+        h ${cHeight}%
+        w ${cMidWidth}%
+
+    $if kind == 'righttop'
+
+        y ${cTop}%
+        x ${cHMiddle + cMargin}%
+        h ${cMidHeight}%
+        w ${cMidWidth}%
+        
+    $if kind == 'rightbottom'
+
+        y ${cVMiddle + cMargin}%
+        x ${cHMiddle + cMargin}%
+        h ${cMidHeight}%
+        w ${cMidWidth}%
+
+    $if kind == 'title-right'
+
+        y ${cTop}%
+        x 55%
+        w 40%
+        h 10%
+
+    $if kind == 'titled-right'
+
+        y 30%
+        x 55%
+        w 40%
+        h 60%
+
+    $if kind == 'full'
+
+        y ${cTop}%
+        x 20%
+        w 60%
+        h 60%
+
+    $if kind == 'title-full'
+
+        y ${cTop}%
+        x 20%
+        w 60%
+        h 10%
+
+    $if kind == 'titled-full'
+
+        y 30%
+        x 20%
+        w 60%
+        h 60%

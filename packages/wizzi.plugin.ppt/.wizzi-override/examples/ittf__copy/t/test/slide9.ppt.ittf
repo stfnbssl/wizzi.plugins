@@ -1,0 +1,43 @@
+$group
+
+    slide
+
+        title( Test slide 9 - text paragraphs, &theme )
+    
+        p
+            p L’Obesità è una patologia
+                style normal
+                br
+            p non è la conseguenza di un disordine alimentare dovuto alla sregolatezza di individui ”deboli”
+                style normal
+                br
+            p  insorge sempre più precocemente
+                style normal
+                br
+            x 0.5
+            y 1.25
+            w 4.4
+            h 2.5
+            color FF0000
+            fill
+                color DEDEDE
+            valign middle
+            align left
+        p
+            $foreach code in wzCtx.ppt.bullet.codes
+                p item in para, bullet code ${code}
+                    style normal
+                    color FF0000
+                    bullet
+                        code ${code}
+                    br
+            x 5
+            y 1.25
+            w 4.4
+            h 2.5
+            color FF0000
+            fill
+                color DEDEDE
+            valign middle
+            align center
+

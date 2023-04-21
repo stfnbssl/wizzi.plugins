@@ -1,0 +1,3665 @@
+ppt first
+    default-style-def
+        font Verdana
+        font-size 8
+    # LAYOUT_WIDE w=13.33
+    style-def DebugText
+        font Arial
+        font-size 10
+        color FF0000
+    style-def Tab
+        x 0.5
+        y 0.13
+        col-w
+            w 9
+            w 3.33
+    style-def TextL
+        color 9F9F9F
+        margin 3
+        border
+            top null
+            right null
+            bottom
+                pt 1
+                color CFCFCF
+            left null
+    style-def OptsR
+        color 9F9F9F
+        margin 3
+        border
+            top 0
+            right 0
+                pt 1
+                color CFCFCF
+            bottom 0
+            left 0
+        align right
+    style-def Code
+        color 9F9F9F
+        margin 3
+        border
+            pt 1
+            color CFCFCF
+        fill
+            color F1F1F1
+        font Courier
+        font-size 12
+    style-def SubTitle
+        x 0.5
+        y 0.7
+        w 4
+        h 0.3
+        font-size 18
+        font Arial
+        color 0088CC
+        fill
+            color FFFFFF
+    style-def TitleText
+        font-size 14
+        color 0088CC
+        bold
+    style-def TitleTextBk
+        font-size 14
+        color 0088CC
+        bold
+        br
+    style-def TitleOpts
+        font-size 13
+        color 9F9F9F
+    style-def heading1
+        font-size 48
+        bold
+        color FF0000
+    style-def heading2
+        font-size 32
+        bold
+        color 000000
+    style-def normal
+        font-size 8
+        color 0088CC
+    slide-master Hello
+        background cbb3bf
+    slide Hello
+        shape RECTANGLE
+            y 0
+            x 0
+            w 100%
+            h 5%
+            fill
+                color 8da1b9
+        shape RECTANGLE
+            y 95%
+            x 0
+            w 100%
+            h 5%
+            fill
+                color 95adb6
+    $
+        _.log ("$", wzCtx)
+    $foreach slide in wzCtx.slides
+        slide Hello
+            $foreach obj in slide.objects
+                $if obj.kind == 'image'
+                    image
+                        y 32%
+                        x 2%
+                        w 30%
+                        h 60%
+                        path ${obj.path}
+    slide Hello
+        p Hello title 1
+            style heading1
+            y 2%
+            x 2%
+            align right
+        p Hello title 2
+            y 12%
+            x 2%
+            style heading2
+        p Hello normal
+            y 22%
+            x 2%
+            style normal
+        image
+            y 32%
+            x 2%
+            w 30%
+            h 60%
+            path C:/My/wizzi/stfnbssl/stfnbssl.github.io/cosie/17marzo2021/images/1 mese.png
+            link
+                href https://github.com/gitbrent/pptxgenjs
+                title Visit Homepage
+        shape RECTANGLE
+            y 32%
+            x 52%
+            w 10%
+            h 60%
+            fill
+                color DEDEDE
+        number
+            y 90%
+            x 90%
+    slide Hello
+        p Hello style OptsR
+            style OptsR
+            y 2%
+            x 2%
+            align right
+        p Hello style SubTitle
+            style SubTitle
+            y 12%
+            x 2%
+            align right
+        p Hello style Code
+            style Code
+            y 22%
+            x 2%
+            align right
+        table
+            y 32%
+            x 2%
+            tr
+                td
+                    p r 1, c 1
+                td
+                    p r 1, c 2
+                td
+                    p r 1, c 3
+            tr
+                td
+                    p r 2, c 1
+                td
+                    p r 2, c 2
+                td
+                    p r 2, c 3
+    slide Hello
+        p
+            p hello p-stack 1,
+                br
+            p hello p-stack 2,
+                br
+            p hello p-stack 3
+            y 10%
+            x 10%
+            w 80%
+        p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin condimentum dignissim velit vel luctus. Donec feugiat ipsum quis tempus blandit. Donec mattis mauris vel est dictum interdum. Pellentesque imperdiet nibh vitae porta ornare. Fusce non nisl lacus. Curabitur ut mattis dui. Ut pulvinar urna velit, vitae aliquam neque pulvinar eu. Fusce eget tellus eu lorem finibus mattis. Nunc blandit consequat arcu. Ut sed pharetra tortor, nec finibus ipsum. Pellentesque a est vitae ligula imperdiet rhoncus. Ut quis hendrerit tellus. Phasellus non malesuada mi. Suspendisse ullamcorper tristique odio fermentum elementum. Phasellus mattis mollis mauris, non mattis ligula dapibus quis. Quisque pretium metus massa. Curabitur condimentum consequat felis, id rutrum velit cursus vel. Proin nulla est, posuere in velit at, faucibus dignissim diam. Quisque quis erat euismod, malesuada erat eu, congue nisi. Ut risus lectus, auctor at libero sit amet, accumsan ultricies est. Donec eget iaculis enim. Nunc ac egestas tellus, nec efficitur magna. Sed nec nisl ut augue laoreet sollicitudin vitae nec quam. Vestibulum pretium nisl bibendum, tempor velit eu, semper velit. Nulla facilisi. Aenean quis purus sagittis, dapibus nibh eget, ornare nunc. Donec posuere erat quis ipsum facilisis, quis porttitor dui cursus. Etiam convallis arcu sapien, vitae placerat diam molestie sit amet. Vivamus sapien augue, porta sed tortor ut, molestie ornare nisl. Nullam sed mi turpis. Donec sed finibus risus. Nunc interdum semper mauris quis vehicula. Phasellus in nisl faucibus, pellentesque massa vel, faucibus urna. Proin sed tortor lorem. Curabitur eu nisi semper, placerat tellus sed, varius nulla. Etiam luctus ac purus nec aliquet. Phasellus nisl metus, dictum ultricies justo a, laoreet consectetur risus. Vestibulum vulputate in felis ac blandit. Aliquam erat volutpat. Sed quis ultrices lectus. Curabitur at scelerisque elit, a bibendum nisi. Integer facilisis ex dolor, vel gravida metus vestibulum ac. Aliquam condimentum fermentum rhoncus. Nunc tortor arcu, condimentum non ex consequat, porttitor maximus est. Duis semper risus odio, quis feugiat sem elementum nec. Nam mattis nec dui sit amet volutpat. Sed facilisis, nunc quis porta consequat, ante mi tincidunt massa, eget euismod sapien nunc eget sem. Curabitur orci neque, eleifend at mattis quis, malesuada ac nibh. Vestibulum sed laoreet dolor, ac facilisis urna. Vestibulum luctus id nulla at auctor. Nunc pharetra massa orci, ut pharetra metus faucibus eget. Etiam eleifend, tellus id lobortis molestie, sem magna elementum dui, dapibus ullamcorper nisl enim ac urna. Nam posuere ullamcorper tellus, ac blandit nulla vestibulum nec. Vestibulum ornare, ligula quis aliquet cursus, metus nisi congue nulla, vitae posuere elit mauris at justo. Nullam ut fermentum arcu, nec laoreet ligula. Morbi quis consectetur nisl, nec consectetur justo. Curabitur eget eros hendrerit, ullamcorper dolor non, aliquam elit. Aliquam mollis justo vel aliquam interdum. Aenean bibendum rhoncus ante a commodo. Vestibulum bibendum sapien a accumsan pharetra... Curabitur condimentum consequat felis, id rutrum velit cursus vel. Proin nulla est, posuere in velit at, faucibus dignissim diam. Quisque quis erat euismod, malesuada erat eu, congue nisi. Ut risus lectus, auctor at libero sit amet, accumsan ultricies est. Donec eget iaculis enim. Nunc ac egestas tellus, nec efficitur magna. Sed nec nisl ut augue laoreet sollicitudin vitae nec quam. Vestibulum pretium nisl bibendum, tempor velit eu, semper velit. Nulla facilisi. Aenean quis purus sagittis, dapibus nibh eget, ornare nunc. Donec posuere erat quis ipsum facilisis, quis porttitor dui cursus. Etiam convallis arcu sapien, vitae placerat diam molestie sit amet. Vivamus sapien augue, porta sed tortor ut, molestie ornare nisl. Nullam sed mi turpis. Donec sed finibus risus. Nunc interdum semper mauris quis vehicula. Phasellus in nisl faucibus, pellentesque massa vel, faucibus urna. Proin sed tortor lorem. Curabitur eu nisi semper, placerat tellus sed, varius nulla. Etiam luctus ac purus nec aliquet. Phasellus nisl metus, dictum ultricies justo a, laoreet consectetur risus. Vestibulum vulputate in felis ac blandit. Aliquam erat volutpat. Sed quis ultrices lectus. Curabitur at scelerisque elit, a bibendum nisi. Integer facilisis ex dolor, vel gravida metus vestibulum ac. Aliquam condimentum fermentum rhoncus. Nunc tortor arcu, condimentum non ex consequat, porttitor maximus est. Duis semper risus odio, quis feugiat sem elementum nec. Nam mattis nec dui sit amet volutpat. Sed facilisis, nunc quis porta consequat, ante mi tincidunt massa, eget euismod sapien nunc eget sem. Curabitur orci neque, eleifend at mattis quis, malesuada ac nibh. Vestibulum sed laoreet dolor, ac facilisis urna. Vestibulum luctus id nulla at auctor. Nunc pharetra massa orci, ut pharetra metus faucibus eget. Etiam eleifend, tellus id lobortis molestie, sem magna elementum dui.
+            y 50%
+            x 10%
+            w 80%
+    slide
+        p item 1
+            x 10%
+            y 10%
+            bullet
+                indent 2
+        p item 2
+            x 10%
+            y 15%
+            bullet
+                indent 4
+        p item 2.a
+            bullet
+                indent 6
+            indent-level 1
+            x 10%
+            y 20%
+        p item 2.b
+            bullet
+                indent 8
+            indent-level 2
+            x 10%
+            y 25%
+    slide
+        p item y: 0/0 x: 0/0  w: 50% h 0.5/1.26 font-size 20
+            x 0
+            y 0
+            w 50%
+            h 0.5
+            font Arial
+            color 363636
+            font-size 14
+            align center
+            valign middle
+            margin 0
+        p item y: 0.5/1.26 x: 1/2.52  w: 50% h 0.5/1.26 font-size 20
+            x 1
+            y 0.5
+            w 50%
+            h 0.5
+            font Arial
+            color 363636
+            font-size 14
+            align center
+            valign middle
+            margin 0
+        p item y: 1/2.52 x: 2/5.04  w: 50% h 0.5/1.26 font-size 20
+            x 2
+            y 1
+            w 50%
+            h 0.5
+            font Arial
+            color 363636
+            font-size 14
+            align center
+            valign middle
+            margin 0
+        p item y: 1.5/3.7800000000000002 x: 3/7.5600000000000005  w: 50% h 0.5/1.26 font-size 20
+            x 3
+            y 1.5
+            w 50%
+            h 0.5
+            font Arial
+            color 363636
+            font-size 14
+            align center
+            valign middle
+            margin 0
+        p item y: 2/5.04 x: 4/10.08  w: 50% h 0.5/1.26 font-size 20
+            x 4
+            y 2
+            w 50%
+            h 0.5
+            font Arial
+            color 363636
+            font-size 14
+            align center
+            valign middle
+            margin 0
+        p item y: 2.5/6.3 x: 5/12.6  w: 50% h 0.5/1.26 font-size 20
+            x 5
+            y 2.5
+            w 50%
+            h 0.5
+            font Arial
+            color 363636
+            font-size 14
+            align center
+            valign middle
+            margin 0
+        p item y: 3/7.5600000000000005 x: 6/15.120000000000001  w: 50% h 0.5/1.26 font-size 20
+            x 6
+            y 3
+            w 50%
+            h 0.5
+            font Arial
+            color 363636
+            font-size 14
+            align center
+            valign middle
+            margin 0
+        p item y: 3.5/8.82 x: 7/17.64  w: 50% h 0.5/1.26 font-size 20
+            x 7
+            y 3.5
+            w 50%
+            h 0.5
+            font Arial
+            color 363636
+            font-size 14
+            align center
+            valign middle
+            margin 0
+        p item y: 4/10.08 x: 8/20.16  w: 50% h 0.5/1.26 font-size 20
+            x 8
+            y 4
+            w 50%
+            h 0.5
+            font Arial
+            color 363636
+            font-size 14
+            align center
+            valign middle
+            margin 0
+        p item y: 4.5/11.34 x: 9/22.68  w: 50% h 0.5/1.26 font-size 20
+            x 9
+            y 4.5
+            w 50%
+            h 0.5
+            font Arial
+            color 363636
+            font-size 14
+            align center
+            valign middle
+            margin 0
+        p item y: 5/12.6 x: 10/25.2  w: 50% h 0.5/1.26 font-size 20
+            x 10
+            y 5
+            w 50%
+            h 0.5
+            font Arial
+            color 363636
+            font-size 14
+            align center
+            valign middle
+            margin 0
+        p item y: 5.5/13.86 x: 11/27.72  w: 50% h 0.5/1.26 font-size 20
+            x 11
+            y 5.5
+            w 50%
+            h 0.5
+            font Arial
+            color 363636
+            font-size 14
+            align center
+            valign middle
+            margin 0
+        p item y: 6/15.120000000000001 x: 12/30.240000000000002  w: 50% h 0.5/1.26 font-size 20
+            x 12
+            y 6
+            w 50%
+            h 0.5
+            font Arial
+            color 363636
+            font-size 14
+            align center
+            valign middle
+            margin 0
+        p item y: 6.5/16.38 x: 13/32.76  w: 50% h 0.5/1.26 font-size 20
+            x 13
+            y 6.5
+            w 50%
+            h 0.5
+            font Arial
+            color 363636
+            font-size 14
+            align center
+            valign middle
+            margin 0
+        p item y: 7/17.64 x: 14/35.28  w: 50% h 0.5/1.26 font-size 20
+            x 14
+            y 7
+            w 50%
+            h 0.5
+            font Arial
+            color 363636
+            font-size 14
+            align center
+            valign middle
+            margin 0
+        p item y: 7.5/18.9 x: 15/37.8  w: 50% h 0.5/1.26 font-size 20
+            x 15
+            y 7.5
+            w 50%
+            h 0.5
+            font Arial
+            color 363636
+            font-size 14
+            align center
+            valign middle
+            margin 0
+    slide
+        shape RECTANGLE
+            x 0
+            y 0
+            w 50%
+            h 0.5
+            fill
+                color FF0000
+        shape RECTANGLE
+            x 1
+            y 0.5
+            w 50%
+            h 0.5
+            fill
+                color FF0000
+        shape RECTANGLE
+            x 2
+            y 1
+            w 50%
+            h 0.5
+            fill
+                color FF0000
+        shape RECTANGLE
+            x 3
+            y 1.5
+            w 50%
+            h 0.5
+            fill
+                color FF0000
+        shape RECTANGLE
+            x 4
+            y 2
+            w 50%
+            h 0.5
+            fill
+                color FF0000
+        shape RECTANGLE
+            x 5
+            y 2.5
+            w 50%
+            h 0.5
+            fill
+                color FF0000
+        shape RECTANGLE
+            x 6
+            y 3
+            w 50%
+            h 0.5
+            fill
+                color FF0000
+        shape RECTANGLE
+            x 7
+            y 3.5
+            w 50%
+            h 0.5
+            fill
+                color FF0000
+        shape RECTANGLE
+            x 8
+            y 4
+            w 50%
+            h 0.5
+            fill
+                color FF0000
+        shape RECTANGLE
+            x 9
+            y 4.5
+            w 50%
+            h 0.5
+            fill
+                color FF0000
+        shape RECTANGLE
+            x 10
+            y 5
+            w 50%
+            h 0.5
+            fill
+                color FF0000
+        shape RECTANGLE
+            x 11
+            y 5.5
+            w 50%
+            h 0.5
+            fill
+                color FF0000
+        shape RECTANGLE
+            x 12
+            y 6
+            w 50%
+            h 0.5
+            fill
+                color FF0000
+        shape RECTANGLE
+            x 13
+            y 6.5
+            w 50%
+            h 0.5
+            fill
+                color FF0000
+        shape RECTANGLE
+            x 14
+            y 7
+            w 50%
+            h 0.5
+            fill
+                color FF0000
+        shape RECTANGLE
+            x 15
+            y 7.5
+            w 50%
+            h 0.5
+            fill
+                color FF0000
+    slide
+        p ACTION_BUTTON_BACK_OR_PREVIOUS
+            x 0%
+            y 0%
+            w 10%
+            h 10%
+        shape ACTION_BUTTON_BACK_OR_PREVIOUS
+            x 10%
+            y 0%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p ACTION_BUTTON_BEGINNING
+            x 20%
+            y 0%
+            w 10%
+            h 10%
+        shape ACTION_BUTTON_BEGINNING
+            x 30%
+            y 0%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p ACTION_BUTTON_CUSTOM
+            x 40%
+            y 0%
+            w 10%
+            h 10%
+        shape ACTION_BUTTON_CUSTOM
+            x 50%
+            y 0%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p ACTION_BUTTON_DOCUMENT
+            x 60%
+            y 0%
+            w 10%
+            h 10%
+        shape ACTION_BUTTON_DOCUMENT
+            x 70%
+            y 0%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p ACTION_BUTTON_END
+            x 80%
+            y 0%
+            w 10%
+            h 10%
+        shape ACTION_BUTTON_END
+            x 90%
+            y 0%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p ACTION_BUTTON_FORWARD_OR_NEXT
+            x 0%
+            y 10%
+            w 10%
+            h 10%
+        shape ACTION_BUTTON_FORWARD_OR_NEXT
+            x 10%
+            y 10%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p ACTION_BUTTON_HELP
+            x 20%
+            y 10%
+            w 10%
+            h 10%
+        shape ACTION_BUTTON_HELP
+            x 30%
+            y 10%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p ACTION_BUTTON_HOME
+            x 40%
+            y 10%
+            w 10%
+            h 10%
+        shape ACTION_BUTTON_HOME
+            x 50%
+            y 10%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p ACTION_BUTTON_INFORMATION
+            x 60%
+            y 10%
+            w 10%
+            h 10%
+        shape ACTION_BUTTON_INFORMATION
+            x 70%
+            y 10%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p ACTION_BUTTON_MOVIE
+            x 80%
+            y 10%
+            w 10%
+            h 10%
+        shape ACTION_BUTTON_MOVIE
+            x 90%
+            y 10%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p ACTION_BUTTON_RETURN
+            x 0%
+            y 20%
+            w 10%
+            h 10%
+        shape ACTION_BUTTON_RETURN
+            x 10%
+            y 20%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p ACTION_BUTTON_SOUND
+            x 20%
+            y 20%
+            w 10%
+            h 10%
+        shape ACTION_BUTTON_SOUND
+            x 30%
+            y 20%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p ARC
+            x 40%
+            y 20%
+            w 10%
+            h 10%
+        shape ARC
+            x 50%
+            y 20%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p BALLOON
+            x 60%
+            y 20%
+            w 10%
+            h 10%
+        shape BALLOON
+            x 70%
+            y 20%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p BENT_ARROW
+            x 80%
+            y 20%
+            w 10%
+            h 10%
+        shape BENT_ARROW
+            x 90%
+            y 20%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p BENT_UP_ARROW
+            x 0%
+            y 30%
+            w 10%
+            h 10%
+        shape BENT_UP_ARROW
+            x 10%
+            y 30%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p BEVEL
+            x 20%
+            y 30%
+            w 10%
+            h 10%
+        shape BEVEL
+            x 30%
+            y 30%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p BLOCK_ARC
+            x 40%
+            y 30%
+            w 10%
+            h 10%
+        shape BLOCK_ARC
+            x 50%
+            y 30%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p CAN
+            x 60%
+            y 30%
+            w 10%
+            h 10%
+        shape CAN
+            x 70%
+            y 30%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p CHART_PLUS
+            x 80%
+            y 30%
+            w 10%
+            h 10%
+        shape CHART_PLUS
+            x 90%
+            y 30%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p CHART_STAR
+            x 0%
+            y 40%
+            w 10%
+            h 10%
+        shape CHART_STAR
+            x 10%
+            y 40%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p CHART_X
+            x 20%
+            y 40%
+            w 10%
+            h 10%
+        shape CHART_X
+            x 30%
+            y 40%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p CHEVRON
+            x 40%
+            y 40%
+            w 10%
+            h 10%
+        shape CHEVRON
+            x 50%
+            y 40%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p CHORD
+            x 60%
+            y 40%
+            w 10%
+            h 10%
+        shape CHORD
+            x 70%
+            y 40%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p CIRCULAR_ARROW
+            x 80%
+            y 40%
+            w 10%
+            h 10%
+        shape CIRCULAR_ARROW
+            x 90%
+            y 40%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p CLOUD
+            x 0%
+            y 50%
+            w 10%
+            h 10%
+        shape CLOUD
+            x 10%
+            y 50%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p CLOUD_CALLOUT
+            x 20%
+            y 50%
+            w 10%
+            h 10%
+        shape CLOUD_CALLOUT
+            x 30%
+            y 50%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p CORNER
+            x 40%
+            y 50%
+            w 10%
+            h 10%
+        shape CORNER
+            x 50%
+            y 50%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p CORNER_TABS
+            x 60%
+            y 50%
+            w 10%
+            h 10%
+        shape CORNER_TABS
+            x 70%
+            y 50%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p CROSS
+            x 80%
+            y 50%
+            w 10%
+            h 10%
+        shape CROSS
+            x 90%
+            y 50%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p CUBE
+            x 0%
+            y 60%
+            w 10%
+            h 10%
+        shape CUBE
+            x 10%
+            y 60%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p CURVED_DOWN_ARROW
+            x 20%
+            y 60%
+            w 10%
+            h 10%
+        shape CURVED_DOWN_ARROW
+            x 30%
+            y 60%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p CURVED_DOWN_RIBBON
+            x 40%
+            y 60%
+            w 10%
+            h 10%
+        shape CURVED_DOWN_RIBBON
+            x 50%
+            y 60%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p CURVED_LEFT_ARROW
+            x 60%
+            y 60%
+            w 10%
+            h 10%
+        shape CURVED_LEFT_ARROW
+            x 70%
+            y 60%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p CURVED_RIGHT_ARROW
+            x 80%
+            y 60%
+            w 10%
+            h 10%
+        shape CURVED_RIGHT_ARROW
+            x 90%
+            y 60%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p CURVED_UP_ARROW
+            x 0%
+            y 70%
+            w 10%
+            h 10%
+        shape CURVED_UP_ARROW
+            x 10%
+            y 70%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p CURVED_UP_RIBBON
+            x 20%
+            y 70%
+            w 10%
+            h 10%
+        shape CURVED_UP_RIBBON
+            x 30%
+            y 70%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p DECAGON
+            x 40%
+            y 70%
+            w 10%
+            h 10%
+        shape DECAGON
+            x 50%
+            y 70%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p DIAGONAL_STRIPE
+            x 60%
+            y 70%
+            w 10%
+            h 10%
+        shape DIAGONAL_STRIPE
+            x 70%
+            y 70%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p DIAMOND
+            x 80%
+            y 70%
+            w 10%
+            h 10%
+        shape DIAMOND
+            x 90%
+            y 70%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p DODECAGON
+            x 0%
+            y 80%
+            w 10%
+            h 10%
+        shape DODECAGON
+            x 10%
+            y 80%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p DONUT
+            x 20%
+            y 80%
+            w 10%
+            h 10%
+        shape DONUT
+            x 30%
+            y 80%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p DOUBLE_BRACE
+            x 40%
+            y 80%
+            w 10%
+            h 10%
+        shape DOUBLE_BRACE
+            x 50%
+            y 80%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p DOUBLE_BRACKET
+            x 60%
+            y 80%
+            w 10%
+            h 10%
+        shape DOUBLE_BRACKET
+            x 70%
+            y 80%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p DOUBLE_WAVE
+            x 80%
+            y 80%
+            w 10%
+            h 10%
+        shape DOUBLE_WAVE
+            x 90%
+            y 80%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p DOWN_ARROW
+            x 0%
+            y 90%
+            w 10%
+            h 10%
+        shape DOWN_ARROW
+            x 10%
+            y 90%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p DOWN_ARROW_CALLOUT
+            x 20%
+            y 90%
+            w 10%
+            h 10%
+        shape DOWN_ARROW_CALLOUT
+            x 30%
+            y 90%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p DOWN_RIBBON
+            x 40%
+            y 90%
+            w 10%
+            h 10%
+        shape DOWN_RIBBON
+            x 50%
+            y 90%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p EXPLOSION1
+            x 60%
+            y 90%
+            w 10%
+            h 10%
+        shape EXPLOSION1
+            x 70%
+            y 90%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p EXPLOSION2
+            x 80%
+            y 90%
+            w 10%
+            h 10%
+        shape EXPLOSION2
+            x 90%
+            y 90%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p FLOWCHART_ALTERNATE_PROCESS
+            x 0%
+            y 100%
+            w 10%
+            h 10%
+        shape FLOWCHART_ALTERNATE_PROCESS
+            x 10%
+            y 100%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p FLOWCHART_CARD
+            x 20%
+            y 100%
+            w 10%
+            h 10%
+        shape FLOWCHART_CARD
+            x 30%
+            y 100%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p FLOWCHART_COLLATE
+            x 40%
+            y 100%
+            w 10%
+            h 10%
+        shape FLOWCHART_COLLATE
+            x 50%
+            y 100%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p FLOWCHART_CONNECTOR
+            x 60%
+            y 100%
+            w 10%
+            h 10%
+        shape FLOWCHART_CONNECTOR
+            x 70%
+            y 100%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p FLOWCHART_DATA
+            x 80%
+            y 100%
+            w 10%
+            h 10%
+        shape FLOWCHART_DATA
+            x 90%
+            y 100%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p FLOWCHART_DECISION
+            x 0%
+            y 110%
+            w 10%
+            h 10%
+        shape FLOWCHART_DECISION
+            x 10%
+            y 110%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p FLOWCHART_DELAY
+            x 20%
+            y 110%
+            w 10%
+            h 10%
+        shape FLOWCHART_DELAY
+            x 30%
+            y 110%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p FLOWCHART_DIRECT_ACCESS_STORAGE
+            x 40%
+            y 110%
+            w 10%
+            h 10%
+        shape FLOWCHART_DIRECT_ACCESS_STORAGE
+            x 50%
+            y 110%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p FLOWCHART_DISPLAY
+            x 60%
+            y 110%
+            w 10%
+            h 10%
+        shape FLOWCHART_DISPLAY
+            x 70%
+            y 110%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p FLOWCHART_DOCUMENT
+            x 80%
+            y 110%
+            w 10%
+            h 10%
+        shape FLOWCHART_DOCUMENT
+            x 90%
+            y 110%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p FLOWCHART_EXTRACT
+            x 0%
+            y 120%
+            w 10%
+            h 10%
+        shape FLOWCHART_EXTRACT
+            x 10%
+            y 120%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p FLOWCHART_INTERNAL_STORAGE
+            x 20%
+            y 120%
+            w 10%
+            h 10%
+        shape FLOWCHART_INTERNAL_STORAGE
+            x 30%
+            y 120%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p FLOWCHART_MAGNETIC_DISK
+            x 40%
+            y 120%
+            w 10%
+            h 10%
+        shape FLOWCHART_MAGNETIC_DISK
+            x 50%
+            y 120%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p FLOWCHART_MANUAL_INPUT
+            x 60%
+            y 120%
+            w 10%
+            h 10%
+        shape FLOWCHART_MANUAL_INPUT
+            x 70%
+            y 120%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p FLOWCHART_MANUAL_OPERATION
+            x 80%
+            y 120%
+            w 10%
+            h 10%
+        shape FLOWCHART_MANUAL_OPERATION
+            x 90%
+            y 120%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p FLOWCHART_MERGE
+            x 0%
+            y 130%
+            w 10%
+            h 10%
+        shape FLOWCHART_MERGE
+            x 10%
+            y 130%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p FLOWCHART_MULTIDOCUMENT
+            x 20%
+            y 130%
+            w 10%
+            h 10%
+        shape FLOWCHART_MULTIDOCUMENT
+            x 30%
+            y 130%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p FLOWCHART_OFFLINE_STORAGE
+            x 40%
+            y 130%
+            w 10%
+            h 10%
+        shape FLOWCHART_OFFLINE_STORAGE
+            x 50%
+            y 130%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p FLOWCHART_OFFPAGE_CONNECTOR
+            x 60%
+            y 130%
+            w 10%
+            h 10%
+        shape FLOWCHART_OFFPAGE_CONNECTOR
+            x 70%
+            y 130%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p FLOWCHART_OR
+            x 80%
+            y 130%
+            w 10%
+            h 10%
+        shape FLOWCHART_OR
+            x 90%
+            y 130%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p FLOWCHART_PREDEFINED_PROCESS
+            x 0%
+            y 140%
+            w 10%
+            h 10%
+        shape FLOWCHART_PREDEFINED_PROCESS
+            x 10%
+            y 140%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p FLOWCHART_PREPARATION
+            x 20%
+            y 140%
+            w 10%
+            h 10%
+        shape FLOWCHART_PREPARATION
+            x 30%
+            y 140%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p FLOWCHART_PROCESS
+            x 40%
+            y 140%
+            w 10%
+            h 10%
+        shape FLOWCHART_PROCESS
+            x 50%
+            y 140%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p FLOWCHART_PUNCHED_TAPE
+            x 60%
+            y 140%
+            w 10%
+            h 10%
+        shape FLOWCHART_PUNCHED_TAPE
+            x 70%
+            y 140%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p FLOWCHART_SEQUENTIAL_ACCESS_STORAGE
+            x 80%
+            y 140%
+            w 10%
+            h 10%
+        shape FLOWCHART_SEQUENTIAL_ACCESS_STORAGE
+            x 90%
+            y 140%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p FLOWCHART_SORT
+            x 0%
+            y 150%
+            w 10%
+            h 10%
+        shape FLOWCHART_SORT
+            x 10%
+            y 150%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p FLOWCHART_STORED_DATA
+            x 20%
+            y 150%
+            w 10%
+            h 10%
+        shape FLOWCHART_STORED_DATA
+            x 30%
+            y 150%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p FLOWCHART_SUMMING_JUNCTION
+            x 40%
+            y 150%
+            w 10%
+            h 10%
+        shape FLOWCHART_SUMMING_JUNCTION
+            x 50%
+            y 150%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p FLOWCHART_TERMINATOR
+            x 60%
+            y 150%
+            w 10%
+            h 10%
+        shape FLOWCHART_TERMINATOR
+            x 70%
+            y 150%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p FOLDED_CORNER
+            x 80%
+            y 150%
+            w 10%
+            h 10%
+        shape FOLDED_CORNER
+            x 90%
+            y 150%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p FRAME
+            x 0%
+            y 160%
+            w 10%
+            h 10%
+        shape FRAME
+            x 10%
+            y 160%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p FUNNEL
+            x 20%
+            y 160%
+            w 10%
+            h 10%
+        shape FUNNEL
+            x 30%
+            y 160%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p GEAR_6
+            x 40%
+            y 160%
+            w 10%
+            h 10%
+        shape GEAR_6
+            x 50%
+            y 160%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p GEAR_9
+            x 60%
+            y 160%
+            w 10%
+            h 10%
+        shape GEAR_9
+            x 70%
+            y 160%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p HALF_FRAME
+            x 80%
+            y 160%
+            w 10%
+            h 10%
+        shape HALF_FRAME
+            x 90%
+            y 160%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p HEART
+            x 0%
+            y 170%
+            w 10%
+            h 10%
+        shape HEART
+            x 10%
+            y 170%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p HEPTAGON
+            x 20%
+            y 170%
+            w 10%
+            h 10%
+        shape HEPTAGON
+            x 30%
+            y 170%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p HEXAGON
+            x 40%
+            y 170%
+            w 10%
+            h 10%
+        shape HEXAGON
+            x 50%
+            y 170%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p HORIZONTAL_SCROLL
+            x 60%
+            y 170%
+            w 10%
+            h 10%
+        shape HORIZONTAL_SCROLL
+            x 70%
+            y 170%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p ISOSCELES_TRIANGLE
+            x 80%
+            y 170%
+            w 10%
+            h 10%
+        shape ISOSCELES_TRIANGLE
+            x 90%
+            y 170%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p LEFT_ARROW
+            x 0%
+            y 180%
+            w 10%
+            h 10%
+        shape LEFT_ARROW
+            x 10%
+            y 180%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p LEFT_ARROW_CALLOUT
+            x 20%
+            y 180%
+            w 10%
+            h 10%
+        shape LEFT_ARROW_CALLOUT
+            x 30%
+            y 180%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p LEFT_BRACE
+            x 40%
+            y 180%
+            w 10%
+            h 10%
+        shape LEFT_BRACE
+            x 50%
+            y 180%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p LEFT_BRACKET
+            x 60%
+            y 180%
+            w 10%
+            h 10%
+        shape LEFT_BRACKET
+            x 70%
+            y 180%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p LEFT_CIRCULAR_ARROW
+            x 80%
+            y 180%
+            w 10%
+            h 10%
+        shape LEFT_CIRCULAR_ARROW
+            x 90%
+            y 180%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p LEFT_RIGHT_ARROW
+            x 0%
+            y 190%
+            w 10%
+            h 10%
+        shape LEFT_RIGHT_ARROW
+            x 10%
+            y 190%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p LEFT_RIGHT_ARROW_CALLOUT
+            x 20%
+            y 190%
+            w 10%
+            h 10%
+        shape LEFT_RIGHT_ARROW_CALLOUT
+            x 30%
+            y 190%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p LEFT_RIGHT_CIRCULAR_ARROW
+            x 40%
+            y 190%
+            w 10%
+            h 10%
+        shape LEFT_RIGHT_CIRCULAR_ARROW
+            x 50%
+            y 190%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p LEFT_RIGHT_RIBBON
+            x 60%
+            y 190%
+            w 10%
+            h 10%
+        shape LEFT_RIGHT_RIBBON
+            x 70%
+            y 190%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p LEFT_RIGHT_UP_ARROW
+            x 80%
+            y 190%
+            w 10%
+            h 10%
+        shape LEFT_RIGHT_UP_ARROW
+            x 90%
+            y 190%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p LEFT_UP_ARROW
+            x 0%
+            y 200%
+            w 10%
+            h 10%
+        shape LEFT_UP_ARROW
+            x 10%
+            y 200%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p LIGHTNING_BOLT
+            x 20%
+            y 200%
+            w 10%
+            h 10%
+        shape LIGHTNING_BOLT
+            x 30%
+            y 200%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p LINE_CALLOUT_1
+            x 40%
+            y 200%
+            w 10%
+            h 10%
+        shape LINE_CALLOUT_1
+            x 50%
+            y 200%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p LINE_CALLOUT_1_ACCENT_BAR
+            x 60%
+            y 200%
+            w 10%
+            h 10%
+        shape LINE_CALLOUT_1_ACCENT_BAR
+            x 70%
+            y 200%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p LINE_CALLOUT_1_BORDER_AND_ACCENT_BAR
+            x 80%
+            y 200%
+            w 10%
+            h 10%
+        shape LINE_CALLOUT_1_BORDER_AND_ACCENT_BAR
+            x 90%
+            y 200%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p LINE_CALLOUT_1_NO_BORDER
+            x 0%
+            y 210%
+            w 10%
+            h 10%
+        shape LINE_CALLOUT_1_NO_BORDER
+            x 10%
+            y 210%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p LINE_CALLOUT_2
+            x 20%
+            y 210%
+            w 10%
+            h 10%
+        shape LINE_CALLOUT_2
+            x 30%
+            y 210%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p LINE_CALLOUT_2_ACCENT_BAR
+            x 40%
+            y 210%
+            w 10%
+            h 10%
+        shape LINE_CALLOUT_2_ACCENT_BAR
+            x 50%
+            y 210%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p LINE_CALLOUT_2_BORDER_AND_ACCENT_BAR
+            x 60%
+            y 210%
+            w 10%
+            h 10%
+        shape LINE_CALLOUT_2_BORDER_AND_ACCENT_BAR
+            x 70%
+            y 210%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p LINE_CALLOUT_2_NO_BORDER
+            x 80%
+            y 210%
+            w 10%
+            h 10%
+        shape LINE_CALLOUT_2_NO_BORDER
+            x 90%
+            y 210%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p LINE_CALLOUT_3
+            x 0%
+            y 220%
+            w 10%
+            h 10%
+        shape LINE_CALLOUT_3
+            x 10%
+            y 220%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p LINE_CALLOUT_3_ACCENT_BAR
+            x 20%
+            y 220%
+            w 10%
+            h 10%
+        shape LINE_CALLOUT_3_ACCENT_BAR
+            x 30%
+            y 220%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p LINE_CALLOUT_3_BORDER_AND_ACCENT_BAR
+            x 40%
+            y 220%
+            w 10%
+            h 10%
+        shape LINE_CALLOUT_3_BORDER_AND_ACCENT_BAR
+            x 50%
+            y 220%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p LINE_CALLOUT_3_NO_BORDER
+            x 60%
+            y 220%
+            w 10%
+            h 10%
+        shape LINE_CALLOUT_3_NO_BORDER
+            x 70%
+            y 220%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p LINE_CALLOUT_4
+            x 80%
+            y 220%
+            w 10%
+            h 10%
+        shape LINE_CALLOUT_4
+            x 90%
+            y 220%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p LINE_CALLOUT_4_ACCENT_BAR
+            x 0%
+            y 230%
+            w 10%
+            h 10%
+        shape LINE_CALLOUT_4_ACCENT_BAR
+            x 10%
+            y 230%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p LINE_CALLOUT_4_BORDER_AND_ACCENT_BAR
+            x 20%
+            y 230%
+            w 10%
+            h 10%
+        shape LINE_CALLOUT_4_BORDER_AND_ACCENT_BAR
+            x 30%
+            y 230%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p LINE_CALLOUT_4_NO_BORDER
+            x 40%
+            y 230%
+            w 10%
+            h 10%
+        shape LINE_CALLOUT_4_NO_BORDER
+            x 50%
+            y 230%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p LINE
+            x 60%
+            y 230%
+            w 10%
+            h 10%
+        shape LINE
+            x 70%
+            y 230%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p LINE_INVERSE
+            x 80%
+            y 230%
+            w 10%
+            h 10%
+        shape LINE_INVERSE
+            x 90%
+            y 230%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p MATH_DIVIDE
+            x 0%
+            y 240%
+            w 10%
+            h 10%
+        shape MATH_DIVIDE
+            x 10%
+            y 240%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p MATH_EQUAL
+            x 20%
+            y 240%
+            w 10%
+            h 10%
+        shape MATH_EQUAL
+            x 30%
+            y 240%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p MATH_MINUS
+            x 40%
+            y 240%
+            w 10%
+            h 10%
+        shape MATH_MINUS
+            x 50%
+            y 240%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p MATH_MULTIPLY
+            x 60%
+            y 240%
+            w 10%
+            h 10%
+        shape MATH_MULTIPLY
+            x 70%
+            y 240%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p MATH_NOT_EQUAL
+            x 80%
+            y 240%
+            w 10%
+            h 10%
+        shape MATH_NOT_EQUAL
+            x 90%
+            y 240%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p MATH_PLUS
+            x 0%
+            y 250%
+            w 10%
+            h 10%
+        shape MATH_PLUS
+            x 10%
+            y 250%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p MOON
+            x 20%
+            y 250%
+            w 10%
+            h 10%
+        shape MOON
+            x 30%
+            y 250%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p NON_ISOSCELES_TRAPEZOID
+            x 40%
+            y 250%
+            w 10%
+            h 10%
+        shape NON_ISOSCELES_TRAPEZOID
+            x 50%
+            y 250%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p NOTCHED_RIGHT_ARROW
+            x 60%
+            y 250%
+            w 10%
+            h 10%
+        shape NOTCHED_RIGHT_ARROW
+            x 70%
+            y 250%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p NO_SYMBOL
+            x 80%
+            y 250%
+            w 10%
+            h 10%
+        shape NO_SYMBOL
+            x 90%
+            y 250%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p OCTAGON
+            x 0%
+            y 260%
+            w 10%
+            h 10%
+        shape OCTAGON
+            x 10%
+            y 260%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p OVAL
+            x 20%
+            y 260%
+            w 10%
+            h 10%
+        shape OVAL
+            x 30%
+            y 260%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p OVAL_CALLOUT
+            x 40%
+            y 260%
+            w 10%
+            h 10%
+        shape OVAL_CALLOUT
+            x 50%
+            y 260%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p PARALLELOGRAM
+            x 60%
+            y 260%
+            w 10%
+            h 10%
+        shape PARALLELOGRAM
+            x 70%
+            y 260%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p PENTAGON
+            x 80%
+            y 260%
+            w 10%
+            h 10%
+        shape PENTAGON
+            x 90%
+            y 260%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p PIE
+            x 0%
+            y 270%
+            w 10%
+            h 10%
+        shape PIE
+            x 10%
+            y 270%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p PIE_WEDGE
+            x 20%
+            y 270%
+            w 10%
+            h 10%
+        shape PIE_WEDGE
+            x 30%
+            y 270%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p PLAQUE
+            x 40%
+            y 270%
+            w 10%
+            h 10%
+        shape PLAQUE
+            x 50%
+            y 270%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p PLAQUE_TABS
+            x 60%
+            y 270%
+            w 10%
+            h 10%
+        shape PLAQUE_TABS
+            x 70%
+            y 270%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p QUAD_ARROW
+            x 80%
+            y 270%
+            w 10%
+            h 10%
+        shape QUAD_ARROW
+            x 90%
+            y 270%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p QUAD_ARROW_CALLOUT
+            x 0%
+            y 280%
+            w 10%
+            h 10%
+        shape QUAD_ARROW_CALLOUT
+            x 10%
+            y 280%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p RECTANGLE
+            x 20%
+            y 280%
+            w 10%
+            h 10%
+        shape RECTANGLE
+            x 30%
+            y 280%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p RECTANGULAR_CALLOUT
+            x 40%
+            y 280%
+            w 10%
+            h 10%
+        shape RECTANGULAR_CALLOUT
+            x 50%
+            y 280%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p REGULAR_PENTAGON
+            x 60%
+            y 280%
+            w 10%
+            h 10%
+        shape REGULAR_PENTAGON
+            x 70%
+            y 280%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p RIGHT_ARROW
+            x 80%
+            y 280%
+            w 10%
+            h 10%
+        shape RIGHT_ARROW
+            x 90%
+            y 280%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p RIGHT_ARROW_CALLOUT
+            x 0%
+            y 290%
+            w 10%
+            h 10%
+        shape RIGHT_ARROW_CALLOUT
+            x 10%
+            y 290%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p RIGHT_BRACE
+            x 20%
+            y 290%
+            w 10%
+            h 10%
+        shape RIGHT_BRACE
+            x 30%
+            y 290%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p RIGHT_BRACKET
+            x 40%
+            y 290%
+            w 10%
+            h 10%
+        shape RIGHT_BRACKET
+            x 50%
+            y 290%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p RIGHT_TRIANGLE
+            x 60%
+            y 290%
+            w 10%
+            h 10%
+        shape RIGHT_TRIANGLE
+            x 70%
+            y 290%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p ROUNDED_RECTANGLE
+            x 80%
+            y 290%
+            w 10%
+            h 10%
+        shape ROUNDED_RECTANGLE
+            x 90%
+            y 290%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p ROUNDED_RECTANGULAR_CALLOUT
+            x 0%
+            y 300%
+            w 10%
+            h 10%
+        shape ROUNDED_RECTANGULAR_CALLOUT
+            x 10%
+            y 300%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p ROUND_1_RECTANGLE
+            x 20%
+            y 300%
+            w 10%
+            h 10%
+        shape ROUND_1_RECTANGLE
+            x 30%
+            y 300%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p ROUND_2_DIAG_RECTANGLE
+            x 40%
+            y 300%
+            w 10%
+            h 10%
+        shape ROUND_2_DIAG_RECTANGLE
+            x 50%
+            y 300%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p ROUND_2_SAME_RECTANGLE
+            x 60%
+            y 300%
+            w 10%
+            h 10%
+        shape ROUND_2_SAME_RECTANGLE
+            x 70%
+            y 300%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p SMILEY_FACE
+            x 80%
+            y 300%
+            w 10%
+            h 10%
+        shape SMILEY_FACE
+            x 90%
+            y 300%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p SNIP_1_RECTANGLE
+            x 0%
+            y 310%
+            w 10%
+            h 10%
+        shape SNIP_1_RECTANGLE
+            x 10%
+            y 310%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p SNIP_2_DIAG_RECTANGLE
+            x 20%
+            y 310%
+            w 10%
+            h 10%
+        shape SNIP_2_DIAG_RECTANGLE
+            x 30%
+            y 310%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p SNIP_2_SAME_RECTANGLE
+            x 40%
+            y 310%
+            w 10%
+            h 10%
+        shape SNIP_2_SAME_RECTANGLE
+            x 50%
+            y 310%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p SNIP_ROUND_RECTANGLE
+            x 60%
+            y 310%
+            w 10%
+            h 10%
+        shape SNIP_ROUND_RECTANGLE
+            x 70%
+            y 310%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p SQUARE_TABS
+            x 80%
+            y 310%
+            w 10%
+            h 10%
+        shape SQUARE_TABS
+            x 90%
+            y 310%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p STAR_10_POINT
+            x 0%
+            y 320%
+            w 10%
+            h 10%
+        shape STAR_10_POINT
+            x 10%
+            y 320%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p STAR_12_POINT
+            x 20%
+            y 320%
+            w 10%
+            h 10%
+        shape STAR_12_POINT
+            x 30%
+            y 320%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p STAR_16_POINT
+            x 40%
+            y 320%
+            w 10%
+            h 10%
+        shape STAR_16_POINT
+            x 50%
+            y 320%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p STAR_24_POINT
+            x 60%
+            y 320%
+            w 10%
+            h 10%
+        shape STAR_24_POINT
+            x 70%
+            y 320%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p STAR_32_POINT
+            x 80%
+            y 320%
+            w 10%
+            h 10%
+        shape STAR_32_POINT
+            x 90%
+            y 320%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p STAR_4_POINT
+            x 0%
+            y 330%
+            w 10%
+            h 10%
+        shape STAR_4_POINT
+            x 10%
+            y 330%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p STAR_5_POINT
+            x 20%
+            y 330%
+            w 10%
+            h 10%
+        shape STAR_5_POINT
+            x 30%
+            y 330%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p STAR_6_POINT
+            x 40%
+            y 330%
+            w 10%
+            h 10%
+        shape STAR_6_POINT
+            x 50%
+            y 330%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p STAR_7_POINT
+            x 60%
+            y 330%
+            w 10%
+            h 10%
+        shape STAR_7_POINT
+            x 70%
+            y 330%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p STAR_8_POINT
+            x 80%
+            y 330%
+            w 10%
+            h 10%
+        shape STAR_8_POINT
+            x 90%
+            y 330%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p STRIPED_RIGHT_ARROW
+            x 0%
+            y 340%
+            w 10%
+            h 10%
+        shape STRIPED_RIGHT_ARROW
+            x 10%
+            y 340%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p SUN
+            x 20%
+            y 340%
+            w 10%
+            h 10%
+        shape SUN
+            x 30%
+            y 340%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p SWOOSH_ARROW
+            x 40%
+            y 340%
+            w 10%
+            h 10%
+        shape SWOOSH_ARROW
+            x 50%
+            y 340%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p TEAR
+            x 60%
+            y 340%
+            w 10%
+            h 10%
+        shape TEAR
+            x 70%
+            y 340%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p TRAPEZOID
+            x 80%
+            y 340%
+            w 10%
+            h 10%
+        shape TRAPEZOID
+            x 90%
+            y 340%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p UP_ARROW
+            x 0%
+            y 350%
+            w 10%
+            h 10%
+        shape UP_ARROW
+            x 10%
+            y 350%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p UP_ARROW_CALLOUT
+            x 20%
+            y 350%
+            w 10%
+            h 10%
+        shape UP_ARROW_CALLOUT
+            x 30%
+            y 350%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p UP_DOWN_ARROW
+            x 40%
+            y 350%
+            w 10%
+            h 10%
+        shape UP_DOWN_ARROW
+            x 50%
+            y 350%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p UP_DOWN_ARROW_CALLOUT
+            x 60%
+            y 350%
+            w 10%
+            h 10%
+        shape UP_DOWN_ARROW_CALLOUT
+            x 70%
+            y 350%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p UP_RIBBON
+            x 80%
+            y 350%
+            w 10%
+            h 10%
+        shape UP_RIBBON
+            x 90%
+            y 350%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p U_TURN_ARROW
+            x 0%
+            y 360%
+            w 10%
+            h 10%
+        shape U_TURN_ARROW
+            x 10%
+            y 360%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p VERTICAL_SCROLL
+            x 20%
+            y 360%
+            w 10%
+            h 10%
+        shape VERTICAL_SCROLL
+            x 30%
+            y 360%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+        p WAVE
+            x 40%
+            y 360%
+            w 10%
+            h 10%
+        shape WAVE
+            x 50%
+            y 360%
+            w 10%
+            h 10%
+            fill
+                color FF0000
+    slide
+        p solid / none
+            x 0%
+            y 0%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 10%
+            y 3%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type solid
+                begin-arrow-type none
+                end-arrow-type none
+                color 0000
+            fill
+                color 0000
+        p solid / arrow
+            x 30%
+            y 0%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 40%
+            y 3%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type solid
+                begin-arrow-type arrow
+                end-arrow-type arrow
+                color 00300
+            fill
+                color 00300
+        p solid / diamond
+            x 60%
+            y 0%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 70%
+            y 3%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type solid
+                begin-arrow-type diamond
+                end-arrow-type diamond
+                color 00600
+            fill
+                color 00600
+        p solid / oval
+            x 90%
+            y 0%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 100%
+            y 3%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type solid
+                begin-arrow-type oval
+                end-arrow-type oval
+                color 00900
+            fill
+                color 00900
+        p solid / stealth
+            x 0%
+            y 10%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 10%
+            y 13%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type solid
+                begin-arrow-type stealth
+                end-arrow-type stealth
+                color 00010
+            fill
+                color 00010
+        p solid / triangle
+            x 30%
+            y 10%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 40%
+            y 13%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type solid
+                begin-arrow-type triangle
+                end-arrow-type triangle
+                color 003010
+            fill
+                color 003010
+        p dash / none
+            x 60%
+            y 10%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 70%
+            y 13%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type dash
+                begin-arrow-type none
+                end-arrow-type none
+                color 006010
+            fill
+                color 006010
+        p dash / arrow
+            x 90%
+            y 10%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 100%
+            y 13%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type dash
+                begin-arrow-type arrow
+                end-arrow-type arrow
+                color 009010
+            fill
+                color 009010
+        p dash / diamond
+            x 0%
+            y 20%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 10%
+            y 23%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type dash
+                begin-arrow-type diamond
+                end-arrow-type diamond
+                color 00020
+            fill
+                color 00020
+        p dash / oval
+            x 30%
+            y 20%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 40%
+            y 23%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type dash
+                begin-arrow-type oval
+                end-arrow-type oval
+                color 003020
+            fill
+                color 003020
+        p dash / stealth
+            x 60%
+            y 20%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 70%
+            y 23%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type dash
+                begin-arrow-type stealth
+                end-arrow-type stealth
+                color 006020
+            fill
+                color 006020
+        p dash / triangle
+            x 90%
+            y 20%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 100%
+            y 23%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type dash
+                begin-arrow-type triangle
+                end-arrow-type triangle
+                color 009020
+            fill
+                color 009020
+        p dashDot / none
+            x 0%
+            y 30%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 10%
+            y 33%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type dashDot
+                begin-arrow-type none
+                end-arrow-type none
+                color 00030
+            fill
+                color 00030
+        p dashDot / arrow
+            x 30%
+            y 30%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 40%
+            y 33%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type dashDot
+                begin-arrow-type arrow
+                end-arrow-type arrow
+                color 003030
+            fill
+                color 003030
+        p dashDot / diamond
+            x 60%
+            y 30%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 70%
+            y 33%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type dashDot
+                begin-arrow-type diamond
+                end-arrow-type diamond
+                color 006030
+            fill
+                color 006030
+        p dashDot / oval
+            x 90%
+            y 30%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 100%
+            y 33%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type dashDot
+                begin-arrow-type oval
+                end-arrow-type oval
+                color 009030
+            fill
+                color 009030
+        p dashDot / stealth
+            x 0%
+            y 40%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 10%
+            y 43%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type dashDot
+                begin-arrow-type stealth
+                end-arrow-type stealth
+                color 00040
+            fill
+                color 00040
+        p dashDot / triangle
+            x 30%
+            y 40%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 40%
+            y 43%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type dashDot
+                begin-arrow-type triangle
+                end-arrow-type triangle
+                color 003040
+            fill
+                color 003040
+        p lgDash / none
+            x 60%
+            y 40%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 70%
+            y 43%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type lgDash
+                begin-arrow-type none
+                end-arrow-type none
+                color 006040
+            fill
+                color 006040
+        p lgDash / arrow
+            x 90%
+            y 40%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 100%
+            y 43%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type lgDash
+                begin-arrow-type arrow
+                end-arrow-type arrow
+                color 009040
+            fill
+                color 009040
+        p lgDash / diamond
+            x 0%
+            y 50%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 10%
+            y 53%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type lgDash
+                begin-arrow-type diamond
+                end-arrow-type diamond
+                color 00050
+            fill
+                color 00050
+        p lgDash / oval
+            x 30%
+            y 50%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 40%
+            y 53%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type lgDash
+                begin-arrow-type oval
+                end-arrow-type oval
+                color 003050
+            fill
+                color 003050
+        p lgDash / stealth
+            x 60%
+            y 50%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 70%
+            y 53%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type lgDash
+                begin-arrow-type stealth
+                end-arrow-type stealth
+                color 006050
+            fill
+                color 006050
+        p lgDash / triangle
+            x 90%
+            y 50%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 100%
+            y 53%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type lgDash
+                begin-arrow-type triangle
+                end-arrow-type triangle
+                color 009050
+            fill
+                color 009050
+        p lgDashDot / none
+            x 0%
+            y 60%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 10%
+            y 63%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type lgDashDot
+                begin-arrow-type none
+                end-arrow-type none
+                color 00060
+            fill
+                color 00060
+        p lgDashDot / arrow
+            x 30%
+            y 60%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 40%
+            y 63%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type lgDashDot
+                begin-arrow-type arrow
+                end-arrow-type arrow
+                color 003060
+            fill
+                color 003060
+        p lgDashDot / diamond
+            x 60%
+            y 60%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 70%
+            y 63%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type lgDashDot
+                begin-arrow-type diamond
+                end-arrow-type diamond
+                color 006060
+            fill
+                color 006060
+        p lgDashDot / oval
+            x 90%
+            y 60%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 100%
+            y 63%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type lgDashDot
+                begin-arrow-type oval
+                end-arrow-type oval
+                color 009060
+            fill
+                color 009060
+        p lgDashDot / stealth
+            x 0%
+            y 70%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 10%
+            y 73%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type lgDashDot
+                begin-arrow-type stealth
+                end-arrow-type stealth
+                color 00070
+            fill
+                color 00070
+        p lgDashDot / triangle
+            x 30%
+            y 70%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 40%
+            y 73%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type lgDashDot
+                begin-arrow-type triangle
+                end-arrow-type triangle
+                color 003070
+            fill
+                color 003070
+        p lgDashDotDot / none
+            x 60%
+            y 70%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 70%
+            y 73%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type lgDashDotDot
+                begin-arrow-type none
+                end-arrow-type none
+                color 006070
+            fill
+                color 006070
+        p lgDashDotDot / arrow
+            x 90%
+            y 70%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 100%
+            y 73%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type lgDashDotDot
+                begin-arrow-type arrow
+                end-arrow-type arrow
+                color 009070
+            fill
+                color 009070
+        p lgDashDotDot / diamond
+            x 0%
+            y 80%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 10%
+            y 83%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type lgDashDotDot
+                begin-arrow-type diamond
+                end-arrow-type diamond
+                color 00080
+            fill
+                color 00080
+        p lgDashDotDot / oval
+            x 30%
+            y 80%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 40%
+            y 83%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type lgDashDotDot
+                begin-arrow-type oval
+                end-arrow-type oval
+                color 003080
+            fill
+                color 003080
+        p lgDashDotDot / stealth
+            x 60%
+            y 80%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 70%
+            y 83%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type lgDashDotDot
+                begin-arrow-type stealth
+                end-arrow-type stealth
+                color 006080
+            fill
+                color 006080
+        p lgDashDotDot / triangle
+            x 90%
+            y 80%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 100%
+            y 83%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type lgDashDotDot
+                begin-arrow-type triangle
+                end-arrow-type triangle
+                color 009080
+            fill
+                color 009080
+        p sysDash / none
+            x 0%
+            y 90%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 10%
+            y 93%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type sysDash
+                begin-arrow-type none
+                end-arrow-type none
+                color 00090
+            fill
+                color 00090
+        p sysDash / arrow
+            x 30%
+            y 90%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 40%
+            y 93%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type sysDash
+                begin-arrow-type arrow
+                end-arrow-type arrow
+                color 003090
+            fill
+                color 003090
+        p sysDash / diamond
+            x 60%
+            y 90%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 70%
+            y 93%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type sysDash
+                begin-arrow-type diamond
+                end-arrow-type diamond
+                color 006090
+            fill
+                color 006090
+        p sysDash / oval
+            x 90%
+            y 90%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 100%
+            y 93%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type sysDash
+                begin-arrow-type oval
+                end-arrow-type oval
+                color 009090
+            fill
+                color 009090
+        p sysDash / stealth
+            x 0%
+            y 100%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 10%
+            y 103%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type sysDash
+                begin-arrow-type stealth
+                end-arrow-type stealth
+                color 000100
+            fill
+                color 000100
+        p sysDash / triangle
+            x 30%
+            y 100%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 40%
+            y 103%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type sysDash
+                begin-arrow-type triangle
+                end-arrow-type triangle
+                color 0030100
+            fill
+                color 0030100
+        p sysDot / none
+            x 60%
+            y 100%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 70%
+            y 103%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type sysDot
+                begin-arrow-type none
+                end-arrow-type none
+                color 0060100
+            fill
+                color 0060100
+        p sysDot / arrow
+            x 90%
+            y 100%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 100%
+            y 103%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type sysDot
+                begin-arrow-type arrow
+                end-arrow-type arrow
+                color 0090100
+            fill
+                color 0090100
+        p sysDot / diamond
+            x 0%
+            y 110%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 10%
+            y 113%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type sysDot
+                begin-arrow-type diamond
+                end-arrow-type diamond
+                color 000110
+            fill
+                color 000110
+        p sysDot / oval
+            x 30%
+            y 110%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 40%
+            y 113%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type sysDot
+                begin-arrow-type oval
+                end-arrow-type oval
+                color 0030110
+            fill
+                color 0030110
+        p sysDot / stealth
+            x 60%
+            y 110%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 70%
+            y 113%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type sysDot
+                begin-arrow-type stealth
+                end-arrow-type stealth
+                color 0060110
+            fill
+                color 0060110
+        p sysDot / triangle
+            x 90%
+            y 110%
+            w 10%
+            h 0%
+            font-size 6
+        shape LINE
+            x 100%
+            y 113%
+            w 28%
+            h 0%
+            line
+                width 2
+                dash-type sysDot
+                begin-arrow-type triangle
+                end-arrow-type triangle
+                color 0090110
+            fill
+                color 0090110
+    slide
+        p
+            p item in para 1
+                style normal
+                br
+            p item in para 2
+                style normal
+                br
+            p item in para 3
+                style normal
+                br
+            x 0.5
+            y 0.75
+            w 4.4
+            h 2.5
+            color FF0000
+            fill
+                color DEDEDE
+            valign middle
+            align center
+        p
+            p item in para, bullet code 25BA
+                style normal
+                color FF0000
+                bullet
+                    code 25BA
+                br
+            p item in para, bullet code 25D1
+                style normal
+                color FF0000
+                bullet
+                    code 25D1
+                br
+            p item in para, bullet code 25CC
+                style normal
+                color FF0000
+                bullet
+                    code 25CC
+                br
+            p item in para, bullet code 2B24
+                style normal
+                color FF0000
+                bullet
+                    code 2B24
+                br
+            x 5
+            y 0.75
+            w 4.4
+            h 2.5
+            color FF0000
+            fill
+                color DEDEDE
+            valign middle
+            align center
