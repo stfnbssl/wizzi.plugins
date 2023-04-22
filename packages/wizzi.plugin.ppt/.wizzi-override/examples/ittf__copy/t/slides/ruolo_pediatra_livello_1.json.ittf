@@ -2,18 +2,20 @@ $group
     slide()
         section( Ruolo del Pediatra I livello 
     
-    slide( Esame antropometrico
-        {
-            kind "textblock"
-            position "left"
+    slide( Esame antropometrico, I livello
+        div-rect( 13% 5% 50% 90% 
             textSize 2
             [ words
-                {
-                    text "La misurazione e valutazione  del BMI deve essere eseguita ai BDS${dot}"
-                    br true
-                {
-                    text "Conoscere il BMI è utile per la prevenzione e migliora la consapevolezza dei genitori${dot}"
-                    br true
+                word( La&nbsp; 
+                word-red( misurazione
+                word( &nbsp;e valutazione del&nbsp;
+                word-red( BMI 
+                word-br( &nbsp;deve essere eseguita ai BDS${dot}
+                word( Conoscere il BMI è utile per la prevenzione e migliora la&nbsp; 
+                word-red( consapevolezza dei genitori
+                word-br( ${dot}
+                word-br( Mostrare ai genitori e ragazzi le curve di crescita e di BMI${dot}
+                $*
                 {
                     text "Il pediatra deve dotarsi di competenze sul trattamento dell’obesità basato sulle&nbsp;"
                 {
@@ -26,102 +28,127 @@ $group
                     text "incentrate sul paziente${dot}"
                     bold true
                     color "FF0000"
-        {
-            kind "image"
-            position "righttop"
-            path "C:/Users/Stefano Bassoli/Pictures/obesi/BMI Formula2.jpg"
-        {
-            kind "image"
-            position "rightbottom"
-            path "C:/Users/Stefano Bassoli/Pictures/obesi/BMI Classi.png"
+                *$
+
+        text-rect( La selezione dei grafici in Junior-Bit, 50% 10% 10% 80%, thinBoldCaption
+        image-rect( Curve JB 2.jpg, 60% 10% 30% 80% 
+
+        $*
+        image( top-right, BMI Formula2.jpg
+        image( bottom-right, BMI Classi.png
+        *$
     
+    $*
     slide( Le curve di crescita
-        textblock( left
+        div( thin-left
+            $$ margin 8        
             [ paras
                 "Mostrare ai genitori e ragazzi le curve di crescita e di BMI${dot}"
-        image( right, Curve JB.jpg, dummy )
-            title "La selezione dei grafici in Juonior-Bit"
+        image( thick-right, Curve JB.jpg, dummy )
+            title "La selezione dei grafici in Junior-Bit"
 
-    slide( Le curve di crescita WHO
-        textblock( left
+    *$
+    slide( Le curve di crescita WHO, I livello
+        div( left
             [ words
-                {
-                    text "Sono le più utilizzate a livello internazionale${dot}"
-                    br true
-                {
-                    text "Sono facili da mostrare ai genitori per&nbsp;"
-                {
-                    text "coinvolgerli nel monitoraggio del peso${dot}"
-                    bold true
-                    color "FF0000"
-                    br true
-        image( right, Curva WHO JB.jpg )
+                word-br( Sono le più utilizzate a livello internazionale${dot}
+                word( Sono facili da mostrare ai genitori per&nbsp;
+                word-red( coinvolgerli nel monitoraggio del peso
+                word-br( ${dot}
+        
+        image( thick-right, Curva WHO JB.jpg )
 
-    slide( Le curve di crescita IOTF
-        textblock( left
+    slide( Le curve di crescita IOTF, I livello
+        div( left
             [ words
-                word( Più efficaci dal punto di vista clinico${dot}, br
+                word-br( Più efficaci dal punto di vista clinico${dot}
                 word( Maggiore&nbsp;
-                word( specificità per il rischio cardio-metabolico, bold;color:FF0000
-                word( ${dot}, br
-        image( right, Curve IOTF JB.jpg )
+                word-red( specificità per il rischio cardio-metabolico
+                word-br( ${dot}
+        image( thick-right, Curve IOTF JB.jpg )
 
-    slide( Criteri WHO e IOTF per normopeso, sovrappeso e obeso
+    slide( Criteri WHO e IOTF per normopeso, I livello
         image( full, Normopeso e obeso.jpg )
+            margin 12
 
-    slide( Altri esami antropometrici
-        textblock( lefttop, La circonferenza addominale
+    slide( Altri esami antropometrici, I livello
+        div( top-left, La circonferenza addominale
             textSize 2
             [ paras
                 "Va misurata per tutti i bambini con obesità${dot}"
                 "Il rapporto circonferenza minima vita/statura in cm, se ≥ 0,5 è indicativo di obesità “viscerale”${dot}"
-        textblock( leftbottom, La pressione arteriosa
+        
+        div( bottom-left, La pressione arteriosa
             [ paras 
                 "Deve essere misurata nei bambini con obesità dai 3 anni${dot}"
-        image( righttop, Circonferenza vita.jpg )
+        
+        image-rect( Circonferenza vita.jpg, 30% 70% 30% 20% 
 
-    slide( Comunicare con la famiglia
+        text-rect( dummy, 60% 65% 30% 30%, normal2
+            text "Posiziona un metro a nastro intorno alla vita, appena sopra le ossa iliache.
+                \b Assicurati che il nastro sia orizzontale, tienilo aderente senza comprimere la pelle.
+                \b \nMisura subito dopo l’espirazione${dot}"
 
-        textblock( left
-            [ paras
-                "Avere conversazioni sul peso può facilitare un trattamento efficace${dot}"
-                "La prima domanda potrebbe essere: quali preoccupazioni ha riguardo alla crescita del suo bambino?" 
-                "Offre informazioni sulla percezione del problema${dot}"
+    slide( Comunicare con la famiglia, I livello
 
-    slide( Linguaggio non stigmatizzante
-        textblock( right
+        div( top-left
+            textSize 2
+            [ words
+                word-br( Avere conversazioni sul peso può facilitare un trattamento efficace${dot}
+                word( La prima domanda potrebbe essere:&nbsp;
+                word-red( quali preoccupazioni ha riguardo alla crescita del suo bambino
+                word-br( ?
+                word-br( Offre informazioni sulla percezione del problema${dot}
+
+        image-rect( linguaggio inclusivo.jpg, 65% 10% 12% 40%
+
+        div( top-right
+            textSize 2
             [ paras
                 "Chiedere il permesso di  parlare di BMI${dot}"
                 "Usare parole adeguate${dot}"
                 "Riconoscere che Comunicare può provocare forti reazioni  emotive come tristezza e rabbia${dot}"
 
-    slide( Ambulatorio I Livello
+        image-rect( mafalda rabbia.jpg, 65% 60% 15% 30%
+
+
+    $*
+    slide( Linguaggio non stigmatizzante, I livello
+        
+        div( right
+            [ paras
+
+    *$
+    slide( Ambulatorio, I livello
+        
         list( left, Se il bambino è sovrappeso o obeso:
             textSize 2
             [ items
-                "approfondire l’anamnesi"
-                "informare la famiglia"
-                "utilizzare lo strumento motivazionale per intraprendere un’alleanza terapeutica"
-                "fornire indicazioni su corretti stili di vita"
-                "dotarsi di una  rete di professionisti supportata da cartelle cliniche elettroniche"
+                "Approfondire l’anamnesi${dot}"
+                "Informare la famiglia${dot}"
+                "Utilizzare lo strumento motivazionale per intraprendere un’alleanza terapeutica${dot}"
+                "Fornire indicazioni su corretti stili di vita${dot}"
+                "Dotarsi di una  rete di professionisti supportata da cartelle cliniche elettroniche${dot}"
 
-    slide( Criteri invio al II livello
+        image-rect( family based treatment.png, 30% 60% 30% 30%
+
+    slide( Criteri invio al II livello, Modello RER
         image-rect( Criteri invio livello 2.jpg, 15% 5% 80% 90% )
 
-    slide( Criteri invio al III livello
+    slide( Criteri invio al III livello, Modello RER
         image-rect( Criteri invio livello 3.jpg, 15% 5% 80% 90% )
 
-    slide( Cartolina PPDTA
-        textblock( left
+    slide( Cartolina PPDTA, SIAN RE
+        div( left
             [ paras
                 "Cartolina per spiegare ai genitori l'intervento al II livello${dot}"
                 "Punti salienti: la durata dell’intervento e la motivazione al cambiamento${dot}"
         image( right, Cartolina PPDTA .jpg )
     
-    slide( Scheda Invio PLS Bimbi in forma
-        textblock( left
+    slide( Scheda Invio PLS Bimbi in forma, Modello RER
+        div( left
             [ paras
-                "Foglio Excel per la valutazione dell’invio al secondo livello${dot}"
-                "Si trova nella cassetta degli attrezzi che la RER ha approntato per l’invio al 2 livello${dot}"
-        image( right, Scheda Invio PLS Bimbi in forma.jpg )
+                "Foglio Excel per la valutazione dell’invio al II livello${dot}"
+                "Si trova nella cassetta degli attrezzi che la RER ha approntato per l’invio al II livello${dot}"
+        image( thick-right, Scheda Invio PLS Bimbi in forma.jpg )
 

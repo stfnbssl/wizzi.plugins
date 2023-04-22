@@ -1,74 +1,64 @@
 $group
 
-    slide( Progetto Cosie
-        image(full, Cosie project.jpg
-        
-    {
-        [ objects
-            {
-                kind "section-title"
-                text "Motivazione intervento"
-    {
-        [ objects
-            {
-                kind "title"
-                text "L’Obesità è una patologia "
-            {
-                kind "textblock"
-                position "full"
-                [ paras
-                    "Non è la conseguenza di un disordine alimentare dovuto alla sregolatezza di individui \”deboli\”${dot}"
-                    "Ha natura epidemica con scarsa consapevolezza della popolazione delle comorbilità associate nel tempo${dot}"
-                    "Insorge sempre più precocemente${dot}"
-    {
-        [ objects
-            {
-                kind "title"
-                text "L’obesità è una patologia cronica"
-            {
-                kind "textblock"
-                position "left"
-                [ paras
-                    "Eziologia complessa: fattori genetici-psicologici-tessuto socio ecologico e ambientale${dot}"
-                    "Natura epidemica con scarsa consapevolezza della popolazione delle comorbilità associate nel tempo${dot}"
-                    "Il trattamento deve iniziare il prima possibile e continuare longitudinalmente durante l'infanzia, l'adolescenza, e la giovane età adulta${dot}"
-            {
-                kind "image"
-                position "right"
-                path "${imageFolder}/continuità trattamento.png"
+    slide()
+        section( Motivazione intervento
+    
+    slide( L’Obesità è una patologia
+        div( thick-left
+            margin 10
+            [ words
+                word( Non è la conseguenza di un disordine alimentare dovuto alla sregolatezza di&nbsp;
+                word-red( individui \”deboli\”
+                word-br( ${dot}
+                word( Ha natura&nbsp; 
+                word-red( epidemica 
+                word-br( &nbsp;con scarsa consapevolezza della popolazione delle comorbilità associate nel tempo${dot}
+                word( Insorge sempre più&nbsp; 
+                word-red( precocemente
+                word-br( ${dot}
 
-    {
-        [ objects
-            {
-                kind "title"
-                text "Lo stigma del peso"
-            {
-                kind "textblock"
-                position "right"
-                [ paras
-                    "Il mancato riconoscimento della obesità come patologia contribuisce attivamente ad aggravarla${dot}"
-                    "Il problema riguarda anche l'ambiente sanitario: operatori indifferenti o che condividono interiormente la colpevolizzazione sono fonte di bias di peso${dot}"
-            image( left, stigma bimba.jpg )
-    {
-        [ objects
-            {
-                kind "title"
-                text "L’Equità delle cure"
-            {
-                kind "titled-textblock"
-                title "Rilevanza delle disuguaglianze sociali"
-                position "left"
-                [ paras
-                    "I fattori di rischio sono radicati nelle disuguaglianze${dot}"
-                    "Lo stigma colpisce bambini e famiglie in base alla razza, etnia, età e genere${dot}"
-            image( right, Equita e uguaglianza.jpg )
-    {
-        [ objects
-            {
-                kind "title"
-                text "Aspetti socio-economici"
-            {
-                kind "textblock"
-                position "full"
-                [ paras
-                    "Gli obiettivi socio economici della collettività sono in conflitto con una sana alimentazione (inserire diapo con le proporzioni degli alimenti 20 anni fa e ora)${dot}"
+        image( thin-right, Obesi complessità.jpg
+    
+    slide( L’obesità è una patologia cronica
+        
+        div( top-left
+            textSize 2
+            [ words
+                word-red( Eziologia complessa
+                word-br( : fattori genetici-psicologici-tessuto socio ecologico e ambientale${dot}
+                word( Il trattamento deve iniziare il prima possibile e continuare&nbsp; 
+                word-red( longitudinalmente 
+                word-br( &nbsp;durante l'infanzia, l'adolescenza, e la giovane età adulta${dot}
+        
+        div( bottom-left
+            textSize 2
+            [ paras
+                "Il mancato riconoscimento dell'obesità come patologia contribuisce attivamente ad aggravarla${dot}"
+                "Operatori sanitari come fonte di bias di peso${dot}"
+
+        image( top-right, continuità trattamento.png
+        image( bottom-right, stigma bimba.jpg )
+
+    slide( L’Equità delle cure
+        div( top-left, Rilevanza delle disuguaglianze sociali
+            textSize 2
+            [ paras
+                "I fattori di rischio sono radicati nelle disuguaglianze"
+                "Accesso alle cure"
+                "Esperienze avverse nell'infanzia (ACE)"
+                "Razzismo"
+                
+        div( bottom-left
+            textSize 2
+            [ paras
+                "Lo stigma colpisce bambini e famiglie in base alla razza, etnia, età e genere${dot}"
+        
+        image( right, Equita e uguaglianza.jpg )
+    
+    slide( Aspetti socio-economici
+        div( top-left
+            margin 8
+            [ paras
+                "Gli obiettivi socio economici della collettività sono in conflitto con una sana alimentazione${dot}"
+
+        image( right, portion-distortion2.jpg

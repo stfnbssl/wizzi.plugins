@@ -1,9 +1,10 @@
 $group
-    $params kind|left
+    $params kind|left, margin:integer|5
 
     $
         var cMargin = 5;
         var cTitleBarHeight = 10;
+        var cTitleParaHeight = 8;
         var cTop = cTitleBarHeight + (cMargin * 2);
         var cLeft = cMargin;
         var cBottom = 100 - cMargin;
@@ -23,14 +24,14 @@ $group
         h ${cHeight}%
         w ${cMidWidth - cMargin}%
 
-    $if kind == 'lefttop'
+    $if kind == 'top-left'
 
         y ${cTop}%
         x ${cLeft}%
         h ${cMidHeight}%
         w ${cMidWidth}%
 
-    $if kind == 'leftbottom'
+    $if kind == 'bottom-left'
 
         y ${cVMiddle + cMargin}%
         x ${cLeft}%
@@ -44,14 +45,14 @@ $group
         h ${cHeight}%
         w ${cMidWidth}%
 
-    $if kind == 'righttop'
+    $if kind == 'top-right'
 
         y ${cTop}%
         x ${cHMiddle + cMargin}%
         h ${cMidHeight}%
         w ${cMidWidth}%
         
-    $if kind == 'rightbottom'
+    $if kind == 'bottom-right'
 
         y ${cVMiddle + cMargin}%
         x ${cHMiddle + cMargin}%
@@ -61,34 +62,34 @@ $group
     $if kind == 'title-right'
 
         y ${cTop}%
-        x 55%
-        w 40%
-        h 10%
+        x ${cHMiddle + cMargin}% $$ 55%
+        w ${cMidWidth}% $$ 40%
+        h ${cTitleParaHeight}%
 
     $if kind == 'titled-right'
 
-        y 30%
-        x 55%
-        w 40%
-        h 60%
+        y ${cTop + cTitleParaHeight + cMargin}% $$ 30%
+        x ${cHMiddle + cMargin}% $$ x 55%
+        w ${cMidWidth}% $$ 40%
+        h ${cHeight - (cTitleParaHeight + cMargin)}% $$ 60%
 
     $if kind == 'full'
 
         y ${cTop}%
-        x 20%
-        w 60%
-        h 60%
+        x ${cLeft}%
+        w ${cWidth}%
+        h ${cHeight}%
 
     $if kind == 'title-full'
 
         y ${cTop}%
-        x 20%
-        w 60%
-        h 10%
+        x ${cLeft}%
+        w ${cWidth}% $$ 60% 
+        h ${cTitleParaHeight}%
 
     $if kind == 'titled-full'
 
-        y 30%
-        x 20%
-        w 60%
-        h 60%
+        y ${cTop + cTitleParaHeight + cMargin}%
+        x ${cLeft}%
+        w ${cWidth}% $$ 60%
+        h ${cHeight - (cTitleParaHeight + cMargin)}% $$ 60%

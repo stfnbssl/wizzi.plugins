@@ -11,6 +11,7 @@ ppt fad_3
         theme.colors = {};
         theme.colors.sectionTitle = c4;
         theme.colors.sectionTitleBkg = c1;
+        theme.colors.category = c2;
         theme.colors.title = c4;
         theme.colors.titleBkg = c1;
         theme.colors.masterHelloBkg = c3;
@@ -46,6 +47,14 @@ ppt fad_3
 
     style-def textblock2
         font-size ${fsize_textblock2}
+
+    style-def textblock1Centered
+        font-size ${fsize_textblock1}
+        align center
+
+    style-def thinBoldCaption
+        font-size ${fsize_normal2}
+        bold
 
     slide-master Hello
         background ${theme.colors.masterHelloBkg}
@@ -103,11 +112,11 @@ ppt fad_3
                         align center
 
                 $if obj.kind == 'categorized-title'
-                    rect( 4%, 0%, 10%, 20%, ${c5} )
-                    rect( 4%, 20%, 10%, 80%, ${c1} )
+                    rect( 4%, 0%, 8%, 20%, ${c5} )
+                    rect( 4%, 20%, 8%, 80%, ${c1} )
                     p ${obj.category}
                         style heading2
-                        color ${theme.colors.title}
+                        color ${theme.colors.category}
                         y 4%
                         x 0%
                         h 8%
@@ -146,16 +155,19 @@ ppt fad_3
                         $if obj.position && obj.position.isObject
                             position-object( &obj )
                         $else
-                            position( ${obj.position} )
+                            $$ position( ${obj.position} )
+                            position-ex( &obj )
                         path ${obj.path}
 
                 $if obj.kind == 'titled-image'
                     p ${obj.title}
                         style textblock${obj.textSize ? obj.textSize : '1'}
                         bold
-                        position( title-${obj.position} )
+                        $$ position( title-${obj.position} )
+                        position-ex( &obj, title )
                     image
-                        position( titled-${obj.position} )
+                        $$ position( titled-${obj.position} )
+                        position-ex( &obj, titled )
                         path ${obj.path}
 
                 $if obj.kind == 'textblock'
@@ -164,7 +176,8 @@ ppt fad_3
                         $if obj.position && obj.position.isObject
                             position-object( &obj )
                         $else
-                            position( ${obj.position} )
+                            $$ position( ${obj.position} )
+                            position-ex( &obj )
                         margin 10
                         color ${theme.colors.textBlock}
                         fill
@@ -194,7 +207,8 @@ ppt fad_3
                         align left
                         para-space-after 10
                         margin 10
-                        position( ${obj.position} )
+                        $$ position( ${obj.position} )
+                        position-ex( &obj )
 
                 $if obj.kind == 'titled-list'
                     p
@@ -215,8 +229,14 @@ ppt fad_3
                         align left
                         para-space-after 10
                         margin 10
-                        position( ${obj.position} )
-                        
+                        $$ position( ${obj.position} )
+                        position-ex( &obj )
+
+                $if obj.kind == 'text'
+                    p ${obj.text}
+                        style ${obj.style}
+                        position-object( &obj )
+                        color ${theme.colors.textBlock}
 
     $if true
         slide 

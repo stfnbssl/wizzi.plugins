@@ -1,0 +1,16 @@
+$group
+    $params text, options|@@null
+    {
+        text "${text}"
+        bold true
+        color "FF0000"
+        $if options != null
+            $ var aoptions = options.split(';')
+
+            $foreach opt in aoptions
+                $ var ss = opt.split(':');
+
+                $if ss[0] == 'br' 
+                    ${ss[0]} true
+
+        $hook
