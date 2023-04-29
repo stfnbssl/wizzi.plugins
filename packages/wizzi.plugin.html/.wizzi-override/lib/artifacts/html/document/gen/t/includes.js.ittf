@@ -9,7 +9,7 @@ $group
 				_ ctx.write(' ' + a.name)
 		_ ctx.w('>')
 		if model.get_css
-			_ include_writers.writeIncludeCss
+			_ included_writers.writeIncludeCss
 				@ ctx
 				@ model
 				a_cb( notUsed )
@@ -29,7 +29,7 @@ $group
 				_ ctx.write(' ' + a.name)
 		_ ctx.w('>')
 		if model.get_js
-			_ include_writers.writeIncludeJs
+			_ included_writers.writeIncludeJs
 				@ ctx
 				@ model
 				a_cb( notUsed )
@@ -54,7 +54,7 @@ $group
 				_ ctx.write(' ' + a.name)
 		_ ctx.w('>')
 		if model.get_js
-			_ include_writers.writeIncludeJs
+			_ included_writers.writeIncludeJs
 				@ ctx
 				@ model
 				a_cb( notUsed )
@@ -76,7 +76,7 @@ $group
 			if model.kind === 'jquery'
 				_ ctx.w('$(function() {')
 				_ ctx.indent()
-					_ include_writers.writeIncludeJs
+					_ included_writers.writeIncludeJs
 						@ ctx
 						@ model
 						a_cb( notUsed )
@@ -87,7 +87,7 @@ $group
 			else
 				_ ctx.w('window.onload = function() {')
 				_ ctx.indent()
-				_ include_writers.writeIncludeJs
+				_ included_writers.writeIncludeJs
 					@ ctx
 					@ model
 					a_cb( notUsed )
@@ -105,7 +105,7 @@ $group
 		# has no specific handler (is standard element)
 		if model.get_svg
 			return
-				_ include_writers.writeIncludeSvg
+				_ included_writers.writeIncludeSvg
 					@ ctx
 					@ model
 					a_cb( notUsed)
@@ -117,7 +117,7 @@ $group
 		# loog '***** known element', model.wzElement, model.get_svg
 		if model.get_svg
 			return
-				_ include_writers.writeIncludeSvg
+				_ included_writers.writeIncludeSvg
 					@ ctx
 					@ model
 					a_cb( notUsed )
@@ -129,7 +129,7 @@ $group
 		# loog '***** known element', model.wzElement, model.get_json
 		if model.get_json
 			_ ctx.w('<script type="application/json" id="' + model.wzName + '" >')
-			_ include_writers.writeIncludeJson
+			_ included_writers.writeIncludeJson
 				@ ctx
 				@ model
 				a_cb( notUsed)
@@ -142,7 +142,7 @@ $group
 		# loog '***** known element', model.wzElement, model.get_json
 		if model.get_json
 			_ ctx.w('<script type="application/json" id="' + model.wzName + '" >')
-			_ include_writers.writeIncludeJson
+			_ included_writers.writeIncludeJson
 				@ ctx
 				@ model
 				a_cb( notUsed)

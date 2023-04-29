@@ -94,6 +94,8 @@ ppt fad_3
         slide $$ Hello
             $foreach obj in slide.objects
                 
+                $if obj.kind == 'front-page'
+                
                 $if obj.kind == 'section-title'
                     shape RECTANGLE
                         y 20%
@@ -230,7 +232,11 @@ ppt fad_3
                         para-space-after 10
                         margin 10
                         $$ position( ${obj.position} )
-                        position-ex( &obj )
+                        $if obj.position && obj.position.isObject
+                            position-object( &obj )
+                        $else
+                            $$ position( ${obj.position} )
+                            position-ex( &obj )
 
                 $if obj.kind == 'text'
                     p ${obj.text}

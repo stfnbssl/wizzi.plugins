@@ -1110,7 +1110,7 @@ var pageMargins = (function (node) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ppt\.wizzi-override\lib\wizzi\schemas\ppt.wfschema.ittf
-            utc time: Sat, 22 Apr 2023 14:24:17 GMT
+            utc time: Sun, 23 Apr 2023 14:57:50 GMT
         */
         var ss = this.wzName.split(/[\s,]+/);
         this.wzName = ss.join(',');
@@ -1135,7 +1135,7 @@ var margin = (function (node) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ppt\.wizzi-override\lib\wizzi\schemas\ppt.wfschema.ittf
-            utc time: Sat, 22 Apr 2023 14:24:17 GMT
+            utc time: Sun, 23 Apr 2023 14:57:50 GMT
         */
         var ss = this.wzName.split(/[\s,]+/);
         if (ss.length == 1) {

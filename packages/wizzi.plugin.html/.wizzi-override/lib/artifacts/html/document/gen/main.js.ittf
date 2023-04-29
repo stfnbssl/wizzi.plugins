@@ -80,7 +80,7 @@ module wizzi.plugin.html@${wzCtx.version}.lib.artifacts.html.document.gen.main
                         elif ['_style'].indexOf(model.wzElement) >= 0 && model.get_css
                             # must be here because _style with model.get_css undefined
                             # has its handler
-                            _ include_writers.writeIncludeCss
+                            _ included_writers.writeIncludeCss
                                 @ ctx
                                 @ model
                                 @ callback

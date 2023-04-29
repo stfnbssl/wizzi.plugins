@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.html\.wizzi-override\lib\artifacts\html\document\gen\main.js.ittf
-    utc time: Tue, 11 Apr 2023 20:04:03 GMT
+    utc time: Sat, 29 Apr 2023 05:23:13 GMT
 */
 'use strict';
 
@@ -160,7 +160,7 @@ md.myGetGenItem = function(ctx) {
             
             // has its handler
             else if (['_style'].indexOf(model.wzElement) >= 0 && model.get_css) {
-                include_writers.writeIncludeCss(ctx, model, callback)
+                included_writers.writeIncludeCss(ctx, model, callback)
             }
             else if (md[model.wzElement]) {
                 md[model.wzElement](model, ctx, (err, done) => {
@@ -550,7 +550,7 @@ md.cssInclude = function(model, ctx, callback) {
     }
     ctx.w('>');
     if (model.get_css) {
-        include_writers.writeIncludeCss(ctx, model, (err, notUsed) => {
+        included_writers.writeIncludeCss(ctx, model, (err, notUsed) => {
         
             if (err) {
                 return callback(err);
@@ -581,7 +581,7 @@ md.script = function(model, ctx, callback) {
     }
     ctx.w('>');
     if (model.get_js) {
-        include_writers.writeIncludeJs(ctx, model, (err, notUsed) => {
+        included_writers.writeIncludeJs(ctx, model, (err, notUsed) => {
         
             if (err) {
                 return callback(err);
@@ -620,7 +620,7 @@ md.jsInclude = function(model, ctx, callback) {
     }
     ctx.w('>');
     if (model.get_js) {
-        include_writers.writeIncludeJs(ctx, model, (err, notUsed) => {
+        included_writers.writeIncludeJs(ctx, model, (err, notUsed) => {
         
             if (err) {
                 return callback(err);
@@ -652,7 +652,7 @@ md.readyInclude = function(model, ctx, callback) {
     if (model.get_js) {
         if (model.kind === 'jquery') {
             ctx.w('$(function() {');
-            ctx.indent().include_writers.writeIncludeJs(ctx, model, (err, notUsed) => {
+            ctx.indent().included_writers.writeIncludeJs(ctx, model, (err, notUsed) => {
             
                 if (err) {
                     return callback(err);
@@ -667,7 +667,7 @@ md.readyInclude = function(model, ctx, callback) {
         else {
             ctx.w('window.onload = function() {');
             ctx.indent();
-            include_writers.writeIncludeJs(ctx, model, (err, notUsed) => {
+            included_writers.writeIncludeJs(ctx, model, (err, notUsed) => {
             
                 if (err) {
                     return callback(err);
@@ -691,7 +691,7 @@ md.img = function(model, ctx, callback) {
     // may be here because img with model.get_svg undefined
     // has no specific handler (is standard element)
     if (model.get_svg) {
-        return include_writers.writeIncludeSvg(ctx, model, (err, notUsed) => {
+        return included_writers.writeIncludeSvg(ctx, model, (err, notUsed) => {
             
                 if (err) {
                     return callback(err);
@@ -708,7 +708,7 @@ md.img = function(model, ctx, callback) {
 md.svgInclude = function(model, ctx, callback) {
     // loog '***** known element', model.wzElement, model.get_svg
     if (model.get_svg) {
-        return include_writers.writeIncludeSvg(ctx, model, (err, notUsed) => {
+        return included_writers.writeIncludeSvg(ctx, model, (err, notUsed) => {
             
                 if (err) {
                     return callback(err);
@@ -726,7 +726,7 @@ md.jsonObjectInclude = function(model, ctx, callback) {
     // loog '***** known element', model.wzElement, model.get_json
     if (model.get_json) {
         ctx.w('<script type="application/json" id="' + model.wzName + '" >');
-        include_writers.writeIncludeJson(ctx, model, (err, notUsed) => {
+        included_writers.writeIncludeJson(ctx, model, (err, notUsed) => {
         
             if (err) {
                 return callback(err);
@@ -745,7 +745,7 @@ md.jsonArrayInclude = function(model, ctx, callback) {
     // loog '***** known element', model.wzElement, model.get_json
     if (model.get_json) {
         ctx.w('<script type="application/json" id="' + model.wzName + '" >');
-        include_writers.writeIncludeJson(ctx, model, (err, notUsed) => {
+        included_writers.writeIncludeJson(ctx, model, (err, notUsed) => {
         
             if (err) {
                 return callback(err);

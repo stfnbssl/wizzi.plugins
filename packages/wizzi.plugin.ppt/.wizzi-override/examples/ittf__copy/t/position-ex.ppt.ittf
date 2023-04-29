@@ -135,6 +135,19 @@ $group
         h ${cHeight - (cTitleParaHeight + cMargin)}% 
         w ${cThickMidWidth}% 
 
+    $if position == 'top'
+        y ${cTop}% 
+        x ${cLeft}% 
+        h ${cHeight / 2}% 
+        w ${cWidth}% 
+
+    $if position == 'bottom'
+
+        y ${cVMiddle + cMargin}% 
+        x ${cLeft}% 
+        h ${cHeight / 2}% 
+        w ${cWidth}% 
+
     $if position == 'full'
 
         y ${cTop}%
