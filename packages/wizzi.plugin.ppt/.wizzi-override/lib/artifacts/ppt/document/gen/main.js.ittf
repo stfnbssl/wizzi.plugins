@@ -276,7 +276,10 @@ module
         
         async-md( style )
             var pptParent = ctx.values.pptStack[ctx.values.pptStack.length-1].node
-            _ ctx.w(pptParent + ' = Object.assign({},' + pptParent + ', (styles["' + model.wzName + '"] || {}));')
+            if ctx.values.pptStack[ctx.values.pptStack.length-1].kind == "text_in_para"
+                _ ctx.w(pptParent + '.options = Object.assign({},' + pptParent + '.options, (styles["' + model.wzName + '"] || {}));')
+            else
+                _ ctx.w(pptParent + ' = Object.assign({},' + pptParent + ', (styles["' + model.wzName + '"] || {}));')
             r_cb()
 
         nodeProperty.js( before, before )

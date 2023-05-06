@@ -56,6 +56,13 @@ ppt fad_3
         font-size ${fsize_normal2}
         bold
 
+    style-def bibliorefBold
+        font-size ${fsize_biblioref}
+        bold
+
+    style-def biblioref
+        font-size ${fsize_biblioref}
+
     slide-master Hello
         background ${theme.colors.masterHelloBkg}
 
@@ -93,6 +100,8 @@ ppt fad_3
     $foreach slide in wzCtx.slides
         slide $$ Hello
             $foreach obj in slide.objects
+                
+                $if obj.kind == 'front-page'
                 
                 $if obj.kind == 'section-title'
                     shape RECTANGLE

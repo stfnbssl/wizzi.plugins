@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ppt\.wizzi-override\lib\artifacts\ppt\document\gen\main.js.ittf
-    utc time: Sun, 23 Apr 2023 14:57:49 GMT
+    utc time: Wed, 03 May 2023 09:12:34 GMT
 */
 'use strict';
 
@@ -807,9 +807,9 @@ md.text = function(model, ctx, callback) {
         node: pptNode, 
         kind: "text_in_para"
      })
-    ctx.w('const ' + pptNode + ' = {};');
+    ctx.w('var ' + pptNode + ' = {};');
     ctx.w(pptNode + '.text = "' + respace(model.wzName) + '";');
-    ctx.w(pptNode + '.options = {};');
+    ctx.w(pptNode + '.options = Object.assign({}, defaultStyle.content);');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
     
         if (err) {
@@ -830,9 +830,9 @@ md.bold = function(model, ctx, callback) {
         node: pptNode, 
         kind: "text_in_para"
      })
-    ctx.w('const ' + pptNode + ' = {};');
+    ctx.w('var ' + pptNode + ' = {};');
     ctx.w(pptNode + '.text = "' + respace(model.wzName) + '";');
-    ctx.w(pptNode + '.options = {};');
+    ctx.w(pptNode + '.options = Object.assign({}, defaultStyle.content);');
     ctx.w(pptNode + '.options.bold = true;');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
     
@@ -854,9 +854,9 @@ md.italic = function(model, ctx, callback) {
         node: pptNode, 
         kind: "text_in_para"
      })
-    ctx.w('const ' + pptNode + ' = {};');
+    ctx.w('var ' + pptNode + ' = {};');
     ctx.w(pptNode + '.text = "' + respace(model.wzName) + '";');
-    ctx.w(pptNode + '.options = {};');
+    ctx.w(pptNode + '.options = Object.assign({}, defaultStyle.content);');
     ctx.w(pptNode + 'options.italic = true;');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
     
@@ -878,9 +878,9 @@ md.underline = function(model, ctx, callback) {
         node: pptNode, 
         kind: "text_in_para"
      })
-    ctx.w('const ' + pptNode + ' = {};');
+    ctx.w('var ' + pptNode + ' = {};');
     ctx.w(pptNode + '.text = "' + respace(model.wzName) + '";');
-    ctx.w(pptNode + '.options = {};');
+    ctx.w(pptNode + '.options = Object.assign({}, defaultStyle.content);');
     ctx.w(pptNode + '.options.underline = true;');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
     
@@ -896,7 +896,12 @@ md.underline = function(model, ctx, callback) {
 ;
 md.style = function(model, ctx, callback) {
     var pptParent = ctx.values.pptStack[ctx.values.pptStack.length-1].node;
-    ctx.w(pptParent + ' = Object.assign({},' + pptParent + ', (styles["' + model.wzName + '"] || {}));');
+    if (ctx.values.pptStack[ctx.values.pptStack.length-1].kind == "text_in_para") {
+        ctx.w(pptParent + '.options = Object.assign({},' + pptParent + '.options, (styles["' + model.wzName + '"] || {}));');
+    }
+    else {
+        ctx.w(pptParent + ' = Object.assign({},' + pptParent + ', (styles["' + model.wzName + '"] || {}));');
+    }
     return callback(null);
 }
 ;

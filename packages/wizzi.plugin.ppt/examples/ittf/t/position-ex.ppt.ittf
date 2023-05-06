@@ -20,7 +20,7 @@ $group
         var cMidHeight = (cHeight / 2) - cMargin;
         var cMidWidth = (cWidth / 2) - cMargin;
         var cThinMidWidth = (cWidth / 3) - cMargin;
-        var cThickMidWidth = ((cWidth / 3)*2) - cMargin;
+        var cThickMidWidth = ((cWidth / 3)*2) - cMargin - 3;
         _.log("position", position, cTop, cLeft, cBottom, cRight, cVMiddle, cHMiddle);
 
     $if position == 'left'
@@ -134,6 +134,19 @@ $group
         x ${cHThinMiddle + cMargin}% 
         h ${cHeight - (cTitleParaHeight + cMargin)}% 
         w ${cThickMidWidth}% 
+
+    $if position == 'top'
+        y ${cTop}% 
+        x ${cLeft}% 
+        h ${cHeight / 2}% 
+        w ${cWidth}% 
+
+    $if position == 'bottom'
+
+        y ${cVMiddle + cMargin}% 
+        x ${cLeft}% 
+        h ${cHeight / 2}% 
+        w ${cWidth}% 
 
     $if position == 'full'
 

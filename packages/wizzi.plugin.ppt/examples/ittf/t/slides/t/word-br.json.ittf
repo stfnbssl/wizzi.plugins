@@ -1,5 +1,5 @@
 $group
-    $params text, options|@@null
+    $params text|@@null, options|@@null
     {
         text "${text}"
         br true
@@ -13,5 +13,7 @@ $group
                     ${ss[0]} true
                 $if ss[0] == 'color'
                     color "${ss[1]}"
+                $if ss[0] == 'style'
+                    style "${ss[1]}"
 
         $hook

@@ -5,9 +5,10 @@ $group
     async-md( ${elname} )
 
         pptNode.js( txt, text_in_para )
-        _ ctx.w('const ' + pptNode + ' = {};')
+        _ ctx.w('var ' + pptNode + ' = {};')
         _ ctx.w(pptNode + '.text = "' + respace(model.wzName) + '";')
-        _ ctx.w(pptNode + '.options = {};')
+        _ ctx.w(pptNode + '.options = Object.assign({}, defaultStyle.content);')
+
         $hook
        
         _ md.genItems
