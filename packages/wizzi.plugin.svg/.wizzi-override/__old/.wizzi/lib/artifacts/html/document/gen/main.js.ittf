@@ -23,8 +23,8 @@
 			{ model
 			{ ctx
 			callback
-			# log myname, 'enter', 'ctx.values', ctx.values
-			# log myname, 'enter', 'model', util.inspect(model, { depth: 1 })
+			$$ loogmyname, 'enter', 'ctx.values', ctx.values
+			$$ loogmyname, 'enter', 'model', util.inspect(model, { depth: 1 })
             
             _ main_init
                 @ model
@@ -125,7 +125,7 @@
 							@ callback
 
 	async/md-stm( standardElement )
-		# log myname, 'standardElement', 'model.wzTag', model.wzTag
+		$$ loogmyname, 'standardElement', 'model.wzTag', model.wzTag
 		_ preprocess(model, ctx)
 			
 		var voidEl = (model.wzTag in voidElements)

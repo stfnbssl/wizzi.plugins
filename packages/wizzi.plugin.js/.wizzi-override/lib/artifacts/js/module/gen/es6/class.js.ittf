@@ -23,18 +23,18 @@ module wizzi.plugin.js.artifacts.module.gen.es6.class
 				
 		_ ctx.indent();
 
-		# log 101
+		$$ loog101
 
 		_ classCTor
 			@ model
 			@ ctx
 			a_cb()
-				# log 101
+				$$ loog101
 				_ classMembers
 					@ model
 					@ ctx
 					a_cb()
-						# log 102
+						$$ loog102
 						_ ctx.deindent();
 						_ ctx.w('}')
 						r_cb()
@@ -55,7 +55,7 @@ module wizzi.plugin.js.artifacts.module.gen.es6.class
 			_ ctx.w('super(' + superArgs + ');')
 
 		if ctor
-			# log 102
+			$$ loog102
 			_ generateParamConstraints
 				@ 'ctor'
 				@ ctor.constrainedParams
@@ -67,20 +67,20 @@ module wizzi.plugin.js.artifacts.module.gen.es6.class
 						@ ctor.statements
 						@ ctx
 						a_cb()
-							# log 103
+							$$ loog103
 							_ ctx.deindent();
 							_ ctx.w('}')
 							# VIA _ ctx.w('')
 							r_cb()
 		elif zsuper
-			# log 104
+			$$ loog104
 			_ ctx.deindent();
 			_ ctx.w('}')
 			# VIA _ ctx.w('')
 			r_cb()
 
 		else
-			# log 105
+			$$ loog105
 			r_cb()
 
 	fn( classMembers )

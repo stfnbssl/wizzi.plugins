@@ -40,9 +40,9 @@ module
                 return text
         +
         async-md( ppt )
-            # log "ctx.keys", Object.keys(ctx)
-            # log "ctx.values property", ctx.values
-            # log 'tag ppt, nodes', model.nodes.length
+            $$ loog"ctx.keys", Object.keys(ctx)
+            $$ loog"ctx.values property", ctx.values
+            $$ loog'tag ppt, nodes', model.nodes.length
 
             set ctx.values.pptStack = []
             set ctx.values.pptCounter = 0
@@ -92,7 +92,7 @@ module
         +
         async-md( slide )
             var master = verify.isEmpty(model.wzName) == false ? '"' + model.wzName + '"' : ''
-            # log 'tag slide, master', master
+            $$ loog'tag slide, master', master
 
             
             var pptParent = ctx.values.pptStack[ctx.values.pptStack.length-1]

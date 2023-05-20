@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\artifacts\js\module\gen\statements\debug.js.ittf
-    utc time: Tue, 11 Apr 2023 19:45:01 GMT
+    utc time: Tue, 16 May 2023 07:53:47 GMT
 */
 'use strict';
 var util = require('util');
@@ -131,7 +131,6 @@ md.load = function(cnt) {
             var text = model.wzName.trim().endsWith(',') ? model.wzName + '__filename' : model.wzName + ', __filename';
             ctx.w('console.log(' + text + ')' + u.semicolon(model.wzName));
         }
-        // log 151
         return callback(null);
     }
     ;

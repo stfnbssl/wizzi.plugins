@@ -47,7 +47,7 @@ module
                                     else
                                         if tagname[0] === tagname[0].toUpperCase() || tagname.indexOf('-') > -1
                                             set ittfTag = '< ' + tagname
-                                    # log "OpenTag " + tagname, ittfTag, attribs
+                                    $$ loog"OpenTag " + tagname, ittfTag, attribs
                                     var n
                                         { 
                                             @ tag ittfTag
@@ -61,7 +61,7 @@ module
                             @ ontext
                                 function 
                                     param text
-                                    # log "================= Text", text, wizziTree.tag
+                                    $$ loog"================= Text", text, wizziTree.tag
                                     var lines
                                         _ file.splitLines
                                             $$ BAX 27/2/21 no trim !!!important _ text.trim()
@@ -146,7 +146,7 @@ module
                                                 ._ trim()
                                                 ._ toLowerCase()
                                         decl text = p.value()
-                                    # log "OpenSwig " + tag, text
+                                    $$ loogggg"OpenSwig " + tag, text
                                     if ['for', 'if', 'block', 'autoescape', 'filter', 'macro', 'spaceless', 'raw'].indexOf(tag) >= 0
                                         var n
                                             { 
@@ -209,7 +209,7 @@ module
                         if html.substr(0,'<html>'.length) == '<html>' || html.substr(0,'<!doctype>'.length) == '<!doctype>'
                             # loog 'html document has root tag html'
                         else
-                            # log html.substr(0,'<html>'.length), html.substr(0,'<!doctype>'.length)
+                            $$ looghtml.substr(0,'<html>'.length), html.substr(0,'<!doctype>'.length)
                             var i1 = html.indexOf('<')
                             var i2 = html.indexOf('>')
                             if i1 > -1 && i2 > -1

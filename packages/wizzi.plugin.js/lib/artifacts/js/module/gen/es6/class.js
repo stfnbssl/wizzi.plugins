@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\artifacts\js\module\gen\es6\class.js.ittf
-    utc time: Tue, 11 Apr 2023 19:45:01 GMT
+    utc time: Tue, 16 May 2023 07:53:47 GMT
 */
 'use strict';
 var statement = require('../statement');
@@ -22,19 +22,16 @@ md.gen = function(model, ctx, callback) {
         ctx.w('class ' + zclass + ' {');
     }
     ctx.indent();
-    // log 101
     classCTor(model, ctx, (err, notUsed) => {
     
         if (err) {
             return callback(err);
         }
-        // log 101
         classMembers(model, ctx, (err, notUsed) => {
         
             if (err) {
                 return callback(err);
             }
-            // log 102
             ctx.deindent();
             ctx.w('}');
             return callback(null);
@@ -59,8 +56,6 @@ function classCTor(model, ctx, callback) {
     if (zsuper) {
         ctx.w('super(' + superArgs + ');');
     }
-    
-    // log 102
     if (ctor) {
         generateParamConstraints('ctor', ctor.constrainedParams, ctor.hasCallbackParam, ctor.hasOptionsCallbackParam, ctx, (err, notUsed) => {
         
@@ -72,7 +67,6 @@ function classCTor(model, ctx, callback) {
                 if (err) {
                     return callback(err);
                 }
-                // log 103
                 ctx.deindent();
                 ctx.w('}');
                 // VIA _ ctx.w('')
@@ -83,15 +77,12 @@ function classCTor(model, ctx, callback) {
         )
     }
     
-    // log 104
-    
     // VIA _ ctx.w('')
     else if (zsuper) {
         ctx.deindent();
         ctx.w('}');
         return callback(null);
     }
-    // log 105
     else {
         return callback(null);
     }

@@ -14,15 +14,15 @@
 			param callback
 			_ model.get_css
 				a_cb( cssModel )
-					# log myname, 'cssModel.rules', cssModel.rules, Object.keys(cssModel)
+					$$ loogmyname, 'cssModel.rules', cssModel.rules, Object.keys(cssModel)
 					$* VIA
                     if cssModel.rules.length == 0 && verify.isEmpty(cssModel.wzName) == false
-						# log myname, 1
+						$$ loogmyname, 1
 						_ ctx.w('<link href="' + cssModel.wzName + '" rel="stylesheet" />')
 						_ callback
 					else
                     *$
-                    # log myname, 2
+                    $$ loogmyname, 2
                     _ md.generateCssArtifact
                         @ ctx
                         @ cssModel
@@ -37,8 +37,8 @@
 			param ctx
 			param cssModel
 			param callback
-			# log myname, 3
-			# log myname, 'cssModel', cssModel, 'cssModel.rules', cssModel.rules
+			$$ loogmyname, 3
+			$$ loogmyname, 'cssModel', cssModel, 'cssModel.rules', cssModel.rules
 			_ ctx.wizziFactory.generateArtifact
 				@ cssModel
 				@ 'generated from js model'
@@ -47,7 +47,7 @@
 					@ forHtmlStyle true
                     @ noGeneratorComments true
 				a_cb( artifactText )
-					# log myname, 'css artifactText', artifactText
+					$$ loogmyname, 'css artifactText', artifactText
 					return
 						_ callback(null, artifactText)
 

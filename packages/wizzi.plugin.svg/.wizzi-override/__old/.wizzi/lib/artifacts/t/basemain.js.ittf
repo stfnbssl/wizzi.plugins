@@ -28,7 +28,7 @@
 			{ model
 			{ ctx
 			callback
-			# log myname, 'enter', 'ctx.values', ctx.values
+			$$ loogmyname, 'enter', 'ctx.values', ctx.values
 			# check the model is a wizzi model of type '${root}'
 			if model.wzElement !== '${root}'
 				return
@@ -51,7 +51,7 @@
 				param model
 				param callback
 				if stm[model.wzElement]
-					# log myname, 'known element', model.wzElement
+					$$ loogmyname, 'known element', model.wzElement
 					_ stm[model.wzElement]
 						@ model
 						@ ctx

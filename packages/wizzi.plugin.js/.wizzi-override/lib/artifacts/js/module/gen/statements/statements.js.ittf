@@ -195,12 +195,12 @@
 					@ model.statements[0]
 					@ ctx
 					a_cb()
-						# log 1, model.statements.length
+						$$ loog1, model.statements.length
 						if model.statements.length < 2
 							r_cb()
-						# log 2
+						$$ loog2
 						repeater( 1, model.statements, 1 )
-							# log 3, item_1.wzElement
+							$$ loog3, item_1.wzElement
 							if ctx.__needs_comma
 								_ ctx.write(',')
 								set ctx.__needs_comma = false

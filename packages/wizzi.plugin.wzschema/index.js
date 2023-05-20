@@ -158,6 +158,7 @@ function error(errorName, method, message, innerError) {
 }
 
 module.exports = {
+    version: '0.0.1', 
     provides: {
         schemas: [
             'wzschema'

@@ -150,7 +150,7 @@
 			set ctx.__is_react_class = true
 			var async_str = model.wzElement == 'asyncarrowfunction' || model.xasync ? 'async ' : ''
 		    var onlyChildIsArrowFunction = u.onlyChildIs(model, 'arrowfunction')
-            # log "onlyChildIsArrowFunction", onlyChildIsArrowFunction
+            $$ loog"onlyChildIsArrowFunction", onlyChildIsArrowFunction
             if onlyChildIsArrowFunction
                 _ ctx.write(model.wzName + ' = ' + async_str + '(' + model.paramNames.join(', ') + ') => ')
             else

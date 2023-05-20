@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\artifacts\js\module\gen\statement.js.ittf
-    utc time: Tue, 11 Apr 2023 19:45:01 GMT
+    utc time: Tue, 16 May 2023 07:53:47 GMT
 */
 'use strict';
 
@@ -66,7 +66,6 @@ md.gen = function(model, ctx, callback) {
 }
 ;
 md.genMany = function(models, ctx, callback) {
-    // log 131
     var len_1 = models.length;
     function repeater_1(index_1) {
         if (index_1 === len_1) {
@@ -86,7 +85,6 @@ md.genMany = function(models, ctx, callback) {
     }
     repeater_1(0);
     function next_1() {
-        // log 134, 'genMany'
         return callback(null);
     }
 }
@@ -195,7 +193,6 @@ md.genItem = function(model, ctx, callback) {
         }
         )
     }
-    // log 132, key
     else {
         if (key === 'wzVar') {
             key = 'xvar';
@@ -207,8 +204,6 @@ md.genItem = function(model, ctx, callback) {
             key = 'xfunction';
         }
         var stm = md.stm[key];
-        
-        // log 133, key
         if (stm) {
             stm(model, ctx, callback);
         }

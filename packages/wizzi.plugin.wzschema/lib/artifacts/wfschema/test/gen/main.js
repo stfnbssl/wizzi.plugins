@@ -11,7 +11,6 @@ var BootWizziSchema = require('../../bootstrap/wfschema-boot-model').WizziSchema
 var md = module.exports = {};
 var myname = 'wfschema.test.main';
 md.gen = function(model, ctx, callback) {
-    // log myname + 'model', model
     var bootWizziModel = new BootWizziSchema(model.wzName);
     bootWizziModel.loadFromWizziModel(model, ctx, (err, notUsed) => {
     

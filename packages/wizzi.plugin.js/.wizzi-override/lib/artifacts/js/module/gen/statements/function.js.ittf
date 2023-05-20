@@ -198,7 +198,7 @@
                     @ indent true
 				@ callback
 		elif u.onlyChildIs(model, 'arrowfunction')
-            # log "u.onlyChildIs(model, 'arrowfunction')", model.statements[0].paramNames
+            $$ loog"u.onlyChildIs(model, 'arrowfunction')", model.statements[0].paramNames
             _ ctx.write(async_str + '(' + model.paramNames.join(', ') + ') => ')
             _ cnt.genItems
                 @ model.statements

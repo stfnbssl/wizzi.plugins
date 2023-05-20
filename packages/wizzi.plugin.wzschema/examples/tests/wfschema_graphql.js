@@ -64,7 +64,6 @@ function executeExample() {
                         if (err) {
                             return callback(err);
                         }
-                        // log 'wfschema_graphql.example.executeLoadIttfDocuments.wizziModel: ', Object.keys(wizziModel), wizziModel.wzElement
                         console.log('wfschema_graphql.example.executeLoadIttfDocuments.wizziModel: ', wizziModel, __filename);
                         file.write(outputPath, stringify(wizziModel.toJson(), null, 4))
                         return callback(null);

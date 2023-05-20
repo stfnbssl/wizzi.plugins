@@ -199,7 +199,7 @@ $group
 					if plen == 2
                         # loog 'processParams', 'plen', plen, 'p.children[0].tag', p.children[0].tag, 'p.children[1].tag', p.children[1].tag
 						if ['@id', '@expr', 'literal'].indexOf(p.children[1].tag) > -1
-                            # log 111
+                            $$ loog111
 							# has simple default value (is AssignmentPattern)
 							set p.name = p.children[0].name
 							if p.children[0].children.length > 0
@@ -208,7 +208,7 @@ $group
 								set p.children[0].children = []
 							set p.children[1].tag = '='
 						else
-                            # log 112
+                            $$ loog112
 							if p.AST === 'AssignmentPattern'
 								# has complex default value (is AssignmentPattern)
                                 if ['@id', '@expr', 'literal'].indexOf(p.children[0].tag) > -1

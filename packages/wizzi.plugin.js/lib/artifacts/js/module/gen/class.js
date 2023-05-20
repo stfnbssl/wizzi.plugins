@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\artifacts\js\module\gen\class.js.ittf
-    utc time: Tue, 11 Apr 2023 19:45:01 GMT
+    utc time: Tue, 16 May 2023 07:53:47 GMT
 */
 'use strict';
 var verify = require('wizzi-utils').verify;
@@ -36,7 +36,6 @@ md.gen = function(model, ctx, callback) {
         if (err) {
             return callback(err);
         }
-        // log 121, 'class'
         ctx.deindent();
         ctx.w('}');
         md.genMembers(model, ctx, (err, notUsed) => {
@@ -44,7 +43,6 @@ md.gen = function(model, ctx, callback) {
             if (err) {
                 return callback(err);
             }
-            // log 122, 'class'
             ctx.w('return ' + zclass + ';');
             ctx.deindent();
             ctx.w('})(' + zsuperw + ');');
@@ -63,7 +61,6 @@ md.genCTor = function(ctor, ctx, callback) {
             if (err) {
                 return callback(err);
             }
-            // log 123, 'class.genCTor'
             statement.genMany(ctor.statements, ctx, callback)
         }
         )
@@ -75,14 +72,12 @@ md.genCTor = function(ctor, ctx, callback) {
 ;
 md.genMembers = function(model, ctx, callback) {
     var generator;
-    // log 161, 'class.genMembers'
     var len_1 = model.statements.length;
     function repeater_1(index_1) {
         if (index_1 === len_1) {
             return next_1();
         }
         var item_1 = model.statements[index_1];
-        // log 163
         
         // done already
         if (item_1.wzElement === 'ctor') {
@@ -117,7 +112,6 @@ md.genMembers = function(model, ctx, callback) {
     }
     repeater_1(0);
     function next_1() {
-        // log 162, 'class.genMembers'
         return callback(null);
     }
 }

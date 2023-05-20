@@ -9,7 +9,7 @@
         var name = (xmodel.wzName || '').trim()
         var hasParens = u.hasArguments(name)
         $$ 24/3/21 var hasParens = xmodel.statements.length == 0 && u.hasArguments(name) $$ waiting for big damage
-		# log hasParens, ctx.__artifact, ctx.__functionNames
+		$$ looghasParens, ctx.__artifact, ctx.__functionNames
 		if hasParens == false && ctx.__artifact === 'xittf/document'
 			if ctx.__functionNames.indexOf(name) < 0
 				set name = ctx.__functionProvider + '.' + name

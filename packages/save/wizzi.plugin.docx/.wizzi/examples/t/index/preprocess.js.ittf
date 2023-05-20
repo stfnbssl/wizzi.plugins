@@ -1,0 +1,92 @@
+$group
+
+    function preprocessImages
+        param context
+        param ctx
+
+       
+        foreach item in context.items
+            if item.images && item.images.length > 0
+                foreach image in item.images
+                    const id = verify.replaceAll(image.title, ' ', '_')
+                    const name = 'image_' + (++ctx.counter)
+                    if !ctx.names[id]
+                        set ctx.names[id] = true
+                        set image.name = name
+                        set image.localPath  
+                            _ path.join
+                                @ IMAGES_BASE_PATH
+                                @ image.title
+                        _ ctx.images.push
+                            {
+                                @ src image.localPath
+                                @ title image.title
+                                @ name name
+
+    function preprocessLinks
+        param item
+        param ctx
+        if item.name == 'a'
+            var link
+                {
+                    @ id 'in_article_' + (++ctx.count)
+                    @ url item.attribs['href']
+            $*
+            _ item.children.forEach
+                =>
+                    param child
+                    param index
+                    if child.name = "href"
+                        set link.url = child.value
+            *$
+            _ ctx.links.push
+                @ link
+            set item.linkId = link.id
+            set link.label = item.value
+        else
+            _ item.children.forEach
+                =>
+                    param child
+                    _ preprocessLinks
+                        @ child
+                        @ ctx
+    
+    function preprocessTesto
+        param item
+        param ctx
+        if item.name == 'p' && ctx.stack.indexOf('li') > -1
+            set item.alreadyIsParagraph = true
+        if item.name == 'h1' || item.name == 'h3'
+            set item.name = 'h2'
+        if item.name == 'em'
+            set item.name = 'big'
+        if item.name == '++'
+            set item.name = '+'
+            set item.break = true
+        if item.name == 'span'
+            log 'preprocessTesto.span', item.name, item.value, item.children.length
+            foreach child in item.children
+                log 'preprocessTesto.span child', child.name, child.value, child.children.length
+            for var k in item.attribs
+                log 'preprocessTesto.span attribute', k, item.attribs[k]
+        if item.name == 'h2' || item.name == 'ul' || item.name == 'ol'
+            $$ loog'is h2', 'stack', ctx.stack.join(',')
+            if ctx.stack.indexOf('p') < 0 && ctx.stack.indexOf('li') < 0
+                $$ loog'setting needsParagraph'
+                set item.needsParagraph = true
+        _ ctx.stack.push(item.name)
+        var index = 0
+        foreach child in item.children
+            set index++
+            set child.parent = item
+            $$ loog'preprocessTesto', child.name, child.value
+            # if (index < item.children.length-1) && item.children[index+1].name == "br"
+            if child.name == "br" && (index < item.children.length-1)
+                # set child.break = true
+                set item.children[index+1].break = true
+                # set item.children[index+1].deleted = true
+                set child.deleted = true
+            _ preprocessTesto
+                @ child
+                @ ctx
+        _ ctx.stack.pop

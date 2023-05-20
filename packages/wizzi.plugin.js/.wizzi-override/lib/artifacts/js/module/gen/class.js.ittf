@@ -41,14 +41,14 @@ module wizzi.plugin.js.artifacts.module.gen.class
 				@ ctor
 				@ ctx
 				a_cb()
-					# log 121, 'class'
+					$$ loog121, 'class'
 					_ ctx.deindent();
 					_ ctx.w('}')
 					_ md.genMembers
 						@ model
 						@ ctx
 						a_cb()
-							# log 122, 'class'
+							$$ loog122, 'class'
 							_ ctx.w('return ' + zclass + ';')
 							_ ctx.deindent();
 							_ ctx.w('})(' + zsuperw + ');')
@@ -69,7 +69,7 @@ module wizzi.plugin.js.artifacts.module.gen.class
 					@ ctor.hasOptionsCallbackParam
 					@ ctx
 					a_cb()
-						# log 123, 'class.genCTor'
+						$$ loog123, 'class.genCTor'
 						_ statement.genMany
 							@ ctor.statements
 							@ ctx
@@ -84,9 +84,9 @@ module wizzi.plugin.js.artifacts.module.gen.class
 			param callback
 
 			var generator
-			# log 161, 'class.genMembers'
+			$$ loog161, 'class.genMembers'
 			repeater( 1, model.statements )
-				# log 163
+				$$ loog163
 				if item_1.wzElement === 'ctor'
 					# done already
 					set generator = null
@@ -105,7 +105,7 @@ module wizzi.plugin.js.artifacts.module.gen.class
 				else
 					repeater_increment( 1 )
 				$append next
-					# log 162, 'class.genMembers'
+					$$ loog162, 'class.genMembers'
 					r_cb()
 
 	$include generateParamConstraints

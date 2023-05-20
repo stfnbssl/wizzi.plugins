@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\wizzifiers\js\wizzifier.js.ittf
-    utc time: Tue, 11 Apr 2023 19:45:01 GMT
+    utc time: Tue, 16 May 2023 07:53:47 GMT
 */
 'use strict';
 var util = require('util');
@@ -266,7 +266,6 @@ function wizzify(tobeWizzified, options, callback) {
         catch (ex) {
             return callback(ex);
         } 
-        // log "wizziTree", JSON.stringify(root, null, 2)
         // loog 'options.wizziIncludes', options.wizziIncludes
         async.map(options.wizziIncludes, function(item, callback) {
             if (item.kind === 'css') {
@@ -528,8 +527,6 @@ function processParams(ittfNode) {
                 // loog 'processParams', 'plen', plen, 'p.children[0].tag', p.children[0].tag, 'p.children[1].tag', p.children[1].tag
                 if (plen == 2) {
                     
-                    // log 111
-                    
                     // has simple default value (is AssignmentPattern)
                     if (['@id', '@expr', 'literal'].indexOf(p.children[1].tag) > -1) {
                         p.name = p.children[0].name;
@@ -540,7 +537,6 @@ function processParams(ittfNode) {
                         }
                         p.children[1].tag = '=';
                     }
-                    // log 112
                     else {
                         
                         // has complex default value (is AssignmentPattern)
@@ -7003,15 +6999,12 @@ format.MemberExpression = function(parent, node, options) {
             p_property.tag = '.';
         }
         
-        // log 2
-        
         // 26/3/21 this is the most improbable, waiting for big damage
         if (p_object.tag === '(') {
             p_object.name = p_object.name + qmark;
             ret.children.push(p_object)
             ret.children.push(p_property)
         }
-        // log 3, p_object.tag, p_object.name
         else {
             ret.tag = p_object.tag;
             ret.name = p_object.name + qmark;
@@ -7744,8 +7737,6 @@ format.NewExpression = function(parent, node, options) {
     // loog 'NewExpression.argumentsNode', argumentsNode
     var tlist;
     
-    // log 101
-    
     // loog 'NewExpression.tlist', tlist
     if (node.arguments && node.arguments.length > 0) {
         if (!p_typeParameters) {
@@ -7774,7 +7765,6 @@ format.NewExpression = function(parent, node, options) {
             }
         }
     }
-    // log 102
     else {
         if (p_typeParameters) {
             var i, i_items=p_typeParameters.children, i_len=p_typeParameters.children.length, item;

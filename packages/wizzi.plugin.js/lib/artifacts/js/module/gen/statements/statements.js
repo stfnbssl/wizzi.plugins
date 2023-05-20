@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\artifacts\js\module\gen\statements\statements.js.ittf
-    utc time: Tue, 11 Apr 2023 19:45:01 GMT
+    utc time: Tue, 16 May 2023 07:53:47 GMT
 */
 'use strict';
 var util = require('util');
@@ -321,18 +321,15 @@ md.load = function(cnt) {
                     if (err) {
                         return callback(err);
                     }
-                    // log 1, model.statements.length
                     if (model.statements.length < 2) {
                         return callback(null);
                     }
-                    // log 2
                     var len_1 = model.statements.length;
                     function repeater_1(index_1) {
                         if (index_1 === len_1) {
                             return next_1();
                         }
                         var item_1 = model.statements[index_1];
-                        // log 3, item_1.wzElement
                         if (ctx.__needs_comma) {
                             ctx.write(',');
                             ctx.__needs_comma = false;

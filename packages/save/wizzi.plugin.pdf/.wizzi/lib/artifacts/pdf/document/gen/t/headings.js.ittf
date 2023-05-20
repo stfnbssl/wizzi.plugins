@@ -1,0 +1,19 @@
+$group
+    $params hlevel
+
+    async-md( h${hlevel} )
+
+        pdfNode.js( par )
+        _ ctx.w('const ' + pdfNode + ' = {};')
+        _ ctx.w(pdfNode + '.text = "' + respace(model.wzName) + '";')
+        _ ctx.w(pdfNode + '.heading = pdf.HeadingLevel.HEADING_${hlevel};')
+    
+        _ md.genItems
+            @ model.nodes
+            @ ctx
+            @ noindent
+            a_cb()
+                _ ctx.w('const ' + pdfNode + 'Obj = new pdf.Paragraph(' + pdfNode + ');')        
+                _ ctx.w(pdfParent + '.children.push(' + pdfNode + 'Obj);')
+                _ ctx.values.pdfStack.pop()
+                r_cb()

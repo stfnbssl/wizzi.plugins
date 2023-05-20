@@ -165,7 +165,7 @@ module
                             _ callback
                                 @ ex
                     
-                    # log "wizziTree", JSON.stringify(root, null, 2)
+                    $$ loog"wizziTree", JSON.stringify(root, null, 2)
                     # loog 'options.wizziIncludes', options.wizziIncludes
                     _ async.map
                         @ options.wizziIncludes
@@ -1380,7 +1380,7 @@ module
                 else
                     set p_property.tag = '.'
                 if p_object.tag === '('
-                    # log 2
+                    $$ loog2
                     # 26/3/21 this is the most improbable, waiting for big damage
                     set p_object.name = p_object.name + qmark
                     _ ret.children.push
@@ -1388,7 +1388,7 @@ module
                     _ ret.children.push
                         @ p_property
                 else
-                    # log 3, p_object.tag, p_object.name
+                    $$ loog3, p_object.tag, p_object.name
                     set ret.tag = p_object.tag
                     set ret.name = p_object.name + qmark
                     set ret.source = p_object.source
@@ -1681,7 +1681,7 @@ module
 
             var tlist
             if node.arguments && node.arguments.length > 0
-                # log 101
+                $$ loog101
                 if !p_typeParameters
                     set tlist = getTextList(argumentsNode, ', ')
                 # loog 'NewExpression.tlist', tlist
@@ -1700,7 +1700,7 @@ module
                         _ ret.children.push
                             @ item
             else
-                # log 102
+                $$ loog102
                 if p_typeParameters
                     foreach item in p_typeParameters.children
                         _ ret.children.push

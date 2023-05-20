@@ -1,4 +1,4 @@
-wfjob /job
+wfjob wizzi.plugin.docx/job
     
     $
         var jobCtx = {
@@ -7,7 +7,7 @@ wfjob /job
             ittf_root_folder: path.join(__dirname, 'root'),
             ittf_examples_folder: path.join(__dirname, 'examples'),
             ittf_tests_folder: path.join(__dirname, 'tests'),
-            dest_folder: path.join(__dirname, '..', 'dist'),
+            dest_folder: path.join(__dirname, '..'),
             job_model: 'wzCtx'
         }
     
@@ -32,6 +32,7 @@ wfjob /job
         cwd-folder ${jobCtx.ittf_lib_folder}
         dest-folder ${jobCtx.dest_folder}/lib
         wfjobs(any_js, &jobCtx)
+        wfjobs(any_lib__copy, &jobCtx, ittf)
     
     line ittf-examples
         cwd-folder ${jobCtx.ittf_examples_folder}
@@ -40,11 +41,11 @@ wfjob /job
         wfjobs(any_html, &jobCtx)
         wfjobs(any_css, &jobCtx)
         wfjobs(any_ittf, &jobCtx)
+        wfjobs(any_text, &jobCtx)
         wfjobs(any_plain, &jobCtx, html)
         wfjobs(any_plain, &jobCtx, css)
         wfjobs(any_plain, &jobCtx, js)
-        wfjobs(any_plain, &jobCtx, json)
-        wfjobs(any_plain, &jobCtx, ittf)
+        wfjobs(any_examples__copy, &jobCtx, ittf)
     
     line ittf-tests
         cwd-folder ${jobCtx.ittf_tests_folder}
@@ -56,5 +57,5 @@ wfjob /job
         line-ref ittf-models
         line-ref ittf-root
         line-ref ittf-examples
-        line-ref ittf-lib
         line-ref ittf-tests
+        line-ref ittf-lib

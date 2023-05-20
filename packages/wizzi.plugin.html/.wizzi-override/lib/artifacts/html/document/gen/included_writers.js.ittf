@@ -14,13 +14,13 @@ module
 			param callback
 			_ model.get_css
 				a_cb( cssModel )
-					# log myname, 'cssModel.rules', cssModel.rules
+					$$ loogmyname, 'cssModel.rules', cssModel.rules
 					if cssModel.rules.length == 0 && verify.isEmpty(cssModel.wzName) == false
-						# log myname, 1
+						$$ loogmyname, 1
 						_ ctx.w('<link href="' + cssModel.wzName + '" rel="stylesheet" />')
 						_ callback
 					else
-						# log myname, 2
+						$$ loogmyname, 2
 						_ md.generateCssArtifact
 							@ ctx
 							@ cssModel
@@ -37,8 +37,8 @@ module
 			param ctx
 			param cssModel
 			param callback
-			# log myname, 3
-			# log myname, 'cssModel', cssModel, 'cssModel.rules', cssModel.rules
+			$$ loogmyname, 3
+			$$ loogmyname, 'cssModel', cssModel, 'cssModel.rules', cssModel.rules
 			_ ctx.wizziFactory.generateArtifact
 				@ cssModel
 				@ 'generated from html model'
@@ -46,7 +46,7 @@ module
 				{
 					@ forHtmlStyle true
 				a_cb( artifactText )
-					# log myname, 'css artifactText', artifactText
+					$$ loogmyname, 'css artifactText', artifactText
 					r_cb(artifactText)
 
 	set md.writeIncludeCss
@@ -54,10 +54,10 @@ module
 			param ctx
 			param element
 			param callback
-			# log myname, 'enter writeIncludeJs'
+			$$ loogmyname, 'enter writeIncludeJs'
 			_ element.get_css
 				a_cb( cssModel )
-					# log myname, 'cssModel', cssModel
+					$$ loogmyname, 'cssModel', cssModel
 					_ ctx.wizziFactory.generateArtifact
 						@ cssModel
 						@ 'generated from html model'
@@ -66,7 +66,7 @@ module
 							@ forHtmlStyle true
 							@ noGeneratorComments true
 						a_cb( artifactText )
-							# log myname, 'css module artifactText', artifactText
+							$$ loogmyname, 'css module artifactText', artifactText
 							_ ctx.indent
 							_ ctx.writeAligned(artifactText)
 							_ ctx.deindent
@@ -78,10 +78,10 @@ module
 			param ctx
 			param element
 			param callback
-			# log myname, 'enter writeIncludeJs'
+			$$ loogmyname, 'enter writeIncludeJs'
 			_ element.get_js
 				a_cb( jsModel )
-					# log myname, 'jsModel', jsModel
+					$$ loogmyname, 'jsModel', jsModel
 					_ ctx.wizziFactory.generateArtifact
 						@ jsModel
 						@ 'generated from html model'
@@ -91,7 +91,7 @@ module
 							@ noUseStrict true
 							@ noGeneratorComments true
 						a_cb( artifactText )
-							# log myname, 'js module artifactText', artifactText
+							$$ loogmyname, 'js module artifactText', artifactText
 							_ ctx.indent
 							_ ctx.writeAligned(artifactText)
 							_ ctx.deindent
@@ -103,10 +103,10 @@ module
 			param ctx
 			param element
 			param callback
-			# log myname, 'enter writeIncludeSvg'
+			$$ loogmyname, 'enter writeIncludeSvg'
 			_ element.get_svg
 				a_cb( svgModel )
-					# log myname, 'svgModel', svgModel
+					$$ loogmyname, 'svgModel', svgModel
 					_ ctx.wizziFactory.generateArtifact
 						@ svgModel
 						@ 'generated from html model'
@@ -114,7 +114,7 @@ module
 						{
 							@ forHtmlSvgElement true
 						a_cb( artifactText )
-							# log myname, 'svg module artifactText', artifactText
+							$$ loogmyname, 'svg module artifactText', artifactText
 							_ ctx.indent
 							_ ctx.writeAligned(artifactText)
 							_ ctx.deindent
@@ -126,10 +126,10 @@ module
 			param ctx
 			param element
 			param callback
-			# log myname, 'enter writeIncludeSvg'
+			$$ loogmyname, 'enter writeIncludeSvg'
 			_ element.get_json
 				a_cb( jsonModel )
-					# log myname, 'jsonModel', jsonModel
+					$$ loogmyname, 'jsonModel', jsonModel
 					_ ctx.wizziFactory.generateArtifact
 						@ jsonModel
 						@ 'generated from html model'
@@ -137,7 +137,7 @@ module
 						{
 							@ forHtmlJson true
 						a_cb( artifactText )
-							# log myname, 'json module artifactText', artifactText
+							$$ loogmyname, 'json module artifactText', artifactText
 							_ ctx.indent
 							_ ctx.writeAligned(artifactText)
 							_ ctx.deindent

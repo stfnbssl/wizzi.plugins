@@ -1,0 +1,18 @@
+{
+    $
+        var md = {
+        }
+    v08/root/package(&md)
+        $append scripts
+            examples "node examples"
+            first "node examples/dist/first.pdf.js"
+            tables "node examples/dist/tables.pdf.js"
+            columns "node examples/dist/columns.pdf.js"
+            page "node examples/dist/page.pdf.js"
+            pre "npm run examples"
+            docs "npm run first && npm run tables && npm run columns && npm run page"
+            all "npm run pre && npm run docs"
+        $append dependencies
+            pdfmake "^0.1.70"
+        $append devDependencies
+

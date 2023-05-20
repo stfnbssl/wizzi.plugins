@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\artifacts\js\module\gen\statements\react.js.ittf
-    utc time: Tue, 11 Apr 2023 19:45:01 GMT
+    utc time: Tue, 16 May 2023 07:53:47 GMT
 */
 'use strict';
 var util = require('util');
@@ -260,8 +260,6 @@ md.load = function(cnt) {
             ctx.w(model.wzName + ';');
             return callback(null);
         }
-        
-        // log "onlyChildIsArrowFunction", onlyChildIsArrowFunction
         else if (model.wzElement == 'arrowfunction' || model.wzElement == 'asyncarrowfunction') {
             ctx.__is_react_class = true;
             var async_str = model.wzElement == 'asyncarrowfunction' || model.xasync ? 'async ' : '';

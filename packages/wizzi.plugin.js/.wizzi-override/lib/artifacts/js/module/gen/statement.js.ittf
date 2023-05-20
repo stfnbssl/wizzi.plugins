@@ -69,7 +69,7 @@ module wizzi.plugin.js.artifacts.module.gen.statement
 			param ctx
 			param callback
 
-			# log 131
+			$$ loog131
 
 			repeater( 1, models )
 				_ md.genItem
@@ -78,7 +78,7 @@ module wizzi.plugin.js.artifacts.module.gen.statement
 					a_cb()
 						repeater_increment( 1 )
 				$append next
-					# log 134, 'genMany'
+					$$ loog134, 'genMany'
 					r_cb()
 
 	set md.genItem
@@ -98,9 +98,9 @@ module wizzi.plugin.js.artifacts.module.gen.statement
 				elif key === 'wzFunction'
 					set key = 'xfunction'
 				var stm = md.stm[key]
-				# log 132, key
+				$$ loog132, key
 				if stm
-					# log 133, key
+					$$ loog133, key
 					_ stm(model, ctx, callback)
 				else 
 					log myname + '. Unknown statement tag/element: ' + model.wzTag + '/' + model.wzElement, model

@@ -50,20 +50,20 @@ module wizzi.plugin.java.lib.artifacts.module.gen.writers.types
             _ ctx.indent
             repeater( 1, model.statements )
                 if index_1 > 0
-                    # log 0
+                    $$ loog0
                     # (19/1/21 It seems are separated by ';') _ ctx.write(', ')
                 # loog 'typeObjectLiteral.item_1.wzElement', item_1.wzElement, item_1.wzName
                 _ mainWriter.genItem
                     @ item_1
                     @ ctx
                     a_cb()
-                        # log 1
+                        $$ loog1
                         repeater_increment( 1 )
                 $append next
                     _ ctx.deindent
                     # 21/3/2021 _ ctx.w('} ')
                     _ ctx.write('}')
-                    # log 2
+                    $$ loog2
                     r_cb()
         
         statement( typeVoid

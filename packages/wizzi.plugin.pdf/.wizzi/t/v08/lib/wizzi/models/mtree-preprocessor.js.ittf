@@ -1,5 +1,6 @@
 $group
     $params &md
+    var verify = require('wizzi-utils').verify
     $hook imports
     set module.exports
         function
@@ -59,7 +60,6 @@ $group
     function wrapChilds
         param node
         param newN
-        # log 'wrapChild', node.children
         _ copyNodeAttrsDeep
             @ node
             @ newN

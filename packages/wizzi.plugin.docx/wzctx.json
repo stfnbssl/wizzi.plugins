@@ -1,0 +1,50 @@
+{
+    "name": "wizzi.plugin.docx",
+    "npnName": "@wizzi/plugin.docx",
+    "pluginBasename": "docx",
+    "version": "0.1.2",
+    "description": "wizzi.plugin.docx",
+    "author": {
+        "name": "Stefano Bassoli",
+        "email": "stfn.bssl@gmail.com"
+    },
+    "github": {
+        "userid": "stfnbssl"
+    },
+    "license": {
+        "name": "MIT",
+        "copy": "copy 2023"
+    },
+    "Build": {
+        "isWizziPlugin": true,
+        "useWizziV08": true,
+        "wizziV08": {},
+        "utils": {
+            "useStringifySafe": true,
+            "useObjectInspect": true
+        },
+        "useDocx": true
+    },
+    "Schemas": [
+        {
+            "name": "docx",
+            "title": "docx wizzi schema",
+            "builtin": false,
+            "modelTransformers": [],
+            "artifactGenerators": [
+                {
+                    "name": "document",
+                    "outmime": "docx",
+                    "contentType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    "isDefault": true
+                }
+            ],
+            "defaultArtifact": "document",
+            "wizzifiers": [],
+            "fileExtensions": [
+                "docx"
+            ],
+            "includes": []
+        }
+    ]
+}

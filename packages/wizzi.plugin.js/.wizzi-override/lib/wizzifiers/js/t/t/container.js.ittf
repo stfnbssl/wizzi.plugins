@@ -216,7 +216,7 @@
 					_ callback
 						@ ex
 			
-			# log "wizziTree", JSON.stringify(root, null, 2)
+			$$ loog"wizziTree", JSON.stringify(root, null, 2)
 			# loog 'options.wizziIncludes', options.wizziIncludes
 			_ async.map
 				@ options.wizziIncludes
@@ -260,7 +260,7 @@
 				@ options
 				a_cb( root ) 
 					var ittf = ittfwriter.stringify(root, { lang: 'js' });
-					# log "md.getWizziIttf\n" + ittf
+					$$ loog"md.getWizziIttf\n" + ittf
 					_ callback(null, ittf)
 
     $if wzConfigIsDocumentation

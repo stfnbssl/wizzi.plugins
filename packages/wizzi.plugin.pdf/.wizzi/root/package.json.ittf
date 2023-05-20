@@ -1,18 +1,29 @@
 {
-    $
-        var md = {
-        }
-    v08/root/package(&md)
-        $append scripts
-            examples "node examples"
-            first "node examples/dist/first.pdf.js"
-            tables "node examples/dist/tables.pdf.js"
-            columns "node examples/dist/columns.pdf.js"
-            page "node examples/dist/page.pdf.js"
-            pre "npm run examples"
-            docs "npm run first && npm run tables && npm run columns && npm run page"
-            all "npm run pre && npm run docs"
-        $append dependencies
-            pdfmake "^0.1.70"
-        $append devDependencies
-
+    name "${wzCtx.npnName ? wzCtx.npnName : wzCtx.name}"
+    version "${wzCtx.version}"
+    $if wzCtx.author
+        { author
+            name "${wzCtx.author.name}"
+            email "${wzCtx.author.email}"
+    private false
+    $if wzCtx.license
+        [ licenses
+            {
+                type "${wzCtx.license.type}"
+                url "${wzCtx.license.url}"
+    main "${wzCtx.main}"
+    $if wzCtx.Build.useVite
+        type "module"
+    $else
+        $if wzCtx.type
+            type "${wzCtx.type}"
+    { scripts
+        $include v08/package/scripts
+    { dependencies
+        $include v08/package/dependencies
+    { devDependencies
+        $include v08/package/devDependencies
+    $include v08/package/tools
+    $include v08/package/browser
+    $$ see https://classic.yarnpkg.com/en/docs/selective-version-resolutions/
+    $include v08/package/resolutions

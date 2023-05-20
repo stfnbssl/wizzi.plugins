@@ -11,10 +11,10 @@ module
             param ctx
             param element
             param callback
-            # log myname, 'enter writeIncludeCss'
+            $$ loogmyname, 'enter writeIncludeCss'
             _ element.get_css
                 a_cb( cssModel )
-                    # log myname, 'cssModel', cssModel
+                    $$ loogmyname, 'cssModel', cssModel
                     _ ctx.wizziFactory.generateArtifact
                         @ cssModel
                         @ 'generated from md model'
@@ -23,7 +23,7 @@ module
 							@ forHtmlStyle true
 							@ noGeneratorComments true
                         a_cb( artifactText )
-                            # log myname, 'css module artifactText', artifactText
+                            $$ loogmyname, 'css module artifactText', artifactText
                             _ ctx.writeAligned(artifactText)
                             return
                                 _ callback

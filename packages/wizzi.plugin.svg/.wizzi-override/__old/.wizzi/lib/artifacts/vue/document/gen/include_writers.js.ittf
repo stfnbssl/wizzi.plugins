@@ -34,8 +34,8 @@
 			param ctx
 			param cssModel
 			param callback
-			# log myname, 3
-			# log myname, 'cssModel', cssModel, 'cssModel.rules', cssModel.rules
+			$$ loogmyname, 3
+			$$ loogmyname, 'cssModel', cssModel, 'cssModel.rules', cssModel.rules
 			_ ctx.wizziFactory.generateArtifact
 				@ cssModel
 				@ 'generated from html model'
@@ -43,7 +43,7 @@
 				{
 					@ forVueStyle true
 				a_cb( artifactText )
-					# log myname, 'css artifactText', artifactText
+					$$ loogmyname, 'css artifactText', artifactText
 					return
 						_ callback(null, artifactText)
 
@@ -52,10 +52,10 @@
 			param ctx
 			param element
 			param callback
-			# log myname, 'enter writeIncludeJs'
+			$$ loogmyname, 'enter writeIncludeJs'
 			_ element.get_js
 				a_cb( jsModel )
-					# log myname, 'jsModel', jsModel
+					$$ loogmyname, 'jsModel', jsModel
 					_ ctx.wizziFactory.generateArtifact
 						@ jsModel
 						@ 'generated from html model'
@@ -65,7 +65,7 @@
 							@ noUseStrict true
 							@ noGeneratorComments true
 						a_cb( artifactText )
-							# log myname, 'js module artifactText', artifactText
+							$$ loogmyname, 'js module artifactText', artifactText
 							_ ctx.w('<script>')
 							_ ctx.indent
 							_ ctx.writeAligned(artifactText)
@@ -79,10 +79,10 @@
 			param ctx
 			param element
 			param callback
-			# log myname, 'enter writeIncludeTypescript'
+			$$ loogmyname, 'enter writeIncludeTypescript'
 			_ element.get_ts
 				a_cb( tsModel )
-					# log myname, 'tsModel', tsModel
+					$$ loogmyname, 'tsModel', tsModel
 					_ ctx.wizziFactory.generateArtifact
 						@ tsModel
 						@ 'generated from html model'
@@ -92,7 +92,7 @@
 							@ noUseStrict true
 							@ noGeneratorComments true
 						a_cb( artifactText )
-							# log myname, 'ts module artifactText', artifactText
+							$$ loogmyname, 'ts module artifactText', artifactText
 							_ ctx.w('<script lang="ts">')
 							_ ctx.indent
 							_ ctx.writeAligned(artifactText)
@@ -106,10 +106,10 @@
 			param ctx
 			param element
 			param callback
-			# log myname, 'enter writeIncludeHtml'
+			$$ loogmyname, 'enter writeIncludeHtml'
 			_ element.get_html
 				a_cb( htmlModel )
-					# log myname, 'htmlModel', htmlModel
+					$$ loogmyname, 'htmlModel', htmlModel
 					_ ctx.wizziFactory.generateArtifact
 						@ htmlModel
 						@ 'generated from html model'
@@ -117,7 +117,7 @@
 						{
 							@ forVueTemplate true
 						a_cb( artifactText )
-							# log myname, 'html module artifactText', artifactText
+							$$ loogmyname, 'html module artifactText', artifactText
 							_ ctx.w('<template>')
 							_ ctx.indent
 							_ ctx.writeAligned(artifactText)

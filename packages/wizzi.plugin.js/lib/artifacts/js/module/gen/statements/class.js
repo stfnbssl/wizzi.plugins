@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\artifacts\js\module\gen\statements\class.js.ittf
-    utc time: Tue, 11 Apr 2023 19:45:01 GMT
+    utc time: Tue, 16 May 2023 07:53:47 GMT
 */
 'use strict';
 var util = require('util');
@@ -93,23 +93,18 @@ md.load = function(cnt) {
         if (typeof callback !== 'function') {
             throw new Error('The callback parameter must be a function. In ' + myname + '.xclass. Got: ' + callback);
         }
-        
-        // log 111
         if (ctx.__jskind === 'react') {
             if (!xclass_react) {
                 xclass_react = require('../react/class');
             }
             xclass_react.gen(model, ctx, callback);
         }
-        
-        // log 112
         else if (ctx.__ecma === 'es6') {
             if (!xclass_es6) {
                 xclass_es6 = require('../es6/class');
             }
             xclass_es6.gen(model, ctx, callback);
         }
-        // log 113
         else {
             if (!xclass) {
                 xclass = require('../class');

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\wizzi\models\js-mtree-preprocessor.g.js.ittf
-    utc time: Tue, 11 Apr 2023 19:45:01 GMT
+    utc time: Tue, 16 May 2023 07:53:47 GMT
 */
 'use strict';
 var verify = require('wizzi-utils').verify;
@@ -130,8 +130,6 @@ function preprocessNode(node, state) {
     // loog 'js-mtree-processor svgOn', node.n, node.v
     if (state.svgOn) {
     }
-    
-    // log "node.n === 'p' && state.parent && (state.parent.n === 'class' || state.parent.n === 'react'"
     
     // do nothing
     if (node.n === 'p' && state.parent && (state.parent.n === 'class' || state.parent.n === 'react')) {

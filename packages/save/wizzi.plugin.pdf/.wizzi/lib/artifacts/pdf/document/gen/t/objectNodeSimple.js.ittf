@@ -1,0 +1,16 @@
+$group
+    $params elname, propname|@@null
+
+    $ var openPar = "(";
+    async-md( ${elname} )
+
+        pdfNode.js( ${elname} )
+        _ ctx.w('const ' + pdfNode + ' = {};')
+        _ md.genItems
+            @ model.nodes
+            @ ctx
+            @ noindent
+            a_cb()
+                _ ctx.w(pdfParent + '.${propname == null ? elname : propname} = ' + pdfNode + ';')
+                _ ctx.values.pdfStack.pop()
+                r_cb()

@@ -1184,9 +1184,7 @@ var Declare = (function (Node) {
     Declare.prototype.importStatement = function(statement) {
         var _statement = statement;
         var _codeLines = [];
-        console.log('================> declare.importStatement.statement.get_js', !!(statement.get_js), __filename);
         if (statement.get_js) {
-            console.log('================> declare.importStatement.statement.codeLines', statement.__codeLines, __filename);
             _statement = {
                 wzTag: '+', 
                 wzName: '', 
@@ -1292,9 +1290,7 @@ var Method = (function (Node) {
     Method.prototype.importStatement = function(statement) {
         var _statement = statement;
         var _codeLines = [];
-        console.log('================> method.importStatement.statement.get_js', !!(statement.get_js), __filename);
         if (statement.get_js) {
-            console.log('================> method.importStatement.statement.codeLines', statement.__codeLines, __filename);
             _statement = {
                 wzTag: '+', 
                 wzName: '', 
