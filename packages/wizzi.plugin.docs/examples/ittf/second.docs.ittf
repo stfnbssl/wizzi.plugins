@@ -1,0 +1,94 @@
+docs first
+    Hello, i am a free schema line.
+        I to am an indented free schema line.
+
+    ## Changing your profile picture
+
+    Your profile picture helps identify you across {% data variables.product.product_name %} in pull requests, comments, contributions pages, and graphs.
+
+    When you sign up for an account, {% data variables.product.product_name %} provides you with a randomly generated "identicon". [Your identicon](https://github.com/blog/1586-identicons) generates from a hash of your user ID, so there's no way to control its color or pattern. You can replace your identicon with an image that represents you.
+
+
+    # Ittf notation
+
+    Documents are made of text lines separated by a:
+        ul
+            li x'000a' char or
+            li x'000d' char or
+            li x'000a' \b x'000d' couple of chars
+    
+    A line is made of a node-name and a node-value separated by a white-char (space or tab).
+
+    ``` ittf
+        schema ittf
+        ittf
+            name value
+                name value
+    
+    Node-values always are trimmed, you cannot have a node-value
+        that starts or ends with a white-char sequence.
+
+    ``` ittf
+        schema ittf
+        title When loaded, both these nodes will containg the 'value' string in the node-value.
+        ittf
+            name1 value
+                name2      value
+
+    The node hierarchy is built calculating the indentation of node-names
+        in a text line. Every tab or every 4 space chars preeceding a node-name
+        count for one level of indentation.
+
+    The node-name of the first line (the root node-name) must have indentation zero.
+        The root node-name must start at column 1 (1-based) of the first row.
+
+    An ITTF Document cannot have more than one root node. If the semantic of a
+        document require more than one root node, a convenience '$group'
+        command can be used. It must be the root node of a composed document (included
+        or mixed) and is ignored during the mTree build up, so that all its childs become
+        root nodes of the included document.
+
+    Example. Ittf document with two root nodes.
+    ``` ittf
+        schema ittf
+        title Sample ITTF document with two root nodes.
+        ${'$'}group
+            root1 value1
+            root2 value2
+
+    A line becomes a node which parent is the first preceeding line with a lesser indentation. 
+
+    Phisical text lines may have line continuatios and a 'logical' line
+        may contain many phisical lines. There are three pre-defined
+        node-names that allow line continuation:
+    - '\' means that the node-value is joined to the node-value
+        of the parent node without separation.
+    - '\b' means that the node-value is joined to the node-value
+        of the parent node with one space char separator.
+    - '\n' means that the node-value is joined to the node-value
+        of the parent node with one Line Feed char separator.
+
+    ``` ittf
+        schema ittf
+        title Line continuation sample.  Both 'name1' and 'name2' have the same value.
+        ittf
+            root
+                name1 I am
+                    \b a single
+                    \b line
+                name2 I am a single line
+
+    Node names and values are text strings by design, and never require quotes
+        (they are unquoted by the lexer). The wizzi factory is a text manipulator.
+        If the semantic of a node-value require that it is treated as a different type
+        (boolean, integer, float or date), that can be done using wizzi schemas, 
+        that apply types to the tree structure resulting from loading an ittf 
+        document (see mTrees).
+    
+    One exception to this rule is when an argument is passed to a mixed ITTF Document,
+        and will become part of its evaluation context. Types different from string
+        can be usefull in JsWizzi expessions. The '$params' command, that
+        declares the parameters received by a mixed ITTF Document, may assign a type to
+        passed arguments.
+
+    In any case the lexer do not detect types. When needed they must be declared.

@@ -1,0 +1,69 @@
+module
+    kind es6
+    $
+        var md = {
+            plugin: 'wizzi.plugin.plain',
+            name: 'document',
+            schema: 'plain',
+            rootElement: '',
+            checkSchema: true,
+            isAsync: true,
+        };
+    gen( &md )
+        $append imports
+        $append main
+            _ md.plain
+                @ model
+                @ ctx
+                a_cb( )
+                    if ctx.artifactGenerationErrors.length > 0
+                        r_cb_err( ctx.artifactGenerationErrors )
+                    else
+                        # generation OK
+                        r_cb( ctx )
+        async-md( plain )
+            _ ctx.w('<plain>')
+            _ md.genItems
+                @ model.nodes
+                @ ctx
+                {
+                    @ indent true
+                a_cb()
+                    _ ctx.w('</plain>')
+                    r_cb()
+        var noattrs
+            [
+                @ 'wzTag'
+                @ 'wzName'
+                @ 'wzElement'
+                @ 'wzParent'
+                @ 'wzSourceLineInfo'
+                @ '___exportName'
+        function isAttrValue
+            param a
+            param v
+            if noattrs.indexOf(a) > -1
+                return false
+            if v == null || verify.isArray(v) || verify.isObject(v) || verify.isFunction(v)
+                return false
+            return true
+        function getAttrs
+            param e
+            var retval = []
+            for var a in e
+                if isAttrValue(a, e[a])
+                    _ retval.push({ name: verify.replaceAll(a, '_', '-'), value: e[a] })
+                elif a.substr(0, 3) === 'ng-'
+                    _ retval.push({ name: a, value: e[a] })
+                elif a.substr(0, 5) === 'data-'
+                    _ retval.push({ name: a, value: e[a] })
+                elif a.substr(0, 5) === 'aria-'
+                    _ retval.push({ name: a, value: e[a] })
+            if e.attributes
+                foreach a in e.attributes
+                    var p = lineParser.parseNameValueRaw(a.wzName, a)
+                    if p.hasValue()
+                        _ retval.push({ name: p.name(), value: p.value() })
+                    else
+                        _ retval.push({ name: p.name() })
+            return retval

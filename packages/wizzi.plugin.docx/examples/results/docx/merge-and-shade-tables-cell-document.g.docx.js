@@ -1,0 +1,70 @@
+const fs = require("fs");
+const docx = require("docx");
+const convertInchesToTwip = docx.convertInchesToTwip;
+const convertMillimetersToTwip = docx.convertMillimetersToTwip;
+
+const docx_doc_1 = { sections: [], styles: [] };
+const docx_sect_2 = { properties: {}, headers:{}, footers:{}, children: [] };
+const docx_table_3 = {};
+docx_table_3.rows = [];
+const docx_width_4 = {};
+docx_width_4.size = 8000;
+docx_width_4.type = docx.WidthType.DXA;
+docx_table_3.width = docx_width_4;
+const docx_tr_5 = {};
+docx_tr_5.children = [];
+const docx_td_6 = {};
+docx_td_6.children = [];
+const docx_p_7 = {};
+docx_p_7.children = [];
+docx_p_7.tabStops = [];
+docx_p_7.text = "Hello";
+const docx_p_7Obj = new docx.Paragraph(docx_p_7);
+docx_td_6.children.push(docx_p_7Obj);
+docx_td_6.columnSpan = 2;
+const docx_td_6Obj = new docx.TableCell(docx_td_6);
+docx_tr_5.children.push(docx_td_6Obj);
+const docx_tr_5Obj = new docx.TableRow(docx_tr_5);
+docx_table_3.rows.push(docx_tr_5Obj);
+const docx_tr_8 = {};
+docx_tr_8.children = [];
+const docx_td_9 = {};
+docx_td_9.children = [];
+const docx_p_10 = {};
+docx_p_10.children = [];
+docx_p_10.tabStops = [];
+docx_p_10.text = "bye";
+const docx_p_10Obj = new docx.Paragraph(docx_p_10);
+docx_td_9.children.push(docx_p_10Obj);
+const docx_width_11 = {};
+docx_width_11.size = 50;
+docx_width_11.type = docx.WidthType.PERCENTAGE;
+docx_td_9.width = docx_width_11;
+const docx_td_9Obj = new docx.TableCell(docx_td_9);
+docx_tr_8.children.push(docx_td_9Obj);
+const docx_td_12 = {};
+docx_td_12.children = [];
+const docx_p_13 = {};
+docx_p_13.children = [];
+docx_p_13.tabStops = [];
+docx_p_13.text = "bye";
+const docx_p_13Obj = new docx.Paragraph(docx_p_13);
+docx_td_12.children.push(docx_p_13Obj);
+const docx_width_14 = {};
+docx_width_14.size = 50;
+docx_width_14.type = docx.WidthType.PERCENTAGE;
+docx_td_12.width = docx_width_14;
+const docx_td_12Obj = new docx.TableCell(docx_td_12);
+docx_tr_8.children.push(docx_td_12Obj);
+const docx_tr_8Obj = new docx.TableRow(docx_tr_8);
+docx_table_3.rows.push(docx_tr_8Obj);
+const docx_table_3Obj = new docx.Table(docx_table_3);
+docx_sect_2.children.push(docx_table_3Obj);
+docx_doc_1.sections.push(docx_sect_2)
+
+const docx_MainObject = new docx.Document(docx_doc_1);
+
+docx.Packer.toBuffer(docx_MainObject).then((buffer) => {
+    fs.writeFileSync("merge-and-shade-tables-cell.docx", buffer);
+    console.log("DONE written")
+});

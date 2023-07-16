@@ -16,16 +16,13 @@ wizzi.plugin.ts
 no<td>
 
 <table>
-<tr>
-<td>extended</td>
-</tr>
 </table>
 
 <td>
 
 <table>
 <tr>
-<td>document</td>
+<td>module</td>
 </tr>
 </table>
 

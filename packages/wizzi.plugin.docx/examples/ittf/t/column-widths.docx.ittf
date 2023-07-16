@@ -1,0 +1,15 @@
+$group
+    $params values
+
+    $
+        var ss = values.split(' ');
+        var sb = [];
+        for (var i=0; i<ss.length; i++) {
+            var s = ss[i];
+            if (_.isNotEmpty(s)) {
+                sb.push('convertMillimetersToTwip(' + s + ')');
+            }
+        }
+        var twipvalues = '[' + sb.join(',') + ']'
+
+    column-widths ${twipvalues}

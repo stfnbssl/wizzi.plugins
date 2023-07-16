@@ -1,6 +1,7 @@
 $group
-    $params name
+    $params name|@@null
 
     var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
-    var docxNode = "docx_${name}_" + (++ctx.values.docxCounter)
-    _ ctx.values.docxStack.push(docxNode)
+    $if name != null
+        var docxNode = "docx_${name}_" + (++ctx.values.docxCounter)
+        _ ctx.values.docxStack.push(docxNode)

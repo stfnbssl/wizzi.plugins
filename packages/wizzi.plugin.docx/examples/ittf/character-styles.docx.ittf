@@ -1,0 +1,30 @@
+docx character-styles
+
+    styles-def
+        character-styles
+            style-def myRedStyle
+                name My Wonky Style
+                basedOn Normal
+                run
+                    color 990000
+                    italics
+            style-def strong
+                name Strong
+                basedOn Normal
+                run
+                    bold
+
+    section one
+        page 
+            margins( 1.2 )
+
+        h1 Character styles
+
+        p
+            + Foo bar
+                style myRedStyle
+                
+        p
+            + First Word
+                style strong
+            + &nbsp;- Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.

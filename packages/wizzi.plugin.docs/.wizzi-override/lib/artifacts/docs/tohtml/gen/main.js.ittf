@@ -1,0 +1,26 @@
+module
+    kind es6
+    $
+        var md = {
+            plugin: 'wizzi.plugin.docs',
+            name: 'tohtml',
+            schema: 'docs',
+            rootElement: '',
+            checkSchema: true,
+            isAsync: true,
+        };
+    gen( &md )
+        $append imports
+            const toHtml = require('../../../utils/hast-to-html')
+            const toHast = require('../../tohast/trans/main')
+        $append main
+            _ toHast.trans
+                @ model
+                {
+                a_cb( hast )
+                    _ toHtml
+                        @ hast
+                        a_cb( result )
+                            _ ctx.w
+                                @ result
+                            r_cb( ctx )

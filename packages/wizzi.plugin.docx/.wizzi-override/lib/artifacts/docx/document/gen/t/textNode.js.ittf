@@ -6,7 +6,10 @@ $group
 
         docxNode.js( txt )
         _ ctx.w('const ' + docxNode + ' = {};')
-        _ ctx.w(docxNode + '.text = "' + respace(model.wzName) + '";')
+        if verify.isEmpty(model.wzName)
+            _ ctx.w(docxNode + '.children = [];')
+        else
+            _ ctx.w(docxNode + '.text = "' + respace(model.wzName) + '";')
         $hook
        
         _ md.genItems

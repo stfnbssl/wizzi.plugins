@@ -1,0 +1,207 @@
+docx numbered-lists
+    
+    numbering-def
+        
+        config
+            level 0
+                format UPPER_ROMAN
+                text %1
+                alignment START
+                style-def
+                    paragraph
+                        indent
+                            left =convertInchesToTwip(0.5)
+                            hanging =convertInchesToTwip(0.18)
+            reference my-crazy-reference
+        
+        config
+            level 0
+                format DECIMAL
+                text %1
+                alignment START
+                style-def
+                    paragraph
+                        indent
+                            left =convertInchesToTwip(0.5)
+                            hanging =convertInchesToTwip(0.18) 
+            reference my-number-numbering-reference
+
+        config
+            level 0
+                format DECIMAL_ZERO
+                text [%1]
+                alignment START
+                style-def
+                    paragraph
+                        indent
+                            left =convertInchesToTwip(0.5)
+                            hanging =convertInchesToTwip(0.18) 
+            reference padded-numbering-reference
+    
+    section one
+        p 
+            + line with contextual spacing
+            numbering
+                reference my-crazy-reference
+                level 0
+            contextual-spacing true
+            spacing
+                before 200
+        p 
+            + line with contextual spacing
+            numbering
+                reference my-crazy-reference
+                level 0
+            contextual-spacing true
+            spacing
+                before 200
+                
+        p
+            + line without contextual spacing
+            numbering
+                reference my-crazy-reference
+                level 0
+            contextual-spacing false
+            spacing
+                before 200
+
+        p
+            + line without contextual spacing
+            numbering
+                reference my-crazy-reference
+                level 0
+            contextual-spacing false
+            spacing
+                before 200
+                
+        p
+            + Step 1 - Add sugar
+            numbering
+                reference my-number-numbering-reference
+                level 0
+                
+        p
+            + Step 2 - Add wheat
+            numbering
+                reference my-number-numbering-reference
+                level 0
+
+        p
+            + Step 3 - Put in oven
+            numbering
+                reference my-number-numbering-reference
+                level 0
+
+        
+
+
+        h2 Next
+
+        p
+            + test
+            numbering
+                reference padded-numbering-reference
+                level 0
+                instance 2
+        p
+            + test
+            numbering
+                reference padded-numbering-reference
+                level 0
+                instance 2
+        
+        h2 Next
+
+        p
+            + test
+            numbering
+                reference padded-numbering-reference
+                level 0
+                instance 3
+        p
+            + test
+            numbering
+                reference padded-numbering-reference
+                level 0
+                instance 3
+        p
+            + test
+            numbering
+                reference padded-numbering-reference
+                level 0
+                instance 3
+        h2 Next
+
+        p
+            + test
+            numbering
+                reference padded-numbering-reference
+                level 0
+        p
+            + test
+            numbering
+                reference padded-numbering-reference
+                level 0
+        p
+            + test
+            numbering
+                reference padded-numbering-reference
+                level 0
+        p
+            + test
+            numbering
+                reference padded-numbering-reference
+                level 0
+        p
+            + test
+            numbering
+                reference padded-numbering-reference
+                level 0
+        p
+            + test
+            numbering
+                reference padded-numbering-reference
+                level 0
+        p
+            + test
+            numbering
+                reference padded-numbering-reference
+                level 0
+        p
+            + test
+            numbering
+                reference padded-numbering-reference
+                level 0
+        p
+            + test
+            numbering
+                reference padded-numbering-reference
+                level 0
+        p
+            + test
+            numbering
+                reference padded-numbering-reference
+                level 0
+        p
+            + test
+            numbering
+                reference padded-numbering-reference
+                level 0
+        p
+            + test
+            numbering
+                reference padded-numbering-reference
+                level 0
+
+        p
+            + test
+            numbering
+                reference padded-numbering-reference
+                level 0
+        
+        p
+            + test
+            numbering
+                reference padded-numbering-reference
+                level 0
+

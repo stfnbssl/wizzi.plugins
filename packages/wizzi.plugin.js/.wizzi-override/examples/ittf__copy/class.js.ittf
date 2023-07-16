@@ -32,3 +32,35 @@
 			return
 				new Horse
 					@ name
+
+    class Hello
+        super Controller
+        p targets
+            static
+            [ 
+                @ "name"
+        m greet
+            _ alert
+                `lit 
+                    + Hello,&nbsp;
+                    @ this.name
+                    + !
+        get name
+            return this.nameTarget.value
+
+    class Person
+        ctor 
+            param name
+            set this.name = name
+        get targets
+            static
+            [ 
+                @ "name"
+        get name
+            return this._name
+        set name
+            param newName
+            set newName = newName.trim()
+            if newName === ''
+                throw 'The name cannot be empty'
+            set this._name = newName

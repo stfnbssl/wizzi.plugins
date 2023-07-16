@@ -1,0 +1,107 @@
+$group
+
+    set functors.king
+        function
+            param parent
+            param resultObj
+            _  functors.person
+                @ parent
+                @ resultObj
+                @ 'king'
+
+    set functors.pretender
+        function
+            param parent
+            param resultObj
+            _  functors.person
+                @ parent
+                @ resultObj
+                @ 'pretender'
+
+    set functors.minister
+        function
+            param parent
+            param resultObj
+            _  functors.person
+                @ parent
+                @ resultObj
+                @ 'minister'
+
+    set functors.person
+        function
+            param parent
+            param resultObj
+            param kind
+            var personObj
+                {
+                    @ id parent.wzName
+                    @ kind kind || 'person'
+                    @ ns g_namespace
+                    { date
+                        @ start '9999'
+                        @ end '0000'
+                    [ memberships
+                    [ works
+                    [ contents
+            var newitems = []
+            foreach child in parent.items
+                if !titleDateWikiContents(child, personObj, resultObj)
+                elif child.wzElement == "born"
+                    set personObj.born = child.wzName
+                elif child.wzElement == "died"
+                    set personObj.died = child.wzName
+                elif child.wzElement == "house"
+                    set personObj.house = child.wzName
+                elif child.wzElement == "inCharge"
+                    set personObj.date = personObj.inCharge = createDate(child)
+                elif child.wzElement == "regent"
+                    set personObj.date = personObj.regent = createDate(child)
+                elif child.wzElement == "primeMinister"
+                    _ setPersonWorkDate
+                        @ 'prime-minister'
+                        @ child
+                        @ personObj
+                elif child.wzElement == "foreignSecretary"
+                    _ setPersonWorkDate
+                        @ 'createDate-secretary'
+                        @ child
+                        @ personObj
+                elif child.wzElement == "homeSecretary"
+                    _ setPersonWorkDate
+                        @ 'home-secretary'
+                        @ child
+                        @ personObj
+                elif child.wzElement == "exchequer"
+                    _ setPersonWorkDate
+                        @ 'exchequer'
+                        @ child
+                        @ personObj
+                elif child.wzElement == "party"
+                    _  personObj.memberships.push
+                        {
+                            @ kind 'party'
+                            @ name child.wzName
+                            @ date createDate(child)
+                else
+                    set personObj['unknown_tag_' + child.wzElement] = child.wzName                
+            if !personObj.title
+                set personObj.title
+                    {
+                        @ text personObj.id
+            _ resultObj.persons.push
+                @ personObj
+
+    function setPersonWorkDate                
+        param kind
+        param node
+        param personObj
+        var workDate = createDate(node)
+        _  personObj.works.push
+            {
+                @ kind kind
+                @ date workDate
+        if new Date(workDate.start) < new Date(personObj.date.start)
+            set personObj.date.start = workDate.start
+        if new Date(workDate.end) > new Date(personObj.date.end)
+            set personObj.date.end = workDate.end
+

@@ -2,14 +2,14 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.html\.wizzi-override\lib\wizzifiers\html\wizzifier.js.ittf
-    utc time: Sat, 29 Apr 2023 05:23:13 GMT
+    utc time: Wed, 07 Jun 2023 07:55:35 GMT
 */
 'use strict';
 var util = require('util');
 var async = require('async');
 var stringify = require('json-stringify-safe');
 var verify = require('wizzi-utils').verify;
-var lineparser = require('../utils/lineparser');
+var lineParser = require('../utils/lineParser');
 var file = require('wizzi-utils').file;
 var cloner = require('../utils/cloner');
 var ittfwriter = require("../utils/ittfwriter");
@@ -47,7 +47,6 @@ function parseInternal(tobeWizzified, options, callback) {
                     ittfTag = '< ' + tagname;
                 }
             }
-            // log "OpenTag " + tagname, ittfTag, attribs
             var n = {
                 tag: ittfTag, 
                 name: '', 
@@ -59,7 +58,6 @@ function parseInternal(tobeWizzified, options, callback) {
             wizziTree = n;
         }, 
         ontext: function(text) {
-            // log "================= Text", text, wizziTree.tag
             var lines = file.splitLines(text);
             
             // loog '++++++++++ wizziTree.swig'
@@ -134,11 +132,10 @@ function parseInternal(tobeWizzified, options, callback) {
             }
         }, 
         onswig: function(text) {
-            var p = lineparser.parseNameValueRaw(text, {}),
+            var p = lineParser.parseNameValueRaw(text, {}),
                 tag = p.name().trim().toLowerCase()
                 ,
                 text = p.value();
-            // log "OpenSwig " + tag, text
             if (['for', 'if', 'block', 'autoescape', 'filter', 'macro', 'spaceless', 'raw'].indexOf(tag) >= 0) {
                 var n = {
                     tag: tag, 
@@ -203,7 +200,6 @@ function parseInternal(tobeWizzified, options, callback) {
             // loog 'html document has root tag html'
             if (html.substr(0,'<html>'.length) == '<html>' || html.substr(0,'<!doctype>'.length) == '<!doctype>') {
             }
-            // log html.substr(0,'<html>'.length), html.substr(0,'<!doctype>'.length)
             else {
                 var i1 = html.indexOf('<');
                 var i2 = html.indexOf('>');
@@ -635,10 +631,7 @@ md.getWizzifierIncludes = function(options, callback) {
     // loog 'options.wizziIncludes', options.wizziIncludes
     async.map(options.wizziIncludes, function(item, callback) {
         if (item.kind === 'css') {
-            if (!csswizzifier) {
-                csswizzifier = require('../../cssparser/css/wizzifier');
-            }
-            csswizzifier.getWizziTree(item.literal, {}, (err, ittf) => {
+            options.wf.getWizziTreeFromText(item.literal, "css", (err, ittf) => {
             
                 // loog 'getWizzifierIncludes.item.ittf', ittf
                 if (err) {
@@ -666,22 +659,8 @@ md.getWizzifierIncludes = function(options, callback) {
             }
             )
         }
-        
-        // loog 'jswizzifier', jswizzifier
         else if (item.kind === 'ts') {
-            
-            // loog 'jswizzifier import 1'
-            
-            // loog 'jswizzifier import 2'
-            if (!jswizzifier) {
-                jswizzifier = require('../../jsparser/babel/wizzifier');
-            }
-            jswizzifier.getWizziTree(item.literal, {
-                babel: {
-                    sourceType: 'module', 
-                    ts_or_flow: 'typescript'
-                 }
-             }, (err, ittf) => {
+            options.wf.getWizziTreeFromText(item.literal, "ts", (err, ittf) => {
             
                 // loog 'getWizzifierIncludes.item.ittf', ittf
                 if (err) {
@@ -712,16 +691,8 @@ md.getWizzifierIncludes = function(options, callback) {
             }
             )
         }
-        // loog 'jswizzifier', jswizzifier
         else {
-            
-            // loog 'jswizzifier import 1'
-            
-            // loog 'jswizzifier import 2'
-            if (!jswizzifier) {
-                jswizzifier = require('../../jsparser/babel/wizzifier');
-            }
-            jswizzifier.getWizziTree(item.literal, {}, (err, ittf) => {
+            options.wf.getWizziTreeFromText(item.literal, "js", (err, ittf) => {
             
                 // loog 'getWizzifierIncludes.item.ittf', ittf
                 if (err) {

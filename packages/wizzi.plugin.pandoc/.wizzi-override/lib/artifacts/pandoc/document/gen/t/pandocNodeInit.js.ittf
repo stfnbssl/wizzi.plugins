@@ -1,0 +1,10 @@
+$group
+    $params test|@@null
+
+    var parentPandocNode = ctx.values.pandocStack[ctx.values.pandocStack.length-1]
+    var pandocNode
+        {
+            $if test != null
+                @ test "${test}"
+            $hook
+    _ ctx.values.pandocStack.push(pandocNode)

@@ -9,24 +9,6 @@ module
     var md = module.exports = {}
     set md.name = '${wzCtx.name}.index'
     +
-    # window(s) vars must be declared even if empty
-    var window_modelFactories
-        {
-            @ 'ts' require('./lib/wizzi/models/ts-factory.g')
-    var window_artifactGenerators
-        {
-            @ 'ts/document' require('./lib/artifacts/ts/document/gen/main')
-    var window_transformers
-        {
-            @ 'ts/extended' require('./lib/artifacts/ts/extended/trans/main')
-    var window_wizzifiers
-        {
-            $if wzCtx.Schemas && wzCtx.Schemas.length > 0
-                $if wzCtx.Schemas[0].hasWizzifier
-                    @ '${wzCtx.Schemas[0].name}/wizzifier' require('./lib/wizzifiers/${wzCtx.Schemas[0].name}/wizzifier')
-    var window_schemaDefinitions
-        {
-    +
     #
         # FactoryPlugin class
     class FactoryPlugin
@@ -84,7 +66,6 @@ module
     +
     set module.exports
         {
-            @ version '${wzCtx.version}'
             @ provides
                 {
                     @ schemas
@@ -96,13 +77,24 @@ module
                             $foreach schema in wzCtx.Schemas
                                 {
                                     @ name '${schema.name}'
+                                    $if schema.rootElement
+                                        @ rootElement '${schema.rootElement}'
+                                    $if schema.rootTag
+                                        @ rootTag '${schema.rootTag}'
                                     [ fileExtensions
                                         $foreach ext in schema.fileExtensions
                                             @ "${ext}"
                                     [ artifactsGenerators
-                                        $foreach art in schema.artifacts
-                                            @ "${art.name}"
+                                        $foreach art in schema.artifactGenerators
+                                            {
+                                                @ name "${art.name}"
+                                                @ outmime "${art.outmime}"
+                                                @ contentType "${art.contentType}"
+                                                @ isDefault ${art.isDefault ? 'true' : 'false'}
                                     @ defaultArtifact '${schema.defaultArtifact}'
+                                    [ dependency
+                                        $foreach include in schema.includes
+                                            @ "${include.name}"
                     @ modelTransformers
                         [
                             $foreach schema in wzCtx.Schemas

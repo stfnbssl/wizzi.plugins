@@ -26,3 +26,26 @@ module
                             _ ctx.writeAligned(artifactText)
                             return
                                 _ callback
+
+    set md.writeIncludeJson
+        function
+            param ctx
+            param element
+            param callback
+            # loog myname, 'enter writeIncludeJson'
+            _ element.get_json
+                a_cb( jsonModel )
+                    _ ctx.wizziFactory.generateArtifact
+                        @ jsonModel
+                        @ 'generated from md model'
+                        @ 'json/toyaml'
+                        {
+                        a_cb( artifactText )
+                            _ ctx.w('---')
+                            _ ctx.indent
+                            _ ctx.writeAligned(artifactText)
+                            _ ctx.deindent
+                            _ ctx.w('---')
+                            return
+                                _ callback
+

@@ -1,0 +1,67 @@
+$group
+
+    $*
+    {
+        "t": "Image",
+        "c": [
+            [
+                "fsfbanner",
+                [],
+                [
+                    [
+                        "width",
+                        "75"
+                    ],
+                    [
+                        "height",
+                        "25"
+                    ]
+                ]
+            ],
+            [
+                {
+                    "t": "Str",
+                    "c": " [FSF"
+                },
+                {
+                    "t": "Space"
+                },
+                {
+                    "t": "Str",
+                    "c": "logo] "
+                }
+            ],
+            [
+                "/graphics/fsf-logo-notext-small.png",
+                ""
+            ]
+        ]
+    }
+    *$
+
+    async-md( img
+        _ md.image
+            @ model
+            @ ctx
+            @ callback
+    
+    async-md( image
+        # Image Attr [Inline] Target	
+        pandocNodeInit()
+            @ jsonAttr defaultAttr()
+            [ jsonInlines
+            [ jsonTarget
+        var jsonObject
+            {
+                @ t "Image"
+                [ c
+                    @ pandocNode.jsonAttr
+                    @ pandocNode.jsonInlines
+                    @ pandocNode.jsonTarget
+        pandocNodeExec()
+            _ pandocNode.jsonTarget.push
+                @ model.src || ""
+            _ pandocNode.jsonTarget.push
+                @ model.title || ""
+            _ parentPandocNode.jsonInlines.push
+                @ jsonObject        

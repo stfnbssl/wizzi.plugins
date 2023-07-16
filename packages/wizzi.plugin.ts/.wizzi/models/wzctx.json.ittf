@@ -2,16 +2,16 @@
     $include versions
     name "wizzi.plugin.ts"
     npnName "@wizzi/plugin.ts"
-    pluginBasename "ts"
+    pluginBasename ""
     version '${versions['@wizzi/plugin.ts@next']}'
-    description "wizzi.plugin.ts"
+    description "Wizzi plugin for typescript documents"
     { author
         name "Stefano Bassoli"
         email "stfn.bssl@gmail.com"
     { github
         userid "stfnbssl"
     { license
-        name "MIT"
+        name ""
         copy "copy 2023"
     { Build
         isWizziPlugin true
@@ -26,18 +26,16 @@
         {
             name "ts"
             title "ts wizzi schema"
+            rootElement "xmodule"
+            rootTag "module"
             builtin false
             hasWizzifier true
             [ modelTransformers
-                {
-                    name "extended"
             [ artifactGenerators
-                {
-                    name "document"
-            [ artifacts
                 {
                     name "module"
                     outmime "ts"
+                    contentType "text/typescript"
                     isDefault true
             defaultArtifact "module"
             [ wizzifiers
@@ -45,4 +43,5 @@
                     name "ts"
             [ fileExtensions
                 "ts"
+                "tsx"
             [ includes

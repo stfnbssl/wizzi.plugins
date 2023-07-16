@@ -4,6 +4,7 @@ module
     kind es6
     basewizzifier()
         $append imports
+            var matter = require('gray-matter')
             var md_parser = require('marked')
             var md_Lexer = require('marked').Lexer
             var cleanAST = require('./cleanAST')
@@ -13,9 +14,15 @@ module
                 param options
                 param callback
                 try
+                    var parsed_matter
+                        _ matter
+                            @ tobeWizzified
+                    $$ loog 'parsed_matter', parsed_matter
                     var syntax 
                         _ md_Lexer.lex
-                            @ tobeWizzified
+                            @ parsed_matter.content
+                    set syntax.__frontMatter = parsed_matter.isEmpty ? null : parsed_matter.data
+                    $$ loog 'syntax', syntax
                     return
                         _ callback
                             @ null
@@ -34,19 +41,73 @@ module
             set options.stack = []
             set options.formatTextNodes = []
             set options.verbose = true
+            $$ loog '################## called wizzify'
             _ parseInternal
                 @ tobeWizzified
                 @ options
                 a_cb( syntax )
-                    $$ loogstringify(syntax, null, 2)
+                    $$ loog stringify(syntax, null, 2)
+                    $$ loog '################## called parseInternal callback'
                     var root
                         {
                             @ tag '${schemaName}'
                             [ children
-                    foreach item in syntax
-                        _ format(root, item, options)
-
-                    r_cb( root )
+                    _ processFrontMatter
+                        @ syntax
+                        @ options
+                        @ root
+                        a_cb_no_throw( root )
+                            $$ loog '################## called processFrontMatter callback'
+                            $*
+                            _ format.frontMatter
+                                @ root
+                                @ syntax.__frontMatter
+                                @ options
+                            *$
+                            foreach item in syntax
+                                _ format(root, item, options)
+                            r_cb( root )
+        +
+        function processFrontMatter
+            param syntax
+            param options
+            param root
+            param callback
+            if syntax.__frontMatter
+                $$ loog 'processFrontMatter.syntax.__frontMatter', JSON.stringify(syntax.__frontMatter)
+                _ options.wf.getWizziTreeFromText
+                    @ JSON.stringify(syntax.__frontMatter)
+                    @ "json"
+                    a_cb_no_throw( ittf )
+                        $$ loog '################## processFrontMatter.called options.wf.getWizziTreeFromText callback'
+                        $$ loog 'processFrontMatter.__frontMatter to ittf', ittf
+                        var fmIttf
+                            {
+                                @ tag '---'
+                                [ children
+                        _ appendIttf
+                            @ fmIttf
+                            @ ittf
+                        _ root.children.push
+                            @ fmIttf
+                        r_cb( root )
+            else
+                r_cb( root )
+        +
+        function appendIttf
+            param node
+            param ittf
+            var toAppend
+                {
+                    @ tag ittf.tag
+                    @ name ittf.name
+                    [ children
+            foreach item in ittf.children
+                _ appendIttf
+                    @ toAppend
+                    @ item
+            _ node.children.push
+                @ toAppend
         +
         var format
             function
@@ -63,13 +124,15 @@ module
                     else
                         _ showstack(options)
                         throw new Error('parent is null.' + util.inspect(ast, 4))
+                $*
                 if options.verbose
                     info 'ast.type', ast.type
+                *$
                 var type = ast.type === 'arguments' ? 'xarguments' : ast.type
                 var formatter = format[type]
                 if formatter
                     if !options.stack
-                        log "options.stack", options
+                        # loog "options.stack", options
                     _ options.stack.push(ast)
                     var result = formatter(parent, ast, options)
                     _ options.stack.pop()
@@ -77,10 +140,68 @@ module
                 else
                     throw new Error('no formatter for type: ' + ast.type)
         
+        +
+        $* VIA
+        f( frontMatter, --- )
+            for var k in node
+                var data
+                    {
+                        @ name k
+                        @ value node[k]
+                if verify.isObject(node[k])
+                    _ format.frontMatter_object(ret, data, options)
+                elif verify.isArray(node[k])
+                    _ format.frontMatter_array(ret, data, options)
+                else
+                    _ format.frontMatter_value(ret, data, options)
+
+        f( frontMatter_object, { )
+            set ret.name = node.name
+            var obj = node.value
+            for var k in obj
+                var data
+                    {
+                        @ name k
+                        @ value obj[k]
+                if verify.isObject(obj[k])
+                    _ format.frontMatter_object(ret, data, options)
+                elif verify.isArray(obj[k])
+                    _ format.frontMatter_array(ret, data, options)
+                else
+                    _ format.frontMatter_value(ret, data, options)
+        
+        f( frontMatter_array, [ )
+            set ret.name = node.name
+            var obj = node.value
+            for var k in obj
+                var data
+                    {
+                        @ name k
+                        @ value obj[k]
+                if verify.isObject(obj[k])
+                    _ format.frontMatter_object(ret, data, options)
+                elif verify.isArray(obj[k])
+                    _ format.frontMatter_array(ret, data, options)
+                else
+                    _ format.frontMatter_value(ret, data, options)
+        
+        f( frontMatter_value, @ )
+            var quote = ''
+            var value = node.value || ''
+            $$ loog 'frontMatter_value', node, 'value', value
+            if verify.isString(value)
+                set quote = '"'
+                set value = verify.replaceAll(value, '"', '\\"')
+            else
+                set value = value.toString()
+            set ret.name = node.name + ' ' + quote + value + quote
+        *$
+
         f( blockquote, quote )
             # "tokens": [
             foreach item in node.tokens
                 _ format(ret, item, options)
+        
         f( code )
             if verify.isNotEmpty(node.codeBlockStyle)
                 _ format.style
@@ -100,18 +221,23 @@ module
                     @ text node.text
                     @ tokens node.tokens
                 @ options
+        
         f( codespan, code )
             # "text": ""
             set ret.name = node.text
+        
         f( del )
             # "tokens": [
             foreach item in node.tokens
                 _ format(ret, item, options)
+        
         f( em )
             # "tokens": [
             foreach item in node.tokens
                 _ format(ret, item, options)
+        
         f( escape )
+        
         f( heading )
             # "depth": 1
             # "tokens": [
@@ -122,7 +248,7 @@ module
         f( html )
             set ret.name = node.text
         f( image, img )
-            _ format.href
+            _ format.src
                 @ ret
                 {
                     @ text node.href
@@ -222,11 +348,11 @@ module
                         @ item item
                     @ options
         f( td )
-            log 'td.node.item', node.item
+            # loog 'td.node.item', node.item
             set node.item.type = node.item.type || 'text'
             _ format(ret, node.item, options)
         f( th )
-            log 'th.node.item', node.item
+            # loog 'th.node.item', node.item
             set node.item.type = node.item.type || 'text'
             _ format(ret, node.item, options)
         f( text, +;ret-is-array )
@@ -250,6 +376,8 @@ module
                             @ options
                 set ret = retcontainer.children
         f( href )
+            set ret.name = node.text
+        f( src )
             set ret.name = node.text
         f( lang )
             set ret.name = node.text

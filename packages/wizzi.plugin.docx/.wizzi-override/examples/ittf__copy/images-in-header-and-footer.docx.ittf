@@ -1,0 +1,27 @@
+docx images-in-header-and-footer
+
+    creator Stefi
+    title Sample Document
+    description A brief example of using docx with images in header and footer
+
+    section one
+        page 
+            margins( 1.2 )
+
+        header default
+            p
+                image
+                    data =fs.readFileSync("./demo/images/pizza.gif")
+                    transformation
+                        width 100
+                        height 100
+
+        header footer
+            p
+                image
+                    data =fs.readFileSync("./demo/images/pizza.gif")
+                    transformation
+                        width 100
+                        height 100
+
+

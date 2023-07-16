@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\node_modules\wizzi-web\lib\artifacts\html\document\gen\main.js
     package: wizzi-web@0.7.16
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\lib\artifacts\wfschema\html_docs\gen\ittf\wfschema-docs.html.ittf
-    utc time: Tue, 16 May 2023 07:53:50 GMT
+    utc time: Tue, 27 Jun 2023 13:39:40 GMT
 -->
 <!doctype html>
 <html>
@@ -325,6 +325,8 @@
                 <li><a href="#element_property">property</a>
                 </li>
                 <li><a href="#element_get">get</a>
+                </li>
+                <li><a href="#element_setter">setter</a>
                 </li>
                 <li><a href="#element_xnew">xnew</a>
                 </li>
@@ -9845,6 +9847,33 @@
                 <span>return this.log[this.log.length - 1] &nbsp;</span>
                 <span> &nbsp;</span>
             </div>
+            <h5>Attributes</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Tag</th>
+                            <th>Type</th>
+                            <th>Default</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>static</td>
+                            <td>static</td>
+                            <td>boolean</td>
+                            <td>false</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
             <h5>Relations</h5>
             <small>
                 <table class="table table-condensed table-bordered" style="width:100%;">
@@ -9859,6 +9888,117 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <tr>
+                            <td>statement</td>
+                            <td>statements</td>
+                            <td>one-to-many</td>
+                            <td>statement</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_setter" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>setter</b>
+                        </td>
+                        <td>setter</td>
+                        <td>xfunction</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Description</h5>
+            <div>
+                <span>es6 - Defines a setter on a new object in the object initializer &nbsp;</span>
+                <span>reference https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Functions/get &nbsp;</span>
+                <span> &nbsp;</span>
+                <span>the js-mtree-preprocessor translates from this ittf: &nbsp;</span>
+                <span>set &nbsp;</span>
+                <span>param value &nbsp;</span>
+                <span> &nbsp;</span>
+                <span>to this one: &nbsp;</span>
+                <span>setter &nbsp;</span>
+                <span>param value &nbsp;</span>
+                <span> &nbsp;</span>
+            </div>
+            <h5>Attributes</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Tag</th>
+                            <th>Type</th>
+                            <th>Default</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>xasync</td>
+                            <td>async</td>
+                            <td>boolean</td>
+                            <td>false</td>
+                            <td>xfunction</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>xgenerator</td>
+                            <td>generator</td>
+                            <td>boolean</td>
+                            <td>false</td>
+                            <td>xfunction</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>param</td>
+                            <td>params</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>param</td>
+                            <td>params</td>
+                            <td>one-to-many</td>
+                            <td>xfunction</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
                         <tr>
                             <td>statement</td>
                             <td>statements</td>

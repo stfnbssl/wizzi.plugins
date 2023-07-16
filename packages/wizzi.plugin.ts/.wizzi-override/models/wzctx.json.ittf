@@ -20,6 +20,10 @@
         { utils
             useStringifySafe true
             useObjectInspect true
+        useBabel true
+        { babel
+            useParser true
+            useParserTypescript true
         useBabelParser true
         useBabelParserTypescript true
     [ Schemas
@@ -28,13 +32,20 @@
             title "ts wizzi schema"
             builtin false
             hasWizzifier true
+            [ includes
             [ modelTransformers
-                {
-                    name "extended"
             [ artifactGenerators
                 {
-                    name "document"
+                    name "module"
+                    outmime "ts"
+                    contentType "text/typescript"
+                    isDefault true
+            defaultArtifact "module"
             [ wizzifiers
                 {
                     name "ts"
-            [ includes
+            [ fileExtensions
+                "ts"
+                "tsx"    
+
+

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.md\.wizzi-override\lib\artifacts\md\document\gen\main.js.ittf
-    utc time: Tue, 11 Apr 2023 14:24:31 GMT
+    utc time: Tue, 13 Jun 2023 15:15:41 GMT
 */
 'use strict';
 
@@ -11,7 +11,7 @@ var util = require('util');
 var path = require('path');
 var async = require('async');
 var verify = require('wizzi-utils').verify;
-var lineparser = require('wizzi-utils').helpers.lineparser;
+var lineParser = require('wizzi-utils').helpers.lineParser;
 var errors = require('../../../../../errors');
 var included_writers = require('./included_writers');
 
@@ -747,6 +747,22 @@ md.htmlInclude = function(model, ctx, callback) {
 md.cssInclude = function(model, ctx, callback) {
     // do nothing, css must be produced by the 'tocss' artifact generator
     return callback(null, true);
+}
+;
+md.jsonInclude = function(model, ctx, callback) {
+    if (model.get_json) {
+        included_writers.writeIncludeJson(ctx, model, (err, notUsed) => {
+        
+            if (err) {
+                return callback(err);
+            }
+            return callback(null, true);
+        }
+        )
+    }
+    else {
+        return callback(null, true);
+    }
 }
 ;
 

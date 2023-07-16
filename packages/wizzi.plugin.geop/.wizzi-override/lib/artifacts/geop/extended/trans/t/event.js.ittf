@@ -1,0 +1,33 @@
+$group
+
+    set functors.war
+        function
+            param parent
+            param resultObj
+            _  functors.event
+                @ parent
+                @ resultObj
+                @ 'war'
+
+    set functors.event
+        function
+            param parent
+            param resultObj
+            param kind
+            var eventObj
+                {
+                    @ id parent.wzName
+                    @ kind kind || 'event'
+                    @ ns g_namespace
+                    [ contents
+            var newitems = []
+            foreach child in parent.items
+                if !titleDateWikiContents(child, eventObj, resultObj)
+                else
+                    set eventObj['unknown_tag_' + child.wzElement] = child.wzName                
+            if !eventObj.title
+                set eventObj.title
+                    {
+                        @ text eventObj.id
+            _ resultObj.events.push
+                @ eventObj

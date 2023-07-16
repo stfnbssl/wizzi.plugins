@@ -173,6 +173,7 @@ module
                             param item
                             param callback
                             if item.kind === 'css'
+                                $* OLD VIA
                                 if !csswizzifier
                                     set csswizzifier = require('../../cssparser/css/wizzifier')
                                 _ csswizzifier.getWizziTree
@@ -183,7 +184,17 @@ module
                                         _ item.node.children.push
                                             @ ittf
                                         r_cb()
+                                *$
+                                _ options.wf.getWizziTreeFromText
+                                    @ item.literal
+                                    @ "css"
+                                    a_cb_no_throw( ittf )
+                                        # loog 'getWizzifierIncludes.css.item.ittf', ittf
+                                        _ item.node.children.push
+                                            @ ittf
+                                        r_cb()
                             else
+                                $* OLD VIA
                                 if !htmlwizzifier
                                     set htmlwizzifier = require('../../htmlparser/wizzi/wizzifier')
                                 _ htmlwizzifier.getWizziTree
@@ -194,6 +205,16 @@ module
                                         _ item.node.children.push
                                             @ ittf
                                         r_cb()
+                                *$
+                                _ options.wf.getWizziTreeFromText
+                                    @ item.literal
+                                    @ "html"
+                                    a_cb_no_throw( ittf )
+                                        # loog 'getWizzifierIncludes.html.item.ittf', ittf
+                                        _ item.node.children.push
+                                            @ ittf
+                                        r_cb()
+
                         a_cb()
                             try
                                 $if wzConfigIsDocumentation

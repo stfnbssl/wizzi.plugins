@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.md\.wizzi-override\root\index.js.ittf
-    utc time: Tue, 11 Apr 2023 14:24:29 GMT
+    utc time: Tue, 13 Jun 2023 15:15:39 GMT
 */
 'use strict';
 
@@ -13,21 +13,6 @@ var errors = require('./errors');
 
 var md = module.exports = {};
 md.name = 'wizzi.plugin.md.index';
-
-// window(s) vars must be declared even if empty
-var window_modelFactories = {
-    'md': require('./lib/wizzi/models/md-factory.g')
- };
-var window_artifactGenerators = {
-    'md/document': require('./lib/artifacts/md/document/gen/main')
- };
-var window_transformers = {
-    'md/extended': require('./lib/artifacts/md/extended/trans/main')
- };
-var window_wizzifiers = {
-    'md/wizzifier': require('./lib/wizzifiers/md/wizzifier')
- };
-var window_schemaDefinitions = {};
 
 //
 class FactoryPlugin {
@@ -198,16 +183,38 @@ module.exports = {
                     "md"
                 ], 
                 artifactsGenerators: [
-                    "document"
+                    {
+                        name: "document", 
+                        outmime: "md", 
+                        contentType: "text/html", 
+                        isDefault: true
+                     }, 
+                    {
+                        name: "tocss", 
+                        outmime: "css", 
+                        contentType: "text/css", 
+                        isDefault: false
+                     }, 
+                    {
+                        name: "tohtml", 
+                        outmime: "html", 
+                        contentType: "text/html", 
+                        isDefault: false
+                     }
                 ], 
-                defaultArtifact: 'document'
+                defaultArtifact: 'document', 
+                dependency: [
+                    "html", 
+                    "css", 
+                    "json"
+                ]
              }
         ], 
-        modelTransformers: [
-            'md/extended'
-        ], 
+        modelTransformers: [], 
         artifactGenerators: [
-            'md/document'
+            'md/document', 
+            'md/tocss', 
+            'md/tohtml'
         ], 
         wizzifiers: [
             'md'

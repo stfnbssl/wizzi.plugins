@@ -1,0 +1,16 @@
+$group
+
+    function titleDateWikiContents
+        param parent
+        param currentObj
+        param resultObj
+            
+        if parent.wzElement == "title"
+            set currentObj.title = createTitle(parent) 
+        elif parent.wzElement == "date" || parent.wzElement == "period"
+            set currentObj.date = createDate(parent)
+        elif parent.wzElement == "wiki"
+            set currentObj.wiki = createWiki(parent, resultObj)
+        elif !fillContents(parent, currentObj, resultObj) 
+        else
+            return true

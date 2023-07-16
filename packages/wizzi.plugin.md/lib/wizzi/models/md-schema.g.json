@@ -307,6 +307,12 @@
           "tags": [
             "::css"
           ]
+        },
+        {
+          "name": "jsonInclude",
+          "tags": [
+            "---"
+          ]
         }
       ],
       "restricts": [],
@@ -2012,6 +2018,44 @@
       "isRoot": false,
       "tags": [
         "::css"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "attribute",
+          "role": "attributes",
+          "tags": [
+            "@"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "element",
+          "comments": []
+        },
+        {
+          "name": "element",
+          "role": "elements",
+          "tags": [
+            "<"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "element",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "jsonInclude",
+      "super": "element",
+      "isRoot": false,
+      "tags": [
+        "---"
       ],
       "flags": "",
       "attributes": [],

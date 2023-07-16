@@ -1,0 +1,35 @@
+docx default-styles
+
+    $*
+    interface IDefaultStylesOptions
+    readonly document?: IDocumentDefaultsOptions;
+    readonly title?: IBaseParagraphStyleOptions;
+    readonly heading1?: IBaseParagraphStyleOptions;
+    readonly heading2?: IBaseParagraphStyleOptions;
+    readonly heading3?: IBaseParagraphStyleOptions;
+    readonly heading4?: IBaseParagraphStyleOptions;
+    readonly heading5?: IBaseParagraphStyleOptions;
+    readonly heading6?: IBaseParagraphStyleOptions;
+    readonly strong?: IBaseParagraphStyleOptions;
+    readonly listParagraph?: IBaseParagraphStyleOptions;
+    readonly hyperlink?: IBaseCharacterStyleOptions;
+    readonly footnoteReference?: IBaseCharacterStyleOptions;
+    readonly footnoteText?: IBaseParagraphStyleOptions;
+    readonly footnoteTextChar?: IBaseCharacterStyleOptions;
+    *$
+
+    styles-def
+        default
+            style-def document
+                run
+                    size 28
+                    font Garamond
+
+
+    section one
+
+        page 
+            margins( 15 )
+            page-size( A4 )
+
+

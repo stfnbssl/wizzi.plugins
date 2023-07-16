@@ -1,0 +1,10 @@
+$group
+    $params test|@@null
+
+    var parentDocsNode = ctx.values.docsStack[ctx.values.docsStack.length-1]
+    var docsNode
+        {
+            $if test != null
+                @ test "${test}"
+            $hook
+    _ ctx.values.docsStack.push(docsNode)

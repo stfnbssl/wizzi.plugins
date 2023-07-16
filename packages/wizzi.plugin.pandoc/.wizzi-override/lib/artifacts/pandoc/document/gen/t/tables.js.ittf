@@ -1,0 +1,145 @@
+$group
+
+    
+    async-md( table )
+        # Table: Attr Caption [ColSpec] TableHead [TableBody] TableFoot	
+        # ColSpec:  Attr [Cell]	 
+        # TableHead: Attr [Row]
+        # TableBody: Attr RowHeadColumns(Int) [Row] [Row]	
+        # TableFoot: Attr [Row]
+        # Caption: Caption (Maybe ShortCaption) [Block]
+        # ShortCaption: [inline]
+        # TableHead: Attr [Row]
+        # Row: Attr [Cell]
+        # Cell: Attr Alignment RowSpan(Int) ColSpan(Int) [Block]	
+        # Alignment: AlignLeft | AlignRight	| AlignCenter | AlignDefault
+
+        pandocNodeInit()
+            @ jsonAttr defaultAttr()
+            [ jsonCaption
+                @ null
+                [
+            [ jsonColSpec
+            [ jsonTableHead
+                _ defaultAttr()
+                [ 
+            [ jsonTableBodies
+            [ jsonTableFoot
+                _ defaultAttr()
+                [ 
+
+        var jsonObject
+            {
+                @ t "Table"
+                [ c
+                    @ pandocNode.jsonAttr
+                    @ pandocNode.jsonCaption
+                    @ pandocNode.jsonColSpec
+                    @ pandocNode.jsonTableHead
+                    @ pandocNode.jsonTableBodies
+                    @ pandocNode.jsonTableFoot
+
+        pandocNodeExec()
+            log 'pandocNode.jsonTableBodies[0][3]', pandocNode.jsonTableBodies[0][3]
+            log 'pandocNode.jsonTableBodies[0][3][0]', pandocNode.jsonTableBodies[0][3][0]
+            if pandocNode.jsonTableBodies.length > 0 && pandocNode.jsonTableBodies[0][3].length > 0
+                foreach td in pandocNode.jsonTableBodies[0][3][0][1]
+                    _ pandocNode.jsonColSpec.push
+                        [
+                            {
+                                @ t "AlignDefault"
+                            {
+                                @ t "ColWidthDefault"
+            _ parentPandocNode.jsonBlocks.push
+                @ jsonObject
+
+    async-md( tableHead )
+        pandocNodeInit()
+            @ jsonAttr defaultAttr()
+            [ jsonTableRows
+        var jsonObject
+            {
+                @ t "TableHead"
+                [ c
+                    @ pandocNode.jsonAttr
+                    @ pandocNode.jsonTableRows
+        pandocNodeExec()
+            _ parentPandocNode.jsonTableHead = jsonObject
+                @ jsonObject
+    
+    async-md( tableBody )
+        pandocNodeInit()
+            @ jsonAttr defaultAttr()
+            @ jsonRowHeadColumns 0           
+            [ jsonTableRows
+        var jsonObject
+            $*
+            {
+                @ t "TableBody"
+                [ c
+            *$
+            [
+                @ pandocNode.jsonAttr
+                @ pandocNode.jsonRowHeadColumns
+                [
+                @ pandocNode.jsonTableRows
+        pandocNodeExec()
+            log 'tableBody.jsonObject', jsonObject
+            _ parentPandocNode.jsonTableBodies.push
+                @ jsonObject
+
+    async-md( tableFoot )
+        pandocNodeInit()
+            @ jsonAttr defaultAttr()
+            [ jsonTableRows
+        var jsonObject
+            {
+                @ t "TableFoot"
+                [ c
+                    @ pandocNode.jsonAttr
+                    @ pandocNode.jsonTableRows
+        pandocNodeExec()
+            _ parentPandocNode.jsonTableFoot = jsonObject
+    
+    async-md( tableRow )
+        pandocNodeInit()
+            @ jsonAttr defaultAttr()
+            [ jsonTableCells
+        var jsonObject
+            $*
+            {
+                @ t "Row"
+                [ c
+            *$
+            [
+                @ pandocNode.jsonAttr
+                @ pandocNode.jsonTableCells
+        pandocNodeExec()
+            _ parentPandocNode.jsonTableRows.push
+                @ jsonObject
+    
+    async-md( tableCell )
+        # Cell: Attr Alignment RowSpan(Int) ColSpan(Int) [Block]	
+        # Alignment: AlignLeft | AlignRight	| AlignCenter | AlignDefault
+        pandocNodeInit()
+            @ jsonAttr defaultAttr()
+            @ jsonAlignment "AlignDefault"
+            @ jsonRowSpan 1
+            @ jsonColSpan 1
+            [ jsonBlocks
+        var jsonObject
+            $*
+            {
+                @ t "Cell"
+                [ c
+            *$
+            [
+                @ pandocNode.jsonAttr
+                {
+                    @ t pandocNode.jsonAlignment
+                @ pandocNode.jsonRowSpan
+                @ pandocNode.jsonColSpan
+                @ pandocNode.jsonBlocks
+        pandocNodeExec()
+            _ parentPandocNode.jsonTableCells.push
+                @ jsonObject

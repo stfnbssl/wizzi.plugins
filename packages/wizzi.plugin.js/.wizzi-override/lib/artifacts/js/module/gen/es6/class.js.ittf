@@ -3,6 +3,7 @@ module wizzi.plugin.js.artifacts.module.gen.es6.class
 
 	var statement = require('../statement')
 	var method = require('./method')
+    var setter = require('./setter')
 	var handler = require('./handler')
 	var property = require('./property')
 	var html = require('./html')
@@ -47,11 +48,12 @@ module wizzi.plugin.js.artifacts.module.gen.es6.class
 			decl ctorArgs = ctor == null ? '' : ctor.paramNames.join(', ')
 			decl superArgs = ctor == null ? '' : (ctor.getBaseArgs() || '')
 
-		if zsuper || ctor
+		$$ if zsuper || ctor $$ VIA 23/6/23 
+        if ctor
 			_ ctx.w('constructor(' + ctorArgs + ') {')
 			_ ctx.indent();
 
-		if zsuper
+		if zsuper && ctor
 			_ ctx.w('super(' + superArgs + ');')
 
 		if ctor
@@ -73,10 +75,10 @@ module wizzi.plugin.js.artifacts.module.gen.es6.class
 							# VIA _ ctx.w('')
 							r_cb()
 		elif zsuper
-			$$ loog104
+			$* VIA 23/6/23
 			_ ctx.deindent();
 			_ ctx.w('}')
-			# VIA _ ctx.w('')
+            *$
 			r_cb()
 
 		else
@@ -92,6 +94,8 @@ module wizzi.plugin.js.artifacts.module.gen.es6.class
 				set generator = null
 			elif item_1.wzElement === 'method'
 				set generator = method
+			elif item_1.wzElement === 'setter'
+				set generator = setter
 			elif item_1.wzElement === 'arrowfunction'
 				set generator = handler
 			elif item_1.wzElement === 'html'

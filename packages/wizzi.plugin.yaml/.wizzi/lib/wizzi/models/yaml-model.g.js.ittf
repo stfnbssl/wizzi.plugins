@@ -7,7 +7,7 @@
 	var verify = require('wizzi-utils').verify
 	var errors = require('wizzi-utils').errors
     var jsyaml = require('js-yaml');
-    var lineparser = require('./lineParser')
+    var lineParser = require('./lineParser')
 	+
     set module.exports
 		function
@@ -63,7 +63,7 @@
                 @ indentString + node.n + ' ' + node.v
         elif node.n === ':'
             var nv
-                _ lineparser.parseNameValueRaw
+                _ lineParser.parseNameValueRaw
                     @ node.v
             _ sb.push
                 @ indentString + nv.name() + ': ' + nv.value()

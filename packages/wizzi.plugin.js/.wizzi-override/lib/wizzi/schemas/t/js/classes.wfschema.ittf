@@ -82,8 +82,8 @@
 		#     property options
 
 	e get : statement
-		
 		tag get
+        a_flag( static )
 
 		# es6 - Defines a getter on a new object in the object initializer
 		# reference https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Functions/get
@@ -98,6 +98,23 @@
 		#         return this.log[this.log.length - 1]
 		#
 		
+	e setter : function
+		tag setter
+
+        r param/s
+
+        # es6 - Defines a setter on a new object in the object initializer
+        # reference https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Functions/get
+        #
+        # the js-mtree-preprocessor translates from this ittf:
+        # set
+        #     param value
+        #
+        # to this one:
+        # setter
+        #     param value
+        #
+
 	e new : statement
 		# ittf:
 		#     var h

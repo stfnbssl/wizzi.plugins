@@ -1,0 +1,93 @@
+$group
+
+    
+    async-md( table )
+
+        docsNodeInit()
+            @ jsonAttr defaultAttr()
+            { jsonCaption
+            { jsonColSpec
+            { jsonTableHead
+            { jsonTableBody
+            { jsonTableFoot
+        var jsonObject
+            {
+                @ type 'table'
+                @ attr docsNode.jsonAttr
+                @ caption docsNode.jsonCaption
+                @ colSpec docsNode.jsonColSpec
+                @ tHead docsNode.jsonTableHead
+                @ tBody docsNode.jsonTableBody
+                @ tFoot docsNode.jsonTableFoot
+        docsNodeExec()
+            _ parentDocsNode.lines.push
+
+    async-md( tableHead )
+        docsNodeInit()
+            @ jsonAttr defaultAttr()
+            [ jsonTableRows
+        var jsonObject
+            {
+                @ type 'thead'
+                @ attr docsNode.jsonAttr
+                @ rows docsNode.jsonTableRows
+        docsNodeExec()
+            _ parentDocsNode.jsonTableHead = jsonObject
+    
+    async-md( tableBody )
+        docsNodeInit()
+            @ jsonAttr defaultAttr()
+            @ jsonRowHeadColumns 0           
+            [ jsonTableRows
+        var jsonObject
+            {
+                @ type 'tbody'
+                @ attr docsNode.jsonAttr
+                @ rowHeadColumns docsNode.jsonRowHeadColumns
+                @ rows docsNode.jsonTableRows
+        docsNodeExec()
+            _ parentDocsNode.jsonTableBody = jsonObject
+
+    async-md( tableFoot )
+        docsNodeInit()
+            @ jsonAttr defaultAttr()
+            [ jsonTableRows
+        var jsonObject
+            {
+                @ type 'tfoot'
+                @ attr docsNode.jsonAttr
+                @ rows docsNode.jsonTableRows
+        docsNodeExec()
+            _ parentDocsNode.jsonTableFoot = jsonObject
+    
+    async-md( tableRow )
+        docsNodeInit()
+            @ jsonAttr defaultAttr()
+            [ jsonTableCells
+        var jsonObject
+            {
+                @ type 'td'
+                @ attr docsNode.jsonAttr
+                @ cells docsNode.jsonTableCells
+        docsNodeExec()
+            _ parentDocsNode.jsonTableRows.push
+                @ jsonObject
+    
+    async-md( tableCell )
+        docsNodeInit()
+            @ jsonAttr defaultAttr()
+            @ jsonAlignment "default"
+            @ jsonRowSpan 1
+            @ jsonColSpan 1
+            [ jsonLines
+        var jsonObject
+            {
+                @ type 'td'
+                @ attr docsNode.jsonAttr
+                @ align docsNode.jsonAlignment
+                @ rowSpan docsNode.jsonRowSpan
+                @ colSpan docsNode.jsonColSpan
+                @ lines docsNode.jsonLines
+        docsNodeExec()
+            _ parentDocsNode.jsonTableCells.push
+                @ jsonObject

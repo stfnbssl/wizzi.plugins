@@ -11,25 +11,34 @@ module
 
         $append plugins
             [ items
-                @ './index.js'
-            @ pluginsBaseFolder
-                _ path.resolve
-                    @ __dirname
-                    @ '..'
+                @ './wizzi.plugin.docx/index.js'
+                @ './wizzi.plugin.json/index.js'
+            @ pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
         let arg = process.argv[2]
         const moduleName = arg && arg.length > 0 ? arg : 'first'
-        _ executeGenerateModules
-            [
-                @ moduleName
-            a_cb_no_throw( result )
+        _ getWzCtx        
+            _ path.resolve
+                @ __dirname
+                @ '..'
+                @ '.wizzi-override'
+                @ 'models'
+            a_cb_no_throw( wzCtx )
                 if err
-                    error 'docx/document.examples.executeGenerateModules.err', err
-                    error 'docx/document.examples.executeGenerateModules.err.toString()', err.toString()
-                    if err.inner
-                        error 'docx/document.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
-                else
+                    error err
+                _ executeGenerateModules
+                    [
+                        @ moduleName
+                    @ wzCtx
+                    a_cb_no_throw( result )
+                        if err
+                            error 'docx/document.examples.executeGenerateModules.err', err
+                            error 'docx/document.examples.executeGenerateModules.err.toString()', err.toString()
+                            if err.inner
+                                error 'docx/document.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
+                        else
         function executeGenerateModules
             param modules
+            param wzCtx
             param callback
             _ async.mapSeries
                 @ modules
@@ -46,10 +55,11 @@ module
                             @ __dirname
                             @ 'results'
                             @ 'docx'
-                            @ module + '-document.g.docx'
+                            @ module + '-document.g.docx.js'
                     _ loadModelAndGenerateArtifact
                         @ ittfDocumentUri
                         {
+                            @ wzCtx wzCtx
                         @ 'docx/document'
                         a_cb( artifactText )
                             _ file.write
@@ -66,7 +76,7 @@ module
                                     function
                                         param data
                                         _ printValue
-                                            @ 'c stdout'
+                                            @ 'docx stdout'
                                             _ data.toString
                                             @ 'dashes'
                             if docxProcess.stderr 
@@ -75,7 +85,7 @@ module
                                     function
                                         param data
                                         _ printValue
-                                            @ 'c stderr'
+                                            @ 'docx stderr'
                                             _ data.toString
                                             @ 'dashes'
                             _ docxProcess.on

@@ -22,7 +22,7 @@ var verify = wzutils.verify;
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\wizzi\schemas\js.wfschema.ittf
-    utc time: Tue, 16 May 2023 07:53:49 GMT
+    utc time: Tue, 27 Jun 2023 13:39:39 GMT
 */
 function isDescendentOf(model, ancestor) {
     if (!model.wzParent) {
@@ -712,6 +712,9 @@ var statement = (function (jsBase) {
         }
         if (name === 'switch') {
             return this.wzLoadToChildColl(child, _md.xswitch, this.statements);
+        }
+        else if (name === 'setter') {
+            return this.wzLoadToChildColl(child, _md.setter, this.statements);
         }
         else if (name === 'styled') {
             return this.wzLoadToChildColl(child, _md.styled, this.statements);
@@ -1768,7 +1771,7 @@ var xmodule = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\wizzi\schemas\js.wfschema.ittf
-            utc time: Tue, 16 May 2023 07:53:49 GMT
+            utc time: Tue, 27 Jun 2023 13:39:39 GMT
         */
         if (this.kind === 'react' || this.kind === 'es6') {
             this.ecma = 'es6';
@@ -1788,7 +1791,7 @@ var xmodule = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\wizzi\schemas\js.wfschema.ittf
-            utc time: Tue, 16 May 2023 07:53:49 GMT
+            utc time: Tue, 27 Jun 2023 13:39:39 GMT
         */
         var i, i_items=this.features, i_len=this.features.length, f;
         for (i=0; i<i_len; i++) {
@@ -1999,7 +2002,7 @@ var param = (function (jsBase) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\wizzi\schemas\js.wfschema.ittf
-            utc time: Tue, 16 May 2023 07:53:49 GMT
+            utc time: Tue, 27 Jun 2023 13:39:39 GMT
         */
         if (this.wzElement !== 'param' && !this.paramObjectPattern && !this.paramArrayPattern) {
             this.isRequired = true;
@@ -2570,7 +2573,7 @@ var arrayParam = (function (param) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\wizzi\schemas\js.wfschema.ittf
-            utc time: Tue, 16 May 2023 07:53:49 GMT
+            utc time: Tue, 27 Jun 2023 13:39:39 GMT
         */
         // loog 'wizzi-js.parameters.wfschema.objectParam', this.params, this.jsPropertyOrValues
         if (this.params.length == 0 && this.jsPropertyOrValues.length > 0) {
@@ -2883,7 +2886,7 @@ var objectParam = (function (param) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\wizzi\schemas\js.wfschema.ittf
-            utc time: Tue, 16 May 2023 07:53:49 GMT
+            utc time: Tue, 27 Jun 2023 13:39:39 GMT
         */
         // loog 'wizzi-js.parameters.wfschema.objectParam', this.params, this.jsPropertyOrValues
         if (this.params.length == 0 && this.jsPropertyOrValues.length > 0) {
@@ -3478,7 +3481,7 @@ var rangeFacet = (function (facet) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\wizzi\schemas\js.wfschema.ittf
-            utc time: Tue, 16 May 2023 07:53:49 GMT
+            utc time: Tue, 27 Jun 2023 13:39:39 GMT
         */
         if (this.wzName && this.wzName.length > 0) {
             var ss = this.wzName.split('-');
@@ -4118,7 +4121,7 @@ var ximport = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\wizzi\schemas\js.wfschema.ittf
-            utc time: Tue, 16 May 2023 07:53:49 GMT
+            utc time: Tue, 27 Jun 2023 13:39:39 GMT
         */
         this.specifiers = [];
         var temp = [];
@@ -4175,7 +4178,7 @@ var xexport = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\wizzi\schemas\js.wfschema.ittf
-            utc time: Tue, 16 May 2023 07:53:49 GMT
+            utc time: Tue, 27 Jun 2023 13:39:39 GMT
         */
         this.specifiers = [];
         var temp = [];
@@ -4784,7 +4787,7 @@ var jsObject = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\wizzi\schemas\js.wfschema.ittf
-            utc time: Tue, 16 May 2023 07:53:49 GMT
+            utc time: Tue, 27 Jun 2023 13:39:39 GMT
         */
         // a Dsl that uses this could be 'graphql'
         this.isDslCall = false;
@@ -4846,7 +4849,7 @@ var jsPropertyOrValue = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\wizzi\schemas\js.wfschema.ittf
-            utc time: Tue, 16 May 2023 07:53:49 GMT
+            utc time: Tue, 27 Jun 2023 13:39:39 GMT
         */
         // a Dsl that uses this could be 'graphql'
         this.isDslCall = false;
@@ -4878,7 +4881,7 @@ var jsPropertyOrValueComputed = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\wizzi\schemas\js.wfschema.ittf
-            utc time: Tue, 16 May 2023 07:53:49 GMT
+            utc time: Tue, 27 Jun 2023 13:39:39 GMT
         */
         // a Dsl that uses this could be 'graphql'
         this.isDslCall = false;
@@ -5073,7 +5076,7 @@ var xfunction = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\wizzi\schemas\js.wfschema.ittf
-            utc time: Tue, 16 May 2023 07:53:49 GMT
+            utc time: Tue, 27 Jun 2023 13:39:39 GMT
         */
         this.paramNames = [];
         this.constrainedParams = [];
@@ -5260,7 +5263,7 @@ var xclass = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\wizzi\schemas\js.wfschema.ittf
-            utc time: Tue, 16 May 2023 07:53:49 GMT
+            utc time: Tue, 27 Jun 2023 13:39:39 GMT
         */
         ctx.modelState = ctx.modelState || {};
         // loog 'wizzi-js.model.class.modelState', ctx.modelState
@@ -5284,7 +5287,7 @@ var xclass = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\wizzi\schemas\js.wfschema.ittf
-            utc time: Tue, 16 May 2023 07:53:49 GMT
+            utc time: Tue, 27 Jun 2023 13:39:39 GMT
         */
         return _.find(this.statements, function(item) { return item.wzElement === 'ctor' });
         
@@ -5354,7 +5357,7 @@ var ctor = (function (xfunction) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\wizzi\schemas\js.wfschema.ittf
-            utc time: Tue, 16 May 2023 07:53:49 GMT
+            utc time: Tue, 27 Jun 2023 13:39:39 GMT
         */
         var ret = [];
         var i, i_items=this.bases, i_len=this.bases.length, item;
@@ -5454,11 +5457,164 @@ var get = (function (statement) {
         _get(Object.getPrototypeOf(get.prototype), 'constructor', this).call(this, name,sourceLineInfo);
         _classCallCheck(this, get);
         this.wzElement = "get";
+        this.static = false;
+    }
+    get.prototype.loadChild = function(child) {
+        var ok = false, name = child.n.toLowerCase();
+        if (name === 'static') {
+            this.static = parseboolean(child.v, true, child); return true;
+        }
+        ok = _md.statement.prototype.loadChild.call(this, child);
+        return ok;
+    }
+    get.prototype.loadFromNode = function(node) {
+        node.children.forEach((item) => {
+        
+            var loaded = this.loadChild(item);
+            if (!loaded) {
+                throw new _md.jsModelException("Tag not recognized: " + item.n, item, this);
+            }
+        }
+        )
     }
     return get;
 })(statement);
 
 _md.get = get;
+// element setter
+var setter = (function (xfunction) {
+    _inherits(setter, xfunction);
+    function setter(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(setter.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, setter);
+        this.wzElement = "setter";
+        // relation param
+        this.params = [];
+    }
+    setter.prototype.addParam = function(name, sourceLineInfo) {
+        var retval = new _md.param(name, sourceLineInfo);
+        retval.wzParent = this;
+        this.params.push(retval);
+        return retval;
+    }
+    setter.prototype.getParam = function(name) {
+        var found = null;
+        this.params.forEach(function(item) {
+            found = found || (item.wzName === name ? item : null);
+        })
+        return found;
+    }
+    setter.prototype.loadChild = function(child) {
+        var ok = false, name = child.n.toLowerCase();
+        if (name === '[') {
+            return this.wzLoadToChildColl(child, _md.arrayParam, this.params);
+        }
+        if (name === '{') {
+            return this.wzLoadToChildColl(child, _md.objectParam, this.params);
+        }
+        if (name === '[{') {
+            return this.wzLoadToChildColl(child, _md.arrayOrObjectParam, this.params);
+        }
+        if (name === 'any') {
+            return this.wzLoadToChildColl(child, _md.anyParam, this.params);
+        }
+        if (name === 'date') {
+            return this.wzLoadToChildColl(child, _md.dateParam, this.params);
+        }
+        if (name === 'func') {
+            return this.wzLoadToChildColl(child, _md.functionParam, this.params);
+        }
+        if (name === 'node') {
+            return this.wzLoadToChildColl(child, _md.nodeParam, this.params);
+        }
+        if (name === 'exact') {
+            return this.wzLoadToChildColl(child, _md.exactParam, this.params);
+        }
+        if (name === 'oneof') {
+            return this.wzLoadToChildColl(child, _md.oneOfParam, this.params);
+        }
+        if (name === 'param') {
+            return this.wzLoadToChildColl(child, _md.param, this.params);
+        }
+        if (name === 'shape') {
+            return this.wzLoadToChildColl(child, _md.shapeParam, this.params);
+        }
+        if (name === 'number') {
+            return this.wzLoadToChildColl(child, _md.numberParam, this.params);
+        }
+        if (name === 'one-of') {
+            return this.wzLoadToChildColl(child, _md.oneOfParam, this.params);
+        }
+        if (name === 'string') {
+            return this.wzLoadToChildColl(child, _md.stringParam, this.params);
+        }
+        else if (name === 'symbol') {
+            return this.wzLoadToChildColl(child, _md.symbolParam, this.params);
+        }
+        if (name === 'boolean') {
+            return this.wzLoadToChildColl(child, _md.booleanParam, this.params);
+        }
+        if (name === 'element') {
+            return this.wzLoadToChildColl(child, _md.elementParam, this.params);
+        }
+        if (name === 'callback') {
+            return this.wzLoadToChildColl(child, _md.callbackParam, this.params);
+        }
+        if (name === 'oneoftype') {
+            return this.wzLoadToChildColl(child, _md.oneOfTypeParam, this.params);
+        }
+        if (name === 'instanceof') {
+            return this.wzLoadToChildColl(child, _md.instanceOfParam, this.params);
+        }
+        if (name === 'reactstyle') {
+            return this.wzLoadToChildColl(child, _md.reactStyleParam, this.params);
+        }
+        if (name === 'instance-of') {
+            return this.wzLoadToChildColl(child, _md.instanceOfParam, this.params);
+        }
+        if (name === 'one-of-type') {
+            return this.wzLoadToChildColl(child, _md.oneOfTypeParam, this.params);
+        }
+        if (name === 'react-style') {
+            return this.wzLoadToChildColl(child, _md.reactStyleParam, this.params);
+        }
+        if (name === 'optionscallback') {
+            return this.wzLoadToChildColl(child, _md.optionsCallbackParam, this.params);
+        }
+        if (name === 'options-callback') {
+            return this.wzLoadToChildColl(child, _md.optionsCallbackParam, this.params);
+        }
+        ok = _md.xfunction.prototype.loadChild.call(this, child);
+        return ok;
+    }
+    setter.prototype.loadFromNode = function(node) {
+        node.children.forEach((item) => {
+        
+            var loaded = this.loadChild(item);
+            if (!loaded) {
+                throw new _md.jsModelException("Tag not recognized: " + item.n, item, this);
+            }
+        }
+        )
+    }
+    setter.prototype.wzVerify = function(ctx) {
+        this.params.forEach(item => 
+        
+            item.wzVerify(ctx)
+        )
+        _md.xfunction.prototype.wzVerify.call(this, ctx);
+    }
+    setter.prototype.wzInitialize = function(ctx) {
+        this.params.forEach(item => 
+        
+            item.wzInitialize(ctx)
+        )
+        _md.xfunction.prototype.wzInitialize.call(this, ctx);
+    }
+    return setter;
+})(xfunction);
+
+_md.setter = setter;
 // element xnew
 var xnew = (function (statement) {
     _inherits(xnew, statement);
@@ -5497,7 +5653,7 @@ var template = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\wizzi\schemas\js.wfschema.ittf
-            utc time: Tue, 16 May 2023 07:53:49 GMT
+            utc time: Tue, 27 Jun 2023 13:39:39 GMT
         */
         var i, i_items=this.statements, i_len=this.statements.length, item;
         for (i=0; i<i_len; i++) {
@@ -5525,7 +5681,7 @@ var taggedTemplate = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\wizzi\schemas\js.wfschema.ittf
-            utc time: Tue, 16 May 2023 07:53:49 GMT
+            utc time: Tue, 27 Jun 2023 13:39:39 GMT
         */
         var i, i_items=this.statements, i_len=this.statements.length, item;
         for (i=0; i<i_len; i++) {
@@ -5553,7 +5709,7 @@ var tagFunctionCall = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\wizzi\schemas\js.wfschema.ittf
-            utc time: Tue, 16 May 2023 07:53:49 GMT
+            utc time: Tue, 27 Jun 2023 13:39:39 GMT
         */
         var i, i_items=this.statements, i_len=this.statements.length, item;
         for (i=0; i<i_len; i++) {
@@ -5614,7 +5770,7 @@ var reactComponent = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\wizzi\schemas\js.wfschema.ittf
-            utc time: Tue, 16 May 2023 07:53:49 GMT
+            utc time: Tue, 27 Jun 2023 13:39:39 GMT
         */
         ctx.modelState = ctx.modelState || {};
         // loog 'wizzi-js.model.class.modelState', ctx.modelState
@@ -8184,7 +8340,7 @@ var graphqlQuery = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\wizzi\schemas\js.wfschema.ittf
-            utc time: Tue, 16 May 2023 07:53:49 GMT
+            utc time: Tue, 27 Jun 2023 13:39:39 GMT
         */
         // if this.wzParent.wzElement == 'xcall'
         // set this.isGraphqlParameter = true

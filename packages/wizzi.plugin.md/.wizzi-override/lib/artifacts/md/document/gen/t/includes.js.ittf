@@ -11,3 +11,12 @@ $group
     async-md( cssInclude )
         # do nothing, css must be produced by the 'tocss' artifact generator
         r_cb( true )
+    async-md( jsonInclude )
+        if model.get_json
+            _ included_writers.writeIncludeJson
+                @ ctx
+                @ model
+                a_cb( notUsed )
+                    r_cb( true )
+        else
+            r_cb( true )

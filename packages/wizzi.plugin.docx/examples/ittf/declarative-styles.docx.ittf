@@ -1,0 +1,146 @@
+docx declarative-styles
+
+    creator Stefi
+    title Sample styled Document
+    description A brief example of using docx declarative styles
+
+    styles-def
+        default
+            style-def heading1
+                run
+                    size 28
+                    bold
+                    italics
+                    color FF0000
+                paragraph
+                    spacing
+                        after 120
+            style-def heading2
+                run
+                    size 26
+                    bold
+                    underline
+                        type DOUBLE
+                    color FF0000
+                paragraph
+                    spacing
+                        before 240
+                        after 120
+            style-def listParagraph
+                run
+                    color #FF0000
+
+        paragraph-styles
+            style-def aside
+                name Aside
+                basedOn Normal
+                next Normal
+                run
+                    color 999999
+                    italics
+                paragraph
+                    indent
+                        left =convertInchesToTwip(0.5)
+                    spacing
+                        line 276
+            style-def wellSpaced
+                name Well Spaced
+                basedOn Normal
+                quickFormat true
+                paragraph
+                    spacing
+                        line 276
+                        before 20 * 72 * 0.1
+                        after 20 * 72 * 0.05
+            
+            style-def strikeUnderline
+                name Strike Underline
+                basedOn Normal
+                quickFormat true
+                run
+                    strike true
+                    underline
+                        type SINGLE
+
+        character-styles
+            style-def strikeUnderlineCharacter
+                name Strike Underline
+                basedOn Normal
+                quickFormat true
+                run
+                    strike
+                    underline
+                        type SINGLE
+    numbering-def
+        config
+            reference my-crazy-numbering
+            level 0
+                format LOWER_LETTER
+                text %1)
+                alignment LEFT
+
+    section one
+        h1 Test heading1, bold and italicized
+        p Some simple content
+        h2 Test heading2 with double red underline
+        p
+            + Option1
+            numbering
+                reference my-crazy-numbering
+                level 0
+            style aside
+        p
+            + Option5 -- override 2 to 5
+            numbering
+                reference my-crazy-numbering
+                level 0
+        p
+            + Option3
+            numbering
+                reference my-crazy-numbering
+                level 0
+        p
+            + Some monospaced content
+                font
+                    name Monospace
+        
+        p An aside, in light gray italics and indented
+            style aside
+        
+        p This is normal, but well-spaced text
+            style wellSpaced
+        p
+            + This is a bold run
+                bold
+            + &nbsp;switching to normal&nbsp;
+            + and then underlined&nbsp;
+                underline
+            + and then emphasis-mark,&nbsp;
+                emphasisMark
+            + and back to normal.
+            + This text will be invisible!
+                vanish true
+            + This text will be VERY invisible! Word processors cannot override this!
+                spec-vanish true
+        p
+            style Strong
+            + Strong Style
+            + &nbsp;- Very strong.
+        
+        p
+            style strikeUnderline
+            + Underline and Strike
+            + &nbsp;Override Underline&nbsp;
+                underline
+                    type NONE
+            + Strike and Underline
+        p
+            + Hello World&nbsp;
+            + Underline and Strike&nbsp;
+                style strikeUnderlineCharacter
+            + &nbsp;Another Hello World
+            + &nbsp;Scaled text
+                scale 50
+        p
+            scale 200
+            + Scaled paragraph

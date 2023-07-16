@@ -1,0 +1,70 @@
+const fs = require("fs");
+const docx = require("docx");
+const convertInchesToTwip = docx.convertInchesToTwip;
+const convertMillimetersToTwip = docx.convertMillimetersToTwip;
+
+const docx_doc_1 = { sections: [], styles: [] };
+const docx_sect_2 = { properties: {}, headers:{}, footers:{}, children: [] };
+const docx_page_3 = {};
+const docx_margin_4 = {};
+docx_margin_4.top = convertInchesToTwip(1.2);
+docx_margin_4.right = convertInchesToTwip(1.2);
+docx_margin_4.bottom = convertInchesToTwip(1.2);
+docx_margin_4.left = convertInchesToTwip(1.2);
+docx_page_3.margin = docx_margin_4;
+docx_sect_2.properties.page = docx_page_3;
+const docx_par_5 = { children: []};
+docx_par_5.text = "Positional tabs";
+docx_par_5.heading = docx.HeadingLevel.HEADING_1;
+const docx_par_5Obj = new docx.Paragraph(docx_par_5);
+docx_sect_2.children.push(docx_par_5Obj);
+const docx_paragraph_6 = {};
+docx_paragraph_6.children = [];
+docx_paragraph_6.tabStops = [];
+const docx_txt_7 = {};
+docx_txt_7.text = "Full name";
+const docx_txt_7Obj = new docx.TextRun(docx_txt_7);
+docx_paragraph_6.children.push(docx_txt_7Obj);
+const docx_txt_8 = {};
+docx_txt_8.children = [];
+const docx_positionalTab_9 = {};
+docx_positionalTab_9.alignment = docx.PositionalTabAlignment.RIGHT;
+docx_positionalTab_9.relativeTo = docx.PositionalTabRelativeTo.MARGIN;
+docx_positionalTab_9.leader = docx.PositionalTabLeader.DOT;
+const docx_positionalTab_9Obj = new docx.PositionalTab(docx_positionalTab_9);
+docx_txt_8.children.push(docx_positionalTab_9Obj);
+docx_txt_8.children.push("John Doe");
+docx_txt_8.bold = true;
+const docx_txt_8Obj = new docx.TextRun(docx_txt_8);
+docx_paragraph_6.children.push(docx_txt_8Obj);
+const docx_paragraph_6Obj = new docx.Paragraph(docx_paragraph_6);
+docx_sect_2.children.push(docx_paragraph_6Obj);
+const docx_paragraph_10 = {};
+docx_paragraph_10.children = [];
+docx_paragraph_10.tabStops = [];
+const docx_txt_11 = {};
+docx_txt_11.text = "Hello World";
+const docx_txt_11Obj = new docx.TextRun(docx_txt_11);
+docx_paragraph_10.children.push(docx_txt_11Obj);
+const docx_txt_12 = {};
+docx_txt_12.children = [];
+const docx_positionalTab_13 = {};
+docx_positionalTab_13.alignment = docx.PositionalTabAlignment.CENTER;
+docx_positionalTab_13.relativeTo = docx.PositionalTabRelativeTo.INDENT;
+docx_positionalTab_13.leader = docx.PositionalTabLeader.HYPHEN;
+const docx_positionalTab_13Obj = new docx.PositionalTab(docx_positionalTab_13);
+docx_txt_12.children.push(docx_positionalTab_13Obj);
+docx_txt_12.children.push("Foo Bar");
+docx_txt_12.bold = true;
+const docx_txt_12Obj = new docx.TextRun(docx_txt_12);
+docx_paragraph_10.children.push(docx_txt_12Obj);
+const docx_paragraph_10Obj = new docx.Paragraph(docx_paragraph_10);
+docx_sect_2.children.push(docx_paragraph_10Obj);
+docx_doc_1.sections.push(docx_sect_2)
+
+const docx_MainObject = new docx.Document(docx_doc_1);
+
+docx.Packer.toBuffer(docx_MainObject).then((buffer) => {
+    fs.writeFileSync("positional-tabs.docx", buffer);
+    console.log("DONE written")
+});

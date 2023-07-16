@@ -2,24 +2,27 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.md\.wizzi-override\lib\wizzifiers\md\wizzifier.js.ittf
-    utc time: Tue, 11 Apr 2023 14:24:31 GMT
+    utc time: Tue, 13 Jun 2023 15:15:41 GMT
 */
 'use strict';
 var util = require('util');
 var async = require('async');
 var stringify = require('json-stringify-safe');
 var verify = require('wizzi-utils').verify;
-var lineparser = require('../utils/lineparser');
+var lineParser = require('../utils/lineParser');
 var file = require('wizzi-utils').file;
 var cloner = require('../utils/cloner');
 var ittfwriter = require("../utils/ittfwriter");
+var matter = require('gray-matter');
 var md_parser = require('marked');
 var md_Lexer = require('marked').Lexer;
 var cleanAST = require('./cleanAST');
 
 function parseInternal(tobeWizzified, options, callback) {
     try {
-        var syntax = md_Lexer.lex(tobeWizzified);
+        var parsed_matter = matter(tobeWizzified);
+        var syntax = md_Lexer.lex(parsed_matter.content);
+        syntax.__frontMatter = parsed_matter.isEmpty ? null : parsed_matter.data;
         return callback(null, syntax);
     } 
     catch (ex) {
@@ -110,21 +113,61 @@ function wizzify(tobeWizzified, options, callback) {
         if (err) {
             return callback(err);
         }
-        // log stringify(syntax, null, 2)
         var root = {
             tag: 'md', 
             children: [
                 
             ]
          };
-        var i, i_items=syntax, i_len=syntax.length, item;
-        for (i=0; i<i_len; i++) {
-            item = syntax[i];
-            format(root, item, options);
+        processFrontMatter(syntax, options, root, (err, root) => {
+        
+            var i, i_items=syntax, i_len=syntax.length, item;
+            for (i=0; i<i_len; i++) {
+                item = syntax[i];
+                format(root, item, options);
+            }
+            return callback(null, root);
         }
-        return callback(null, root);
+        )
     }
     )
+}
+
+function processFrontMatter(syntax, options, root, callback) {
+    if (syntax.__frontMatter) {
+        options.wf.getWizziTreeFromText(JSON.stringify(syntax.__frontMatter), "json", (err, ittf) => {
+        
+            var fmIttf = {
+                tag: '---', 
+                children: [
+                    
+                ]
+             };
+            appendIttf(fmIttf, ittf)
+            root.children.push(fmIttf)
+            return callback(null, root);
+        }
+        )
+    }
+    else {
+        return callback(null, root);
+    }
+}
+
+function appendIttf(node, ittf) {
+    var toAppend = {
+        tag: ittf.tag, 
+        name: ittf.name, 
+        children: [
+            
+        ]
+     };
+    var i, i_items=ittf.children, i_len=ittf.children.length, item;
+    for (i=0; i<i_len; i++) {
+        item = ittf.children[i];
+        appendIttf(toAppend, item)
+    }
+    node.children.push(toAppend)
 }
 
 var format = function(parent, ast, options) {
@@ -144,14 +187,12 @@ var format = function(parent, ast, options) {
             throw new Error('parent is null.' + util.inspect(ast, 4));
         }
     }
-    if (options.verbose) {
-        console.log('ast.type', ast.type);
-    }
     var type = ast.type === 'arguments' ? 'xarguments' : ast.type;
     var formatter = format[type];
     if (formatter) {
+        
+        // loog "options.stack", options
         if (!options.stack) {
-            console.log("options.stack", options, __filename);
         }
         options.stack.push(ast);
         var result = formatter(parent, ast, options);
@@ -162,18 +203,16 @@ var format = function(parent, ast, options) {
         throw new Error('no formatter for type: ' + ast.type);
     }
 };
+
 // process AST node blockquote
 format.blockquote = function(parent, node, options) {
-    console.log('node : blockquote ----------------------------------------- parent ittf tag : ', parent.tag);
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
         if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
             if (verify.isNotEmpty(node[item])) {
-                console.log('property', item, node[item], verify.isArray(node[item]) ? 'array' : '');
             }
             else {
-                console.log('property', item, verify.isArray(node[item]) ? 'array' : '');
             }
         }
     }
@@ -199,16 +238,13 @@ format.blockquote = function(parent, node, options) {
 ;
 // process AST node code
 format.code = function(parent, node, options) {
-    console.log('node : code ----------------------------------------- parent ittf tag : ', parent.tag);
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
         if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
             if (verify.isNotEmpty(node[item])) {
-                console.log('property', item, node[item], verify.isArray(node[item]) ? 'array' : '');
             }
             else {
-                console.log('property', item, verify.isArray(node[item]) ? 'array' : '');
             }
         }
     }
@@ -242,16 +278,13 @@ format.code = function(parent, node, options) {
 ;
 // process AST node codespan
 format.codespan = function(parent, node, options) {
-    console.log('node : codespan ----------------------------------------- parent ittf tag : ', parent.tag);
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
         if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
             if (verify.isNotEmpty(node[item])) {
-                console.log('property', item, node[item], verify.isArray(node[item]) ? 'array' : '');
             }
             else {
-                console.log('property', item, verify.isArray(node[item]) ? 'array' : '');
             }
         }
     }
@@ -273,16 +306,13 @@ format.codespan = function(parent, node, options) {
 ;
 // process AST node del
 format.del = function(parent, node, options) {
-    console.log('node : del ----------------------------------------- parent ittf tag : ', parent.tag);
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
         if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
             if (verify.isNotEmpty(node[item])) {
-                console.log('property', item, node[item], verify.isArray(node[item]) ? 'array' : '');
             }
             else {
-                console.log('property', item, verify.isArray(node[item]) ? 'array' : '');
             }
         }
     }
@@ -308,16 +338,13 @@ format.del = function(parent, node, options) {
 ;
 // process AST node em
 format.em = function(parent, node, options) {
-    console.log('node : em ----------------------------------------- parent ittf tag : ', parent.tag);
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
         if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
             if (verify.isNotEmpty(node[item])) {
-                console.log('property', item, node[item], verify.isArray(node[item]) ? 'array' : '');
             }
             else {
-                console.log('property', item, verify.isArray(node[item]) ? 'array' : '');
             }
         }
     }
@@ -343,16 +370,13 @@ format.em = function(parent, node, options) {
 ;
 // process AST node escape
 format.escape = function(parent, node, options) {
-    console.log('node : escape ----------------------------------------- parent ittf tag : ', parent.tag);
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
         if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
             if (verify.isNotEmpty(node[item])) {
-                console.log('property', item, node[item], verify.isArray(node[item]) ? 'array' : '');
             }
             else {
-                console.log('property', item, verify.isArray(node[item]) ? 'array' : '');
             }
         }
     }
@@ -372,16 +396,13 @@ format.escape = function(parent, node, options) {
 ;
 // process AST node heading
 format.heading = function(parent, node, options) {
-    console.log('node : heading ----------------------------------------- parent ittf tag : ', parent.tag);
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
         if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
             if (verify.isNotEmpty(node[item])) {
-                console.log('property', item, node[item], verify.isArray(node[item]) ? 'array' : '');
             }
             else {
-                console.log('property', item, verify.isArray(node[item]) ? 'array' : '');
             }
         }
     }
@@ -409,16 +430,13 @@ format.heading = function(parent, node, options) {
 ;
 // process AST node hr
 format.hr = function(parent, node, options) {
-    console.log('node : hr ----------------------------------------- parent ittf tag : ', parent.tag);
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
         if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
             if (verify.isNotEmpty(node[item])) {
-                console.log('property', item, node[item], verify.isArray(node[item]) ? 'array' : '');
             }
             else {
-                console.log('property', item, verify.isArray(node[item]) ? 'array' : '');
             }
         }
     }
@@ -438,16 +456,13 @@ format.hr = function(parent, node, options) {
 ;
 // process AST node html
 format.html = function(parent, node, options) {
-    console.log('node : html ----------------------------------------- parent ittf tag : ', parent.tag);
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
         if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
             if (verify.isNotEmpty(node[item])) {
-                console.log('property', item, node[item], verify.isArray(node[item]) ? 'array' : '');
             }
             else {
-                console.log('property', item, verify.isArray(node[item]) ? 'array' : '');
             }
         }
     }
@@ -468,16 +483,13 @@ format.html = function(parent, node, options) {
 ;
 // process AST node image
 format.image = function(parent, node, options) {
-    console.log('node : image ----------------------------------------- parent ittf tag : ', parent.tag);
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
         if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
             if (verify.isNotEmpty(node[item])) {
-                console.log('property', item, node[item], verify.isArray(node[item]) ? 'array' : '');
             }
             else {
-                console.log('property', item, verify.isArray(node[item]) ? 'array' : '');
             }
         }
     }
@@ -491,7 +503,7 @@ format.image = function(parent, node, options) {
             
         ]
      };
-    format.href(ret, {
+    format.src(ret, {
         text: node.href
      }, options)
     format.title(ret, {
@@ -503,16 +515,13 @@ format.image = function(parent, node, options) {
 ;
 // process AST node link
 format.link = function(parent, node, options) {
-    console.log('node : link ----------------------------------------- parent ittf tag : ', parent.tag);
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
         if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
             if (verify.isNotEmpty(node[item])) {
-                console.log('property', item, node[item], verify.isArray(node[item]) ? 'array' : '');
             }
             else {
-                console.log('property', item, verify.isArray(node[item]) ? 'array' : '');
             }
         }
     }
@@ -546,16 +555,13 @@ format.link = function(parent, node, options) {
 ;
 // process AST node list
 format.list = function(parent, node, options) {
-    console.log('node : list ----------------------------------------- parent ittf tag : ', parent.tag);
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
         if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
             if (verify.isNotEmpty(node[item])) {
-                console.log('property', item, node[item], verify.isArray(node[item]) ? 'array' : '');
             }
             else {
-                console.log('property', item, verify.isArray(node[item]) ? 'array' : '');
             }
         }
     }
@@ -595,16 +601,13 @@ format.list = function(parent, node, options) {
 ;
 // process AST node list_item
 format.list_item = function(parent, node, options) {
-    console.log('node : list_item ----------------------------------------- parent ittf tag : ', parent.tag);
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
         if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
             if (verify.isNotEmpty(node[item])) {
-                console.log('property', item, node[item], verify.isArray(node[item]) ? 'array' : '');
             }
             else {
-                console.log('property', item, verify.isArray(node[item]) ? 'array' : '');
             }
         }
     }
@@ -640,16 +643,13 @@ format.list_item = function(parent, node, options) {
 ;
 // process AST node paragraph
 format.paragraph = function(parent, node, options) {
-    console.log('node : paragraph ----------------------------------------- parent ittf tag : ', parent.tag);
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
         if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
             if (verify.isNotEmpty(node[item])) {
-                console.log('property', item, node[item], verify.isArray(node[item]) ? 'array' : '');
             }
             else {
-                console.log('property', item, verify.isArray(node[item]) ? 'array' : '');
             }
         }
     }
@@ -676,16 +676,13 @@ format.paragraph = function(parent, node, options) {
 ;
 // process AST node space
 format.space = function(parent, node, options) {
-    console.log('node : space ----------------------------------------- parent ittf tag : ', parent.tag);
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
         if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
             if (verify.isNotEmpty(node[item])) {
-                console.log('property', item, node[item], verify.isArray(node[item]) ? 'array' : '');
             }
             else {
-                console.log('property', item, verify.isArray(node[item]) ? 'array' : '');
             }
         }
     }
@@ -705,16 +702,13 @@ format.space = function(parent, node, options) {
 ;
 // process AST node strong
 format.strong = function(parent, node, options) {
-    console.log('node : strong ----------------------------------------- parent ittf tag : ', parent.tag);
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
         if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
             if (verify.isNotEmpty(node[item])) {
-                console.log('property', item, node[item], verify.isArray(node[item]) ? 'array' : '');
             }
             else {
-                console.log('property', item, verify.isArray(node[item]) ? 'array' : '');
             }
         }
     }
@@ -740,16 +734,13 @@ format.strong = function(parent, node, options) {
 ;
 // process AST node table
 format.table = function(parent, node, options) {
-    console.log('node : table ----------------------------------------- parent ittf tag : ', parent.tag);
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
         if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
             if (verify.isNotEmpty(node[item])) {
-                console.log('property', item, node[item], verify.isArray(node[item]) ? 'array' : '');
             }
             else {
-                console.log('property', item, verify.isArray(node[item]) ? 'array' : '');
             }
         }
     }
@@ -785,16 +776,13 @@ format.table = function(parent, node, options) {
 ;
 // process AST node tr
 format.tr = function(parent, node, options) {
-    console.log('node : tr ----------------------------------------- parent ittf tag : ', parent.tag);
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
         if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
             if (verify.isNotEmpty(node[item])) {
-                console.log('property', item, node[item], verify.isArray(node[item]) ? 'array' : '');
             }
             else {
-                console.log('property', item, verify.isArray(node[item]) ? 'array' : '');
             }
         }
     }
@@ -822,16 +810,13 @@ format.tr = function(parent, node, options) {
 ;
 // process AST node td
 format.td = function(parent, node, options) {
-    console.log('node : td ----------------------------------------- parent ittf tag : ', parent.tag);
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
         if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
             if (verify.isNotEmpty(node[item])) {
-                console.log('property', item, node[item], verify.isArray(node[item]) ? 'array' : '');
             }
             else {
-                console.log('property', item, verify.isArray(node[item]) ? 'array' : '');
             }
         }
     }
@@ -845,7 +830,7 @@ format.td = function(parent, node, options) {
             
         ]
      };
-    console.log('td.node.item', node.item, __filename);
+    // loog 'td.node.item', node.item
     node.item.type = node.item.type || 'text';
     format(ret, node.item, options);
     // loog '### add ', ret.tag , 'to', parent.tag
@@ -854,16 +839,13 @@ format.td = function(parent, node, options) {
 ;
 // process AST node th
 format.th = function(parent, node, options) {
-    console.log('node : th ----------------------------------------- parent ittf tag : ', parent.tag);
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
         if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
             if (verify.isNotEmpty(node[item])) {
-                console.log('property', item, node[item], verify.isArray(node[item]) ? 'array' : '');
             }
             else {
-                console.log('property', item, verify.isArray(node[item]) ? 'array' : '');
             }
         }
     }
@@ -877,7 +859,7 @@ format.th = function(parent, node, options) {
             
         ]
      };
-    console.log('th.node.item', node.item, __filename);
+    // loog 'th.node.item', node.item
     node.item.type = node.item.type || 'text';
     format(ret, node.item, options);
     // loog '### add ', ret.tag , 'to', parent.tag
@@ -886,16 +868,13 @@ format.th = function(parent, node, options) {
 ;
 // process AST node text
 format.text = function(parent, node, options) {
-    console.log('node : text ----------------------------------------- parent ittf tag : ', parent.tag);
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
         if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
             if (verify.isNotEmpty(node[item])) {
-                console.log('property', item, node[item], verify.isArray(node[item]) ? 'array' : '');
             }
             else {
-                console.log('property', item, verify.isArray(node[item]) ? 'array' : '');
             }
         }
     }
@@ -945,16 +924,13 @@ format.text = function(parent, node, options) {
 ;
 // process AST node href
 format.href = function(parent, node, options) {
-    console.log('node : href ----------------------------------------- parent ittf tag : ', parent.tag);
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
         if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
             if (verify.isNotEmpty(node[item])) {
-                console.log('property', item, node[item], verify.isArray(node[item]) ? 'array' : '');
             }
             else {
-                console.log('property', item, verify.isArray(node[item]) ? 'array' : '');
             }
         }
     }
@@ -973,18 +949,42 @@ format.href = function(parent, node, options) {
     parent.children.push(ret);
 }
 ;
-// process AST node lang
-format.lang = function(parent, node, options) {
-    console.log('node : lang ----------------------------------------- parent ittf tag : ', parent.tag);
+// process AST node src
+format.src = function(parent, node, options) {
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
         if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
             if (verify.isNotEmpty(node[item])) {
-                console.log('property', item, node[item], verify.isArray(node[item]) ? 'array' : '');
             }
             else {
-                console.log('property', item, verify.isArray(node[item]) ? 'array' : '');
+            }
+        }
+    }
+    var ret = {
+        tag: 'src', 
+        name: '', 
+        isText: false, 
+        textified: null, 
+        source: options.input.substring(node.start, node.end), 
+        children: [
+            
+        ]
+     };
+    ret.name = node.text;
+    // loog '### add ', ret.tag , 'to', parent.tag
+    parent.children.push(ret);
+}
+;
+// process AST node lang
+format.lang = function(parent, node, options) {
+    var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
+    for (i=0; i<i_len; i++) {
+        item = Object.keys(node)[i];
+        if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
+            if (verify.isNotEmpty(node[item])) {
+            }
+            else {
             }
         }
     }
@@ -1005,16 +1005,13 @@ format.lang = function(parent, node, options) {
 ;
 // process AST node loose
 format.loose = function(parent, node, options) {
-    console.log('node : loose ----------------------------------------- parent ittf tag : ', parent.tag);
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
         if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
             if (verify.isNotEmpty(node[item])) {
-                console.log('property', item, node[item], verify.isArray(node[item]) ? 'array' : '');
             }
             else {
-                console.log('property', item, verify.isArray(node[item]) ? 'array' : '');
             }
         }
     }
@@ -1034,16 +1031,13 @@ format.loose = function(parent, node, options) {
 ;
 // process AST node ordered
 format.ordered = function(parent, node, options) {
-    console.log('node : ordered ----------------------------------------- parent ittf tag : ', parent.tag);
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
         if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
             if (verify.isNotEmpty(node[item])) {
-                console.log('property', item, node[item], verify.isArray(node[item]) ? 'array' : '');
             }
             else {
-                console.log('property', item, verify.isArray(node[item]) ? 'array' : '');
             }
         }
     }
@@ -1063,16 +1057,13 @@ format.ordered = function(parent, node, options) {
 ;
 // process AST node start
 format.start = function(parent, node, options) {
-    console.log('node : start ----------------------------------------- parent ittf tag : ', parent.tag);
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
         if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
             if (verify.isNotEmpty(node[item])) {
-                console.log('property', item, node[item], verify.isArray(node[item]) ? 'array' : '');
             }
             else {
-                console.log('property', item, verify.isArray(node[item]) ? 'array' : '');
             }
         }
     }
@@ -1093,16 +1084,13 @@ format.start = function(parent, node, options) {
 ;
 // process AST node style
 format.style = function(parent, node, options) {
-    console.log('node : style ----------------------------------------- parent ittf tag : ', parent.tag);
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
         if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
             if (verify.isNotEmpty(node[item])) {
-                console.log('property', item, node[item], verify.isArray(node[item]) ? 'array' : '');
             }
             else {
-                console.log('property', item, verify.isArray(node[item]) ? 'array' : '');
             }
         }
     }
@@ -1123,16 +1111,13 @@ format.style = function(parent, node, options) {
 ;
 // process AST node task
 format.task = function(parent, node, options) {
-    console.log('node : task ----------------------------------------- parent ittf tag : ', parent.tag);
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
         if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
             if (verify.isNotEmpty(node[item])) {
-                console.log('property', item, node[item], verify.isArray(node[item]) ? 'array' : '');
             }
             else {
-                console.log('property', item, verify.isArray(node[item]) ? 'array' : '');
             }
         }
     }
@@ -1153,16 +1138,13 @@ format.task = function(parent, node, options) {
 ;
 // process AST node title
 format.title = function(parent, node, options) {
-    console.log('node : title ----------------------------------------- parent ittf tag : ', parent.tag);
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
         if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
             if (verify.isNotEmpty(node[item])) {
-                console.log('property', item, node[item], verify.isArray(node[item]) ? 'array' : '');
             }
             else {
-                console.log('property', item, verify.isArray(node[item]) ? 'array' : '');
             }
         }
     }

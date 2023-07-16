@@ -2,14 +2,14 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\wizzifiers\ts\wizzifier.js.ittf
-    utc time: Tue, 11 Apr 2023 14:28:54 GMT
+    utc time: Thu, 08 Jun 2023 18:57:57 GMT
 */
 'use strict';
 var util = require('util');
 var async = require('async');
 var stringify = require('json-stringify-safe');
 var verify = require('wizzi-utils').verify;
-var lineparser = require('../utils/lineparser');
+var lineParser = require('../utils/lineParser');
 var file = require('wizzi-utils').file;
 var cloner = require('../utils/cloner');
 var ittfwriter = require("../utils/ittfwriter");
@@ -81,16 +81,9 @@ function parseInternal(tobeWizzified, options, callback) {
     options = options || {};
     var plugins;
     try {
-        if (options.ts_or_flow === 'typescript') {
-            plugins = [
-                'typescript'
-            ].concat(commonPlugins);
-        }
-        else {
-            plugins = [
-                'flow'
-            ].concat(commonPlugins);
-        }
+        plugins = [
+            'typescript'
+        ].concat(commonPlugins);
         // loog 'tswizzifier.container.options', options
         var syntax = ts_parser.parse(tobeWizzified, {
             sourceType: 'module', 
@@ -251,29 +244,16 @@ function wizzify(tobeWizzified, options, callback) {
                 
             ]
          };
-        if (babelOptions.ts_or_flow !== 'typescript') {
-            root.children.push({
-                tag: 'kind', 
-                name: 'react', 
-                children: [
-                    
-                ]
-             })
-        }
         try {
             format(root, syntax, options);
         } 
         catch (ex) {
             return callback(ex);
         } 
-        // log "wizziTree", JSON.stringify(root, null, 2)
         // loog 'options.wizziIncludes', options.wizziIncludes
         async.map(options.wizziIncludes, function(item, callback) {
             if (item.kind === 'css') {
-                if (!csswizzifier) {
-                    csswizzifier = require('../../cssparser/css/wizzifier');
-                }
-                csswizzifier.getWizziTree(item.literal, {}, (err, ittf) => {
+                options.wf.getWizziTreeFromText(item.literal, "css", (err, ittf) => {
                 
                     // loog 'getWizzifierIncludes.item.ittf', ittf
                     item.node.children.push(ittf)
@@ -282,10 +262,7 @@ function wizzify(tobeWizzified, options, callback) {
                 )
             }
             else {
-                if (!htmlwizzifier) {
-                    htmlwizzifier = require('../../htmlparser/wizzi/wizzifier');
-                }
-                htmlwizzifier.getWizziTree(item.literal, {}, (err, ittf) => {
+                options.wf.getWizziTreeFromText(item.literal, "html", (err, ittf) => {
                 
                     // loog 'getWizzifierIncludes.item.ittf', ittf
                     item.node.children.push(ittf)
@@ -528,8 +505,6 @@ function processParams(ittfNode) {
                 // loog 'processParams', 'plen', plen, 'p.children[0].tag', p.children[0].tag, 'p.children[1].tag', p.children[1].tag
                 if (plen == 2) {
                     
-                    // log 111
-                    
                     // has simple default value (is AssignmentPattern)
                     if (['@id', '@expr', 'literal'].indexOf(p.children[1].tag) > -1) {
                         p.name = p.children[0].name;
@@ -540,7 +515,6 @@ function processParams(ittfNode) {
                         }
                         p.children[1].tag = '=';
                     }
-                    // log 112
                     else {
                         
                         // has complex default value (is AssignmentPattern)
@@ -7003,15 +6977,12 @@ format.MemberExpression = function(parent, node, options) {
             p_property.tag = '.';
         }
         
-        // log 2
-        
         // 26/3/21 this is the most improbable, waiting for big damage
         if (p_object.tag === '(') {
             p_object.name = p_object.name + qmark;
             ret.children.push(p_object)
             ret.children.push(p_property)
         }
-        // log 3, p_object.tag, p_object.name
         else {
             ret.tag = p_object.tag;
             ret.name = p_object.name + qmark;
@@ -7744,8 +7715,6 @@ format.NewExpression = function(parent, node, options) {
     // loog 'NewExpression.argumentsNode', argumentsNode
     var tlist;
     
-    // log 101
-    
     // loog 'NewExpression.tlist', tlist
     if (node.arguments && node.arguments.length > 0) {
         if (!p_typeParameters) {
@@ -7774,7 +7743,6 @@ format.NewExpression = function(parent, node, options) {
             }
         }
     }
-    // log 102
     else {
         if (p_typeParameters) {
             var i, i_items=p_typeParameters.children, i_len=p_typeParameters.children.length, item;
@@ -12336,7 +12304,7 @@ format.JSXFragment = function(parent, node, options) {
     // openingFragment JSXOpeningFragment
     // closingFragment JSXClosingFragment
     // children JSXText | JSXExpressionContainer | JSXSpreadChild | JSXElement | JSXFragment
-    ret.name = 'React.Fragment';
+    ret.name = '';
     // process AST-node-property-collection children and append ittfNode(s) to `ret`
     f_astNode.props.push({
         name: "children", 

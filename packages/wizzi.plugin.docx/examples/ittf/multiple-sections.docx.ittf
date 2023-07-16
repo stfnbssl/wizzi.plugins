@@ -1,0 +1,74 @@
+docx multiple-sections
+    
+    section one
+        p Hello World
+    
+    section two
+        page
+            page-numbers
+                start 1
+                format-type DECIMAL
+        
+        header default
+            p First Default Header on another page
+        
+        footer default
+            p Footer on another page
+        
+        p hello
+    
+    
+    section three
+        page
+            orientation LANDSCAPE
+            page-numbers
+                start 1
+                format-type DECIMAL
+        
+        header default
+            p Second Default Header on another page
+        
+        footer default
+            p Footer on another page
+        
+        p hello in landscape
+
+    
+    section four
+        page
+            orientation PORTRAIT
+        
+        header default
+            p 
+                + 
+                    literal Page number:&nbsp;
+                    @ docx.PageNumber.CURRENT
+
+        p Page number in the header must be 2, because it continues from the previous section.
+
+    
+    section five
+        page
+            orientation PORTRAIT
+            page-numbers
+                format-type UPPER_ROMAN
+        header default
+            p
+                + 
+                    literal Page number:&nbsp;
+                    @ docx.PageNumber.CURRENT
+        p Page number in the header must be III, because it continues from the previous section, but is defined as upper roman.
+
+    
+    section six
+        page
+            orientation PORTRAIT
+            page-numbers
+                start 25
+                format-type DECIMAL
+        header default
+            p 
+                + 
+                    literal Page number:&nbsp;
+                    @ docx.PageNumber.CURRENT
+        p Page number in the header must be 25, because it is defined to start at 25 and to be decimal in this section.

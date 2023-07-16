@@ -1,0 +1,14 @@
+$group
+
+    async-md( caption
+        # Caption: (Maybe ShortCaption) [Block]
+        pandocNodeInit()
+            [ jsonBlocks
+        # TODO (Maybe ShortCaption)
+        var jsonObject
+            {
+                @ t "Caption"
+                [ c
+                    @ pandocNode.jsonBlocks
+        pandocNodeExec()
+            _ parentPandocNode.caption = jsonObject

@@ -48,6 +48,17 @@ $group
     $include v08/wizzi/opers/getIttfFilesBySchema.js
     $include v08/wizzi/opers/fileInfoByPath.js
     $include v08/wizzi/globals/defaultMimeTypes.js
+    function getWzCtx
+        param folderpath
+        param callback
+        _ loadWizziModel
+            _ path.join
+                @ folderpath
+                @ 'wzctx.json.ittf'
+            {
+            a_cb( model )
+                log 'getWzCtx', Object.keys(model)
+                r_cb(model)
     function normalize
         param filepath
         return verify.replaceAll(filepath, '\\', '/')

@@ -1,0 +1,17 @@
+$group
+    $params hlevel
+
+    async-md( heading${hlevel} )
+
+        docsNodeInit()
+            [ jsonLines
+        var jsonObject
+            {
+                @ type 'h${hlevel}'
+                @ title model.wzName
+                @ lines docsNode.jsonLines
+        docsNodeExec()
+            _ parentDocsNode.jsonLines.push
+                @ jsonObject
+
+

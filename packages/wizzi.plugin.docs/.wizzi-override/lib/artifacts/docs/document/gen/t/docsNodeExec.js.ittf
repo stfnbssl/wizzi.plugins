@@ -1,0 +1,11 @@
+$group
+
+    _ md.genItems
+        @ model.nodes
+        @ ctx
+        {
+            @ indent false
+        a_cb()
+            $hook
+            _ ctx.values.docsStack.pop
+            r_cb()

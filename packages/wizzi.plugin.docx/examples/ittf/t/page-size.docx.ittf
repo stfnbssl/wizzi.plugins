@@ -1,0 +1,20 @@
+$group
+    $params h, w|@@null, o|PORTRAIT
+
+    $
+        _.log('h---->', h);
+        var xh = h;
+        var xw = w;
+        if (h == 'A4') {
+            if (o=='PORTRAIT') {
+                xh = 297;
+                xw = 210;
+            } else {
+                xh = 210;
+                xw = 297;
+            }
+        }
+
+    orientation ${o}
+    height convertMillimetersToTwip(${xh})
+    width convertMillimetersToTwip(${xw})

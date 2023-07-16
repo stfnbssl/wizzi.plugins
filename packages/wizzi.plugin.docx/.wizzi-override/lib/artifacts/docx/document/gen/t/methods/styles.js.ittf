@@ -1,0 +1,57 @@
+$group
+
+        objectNode.js( stylesDef )
+            $append close
+                _ ctx.w(docxParent + '.styles = ' + docxNode + ';')
+
+        objectNode.js( styleDef )
+            if model.wzParent.wzElement == 'paragraphStyles' ||
+                \b model.wzParent.wzElement == 'characterStyles'
+                _ ctx.w(docxNode + '.id = "' + model.wzName + '";')
+            $append close
+                if model.wzParent.wzElement == 'xdefault'
+                    _ ctx.w(docxParent + '.' + model.wzName + ' = ' + docxNode + ';')
+                else
+                    _ ctx.w(docxParent + '.push(' + docxNode + ');')
+
+        nodeProperty.js( next, next, string )
+
+        nodeProperty.js( basedOn, basedOn, string )
+        
+        nodeProperty.js( quickFormat, quickFormat, true )
+
+        objectNode.js( xdefault )
+            $append close
+                _ ctx.w(docxParent + '.default = ' + docxNode + ';')
+        
+        arrayNode.js( paragraphStyles )
+            $append close
+                _ ctx.w(docxParent + '.paragraphStyles = ' + docxNode + ';')
+
+        arrayNode.js( characterStyles )
+            $append close
+                _ ctx.w(docxParent + '.characterStyles = ' + docxNode + ';')
+
+        arrayNode.js( paragraphDef )
+            $append close
+                _ ctx.w(docxParent + '.paragraph = ' + docxNode + ';')
+
+        objectNode.js( run )
+            $append close
+                _ ctx.w(docxParent + '.run = ' + docxNode + ';')
+
+        objectNode.js( indent )
+            $append close
+                if verify.isNotEmpty(model.left)
+                    _ ctx.w(docxNode + '.left = ' + revalue(model.left) + ';')
+                if verify.isNotEmpty(model.hanging)
+                    _ ctx.w(docxNode + '.hanging = ' + revalue(model.hanging) + ';')
+                _ ctx.w(docxParent + '.indent = ' + docxNode + ';')
+
+        nodePropertyChoice.js( style )
+            if ['pageBorderTop','pageBorderRight','pageBorderBottom','pageBorderLeft'].indexOf(model.wzParent.wzElement) > -1
+                _ ctx.w(docxParent + '.style = docx.BorderStyle.' + model.wzName + ';')
+            elif ['top','right','bottom','left'].indexOf(model.wzParent.wzElement) > -1
+                _ ctx.w(docxParent + '.style = docx.BorderStyle.' + model.wzName + ';')
+            else
+                _ ctx.w(docxParent + '.style = ' + revalue(model.wzName) + ';')

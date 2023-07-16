@@ -22,7 +22,7 @@ var verify = wzutils.verify;
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\wizzi\schemas\ts.wfschema.ittf
-    utc time: Tue, 11 Apr 2023 14:28:59 GMT
+    utc time: Thu, 08 Jun 2023 18:58:09 GMT
 */
 function isDescendentOf(model, ancestor) {
     if (!model.wzParent) {
@@ -1026,7 +1026,7 @@ var xmodule = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\wizzi\schemas\ts.wfschema.ittf
-            utc time: Tue, 11 Apr 2023 14:28:59 GMT
+            utc time: Thu, 08 Jun 2023 18:58:09 GMT
         */
         this.wzModelState = ctx.modelState = {};
         
@@ -1038,7 +1038,7 @@ var xmodule = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\wizzi\schemas\ts.wfschema.ittf
-            utc time: Tue, 11 Apr 2023 14:28:59 GMT
+            utc time: Thu, 08 Jun 2023 18:58:09 GMT
         */
         var i, i_items=this.features, i_len=this.features.length, f;
         for (i=0; i<i_len; i++) {
@@ -1605,7 +1605,7 @@ var ximport = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\wizzi\schemas\ts.wfschema.ittf
-            utc time: Tue, 11 Apr 2023 14:28:59 GMT
+            utc time: Thu, 08 Jun 2023 18:58:09 GMT
         */
         this.specifiers = [];
         var temp = [];
@@ -1662,7 +1662,7 @@ var xexport = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\wizzi\schemas\ts.wfschema.ittf
-            utc time: Tue, 11 Apr 2023 14:28:59 GMT
+            utc time: Thu, 08 Jun 2023 18:58:09 GMT
         */
         this.specifiers = [];
         var temp = [];
@@ -2271,7 +2271,7 @@ var jsObject = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\wizzi\schemas\ts.wfschema.ittf
-            utc time: Tue, 11 Apr 2023 14:28:59 GMT
+            utc time: Thu, 08 Jun 2023 18:58:09 GMT
         */
         // a Dsl that uses this could be 'graphql'
         this.isDslCall = false;
@@ -2333,7 +2333,7 @@ var jsPropertyOrValue = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\wizzi\schemas\ts.wfschema.ittf
-            utc time: Tue, 11 Apr 2023 14:28:59 GMT
+            utc time: Thu, 08 Jun 2023 18:58:09 GMT
         */
         // a Dsl that uses this could be 'graphql'
         this.isDslCall = false;
@@ -2365,7 +2365,7 @@ var jsPropertyOrValueComputed = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\wizzi\schemas\ts.wfschema.ittf
-            utc time: Tue, 11 Apr 2023 14:28:59 GMT
+            utc time: Thu, 08 Jun 2023 18:58:09 GMT
         */
         // a Dsl that uses this could be 'graphql'
         this.isDslCall = false;
@@ -3017,7 +3017,7 @@ var typeInterface = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\wizzi\schemas\ts.wfschema.ittf
-            utc time: Tue, 11 Apr 2023 14:28:59 GMT
+            utc time: Thu, 08 Jun 2023 18:58:09 GMT
         */
         this.extends = [];
         var temp = [];
@@ -3056,7 +3056,7 @@ var typeExtends = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\wizzi\schemas\ts.wfschema.ittf
-            utc time: Tue, 11 Apr 2023 14:28:59 GMT
+            utc time: Thu, 08 Jun 2023 18:58:09 GMT
         */
         var tpi = [];
         var ss = [];
@@ -3307,7 +3307,7 @@ var xclass = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\wizzi\schemas\ts.wfschema.ittf
-            utc time: Tue, 11 Apr 2023 14:28:59 GMT
+            utc time: Thu, 08 Jun 2023 18:58:09 GMT
         */
         ctx.modelState = ctx.modelState || {};
         // loog 'wizzi-js.model.class.modelState', ctx.modelState
@@ -3351,7 +3351,7 @@ var xclass = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\wizzi\schemas\ts.wfschema.ittf
-            utc time: Tue, 11 Apr 2023 14:28:59 GMT
+            utc time: Thu, 08 Jun 2023 18:58:09 GMT
         */
         return _.find(this.statements, function(item) { return item.wzElement === 'ctor' });
         
@@ -3492,7 +3492,7 @@ var ctor = (function (xfunction) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\wizzi\schemas\ts.wfschema.ittf
-            utc time: Tue, 11 Apr 2023 14:28:59 GMT
+            utc time: Thu, 08 Jun 2023 18:58:09 GMT
         */
         var ret = [];
         var i, i_items=this.bases, i_len=this.bases.length, item;
@@ -3685,7 +3685,7 @@ var xnew = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\wizzi\schemas\ts.wfschema.ittf
-            utc time: Tue, 11 Apr 2023 14:28:59 GMT
+            utc time: Thu, 08 Jun 2023 18:58:09 GMT
         */
         var tpi = [];
         var ss = [];
@@ -3761,7 +3761,7 @@ var reactComponent = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\wizzi\schemas\ts.wfschema.ittf
-            utc time: Tue, 11 Apr 2023 14:28:59 GMT
+            utc time: Thu, 08 Jun 2023 18:58:09 GMT
         */
         ctx.modelState = ctx.modelState || {};
         // loog 'wizzi-js.model.class.modelState', ctx.modelState
@@ -5529,7 +5529,7 @@ var template = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\wizzi\schemas\ts.wfschema.ittf
-            utc time: Tue, 11 Apr 2023 14:28:59 GMT
+            utc time: Thu, 08 Jun 2023 18:58:09 GMT
         */
         var i, i_items=this.statements, i_len=this.statements.length, item;
         for (i=0; i<i_len; i++) {
@@ -5557,7 +5557,7 @@ var taggedTemplate = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\wizzi\schemas\ts.wfschema.ittf
-            utc time: Tue, 11 Apr 2023 14:28:59 GMT
+            utc time: Thu, 08 Jun 2023 18:58:09 GMT
         */
         var i, i_items=this.statements, i_len=this.statements.length, item;
         for (i=0; i<i_len; i++) {
@@ -5585,7 +5585,7 @@ var tagFunctionCall = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\wizzi\schemas\ts.wfschema.ittf
-            utc time: Tue, 11 Apr 2023 14:28:59 GMT
+            utc time: Thu, 08 Jun 2023 18:58:09 GMT
         */
         var i, i_items=this.statements, i_len=this.statements.length, item;
         for (i=0; i<i_len; i++) {
@@ -6547,7 +6547,7 @@ var typeExport = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\wizzi\schemas\ts.wfschema.ittf
-            utc time: Tue, 11 Apr 2023 14:28:59 GMT
+            utc time: Thu, 08 Jun 2023 18:58:09 GMT
         */
         this.specifiers = [];
         var temp = [];
@@ -6628,7 +6628,7 @@ var typeImport = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\wizzi\schemas\ts.wfschema.ittf
-            utc time: Tue, 11 Apr 2023 14:28:59 GMT
+            utc time: Thu, 08 Jun 2023 18:58:09 GMT
         */
         this.specifiers = [];
         var temp = [];

@@ -660,6 +660,12 @@
           ]
         },
         {
+          "name": "setter",
+          "tags": [
+            "setter"
+          ]
+        },
+        {
           "name": "wzFunction",
           "tags": [
             "wz-function"
@@ -8090,6 +8096,12 @@
           ]
         },
         {
+          "name": "setter",
+          "tags": [
+            "setter"
+          ]
+        },
+        {
           "name": "wzFunction",
           "tags": [
             "wz-function"
@@ -9056,7 +9068,21 @@
         "get"
       ],
       "flags": "",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "static",
+          "type": "boolean",
+          "tags": [
+            "static"
+          ],
+          "default": "false",
+          "defaultWhenDeclared": "true",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "statement",
@@ -9085,6 +9111,94 @@
         "if this.log.length == 0",
         "return undefined",
         "return this.log[this.log.length - 1]",
+        ""
+      ]
+    },
+    {
+      "name": "setter",
+      "super": "xfunction",
+      "isRoot": false,
+      "tags": [
+        "setter"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "xasync",
+          "type": "boolean",
+          "tags": [
+            "async"
+          ],
+          "default": "false",
+          "defaultWhenDeclared": "true",
+          "flags": "",
+          "inheritedFrom": "xfunction",
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "xgenerator",
+          "type": "boolean",
+          "tags": [
+            "generator"
+          ],
+          "default": "false",
+          "defaultWhenDeclared": "true",
+          "flags": "",
+          "inheritedFrom": "xfunction",
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "param",
+          "role": "params",
+          "tags": [
+            "param"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "param",
+          "role": "params",
+          "tags": [
+            "param"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "xfunction",
+          "comments": []
+        },
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "+"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "es6 - Defines a setter on a new object in the object initializer",
+        "reference https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Functions/get",
+        "",
+        "the js-mtree-preprocessor translates from this ittf:",
+        "set",
+        "param value",
+        "",
+        "to this one:",
+        "setter",
+        "param value",
         ""
       ]
     },

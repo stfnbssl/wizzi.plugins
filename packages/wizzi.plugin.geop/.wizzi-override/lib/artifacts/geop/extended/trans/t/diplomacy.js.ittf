@@ -1,0 +1,113 @@
+$group
+
+    set functors.alliance
+        function
+            param parent
+            param resultObj
+            param kind
+            var allianceObj
+                {
+                    @ id parent.wzName
+                    @ kind 'alliance'
+                    @ ns g_namespace
+                    [ signatures
+                    [ parties
+                    [ contents
+            foreach child in parent.items
+                if !titleDateWikiContents(child, allianceObj, resultObj)
+                elif child.wzElement == "context"
+                    set allianceObj.context
+                        _ createDiplomacyContext
+                            @ child
+                elif child.wzElement == "friends"
+                    set allianceObj.friends = createStateGroup(child)
+                elif child.wzElement == "enemies"
+                    set allianceObj.enemies = createStateGroup(child)
+                elif child.wzElement == "signature"
+                    _ allianceObj.signatures.push
+                        _ createSignature(child)
+                elif child.wzElement == "party"
+                    _ alliances.parties.push
+                        @ child.wzName
+                else
+                    set allianceObj['unknown_tag_' + child.wzElement] = child.wzName
+            _ resultObj.alliances.push
+                @ allianceObj
+    
+    set functors.treaty
+        function
+            param parent
+            param resultObj
+            param kind
+            var treatyObj
+                {
+                    @ id parent.wzName
+                    @ kind 'treaty'
+                    @ ns g_namespace
+                    [ signatures
+                    [ parties
+                    [ mediators
+                    [ contents
+            foreach child in parent.items
+                if !titleDateWikiContents(child, treatyObj, resultObj)
+                elif child.wzElement == "context"
+                    set treatyObj.context
+                        _ createDiplomacyContext
+                            @ child
+                elif child.wzElement == "signature"
+                    _ treatyObj.signatures.push
+                        _ createSignature(child)
+                elif child.wzElement == "party"
+                    _ treatyObj.parties.push
+                        @ child.wzName
+                elif child.wzElement == "mediator"
+                    _ treatyObj.mediators.push
+                        @ child.wzName
+                else
+                    set treatyObj['unknown_tag_' + child.wzElement] = child.wzName
+            _ resultObj.treaties.push
+                @ treatyObj
+
+    function createSignature
+        param parent
+        var resultObj
+            {
+                [ parties
+        foreach item in parent.items
+            if item.wzElement == "party"
+                _ resultObj.parties.push
+                    @ item.wzName
+            elif item.wzElement == "date"
+                set resultObj.date = createDate(item)
+            else
+                set resultObj['unknown_tag_' + item.wzElement] = item.wzName
+        return resultObj
+
+    function createStateGroup
+        param parent
+        var resultObj
+            [
+        foreach item in parent.items
+            if item.wzElement == "state"
+                _ resultObj.push
+                    @ item.wzName
+            else
+                _ resultObj.push
+                    @ 'unknown_tag_' + item.wzElement + '/' + item.wzName
+        return resultObj
+
+    function createDiplomacyContext
+        param parent
+        var resultObj
+            [
+        foreach item in parent.items
+            if ['war','treaty','alliance'].indexOf(item.wzElement) > -1
+                _ resultObj.push
+                    {
+                        @ key item.wzElement
+                        @ value item.wzName
+            else
+                _ resultObj.push
+                    @ 'unknown_tag_' + item.wzElement + '/' + item.wzName
+        return resultObj
+

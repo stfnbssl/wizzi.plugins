@@ -1,0 +1,25 @@
+$group
+
+    async-md( img
+        _ md.image
+            @ model
+            @ ctx
+            @ callback
+    
+    async-md( image
+        # Image Attr [Inline] Target	
+        docsNodeInit()
+            @ jsonAttr defaultAttr()
+            { jsonTarget
+            [ jsonLines
+        var jsonObject
+            {
+                @ type "image"
+                @ attr docsNode.jsonAttr
+                @ target docsNode.jsonTarget
+                @ lines docsNode.jsonInlines
+        docsNodeExec()
+            _ docsNode.jsonTarget.src = model.src || ""
+            _ docsNode.jsonTarget.title = model.title || ""
+            _ parentDocsNode.jsonLines.push
+                @ jsonObject

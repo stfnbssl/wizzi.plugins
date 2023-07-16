@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.html\.wizzi-override\root\index.js.ittf
-    utc time: Sat, 29 Apr 2023 05:23:11 GMT
+    utc time: Wed, 07 Jun 2023 07:55:33 GMT
 */
 'use strict';
 
@@ -172,6 +172,7 @@ function error(errorName, method, message, innerError) {
 }
 
 module.exports = {
+    version: '0.8.2', 
     provides: {
         schemas: [
             'html'

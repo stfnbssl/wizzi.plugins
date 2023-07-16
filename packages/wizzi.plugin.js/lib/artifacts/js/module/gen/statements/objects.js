@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\artifacts\js\module\gen\statements\objects.js.ittf
-    utc time: Tue, 16 May 2023 07:53:47 GMT
+    utc time: Tue, 27 Jun 2023 13:39:36 GMT
 */
 'use strict';
 var util = require('util');
@@ -679,6 +679,9 @@ md.load = function(cnt) {
         }
         u.writeComments(model, ctx);
         u.checkInlineEnter(model, ctx);
+        if (model.static) {
+            ctx.write('static ');
+        }
         ctx.w('get ' + model.wzName + '() {');
         ctx.indent();
         cnt.genItems(model.statements, ctx, (err, notUsed) => {
@@ -687,7 +690,7 @@ md.load = function(cnt) {
                 return callback(err);
             }
             ctx.deindent();
-            ctx.write('}');
+            ctx.w('}');
             u.checkInlineExit(model, ctx);
             return callback(null);
         }

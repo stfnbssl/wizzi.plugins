@@ -7,7 +7,7 @@
 'use strict';
 //
 var util = require('util');
-var lineparser = require('./lineParser');
+var lineParser = require('./lineParser');
 
 module.exports = function(mTree, ittfDocumentUri, request, callback) {
     if (!mTree.nodes || mTree.nodes.length != 1) {

@@ -1,0 +1,108 @@
+$group
+
+        async-md( section )
+            var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+            var docxNode = "docx_sect_" + (++ctx.values.docxCounter)
+            _ ctx.values.docxStack.push(docxNode)
+            _ ctx.w('const ' + docxNode + ' = { properties: {}, headers:{}, footers:{}, children: [] };')
+            _ md.genItems
+                @ model.nodes
+                @ ctx
+                @ noindent
+                a_cb()
+                    if verify.isNotEmpty(model.titlePage)
+                        _ ctx.w(docxNode + '.properties.titlePage = ' + model.titlePage + ';')
+                    _ ctx.w(ctx.values.docxMainInternalObject + '.sections.push(' + docxNode + ')')
+                    _ ctx.values.docxStack.pop()
+                    r_cb()
+
+        objectNode.js( page )
+            $append close
+                if model.orientation
+                    _ ctx.w('if (!' + docxNode + '.size) { ' + docxNode + '.size = {} };')
+                    _ ctx.w(docxNode + '.size.orientation = docx.PageOrientation.' + model.orientation + ';')
+                if model.width
+                    _ ctx.w('if (!' + docxNode + '.size) { ' + docxNode + '.size = {} };')
+                    _ ctx.w(docxNode + '.size.width = ' + model.width + ';')
+                if model.height
+                    _ ctx.w('if (!' + docxNode + '.size) { ' + docxNode + '.size = {} };')
+                    _ ctx.w(docxNode + '.size.height = ' + model.height + ';')
+                _ ctx.w(docxParent + '.properties.page = ' + docxNode + ';')
+
+        objectNode.js( pageBreak, docx.PageBreak )   
+            $append close
+                _ ctx.w(docxParent + '.children.push(' + docxNode + 'Obj);')
+        nodeProperty.js( thematicBreak, thematicBreak, true )
+        nodeProperty.js( pageBreakBefore, pageBreakBefore, true )
+        nodeProperty.js( keepLines, keepLines, true )
+        nodeProperty.js( keepNext, keepNext, true )
+
+        objectNode.js( margin )
+            $append close
+                if verify.isNotEmpty(model.top)
+                    _ ctx.w(docxNode + '.top = ' + model.top + ';')
+                if verify.isNotEmpty(model.right)
+                    _ ctx.w(docxNode + '.right = ' + model.right + ';')
+                if verify.isNotEmpty(model.bottom)
+                    _ ctx.w(docxNode + '.bottom = ' + model.bottom + ';')
+                if verify.isNotEmpty(model.left)
+                    _ ctx.w(docxNode + '.left = ' + model.left + ';')
+                if verify.isNotEmpty(model.gutter)
+                    _ ctx.w(docxNode + '.gutter = ' + model.gutter + ';')
+                if verify.isNotEmpty(model.header)
+                    _ ctx.w(docxNode + '.header = ' + model.header + ';')
+                if verify.isNotEmpty(model.footer)
+                    _ ctx.w(docxNode + '.footer = ' + model.footer + ';')
+                _ ctx.w(docxParent + '.margin = ' + docxNode + ';')
+        
+        objectNode.js( column )
+            $append close
+                if verify.isNotEmpty(model.space)
+                    _ ctx.w(docxNode + '.space = ' + model.space + ';')
+                if verify.isNotEmpty(model.count)
+                    _ ctx.w(docxNode + '.count = ' + model.count + ';')
+                if verify.isNotEmpty(model.separate)
+                    _ ctx.w(docxNode + '.separate = ' + model.separate + ';')
+                _ ctx.w(docxParent + '.properties.column = ' + docxNode + ';')
+
+        objectNode.js( pageBorderTop )   
+            $append close
+                _ ctx.w('if (!' + docxParent + '.borders) { ' + docxParent + '.borders = {} };')
+                _ ctx.w(docxParent + '.borders.pageBorderTop = ' + docxNode + ';')
+        
+        objectNode.js( pageBorderRight )   
+            $append close
+                _ ctx.w('if (!' + docxParent + '.borders) { ' + docxParent + '.borders = {} };')
+                _ ctx.w(docxParent + '.borders.pageBorderRight = ' + docxNode + ';')
+        
+        objectNode.js( pageBorderBottom )   
+            $append close
+                _ ctx.w('if (!' + docxParent + '.borders) { ' + docxParent + '.borders = {} };')
+                _ ctx.w(docxParent + '.borders.pageBorderBottom = ' + docxNode + ';')
+        
+        objectNode.js( pageBorderLeft )   
+            $append close
+                _ ctx.w('if (!' + docxParent + '.borders) { ' + docxParent + '.borders = {} };')
+                _ ctx.w(docxParent + '.borders.pageBorderLeft = ' + docxNode + ';')
+
+        objectNode.js( pageBorders )
+            $append close
+                if verify.isNotEmpty(model.display)
+                    _ ctx.w(docxNode + '.display = docx.PageBorderDisplay.' + model.display + ';')
+                if verify.isNotEmpty(model.offsetFrom)
+                    _ ctx.w(docxNode + '.offsetFrom = docx.PageBorderOffsetFrom.' + model.offsetFrom + ';')
+                if verify.isNotEmpty(model.zOrder)
+                    _ ctx.w(docxNode + '.zOrder = docx.PageBorderZOrder.' + model.zOrder + ';')
+                _ ctx.w('if (!' + docxParent + '.borders) { ' + docxParent + '.borders = {} };')
+                _ ctx.w(docxParent + '.borders.pageBorders = ' + docxNode + ';')
+        
+        objectNode.js( pageNumbers )
+            $append close
+                _ ctx.w(docxParent + '.pageNumbers = ' + docxNode + ';')
+
+        nodeProperty.js( start, start )
+
+        nodePropertyChoice.js( orientation )        
+            _ ctx.w('if (!' + docxParent + '.size) { ' + docxParent + '.size = {} };')
+            _ ctx.w(docxParent + '.size.orientation = docx.PageOrientation.' + model.wzName + ';')
+

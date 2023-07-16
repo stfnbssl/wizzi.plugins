@@ -1,0 +1,72 @@
+module
+    kind es6
+    $
+        var md = {
+            name: 'geop',
+        };
+    wizziplugin/examples/plugin( &md )
+        $append plugins
+            [ items
+                @ './index.js'
+            @ pluginsBaseFolder
+                _ path.resolve
+                    @ __dirname
+                    @ '..'
+        let arg = process.argv[2]
+        const moduleName = arg && arg.length > 0 ? arg : 'first'
+        _ executeGenerateModules
+            [
+                @ moduleName
+            a_cb_no_throw( result )
+                if err
+                    error 'geop.examples.executeGenerateModules.err', err
+                    error 'geop.examples.executeGenerateModules.err.toString()', err.toString()
+                    if err.inner
+                        error 'geop.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
+                else
+        function executeGenerateModules
+            param modules
+            param callback
+            _ async.mapSeries
+                @ modules
+                =>
+                    param module
+                    param callback
+                    var ittfDocumentUri
+                        _ path.join
+                            @ __dirname
+                            @ 'ittf'
+                            @ module + '.geop.ittf'
+                    var outputLoadedPath
+                        _ path.join
+                            @ __dirname
+                            @ 'results'
+                            @ module + '.geop.json'
+                    var outputExtendedPath
+                        _ path.join
+                            @ __dirname
+                            @ 'results'
+                            @ module + '.geop.extended.json'
+                    _ loadWizziModel
+                        @ ittfDocumentUri
+                        {
+                        a_cb( model )
+                            _ file.write
+                                @ outputLoadedPath
+                                _ stringify
+                                    @ model.toJson()
+                                    @ null
+                                    @ 4
+                            _ loadModelAndTransform
+                                @ ittfDocumentUri
+                                {
+                                @ "geop/extended"
+                                a_cb( model )
+                                    _ file.write
+                                        @ outputExtendedPath
+                                        _ stringify
+                                            @ model
+                                            @ null
+                                            @ 4
+                                    r_cb( )
+                @ callback

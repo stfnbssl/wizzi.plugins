@@ -1,0 +1,22 @@
+$group
+    $params t, r|@@null, b|@@null, l|@@null
+
+    $
+        var xt = t;
+        var xr = r;
+        var xb = b;
+        var xl = l;
+        if (r==null) {
+            xr = t;
+            xb = t;
+            xl = t;
+        } else if (b==null) {
+            xb = t;
+            xl = r;
+        };
+
+    margin
+        top convertMillimetersToTwip(${xt})
+        right convertMillimetersToTwip(${xr})
+        bottom convertMillimetersToTwip(${xb})
+        left convertMillimetersToTwip(${xl})

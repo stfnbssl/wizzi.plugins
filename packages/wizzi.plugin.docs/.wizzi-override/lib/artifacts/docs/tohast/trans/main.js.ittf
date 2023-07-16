@@ -1,0 +1,135 @@
+module
+    kind es6
+    $
+        var md = {
+            plugin: 'wizzi.plugin.docs',
+            name: 'extended',
+            schema: 'docs',
+            rootElement: '',
+            checkSchema: true
+        };
+    
+    trans( &md )
+        $append main
+            const state
+                {
+                    [ stack
+                    [ paragraphLevels
+            const transformedModel
+                _ astElement
+                    @ 'html'
+            _ state.stack.push
+                @ transformedModel
+            _ state.paragraphLevels.push
+                {
+                    @ number 0
+                    @ transformedModel
+            _ doNodes
+                @ model
+                @ transformedModel
+                @ state
+            _ callback
+                @ null
+                @ transformedModel
+    
+    function doNodes
+        param model
+        param resultObj
+        param state
+        foreach node in model.nodes
+            _ doNode
+                @ node
+                @ resultObj
+                @ state
+
+    function doNode
+        param model
+        param resultObj
+        param state
+        var f = functors[model.wzElement]
+        if f
+            _ f
+                @ model
+                @ resultObj
+                @ state
+    
+    var functors = {}
+    
+    f( heading1, h1
+    f( heading2, h2
+    f( heading3, h3
+    f( heading4, h4
+    f( heading5, h5
+    f( heading6, h6
+    f_text( text
+    f( unorderedList, ul
+    f( orderedList, ol
+    f( listItem, li
+    f( table, table
+    f( tableHead, thead
+    f( tableBody, tbody
+    f( tableRow, tr
+    f( tableCell, td
+
+    set functors.codeLines
+        function
+            param node
+            param resultObj
+            param state
+            var builder = []
+            foreach child in node.nodes
+                _ buildCodeText
+                    @ child
+                    @ builder
+                    @ 0
+            var astItem 
+                {
+                    @ type 'codeLines'
+                    @ language node.wzName
+                    @ schema node.schema
+                    @ title node.title
+                    @ content builder.join('')
+                    [ children
+            _ resultObj.children.push
+                @ astItem
+    
+    function astElement
+        param tagName
+        param text
+        var astItem 
+            {
+                @ type 'element'
+                @ tagName tagName
+                { properties
+                [ children
+        if verify.isNotEmpty(text)
+            _ astItem.children.push
+                {
+                    @ type 'text'
+                    @ value text
+        return astItem
+
+    function astText
+        param text
+        var astItem 
+            {
+                @ type 'text'
+                @ value text
+                [ children
+        return astItem        
+
+    function buildCodeText
+        param node
+        param builder
+        param indent
+        _ builder.push
+            new Array(indent*4).join(' ')
+        _ builder.push
+            @ node.wzName
+        _ builder.push
+            @ '\n'
+        foreach child in node.nodes
+            _ buildCodeText
+                @ child
+                @ builder
+                @ indent + 1

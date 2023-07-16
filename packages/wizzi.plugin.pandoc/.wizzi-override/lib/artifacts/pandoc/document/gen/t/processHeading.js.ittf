@@ -1,0 +1,26 @@
+$group
+
+    function processHeading
+        param heading
+        param model
+        param ctx
+        param callback
+        var jsonAttr = defaultAttr()
+        set jsonAttr[0] = verify.replaceAll(model.wzName, ' ', '-').toLowerCase()
+        pandocNodeInit()
+            @ jsonAttr jsonAttr
+            [ jsonInlines
+        var jsonObject
+            {
+                @ t "Header"
+                [ c
+                    @ heading
+                    @ pandocNode.jsonAttr
+                    @ pandocNode.jsonInlines
+        _ processText
+            @ model
+            @ ctx
+            a_cb()
+                pandocNodeExec()
+                    _ parentPandocNode.jsonBlocks.push
+                        @ jsonObject

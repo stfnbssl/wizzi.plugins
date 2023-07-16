@@ -425,6 +425,8 @@
 	stm( get
         _ u.writeComments(model, ctx)
         _ u.checkInlineEnter(model, ctx)
+        if model.static
+            _ ctx.write('static ')
 		_ ctx.w('get ' + model.wzName + '() {')
         _ ctx.indent()
 		_ cnt.genItems
@@ -432,6 +434,7 @@
 			@ ctx
 			a_cb()
 				_ ctx.deindent()
-				_ ctx.write('}')
+				$$ 26/6/23 _ ctx.write('}')
+                _ ctx.w('}')
                 _ u.checkInlineExit(model, ctx)
 				r_cb()

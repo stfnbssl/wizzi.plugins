@@ -1,0 +1,43 @@
+$group
+
+        async-md( footnoteDef )
+            var docxParent = ctx.values.docxMainInternalObject
+            var docxNode = "docx_footnote_" + (++ctx.values.docxCounter)
+            _ ctx.values.docxStack.push(docxNode)
+            _ ctx.w('const ' + docxNode + ' = { children: [] };')
+            _ md.genItems
+                @ model.nodes
+                @ ctx
+                @ noindent
+                a_cb()
+                    _ ctx.w('if (!' + docxParent + '.footnotes) { ' + docxParent + '.footnotes = {} };')
+                    _ ctx.w(ctx.values.docxMainInternalObject + '.footnotes[' + model.wzName + '] = ' + docxNode + ';')
+                    _ ctx.values.docxStack.pop()
+                    r_cb()
+
+        async-md( footnoteRef )
+            docxNode.js()
+            _ ctx.w(docxParent + '.children.push(new docx.FootnoteReferenceRun(' + model.wzName + '));')
+            r_cb()
+
+        objectNode.js( hyperlink, docx.Hyperlink )
+            _ ctx.w(docxNode + '.anchor = "' + (model.href || model.wzName) + '";')
+            _ ctx.w(docxNode + '.children = [];')
+            $append close
+                _ ctx.w(docxParent + '.children.push(' + docxNode + 'Obj);')
+
+        objectNode.js( bookmark, docx.Bookmark )
+            _ ctx.w(docxNode + '.id = "' + model.wzName + '";')
+            _ ctx.w(docxNode + '.children = [];')
+            $append close
+                _ ctx.w(docxParent + '.children.push(' + docxNode + 'Obj);')
+
+        objectNode.js( pageReference, docx.PageReference )
+            $append close
+                _ ctx.w(docxParent + '.children.push(' + docxNode + 'Obj);')
+
+        objectNode.js( internalHyperlink, docx.InternalHyperlink )
+            _ ctx.w(docxNode + '.anchor = "' + (model.href || model.wzName) + '";')
+            _ ctx.w(docxNode + '.children = [];')
+            $append close
+                _ ctx.w(docxParent + '.children.push(' + docxNode + 'Obj);')

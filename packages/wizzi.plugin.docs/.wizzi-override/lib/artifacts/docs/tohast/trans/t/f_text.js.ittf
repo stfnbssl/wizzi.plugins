@@ -1,0 +1,32 @@
+$group
+    $params name
+    set functors.${name}
+        function
+            param node
+            param resultObj
+            param state
+            var stackLevel = state.stack.length
+            var paraLevel = state.paragraphLevels[state.paragraphLevels.length-1].number
+            var parent = state.stack[state.stack.length-1]
+            # log 'functors.${name}', 'state.stack.length', stackLevel, paraLevel
+            log 'functors.${name}', 'parent', parent && parent.tagName
+            var astItem
+            if (stackLevel - paraLevel) == 1
+                set astItem
+                    _ astElement
+                        @ 'p'
+                        @ node.wzName
+            else
+                set astItem
+                    _ astText
+                        @ (parent && parent.tagName == 'p' ? ' ' : '') + node.wzName
+            _ state.stack.push
+                @ astItem
+            $hook
+            _ doNodes
+                @ node
+                @ astItem
+                @ state
+            _ resultObj.children.push
+                @ astItem
+            _ state.stack.pop

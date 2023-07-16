@@ -1,0 +1,25 @@
+$group
+
+    set functors.agent
+        function
+            param parent
+            param resultObj
+            param kind
+            var agentObj
+                {
+                    @ id parent.wzName
+                    @ kind kind || 'agent'
+                    @ ns g_namespace
+                    [ contents
+            var newitems = []
+            foreach child in parent.items
+
+                if !titleDateWikiContents(child, agentObj, resultObj)
+                else
+                    set agentObj['unknown_tag_' + child.wzElement] = child.wzName
+            if !agentObj.title
+                set agentObj.title
+                    {
+                        @ text agentObj.id
+            _ resultObj.agents.push
+                @ agentObj

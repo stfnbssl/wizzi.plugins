@@ -1,0 +1,21 @@
+$group
+    $params name, tag
+    set functors.${name}
+        function
+            param node
+            param resultObj
+            param state
+            var astItem
+                _ astElement
+                    @ '${tag}'
+                    @ node.wzName
+            _ state.stack.push
+                @ astItem
+            $hook
+            _ doNodes
+                @ node
+                @ astItem
+                @ state
+            _ resultObj.children.push
+                @ astItem
+            _ state.stack.pop

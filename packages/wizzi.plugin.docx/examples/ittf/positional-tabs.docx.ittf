@@ -1,0 +1,27 @@
+docx positional-tabs
+
+    section one
+        page 
+            margins( 1.2 )
+
+        h1 Positional tabs
+
+        p
+            + Full name
+            +
+                pos-tab
+                    alignment RIGHT
+                    relativeTo MARGIN
+                    leader DOT
+                literal John Doe
+                bold
+                
+        p
+            + Hello World
+            + 
+                pos-tab
+                    alignment CENTER
+                    relativeTo INDENT
+                    leader HYPHEN
+                literal Foo Bar
+                bold

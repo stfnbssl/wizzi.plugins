@@ -1,0 +1,12 @@
+$group
+    $params heading
+
+    async-md( ${heading} )
+        $if ['h1','h2','h3','h4','h5','h6',].indexOf(heading) >-1
+            _ processHeading
+                @ ${heading[1]}
+                @ model
+                @ ctx
+                @ callback
+        $else
+            $throw "unknown heading"

@@ -1,0 +1,31 @@
+module wizzi.plugin.js.artifacts.module.gen.es6.setter
+	kind jsfile
+	var statement = require('../statement')
+
+	var md = module.exports = {}
+	var myname = 'wizzi.js.artifacts.module.gen.es6.setter'
+
+	async-md( gen )
+		var
+			decl method = model.wzName
+    
+		_ ctx.w('set ' + method + '(' + model.paramNames.join(', ') + ') {');
+		
+		_ ctx.indent();
+		
+		_ generateParamConstraints
+			@ model.wzName
+			@ model.constrainedParams
+			@ model.hasCallbackParam
+			@ model.hasOptionsCallbackParam
+			@ ctx
+			a_cb()
+				_ statement.genMany
+					@ model.statements
+					@ ctx
+					a_cb()
+						_ ctx.deindent();
+						_ ctx.w('}');
+						r_cb()
+	
+	$include generateParamConstraints

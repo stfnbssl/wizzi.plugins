@@ -1,0 +1,117 @@
+wfschema pandoc
+    
+    # https://hackage.haskell.org/package/pandoc-types-1.23/docs/Text-Pandoc-Definition.html
+
+    preserve-tags true
+    mtree-is-preprocessed true
+    $$ unknown-element-replacer text
+    
+    e node
+        r node/s
+    
+    e pandoc : node
+        is-root
+        a creator
+        a title
+        a description
+        a subject
+        a keywords
+        a lastModifiedBy
+        a revision
+            type integer
+        a evenAndOddHeaderAndFooters
+            tag even-and-odd-header-and-footers
+    
+    e xname : node
+        tag name
+    
+
+    e font : node
+    e color : node
+    e fill : node
+    e size : node
+    e width : node
+    e height : node
+    e scale : node
+    e shading : node
+    e highlight : node
+    e xtype : node
+        tag type
+    e center : node
+    e bullet : node
+    e tabStop : node
+    e position : node
+    e basedOn : node
+    e next : node
+    e space : node
+    e value : node
+    
+    e after : node
+    e before : node
+    e line : node
+    e lineRule : node
+        tag line-rule
+    e align : node
+    e valign : node
+    e textDirection : node
+        tag text-direction
+    e columnSpan : node
+        tag column-span
+    e columnWidths : node
+        tag column-widths
+
+    $$ e hyperlinks : node
+    e link : node
+    e linkText : node
+        tag text
+
+    $*
+    e hyperlinkDef : node
+        tag link-def
+    e hyperlinkRef : node
+        tag link-ref
+    *$
+
+    e transformation : node
+        a width
+        a height
+    e floating : node
+        a h
+        a v
+    e wrap : node
+        a type
+        a side
+    e margins : node
+        a top
+        a bottom
+        a left
+        a right
+
+    e border : node
+    e borders : node
+    e top : node
+    e bottom : node
+    e left : node
+    e right : node
+
+    e widow : node
+    e outline : node
+
+
+    e tabStopsDef : node
+        tag tab-stops-def
+    e tabStopDef : node
+        tag tab-stop-def
+        a type
+        a position
+    e tabStops : node
+        tag tab-stops
+
+    $include pandoc/document
+    $include pandoc/meta
+    $include pandoc/block
+    $include pandoc/inline
+    $include pandoc/style
+    $include pandoc/numbering
+    $include pandoc/section
+    $include pandoc/paragraph

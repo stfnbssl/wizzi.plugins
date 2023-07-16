@@ -1,0 +1,14 @@
+$group
+
+    set functors.namespace
+        function
+            param parent
+            param resultObj
+            param kind
+            const save_namespace = g_namespace
+            set g_namespace = parent.wzName
+            foreach child in parent.items
+                _ doitem
+                    @ child
+                    @ resultObj
+            set g_namespace = save_namespace 

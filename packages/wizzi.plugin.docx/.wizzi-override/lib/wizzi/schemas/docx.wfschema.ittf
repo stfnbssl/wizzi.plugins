@@ -12,44 +12,28 @@ wfschema docx
     
     e docx : node
         is-root
-    
+        a creator
+        a title
+        a description
+        a subject
+        a keywords
+        a lastModifiedBy
+        a revision
+            type integer
+        a evenAndOddHeaderAndFooters
+            tag even-and-odd-header-and-footers
     
     e xname : node
         tag name
-    e section : node
-    e h1 : node
-    e h2 : node
-    e h3 : node
-    e h4 : node
-    e h5 : node
-    e h6 : node
-    e p : node
-    e break : node
-        tag br
-    e text : node
-        tag +
-    e bold : node
-        tag b
-    e boldProp : node
-        tag bold
-    e italic : node
-        tag i
-    e italicProp : node
-        tag italic
-    e underline : node
-    e emphasisMark : node
-    e strike : node
-    e doubleStrike : node
-    e superScript : node
-    e subScript : node
-    e smallCaps : node
-    e allCaps : node
-    e smallCaps : node
+    
+
     e font : node
     e color : node
     e fill : node
     e size : node
     e width : node
+    e height : node
+    e scale : node
     e shading : node
     e highlight : node
     e xtype : node
@@ -58,38 +42,39 @@ wfschema docx
     e tr : node
     e td : node
     e center : node
-    e bullet_0 : node
+    e bullet : node
     e tabStop : node
     e position : node
-    e styles : node
-    e style : node
     e basedOn : node
     e next : node
-    e paragraphStyles : node
-        tag paragraph-styles
-    e run : node
-    e xdefault : node
-        tag default
-    e styleDef : node
-        tag style-def
     e space : node
     e value : node
-    e spacing : node
+    
     e after : node
     e before : node
     e line : node
     e lineRule : node
-    e alignment : node
+        tag line-rule
+    e align : node
+    e valign : node
+    e textDirection : node
+        tag text-direction
+    e columnSpan : node
+        tag column-span
+    e columnWidths : node
+        tag column-widths
 
-    e hyperlinks : node
+    $$ e hyperlinks : node
     e link : node
     e linkText : node
         tag text
 
+    $*
     e hyperlinkDef : node
         tag link-def
     e hyperlinkRef : node
         tag link-ref
+    *$
 
     e imageDef : node
         a src
@@ -97,14 +82,47 @@ wfschema docx
         tag image-def
     e imageRef : node
         tag image-ref
+    e transformation : node
+        a width
+        a height
+    e floating : node
+        a h
+        a v
+    e wrap : node
+        a type
+        a side
+    e margins : node
+        a top
+        a bottom
+        a left
+        a right
 
     e border : node
+    e borders : node
     e top : node
     e bottom : node
     e left : node
     e right : node
 
+    e widow : node
+    e outline : node
+
     e ul : node
     e ol : node
     e li : node
 
+    e tabStopsDef : node
+        tag tab-stops-def
+    e tabStopDef : node
+        tag tab-stop-def
+        a type
+        a position
+    e tabStops : node
+        tag tab-stops
+
+    $include docx/document
+    $include docx/style
+    $include docx/numbering
+    $include docx/section
+    $include docx/paragraph
+    $include docx/text

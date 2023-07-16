@@ -173,14 +173,23 @@ var node = (function (docxBase) {
         if (name === '+') {
             return this.wzLoadToChildColl(child, _md.text, this.nodes);
         }
+        if (name === '@') {
+            return this.wzLoadToChildColl(child, _md.valueText, this.nodes);
+        }
+        if (name === 'a') {
+            return this.wzLoadToChildColl(child, _md.hyperlink, this.nodes);
+        }
         if (name === 'b') {
             return this.wzLoadToChildColl(child, _md.bold, this.nodes);
         }
         if (name === 'i') {
-            return this.wzLoadToChildColl(child, _md.italic, this.nodes);
+            return this.wzLoadToChildColl(child, _md.italics, this.nodes);
         }
         if (name === 'p') {
-            return this.wzLoadToChildColl(child, _md.p, this.nodes);
+            return this.wzLoadToChildColl(child, _md.paragraph, this.nodes);
+        }
+        if (name === 'a#') {
+            return this.wzLoadToChildColl(child, _md.internalHyperlink, this.nodes);
         }
         if (name === 'br') {
             return this.wzLoadToChildColl(child, _md.xbreak, this.nodes);
@@ -254,6 +263,9 @@ var node = (function (docxBase) {
         else if (name === 'next') {
             return this.wzLoadToChildColl(child, _md.next, this.nodes);
         }
+        if (name === 'page') {
+            return this.wzLoadToChildColl(child, _md.page, this.nodes);
+        }
         if (name === 'size') {
             return this.wzLoadToChildColl(child, _md.size, this.nodes);
         }
@@ -263,20 +275,35 @@ var node = (function (docxBase) {
         else if (name === 'text') {
             return this.wzLoadToChildColl(child, _md.linkText, this.nodes);
         }
+        if (name === 'wrap') {
+            return this.wzLoadToChildColl(child, _md.wrap, this.nodes);
+        }
         if (name === 'after') {
             return this.wzLoadToChildColl(child, _md.after, this.nodes);
+        }
+        else if (name === 'align') {
+            return this.wzLoadToChildColl(child, _md.align, this.nodes);
         }
         if (name === 'color') {
             return this.wzLoadToChildColl(child, _md.color, this.nodes);
         }
+        if (name === 'level') {
+            return this.wzLoadToChildColl(child, _md.level, this.nodes);
+        }
         if (name === 'right') {
             return this.wzLoadToChildColl(child, _md.right, this.nodes);
         }
-        if (name === 'style') {
-            return this.wzLoadToChildColl(child, _md.style, this.nodes);
+        if (name === 'scale') {
+            return this.wzLoadToChildColl(child, _md.scale, this.nodes);
         }
         else if (name === 'space') {
             return this.wzLoadToChildColl(child, _md.space, this.nodes);
+        }
+        else if (name === 'style') {
+            return this.wzLoadToChildColl(child, _md.style, this.nodes);
+        }
+        else if (name === 'start') {
+            return this.wzLoadToChildColl(child, _md.start, this.nodes);
         }
         if (name === 'table') {
             return this.wzLoadToChildColl(child, _md.table, this.nodes);
@@ -287,7 +314,13 @@ var node = (function (docxBase) {
         if (name === 'width') {
             return this.wzLoadToChildColl(child, _md.width, this.nodes);
         }
-        if (name === 'before') {
+        else if (name === 'widow') {
+            return this.wzLoadToChildColl(child, _md.widow, this.nodes);
+        }
+        if (name === 'bullet') {
+            return this.wzLoadToChildColl(child, _md.bullet, this.nodes);
+        }
+        else if (name === 'before') {
             return this.wzLoadToChildColl(child, _md.before, this.nodes);
         }
         else if (name === 'border') {
@@ -299,14 +332,44 @@ var node = (function (docxBase) {
         if (name === 'center') {
             return this.wzLoadToChildColl(child, _md.center, this.nodes);
         }
-        if (name === 'italic') {
-            return this.wzLoadToChildColl(child, _md.italicProp, this.nodes);
+        else if (name === 'config') {
+            return this.wzLoadToChildColl(child, _md.config, this.nodes);
+        }
+        else if (name === 'column') {
+            return this.wzLoadToChildColl(child, _md.column, this.nodes);
+        }
+        if (name === 'footer') {
+            return this.wzLoadToChildColl(child, _md.footer, this.nodes);
+        }
+        if (name === 'height') {
+            return this.wzLoadToChildColl(child, _md.height, this.nodes);
+        }
+        else if (name === 'header') {
+            return this.wzLoadToChildColl(child, _md.header, this.nodes);
+        }
+        else if (name === 'htitle') {
+            return this.wzLoadToChildColl(child, _md.htitle, this.nodes);
+        }
+        if (name === 'indent') {
+            return this.wzLoadToChildColl(child, _md.indent, this.nodes);
+        }
+        if (name === 'margin') {
+            return this.wzLoadToChildColl(child, _md.margin, this.nodes);
+        }
+        if (name === 'postab') {
+            return this.wzLoadToChildColl(child, _md.positionalTab, this.nodes);
         }
         if (name === 'strike') {
             return this.wzLoadToChildColl(child, _md.strike, this.nodes);
         }
-        else if (name === 'styles') {
-            return this.wzLoadToChildColl(child, _md.styles, this.nodes);
+        else if (name === 'symbol') {
+            return this.wzLoadToChildColl(child, _md.symbol, this.nodes);
+        }
+        if (name === 'valign') {
+            return this.wzLoadToChildColl(child, _md.valign, this.nodes);
+        }
+        else if (name === 'vanish') {
+            return this.wzLoadToChildColl(child, _md.vanish, this.nodes);
         }
         if (name === 'allcaps') {
             return this.wzLoadToChildColl(child, _md.allCaps, this.nodes);
@@ -314,29 +377,53 @@ var node = (function (docxBase) {
         if (name === 'basedon') {
             return this.wzLoadToChildColl(child, _md.basedOn, this.nodes);
         }
+        else if (name === 'borders') {
+            return this.wzLoadToChildColl(child, _md.borders, this.nodes);
+        }
         if (name === 'default') {
             return this.wzLoadToChildColl(child, _md.xdefault, this.nodes);
         }
-        if (name === 'linkdef') {
-            return this.wzLoadToChildColl(child, _md.hyperlinkDef, this.nodes);
+        if (name === 'italics') {
+            return this.wzLoadToChildColl(child, _md.italicsProp, this.nodes);
         }
-        else if (name === 'linkref') {
-            return this.wzLoadToChildColl(child, _md.hyperlinkRef, this.nodes);
+        if (name === 'literal') {
+            return this.wzLoadToChildColl(child, _md.literal, this.nodes);
         }
-        if (name === 'section') {
-            return this.wzLoadToChildColl(child, _md.section, this.nodes);
+        if (name === 'margins') {
+            return this.wzLoadToChildColl(child, _md.margins, this.nodes);
         }
-        else if (name === 'shading') {
+        if (name === 'outline') {
+            return this.wzLoadToChildColl(child, _md.outline, this.nodes);
+        }
+        if (name === 'pageref') {
+            return this.wzLoadToChildColl(child, _md.pageReference, this.nodes);
+        }
+        else if (name === 'pos-tab') {
+            return this.wzLoadToChildColl(child, _md.positionalTab, this.nodes);
+        }
+        if (name === 'shading') {
             return this.wzLoadToChildColl(child, _md.shading, this.nodes);
         }
         else if (name === 'spacing') {
             return this.wzLoadToChildColl(child, _md.spacing, this.nodes);
         }
+        else if (name === 'section') {
+            return this.wzLoadToChildColl(child, _md.section, this.nodes);
+        }
         if (name === 'tabstop') {
             return this.wzLoadToChildColl(child, _md.tabStop, this.nodes);
         }
-        if (name === 'bullet_0') {
-            return this.wzLoadToChildColl(child, _md.bullet_0, this.nodes);
+        if (name === 'all-caps') {
+            return this.wzLoadToChildColl(child, _md.allCaps, this.nodes);
+        }
+        if (name === 'bookmark') {
+            return this.wzLoadToChildColl(child, _md.bookmark, this.nodes);
+        }
+        if (name === 'floating') {
+            return this.wzLoadToChildColl(child, _md.floating, this.nodes);
+        }
+        else if (name === 'footnote') {
+            return this.wzLoadToChildColl(child, _md.footnoteDef, this.nodes);
         }
         if (name === 'imagedef') {
             return this.wzLoadToChildColl(child, _md.imageDef, this.nodes);
@@ -344,23 +431,23 @@ var node = (function (docxBase) {
         else if (name === 'imageref') {
             return this.wzLoadToChildColl(child, _md.imageRef, this.nodes);
         }
+        if (name === 'keepnext') {
+            return this.wzLoadToChildColl(child, _md.keepNext, this.nodes);
+        }
         if (name === 'linerule') {
             return this.wzLoadToChildColl(child, _md.lineRule, this.nodes);
-        }
-        else if (name === 'link-def') {
-            return this.wzLoadToChildColl(child, _md.hyperlinkDef, this.nodes);
-        }
-        else if (name === 'link-ref') {
-            return this.wzLoadToChildColl(child, _md.hyperlinkRef, this.nodes);
         }
         if (name === 'position') {
             return this.wzLoadToChildColl(child, _md.position, this.nodes);
         }
+        else if (name === 'page-ref') {
+            return this.wzLoadToChildColl(child, _md.pageReference, this.nodes);
+        }
         if (name === 'styledef') {
             return this.wzLoadToChildColl(child, _md.styleDef, this.nodes);
         }
-        if (name === 'alignment') {
-            return this.wzLoadToChildColl(child, _md.alignment, this.nodes);
+        if (name === 'tabstops') {
+            return this.wzLoadToChildColl(child, _md.tabStops, this.nodes);
         }
         if (name === 'highlight') {
             return this.wzLoadToChildColl(child, _md.highlight, this.nodes);
@@ -371,26 +458,98 @@ var node = (function (docxBase) {
         else if (name === 'image-ref') {
             return this.wzLoadToChildColl(child, _md.imageRef, this.nodes);
         }
-        if (name === 'subscript') {
+        if (name === 'keeplines') {
+            return this.wzLoadToChildColl(child, _md.keepLines, this.nodes);
+        }
+        else if (name === 'keep-next') {
+            return this.wzLoadToChildColl(child, _md.keepNext, this.nodes);
+        }
+        if (name === 'line-rule') {
+            return this.wzLoadToChildColl(child, _md.lineRule, this.nodes);
+        }
+        if (name === 'numbering') {
+            return this.wzLoadToChildColl(child, _md.numbering, this.nodes);
+        }
+        if (name === 'paragraph') {
+            return this.wzLoadToChildColl(child, _md.paragraphDef, this.nodes);
+        }
+        else if (name === 'pagebreak') {
+            return this.wzLoadToChildColl(child, _md.pageBreak, this.nodes);
+        }
+        if (name === 'stylesdef') {
+            return this.wzLoadToChildColl(child, _md.stylesDef, this.nodes);
+        }
+        else if (name === 'style-def') {
+            return this.wzLoadToChildColl(child, _md.styleDef, this.nodes);
+        }
+        else if (name === 'subscript') {
             return this.wzLoadToChildColl(child, _md.subScript, this.nodes);
         }
         else if (name === 'smallcaps') {
             return this.wzLoadToChildColl(child, _md.smallCaps, this.nodes);
         }
-        else if (name === 'smallcaps') {
-            return this.wzLoadToChildColl(child, _md.smallCaps, this.nodes);
-        }
-        else if (name === 'style-def') {
-            return this.wzLoadToChildColl(child, _md.styleDef, this.nodes);
+        if (name === 'tab-stops') {
+            return this.wzLoadToChildColl(child, _md.tabStops, this.nodes);
         }
         if (name === 'underline') {
             return this.wzLoadToChildColl(child, _md.underline, this.nodes);
         }
-        if (name === 'hyperlinks') {
-            return this.wzLoadToChildColl(child, _md.hyperlinks, this.nodes);
+        if (name === 'columnspan') {
+            return this.wzLoadToChildColl(child, _md.columnSpan, this.nodes);
         }
-        if (name === 'superscript') {
+        if (name === 'formattype') {
+            return this.wzLoadToChildColl(child, _md.formatType, this.nodes);
+        }
+        if (name === 'keep-lines') {
+            return this.wzLoadToChildColl(child, _md.keepLines, this.nodes);
+        }
+        if (name === 'page-break') {
+            return this.wzLoadToChildColl(child, _md.pageBreak, this.nodes);
+        }
+        if (name === 'styles-def') {
+            return this.wzLoadToChildColl(child, _md.stylesDef, this.nodes);
+        }
+        else if (name === 'specvanish') {
+            return this.wzLoadToChildColl(child, _md.specVanish, this.nodes);
+        }
+        else if (name === 'sub-script') {
+            return this.wzLoadToChildColl(child, _md.subScript, this.nodes);
+        }
+        else if (name === 'small-caps') {
+            return this.wzLoadToChildColl(child, _md.smallCaps, this.nodes);
+        }
+        if (name === 'tabstopdef') {
+            return this.wzLoadToChildColl(child, _md.tabStopDef, this.nodes);
+        }
+        if (name === 'column-span') {
+            return this.wzLoadToChildColl(child, _md.columnSpan, this.nodes);
+        }
+        if (name === 'footnoteref') {
+            return this.wzLoadToChildColl(child, _md.footnoteRef, this.nodes);
+        }
+        else if (name === 'format-type') {
+            return this.wzLoadToChildColl(child, _md.formatType, this.nodes);
+        }
+        if (name === 'pagenumbers') {
+            return this.wzLoadToChildColl(child, _md.pageNumbers, this.nodes);
+        }
+        else if (name === 'pageborders') {
+            return this.wzLoadToChildColl(child, _md.pageBorders, this.nodes);
+        }
+        if (name === 'quickformat') {
+            return this.wzLoadToChildColl(child, _md.quickFormat, this.nodes);
+        }
+        if (name === 'spec-vanish') {
+            return this.wzLoadToChildColl(child, _md.specVanish, this.nodes);
+        }
+        else if (name === 'superscript') {
             return this.wzLoadToChildColl(child, _md.superScript, this.nodes);
+        }
+        if (name === 'tabstopsdef') {
+            return this.wzLoadToChildColl(child, _md.tabStopsDef, this.nodes);
+        }
+        if (name === 'columnwidths') {
+            return this.wzLoadToChildColl(child, _md.columnWidths, this.nodes);
         }
         if (name === 'doublestrike') {
             return this.wzLoadToChildColl(child, _md.doubleStrike, this.nodes);
@@ -398,11 +557,98 @@ var node = (function (docxBase) {
         if (name === 'emphasismark') {
             return this.wzLoadToChildColl(child, _md.emphasisMark, this.nodes);
         }
+        if (name === 'footnote-ref') {
+            return this.wzLoadToChildColl(child, _md.footnoteRef, this.nodes);
+        }
+        if (name === 'numberingdef') {
+            return this.wzLoadToChildColl(child, _md.numberingDef, this.nodes);
+        }
+        if (name === 'page-numbers') {
+            return this.wzLoadToChildColl(child, _md.pageNumbers, this.nodes);
+        }
+        else if (name === 'page-borders') {
+            return this.wzLoadToChildColl(child, _md.pageBorders, this.nodes);
+        }
+        if (name === 'quick-format') {
+            return this.wzLoadToChildColl(child, _md.quickFormat, this.nodes);
+        }
+        if (name === 'super-script') {
+            return this.wzLoadToChildColl(child, _md.superScript, this.nodes);
+        }
+        if (name === 'tab-stop-def') {
+            return this.wzLoadToChildColl(child, _md.tabStopDef, this.nodes);
+        }
+        if (name === 'column-widths') {
+            return this.wzLoadToChildColl(child, _md.columnWidths, this.nodes);
+        }
+        if (name === 'double-strike') {
+            return this.wzLoadToChildColl(child, _md.doubleStrike, this.nodes);
+        }
+        if (name === 'emphasis-mark') {
+            return this.wzLoadToChildColl(child, _md.emphasisMark, this.nodes);
+        }
+        if (name === 'numbering-def') {
+            return this.wzLoadToChildColl(child, _md.numberingDef, this.nodes);
+        }
+        if (name === 'pagebordertop') {
+            return this.wzLoadToChildColl(child, _md.pageBorderTop, this.nodes);
+        }
+        if (name === 'textdirection') {
+            return this.wzLoadToChildColl(child, _md.textDirection, this.nodes);
+        }
+        else if (name === 'tab-stops-def') {
+            return this.wzLoadToChildColl(child, _md.tabStopsDef, this.nodes);
+        }
+        else if (name === 'thematicbreak') {
+            return this.wzLoadToChildColl(child, _md.thematicBreak, this.nodes);
+        }
+        if (name === 'pageborderleft') {
+            return this.wzLoadToChildColl(child, _md.pageBorderLeft, this.nodes);
+        }
+        if (name === 'text-direction') {
+            return this.wzLoadToChildColl(child, _md.textDirection, this.nodes);
+        }
+        else if (name === 'transformation') {
+            return this.wzLoadToChildColl(child, _md.transformation, this.nodes);
+        }
+        else if (name === 'thematic-break') {
+            return this.wzLoadToChildColl(child, _md.thematicBreak, this.nodes);
+        }
+        if (name === 'characterstyles') {
+            return this.wzLoadToChildColl(child, _md.characterStyles, this.nodes);
+        }
         if (name === 'paragraphstyles') {
             return this.wzLoadToChildColl(child, _md.paragraphStyles, this.nodes);
         }
+        else if (name === 'pagebreakbefore') {
+            return this.wzLoadToChildColl(child, _md.pageBreakBefore, this.nodes);
+        }
+        else if (name === 'page-border-top') {
+            return this.wzLoadToChildColl(child, _md.pageBorderTop, this.nodes);
+        }
+        else if (name === 'pageborderright') {
+            return this.wzLoadToChildColl(child, _md.pageBorderRight, this.nodes);
+        }
+        if (name === 'character-styles') {
+            return this.wzLoadToChildColl(child, _md.characterStyles, this.nodes);
+        }
         if (name === 'paragraph-styles') {
             return this.wzLoadToChildColl(child, _md.paragraphStyles, this.nodes);
+        }
+        else if (name === 'pageborderbottom') {
+            return this.wzLoadToChildColl(child, _md.pageBorderBottom, this.nodes);
+        }
+        else if (name === 'page-border-left') {
+            return this.wzLoadToChildColl(child, _md.pageBorderLeft, this.nodes);
+        }
+        if (name === 'page-break-before') {
+            return this.wzLoadToChildColl(child, _md.pageBreakBefore, this.nodes);
+        }
+        else if (name === 'page-border-right') {
+            return this.wzLoadToChildColl(child, _md.pageBorderRight, this.nodes);
+        }
+        if (name === 'page-border-bottom') {
+            return this.wzLoadToChildColl(child, _md.pageBorderBottom, this.nodes);
         }
         return false;
     }
@@ -442,6 +688,48 @@ var docx = (function (node) {
         _classCallCheck(this, docx);
         this.wzElement = "docx";
     }
+    docx.prototype.loadChild = function(child) {
+        var ok = false, name = child.n.toLowerCase();
+        if (name === 'title') {
+            this.title = child.v; return true;
+        }
+        if (name === 'creator') {
+            this.creator = child.v; return true;
+        }
+        if (name === 'subject') {
+            this.subject = child.v; return true;
+        }
+        if (name === 'keywords') {
+            this.keywords = child.v; return true;
+        }
+        if (name === 'revision') {
+            this.revision = parseinteger(child.v, null, child); return true;
+        }
+        if (name === 'description') {
+            this.description = child.v; return true;
+        }
+        if (name === 'lastmodifiedby') {
+            this.lastModifiedBy = child.v; return true;
+        }
+        if (name === 'even-and-odd-header-and-footers') {
+            this.evenAndOddHeaderAndFooters = child.v; return true;
+        }
+        else if (name === 'even_and_odd_header_and_footers') {
+            this.evenAndOddHeaderAndFooters = child.v; return true;
+        }
+        ok = _md.node.prototype.loadChild.call(this, child);
+        return ok;
+    }
+    docx.prototype.loadFromNode = function(node) {
+        node.children.forEach((item) => {
+        
+            var loaded = this.loadChild(item);
+            if (!loaded) {
+                throw new _md.docxModelException("Tag not recognized: " + item.n, item, this);
+            }
+        }
+        )
+    }
     return docx;
 })(node);
 
@@ -458,282 +746,6 @@ var xname = (function (node) {
 })(node);
 
 _md.xname = xname;
-// element section
-var section = (function (node) {
-    _inherits(section, node);
-    function section(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(section.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, section);
-        this.wzElement = "section";
-    }
-    return section;
-})(node);
-
-_md.section = section;
-// element h1
-var h1 = (function (node) {
-    _inherits(h1, node);
-    function h1(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(h1.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, h1);
-        this.wzElement = "h1";
-    }
-    return h1;
-})(node);
-
-_md.h1 = h1;
-// element h2
-var h2 = (function (node) {
-    _inherits(h2, node);
-    function h2(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(h2.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, h2);
-        this.wzElement = "h2";
-    }
-    return h2;
-})(node);
-
-_md.h2 = h2;
-// element h3
-var h3 = (function (node) {
-    _inherits(h3, node);
-    function h3(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(h3.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, h3);
-        this.wzElement = "h3";
-    }
-    return h3;
-})(node);
-
-_md.h3 = h3;
-// element h4
-var h4 = (function (node) {
-    _inherits(h4, node);
-    function h4(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(h4.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, h4);
-        this.wzElement = "h4";
-    }
-    return h4;
-})(node);
-
-_md.h4 = h4;
-// element h5
-var h5 = (function (node) {
-    _inherits(h5, node);
-    function h5(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(h5.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, h5);
-        this.wzElement = "h5";
-    }
-    return h5;
-})(node);
-
-_md.h5 = h5;
-// element h6
-var h6 = (function (node) {
-    _inherits(h6, node);
-    function h6(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(h6.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, h6);
-        this.wzElement = "h6";
-    }
-    return h6;
-})(node);
-
-_md.h6 = h6;
-// element p
-var p = (function (node) {
-    _inherits(p, node);
-    function p(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(p.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, p);
-        this.wzElement = "p";
-    }
-    return p;
-})(node);
-
-_md.p = p;
-// element xbreak
-var xbreak = (function (node) {
-    _inherits(xbreak, node);
-    function xbreak(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(xbreak.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, xbreak);
-        this.wzElement = "xbreak";
-    }
-    return xbreak;
-})(node);
-
-_md.xbreak = xbreak;
-// element text
-var text = (function (node) {
-    _inherits(text, node);
-    function text(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(text.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, text);
-        this.wzElement = "text";
-    }
-    return text;
-})(node);
-
-_md.text = text;
-// element bold
-var bold = (function (node) {
-    _inherits(bold, node);
-    function bold(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(bold.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, bold);
-        this.wzElement = "bold";
-    }
-    return bold;
-})(node);
-
-_md.bold = bold;
-// element boldProp
-var boldProp = (function (node) {
-    _inherits(boldProp, node);
-    function boldProp(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(boldProp.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, boldProp);
-        this.wzElement = "boldProp";
-    }
-    return boldProp;
-})(node);
-
-_md.boldProp = boldProp;
-// element italic
-var italic = (function (node) {
-    _inherits(italic, node);
-    function italic(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(italic.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, italic);
-        this.wzElement = "italic";
-    }
-    return italic;
-})(node);
-
-_md.italic = italic;
-// element italicProp
-var italicProp = (function (node) {
-    _inherits(italicProp, node);
-    function italicProp(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(italicProp.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, italicProp);
-        this.wzElement = "italicProp";
-    }
-    return italicProp;
-})(node);
-
-_md.italicProp = italicProp;
-// element underline
-var underline = (function (node) {
-    _inherits(underline, node);
-    function underline(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(underline.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, underline);
-        this.wzElement = "underline";
-    }
-    return underline;
-})(node);
-
-_md.underline = underline;
-// element emphasisMark
-var emphasisMark = (function (node) {
-    _inherits(emphasisMark, node);
-    function emphasisMark(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(emphasisMark.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, emphasisMark);
-        this.wzElement = "emphasisMark";
-    }
-    return emphasisMark;
-})(node);
-
-_md.emphasisMark = emphasisMark;
-// element strike
-var strike = (function (node) {
-    _inherits(strike, node);
-    function strike(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(strike.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, strike);
-        this.wzElement = "strike";
-    }
-    return strike;
-})(node);
-
-_md.strike = strike;
-// element doubleStrike
-var doubleStrike = (function (node) {
-    _inherits(doubleStrike, node);
-    function doubleStrike(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(doubleStrike.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, doubleStrike);
-        this.wzElement = "doubleStrike";
-    }
-    return doubleStrike;
-})(node);
-
-_md.doubleStrike = doubleStrike;
-// element superScript
-var superScript = (function (node) {
-    _inherits(superScript, node);
-    function superScript(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(superScript.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, superScript);
-        this.wzElement = "superScript";
-    }
-    return superScript;
-})(node);
-
-_md.superScript = superScript;
-// element subScript
-var subScript = (function (node) {
-    _inherits(subScript, node);
-    function subScript(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(subScript.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, subScript);
-        this.wzElement = "subScript";
-    }
-    return subScript;
-})(node);
-
-_md.subScript = subScript;
-// element smallCaps
-var smallCaps = (function (node) {
-    _inherits(smallCaps, node);
-    function smallCaps(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(smallCaps.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, smallCaps);
-        this.wzElement = "smallCaps";
-    }
-    return smallCaps;
-})(node);
-
-_md.smallCaps = smallCaps;
-// element allCaps
-var allCaps = (function (node) {
-    _inherits(allCaps, node);
-    function allCaps(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(allCaps.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, allCaps);
-        this.wzElement = "allCaps";
-    }
-    return allCaps;
-})(node);
-
-_md.allCaps = allCaps;
-// element smallCaps
-var smallCaps = (function (node) {
-    _inherits(smallCaps, node);
-    function smallCaps(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(smallCaps.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, smallCaps);
-        this.wzElement = "smallCaps";
-    }
-    return smallCaps;
-})(node);
-
-_md.smallCaps = smallCaps;
 // element font
 var font = (function (node) {
     _inherits(font, node);
@@ -794,6 +806,30 @@ var width = (function (node) {
 })(node);
 
 _md.width = width;
+// element height
+var height = (function (node) {
+    _inherits(height, node);
+    function height(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(height.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, height);
+        this.wzElement = "height";
+    }
+    return height;
+})(node);
+
+_md.height = height;
+// element scale
+var scale = (function (node) {
+    _inherits(scale, node);
+    function scale(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(scale.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, scale);
+        this.wzElement = "scale";
+    }
+    return scale;
+})(node);
+
+_md.scale = scale;
 // element shading
 var shading = (function (node) {
     _inherits(shading, node);
@@ -878,18 +914,18 @@ var center = (function (node) {
 })(node);
 
 _md.center = center;
-// element bullet_0
-var bullet_0 = (function (node) {
-    _inherits(bullet_0, node);
-    function bullet_0(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(bullet_0.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, bullet_0);
-        this.wzElement = "bullet_0";
+// element bullet
+var bullet = (function (node) {
+    _inherits(bullet, node);
+    function bullet(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(bullet.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, bullet);
+        this.wzElement = "bullet";
     }
-    return bullet_0;
+    return bullet;
 })(node);
 
-_md.bullet_0 = bullet_0;
+_md.bullet = bullet;
 // element tabStop
 var tabStop = (function (node) {
     _inherits(tabStop, node);
@@ -914,30 +950,6 @@ var position = (function (node) {
 })(node);
 
 _md.position = position;
-// element styles
-var styles = (function (node) {
-    _inherits(styles, node);
-    function styles(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(styles.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, styles);
-        this.wzElement = "styles";
-    }
-    return styles;
-})(node);
-
-_md.styles = styles;
-// element style
-var style = (function (node) {
-    _inherits(style, node);
-    function style(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(style.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, style);
-        this.wzElement = "style";
-    }
-    return style;
-})(node);
-
-_md.style = style;
 // element basedOn
 var basedOn = (function (node) {
     _inherits(basedOn, node);
@@ -962,54 +974,6 @@ var next = (function (node) {
 })(node);
 
 _md.next = next;
-// element paragraphStyles
-var paragraphStyles = (function (node) {
-    _inherits(paragraphStyles, node);
-    function paragraphStyles(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(paragraphStyles.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, paragraphStyles);
-        this.wzElement = "paragraphStyles";
-    }
-    return paragraphStyles;
-})(node);
-
-_md.paragraphStyles = paragraphStyles;
-// element run
-var run = (function (node) {
-    _inherits(run, node);
-    function run(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(run.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, run);
-        this.wzElement = "run";
-    }
-    return run;
-})(node);
-
-_md.run = run;
-// element xdefault
-var xdefault = (function (node) {
-    _inherits(xdefault, node);
-    function xdefault(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(xdefault.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, xdefault);
-        this.wzElement = "xdefault";
-    }
-    return xdefault;
-})(node);
-
-_md.xdefault = xdefault;
-// element styleDef
-var styleDef = (function (node) {
-    _inherits(styleDef, node);
-    function styleDef(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(styleDef.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, styleDef);
-        this.wzElement = "styleDef";
-    }
-    return styleDef;
-})(node);
-
-_md.styleDef = styleDef;
 // element space
 var space = (function (node) {
     _inherits(space, node);
@@ -1034,18 +998,6 @@ var value = (function (node) {
 })(node);
 
 _md.value = value;
-// element spacing
-var spacing = (function (node) {
-    _inherits(spacing, node);
-    function spacing(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(spacing.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, spacing);
-        this.wzElement = "spacing";
-    }
-    return spacing;
-})(node);
-
-_md.spacing = spacing;
 // element after
 var after = (function (node) {
     _inherits(after, node);
@@ -1094,30 +1046,66 @@ var lineRule = (function (node) {
 })(node);
 
 _md.lineRule = lineRule;
-// element alignment
-var alignment = (function (node) {
-    _inherits(alignment, node);
-    function alignment(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(alignment.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, alignment);
-        this.wzElement = "alignment";
+// element align
+var align = (function (node) {
+    _inherits(align, node);
+    function align(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(align.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, align);
+        this.wzElement = "align";
     }
-    return alignment;
+    return align;
 })(node);
 
-_md.alignment = alignment;
-// element hyperlinks
-var hyperlinks = (function (node) {
-    _inherits(hyperlinks, node);
-    function hyperlinks(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(hyperlinks.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, hyperlinks);
-        this.wzElement = "hyperlinks";
+_md.align = align;
+// element valign
+var valign = (function (node) {
+    _inherits(valign, node);
+    function valign(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(valign.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, valign);
+        this.wzElement = "valign";
     }
-    return hyperlinks;
+    return valign;
 })(node);
 
-_md.hyperlinks = hyperlinks;
+_md.valign = valign;
+// element textDirection
+var textDirection = (function (node) {
+    _inherits(textDirection, node);
+    function textDirection(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(textDirection.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, textDirection);
+        this.wzElement = "textDirection";
+    }
+    return textDirection;
+})(node);
+
+_md.textDirection = textDirection;
+// element columnSpan
+var columnSpan = (function (node) {
+    _inherits(columnSpan, node);
+    function columnSpan(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(columnSpan.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, columnSpan);
+        this.wzElement = "columnSpan";
+    }
+    return columnSpan;
+})(node);
+
+_md.columnSpan = columnSpan;
+// element columnWidths
+var columnWidths = (function (node) {
+    _inherits(columnWidths, node);
+    function columnWidths(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(columnWidths.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, columnWidths);
+        this.wzElement = "columnWidths";
+    }
+    return columnWidths;
+})(node);
+
+_md.columnWidths = columnWidths;
 // element link
 var link = (function (node) {
     _inherits(link, node);
@@ -1142,30 +1130,6 @@ var linkText = (function (node) {
 })(node);
 
 _md.linkText = linkText;
-// element hyperlinkDef
-var hyperlinkDef = (function (node) {
-    _inherits(hyperlinkDef, node);
-    function hyperlinkDef(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(hyperlinkDef.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, hyperlinkDef);
-        this.wzElement = "hyperlinkDef";
-    }
-    return hyperlinkDef;
-})(node);
-
-_md.hyperlinkDef = hyperlinkDef;
-// element hyperlinkRef
-var hyperlinkRef = (function (node) {
-    _inherits(hyperlinkRef, node);
-    function hyperlinkRef(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(hyperlinkRef.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, hyperlinkRef);
-        this.wzElement = "hyperlinkRef";
-    }
-    return hyperlinkRef;
-})(node);
-
-_md.hyperlinkRef = hyperlinkRef;
 // element imageDef
 var imageDef = (function (node) {
     _inherits(imageDef, node);
@@ -1211,6 +1175,144 @@ var imageRef = (function (node) {
 })(node);
 
 _md.imageRef = imageRef;
+// element transformation
+var transformation = (function (node) {
+    _inherits(transformation, node);
+    function transformation(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(transformation.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, transformation);
+        this.wzElement = "transformation";
+    }
+    transformation.prototype.loadChild = function(child) {
+        var ok = false, name = child.n.toLowerCase();
+        if (name === 'width') {
+            this.width = child.v; return true;
+        }
+        if (name === 'height') {
+            this.height = child.v; return true;
+        }
+        ok = _md.node.prototype.loadChild.call(this, child);
+        return ok;
+    }
+    transformation.prototype.loadFromNode = function(node) {
+        node.children.forEach((item) => {
+        
+            var loaded = this.loadChild(item);
+            if (!loaded) {
+                throw new _md.docxModelException("Tag not recognized: " + item.n, item, this);
+            }
+        }
+        )
+    }
+    return transformation;
+})(node);
+
+_md.transformation = transformation;
+// element floating
+var floating = (function (node) {
+    _inherits(floating, node);
+    function floating(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(floating.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, floating);
+        this.wzElement = "floating";
+    }
+    floating.prototype.loadChild = function(child) {
+        var ok = false, name = child.n.toLowerCase();
+        if (name === 'h') {
+            this.h = child.v; return true;
+        }
+        if (name === 'v') {
+            this.v = child.v; return true;
+        }
+        ok = _md.node.prototype.loadChild.call(this, child);
+        return ok;
+    }
+    floating.prototype.loadFromNode = function(node) {
+        node.children.forEach((item) => {
+        
+            var loaded = this.loadChild(item);
+            if (!loaded) {
+                throw new _md.docxModelException("Tag not recognized: " + item.n, item, this);
+            }
+        }
+        )
+    }
+    return floating;
+})(node);
+
+_md.floating = floating;
+// element wrap
+var wrap = (function (node) {
+    _inherits(wrap, node);
+    function wrap(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(wrap.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, wrap);
+        this.wzElement = "wrap";
+    }
+    wrap.prototype.loadChild = function(child) {
+        var ok = false, name = child.n.toLowerCase();
+        if (name === 'side') {
+            this.side = child.v; return true;
+        }
+        if (name === 'type') {
+            this.type = child.v; return true;
+        }
+        ok = _md.node.prototype.loadChild.call(this, child);
+        return ok;
+    }
+    wrap.prototype.loadFromNode = function(node) {
+        node.children.forEach((item) => {
+        
+            var loaded = this.loadChild(item);
+            if (!loaded) {
+                throw new _md.docxModelException("Tag not recognized: " + item.n, item, this);
+            }
+        }
+        )
+    }
+    return wrap;
+})(node);
+
+_md.wrap = wrap;
+// element margins
+var margins = (function (node) {
+    _inherits(margins, node);
+    function margins(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(margins.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, margins);
+        this.wzElement = "margins";
+    }
+    margins.prototype.loadChild = function(child) {
+        var ok = false, name = child.n.toLowerCase();
+        if (name === 'top') {
+            this.top = child.v; return true;
+        }
+        if (name === 'left') {
+            this.left = child.v; return true;
+        }
+        if (name === 'right') {
+            this.right = child.v; return true;
+        }
+        if (name === 'bottom') {
+            this.bottom = child.v; return true;
+        }
+        ok = _md.node.prototype.loadChild.call(this, child);
+        return ok;
+    }
+    margins.prototype.loadFromNode = function(node) {
+        node.children.forEach((item) => {
+        
+            var loaded = this.loadChild(item);
+            if (!loaded) {
+                throw new _md.docxModelException("Tag not recognized: " + item.n, item, this);
+            }
+        }
+        )
+    }
+    return margins;
+})(node);
+
+_md.margins = margins;
 // element border
 var border = (function (node) {
     _inherits(border, node);
@@ -1223,6 +1325,18 @@ var border = (function (node) {
 })(node);
 
 _md.border = border;
+// element borders
+var borders = (function (node) {
+    _inherits(borders, node);
+    function borders(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(borders.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, borders);
+        this.wzElement = "borders";
+    }
+    return borders;
+})(node);
+
+_md.borders = borders;
 // element top
 var top = (function (node) {
     _inherits(top, node);
@@ -1271,6 +1385,30 @@ var right = (function (node) {
 })(node);
 
 _md.right = right;
+// element widow
+var widow = (function (node) {
+    _inherits(widow, node);
+    function widow(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(widow.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, widow);
+        this.wzElement = "widow";
+    }
+    return widow;
+})(node);
+
+_md.widow = widow;
+// element outline
+var outline = (function (node) {
+    _inherits(outline, node);
+    function outline(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(outline.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, outline);
+        this.wzElement = "outline";
+    }
+    return outline;
+})(node);
+
+_md.outline = outline;
 // element ul
 var ul = (function (node) {
     _inherits(ul, node);
@@ -1307,7 +1445,1189 @@ var li = (function (node) {
 })(node);
 
 _md.li = li;
-_md.__tagElementMapping = { 'name': 'xname', 'br': 'xbreak', '+': 'text', 'b': 'bold', 'bold': 'boldProp', 'i': 'italic', 'italic': 'italicProp', 'type': 'xtype', 'paragraph-styles': 'paragraphStyles', 'paragraphstyles': 'paragraphStyles', 'default': 'xdefault', 'style-def': 'styleDef', 'styledef': 'styleDef', 'text': 'linkText', 'link-def': 'hyperlinkDef', 'linkdef': 'hyperlinkDef', 'link-ref': 'hyperlinkRef', 'linkref': 'hyperlinkRef', 'image-def': 'imageDef', 'imagedef': 'imageDef', 'image-ref': 'imageRef', 'imageref': 'imageRef' };
+// element tabStopsDef
+var tabStopsDef = (function (node) {
+    _inherits(tabStopsDef, node);
+    function tabStopsDef(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(tabStopsDef.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, tabStopsDef);
+        this.wzElement = "tabStopsDef";
+    }
+    return tabStopsDef;
+})(node);
+
+_md.tabStopsDef = tabStopsDef;
+// element tabStopDef
+var tabStopDef = (function (node) {
+    _inherits(tabStopDef, node);
+    function tabStopDef(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(tabStopDef.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, tabStopDef);
+        this.wzElement = "tabStopDef";
+    }
+    tabStopDef.prototype.loadChild = function(child) {
+        var ok = false, name = child.n.toLowerCase();
+        if (name === 'type') {
+            this.type = child.v; return true;
+        }
+        if (name === 'position') {
+            this.position = child.v; return true;
+        }
+        ok = _md.node.prototype.loadChild.call(this, child);
+        return ok;
+    }
+    tabStopDef.prototype.loadFromNode = function(node) {
+        node.children.forEach((item) => {
+        
+            var loaded = this.loadChild(item);
+            if (!loaded) {
+                throw new _md.docxModelException("Tag not recognized: " + item.n, item, this);
+            }
+        }
+        )
+    }
+    return tabStopDef;
+})(node);
+
+_md.tabStopDef = tabStopDef;
+// element tabStops
+var tabStops = (function (node) {
+    _inherits(tabStops, node);
+    function tabStops(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(tabStops.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, tabStops);
+        this.wzElement = "tabStops";
+    }
+    return tabStops;
+})(node);
+
+_md.tabStops = tabStops;
+// element footnoteDef
+var footnoteDef = (function (node) {
+    _inherits(footnoteDef, node);
+    function footnoteDef(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(footnoteDef.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, footnoteDef);
+        this.wzElement = "footnoteDef";
+    }
+    return footnoteDef;
+})(node);
+
+_md.footnoteDef = footnoteDef;
+// element footnoteRef
+var footnoteRef = (function (node) {
+    _inherits(footnoteRef, node);
+    function footnoteRef(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(footnoteRef.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, footnoteRef);
+        this.wzElement = "footnoteRef";
+    }
+    return footnoteRef;
+})(node);
+
+_md.footnoteRef = footnoteRef;
+// element hyperlink
+var hyperlink = (function (node) {
+    _inherits(hyperlink, node);
+    function hyperlink(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(hyperlink.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, hyperlink);
+        this.wzElement = "hyperlink";
+    }
+    hyperlink.prototype.loadChild = function(child) {
+        var ok = false, name = child.n.toLowerCase();
+        if (name === 'href') {
+            this.href = child.v; return true;
+        }
+        ok = _md.node.prototype.loadChild.call(this, child);
+        return ok;
+    }
+    hyperlink.prototype.loadFromNode = function(node) {
+        node.children.forEach((item) => {
+        
+            var loaded = this.loadChild(item);
+            if (!loaded) {
+                throw new _md.docxModelException("Tag not recognized: " + item.n, item, this);
+            }
+        }
+        )
+    }
+    return hyperlink;
+})(node);
+
+_md.hyperlink = hyperlink;
+// element bookmark
+var bookmark = (function (node) {
+    _inherits(bookmark, node);
+    function bookmark(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(bookmark.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, bookmark);
+        this.wzElement = "bookmark";
+    }
+    return bookmark;
+})(node);
+
+_md.bookmark = bookmark;
+// element internalHyperlink
+var internalHyperlink = (function (node) {
+    _inherits(internalHyperlink, node);
+    function internalHyperlink(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(internalHyperlink.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, internalHyperlink);
+        this.wzElement = "internalHyperlink";
+    }
+    internalHyperlink.prototype.loadChild = function(child) {
+        var ok = false, name = child.n.toLowerCase();
+        if (name === 'href') {
+            this.href = child.v; return true;
+        }
+        ok = _md.node.prototype.loadChild.call(this, child);
+        return ok;
+    }
+    internalHyperlink.prototype.loadFromNode = function(node) {
+        node.children.forEach((item) => {
+        
+            var loaded = this.loadChild(item);
+            if (!loaded) {
+                throw new _md.docxModelException("Tag not recognized: " + item.n, item, this);
+            }
+        }
+        )
+    }
+    return internalHyperlink;
+})(node);
+
+_md.internalHyperlink = internalHyperlink;
+// element pageReference
+var pageReference = (function (node) {
+    _inherits(pageReference, node);
+    function pageReference(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(pageReference.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, pageReference);
+        this.wzElement = "pageReference";
+    }
+    return pageReference;
+})(node);
+
+_md.pageReference = pageReference;
+// element stylesDef
+var stylesDef = (function (node) {
+    _inherits(stylesDef, node);
+    function stylesDef(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(stylesDef.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, stylesDef);
+        this.wzElement = "stylesDef";
+    }
+    return stylesDef;
+})(node);
+
+_md.stylesDef = stylesDef;
+// element styleDef
+var styleDef = (function (node) {
+    _inherits(styleDef, node);
+    function styleDef(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(styleDef.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, styleDef);
+        this.wzElement = "styleDef";
+    }
+    return styleDef;
+})(node);
+
+_md.styleDef = styleDef;
+// element paragraphDef
+var paragraphDef = (function (node) {
+    _inherits(paragraphDef, node);
+    function paragraphDef(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(paragraphDef.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, paragraphDef);
+        this.wzElement = "paragraphDef";
+    }
+    return paragraphDef;
+})(node);
+
+_md.paragraphDef = paragraphDef;
+// element xdefault
+var xdefault = (function (node) {
+    _inherits(xdefault, node);
+    function xdefault(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(xdefault.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, xdefault);
+        this.wzElement = "xdefault";
+    }
+    return xdefault;
+})(node);
+
+_md.xdefault = xdefault;
+// element paragraphStyles
+var paragraphStyles = (function (node) {
+    _inherits(paragraphStyles, node);
+    function paragraphStyles(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(paragraphStyles.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, paragraphStyles);
+        this.wzElement = "paragraphStyles";
+    }
+    return paragraphStyles;
+})(node);
+
+_md.paragraphStyles = paragraphStyles;
+// element characterStyles
+var characterStyles = (function (node) {
+    _inherits(characterStyles, node);
+    function characterStyles(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(characterStyles.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, characterStyles);
+        this.wzElement = "characterStyles";
+    }
+    return characterStyles;
+})(node);
+
+_md.characterStyles = characterStyles;
+// element indent
+var indent = (function (node) {
+    _inherits(indent, node);
+    function indent(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(indent.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, indent);
+        this.wzElement = "indent";
+    }
+    indent.prototype.loadChild = function(child) {
+        var ok = false, name = child.n.toLowerCase();
+        if (name === 'left') {
+            this.left = child.v; return true;
+        }
+        if (name === 'hanging') {
+            this.hanging = child.v; return true;
+        }
+        ok = _md.node.prototype.loadChild.call(this, child);
+        return ok;
+    }
+    indent.prototype.loadFromNode = function(node) {
+        node.children.forEach((item) => {
+        
+            var loaded = this.loadChild(item);
+            if (!loaded) {
+                throw new _md.docxModelException("Tag not recognized: " + item.n, item, this);
+            }
+        }
+        )
+    }
+    return indent;
+})(node);
+
+_md.indent = indent;
+// element style
+var style = (function (node) {
+    _inherits(style, node);
+    function style(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(style.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, style);
+        this.wzElement = "style";
+    }
+    return style;
+})(node);
+
+_md.style = style;
+// element spacing
+var spacing = (function (node) {
+    _inherits(spacing, node);
+    function spacing(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(spacing.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, spacing);
+        this.wzElement = "spacing";
+    }
+    return spacing;
+})(node);
+
+_md.spacing = spacing;
+// element quickFormat
+var quickFormat = (function (node) {
+    _inherits(quickFormat, node);
+    function quickFormat(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(quickFormat.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, quickFormat);
+        this.wzElement = "quickFormat";
+    }
+    return quickFormat;
+})(node);
+
+_md.quickFormat = quickFormat;
+// element run
+var run = (function (node) {
+    _inherits(run, node);
+    function run(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(run.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, run);
+        this.wzElement = "run";
+    }
+    return run;
+})(node);
+
+_md.run = run;
+// element numberingDef
+var numberingDef = (function (node) {
+    _inherits(numberingDef, node);
+    function numberingDef(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(numberingDef.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, numberingDef);
+        this.wzElement = "numberingDef";
+    }
+    return numberingDef;
+})(node);
+
+_md.numberingDef = numberingDef;
+// element config
+var config = (function (node) {
+    _inherits(config, node);
+    function config(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(config.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, config);
+        this.wzElement = "config";
+    }
+    config.prototype.loadChild = function(child) {
+        var ok = false, name = child.n.toLowerCase();
+        if (name === 'reference') {
+            this.reference = child.v; return true;
+        }
+        ok = _md.node.prototype.loadChild.call(this, child);
+        return ok;
+    }
+    config.prototype.loadFromNode = function(node) {
+        node.children.forEach((item) => {
+        
+            var loaded = this.loadChild(item);
+            if (!loaded) {
+                throw new _md.docxModelException("Tag not recognized: " + item.n, item, this);
+            }
+        }
+        )
+    }
+    return config;
+})(node);
+
+_md.config = config;
+// element level
+var level = (function (node) {
+    _inherits(level, node);
+    function level(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(level.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, level);
+        this.wzElement = "level";
+    }
+    level.prototype.loadChild = function(child) {
+        var ok = false, name = child.n.toLowerCase();
+        if (name === 'text') {
+            this.text = child.v; return true;
+        }
+        if (name === 'format') {
+            this.format = child.v; return true;
+        }
+        if (name === 'alignment') {
+            this.alignment = child.v; return true;
+        }
+        ok = _md.node.prototype.loadChild.call(this, child);
+        return ok;
+    }
+    level.prototype.loadFromNode = function(node) {
+        node.children.forEach((item) => {
+        
+            var loaded = this.loadChild(item);
+            if (!loaded) {
+                throw new _md.docxModelException("Tag not recognized: " + item.n, item, this);
+            }
+        }
+        )
+    }
+    return level;
+})(node);
+
+_md.level = level;
+// element numbering
+var numbering = (function (node) {
+    _inherits(numbering, node);
+    function numbering(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(numbering.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, numbering);
+        this.wzElement = "numbering";
+    }
+    numbering.prototype.loadChild = function(child) {
+        var ok = false, name = child.n.toLowerCase();
+        if (name === 'level') {
+            this.level = child.v; return true;
+        }
+        if (name === 'instance') {
+            this.instance = child.v; return true;
+        }
+        if (name === 'reference') {
+            this.reference = child.v; return true;
+        }
+        ok = _md.node.prototype.loadChild.call(this, child);
+        return ok;
+    }
+    numbering.prototype.loadFromNode = function(node) {
+        node.children.forEach((item) => {
+        
+            var loaded = this.loadChild(item);
+            if (!loaded) {
+                throw new _md.docxModelException("Tag not recognized: " + item.n, item, this);
+            }
+        }
+        )
+    }
+    return numbering;
+})(node);
+
+_md.numbering = numbering;
+// element section
+var section = (function (node) {
+    _inherits(section, node);
+    function section(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(section.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, section);
+        this.wzElement = "section";
+    }
+    section.prototype.loadChild = function(child) {
+        var ok = false, name = child.n.toLowerCase();
+        if (name === 'title-page') {
+            this.titlePage = child.v; return true;
+        }
+        else if (name === 'title_page') {
+            this.titlePage = child.v; return true;
+        }
+        ok = _md.node.prototype.loadChild.call(this, child);
+        return ok;
+    }
+    section.prototype.loadFromNode = function(node) {
+        node.children.forEach((item) => {
+        
+            var loaded = this.loadChild(item);
+            if (!loaded) {
+                throw new _md.docxModelException("Tag not recognized: " + item.n, item, this);
+            }
+        }
+        )
+    }
+    return section;
+})(node);
+
+_md.section = section;
+// element page
+var page = (function (node) {
+    _inherits(page, node);
+    function page(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(page.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, page);
+        this.wzElement = "page";
+    }
+    page.prototype.loadChild = function(child) {
+        var ok = false, name = child.n.toLowerCase();
+        if (name === 'width') {
+            this.width = child.v; return true;
+        }
+        if (name === 'height') {
+            this.height = child.v; return true;
+        }
+        if (name === 'orientation') {
+            this.orientation = child.v; return true;
+        }
+        ok = _md.node.prototype.loadChild.call(this, child);
+        return ok;
+    }
+    page.prototype.loadFromNode = function(node) {
+        node.children.forEach((item) => {
+        
+            var loaded = this.loadChild(item);
+            if (!loaded) {
+                throw new _md.docxModelException("Tag not recognized: " + item.n, item, this);
+            }
+        }
+        )
+    }
+    return page;
+})(node);
+
+_md.page = page;
+// element header
+var header = (function (node) {
+    _inherits(header, node);
+    function header(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(header.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, header);
+        this.wzElement = "header";
+    }
+    return header;
+})(node);
+
+_md.header = header;
+// element footer
+var footer = (function (node) {
+    _inherits(footer, node);
+    function footer(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(footer.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, footer);
+        this.wzElement = "footer";
+    }
+    return footer;
+})(node);
+
+_md.footer = footer;
+// element pageBreak
+var pageBreak = (function (node) {
+    _inherits(pageBreak, node);
+    function pageBreak(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(pageBreak.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, pageBreak);
+        this.wzElement = "pageBreak";
+    }
+    return pageBreak;
+})(node);
+
+_md.pageBreak = pageBreak;
+// element thematicBreak
+var thematicBreak = (function (node) {
+    _inherits(thematicBreak, node);
+    function thematicBreak(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(thematicBreak.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, thematicBreak);
+        this.wzElement = "thematicBreak";
+    }
+    return thematicBreak;
+})(node);
+
+_md.thematicBreak = thematicBreak;
+// element pageBreakBefore
+var pageBreakBefore = (function (node) {
+    _inherits(pageBreakBefore, node);
+    function pageBreakBefore(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(pageBreakBefore.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, pageBreakBefore);
+        this.wzElement = "pageBreakBefore";
+    }
+    return pageBreakBefore;
+})(node);
+
+_md.pageBreakBefore = pageBreakBefore;
+// element keepLines
+var keepLines = (function (node) {
+    _inherits(keepLines, node);
+    function keepLines(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(keepLines.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, keepLines);
+        this.wzElement = "keepLines";
+    }
+    return keepLines;
+})(node);
+
+_md.keepLines = keepLines;
+// element keepNext
+var keepNext = (function (node) {
+    _inherits(keepNext, node);
+    function keepNext(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(keepNext.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, keepNext);
+        this.wzElement = "keepNext";
+    }
+    return keepNext;
+})(node);
+
+_md.keepNext = keepNext;
+// element start
+var start = (function (node) {
+    _inherits(start, node);
+    function start(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(start.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, start);
+        this.wzElement = "start";
+    }
+    return start;
+})(node);
+
+_md.start = start;
+// element formatType
+var formatType = (function (node) {
+    _inherits(formatType, node);
+    function formatType(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(formatType.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, formatType);
+        this.wzElement = "formatType";
+    }
+    return formatType;
+})(node);
+
+_md.formatType = formatType;
+// element pageNumbers
+var pageNumbers = (function (node) {
+    _inherits(pageNumbers, node);
+    function pageNumbers(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(pageNumbers.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, pageNumbers);
+        this.wzElement = "pageNumbers";
+    }
+    return pageNumbers;
+})(node);
+
+_md.pageNumbers = pageNumbers;
+// element pageBorderTop
+var pageBorderTop = (function (node) {
+    _inherits(pageBorderTop, node);
+    function pageBorderTop(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(pageBorderTop.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, pageBorderTop);
+        this.wzElement = "pageBorderTop";
+    }
+    return pageBorderTop;
+})(node);
+
+_md.pageBorderTop = pageBorderTop;
+// element pageBorderRight
+var pageBorderRight = (function (node) {
+    _inherits(pageBorderRight, node);
+    function pageBorderRight(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(pageBorderRight.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, pageBorderRight);
+        this.wzElement = "pageBorderRight";
+    }
+    return pageBorderRight;
+})(node);
+
+_md.pageBorderRight = pageBorderRight;
+// element pageBorderBottom
+var pageBorderBottom = (function (node) {
+    _inherits(pageBorderBottom, node);
+    function pageBorderBottom(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(pageBorderBottom.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, pageBorderBottom);
+        this.wzElement = "pageBorderBottom";
+    }
+    return pageBorderBottom;
+})(node);
+
+_md.pageBorderBottom = pageBorderBottom;
+// element pageBorderLeft
+var pageBorderLeft = (function (node) {
+    _inherits(pageBorderLeft, node);
+    function pageBorderLeft(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(pageBorderLeft.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, pageBorderLeft);
+        this.wzElement = "pageBorderLeft";
+    }
+    return pageBorderLeft;
+})(node);
+
+_md.pageBorderLeft = pageBorderLeft;
+// element pageBorders
+var pageBorders = (function (node) {
+    _inherits(pageBorders, node);
+    function pageBorders(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(pageBorders.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, pageBorders);
+        this.wzElement = "pageBorders";
+    }
+    pageBorders.prototype.loadChild = function(child) {
+        var ok = false, name = child.n.toLowerCase();
+        if (name === 'display') {
+            this.display = child.v; return true;
+        }
+        if (name === 'z-order') {
+            this.zOrder = child.v; return true;
+        }
+        else if (name === 'z_order') {
+            this.zOrder = child.v; return true;
+        }
+        if (name === 'offset-from') {
+            this.offsetFrom = child.v; return true;
+        }
+        else if (name === 'offset_from') {
+            this.offsetFrom = child.v; return true;
+        }
+        ok = _md.node.prototype.loadChild.call(this, child);
+        return ok;
+    }
+    pageBorders.prototype.loadFromNode = function(node) {
+        node.children.forEach((item) => {
+        
+            var loaded = this.loadChild(item);
+            if (!loaded) {
+                throw new _md.docxModelException("Tag not recognized: " + item.n, item, this);
+            }
+        }
+        )
+    }
+    return pageBorders;
+})(node);
+
+_md.pageBorders = pageBorders;
+// element margin
+var margin = (function (node) {
+    _inherits(margin, node);
+    function margin(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(margin.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, margin);
+        this.wzElement = "margin";
+    }
+    margin.prototype.loadChild = function(child) {
+        var ok = false, name = child.n.toLowerCase();
+        if (name === 'top') {
+            this.top = child.v; return true;
+        }
+        else if (name === 'top') {
+            this.top = child.v; return true;
+        }
+        if (name === 'left') {
+            this.left = child.v; return true;
+        }
+        if (name === 'right') {
+            this.right = child.v; return true;
+        }
+        else if (name === 'right') {
+            this.right = child.v; return true;
+        }
+        if (name === 'bottom') {
+            this.bottom = child.v; return true;
+        }
+        if (name === 'footer') {
+            this.footer = child.v; return true;
+        }
+        if (name === 'gutter') {
+            this.gutter = child.v; return true;
+        }
+        if (name === 'header') {
+            this.header = child.v; return true;
+        }
+        ok = _md.node.prototype.loadChild.call(this, child);
+        return ok;
+    }
+    margin.prototype.loadFromNode = function(node) {
+        node.children.forEach((item) => {
+        
+            var loaded = this.loadChild(item);
+            if (!loaded) {
+                throw new _md.docxModelException("Tag not recognized: " + item.n, item, this);
+            }
+        }
+        )
+    }
+    return margin;
+})(node);
+
+_md.margin = margin;
+// element column
+var column = (function (node) {
+    _inherits(column, node);
+    function column(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(column.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, column);
+        this.wzElement = "column";
+    }
+    column.prototype.loadChild = function(child) {
+        var ok = false, name = child.n.toLowerCase();
+        if (name === 'count') {
+            this.count = child.v; return true;
+        }
+        if (name === 'space') {
+            this.space = child.v; return true;
+        }
+        if (name === 'separate') {
+            this.separate = child.v; return true;
+        }
+        ok = _md.node.prototype.loadChild.call(this, child);
+        return ok;
+    }
+    column.prototype.loadFromNode = function(node) {
+        node.children.forEach((item) => {
+        
+            var loaded = this.loadChild(item);
+            if (!loaded) {
+                throw new _md.docxModelException("Tag not recognized: " + item.n, item, this);
+            }
+        }
+        )
+    }
+    return column;
+})(node);
+
+_md.column = column;
+// element h1
+var h1 = (function (node) {
+    _inherits(h1, node);
+    function h1(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(h1.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, h1);
+        this.wzElement = "h1";
+    }
+    return h1;
+})(node);
+
+_md.h1 = h1;
+// element h2
+var h2 = (function (node) {
+    _inherits(h2, node);
+    function h2(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(h2.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, h2);
+        this.wzElement = "h2";
+    }
+    return h2;
+})(node);
+
+_md.h2 = h2;
+// element h3
+var h3 = (function (node) {
+    _inherits(h3, node);
+    function h3(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(h3.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, h3);
+        this.wzElement = "h3";
+    }
+    return h3;
+})(node);
+
+_md.h3 = h3;
+// element h4
+var h4 = (function (node) {
+    _inherits(h4, node);
+    function h4(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(h4.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, h4);
+        this.wzElement = "h4";
+    }
+    return h4;
+})(node);
+
+_md.h4 = h4;
+// element h5
+var h5 = (function (node) {
+    _inherits(h5, node);
+    function h5(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(h5.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, h5);
+        this.wzElement = "h5";
+    }
+    return h5;
+})(node);
+
+_md.h5 = h5;
+// element h6
+var h6 = (function (node) {
+    _inherits(h6, node);
+    function h6(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(h6.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, h6);
+        this.wzElement = "h6";
+    }
+    return h6;
+})(node);
+
+_md.h6 = h6;
+// element htitle
+var htitle = (function (node) {
+    _inherits(htitle, node);
+    function htitle(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(htitle.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, htitle);
+        this.wzElement = "htitle";
+    }
+    return htitle;
+})(node);
+
+_md.htitle = htitle;
+// element paragraph
+var paragraph = (function (node) {
+    _inherits(paragraph, node);
+    function paragraph(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(paragraph.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, paragraph);
+        this.wzElement = "paragraph";
+    }
+    paragraph.prototype.loadChild = function(child) {
+        var ok = false, name = child.n.toLowerCase();
+        if (name === 'contextual-spacing') {
+            this.contextualSpacing = child.v; return true;
+        }
+        else if (name === 'contextual_spacing') {
+            this.contextualSpacing = child.v; return true;
+        }
+        ok = _md.node.prototype.loadChild.call(this, child);
+        return ok;
+    }
+    paragraph.prototype.loadFromNode = function(node) {
+        node.children.forEach((item) => {
+        
+            var loaded = this.loadChild(item);
+            if (!loaded) {
+                throw new _md.docxModelException("Tag not recognized: " + item.n, item, this);
+            }
+        }
+        )
+    }
+    return paragraph;
+})(node);
+
+_md.paragraph = paragraph;
+// element positionalTab
+var positionalTab = (function (node) {
+    _inherits(positionalTab, node);
+    function positionalTab(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(positionalTab.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, positionalTab);
+        this.wzElement = "positionalTab";
+    }
+    positionalTab.prototype.loadChild = function(child) {
+        var ok = false, name = child.n.toLowerCase();
+        if (name === 'leader') {
+            this.leader = child.v; return true;
+        }
+        if (name === 'alignment') {
+            this.alignment = child.v; return true;
+        }
+        if (name === 'relativeto') {
+            this.relativeTo = child.v; return true;
+        }
+        ok = _md.node.prototype.loadChild.call(this, child);
+        return ok;
+    }
+    positionalTab.prototype.loadFromNode = function(node) {
+        node.children.forEach((item) => {
+        
+            var loaded = this.loadChild(item);
+            if (!loaded) {
+                throw new _md.docxModelException("Tag not recognized: " + item.n, item, this);
+            }
+        }
+        )
+    }
+    return positionalTab;
+})(node);
+
+_md.positionalTab = positionalTab;
+// element xbreak
+var xbreak = (function (node) {
+    _inherits(xbreak, node);
+    function xbreak(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(xbreak.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, xbreak);
+        this.wzElement = "xbreak";
+    }
+    return xbreak;
+})(node);
+
+_md.xbreak = xbreak;
+// element text
+var text = (function (node) {
+    _inherits(text, node);
+    function text(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(text.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, text);
+        this.wzElement = "text";
+    }
+    return text;
+})(node);
+
+_md.text = text;
+// element literal
+var literal = (function (node) {
+    _inherits(literal, node);
+    function literal(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(literal.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, literal);
+        this.wzElement = "literal";
+    }
+    return literal;
+})(node);
+
+_md.literal = literal;
+// element valueText
+var valueText = (function (node) {
+    _inherits(valueText, node);
+    function valueText(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(valueText.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, valueText);
+        this.wzElement = "valueText";
+    }
+    return valueText;
+})(node);
+
+_md.valueText = valueText;
+// element bold
+var bold = (function (node) {
+    _inherits(bold, node);
+    function bold(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(bold.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, bold);
+        this.wzElement = "bold";
+    }
+    return bold;
+})(node);
+
+_md.bold = bold;
+// element boldProp
+var boldProp = (function (node) {
+    _inherits(boldProp, node);
+    function boldProp(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(boldProp.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, boldProp);
+        this.wzElement = "boldProp";
+    }
+    return boldProp;
+})(node);
+
+_md.boldProp = boldProp;
+// element italics
+var italics = (function (node) {
+    _inherits(italics, node);
+    function italics(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(italics.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, italics);
+        this.wzElement = "italics";
+    }
+    return italics;
+})(node);
+
+_md.italics = italics;
+// element italicsProp
+var italicsProp = (function (node) {
+    _inherits(italicsProp, node);
+    function italicsProp(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(italicsProp.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, italicsProp);
+        this.wzElement = "italicsProp";
+    }
+    return italicsProp;
+})(node);
+
+_md.italicsProp = italicsProp;
+// element underline
+var underline = (function (node) {
+    _inherits(underline, node);
+    function underline(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(underline.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, underline);
+        this.wzElement = "underline";
+    }
+    return underline;
+})(node);
+
+_md.underline = underline;
+// element emphasisMark
+var emphasisMark = (function (node) {
+    _inherits(emphasisMark, node);
+    function emphasisMark(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(emphasisMark.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, emphasisMark);
+        this.wzElement = "emphasisMark";
+    }
+    return emphasisMark;
+})(node);
+
+_md.emphasisMark = emphasisMark;
+// element vanish
+var vanish = (function (node) {
+    _inherits(vanish, node);
+    function vanish(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(vanish.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, vanish);
+        this.wzElement = "vanish";
+    }
+    return vanish;
+})(node);
+
+_md.vanish = vanish;
+// element specVanish
+var specVanish = (function (node) {
+    _inherits(specVanish, node);
+    function specVanish(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(specVanish.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, specVanish);
+        this.wzElement = "specVanish";
+    }
+    return specVanish;
+})(node);
+
+_md.specVanish = specVanish;
+// element strike
+var strike = (function (node) {
+    _inherits(strike, node);
+    function strike(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(strike.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, strike);
+        this.wzElement = "strike";
+    }
+    return strike;
+})(node);
+
+_md.strike = strike;
+// element doubleStrike
+var doubleStrike = (function (node) {
+    _inherits(doubleStrike, node);
+    function doubleStrike(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(doubleStrike.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, doubleStrike);
+        this.wzElement = "doubleStrike";
+    }
+    return doubleStrike;
+})(node);
+
+_md.doubleStrike = doubleStrike;
+// element superScript
+var superScript = (function (node) {
+    _inherits(superScript, node);
+    function superScript(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(superScript.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, superScript);
+        this.wzElement = "superScript";
+    }
+    return superScript;
+})(node);
+
+_md.superScript = superScript;
+// element subScript
+var subScript = (function (node) {
+    _inherits(subScript, node);
+    function subScript(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(subScript.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, subScript);
+        this.wzElement = "subScript";
+    }
+    return subScript;
+})(node);
+
+_md.subScript = subScript;
+// element smallCaps
+var smallCaps = (function (node) {
+    _inherits(smallCaps, node);
+    function smallCaps(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(smallCaps.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, smallCaps);
+        this.wzElement = "smallCaps";
+    }
+    return smallCaps;
+})(node);
+
+_md.smallCaps = smallCaps;
+// element allCaps
+var allCaps = (function (node) {
+    _inherits(allCaps, node);
+    function allCaps(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(allCaps.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, allCaps);
+        this.wzElement = "allCaps";
+    }
+    return allCaps;
+})(node);
+
+_md.allCaps = allCaps;
+// element symbol
+var symbol = (function (node) {
+    _inherits(symbol, node);
+    function symbol(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(symbol.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, symbol);
+        this.wzElement = "symbol";
+    }
+    return symbol;
+})(node);
+
+_md.symbol = symbol;
+_md.__tagElementMapping = { 'name': 'xname', 'type': 'xtype', 'line-rule': 'lineRule', 'linerule': 'lineRule', 'text-direction': 'textDirection', 'textdirection': 'textDirection', 'column-span': 'columnSpan', 'columnspan': 'columnSpan', 'column-widths': 'columnWidths', 'columnwidths': 'columnWidths', 'text': 'linkText', 'image-def': 'imageDef', 'imagedef': 'imageDef', 'image-ref': 'imageRef', 'imageref': 'imageRef', 'tab-stops-def': 'tabStopsDef', 'tabstopsdef': 'tabStopsDef', 'tab-stop-def': 'tabStopDef', 'tabstopdef': 'tabStopDef', 'tab-stops': 'tabStops', 'tabstops': 'tabStops', 'footnote': 'footnoteDef', 'footnote-ref': 'footnoteRef', 'footnoteref': 'footnoteRef', 'a': 'hyperlink', 'a#': 'internalHyperlink', 'page-ref': 'pageReference', 'pageref': 'pageReference', 'styles-def': 'stylesDef', 'stylesdef': 'stylesDef', 'style-def': 'styleDef', 'styledef': 'styleDef', 'paragraph': 'paragraphDef', 'default': 'xdefault', 'paragraph-styles': 'paragraphStyles', 'paragraphstyles': 'paragraphStyles', 'character-styles': 'characterStyles', 'characterstyles': 'characterStyles', 'quick-format': 'quickFormat', 'quickformat': 'quickFormat', 'numbering-def': 'numberingDef', 'numberingdef': 'numberingDef', 'page-break': 'pageBreak', 'pagebreak': 'pageBreak', 'thematic-break': 'thematicBreak', 'thematicbreak': 'thematicBreak', 'page-break-before': 'pageBreakBefore', 'pagebreakbefore': 'pageBreakBefore', 'keep-lines': 'keepLines', 'keeplines': 'keepLines', 'keep-next': 'keepNext', 'keepnext': 'keepNext', 'format-type': 'formatType', 'formattype': 'formatType', 'page-numbers': 'pageNumbers', 'pagenumbers': 'pageNumbers', 'page-border-top': 'pageBorderTop', 'pagebordertop': 'pageBorderTop', 'page-border-right': 'pageBorderRight', 'pageborderright': 'pageBorderRight', 'page-border-bottom': 'pageBorderBottom', 'pageborderbottom': 'pageBorderBottom', 'page-border-left': 'pageBorderLeft', 'pageborderleft': 'pageBorderLeft', 'page-borders': 'pageBorders', 'pageborders': 'pageBorders', 'p': 'paragraph', 'pos-tab': 'positionalTab', 'postab': 'positionalTab', 'br': 'xbreak', '+': 'text', '@': 'valueText', 'b': 'bold', 'bold': 'boldProp', 'i': 'italics', 'italics': 'italicsProp', 'emphasis-mark': 'emphasisMark', 'emphasismark': 'emphasisMark', 'spec-vanish': 'specVanish', 'specvanish': 'specVanish', 'double-strike': 'doubleStrike', 'doublestrike': 'doubleStrike', 'super-script': 'superScript', 'superscript': 'superScript', 'sub-script': 'subScript', 'subscript': 'subScript', 'small-caps': 'smallCaps', 'smallcaps': 'smallCaps', 'all-caps': 'allCaps', 'allcaps': 'allCaps' };
 // model/replaceUnknownElement( )
 var docxModelException = (function () {
     function docxModelException(message, node, instance) {
@@ -1381,6 +2701,15 @@ function parsestring(value, defaultValue, node) {
     }
     return value;
 }
+function parseinteger(value, defaultValue, node) {
+    if (isEmpty(value)) {
+        return defaultValue;
+    }
+    if (!isInt(value)) {
+        throw new docxModelException('Must be an int value, got:' + value, node);
+    }
+    return parseInt(value, 10);
+}
 function isString(value) {
     return (typeof value === 'string' || value instanceof String);
 }
@@ -1389,5 +2718,14 @@ function isEmpty(value) {
 }
 function isBoolean(value) {
     return value === 'true' || value === 'false';
+}
+function isArray(value) {
+    return Object.prototype.toString.call( value ) === '[object Array]';
+}
+function isNumber(value) {
+    return !isArray( value ) && (value - parseFloat( value ) + 1) >= 0;
+}
+function isInt(value) {
+    return isNumber( value );
 }
 

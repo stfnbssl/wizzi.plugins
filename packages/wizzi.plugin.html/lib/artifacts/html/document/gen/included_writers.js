@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.html\.wizzi-override\lib\artifacts\html\document\gen\included_writers.js.ittf
-    utc time: Sat, 29 Apr 2023 05:23:13 GMT
+    utc time: Wed, 07 Jun 2023 07:55:35 GMT
 */
 'use strict';
 
@@ -17,14 +17,10 @@ md.writeIncludeCssLegacy = function(ctx, model, callback) {
         if (err) {
             return callback(err);
         }
-        // log myname, 'cssModel.rules', cssModel.rules
-        
-        // log myname, 1
         if (cssModel.rules.length == 0 && verify.isEmpty(cssModel.wzName) == false) {
             ctx.w('<link href="' + cssModel.wzName + '" rel="stylesheet" />');
             callback();
         }
-        // log myname, 2
         else {
             md.generateCssArtifact(ctx, cssModel, (err, artifactText) => {
             
@@ -45,8 +41,6 @@ md.writeIncludeCssLegacy = function(ctx, model, callback) {
 }
 ;
 md.generateCssArtifact = function(ctx, cssModel, callback) {
-    // log myname, 3
-    // log myname, 'cssModel', cssModel, 'cssModel.rules', cssModel.rules
     ctx.wizziFactory.generateArtifact(cssModel, 'generated from html model', 'css/document', {
         forHtmlStyle: true
      }, (err, artifactText) => {
@@ -54,20 +48,17 @@ md.generateCssArtifact = function(ctx, cssModel, callback) {
         if (err) {
             return callback(err);
         }
-        // log myname, 'css artifactText', artifactText
         return callback(null, artifactText);
     }
     )
 }
 ;
 md.writeIncludeCss = function(ctx, element, callback) {
-    // log myname, 'enter writeIncludeJs'
     element.get_css((err, cssModel) => {
     
         if (err) {
             return callback(err);
         }
-        // log myname, 'cssModel', cssModel
         ctx.wizziFactory.generateArtifact(cssModel, 'generated from html model', 'css/document', {
             forHtmlStyle: true, 
             noGeneratorComments: true
@@ -76,7 +67,6 @@ md.writeIncludeCss = function(ctx, element, callback) {
             if (err) {
                 return callback(err);
             }
-            // log myname, 'css module artifactText', artifactText
             ctx.indent();
             ctx.writeAligned(artifactText);
             ctx.deindent();
@@ -88,13 +78,11 @@ md.writeIncludeCss = function(ctx, element, callback) {
 }
 ;
 md.writeIncludeJs = function(ctx, element, callback) {
-    // log myname, 'enter writeIncludeJs'
     element.get_js((err, jsModel) => {
     
         if (err) {
             return callback(err);
         }
-        // log myname, 'jsModel', jsModel
         ctx.wizziFactory.generateArtifact(jsModel, 'generated from html model', 'js/module', {
             forHtmlScript: true, 
             noUseStrict: true, 
@@ -104,7 +92,6 @@ md.writeIncludeJs = function(ctx, element, callback) {
             if (err) {
                 return callback(err);
             }
-            // log myname, 'js module artifactText', artifactText
             ctx.indent();
             ctx.writeAligned(artifactText);
             ctx.deindent();
@@ -116,13 +103,11 @@ md.writeIncludeJs = function(ctx, element, callback) {
 }
 ;
 md.writeIncludeSvg = function(ctx, element, callback) {
-    // log myname, 'enter writeIncludeSvg'
     element.get_svg((err, svgModel) => {
     
         if (err) {
             return callback(err);
         }
-        // log myname, 'svgModel', svgModel
         ctx.wizziFactory.generateArtifact(svgModel, 'generated from html model', 'svg/document', {
             forHtmlSvgElement: true
          }, (err, artifactText) => {
@@ -130,7 +115,6 @@ md.writeIncludeSvg = function(ctx, element, callback) {
             if (err) {
                 return callback(err);
             }
-            // log myname, 'svg module artifactText', artifactText
             ctx.indent();
             ctx.writeAligned(artifactText);
             ctx.deindent();
@@ -142,13 +126,11 @@ md.writeIncludeSvg = function(ctx, element, callback) {
 }
 ;
 md.writeIncludeJson = function(ctx, element, callback) {
-    // log myname, 'enter writeIncludeSvg'
     element.get_json((err, jsonModel) => {
     
         if (err) {
             return callback(err);
         }
-        // log myname, 'jsonModel', jsonModel
         ctx.wizziFactory.generateArtifact(jsonModel, 'generated from html model', 'json/document', {
             forHtmlJson: true
          }, (err, artifactText) => {
@@ -156,7 +138,6 @@ md.writeIncludeJson = function(ctx, element, callback) {
             if (err) {
                 return callback(err);
             }
-            // log myname, 'json module artifactText', artifactText
             ctx.indent();
             ctx.writeAligned(artifactText);
             ctx.deindent();

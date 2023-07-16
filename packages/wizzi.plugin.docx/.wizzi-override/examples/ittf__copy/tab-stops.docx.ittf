@@ -1,0 +1,55 @@
+docx tab-stops
+    
+    $$ TODO const columnWidth = TabStopPosition.MAX / 4;
+    tab-stops-def receiptTabStops
+        tab-stop-def
+            type RIGHT
+            position =(docx.TabStopPosition.MAX / 4) *2
+        tab-stop-def
+            type RIGHT
+            position =(docx.TabStopPosition.MAX / 4) *3
+        tab-stop-def
+            type RIGHT
+            position =(docx.TabStopPosition.MAX / 4) *3
+        tab-stop-def
+            type RIGHT
+            position =docx.TabStopPosition.MAX
+
+    tab-stops-def twoTabStops
+        tab-stop-def
+            type RIGHT
+            position =docx.TabStopPosition.MAX
+
+    section one
+
+        h1
+            + Receipt 001
+
+        p
+            tab-stops twoTabStops
+            + To Bob.\tBy Alice.
+                bold
+        p
+            tab-stops twoTabStops
+            + Foo Inc\tBar Inc
+                bold
+
+        p
+            tab-stops receiptTabStops
+            + Item\tPrice\tQuantity\tSub-total
+                bold
+
+        p
+
+        p
+            tab-stops receiptTabStops
+            + Item 3\t10\t5\t50
+
+        p
+            tab-stops receiptTabStops
+            + Item 3\t10\t5\t50
+
+        p
+            tab-stops receiptTabStops
+            + \t\t\tTotal: 200
+                bold

@@ -1,0 +1,144 @@
+$group
+
+    $*
+        Str, Emph, Underline, 
+        Strong, Strikeout, Superscript, 
+        Subscript, SmallCaps, Quoted, 
+        Cite, Code, Space, SoftBreak, 
+        LineBreak, Math, RawInline, 
+        Link, Image, Note, Span
+    *$
+    
+    function checkCommandFinish
+        param commandStart
+        param text
+        param pos
+        if commandStart.commandId == '[*' && text[pos] == '*' && text[pos+1] == ']'
+            return true
+        elif commandStart.commandId == '[**' && text[pos] == '*' && text[pos+1] == '*' && text[pos+2] == ']'
+            return true
+        elif commandStart.commandId == '[_' && text[pos] == '_' && text[pos+1] == ']'
+            return true
+        elif commandStart.commandId == '[__' && text[pos] == '_' && text[pos+1] == '_' && text[pos+2] == ']'
+            return true
+        else
+            return false
+
+    function checkCommandStart
+        param text
+        param pos
+        if text[pos] == '['
+            if text[pos+1] == '*'
+                if text[pos+2] == '*'
+                    return
+                        {
+                            @ command "Strong"
+                            @ commandId "[**"
+                            @ skip 2
+                else
+                    return
+                        {
+                            @ command "Emph"
+                            @ commandId "[*"
+                            @ skip 1
+            elif text[pos+1] == '_'
+                if text[pos+2] == '_'
+                    return
+                        {
+                            @ command "Strong"
+                            @ commandId "[__"
+                            @ skip 2
+                else
+                    return
+                        {
+                            @ command "Emph"
+                            @ commandId "[_"
+                            @ skip 1
+        else
+            return null
+
+
+    function processText
+        param model
+        param ctx
+        param callback
+        if verify.isNotEmpty(model.wzName)
+            pandocNodeInit( processText )
+            var text = model.wzName
+            var commandStart = null
+            var ch, len = text.length
+            var str = []
+            for var i=0; i<len; i++
+                set ch = text[i]
+                if ch == ' '
+                    if str.length > 0
+                        _ parentPandocNode.jsonInlines.push
+                            {
+                                @ t "Str"
+                                @ c str.join('')
+                        set str.length = 0
+                    _ parentPandocNode.jsonInlines.push
+                        {
+                            @ t "Space"
+                elif ch == '\r'
+                    if str.length > 0
+                        _ parentPandocNode.jsonInlines.push
+                            {
+                                @ t "Str"
+                                @ c str.join('')
+                        set str.length = 0
+                    _ parentPandocNode.jsonInlines.push
+                        {
+                            @ t "SoftBreak"
+                elif ch == '\n'
+                    if str.length > 0
+                        _ parentPandocNode.jsonInlines.push
+                            {
+                                @ t "Str"
+                                @ c str.join('')
+                        set str.length = 0
+                    _ parentPandocNode.jsonInlines.push
+                        {
+                            @ t "LineBreak"
+                elif checkCommandStart(text, i)
+                    if str.length > 0
+                        _ parentPandocNode.jsonInlines.push
+                            {
+                                @ t "Str"
+                                @ c str.join('')
+                        set str.length = 0
+                    set commandStart = checkCommandStart(text, i)
+                    var newParentPandocNode
+                        {
+                            [ jsonInlines
+                    var jsonObject
+                        {
+                            @ t commandStart.command
+                            @ c newParentPandocNode.jsonInlines
+                    _ parentPandocNode.jsonInlines.push
+                        @ jsonObject
+                    _ ctx.values.pandocStack.push(parentPandocNode)
+                    set parentPandocNode = newParentPandocNode 
+                    set i = i + commandStart.skip
+                elif commandStart && checkCommandFinish(commandStart, text, i)
+                    if str.length > 0
+                        _ parentPandocNode.jsonInlines.push
+                            {
+                                @ t "Str"
+                                @ c str.join('')
+                        set str.length = 0
+                    set parentPandocNode = ctx.values.pandocStack.pop()
+                    set i = i + commandStart.skip
+                    set commandStart = null
+                else
+                    _ str.push(ch)
+            if str.length > 0
+                _ parentPandocNode.jsonInlines.push
+                    {
+                        @ t "Str"
+                        @ c str.join('')
+                set str.length = 0
+            _ ctx.values.pandocStack.pop
+            r_cb()
+        else
+            r_cb()

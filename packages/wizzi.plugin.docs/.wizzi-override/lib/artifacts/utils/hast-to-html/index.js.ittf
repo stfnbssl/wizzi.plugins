@@ -1,0 +1,121 @@
+module
+    kind es6
+
+    var pretty = require('@wizzi/utils').pretty
+
+    set module.exports
+        function
+            param hast
+            param callback
+            var builder = []
+            _ processType
+                @ hast
+                @ builder
+                @ 0
+                a_cb()
+                    r_cb( builder.join('') )
+
+    function processType
+        param hastItem
+        param builder
+        param indent
+        param callback
+        if hastItem.type == 'element'
+            return
+                _ element
+                    @ hastItem
+                    @ builder
+                    @ indent
+                    @ callback
+        if hastItem.type == 'text'
+            return
+                _ text
+                    @ hastItem
+                    @ builder
+                    @ callback
+        if hastItem.type == 'codeLines'
+            return
+                _ codeLines
+                    @ hastItem
+                    @ builder
+                    @ indent
+                    @ callback
+        r_cb() $$ TODO this will be an error
+
+    function text
+        param hastItem
+        param builder
+        param callback
+        _ builder.push
+            @ hastItem.value
+        r_cb()
+    
+    function element
+        param hastItem
+        param builder
+        param indent
+        param callback
+        _ builder.push
+            @ new Array(indent * 4).join(' ')
+        _ builder.push('<')
+        _ builder.push(hastItem.tagName)
+        var attrs = attributes(hastItem)
+        if attrs && attrs.length > 0
+            _ builder.push(' ')
+            _ builder.push(attrs)
+        if hastItem.children.length > 0
+            _ builder.push('>')
+        else
+            _ builder.push('/>')
+            _ builder.push('\n')
+        if hastItem.children.length > 0
+            if hastItem.children[0].type != "text"
+                _ builder.push('\n')
+            function iterate
+                param i
+                var item = hastItem.children[i]
+                if !item
+                    if hastItem.children[0].type != "text"
+                        _ builder.push
+                            @ new Array(indent * 4).join(' ')
+                    _ builder.push('</')
+                    _ builder.push(hastItem.tagName)
+                    _ builder.push('>')
+                    _ builder.push('\n')
+                    r_cb()
+                _ processType
+                    @ item
+                    @ builder
+                    @ indent + 1
+                    a_cb()
+                        _ iterate(i+1)
+            _ iterate(0)
+        else
+            r_cb()
+
+    function attributes
+        param hastItem
+        var builder = []
+        for var k in hastItem.properties
+            var first = builder.length == 0
+            var value = hastItem.properties[k]
+            if !first
+                _ builder.push(' ')
+            _ builder.push(k)
+            if typeof value != "undefined"
+                _ builder.push('="')
+                _ builder.push(value.toString())
+                _ builder.push('"')
+        return builder.join('')
+
+    function codeLines
+        param hastItem
+        param builder
+        param indent
+        param callback
+        _ pretty.prettifyIttfHtmlFromString
+            @ hastItem.content
+            a_cb( pretty )
+                _ builder.push
+                    @ pretty
+                r_cb()

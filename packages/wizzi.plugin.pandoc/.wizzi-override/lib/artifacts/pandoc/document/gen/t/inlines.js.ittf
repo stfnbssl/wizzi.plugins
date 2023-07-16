@@ -1,0 +1,193 @@
+$group
+
+    async-md( textrun )
+        pandocNodeInit()
+        const jsonObject
+            {
+                @ t "Str"
+                @ c model.wzName
+        _ parentPandocNode.jsonInlines.push
+            @ jsonObject
+        _ ctx.values.pandocStack.pop
+        r_cb()
+
+    async-md( space )
+        pandocNodeInit()
+        const jsonObject
+            {
+                @ t "Space"
+        _ parentPandocNode.jsonInlines.push
+            @ jsonObject
+        _ ctx.values.pandocStack.pop
+        r_cb()
+
+    async-md( softBreak )
+        pandocNodeInit()
+        const jsonObject
+            {
+                @ t "SoftBreak"
+        _ parentPandocNode.jsonInlines.push
+            @ jsonObject
+        _ ctx.values.pandocStack.pop
+        r_cb()
+
+    async-md( lineBreak )
+        pandocNodeInit()
+        const jsonObject
+            {
+                @ t "LineBreak"
+        _ parentPandocNode.jsonInlines.push
+            @ jsonObject
+        _ ctx.values.pandocStack.pop
+        r_cb()
+
+    inline( emphasis, Emph )
+    inline( underline, Underline )
+    inline( bold, Strong )
+    inline( strong, Strong )
+    inline( strikeout, Strikeout )
+    inline( subScript, Subscript )
+    inline( superScript, Superscript )
+    inline( smallCaps, SmallCaps )
+    $$ inline( allCaps, AllCaps ) $$ not in pandoc ???
+    
+    async-md( quoted )
+        pandocNodeInit()
+            [ jsonInlines
+        var quotedType = model.wzName.toLowerCase() == 'double' ? 'DoubleQuote' : 'SingleQuote'
+        var jsonObject
+            {
+                @ t "Quoted"
+                [ c
+                    [
+                        @ quotedType
+                    @ pandocNode.jsonInlines
+        _ processText
+            @ model
+            @ ctx
+            a_cb()
+                pandocNodeExec()
+                    _ parentPandocNode.jsonInlines.push
+                        @ jsonObject                
+
+    async-md( cite )
+        pandocNodeInit()
+            [ jsonCitations
+            [ jsonInlines
+        var jsonObject
+            {
+                @ t "Cite"
+                [ c
+                    @ pandocNode.jsonCitations
+                    @ pandocNode.jsonInlines
+        _ processText
+            @ model
+            @ ctx
+            a_cb()
+                pandocNodeExec()
+                    _ parentPandocNode.jsonInlines.push
+                        @ jsonObject                
+
+    async-md( code )
+        pandocNodeInit()
+            @ jsonAttr defaultAttr()
+        var jsonObject
+            {
+                @ t "Code"
+                [ c
+                    @ pandocNode.jsonAttr
+                    @ model.wzName
+        pandocNodeExec()
+            _ parentPandocNode.jsonInlines.push
+                @ jsonObject
+
+    async-md( math )
+        # Math: MathType Text
+        pandocNodeInit()
+        var mathType = model.type && model.type.toLowerCase() == 'inline' ? 'InlineMath' : 'DisplayMath'
+        var jsonObject
+            {
+                @ t "Math"
+                [ c
+                    [
+                        @ mathType
+                    @ model.wzName
+        _ parentPandocNode.jsonInlines.push
+            @ jsonObject
+        _ ctx.values.pandocStack.pop
+        r_cb()
+
+    async-md( raw )
+        # RawInline: Format Text
+        pandocNodeInit()
+        var jsonObject
+            {
+                @ t "RawInline"
+                [ c
+                    [
+                        @ model.format
+                    @ model.wzName
+        _ parentPandocNode.jsonInlines.push
+            @ jsonObject
+        _ ctx.values.pandocStack.pop
+        r_cb()
+
+    $*
+        Link Attr [Inline] Target	
+        Hyperlink: alt text (list of inlines), target
+
+        Image Attr [Inline] Target	
+        Image: alt text (list of inlines), target
+    *$
+
+    async-md( hyperlink )
+        # Link Attr [Inline] Target	
+        pandocNodeInit()
+            @ jsonAttr defaultAttr()
+            [ jsonInlines
+        var jsonObject
+            {
+                @ t "Link"
+                [ c
+                    @ pandocNode.jsonAttr
+                    @ pandocNode.jsonInlines
+                    [
+                        @ model.href
+                        @ ""
+        _ processText
+            @ model
+            @ ctx
+            a_cb()
+                pandocNodeExec()
+                    _ parentPandocNode.jsonInlines.push
+                        @ jsonObject        
+
+    $include ./images
+
+    async-md( note
+        # Note [Block]	
+        pandocNodeInit()
+            [ jsonBlocks
+        var jsonObject
+            {
+                @ t "Note"
+                [ c
+                    @ pandocNode.jsonBlocks
+        pandocNodeExec()
+            _ parentPandocNode.jsonInlines.push
+                @ jsonObject        
+
+    async-md( span )
+        # Span: Attr [Inline]
+        pandocNodeInit()
+            @ jsonAttr defaultAttr()
+            [ jsonInlines
+        var jsonObject
+            {
+                @ t "Span"
+                [ c
+                    @ pandocNode.jsonAttr
+                    @ pandocNode.jsonInlines
+        pandocNodeExec()
+            _ parentPandocNode.jsonInlines.push
+                @ jsonObject

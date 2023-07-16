@@ -1,0 +1,17 @@
+$group
+    $params element, pandocType
+
+    async-md( ${element} )
+        pandocNodeInit( ${element} )
+            [ jsonInlines
+        var jsonObject
+            {
+                @ t "${pandocType}"
+                @ c pandocNode.jsonInlines
+        _ processText
+            @ model
+            @ ctx
+            a_cb()
+                pandocNodeExec()
+                    _ parentPandocNode.jsonInlines.push
+                        @ jsonObject

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.md\.wizzi-override\examples\md_document.js.ittf
-    utc time: Tue, 11 Apr 2023 14:24:30 GMT
+    utc time: Tue, 13 Jun 2023 15:15:39 GMT
 */
 'use strict';
 var path = require('path');
@@ -67,7 +67,7 @@ function createWizziFactory(globalContext, callback) {
                 './wizzi.plugin.md/index.js', 
                 './wizzi.plugin.html/index.js', 
                 './wizzi.plugin.css/index.js', 
-                './wizzi.plugin.svg/index.js'
+                './wizzi.plugin.json/index.js'
             ], 
             pluginsBaseFolder: path.resolve(__dirname, '..', '..')
          }, 

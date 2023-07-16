@@ -1,0 +1,52 @@
+wfschema geop
+
+    preserve-tags false
+    mtree-is-preprocessed true
+    $$ unknown-element-replacer item
+
+    export-to json
+    $$ export-to xml
+    $$ export-to prettify
+
+	e item
+		a value
+        r item/s
+
+	e geop : item
+		is-root
+        r ittfPanel/s
+
+	e ittfPanel
+        tag ittf-panel
+        has-mtree-data   
+
+    e fullname : item
+    e title : item
+    e description : item
+    e alias : item
+    e synonim : item
+    e date : item
+    e year : item
+    e period : item
+    e start : item
+    e end : item
+    e place : item
+    e source : item
+    e url : item
+    e ref : item
+    e from : item
+    e to : item
+
+    e wiki : item
+    e en : item
+    e it : item
+
+    e context : item
+
+    e namespace : item
+    e state : item
+    
+    geop/markup()
+    geop/writings()
+    geop/author()
+    geop/history()

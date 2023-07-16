@@ -1,0 +1,41 @@
+{
+    $include versions
+    name "wizzi.plugin.geop"
+    npmName ""
+    pluginBasename ""
+    version '${versions['@next']}'
+    description "Wizzi plugin for "
+    { author
+        name "Stefano Bassoli"
+        email "stfn.bssl@gmail.com"
+    { github
+        userid "stfnbssl"
+    { license
+        name ""
+        copy "copy 2023"
+    { Build
+        isWizziPlugin true
+        useWizziV08 true
+        { wizziV08
+        { utils
+            useStringifySafe true
+            useObjectInspect true
+    [ Schemas
+        {
+            name "geop"
+            title "geop wizzi schema"
+            builtin false
+            [ modelTransformers
+                {
+                    name "extended"
+            [ artifactGenerators
+                {
+                    name "document"
+                    outmime "json"
+                    contentType "appication/json"
+                    isDefault true
+            defaultArtifact "document"
+            [ wizzifiers
+            [ fileExtensions
+                "geop"
+            [ includes

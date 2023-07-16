@@ -119,6 +119,8 @@ module
 			set state.htmlOn = true
 			set state.svgOn = true
 			# loog 'js-mtree-processor svgOn'
+        elif node.n === 'set' && node.children.length > 0 && node.children[0].n === 'param'
+            set node.n = 'setter'
         
         $include mtree_preprocessor_styled
 		

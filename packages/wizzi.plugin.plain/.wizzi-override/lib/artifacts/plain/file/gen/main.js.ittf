@@ -1,0 +1,30 @@
+module
+    kind es6
+    $
+        var md = {
+            plugin: 'wizzi.plugin.plain',
+            name: 'file',
+            schema: 'plain',
+            rootElement: '',
+            checkSchema: true,
+            isAsync: true,
+        };
+    gen( &md )
+        $append imports
+        $append main
+            _ md.plain
+                @ model
+                @ ctx
+                a_cb( )
+                    if ctx.artifactGenerationErrors.length > 0
+                        r_cb_err( ctx.artifactGenerationErrors )
+                    else
+                        # generation OK
+                        r_cb( ctx )
+        
+        async-md( plain )
+            const decoded = model.contents.replaceAll('\\n', '\n')
+            const lines = decoded.split('\n')
+            foreach line in lines
+                _ ctx.w(line)
+            r_cb()

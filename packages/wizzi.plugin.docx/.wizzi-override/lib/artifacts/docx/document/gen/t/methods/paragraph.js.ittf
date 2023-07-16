@@ -1,0 +1,38 @@
+$group
+
+
+    objectNode.js( paragraph, docx.Paragraph )   
+        _ ctx.w(docxNode + '.children = [];')
+        _ ctx.w(docxNode + '.tabStops = [];')
+        if !verify.isEmpty(model.wzName)
+            _ ctx.w(docxNode + '.text = ' + revalue(model.wzName) + ';')
+        $append close
+            _ ctx.w(docxParent + '.children.push(' + docxNode + 'Obj);')
+
+    headings( 1 )
+    headings( 2 )
+    headings( 3 )
+    headings( 4 )
+    headings( 5 )
+    headings( 6 )
+    headings( title )
+
+    objectNode.js( spacing )
+        $append close
+            _ ctx.w(docxParent + '.spacing = ' + docxNode + ';')
+    
+    nodePropertyChoice.js( before )
+        _ ctx.w(docxParent + '.before = ' + model.wzName + ';')
+    
+    nodePropertyChoice.js( after )
+        _ ctx.w(docxParent + '.after = ' + model.wzName + ';')
+
+    objectNode.js( positionalTab, docx.PositionalTab )
+        if !verify.isEmpty(model.alignment)
+            _ ctx.w(docxNode + '.alignment = docx.PositionalTabAlignment.' + model.alignment + ';')
+        if !verify.isEmpty(model.relativeTo)
+            _ ctx.w(docxNode + '.relativeTo = docx.PositionalTabRelativeTo.' + model.relativeTo + ';')
+        if !verify.isEmpty(model.leader)
+            _ ctx.w(docxNode + '.leader = docx.PositionalTabLeader.' + model.leader + ';')
+        $append close
+            _ ctx.w(docxParent + '.children.push(' + docxNode + 'Obj);')

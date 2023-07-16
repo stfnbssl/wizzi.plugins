@@ -1,7 +1,7 @@
 const fs = require("fs");
 const docx = require("docx");
 
-const docx_doc_1 = {};
+const docx_doc_1 = { sections: [], styles: [] };
 const docx_styles_2 = {};
 const docx_xdefault_3 = {};
 const docx_styleDef_4 = {};
@@ -33,7 +33,7 @@ docx_paragraphStyles_8.push(docx_styleDef_9);
 docx_styles_2.paragraphStyles = docx_paragraphStyles_8;
 docx_doc_1.styles = docx_styles_2;
 const docx_sect_11 = { properties: {}, children: [] };
-const docx_par_12 = {};
+const docx_par_12 = { children: []};
 docx_par_12.text = "Hello world";
 docx_par_12.heading = docx.HeadingLevel.HEADING_1;
 const docx_par_12Obj = new docx.Paragraph(docx_par_12);
@@ -420,8 +420,7 @@ const docx_tr_86Obj = new docx.TableRow(docx_tr_86);
 docx_table_70.rows.push(docx_tr_86Obj);
 const docx_table_70Obj = new docx.Table(docx_table_70);
 docx_sect_11.children.push(docx_table_70Obj);
-const docx_MainObject = new docx.Document(docx_doc_1);
-docx_MainObject.addSection(docx_sect_11);
+docx_doc_1.sections.push(docx_sect_11)
 const docx_sect_91 = { properties: {}, children: [] };
 const docx_p_92 = {};
 docx_p_92.children = [];
@@ -470,7 +469,7 @@ const docx_txt_98Obj = new docx.TextRun(docx_txt_98);
 docx_p_92.children.push(docx_txt_98Obj);
 const docx_p_92Obj = new docx.Paragraph(docx_p_92);
 docx_sect_91.children.push(docx_p_92Obj);
-docx_MainObject.addSection(docx_sect_91);
+docx_doc_1.sections.push(docx_sect_91)
 const docx_sect_99 = { properties: {}, children: [] };
 const docx_p_100 = {};
 docx_p_100.children = [];
@@ -486,7 +485,9 @@ const docx_txt_102Obj = new docx.TextRun(docx_txt_102);
 docx_p_100.children.push(docx_txt_102Obj);
 const docx_p_100Obj = new docx.Paragraph(docx_p_100);
 docx_sect_99.children.push(docx_p_100Obj);
-docx_MainObject.addSection(docx_sect_99);
+docx_doc_1.sections.push(docx_sect_99)
+
+const docx_MainObject = new docx.Document(docx_doc_1);
 
 docx.Packer.toBuffer(docx_MainObject).then((buffer) => {
     fs.writeFileSync("first.docx", buffer);

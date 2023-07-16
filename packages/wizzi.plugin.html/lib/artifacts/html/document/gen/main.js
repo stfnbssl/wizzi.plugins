@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.html\.wizzi-override\lib\artifacts\html\document\gen\main.js.ittf
-    utc time: Sat, 29 Apr 2023 05:23:13 GMT
+    utc time: Wed, 07 Jun 2023 07:55:35 GMT
 */
 'use strict';
 
@@ -11,7 +11,7 @@ var util = require('util');
 var path = require('path');
 var async = require('async');
 var verify = require('wizzi-utils').verify;
-var lineparser = require('wizzi-utils').helpers.lineparser;
+var lineParser = require('wizzi-utils').helpers.lineParser;
 var errors = require('../../../../../errors');
 var included_writers = require('./included_writers');
 var utilNode = require('../../../utils/utilNode');
@@ -233,7 +233,6 @@ md.html = function(model, ctx, callback) {
 }
 ;
 md.standardElement = function(model, ctx, callback) {
-    // log myname, 'standardElement', 'model.wzTag', model.wzTag
     preprocess(model, ctx);
     var voidEl = (model.wzTag in voidElements);
     ctx.write('<' + model.wzTag);
@@ -567,7 +566,6 @@ md.cssInclude = function(model, ctx, callback) {
 }
 ;
 md.script = function(model, ctx, callback) {
-    // log myname, 'enter script, model.get_js', model.get_js
     ctx.write('<' + model.wzTag);
     var i, i_items=getAttrs(model), i_len=getAttrs(model).length, a;
     for (i=0; i<i_len; i++) {

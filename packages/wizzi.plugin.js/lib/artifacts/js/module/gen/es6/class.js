@@ -2,11 +2,12 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\artifacts\js\module\gen\es6\class.js.ittf
-    utc time: Tue, 16 May 2023 07:53:47 GMT
+    utc time: Tue, 27 Jun 2023 13:39:36 GMT
 */
 'use strict';
 var statement = require('../statement');
 var method = require('./method');
+var setter = require('./setter');
 var handler = require('./handler');
 var property = require('./property');
 var html = require('./html');
@@ -49,11 +50,11 @@ function classCTor(model, ctx, callback) {
         ctor = model.findCtor(),
         ctorArgs = ctor == null ? '' : ctor.paramNames.join(', '),
         superArgs = ctor == null ? '' : (ctor.getBaseArgs() || '');
-    if (zsuper || ctor) {
+    if (ctor) {
         ctx.w('constructor(' + ctorArgs + ') {');
         ctx.indent();
     }
-    if (zsuper) {
+    if (zsuper && ctor) {
         ctx.w('super(' + superArgs + ');');
     }
     if (ctor) {
@@ -76,11 +77,7 @@ function classCTor(model, ctx, callback) {
         }
         )
     }
-    
-    // VIA _ ctx.w('')
     else if (zsuper) {
-        ctx.deindent();
-        ctx.w('}');
         return callback(null);
     }
     else {
@@ -105,6 +102,9 @@ function classMembers(model, ctx, callback) {
         }
         else if (item_1.wzElement === 'method') {
             generator = method;
+        }
+        else if (item_1.wzElement === 'setter') {
+            generator = setter;
         }
         else if (item_1.wzElement === 'arrowfunction') {
             generator = handler;

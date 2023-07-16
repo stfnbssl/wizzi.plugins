@@ -1,0 +1,145 @@
+module
+    kind es6
+    $
+        var md = {
+            plugin: 'wizzi.plugin.geop',
+            name: 'extended',
+            schema: 'geop',
+            rootElement: '',
+            checkSchema: true
+        };
+    trans( &md )
+        $append imports
+            var g_namespace = 'states.world'
+        $append main
+            var transformedModel
+                {
+                    [ authors
+                    [ periods
+                    [ events
+                    [ alliances
+                    [ treaties
+                    [ acts
+                    [ agents
+                    [ persons
+                    [ states
+            foreach item in model.items
+                _ doitem
+                    @ item
+                    @ transformedModel
+            delete transformedModel.current
+            delete transformedModel.ns
+            _ callback
+                @ null
+                @ transformedModel
+    function doitem
+        param parent
+        param resultObj
+        var f = functors[parent.wzElement]
+        if f
+            _ f
+                @ parent
+                @ resultObj
+        else
+            set resultObj['unknown_tag_' + parent.wzElement] = parent.wzName
+    var functors = {}
+
+    set functors.namespace
+        function
+            param parent
+            param resultObj
+            set resultObj.ns = parent.wzName
+            log 'functors.namespace'
+            foreach child in parent.items
+                if child.wzElement == "author"
+                    set resultObj.ns_author = child.wzName
+                else
+                    _ doitem
+                        @ child
+                        @ resultObj
+            set resultObj.ns = 'global'
+            set resultObj.ns_author = 'global'
+    
+    $include contents
+    $include author
+    $include event
+    $include period
+    $include diplomacy
+    $include act
+    $include agent
+    $include person
+    $include state
+    $include namespace
+
+    $include commons
+    
+    function createEvent
+        param parent
+        var eventObj = {}
+        foreach item in parent.items
+            if item.wzElement == "date"
+                set eventObj.date = item.wzName
+            elif item.wzElement == "place"
+                set eventObj.place = item.wzName
+        return eventObj
+
+    function createTitle
+        param parent
+        var resultObj
+            {
+                @ text parent.wzName
+                [ aliases
+        foreach item in parent.items
+            if item.wzElement == "alias"
+                _ resultObj.aliases.push
+                    _ createAlias
+                        @ item
+            elif item.wzElement == "en"
+                set resultObj.en = item.wzName
+            elif item.wzElement == "it"
+                set resultObj.it = item.wzName
+            else
+                set resultObj['unknown_tag_' + item.wzElement] = item.wzName
+        return resultObj
+
+    function createWiki
+        param parent
+        param resultObj
+        var wikiObj
+            {
+                @ url parent.wzName
+                [ contents
+        foreach item in parent.items
+            if !fillContents(item, wikiObj, resultObj)
+            else
+                set resultObj['unknown_tag_' + item.wzElement] = item.wzName
+        return wikiObj
+
+    function createAlias
+        param parent
+        var resultObj
+            {
+                @ content parent.wzName
+        foreach item in parent.items
+            if item.wzElement == "en"
+                set resultObj.en = item.wzName
+            elif item.wzElement == "it"
+                set resultObj.it = item.wzName
+            else
+                set resultObj['unknown_tag_' + item.wzElement] = item.wzName
+        return resultObj
+
+    function createDate
+        param parent
+        var resultObj = {}
+        if parent.items.length == 0
+            set resultObj.start = parent.wzName
+        else
+            foreach item in parent.items
+                if item.wzElement == "start"
+                    set resultObj.start = item.wzName
+                elif item.wzElement == "end"
+                    set resultObj.end = item.wzName
+                else
+                    set resultObj['unknown_tag_' + item.wzElement] = item.wzName
+        return resultObj    

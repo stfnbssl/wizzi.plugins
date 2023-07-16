@@ -4,9 +4,12 @@ $group
     async-md( h${hlevel} )
 
         docxNode.js( par )
-        _ ctx.w('const ' + docxNode + ' = {};')
+        _ ctx.w('const ' + docxNode + ' = { children: []};')
         _ ctx.w(docxNode + '.text = "' + respace(model.wzName) + '";')
-        _ ctx.w(docxNode + '.heading = docx.HeadingLevel.HEADING_${hlevel};')
+        $if hlevel == 'title'
+            _ ctx.w(docxNode + '.heading = docx.HeadingLevel.TITLE;')
+        $else
+            _ ctx.w(docxNode + '.heading = docx.HeadingLevel.HEADING_${hlevel};')
     
         _ md.genItems
             @ model.nodes

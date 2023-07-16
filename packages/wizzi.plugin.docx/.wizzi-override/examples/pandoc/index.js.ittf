@@ -1,0 +1,145 @@
+module
+    kind es6
+    var fs = require('fs')
+
+    _ fs.readFile
+        @ "./MANUAL.ast.json"
+        @ "utf-8"
+        a_cb_throw( data )
+            var jsonData = JSON.parse(data)
+            _ fs.writeFile
+                @ "./MANUAL.ast.fmt.json"
+                _ JSON.stringify
+                    @ jsonData
+                    @ null
+                    @ 4
+                a_cb_throw( data )
+                    log "Successfully Written to File."
+
+            _ fs.writeFile
+                @ "./MANUAL.ast.schema.json"
+                _ JSON.stringify
+                    _ ejs
+                        @ jsonData
+                    @ null
+                    @ 4
+                a_cb_throw( data )
+                    log "Successfully Written to File."
+
+    function isPlainObject
+        param obj
+        return 
+            iif obj
+                then typeof obj === 'object' && Object.getPrototypeOf(obj) === Object.prototype
+                else false
+    
+    const supportType
+        [ 
+            @ 'string'
+            @ 'number'
+            @ 'array'
+            @ 'object'
+            @ 'boolean'
+            @ 'integer'
+    
+    function getType
+        param type
+        if !type
+            set type = 'string'
+        if supportType.indexOf(type) !== -1
+            return type
+        return typeof type
+    
+    function isSchema
+        param object
+        if supportType.indexOf(object.type) !== -1
+            return true
+        return false
+    
+    function handleSchema
+        param json
+        param schema
+        param jsonBaxSchema
+        _ Object.assign(schema, json)
+        if schema.type === 'object'
+            delete schema.properties
+            _ parse(json.properties, schema, jsonBaxSchema)
+        if schema.type === 'array'
+            delete schema.items
+            set schema.items =
+                { 
+            _ parse(json.items, schema.items, jsonBaxSchema)
+    
+    function handleArray
+        param arr
+        param schema
+        param jsonBaxSchema
+        set schema.type = 'array'
+        var props
+            set schema.items =
+                { 
+        foreach item in arr
+            _ parse(item, props, jsonBaxSchema)
+    
+    function handleObject
+        param json
+        param schema
+        param jsonBaxSchema
+        if isSchema(json)
+            return handleSchema(json, schema, jsonBaxSchema)
+        set schema.type = 'object'
+        set schema.required = []
+        var props
+            set schema.properties =
+                { 
+        if json.t && json.c
+            var curSchema
+                set props[key] =
+                    { 
+            _ jsonBaxSchema.curPath.push('t_' + json.t)
+            _ parse(json.c, curSchema, jsonBaxSchema)
+            _ jsonBaxSchema.curPath.pop
+        else
+            for var key in json
+                var item = json[key]
+                var curSchema
+                    set props[key] =
+                        { 
+                if key[0] === '*'
+                    delete props[key]
+                    set key = key.substr(1)
+                    _ schema.required.push(key)
+                    set props[key] =
+                        { 
+                _ jsonBaxSchema.curPath.push(key == 't' ? 't_' + json[key] : key)
+                _ parse(item, curSchema, jsonBaxSchema)
+                _ jsonBaxSchema.curPath.pop
+    
+    function parse
+        param json
+        param schema
+        param jsonBaxSchema
+        if Array.isArray(json)
+            _ jsonBaxSchema.curPath.push('[')
+            _ handleArray(json, schema, jsonBaxSchema)
+            _ jsonBaxSchema.curPath.pop
+        else
+            if isPlainObject(json)
+                _ jsonBaxSchema.curPath.push('{')
+                _ handleObject(json, schema, jsonBaxSchema)
+                _ jsonBaxSchema.curPath.pop
+            else
+                _ jsonBaxSchema.curPath.push(getType(json))
+                set jsonBaxSchema.paths[jsonBaxSchema.curPath.join('.')] = json
+                _ jsonBaxSchema.curPath.pop
+    
+    function ejs
+        param data
+        var JsonSchema
+            { 
+        var JsonBaxSchema
+            { 
+                [ curPath 
+                { paths
+        _ parse(data, JsonSchema, JsonBaxSchema)
+        return JsonBaxSchema

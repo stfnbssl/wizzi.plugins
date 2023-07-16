@@ -1,0 +1,413 @@
+{
+    "type": "element",
+    "tagName": "html",
+    "properties": {},
+    "children": [
+        {
+            "type": "element",
+            "tagName": "p",
+            "properties": {},
+            "children": [
+                {
+                    "type": "text",
+                    "value": "Hello, i am a free schema line."
+                },
+                {
+                    "type": "text",
+                    "value": " I to am an indented free schema line.",
+                    "children": []
+                }
+            ]
+        },
+        {
+            "type": "element",
+            "tagName": "h2",
+            "properties": {},
+            "children": [
+                {
+                    "type": "text",
+                    "value": "Changing your profile picture"
+                }
+            ]
+        },
+        {
+            "type": "element",
+            "tagName": "p",
+            "properties": {},
+            "children": [
+                {
+                    "type": "text",
+                    "value": "Your profile picture helps identify you across {% data variables.product.product_name %} in pull requests, comments, contributions pages, and graphs."
+                }
+            ]
+        },
+        {
+            "type": "element",
+            "tagName": "p",
+            "properties": {},
+            "children": [
+                {
+                    "type": "text",
+                    "value": "When you sign up for an account, {% data variables.product.product_name %} provides you with a randomly generated \"identicon\". [Your identicon](https://github.com/blog/1586-identicons) generates from a hash of your user ID, so there's no way to control its color or pattern. You can replace your identicon with an image that represents you."
+                }
+            ]
+        },
+        {
+            "type": "element",
+            "tagName": "h1",
+            "properties": {},
+            "children": [
+                {
+                    "type": "text",
+                    "value": "Ittf notation"
+                }
+            ]
+        },
+        {
+            "type": "element",
+            "tagName": "p",
+            "properties": {},
+            "children": [
+                {
+                    "type": "text",
+                    "value": "Documents are made of text lines separated by a:"
+                },
+                {
+                    "type": "element",
+                    "tagName": "ul",
+                    "properties": {},
+                    "children": [
+                        {
+                            "type": "element",
+                            "tagName": "li",
+                            "properties": {},
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "x'000a' char or"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "li",
+                            "properties": {},
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "x'000d' char or"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "element",
+                            "tagName": "li",
+                            "properties": {},
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "value": "x'000a' \\b x'000d' couple of chars"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "element",
+            "tagName": "p",
+            "properties": {},
+            "children": [
+                {
+                    "type": "text",
+                    "value": "A line is made of a node-name and a node-value separated by a white-char (space or tab)."
+                }
+            ]
+        },
+        {
+            "type": "codeLines",
+            "language": "ittf",
+            "schema": "ittf",
+            "content": "ittf \n   name value\n       name value\n",
+            "children": []
+        },
+        {
+            "type": "element",
+            "tagName": "p",
+            "properties": {},
+            "children": [
+                {
+                    "type": "text",
+                    "value": "Node-values always are trimmed, you cannot have a node-value"
+                },
+                {
+                    "type": "text",
+                    "value": " that starts or ends with a white-char sequence.",
+                    "children": []
+                }
+            ]
+        },
+        {
+            "type": "codeLines",
+            "language": "ittf",
+            "schema": "ittf",
+            "title": "When loaded, both these nodes will containg the 'value' string in the node-value.",
+            "content": "ittf \n   name1 value\n       name2 value\n",
+            "children": []
+        },
+        {
+            "type": "element",
+            "tagName": "p",
+            "properties": {},
+            "children": [
+                {
+                    "type": "text",
+                    "value": "The node hierarchy is built calculating the indentation of node-names"
+                },
+                {
+                    "type": "text",
+                    "value": " in a text line. Every tab or every 4 space chars preeceding a node-name",
+                    "children": []
+                },
+                {
+                    "type": "text",
+                    "value": " count for one level of indentation.",
+                    "children": []
+                }
+            ]
+        },
+        {
+            "type": "element",
+            "tagName": "p",
+            "properties": {},
+            "children": [
+                {
+                    "type": "text",
+                    "value": "The node-name of the first line (the root node-name) must have indentation zero."
+                },
+                {
+                    "type": "text",
+                    "value": " The root node-name must start at column 1 (1-based) of the first row.",
+                    "children": []
+                }
+            ]
+        },
+        {
+            "type": "element",
+            "tagName": "p",
+            "properties": {},
+            "children": [
+                {
+                    "type": "text",
+                    "value": "An ITTF Document cannot have more than one root node. If the semantic of a"
+                },
+                {
+                    "type": "text",
+                    "value": " document require more than one root node, a convenience '$group'",
+                    "children": []
+                },
+                {
+                    "type": "text",
+                    "value": " command can be used. It must be the root node of a composed document (included",
+                    "children": []
+                },
+                {
+                    "type": "text",
+                    "value": " or mixed) and is ignored during the mTree build up, so that all its childs become",
+                    "children": []
+                },
+                {
+                    "type": "text",
+                    "value": " root nodes of the included document.",
+                    "children": []
+                }
+            ]
+        },
+        {
+            "type": "element",
+            "tagName": "p",
+            "properties": {},
+            "children": [
+                {
+                    "type": "text",
+                    "value": "Example. Ittf document with two root nodes."
+                }
+            ]
+        },
+        {
+            "type": "codeLines",
+            "language": "ittf",
+            "schema": "ittf",
+            "title": "Sample ITTF document with two root nodes.",
+            "content": "$group \n   root1 value1\n   root2 value2\n",
+            "children": []
+        },
+        {
+            "type": "element",
+            "tagName": "p",
+            "properties": {},
+            "children": [
+                {
+                    "type": "text",
+                    "value": "A line becomes a node which parent is the first preceeding line with a lesser indentation."
+                }
+            ]
+        },
+        {
+            "type": "element",
+            "tagName": "p",
+            "properties": {},
+            "children": [
+                {
+                    "type": "text",
+                    "value": "Phisical text lines may have line continuatios and a 'logical' line"
+                },
+                {
+                    "type": "text",
+                    "value": " may contain many phisical lines. There are three pre-defined",
+                    "children": []
+                },
+                {
+                    "type": "text",
+                    "value": " node-names that allow line continuation:",
+                    "children": []
+                }
+            ]
+        },
+        {
+            "type": "element",
+            "tagName": "li",
+            "properties": {},
+            "children": [
+                {
+                    "type": "text",
+                    "value": "'\\' means that the node-value is joined to the node-value"
+                },
+                {
+                    "type": "text",
+                    "value": "of the parent node without separation.",
+                    "children": []
+                }
+            ]
+        },
+        {
+            "type": "element",
+            "tagName": "li",
+            "properties": {},
+            "children": [
+                {
+                    "type": "text",
+                    "value": "'\\b' means that the node-value is joined to the node-value"
+                },
+                {
+                    "type": "text",
+                    "value": "of the parent node with one space char separator.",
+                    "children": []
+                }
+            ]
+        },
+        {
+            "type": "element",
+            "tagName": "li",
+            "properties": {},
+            "children": [
+                {
+                    "type": "text",
+                    "value": "'\\n' means that the node-value is joined to the node-value"
+                },
+                {
+                    "type": "text",
+                    "value": "of the parent node with one Line Feed char separator.",
+                    "children": []
+                }
+            ]
+        },
+        {
+            "type": "codeLines",
+            "language": "ittf",
+            "schema": "ittf",
+            "title": "Line continuation sample.  Both 'name1' and 'name2' have the same value.",
+            "content": "ittf \n   root \n       name1 I am a single line\n       name2 I am a single line\n",
+            "children": []
+        },
+        {
+            "type": "element",
+            "tagName": "p",
+            "properties": {},
+            "children": [
+                {
+                    "type": "text",
+                    "value": "Node names and values are text strings by design, and never require quotes"
+                },
+                {
+                    "type": "text",
+                    "value": " (they are unquoted by the lexer). The wizzi factory is a text manipulator.",
+                    "children": []
+                },
+                {
+                    "type": "text",
+                    "value": " If the semantic of a node-value require that it is treated as a different type",
+                    "children": []
+                },
+                {
+                    "type": "text",
+                    "value": " (boolean, integer, float or date), that can be done using wizzi schemas,",
+                    "children": []
+                },
+                {
+                    "type": "text",
+                    "value": " that apply types to the tree structure resulting from loading an ittf",
+                    "children": []
+                },
+                {
+                    "type": "text",
+                    "value": " document (see mTrees).",
+                    "children": []
+                }
+            ]
+        },
+        {
+            "type": "element",
+            "tagName": "p",
+            "properties": {},
+            "children": [
+                {
+                    "type": "text",
+                    "value": "One exception to this rule is when an argument is passed to a mixed ITTF Document,"
+                },
+                {
+                    "type": "text",
+                    "value": " and will become part of its evaluation context. Types different from string",
+                    "children": []
+                },
+                {
+                    "type": "text",
+                    "value": " can be usefull in JsWizzi expessions. The '$params' command, that",
+                    "children": []
+                },
+                {
+                    "type": "text",
+                    "value": " declares the parameters received by a mixed ITTF Document, may assign a type to",
+                    "children": []
+                },
+                {
+                    "type": "text",
+                    "value": " passed arguments.",
+                    "children": []
+                }
+            ]
+        },
+        {
+            "type": "element",
+            "tagName": "p",
+            "properties": {},
+            "children": [
+                {
+                    "type": "text",
+                    "value": "In any case the lexer do not detect types. When needed they must be declared."
+                }
+            ]
+        }
+    ]
+}

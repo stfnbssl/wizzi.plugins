@@ -1,0 +1,47 @@
+{
+    "name": "wizzi.plugin.pandoc",
+    "npnName": "@wizzi/plugin.pandoc",
+    "pluginBasename": "",
+    "version": "0.0.1",
+    "description": "Wizzi plugin for pandoc documents",
+    "author": {
+        "name": "Stefano Bassoli",
+        "email": "stfn.bssl@gmail.com"
+    },
+    "github": {
+        "userid": "stfnbssl"
+    },
+    "license": {
+        "name": "",
+        "copy": "copy 2023"
+    },
+    "Build": {
+        "isWizziPlugin": true,
+        "useWizziV08": true,
+        "wizziV08": {},
+        "utils": {
+            "useStringifySafe": true,
+            "useObjectInspect": true
+        }
+    },
+    "Schemas": [
+        {
+            "name": "pandoc",
+            "title": "pandoc wizzi schema",
+            "builtin": false,
+            "modelTransformers": [],
+            "artifactGenerators": [
+                {
+                    "name": "document",
+                    "outmime": "json",
+                    "contentType": "application/json",
+                    "isDefault": true
+                }
+            ],
+            "defaultArtifact": "document",
+            "wizzifiers": [],
+            "fileExtensions": [],
+            "includes": []
+        }
+    ]
+}

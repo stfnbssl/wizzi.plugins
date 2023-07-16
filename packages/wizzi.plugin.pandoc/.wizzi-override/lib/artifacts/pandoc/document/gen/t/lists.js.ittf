@@ -1,0 +1,56 @@
+$group
+
+    # OrderedList ListAttributes [[Block]]	                            Ordered list (attributes and a list of items, each a list of blocks)
+
+    async-md( definitionList )
+        # DefinitionList [([Inline], [[Block]])]
+        pandocNodeInit()
+            [ jsonInlines
+            [ jsonBlocks
+        var jsonObject
+            {
+                @ t "DefinitionList"
+                [ c
+                    [
+                        @ pandocNode.jsonInlines
+                        [
+                            @ pandocNode.jsonBlocks
+        pandocNodeExec()
+            _ parentPandocNode.jsonBlocks.push
+                @ jsonObject
+
+    async-md( bulletList )
+        # BulletList [[Block]]
+        pandocNodeInit()
+            [ jsonBlocks
+        var jsonObject
+            {
+                @ t "BulletList"
+                [ c
+                    @ pandocNode.jsonBlocks
+        pandocNodeExec()
+            _ parentPandocNode.jsonBlocks.push
+                @ jsonObject
+
+    async-md( orderedList )
+        # OrderedList ListAttributes [[Block]]    
+        # ListAttributes = (Int, ListNumberStyle, ListNumberDelim) 
+        pandocNodeInit()
+            [ jsonListAttributes
+            [ jsonBlocks
+        var jsonObject
+            {
+                @ t "OrderedList"
+                [ c
+                    @ pandocNode.jsonListAttributes
+                    [
+                        @ pandocNode.jsonBlocks
+        pandocNodeExec()
+            _ parentPandocNode.jsonBlocks.push
+                @ jsonObject
+
+    async-md( listItem )
+        _ md.plain
+            @ model
+            @ ctx
+            @ callback

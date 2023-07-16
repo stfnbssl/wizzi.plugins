@@ -4,7 +4,7 @@
 	#
 		# Pseudo schema xml
 	var util = require('util')
-	var lineparser = require('./lineParser')
+	var lineParser = require('./lineParser')
 	+
     set module.exports
 		function
@@ -50,7 +50,7 @@
 			# loog '===== ++++++ xml.toXmlElement, node.n', node.n, node.v, node.children.length
 			if node.n === '@'
 				var nv
-					_ lineparser.parseNameValueRaw
+					_ lineParser.parseNameValueRaw
 						@ node.v
 				if tag === 'xml' && nv.name() === 'encoding'
 					set ret.encoding = nv.value()

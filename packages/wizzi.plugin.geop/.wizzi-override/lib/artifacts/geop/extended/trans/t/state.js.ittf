@@ -1,0 +1,25 @@
+$group
+
+    set functors.state
+        function
+            param parent
+            param resultObj
+            param kind
+            var stateObj
+                {
+                    @ id parent.wzName
+                    @ kind kind || 'state'
+                    @ ns g_namespace
+                    [ aliases
+                    [ contents
+            var newitems = []
+            foreach child in parent.items
+                if !titleDateWikiContents(child, stateObj, resultObj)
+                elif child.wzElement == "alias"
+                    _ stateObj.aliases.push
+                        {
+                            @ id child.wzName
+                else
+                    set stateObj['unknown_tag_' + child.wzElement] = child.wzName
+            _ resultObj.states.push
+                @ stateObj

@@ -1,6 +1,6 @@
 # wizzi.plugin.md
 
-wizzi.plugin.md
+Wizzi plugin for 
 
 
 ## Features
@@ -16,9 +16,6 @@ wizzi.plugin.md
 no<td>
 
 <table>
-<tr>
-<td>extended</td>
-</tr>
 </table>
 
 <td>
@@ -26,6 +23,12 @@ no<td>
 <table>
 <tr>
 <td>document</td>
+</tr>
+<tr>
+<td>tocss</td>
+</tr>
+<tr>
+<td>tohtml</td>
 </tr>
 </table>
 

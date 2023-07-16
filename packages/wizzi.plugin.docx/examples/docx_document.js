@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.docx\.wizzi-override\examples\docx_document.js.ittf
-    utc time: Thu, 18 May 2023 08:21:20 GMT
+    utc time: Fri, 26 May 2023 08:48:04 GMT
 */
 'use strict';
 var path = require('path');
@@ -20,27 +20,36 @@ const spawn = require("child_process").spawn;
 function executeExample() {
     let arg = process.argv[2];
     const moduleName = arg && arg.length > 0 ? arg : 'first';
-    executeGenerateModules([
-        moduleName
-    ], (err, result) => {
+    getWzCtx(path.resolve(__dirname, '..', '.wizzi-override', 'models'), (err, wzCtx) => {
     
         if (err) {
-            console.log("[31m%s[0m", 'docx/document.examples.executeGenerateModules.err', err);
-            console.log("[31m%s[0m", 'docx/document.examples.executeGenerateModules.err.toString()', err.toString());
-            if (err.inner) {
-                console.log("[31m%s[0m", 'docx/document.examples.executeGenerateModules.err.inner.toString()', err.inner.toString());
+            console.log("[31m%s[0m", err);
+        }
+        executeGenerateModules([
+            moduleName
+        ], wzCtx, (err, result) => {
+        
+            if (err) {
+                console.log("[31m%s[0m", 'docx/document.examples.executeGenerateModules.err', err);
+                console.log("[31m%s[0m", 'docx/document.examples.executeGenerateModules.err.toString()', err.toString());
+                if (err.inner) {
+                    console.log("[31m%s[0m", 'docx/document.examples.executeGenerateModules.err.inner.toString()', err.inner.toString());
+                }
+            }
+            else {
             }
         }
-        else {
-        }
+        )
     }
     )
-    function executeGenerateModules(modules, callback) {
+    function executeGenerateModules(modules, wzCtx, callback) {
         async.mapSeries(modules, (module, callback) => {
         
             var ittfDocumentUri = path.join(__dirname, 'ittf', module + '.docx.ittf');
-            var outputPath = path.join(__dirname, 'results', 'docx', module + '-document.g.docx');
-            loadModelAndGenerateArtifact(ittfDocumentUri, {}, 'docx/document', (err, artifactText) => {
+            var outputPath = path.join(__dirname, 'results', 'docx', module + '-document.g.docx.js');
+            loadModelAndGenerateArtifact(ittfDocumentUri, {
+                wzCtx: wzCtx
+             }, 'docx/document', (err, artifactText) => {
             
                 if (err) {
                     return callback(err);
@@ -51,12 +60,12 @@ function executeExample() {
                 ]);
                 if (docxProcess.stdout) {
                     docxProcess.stdout.on('data', function(data) {
-                        printValue('c stdout', data.toString(), 'dashes')
+                        printValue('docx stdout', data.toString(), 'dashes')
                     })
                 }
                 if (docxProcess.stderr) {
                     docxProcess.stderr.on('data', function(data) {
-                        printValue('c stderr', data.toString(), 'dashes')
+                        printValue('docx stderr', data.toString(), 'dashes')
                     })
                 }
                 docxProcess.on('message', function(message) {
@@ -171,9 +180,10 @@ function createWizziFactory(globalContext, callback) {
     wizzi.fsFactory({
         plugins: {
             items: [
-                './index.js'
+                './wizzi.plugin.docx/index.js', 
+                './wizzi.plugin.json/index.js'
             ], 
-            pluginsBaseFolder: path.resolve(__dirname, '..')
+            pluginsBaseFolder: "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
          }, 
         globalContext: globalContext || {}
      }, callback)
@@ -404,6 +414,17 @@ var DEFAULT_MIME = {
     xml: 'xml', 
     yaml: 'yaml'
  };
+function getWzCtx(folderpath, callback) {
+    loadWizziModel(path.join(folderpath, 'wzctx.json.ittf'), {}, (err, model) => {
+    
+        if (err) {
+            return callback(err);
+        }
+        console.log('getWzCtx', Object.keys(model), __filename);
+        return callback(null, model);
+    }
+    )
+}
 function normalize(filepath) {
     return verify.replaceAll(filepath, '\\', '/');
 }

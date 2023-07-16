@@ -1,0 +1,132 @@
+pandoc second
+    meta ICBM
+        + 42.355469,-71.058627
+    meta lang
+        + en
+    meta title
+        + Wizzi pandoc sample
+    meta viewport
+        + width=device-width, initial-scale=1
+    h1 Hello heading 1
+    h2 Hello heading 2
+    h3 Hello heading 3
+    h4 Hello heading 4
+    h5 Hello heading 5
+    h6 Hello heading 6
+    p Hello first paragraph
+    p Hello [*paragraph*] with asterisk emphasis 
+    p Hello [*paragraph with multi-word*] asterisk emphasis 
+    p Hello [*paragraph with 
+        \n multi-softline*] asterisk emphasis 
+    p Hello [**paragraph**] with strong asterisk emphasis 
+    p Hello [**paragraph with multi-word**] strong asterisk emphasis 
+    p Hello [**paragraph with 
+        \n multi-softline**] asterisk emphasis 
+    p Hello [_paragraph_] with underscore emphasis 
+    p Hello [_paragraph with multi-word_] underscore emphasis 
+    p Hello [_paragraph with 
+        \n multi-softline_] underscore emphasis 
+    p Hello [__paragraph__] with strong underscore emphasis 
+    p Hello [__paragraph with multi-word__] strong underscore emphasis 
+    p Hello [__paragraph with 
+        \n multi-softline__] underscore emphasis 
+    p Hello
+        space
+        u underlined
+        space
+        + text.
+    p Hello
+        space
+        b bold/strong
+        space
+        + text.
+    p Hello
+        space
+        emph emkphasis
+        space
+        + text.
+    p Hello
+        space
+        sub-script sub script
+        space
+        + text.
+    p Hello
+        space
+        super-script super script
+        space
+        + text: H
+        super-script 2
+        + O.
+    p Hello external link to
+        space
+        a
+            href https://github.com/stfnbssl
+            + The
+            space
+            b Wizzi
+            space
+            + factory
+        + .
+
+    
+    ul $$ BulletList
+        li $$ PLAIN
+            code bibtex
+            space
+            + (
+            a
+                href https://ctan.org/pkg/bibtex
+                + BibTeX
+            space 
+            + bibliography)
+
+    dl
+        code -f
+        space
+        emph FORMAT
+        + ,
+        space
+        code -r
+        space
+        emph FORMAT
+        + ,
+        space
+        code --from=
+        emph FORMAT
+        + ,
+        space
+        code --read=
+        emph FORMAT
+        p Specify input format.  *FORMAT* can be:
+        div ( "input-formats" , [] , [] )
+            ul $$ BulletList
+                li $$ PLAIN
+                    code bibtex
+                    space
+                    + (
+                    a
+                        href https://ctan.org/pkg/bibtex
+                        + BibTeX
+                    space
+                    + bibliography)
+    table
+        tbody
+            tr
+                td
+                    p Hello
+                td
+                    p World
+            tr
+                td
+                    p Bye
+                td
+                    p Baby
+
+    div
+        # beba
+        p
+            image 
+                . brus
+                @ width 200
+                @ height 200
+                src https://www.ausl.re.it/immagini/DEDICATO%20A/BeBa-logo.png                   

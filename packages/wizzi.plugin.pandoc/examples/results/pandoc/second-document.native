@@ -1,0 +1,386 @@
+[ Header
+    1
+    ( "hello-heading-1" , [] , [] )
+    [ Str "Hello" , Space , Str "heading" , Space , Str "1" ]
+, Header
+    2
+    ( "hello-heading-2" , [] , [] )
+    [ Str "Hello" , Space , Str "heading" , Space , Str "2" ]
+, Header
+    3
+    ( "hello-heading-3" , [] , [] )
+    [ Str "Hello" , Space , Str "heading" , Space , Str "3" ]
+, Header
+    4
+    ( "hello-heading-4" , [] , [] )
+    [ Str "Hello" , Space , Str "heading" , Space , Str "4" ]
+, Header
+    5
+    ( "hello-heading-5" , [] , [] )
+    [ Str "Hello" , Space , Str "heading" , Space , Str "5" ]
+, Header
+    6
+    ( "hello-heading-6" , [] , [] )
+    [ Str "Hello" , Space , Str "heading" , Space , Str "6" ]
+, Para
+    [ Str "Hello"
+    , Space
+    , Str "first"
+    , Space
+    , Str "paragraph"
+    ]
+, Para
+    [ Str "Hello"
+    , Space
+    , Emph [ Str "paragraph" ]
+    , Space
+    , Str "with"
+    , Space
+    , Str "asterisk"
+    , Space
+    , Str "emphasis"
+    ]
+, Para
+    [ Str "Hello"
+    , Space
+    , Emph
+        [ Str "paragraph"
+        , Space
+        , Str "with"
+        , Space
+        , Str "multi-word"
+        ]
+    , Space
+    , Str "asterisk"
+    , Space
+    , Str "emphasis"
+    ]
+, Para
+    [ Str "Hello"
+    , Space
+    , Emph
+        [ Str "paragraph"
+        , Space
+        , Str "with"
+        , LineBreak
+        , Str "multi-softline"
+        ]
+    , Space
+    , Str "asterisk"
+    , Space
+    , Str "emphasis"
+    ]
+, Para
+    [ Str "Hello"
+    , Space
+    , Strong [ Str "paragraph" ]
+    , Space
+    , Str "with"
+    , Space
+    , Str "strong"
+    , Space
+    , Str "asterisk"
+    , Space
+    , Str "emphasis"
+    ]
+, Para
+    [ Str "Hello"
+    , Space
+    , Strong
+        [ Str "paragraph"
+        , Space
+        , Str "with"
+        , Space
+        , Str "multi-word"
+        ]
+    , Space
+    , Str "strong"
+    , Space
+    , Str "asterisk"
+    , Space
+    , Str "emphasis"
+    ]
+, Para
+    [ Str "Hello"
+    , Space
+    , Strong
+        [ Str "paragraph"
+        , Space
+        , Str "with"
+        , LineBreak
+        , Str "multi-softline"
+        ]
+    , Space
+    , Str "asterisk"
+    , Space
+    , Str "emphasis"
+    ]
+, Para
+    [ Str "Hello"
+    , Space
+    , Emph [ Str "paragraph" ]
+    , Space
+    , Str "with"
+    , Space
+    , Str "underscore"
+    , Space
+    , Str "emphasis"
+    ]
+, Para
+    [ Str "Hello"
+    , Space
+    , Emph
+        [ Str "paragraph"
+        , Space
+        , Str "with"
+        , Space
+        , Str "multi-word"
+        ]
+    , Space
+    , Str "underscore"
+    , Space
+    , Str "emphasis"
+    ]
+, Para
+    [ Str "Hello"
+    , Space
+    , Emph
+        [ Str "paragraph"
+        , Space
+        , Str "with"
+        , LineBreak
+        , Str "multi-softline"
+        ]
+    , Space
+    , Str "underscore"
+    , Space
+    , Str "emphasis"
+    ]
+, Para
+    [ Str "Hello"
+    , Space
+    , Strong [ Str "paragraph" ]
+    , Space
+    , Str "with"
+    , Space
+    , Str "strong"
+    , Space
+    , Str "underscore"
+    , Space
+    , Str "emphasis"
+    ]
+, Para
+    [ Str "Hello"
+    , Space
+    , Strong
+        [ Str "paragraph"
+        , Space
+        , Str "with"
+        , Space
+        , Str "multi-word"
+        ]
+    , Space
+    , Str "strong"
+    , Space
+    , Str "underscore"
+    , Space
+    , Str "emphasis"
+    ]
+, Para
+    [ Str "Hello"
+    , Space
+    , Strong
+        [ Str "paragraph"
+        , Space
+        , Str "with"
+        , LineBreak
+        , Str "multi-softline"
+        ]
+    , Space
+    , Str "underscore"
+    , Space
+    , Str "emphasis"
+    ]
+, Para
+    [ Str "Hello"
+    , Space
+    , Underline [ Str "underlined" ]
+    , Space
+    , Str "text."
+    ]
+, Para
+    [ Str "Hello"
+    , Space
+    , Strong [ Str "bold/strong" ]
+    , Space
+    , Str "text."
+    ]
+, Para
+    [ Str "Hello"
+    , Space
+    , Emph [ Str "emkphasis" ]
+    , Space
+    , Str "text."
+    ]
+, Para
+    [ Str "Hello"
+    , Space
+    , Subscript [ Str "sub" , Space , Str "script" ]
+    , Space
+    , Str "text."
+    ]
+, Para
+    [ Str "Hello"
+    , Space
+    , Superscript [ Str "super" , Space , Str "script" ]
+    , Space
+    , Str "text: H"
+    , Superscript [ Str "2" ]
+    , Str "O."
+    ]
+, Para
+    [ Str "Hello"
+    , Space
+    , Str "external"
+    , Space
+    , Str "link"
+    , Space
+    , Str "to"
+    , Space
+    , Link
+        ( "" , [] , [] )
+        [ Str "The"
+        , Space
+        , Strong [ Str "Wizzi" ]
+        , Space
+        , Str "factory"
+        ]
+        ( "https://github.com/stfnbssl" , "" )
+    , Str "."
+    ]
+, BulletList
+    [ [ Plain
+          [ Code ( "" , [] , [] ) "bibtex"
+          , Space
+          , Str "("
+          , Link
+              ( "" , [] , [] )
+              [ Str "BibTeX" ]
+              ( "https://ctan.org/pkg/bibtex" , "" )
+          , Space
+          , Str "bibliography)"
+          ]
+      ]
+    ]
+, DefinitionList
+    [ ( [ Code ( "" , [] , [] ) "-f"
+        , Space
+        , Emph [ Str "FORMAT" ]
+        , Str ","
+        , Space
+        , Code ( "" , [] , [] ) "-r"
+        , Space
+        , Emph [ Str "FORMAT" ]
+        , Str ","
+        , Space
+        , Code ( "" , [] , [] ) "--from="
+        , Emph [ Str "FORMAT" ]
+        , Str ","
+        , Space
+        , Code ( "" , [] , [] ) "--read="
+        , Emph [ Str "FORMAT" ]
+        ]
+      , [ [ Para
+              [ Str "Specify"
+              , Space
+              , Str "input"
+              , Space
+              , Str "format."
+              , Space
+              , Space
+              , Str "*FORMAT*"
+              , Space
+              , Str "can"
+              , Space
+              , Str "be:"
+              ]
+          , Div
+              ( "" , [] , [] )
+              [ BulletList
+                  [ [ Plain
+                        [ Code ( "" , [] , [] ) "bibtex"
+                        , Space
+                        , Str "("
+                        , Link
+                            ( "" , [] , [] )
+                            [ Str "BibTeX" ]
+                            ( "https://ctan.org/pkg/bibtex" , "" )
+                        , Space
+                        , Str "bibliography)"
+                        ]
+                    ]
+                  ]
+              ]
+          ]
+        ]
+      )
+    ]
+, Table
+    ( "" , [] , [] )
+    (Caption Nothing [])
+    [ ( AlignDefault , ColWidthDefault )
+    , ( AlignDefault , ColWidthDefault )
+    ]
+    (TableHead ( "" , [] , [] ) [])
+    [ TableBody
+        ( "" , [] , [] )
+        (RowHeadColumns 0)
+        []
+        [ Row
+            ( "" , [] , [] )
+            [ Cell
+                ( "" , [] , [] )
+                AlignDefault
+                (RowSpan 1)
+                (ColSpan 1)
+                [ Para [ Str "Hello" ] ]
+            , Cell
+                ( "" , [] , [] )
+                AlignDefault
+                (RowSpan 1)
+                (ColSpan 1)
+                [ Para [ Str "World" ] ]
+            ]
+        , Row
+            ( "" , [] , [] )
+            [ Cell
+                ( "" , [] , [] )
+                AlignDefault
+                (RowSpan 1)
+                (ColSpan 1)
+                [ Para [ Str "Bye" ] ]
+            , Cell
+                ( "" , [] , [] )
+                AlignDefault
+                (RowSpan 1)
+                (ColSpan 1)
+                [ Para [ Str "Baby" ] ]
+            ]
+        ]
+    ]
+    (TableFoot ( "" , [] , [] ) [])
+, Div
+    ( "beba" , [] , [] )
+    [ Para
+        [ Image
+            ( ""
+            , [ "brus" ]
+            , [ ( "\"width\"" , "200" ) , ( "\"height\"" , "200" ) ]
+            )
+            []
+            ( "https://www.ausl.re.it/immagini/DEDICATO%20A/BeBa-logo.png"
+            , ""
+            )
+        ]
+    ]
+]

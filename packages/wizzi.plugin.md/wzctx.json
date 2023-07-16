@@ -1,9 +1,9 @@
 {
     "name": "wizzi.plugin.md",
     "npnName": "@wizzi/plugin.md",
-    "pluginBasename": "md",
+    "pluginBasename": "",
     "version": "0.8.1",
-    "description": "wizzi.plugin.md",
+    "description": "Wizzi plugin for ",
     "author": {
         "name": "Stefano Bassoli",
         "email": "stfn.bssl@gmail.com"
@@ -12,7 +12,7 @@
         "userid": "stfnbssl"
     },
     "license": {
-        "name": "MIT",
+        "name": "",
         "copy": "copy 2023"
     },
     "Build": {
@@ -32,21 +32,25 @@
             "title": "md wizzi schema",
             "builtin": false,
             "hasWizzifier": true,
-            "modelTransformers": [
-                {
-                    "name": "extended"
-                }
-            ],
+            "modelTransformers": [],
             "artifactGenerators": [
-                {
-                    "name": "document"
-                }
-            ],
-            "artifacts": [
                 {
                     "name": "document",
                     "outmime": "md",
+                    "contentType": "text/html",
                     "isDefault": true
+                },
+                {
+                    "name": "tocss",
+                    "outmime": "css",
+                    "contentType": "text/css",
+                    "isDefault": false
+                },
+                {
+                    "name": "tohtml",
+                    "outmime": "html",
+                    "contentType": "text/html",
+                    "isDefault": false
                 }
             ],
             "defaultArtifact": "document",
@@ -67,6 +71,11 @@
                 {
                     "Name": "Css",
                     "name": "css",
+                    "options": []
+                },
+                {
+                    "Name": "Json",
+                    "name": "json",
                     "options": []
                 }
             ]

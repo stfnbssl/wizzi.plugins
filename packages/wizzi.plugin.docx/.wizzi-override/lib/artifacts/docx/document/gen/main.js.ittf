@@ -31,6 +31,15 @@ module
             set text = verify.replaceAll(text, '&nbsp;', ' ')
             return verify.replaceAll(text, '"', '\\"')
             
+        function revalue
+            param text
+            if text.startsWith('= ')
+                return text.substring(2)
+            elif text.startsWith('=')
+                return text.substring(1)
+            else
+                return '"' + respace(text) + '"'
+
         +
         async-md( docx )
             $$ loog"ctx.keys", Object.keys(ctx)
@@ -40,7 +49,7 @@ module
             set ctx.values.docxStack = []
             set ctx.values.docxCounter = 0
             set ctx.values.docxMainObject = 'docx_MainObject'
-            set ctx.values.mainObjectCreated = false
+            $$ set ctx.values.mainObjectCreated = false
             set ctx.values.bulletLevel = 0
             
             var docxNode = "docx_doc_" + (++ctx.values.docxCounter)
@@ -49,14 +58,20 @@ module
             
             _ ctx.w('const fs = require("fs");')
             _ ctx.w('const docx = require("docx");')
+            _ ctx.w('const convertInchesToTwip = docx.convertInchesToTwip;')
+            _ ctx.w('const convertMillimetersToTwip = docx.convertMillimetersToTwip;')
             $$ _ ctx.w('const { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, ShadingType, Table, TableCell, TableRow, TableLayoutType, WidthType } = docx;')
             _ ctx.w('')
-            _ ctx.w('const ' + docxNode + ' = {};')
+            _ ctx.w('const ' + docxNode + ' = { sections: [], styles: [] };')
+            if model.evenAndOddHeaderAndFooters
+                _ ctx.w(docxNode + '.evenAndOddHeaderAndFooters = true;')
             _ md.genItems
                 @ model.nodes
                 @ ctx
                 @ noindent
                 a_cb()
+                    _ ctx.w('')
+                    _ ctx.w('const ' + ctx.values.docxMainObject + ' = new docx.Document(' + ctx.values.docxMainInternalObject + ');')
                     _ ctx.w('')
                     _ ctx.w('docx.Packer.toBuffer(' + ctx.values.docxMainObject + ').then((buffer) => {')
                     _ ctx.w('    fs.writeFileSync("' + model.wzName + '.docx", buffer);')
@@ -64,92 +79,188 @@ module
                     _ ctx.w('});')
                     r_cb()
 
-        +
-        async-md( section )
-            $$ loog'tag section, value', model.wzName
-            
-            var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
-            var docxNode = "docx_sect_" + (++ctx.values.docxCounter)
-            _ ctx.values.docxStack.push(docxNode)
-            _ ctx.w('const ' + docxNode + ' = { properties: {}, children: [] };')
+        objectNode.js( numberingDef )
+            _ ctx.w(docxNode + '.config = [];')
+            $append close
+                _ ctx.w(docxParent + '.numbering = ' + docxNode + ';')
+
+        objectNode.js( config )
+            _ ctx.w(docxNode + '.levels = [];')
+            $append close
+                if verify.isNotEmpty(model.reference)
+                    _ ctx.w(docxNode + '.reference = ' + revalue(model.reference) + ';')
+                _ ctx.w(docxParent + '.config.push(' + docxNode + ');')
+        
+        objectNode.js( level )
+            $append close
+                _ ctx.w(docxNode + '.level = ' + model.wzName + ';')
+                if verify.isNotEmpty(model.format)
+                    _ ctx.w(docxNode + '.format = docx.LevelFormat.' + model.format + ';')
+                if verify.isNotEmpty(model.text)
+                    _ ctx.w(docxNode + '.text = ' + revalue(model.text) + ';')
+                if verify.isNotEmpty(model.alignment)
+                    _ ctx.w(docxNode + '.alignment = docx.AlignmentType.' + model.alignment + ';')
+                _ ctx.w(docxParent + '.levels.push(' + docxNode + ');')
+
+        objectNode.js( numbering )
+            $append close
+                if verify.isNotEmpty(model.reference)
+                    _ ctx.w(docxNode + '.reference = "' + model.reference + '";')
+                if verify.isNotEmpty(model.level)
+                    _ ctx.w(docxNode + '.level = ' + model.level + ';')
+                if verify.isNotEmpty(model.instance)
+                    _ ctx.w(docxNode + '.instance = ' + model.instance + ';')
+                _ ctx.w(docxParent + '.numbering = ' + docxNode + ';')
+
+        nodePropertyChoice.js( formatType)
+            _ ctx.w(docxParent + '.formatType = docx.NumberFormat.' + model.wzName + ';')
+
+        objectNode.js( header, docx.Header )
+            _ ctx.w(docxNode + '.children = [];')
+            var name = verify.isEmpty(model.wzName) ? 'default' : model.wzName
+            $append close
+                _ ctx.w(docxParent + '.headers.' + name + ' = ' + docxNode + 'Obj;')
+
+        objectNode.js( footer, docx.Footer )
+            _ ctx.w(docxNode + '.children = [];')
+            var name = verify.isEmpty(model.wzName) ? 'default' : model.wzName
+            $append close
+                _ ctx.w(docxParent + '.footers.' + name + ' = ' + docxNode + 'Obj;')
+
+
+
+        async-md( imageDef )
+            docxNode.js(imageDef)
+            _ ctx.w('const ' + docxNode + ' = {};')
+            _ ctx.w(docxNode + '.data = fs.readFileSync("' + verify.replaceAll(model.src, '\\', '\\\\') + '");')
             _ md.genItems
                 @ model.nodes
                 @ ctx
                 @ noindent
                 a_cb()
-                    if ctx.values.mainObjectCreated == false
-                        _ ctx.w('const ' + ctx.values.docxMainObject + ' = new docx.Document(' + ctx.values.docxMainInternalObject + ');')
-                        set ctx.values.mainObjectCreated = true
-                    _ ctx.w(ctx.values.docxMainObject + '.addSection(' + docxNode + ');')
+                    _ ctx.w('const imageRun_' + model.wzName + ' = new docx.ImageRun(' + docxNode + ');')
                     _ ctx.values.docxStack.pop()
                     r_cb()
-        +
-        objectNode.js( p, docx.Paragraph )   
-            _ ctx.w(docxNode + '.children = [];')
-            _ ctx.w(docxNode + '.tabStops = [];')
-            if !verify.isEmpty(model.wzName)
-                _ ctx.w(docxNode + '.text = "' + respace(model.wzName) + '";')
-            $append close
-                _ ctx.w(docxParent + '.children.push(' + docxNode + 'Obj);')
 
-        async-md( imageDef )
-            if ctx.values.mainObjectCreated == false
-                _ ctx.w('const ' + ctx.values.docxMainObject + ' = new docx.Document(' + ctx.values.docxMainInternalObject + ');')
-                set ctx.values.mainObjectCreated = true
-            _ ctx.w('const ' + model.wzName + ' = docx.Media.addImage(')
-            # _ ctx.w('  ' + ctx.values.docxMainObject + ', 300, 300,')
-            _ ctx.w('  ' + ctx.values.docxMainObject + ',')
-            _ ctx.w('  fs.readFileSync("' + verify.replaceAll(model.src, '\\', '\\\\') + '")')
-            _ ctx.w(');')
-            r_cb()
+
+        objectNode.js( transformation )
+            $append close
+                if verify.isNotEmpty(model.width)
+                    _ ctx.w(docxNode + '.width = ' + model.width + ';')
+                if verify.isNotEmpty(model.height)
+                    _ ctx.w(docxNode + '.height = ' + model.height + ';')
+                _ ctx.w(docxParent + '.transformation = ' + docxNode + ';')
+
+        objectNode.js( floating )
+            $append close
+                _ ctx.w(docxNode + '.horizontalPosition = { offset: ' + model.h + '};')
+                _ ctx.w(docxNode + '.verticalPosition = { offset: ' + model.v + '};')
+                _ ctx.w(docxParent + '.floating = ' + docxNode + ';')
+
+        objectNode.js( margins )
+            $append close
+                if verify.isNotEmpty(model.top)
+                    _ ctx.w(docxNode + '.top = ' + model.top + ';')
+                if verify.isNotEmpty(model.bottom)
+                    _ ctx.w(docxNode + '.bottom = ' + model.bottom + ';')
+                if verify.isNotEmpty(model.left)
+                    _ ctx.w(docxNode + '.left = ' + model.left + ';')
+                if verify.isNotEmpty(model.right)
+                    _ ctx.w(docxNode + '.right = ' + model.right + ';')
+                _ ctx.w(docxParent + '.margins = ' + docxNode + ';')
+
+        objectNode.js( wrap )
+            $append close
+                _ ctx.w(docxNode + '.type = docx.TextWrappingType.' + model.type + ';')
+                _ ctx.w(docxNode + '.side = docx.TextWrappingSide.' + model.side + ';')
+                _ ctx.w(docxParent + '.wrap = ' + docxNode + ';')
 
         async-md( imageRef )
             var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
-            _ ctx.w(docxParent + '.children.push(' + model.wzName + ');')
+            _ ctx.w(docxParent + '.children.push(imageRun_' + model.wzName + ');')
             r_cb()
 
+        async-md( tabStopsDef )
+            _ ctx.w('const tabStops_' + model.wzName + ' = [];')
+            _ ctx.values.docxStack.push('tabStops_' + model.wzName)
+            _ md.genItems
+                @ model.nodes
+                @ ctx
+                @ noindent
+                a_cb()
+                    _ ctx.values.docxStack.pop()
+                    r_cb()
+
+        objectNode.js( tabStopDef )  
+            $append close 
+                if verify.isNotEmpty(model.type)
+                    _ ctx.w(docxNode + '.type = docx.TabStopType.' + model.type + ';')
+                if verify.isNotEmpty(model.position)
+                    _ ctx.w(docxNode + '.position = ' + model.position + ';')
+                _ ctx.w(docxParent + '.push(' + docxNode + ');')
+
+        nodePropertyChoice.js( tabStops, tabStops )
+            var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+            _ ctx.w(docxParent + '.tabStops = tabStops_' + model.wzName + ';')
+            r_cb()
+
+
         +
-        headings( 1 )
-        headings( 2 )
-        headings( 3 )
-        headings( 4 )
-        headings( 5 )
-        headings( 6 )
 
         textNode.js( text ) 
+        async-md( literal )
+            docxNode.js()
+            _ ctx.w(docxParent + '.children.push(' + revalue(model.wzName) + ');')
+            r_cb()
+        async-md( valueText )
+            docxNode.js()
+            _ ctx.w(docxParent + '.children.push(' + respace(model.wzName) + ');')
+            r_cb()
         textNode.js( bold ) 
             _ ctx.w(docxParent + '.bold = true;')
-        textNode.js( italic ) 
-            _ ctx.w(docxParent + '.italic = true;')
+        textNode.js( italics ) 
+            _ ctx.w(docxParent + '.italics = true;')
         nodeProperty.js( boldProp, bold, true )
-        nodeProperty.js( italicProp, italic, true )
+        nodeProperty.js( italicsProp, italics, true )
         nodeProperty.js( emphasisMark, emphasisMark, true )
         nodeProperty.js( strike, strike, true )
+        nodeProperty.js( vanish, vanish, true )
+        nodeProperty.js( specVanish, specVanish, true )
         nodeProperty.js( doubleStrike, doubleStrike, true )
         nodeProperty.js( superScript, superScript, true )
         nodeProperty.js( subScript, subScript, true )
         nodeProperty.js( smallCaps, smallCaps, true )
         nodeProperty.js( allCaps, allCaps, true )
 
+        objectNode.js( symbol, docx.SymbolRun )   
+            _ ctx.w(docxNode + '.char = ' + revalue(model.wzName) + ';')
+            $append close
+                _ ctx.w(docxParent + '.children.push(' + docxNode + 'Obj);')
+
         nodeProperty.js( xbreak, break, true )
         nodeProperty.js( size, size )
+        nodeProperty.js( height, height )
+        nodeProperty.js( scale, scale )
         nodeProperty.js( color, color, string )
         nodeProperty.js( fill, fill, string )
         nodeProperty.js( xname, name, string )
         nodeProperty.js( highlight, highlight, string )
-        nodeProperty.js( style, style, string )
-        nodeProperty.js( next, next, string )
-        nodeProperty.js( basedOn, basedOn, string )
-        nodeProperty.js( before, before )
-        nodeProperty.js( after, after )
         nodeProperty.js( line, line )
+        nodePropertyChoice.js( lineRule )
+            _ ctx.w(docxParent + '.lineRule = docx.LineRuleType.' + model.wzName + ';')
         nodeProperty.js( link, link, string )
         nodeProperty.js( linkText, text, string )
         nodeProperty.js( value, value, string )
         nodeProperty.js( space, space )
+        nodeProperty.js( widow, widowControl, true )
+        nodeProperty.js( outline, outlineLevel )
+
+        nodeProperty.js( bullet )
 
         nodePropertyChoice.js( xtype)
-            if model.wzParent.wzElement == 'shading'
+            if model.wzParent.wzElement == 'section'
+                _ ctx.w(docxParent + '.properties.type = docx.SectionType.' + model.wzName + ';')
+            elif model.wzParent.wzElement == 'shading'
                 _ ctx.w(docxParent + '.type = docx.ShadingType.' + model.wzName + ';')
             elif model.wzParent.wzElement == 'width'
                 _ ctx.w(docxParent + '.type = docx.WidthType.' + model.wzName + ';')
@@ -157,14 +268,17 @@ module
                 _ ctx.w(docxParent + '.type = docx.TabStopType.' + model.wzName + ';')
             elif model.wzParent.wzElement == 'underline'
                 _ ctx.w(docxParent + '.type = docx.UnderlineType.' + model.wzName + ';')
+            $*
             elif model.wzParent.wzElement == 'hyperlinkDef'
                 if model.wzName && model.wzName.length > 0
                     _ ctx.w(docxParent + '.type = docx.HyperlinkType.' + model.wzName + ';')
                 else
                     _ ctx.w(docxParent + '.type = docx.HyperlinkType.EXTERNAL;')
+            *$
             else
                 _ ctx.w(docxParent + '.type = "' + model.wzName + '";')
-        
+
+
         nodePropertyChoice.js( position )
             if model.wzParent.wzElement == 'tabStop'
                 if verify.isNumber(model.wzName)
@@ -174,11 +288,16 @@ module
             else
                 _ ctx.w(docxParent + '.position = ' + model.wzName + ';')
 
-        nodePropertyChoice.js( alignment )
+        nodePropertyChoice.js( align )
             _ ctx.w(docxParent + '.alignment = docx.AlignmentType.' + model.wzName + ';')
         
+        $*
         nodePropertyChoice.js( hyperlinkRef )
             _ ctx.w(docxParent + '.children.push(new docx.HyperlinkRef("' + model.wzName + '"));')
+        *$
+
+
+        
 
         $*
         async-md( xtype )
@@ -194,22 +313,17 @@ module
         +
         async-md( font )
 
-            docxNode.js( fnt )
-            _ ctx.w('const ' + docxNode + ' = {};')
-        
-            _ md.genItems
-                @ model.nodes
-                @ ctx
-                @ noindent
-                a_cb()
-                    _ ctx.w(docxParent + '.font = ' + docxNode + ';')
-                    _ ctx.values.docxStack.pop()
-                    r_cb()
+            docxNode.js()
+            if model.wzParent.wzElement == 'symbol'
+                _ ctx.w(docxParent + '.symbolfont = "' + model.wzName + '";')
+            else
+                _ ctx.w(docxParent + '.font = "' + model.wzName + '";')
+            r_cb()
 
         +
         async-md( shading )
 
-            docxNode.js( shd )
+            docxNode.js(shading)
             _ ctx.w('const ' + docxNode + ' = {};')
         
             _ md.genItems
@@ -228,7 +342,7 @@ module
 
         objectNode.js( tr, docx.TableRow )   
             _ ctx.w(docxNode + '.children = [];')
-            _ ctx.w(docxNode + '.layout = docx.TableLayoutType.FIXED;')
+            $$ _ ctx.w(docxNode + '.layout = docx.TableLayoutType.FIXED;')
             $append close
                 _ ctx.w(docxParent + '.rows.push(' + docxNode + 'Obj);')
 
@@ -236,6 +350,14 @@ module
             _ ctx.w(docxNode + '.children = [];')
             $append close
                 _ ctx.w(docxParent + '.children.push(' + docxNode + 'Obj);')
+        
+        nodePropertyChoice.js( valign )
+            _ ctx.w(docxParent + '.verticalAlign = docx.VerticalAlign.' + model.wzName + ';')
+
+        nodePropertyChoice.js( textDirection )
+            _ ctx.w(docxParent + '.textDirection = docx.TextDirection.' + model.wzName + ';')
+
+        nodeProperty.js( columnSpan, columnSpan )
 
         objectNode.js( width )   
             $append close
@@ -245,36 +367,13 @@ module
             $append close
                 _ ctx.w(docxParent + '.underline = ' + docxNode + ';')
 
-        objectNode.js( styles )
-            $append close
-                _ ctx.w(docxParent + '.styles = ' + docxNode + ';')
-
-        objectNode.js( xdefault )
-            $append close
-                _ ctx.w(docxParent + '.default = ' + docxNode + ';')
-
-
-        objectNode.js( run )
-            $append close
-                _ ctx.w(docxParent + '.run = ' + docxNode + ';')
-        
         objectNode.js( tabStop )
             $append close
                 _ ctx.w(docxParent + '.tabStops.push(' + docxNode + ');')
 
-        objectNode.js( styleDef )
-            if model.wzParent.wzElement == 'paragraphStyles'
-                _ ctx.w(docxNode + '.id = "' + model.wzName + '";')
-            $append close
-                if model.wzParent.wzElement == 'xdefault'
-                    _ ctx.w(docxParent + '.' + model.wzName + ' = ' + docxNode + ';')
-                else
-                    _ ctx.w(docxParent + '.push(' + docxNode + ');')
 
-        objectNode.js( spacing )
-            $append close
-                _ ctx.w(docxParent + '.spacing = ' + docxNode + ';')
 
+        $*
         objectNode.js( hyperlinks )
             $append close
                 _ ctx.w(docxParent + '.hyperlinks = ' + docxNode + ';')
@@ -282,10 +381,14 @@ module
         objectNode.js( hyperlinkDef )
             $append close
                 _ ctx.w(docxParent + '.' + model.wzName + ' = ' + docxNode + ';')
+        *$
 
         objectNode.js( border )
             $append close
                 _ ctx.w(docxParent + '.border = ' + docxNode + ';')
+        objectNode.js( borders )
+            $append close
+                _ ctx.w(docxParent + '.borders = ' + docxNode + ';')
 
         $$ objectNodeSimple.js( border )
         objectNodeSimple.js( top )
@@ -293,10 +396,19 @@ module
         objectNodeSimple.js( right )
         objectNodeSimple.js( bottom )
 
-        arrayNode.js( paragraphStyles )
-            $append close
-                _ ctx.w(docxParent + '.paragraphStyles = ' + docxNode + ';')
-
+        nodeProperty.js(columnWidths, columnWidths)
+        $*
+        async-md( columnWidths
+            docxNode.js()
+            const ss = model.wzName.split(',')
+            const sb = []
+            foreach s in ss
+                if verify.isNotEmpty(s)
+                    _ sb.push
+                        @ 'convertInchesToTwip(' + s + ')'
+            _ ctx.w(docxParent + '.columnWidths = [' + sb.join(',') + '];')
+            r_cb()
+        *$
 
         async-md( ul )
             $$ loog'tag section, value', model.wzName
@@ -326,3 +438,8 @@ module
             _ ctx.w(docxNode + '.bullet = { level: ' + (ctx.values.bulletLevel-1) + '};')
             $append close
                 _ ctx.w(docxParent + '.children.push(' + docxNode + 'Obj);')
+
+        $include methods/document
+        $include methods/section
+        $include methods/paragraph
+        $include methods/styles

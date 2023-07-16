@@ -1,0 +1,28 @@
+<html>
+   <p>Hello, i am a free schema line. I to am an indented free schema line.</p>
+   <h2>Changing your profile picture</h2>
+   <p>Your profile picture helps identify you across {% data variables.product.product_name %} in pull requests, comments, contributions pages, and graphs.</p>
+   <p>When you sign up for an account, {% data variables.product.product_name %} provides you with a randomly generated "identicon". [Your identicon](https://github.com/blog/1586-identicons) generates from a hash of your user ID, so there's no way to control its color or pattern. You can replace your identicon with an image that represents you.</p>
+   <h1>Ittf notation</h1>
+   <p>Documents are made of text lines separated by a:       <ul>
+           <li>x'000a' char or</li>
+           <li>x'000d' char or</li>
+           <li>x'000a' \b x'000d' couple of chars</li>
+       </ul>
+</p>
+   <p>A line is made of a node-name and a node-value separated by a white-char (space or tab).</p>
+<div class="L1"><span class="pp-ln">   1 </span><span class="pp-pln"></span><span class="pp-tag">ittf</span></div><div class="L2"><span class="pp-ln">   2 </span><span class="pp-pln">  </span><span class="pp-tag">name</span><span class="pp-pln"> value</span></div><div class="L3"><span class="pp-ln">   3 </span><span class="pp-pln">    </span><span class="pp-tag">name</span><span class="pp-pln"> value</span></div>   <p>Node-values always are trimmed, you cannot have a node-value that starts or ends with a white-char sequence.</p>
+<div class="L1"><span class="pp-ln">   1 </span><span class="pp-pln"></span><span class="pp-tag">ittf</span></div><div class="L2"><span class="pp-ln">   2 </span><span class="pp-pln">  </span><span class="pp-tag">name1</span><span class="pp-pln"> value</span></div><div class="L3"><span class="pp-ln">   3 </span><span class="pp-pln">    </span><span class="pp-tag">name2</span><span class="pp-pln"> value</span></div>   <p>The node hierarchy is built calculating the indentation of node-names in a text line. Every tab or every 4 space chars preeceding a node-name count for one level of indentation.</p>
+   <p>The node-name of the first line (the root node-name) must have indentation zero. The root node-name must start at column 1 (1-based) of the first row.</p>
+   <p>An ITTF Document cannot have more than one root node. If the semantic of a document require more than one root node, a convenience '$group' command can be used. It must be the root node of a composed document (included or mixed) and is ignored during the mTree build up, so that all its childs become root nodes of the included document.</p>
+   <p>Example. Ittf document with two root nodes.</p>
+<div class="L1"><span class="pp-ln">   1 </span><span class="pp-pln"></span><span class="pp-kwd">$group</span></div><div class="L2"><span class="pp-ln">   2 </span><span class="pp-pln">  </span><span class="pp-tag">root1</span><span class="pp-pln"> value1</span></div><div class="L3"><span class="pp-ln">   3 </span><span class="pp-pln">  </span><span class="pp-tag">root2</span><span class="pp-pln"> value2</span></div>   <p>A line becomes a node which parent is the first preceeding line with a lesser indentation.</p>
+   <p>Phisical text lines may have line continuatios and a 'logical' line may contain many phisical lines. There are three pre-defined node-names that allow line continuation:</p>
+   <li>'\' means that the node-value is joined to the node-valueof the parent node without separation.</li>
+   <li>'\b' means that the node-value is joined to the node-valueof the parent node with one space char separator.</li>
+   <li>'\n' means that the node-value is joined to the node-valueof the parent node with one Line Feed char separator.</li>
+<div class="L1"><span class="pp-ln">   1 </span><span class="pp-pln"></span><span class="pp-tag">ittf</span></div><div class="L2"><span class="pp-ln">   2 </span><span class="pp-pln">  </span><span class="pp-tag">root</span></div><div class="L3"><span class="pp-ln">   3 </span><span class="pp-pln">    </span><span class="pp-tag">name1</span><span class="pp-pln"> I am a single line</span></div><div class="L4"><span class="pp-ln">   4 </span><span class="pp-pln">    </span><span class="pp-tag">name2</span><span class="pp-pln"> I am a single line</span></div>   <p>Node names and values are text strings by design, and never require quotes (they are unquoted by the lexer). The wizzi factory is a text manipulator. If the semantic of a node-value require that it is treated as a different type (boolean, integer, float or date), that can be done using wizzi schemas, that apply types to the tree structure resulting from loading an ittf document (see mTrees).</p>
+   <p>One exception to this rule is when an argument is passed to a mixed ITTF Document, and will become part of its evaluation context. Types different from string can be usefull in JsWizzi expessions. The '$params' command, that declares the parameters received by a mixed ITTF Document, may assign a type to passed arguments.</p>
+   <p>In any case the lexer do not detect types. When needed they must be declared.</p>
+</html>
+

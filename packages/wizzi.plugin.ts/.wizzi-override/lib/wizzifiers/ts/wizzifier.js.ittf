@@ -49,18 +49,11 @@ module
                 set options = options || {}
                 var plugins
                 try
-                    if options.ts_or_flow === 'typescript'
-                        set plugins
-                            [
-                                @ 'typescript'
-                                ._ concat
-                                    @ commonPlugins
-                    else
-                        set plugins
-                            [
-                                @ 'flow'
-                                ._ concat
-                                    @ commonPlugins
+                    set plugins
+                        [
+                            @ 'typescript'
+                            ._ concat
+                                @ commonPlugins
                     # loog 'tswizzifier.container.options', options
                     var syntax
                         _ ts_parser.parse
@@ -152,12 +145,6 @@ module
                         {
                             @ tag 'module'
                             [ children
-                    if babelOptions.ts_or_flow !== 'typescript'
-                        _ root.children.push
-                            {
-                                @ tag 'kind'
-                                @ name 'react'
-                                [ children
                     try
                         _ format(root, syntax, options)
                     catch ex
@@ -173,6 +160,7 @@ module
                             param item
                             param callback
                             if item.kind === 'css'
+                                $* OLD VIA
                                 if !csswizzifier
                                     set csswizzifier = require('../../cssparser/css/wizzifier')
                                 _ csswizzifier.getWizziTree
@@ -183,12 +171,31 @@ module
                                         _ item.node.children.push
                                             @ ittf
                                         r_cb()
+                                *$
+                                _ options.wf.getWizziTreeFromText
+                                    @ item.literal
+                                    @ "css"
+                                    a_cb_no_throw( ittf )
+                                        # loog 'getWizzifierIncludes.item.ittf', ittf
+                                        _ item.node.children.push
+                                            @ ittf
+                                        r_cb()
                             else
+                                $*
                                 if !htmlwizzifier
                                     set htmlwizzifier = require('../../htmlparser/wizzi/wizzifier')
                                 _ htmlwizzifier.getWizziTree
                                     @ item.literal
                                     {
+                                    a_cb_no_throw( ittf )
+                                        # loog 'getWizzifierIncludes.item.ittf', ittf
+                                        _ item.node.children.push
+                                            @ ittf
+                                        r_cb()
+                                *$
+                                _ options.wf.getWizziTreeFromText
+                                    @ item.literal
+                                    @ "html"
                                     a_cb_no_throw( ittf )
                                         # loog 'getWizzifierIncludes.item.ittf', ittf
                                         _ item.node.children.push
@@ -2368,7 +2375,7 @@ module
             # openingFragment JSXOpeningFragment
             # closingFragment JSXClosingFragment
             # children JSXText | JSXExpressionContainer | JSXSpreadChild | JSXElement | JSXFragment
-            set ret.name = 'React.Fragment'
+            set ret.name = '' $$ 8/6/23 React.Fragment'
             f_a( children )
 
         f( JSXOpeningFragment, fragment-open

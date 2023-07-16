@@ -1,0 +1,48 @@
+{
+    "name": "wizzi.plugin.docs",
+    "npnName": "@wizzi/plugin.docs",
+    "pluginBasename": "",
+    "version": "",
+    "description": "Wizzi plugin for ",
+    "author": {
+        "name": "Stefano Bassoli",
+        "email": "stfn.bssl@gmail.com"
+    },
+    "github": {
+        "userid": "stfnbssl"
+    },
+    "license": {
+        "name": "",
+        "copy": "copy 2023"
+    },
+    "Build": {
+        "isWizziPlugin": true,
+        "useWizziV08": true,
+        "wizziV08": {},
+        "utils": {
+            "useStringifySafe": true,
+            "useObjectInspect": true,
+            "useHastUtilToHtml": true
+        }
+    },
+    "Schemas": [
+        {
+            "name": "docs",
+            "title": "docs wizzi schema",
+            "builtin": false,
+            "modelTransformers": [],
+            "artifactGenerators": [
+                {
+                    "name": "document",
+                    "outmime": "json",
+                    "contentType": "application/json",
+                    "isDefault": true
+                }
+            ],
+            "defaultArtifact": "document",
+            "wizzifiers": [],
+            "fileExtensions": [],
+            "includes": []
+        }
+    ]
+}

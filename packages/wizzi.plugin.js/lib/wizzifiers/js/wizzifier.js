@@ -2,14 +2,14 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\wizzifiers\js\wizzifier.js.ittf
-    utc time: Tue, 16 May 2023 07:53:47 GMT
+    utc time: Tue, 27 Jun 2023 13:39:36 GMT
 */
 'use strict';
 var util = require('util');
 var async = require('async');
 var stringify = require('json-stringify-safe');
 var verify = require('wizzi-utils').verify;
-var lineparser = require('../utils/lineparser');
+var lineParser = require('../utils/lineParser');
 var file = require('wizzi-utils').file;
 var cloner = require('../utils/cloner');
 var ittfwriter = require("../utils/ittfwriter");
@@ -269,24 +269,18 @@ function wizzify(tobeWizzified, options, callback) {
         // loog 'options.wizziIncludes', options.wizziIncludes
         async.map(options.wizziIncludes, function(item, callback) {
             if (item.kind === 'css') {
-                if (!csswizzifier) {
-                    csswizzifier = require('../../cssparser/css/wizzifier');
-                }
-                csswizzifier.getWizziTree(item.literal, {}, (err, ittf) => {
+                options.wf.getWizziTreeFromText(item.literal, "css", (err, ittf) => {
                 
-                    // loog 'getWizzifierIncludes.item.ittf', ittf
+                    // loog 'getWizzifierIncludes.css.item.ittf', ittf
                     item.node.children.push(ittf)
                     return callback(null);
                 }
                 )
             }
             else {
-                if (!htmlwizzifier) {
-                    htmlwizzifier = require('../../htmlparser/wizzi/wizzifier');
-                }
-                htmlwizzifier.getWizziTree(item.literal, {}, (err, ittf) => {
+                options.wf.getWizziTreeFromText(item.literal, "html", (err, ittf) => {
                 
-                    // loog 'getWizzifierIncludes.item.ittf', ittf
+                    // loog 'getWizzifierIncludes.html.item.ittf', ittf
                     item.node.children.push(ittf)
                     return callback(null);
                 }

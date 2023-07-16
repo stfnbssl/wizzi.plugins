@@ -1,0 +1,86 @@
+module
+    kind es6
+    # https://hackage.haskell.org/package/pandoc-types-1.23/docs/Text-Pandoc-Definition.html
+    $
+        var md = {
+            plugin: 'wizzi.plugin.pandoc',
+            name: 'document',
+            schema: 'pandoc',
+            rootElement: '',
+            checkSchema: true,
+            isAsync: true,
+        };
+    gen( &md )
+        $append imports
+            var lineParser2 = require('../../../utils/lineParser')
+
+        $append main
+            _ md.pandoc
+                @ model
+                @ ctx
+                a_cb( )
+                    if ctx.artifactGenerationErrors.length > 0
+                        r_cb_err( ctx.artifactGenerationErrors )
+                    else
+                        # generation OK
+                        r_cb( ctx )
+        
+        function defaultAttr
+            return
+                [
+                    @ ""
+                    [
+                    [
+        
+        async-md( pandoc )
+            # Pandoc: Meta [Block]
+            # https://hackage.haskell.org/package/pandoc-types-1.23/docs/Text-Pandoc-Definition.html#t:Pandoc
+            set ctx.values.pandocStack = []
+            pandocNodeInit()
+                { jsonMeta
+                [ jsonBlocks
+            var jsonObject
+                {
+                    @ "pandoc-api-version"
+                        [
+                            @ 1
+                            @ 23
+                    @ meta pandocNode.jsonMeta
+                    @ blocks pandocNode.jsonBlocks
+            pandocNodeExec()
+                _ ctx.w
+                    _ JSON.stringify
+                        @ jsonObject
+                        @ null
+                        @ 4
+
+        async-md( attrIdentifier )
+            pandocNodeInit()
+            set parentPandocNode.jsonAttr[0] = model.wzName
+            _ ctx.values.pandocStack.pop
+            r_cb()            
+        
+        async-md( attrClass )
+            pandocNodeInit()
+            _ parentPandocNode.jsonAttr[1].push
+                @ model.wzName
+            _ ctx.values.pandocStack.pop
+            r_cb()                
+        
+        async-md( attrKeyValue )
+            pandocNodeInit()
+            var p = lineParser2.parseNameValueRaw(model.wzName, model)
+            _ parentPandocNode.jsonAttr[2].push
+                [
+                    @ '"' + p.name() + '"'
+                    @ p.value()
+            _ ctx.values.pandocStack.pop
+            r_cb()                    
+
+        $include meta
+        $include block
+        $include inlines
+        $include misc
+
+        $include processText
+        $include processHeading

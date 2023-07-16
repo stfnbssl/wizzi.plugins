@@ -1,0 +1,43 @@
+$group
+
+
+    # Meta: Map Text MetaValue	 
+    # MetaMap (Map Text MetaValue)	 
+    # MetaList [MetaValue]	 
+    # MetaBool Bool	 
+    # MetaString Text	 
+    # MetaInlines [Inline]	 
+    # MetaBlocks [Block]
+
+    $*
+    "meta": {
+        "ICBM": {
+            "t": "MetaInlines",
+            "c": [
+                {
+                    "t": "Str",
+                    "c": "42.355469,-71.058627"
+                }
+            ]
+    *$
+
+
+    async-md( meta
+        # Meta: Map Text MetaValue	 
+        pandocNodeInit()
+            { jsonMetaMap
+            [ jsonMetas
+            @ jsonString null
+            @ jsonBool null
+            [ jsonInlines
+            [ jsonBlocks
+        pandocNodeExec()
+            var jsonObject
+                {
+            if pandocNode.jsonInlines.length > 0
+                set jsonObject.t = 'MetaInlines'
+                set jsonObject.c = pandocNode.jsonInlines
+            if pandocNode.jsonBlocks.length > 0
+                set jsonObject.t = 'MetaBlocks'
+                set jsonObject.c = pandocNode.jsonBlocks
+            set parentPandocNode.jsonMeta[model.wzName] = jsonObject
