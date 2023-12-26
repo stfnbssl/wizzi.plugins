@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\wizzifiers\js\wizzifier.js.ittf
-    utc time: Tue, 27 Jun 2023 13:39:36 GMT
+    utc time: Thu, 27 Jul 2023 14:19:09 GMT
 */
 'use strict';
 var util = require('util');
@@ -4971,7 +4971,7 @@ format.ArrayExpression = function(parent, node, options) {
                     item.tag = '@';
                     item.name = getNodeText(item);
                 }
-                else if (['@id', 'literal'].indexOf(item.tag) > -1) {
+                else if (['@id', 'literal', 'this'].indexOf(item.tag) > -1) {
                     item.tag = '@';
                 }
             }
@@ -4985,7 +4985,7 @@ format.ArrayExpression = function(parent, node, options) {
                 item.tag = '@';
                 item.name = getNodeText(item);
             }
-            else if (['@id', 'literal'].indexOf(item.tag) > -1) {
+            else if (['@id', 'literal', 'this'].indexOf(item.tag) > -1) {
                 item.tag = '@';
             }
         }
@@ -6334,7 +6334,7 @@ format.BinaryExpression = function(parent, node, options) {
         }
     }
     else {
-        if (isTextualNode(p_left) || (p_left.children.length == 0 && [ '@id', 'literal'].indexOf(p_left.tag) > -1)) {
+        if (isTextualNode(p_left) || (p_left.children.length == 0 && [ '@id', 'literal', 'this'].indexOf(p_left.tag) > -1)) {
             p_left.tag = '+';
             if (isTextualNode(p_left)) {
                 p_left.name = getNodeText(p_left);
@@ -6342,7 +6342,7 @@ format.BinaryExpression = function(parent, node, options) {
             }
         }
         ret.children.push(p_left)
-        if (isTextualNode(p_right) || (p_right.children.length == 0 && [ '@id', 'literal'].indexOf(p_right.tag) > -1)) {
+        if (isTextualNode(p_right) || (p_right.children.length == 0 && [ '@id', 'literal', 'this'].indexOf(p_right.tag) > -1)) {
             p_right.tag = '+';
             if (isTextualNode(p_right)) {
                 p_right.name = getNodeText(p_right);
@@ -6679,7 +6679,7 @@ format.LogicalExpression = function(parent, node, options) {
     // loog 'LogicalExpression,isTextualNode(p_right),p_right', isTextualNode(p_right), p_right
     else {
         ret.tag = node.operator;
-        if (isTextualNode(p_left) || ['@id', 'literal','set'].indexOf(p_left.tag) > -1) {
+        if (isTextualNode(p_left) || ['@id', 'literal', 'this','set'].indexOf(p_left.tag) > -1) {
             p_left.tag = '+';
             if (isTextualNode(p_left)) {
                 p_left.name = getNodeText(p_left);
@@ -6687,7 +6687,7 @@ format.LogicalExpression = function(parent, node, options) {
             }
         }
         ret.children.push(p_left)
-        if (isTextualNode(p_right) || ['@id', 'literal','set'].indexOf(p_right.tag) > -1) {
+        if (isTextualNode(p_right) || ['@id', 'literal', 'this','set'].indexOf(p_right.tag) > -1) {
             p_right.tag = '+';
             if (isTextualNode(p_right)) {
                 p_right.name = getNodeText(p_right);
@@ -7421,7 +7421,7 @@ format.CallExpression = function(parent, node, options) {
             var i, i_items=p_arguments.children, i_len=p_arguments.children.length, item;
             for (i=0; i<i_len; i++) {
                 item = p_arguments.children[i];
-                if (['@id', 'literal'].indexOf(item.tag) > -1) {
+                if (['@id', 'literal', 'this'].indexOf(item.tag) > -1) {
                     item.tag = '@';
                 }
                 lastCallee.children.push(item)
@@ -7440,7 +7440,7 @@ format.CallExpression = function(parent, node, options) {
                     var i, i_items=p_arguments.children, i_len=p_arguments.children.length, item;
                     for (i=0; i<i_len; i++) {
                         item = p_arguments.children[i];
-                        if (['@id', 'literal'].indexOf(item.tag) > -1) {
+                        if (['@id', 'literal', 'this'].indexOf(item.tag) > -1) {
                             item.tag = '@';
                         }
                         lastCallee.children.push(item)
@@ -7490,7 +7490,7 @@ format.CallExpression = function(parent, node, options) {
                         var i, i_items=p_arguments.children, i_len=p_arguments.children.length, item;
                         for (i=0; i<i_len; i++) {
                             item = p_arguments.children[i];
-                            if (['@id', 'literal'].indexOf(item.tag) > -1) {
+                            if (['@id', 'literal', 'this'].indexOf(item.tag) > -1) {
                                 item.tag = '@';
                             }
                             lastCallee.children.push(item)
@@ -7506,7 +7506,7 @@ format.CallExpression = function(parent, node, options) {
                         var i, i_items=p_arguments.children, i_len=p_arguments.children.length, item;
                         for (i=0; i<i_len; i++) {
                             item = p_arguments.children[i];
-                            if (['@id', 'literal'].indexOf(item.tag) > -1) {
+                            if (['@id', 'literal', 'this'].indexOf(item.tag) > -1) {
                                 item.tag = '@';
                             }
                             call.children.push(item)
@@ -7529,7 +7529,7 @@ format.CallExpression = function(parent, node, options) {
                     var i, i_items=p_arguments.children, i_len=p_arguments.children.length, item;
                     for (i=0; i<i_len; i++) {
                         item = p_arguments.children[i];
-                        if (['@id', 'literal'].indexOf(item.tag) > -1) {
+                        if (['@id', 'literal', 'this'].indexOf(item.tag) > -1) {
                             item.tag = '@';
                         }
                         ret.children.push(item)
@@ -7550,7 +7550,7 @@ format.CallExpression = function(parent, node, options) {
             var i, i_items=p_arguments.children, i_len=p_arguments.children.length, item;
             for (i=0; i<i_len; i++) {
                 item = p_arguments.children[i];
-                if (['@id', 'literal'].indexOf(item.tag) > -1) {
+                if (['@id', 'literal', 'this'].indexOf(item.tag) > -1) {
                     item.tag = '@';
                 }
                 lastCallee.children.push(item)
@@ -7752,7 +7752,7 @@ format.NewExpression = function(parent, node, options) {
             var i, i_items=argumentsNode.children, i_len=argumentsNode.children.length, item;
             for (i=0; i<i_len; i++) {
                 item = argumentsNode.children[i];
-                if (['@id', 'literal'].indexOf(item.tag) > -1) {
+                if (['@id', 'literal', 'this'].indexOf(item.tag) > -1) {
                     item.tag = '@';
                 }
                 ret.children.push(item)
@@ -7837,7 +7837,7 @@ format.SequenceExpression = function(parent, node, options) {
     var i, i_items=ret.children, i_len=ret.children.length, item;
     for (i=0; i<i_len; i++) {
         item = ret.children[i];
-        if (['@id', 'literal'].indexOf(item.tag) > -1) {
+        if (['@id', 'literal', 'this'].indexOf(item.tag) > -1) {
             item.tag = 'set';
         }
     }
@@ -7983,7 +7983,7 @@ format.TemplateLiteral = function(parent, node, options) {
         }
         var e = p_expressions.children[i];
         // loog 'TemplateLiteral.e', e
-        if (['@expr', '@id', 'literal', 'set'].indexOf(e.tag) > -1) {
+        if (['@expr', '@id', 'literal', 'this', 'set'].indexOf(e.tag) > -1) {
             e.tag = '@';
         }
         ret.children.push(e);
@@ -9437,7 +9437,7 @@ format.ClassProperty = function(parent, node, options) {
         ret.name = '[' + ret.name + ']';
     }
     else if (p_value && p_value.tag) {
-        if (['@id', '@expr', 'literal'].indexOf(p_value.tag) > -1) {
+        if (['@id', '@expr', 'literal', 'this'].indexOf(p_value.tag) > -1) {
             p_value.tag = '=';
         }
         ret.children.push(p_value)

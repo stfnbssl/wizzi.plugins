@@ -22,7 +22,7 @@ var verify = wzutils.verify;
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-    utc time: Tue, 11 Apr 2023 14:25:57 GMT
+    utc time: Thu, 27 Jul 2023 15:14:44 GMT
 */
 var styles = [
     {
@@ -580,6 +580,18 @@ var element = (function (svgBase) {
         if (!isEmpty(this.xmlns__)) {
             result["xmlns__"] = this.xmlns__;
         }
+        if (!isEmpty(this.xlink)) {
+            result["xlink"] = this.xlink;
+        }
+        if (!isEmpty(this.xlink__)) {
+            result["xlink__"] = this.xlink__;
+        }
+        if (!isEmpty(this.aria__)) {
+            result["aria__"] = this.aria__;
+        }
+        if (!isEmpty(this.data__)) {
+            result["data__"] = this.data__;
+        }
         if (!isEmpty(this.xmlBase)) {
             result["xmlBase"] = this.xmlBase;
         }
@@ -907,6 +919,9 @@ var element = (function (svgBase) {
         }
         if (name === 'xmlns') {
             this.xmlns = child.v; return true;
+        }
+        else if (name === 'xlink') {
+            this.xlink = child.v; return true;
         }
         if (name === '/*fill') {
             this.__fill = child.v; return true;
@@ -1458,6 +1473,18 @@ var element = (function (svgBase) {
             this[name] = child.v;
             return true;
         }
+        if (name.substr(0, 6) == "xlink:") {
+            this[name] = child.v;
+            return true;
+        }
+        if (name.substr(0, 5) == "aria-") {
+            this[name] = child.v;
+            return true;
+        }
+        if (name.substr(0, 5) == "data-") {
+            this[name] = child.v;
+            return true;
+        }
         return false;
     }
     element.prototype.loadFromNode = function(node) {
@@ -1506,7 +1533,7 @@ var element = (function (svgBase) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-            utc time: Tue, 11 Apr 2023 14:25:57 GMT
+            utc time: Thu, 27 Jul 2023 15:14:44 GMT
         */
         return extractAttributes(this, 'id;class;dataName;href;rotate;transform;xmlns;xmlBase;xmlLang;xmlSpace;pathLength;fill;stroke;strokeWidth;opacity', attrs);
         
@@ -1517,7 +1544,7 @@ var element = (function (svgBase) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-            utc time: Tue, 11 Apr 2023 14:25:57 GMT
+            utc time: Thu, 27 Jul 2023 15:14:44 GMT
         */
         var ret = [];
         var i, i_items=styles, i_len=styles.length, style;
@@ -1655,7 +1682,7 @@ var rect = (function (element) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-            utc time: Tue, 11 Apr 2023 14:25:57 GMT
+            utc time: Thu, 27 Jul 2023 15:14:44 GMT
         */
         attrs = _md.element.prototype.getAttributes.call(this, attrs);
         ;
@@ -1701,6 +1728,9 @@ var svg = (function (rect) {
         if (!isEmpty(this.alt)) {
             result["alt"] = this.alt;
         }
+        if (!isEmpty(this.focusable)) {
+            result["focusable"] = this.focusable;
+        }
     }
     svg.prototype.toJsonChildren = function(result) {
         _md.rect.prototype.toJsonChildren.call(this, result);
@@ -1721,6 +1751,9 @@ var svg = (function (rect) {
         }
         else if (name === 'view_box') {
             this.viewBox = child.v; return true;
+        }
+        if (name === 'focusable') {
+            this.focusable = child.v; return true;
         }
         if (name === 'preserve-aspect-ratio') {
             this.preserveAspectRatio = child.v; return true;
@@ -1747,7 +1780,7 @@ var svg = (function (rect) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-            utc time: Tue, 11 Apr 2023 14:25:57 GMT
+            utc time: Thu, 27 Jul 2023 15:14:44 GMT
         */
         attrs = _md.element.prototype.getAttributes.call(this, attrs);
         ;
@@ -1828,7 +1861,7 @@ var line = (function (element) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-            utc time: Tue, 11 Apr 2023 14:25:57 GMT
+            utc time: Thu, 27 Jul 2023 15:14:44 GMT
         */
         attrs = _md.element.prototype.getAttributes.call(this, attrs);
         ;
@@ -1891,7 +1924,7 @@ var polyline = (function (element) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-            utc time: Tue, 11 Apr 2023 14:25:57 GMT
+            utc time: Thu, 27 Jul 2023 15:14:44 GMT
         */
         attrs = _md.element.prototype.getAttributes.call(this, attrs);
         ;
@@ -1954,7 +1987,7 @@ var polygon = (function (element) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-            utc time: Tue, 11 Apr 2023 14:25:57 GMT
+            utc time: Thu, 27 Jul 2023 15:14:44 GMT
         */
         attrs = _md.element.prototype.getAttributes.call(this, attrs);
         ;
@@ -2029,7 +2062,7 @@ var circle = (function (element) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-            utc time: Tue, 11 Apr 2023 14:25:57 GMT
+            utc time: Thu, 27 Jul 2023 15:14:44 GMT
         */
         attrs = _md.element.prototype.getAttributes.call(this, attrs);
         ;
@@ -2110,7 +2143,7 @@ var ellipse = (function (element) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-            utc time: Tue, 11 Apr 2023 14:25:57 GMT
+            utc time: Thu, 27 Jul 2023 15:14:44 GMT
         */
         attrs = _md.element.prototype.getAttributes.call(this, attrs);
         ;
@@ -2173,7 +2206,7 @@ var path = (function (element) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-            utc time: Tue, 11 Apr 2023 14:25:57 GMT
+            utc time: Thu, 27 Jul 2023 15:14:44 GMT
         */
         attrs = _md.element.prototype.getAttributes.call(this, attrs);
         ;
@@ -2278,7 +2311,7 @@ var text = (function (element) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-            utc time: Tue, 11 Apr 2023 14:25:57 GMT
+            utc time: Thu, 27 Jul 2023 15:14:44 GMT
         */
         attrs = _md.element.prototype.getAttributes.call(this, attrs);
         ;
@@ -2388,7 +2421,7 @@ var tspan = (function (element) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-            utc time: Tue, 11 Apr 2023 14:25:57 GMT
+            utc time: Thu, 27 Jul 2023 15:14:44 GMT
         */
         attrs = _md.element.prototype.getAttributes.call(this, attrs);
         ;
@@ -4223,7 +4256,7 @@ var radialGradient = (function (element) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-            utc time: Tue, 11 Apr 2023 14:25:57 GMT
+            utc time: Thu, 27 Jul 2023 15:14:44 GMT
         */
         attrs = _md.element.prototype.getAttributes.call(this, attrs);
         ;
@@ -4350,7 +4383,7 @@ var stop = (function (element) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-            utc time: Tue, 11 Apr 2023 14:25:57 GMT
+            utc time: Thu, 27 Jul 2023 15:14:44 GMT
         */
         attrs = _md.element.prototype.getAttributes.call(this, attrs);
         ;
@@ -4527,9 +4560,60 @@ var use = (function (element) {
                 result[k] = this.__jsonProps[k];
             }
         }
+        if (!isEmpty(this.y)) {
+            result["y"] = this.y;
+        }
+        if (!isEmpty(this.x)) {
+            result["x"] = this.x;
+        }
+        if (!isEmpty(this.width)) {
+            result["width"] = this.width;
+        }
+        if (!isEmpty(this.height)) {
+            result["height"] = this.height;
+        }
+        if (!isEmpty(this.transform)) {
+            result["transform"] = this.transform;
+        }
+        if (!isEmpty(this.xlink_href)) {
+            result["xlink_href"] = this.xlink_href;
+        }
     }
     use.prototype.toJsonChildren = function(result) {
         _md.element.prototype.toJsonChildren.call(this, result);
+    }
+    use.prototype.loadChild = function(child) {
+        var ok = false, name = child.n.toLowerCase();
+        if (name === 'x') {
+            this.x = child.v; return true;
+        }
+        if (name === 'y') {
+            this.y = child.v; return true;
+        }
+        if (name === 'width') {
+            this.width = child.v; return true;
+        }
+        if (name === 'height') {
+            this.height = child.v; return true;
+        }
+        if (name === 'transform') {
+            this.transform = child.v; return true;
+        }
+        if (name === 'xlink:href') {
+            this.xlink_href = child.v; return true;
+        }
+        ok = _md.element.prototype.loadChild.call(this, child);
+        return ok;
+    }
+    use.prototype.loadFromNode = function(node) {
+        node.children.forEach((item) => {
+        
+            var loaded = this.loadChild(item);
+            if (!loaded) {
+                throw new _md.svgModelException("Tag not recognized: " + item.n, item, this);
+            }
+        }
+        )
     }
     return use;
 })(element);
@@ -4752,7 +4836,7 @@ function extractAttributes(element, names_string, attrs) {
         artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
         package: wizzi-js@
         primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-        utc time: Tue, 11 Apr 2023 14:25:57 GMT
+        utc time: Thu, 27 Jul 2023 15:14:44 GMT
     */
     if (!attrs) {
         attrs = [];

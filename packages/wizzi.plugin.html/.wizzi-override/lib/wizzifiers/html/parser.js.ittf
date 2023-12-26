@@ -98,13 +98,8 @@
                 decl i
                 decl l = input.length
             while true
-            $$ for var i = 0; i < l; i++
                 if state.pos >= l
                     return
-                $*
-                if state.pos >= 5000
-                    return
-                *$
                 set i = state.pos
                 set ch = input[i]
                 set state.pos++
@@ -163,6 +158,10 @@
             if priv.specialCases(ch, state)
                 # loog ch, "is specialCases"
                 return 
+            else
+                if state.currenttagname === 'script' || state.currenttagname === 'style'
+                    _ priv.append(ch, state)
+                    return
             if ch === '<'
                 _ priv.doLT(state)
             elif ch === '>'
@@ -205,11 +204,10 @@
             # loog 'specialCases.state.currenttagname', state.currenttagname
             if state.currenttagname === 'script' || state.currenttagname === 'style'
                 if isEndTag(state.currenttagname, ch, state)
-                    # loog 'isEndTag', state.currenttagname
+                    # loog 'specialCases.isEndTag', state.currenttagname, state.line
                     _ priv.ontext(state)
                     _ priv.resetStateOpenTag(state)
                     set state.cur = TEXT
-                    # (NO done in priv.onclosetag) _ state.stack.pop
                     _ priv.onclosetag(state)
                     return true
                 else
@@ -483,6 +481,7 @@
                 @ state.tagname
 			if state.tagname == 'script' || state.tagname == 'style'
                 # loog 'onopentag', state.tagname, 'line', state.line
+            # loog 'onopentag', state.tagname, 'line', state.line
             set state.currenttagname = state.tagname
             if state.onopentag
                 _ state.onopentag
@@ -530,10 +529,6 @@
                 return 
             if state.text.length == 0
                 return 
-            $* TODO WHY?
-            if !(isText(state.text))
-                return 
-            *$
             if state.ontext
                 _ state.ontext
                     @ state.text
@@ -546,7 +541,7 @@
                 _ state.onswig
                     @ state.swig
             set state.swig = ''
-    
+
 	set priv.error =
         function 
             param message
@@ -601,12 +596,15 @@
         # loog 'isEndTag 1', ch, state.pos-1
         if ch != '<'
             return false
-        var ch2 = state.input[state.pos]
+        var cf1, ch2 = state.input[state.pos]
         # loog 'isEndTag 2', ch2, state.pos
         if ch2 != '/'
             return false
         for var i = 0; i < tagName.length; i++
             set ch2 = state.input[state.pos+1+i]
+            set cf1 = tagName[i]
+            if ch2 != cf1
+                return false
             # loog 'isEndTag 3', ch2, state.pos+1+i, i, tagName.length, tagName
             if isTagChar(ch2) == false
                 return false

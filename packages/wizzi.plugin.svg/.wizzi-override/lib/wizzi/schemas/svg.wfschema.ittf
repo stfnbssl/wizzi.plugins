@@ -55,6 +55,10 @@
         a transform
 		a xmlns
         a xmlns:*
+        a xlink
+        a xlink:*
+        a aria-*
+        a data-*
 		a_tag( xmlBase, xml:base
 		a_tag( xmlLang, xml:lang
 		a_tag( xmlSpace, xml:space
@@ -132,6 +136,7 @@
 			# Value type: (none| xMinYMin| xMidYMin| xMaxYMin| xMinYMid| xMidYMid| xMaxYMid| xMinYMax| xMidYMax| xMaxYMax) (meet|slice)? ; Default value: xMidYMid meet; Animatable: yes
 		a version
         a alt
+        a focusable 
 		svg/getAttrs( width;height;viewBox;preserveAspectRatio;version, element )
 
 	e line : element
@@ -312,6 +317,13 @@
 	e tref : element
 	e use : element
 		$$ svg/getAttrs( transform, element )
+        a y
+        a x
+        a width
+        a height
+        a transform
+        a xlink:href
+
 	e view : element
 	e vkern : element
 

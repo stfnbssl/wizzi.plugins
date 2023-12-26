@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\artifacts\js\module\gen\utils\stm.js.ittf
-    utc time: Tue, 27 Jun 2023 13:39:36 GMT
+    utc time: Thu, 27 Jul 2023 14:19:09 GMT
 */
 'use strict';
 // var verify = require('./verify')
@@ -870,7 +870,7 @@ md.genTSParams = function(model, ctx, cnt, callback) {
         var ptype = md.extractTSSimpleType(p);
         md.genAccessorsAndExtra(p, ctx)
         // loog 'genTSParams', index_1, p.statements.length, ptype && ptype.wzElement
-        if (p.statements.length == 0) {
+        if (!p.statements || p.statements.length == 0) {
             ctx.write(p.wzName);
             if (p.typeOptional) {
                 ctx.write('?');

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\wizzifiers\utils\ittfWriter.js.ittf
-    utc time: Tue, 27 Jun 2023 13:39:36 GMT
+    utc time: Thu, 27 Jul 2023 14:19:09 GMT
 */
 'use strict';
 var chalk = require('chalk');

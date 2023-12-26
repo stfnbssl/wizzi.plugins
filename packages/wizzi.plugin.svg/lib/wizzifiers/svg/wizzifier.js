@@ -2,14 +2,14 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzifiers\svg\wizzifier.js.ittf
-    utc time: Tue, 11 Apr 2023 14:25:56 GMT
+    utc time: Thu, 27 Jul 2023 15:14:41 GMT
 */
 'use strict';
 var util = require('util');
 var async = require('async');
 var stringify = require('json-stringify-safe');
 var verify = require('wizzi-utils').verify;
-var lineparser = require('../utils/lineparser');
+var lineParser = require('../utils/lineParser');
 var file = require('wizzi-utils').file;
 var cloner = require('../utils/cloner');
 var ittfwriter = require("../utils/ittfwriter");
@@ -229,7 +229,6 @@ function wizzify(tobeWizzified, options, callback) {
                 }
             }
         }
-        // log "wizziTree", wizziTree
         callback(null, wizziTree);
     }
     )

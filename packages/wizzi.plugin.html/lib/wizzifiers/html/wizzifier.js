@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.html\.wizzi-override\lib\wizzifiers\html\wizzifier.js.ittf
-    utc time: Wed, 07 Jun 2023 07:55:35 GMT
+    utc time: Thu, 27 Jul 2023 12:54:24 GMT
 */
 'use strict';
 var util = require('util');
@@ -194,8 +194,15 @@ function parseInternal(tobeWizzified, options, callback) {
      });
     var addedWrapper = false;
     try {
+        
+        // loog "parsing html of length: ", html.length
+        
+        // loog "calling parser.write"
+        
+        // loog "parser.write done!"
+        
+        // loog "parser.end done!"
         if (html && html.length > 0) {
-            console.log("parsing html of length: ", html.length, __filename);
             
             // loog 'html document has root tag html'
             if (html.substr(0,'<html>'.length) == '<html>' || html.substr(0,'<!doctype>'.length) == '<!doctype>') {
@@ -218,11 +225,8 @@ function parseInternal(tobeWizzified, options, callback) {
                     addedWrapper = true;
                 }
             }
-            console.log("calling parser.write", __filename);
             parser.write(html);
-            console.log("parser.write done!", __filename);
             parser.end();
-            console.log("parser.end done!", __filename);
         }
         else {
             console.log("no html to parse", __filename);
@@ -691,10 +695,12 @@ md.getWizzifierIncludes = function(options, callback) {
             }
             )
         }
+        // loog 'getWizziTreeFromText.js.item.literal', item.literal
         else {
             options.wf.getWizziTreeFromText(item.literal, "js", (err, ittf) => {
             
-                // loog 'getWizzifierIncludes.item.ittf', ittf
+                // loog 'getWizziTreeFromText.js.err', err
+                // loog 'getWizziTreeFromText.js.ittf', ittf
                 if (err) {
                     item.node.children.push({
                         tag: 'error', 

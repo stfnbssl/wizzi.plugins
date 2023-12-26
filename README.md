@@ -1,7 +1,7 @@
 # wizzi.plugins
 Core Wizzi Plugins
 
-Remember!!!
+Remember!!!!
 To generate plugins use:
 node wizzi override
 

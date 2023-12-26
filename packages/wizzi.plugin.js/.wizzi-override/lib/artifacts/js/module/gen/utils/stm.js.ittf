@@ -822,7 +822,7 @@
 					@ p
 					@ ctx
 				# loog 'genTSParams', index_1, p.statements.length, ptype && ptype.wzElement
-				if p.statements.length == 0
+                if !p.statements || p.statements.length == 0
 					_ ctx.write(p.wzName)
 					if p.typeOptional
 						_ ctx.write('?')

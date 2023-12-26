@@ -869,14 +869,14 @@ module
                         if isTextualNode(item)
                             set item.tag = '@'
                             set item.name = getNodeText(item)
-                        elif [$*'@expr', 27/3/21*$'@id', 'literal'].indexOf(item.tag) > -1
+                        elif [$*'@expr', 27/3/21*$'@id', 'literal', 'this'].indexOf(item.tag) > -1
                             set item.tag = '@'
             else
                 foreach item in ret.children
                     if isTextualNode(item)
                         set item.tag = '@'
                         set item.name = getNodeText(item)
-                    elif [$*'@expr', 27/3/21*$'@id', 'literal'].indexOf(item.tag) > -1
+                    elif [$*'@expr', 27/3/21*$'@id', 'literal', 'this'].indexOf(item.tag) > -1
                         set item.tag = '@'
             if ret.children.length == 0
                 set ret.textified = '[]'
@@ -1219,14 +1219,14 @@ module
                 if node.extra && node.extra.parenthesized == true
                     set ret.textified = '(' + ret.textified + ')'
             else
-                if isTextualNode(p_left) || (p_left.children.length == 0 && [$*'@expr',*$ '@id', 'literal'].indexOf(p_left.tag) > -1)
+                if isTextualNode(p_left) || (p_left.children.length == 0 && [$*'@expr',*$ '@id', 'literal', 'this'].indexOf(p_left.tag) > -1)
                     set p_left.tag = '+'
                     if isTextualNode(p_left)
                         set p_left.name = getNodeText(p_left)
                         set p_left.children = []
                 _ ret.children.push
                     @ p_left
-                if isTextualNode(p_right) || (p_right.children.length == 0 && [$*'@expr',*$ '@id', 'literal'].indexOf(p_right.tag) > -1)
+                if isTextualNode(p_right) || (p_right.children.length == 0 && [$*'@expr',*$ '@id', 'literal', 'this'].indexOf(p_right.tag) > -1)
                     set p_right.tag = '+'
                     if isTextualNode(p_right)
                         set p_right.name = getNodeText(p_right)
@@ -1293,7 +1293,7 @@ module
             else
                 set ret.tag = node.operator
                 # loog 'LogicalExpression,isTextualNode(p_left),p_left', isTextualNode(p_left), p_left
-                if isTextualNode(p_left) || [$*'@expr', 27/3/21*$'@id', 'literal','set'].indexOf(p_left.tag) > -1
+                if isTextualNode(p_left) || [$*'@expr', 27/3/21*$'@id', 'literal', 'this','set'].indexOf(p_left.tag) > -1
                     set p_left.tag = '+'
                     if isTextualNode(p_left)
                         set p_left.name = getNodeText(p_left)
@@ -1301,7 +1301,7 @@ module
                 _ ret.children.push
                     @ p_left
                 # loog 'LogicalExpression,isTextualNode(p_right),p_right', isTextualNode(p_right), p_right
-                if isTextualNode(p_right) || [$*'@expr', 27/3/21*$'@id', 'literal','set'].indexOf(p_right.tag) > -1
+                if isTextualNode(p_right) || [$*'@expr', 27/3/21*$'@id', 'literal', 'this','set'].indexOf(p_right.tag) > -1
                     set p_right.tag = '+'
                     if isTextualNode(p_right)
                         set p_right.name = getNodeText(p_right)
@@ -1314,7 +1314,7 @@ module
                             @ tag '('
                             @ children [ret]
                 $*
-                if isTextualNode(p_left) || ['@id', 'literal'].indexOf(p_left.tag) > -1
+                if isTextualNode(p_left) || ['@id', 'literal', 'this'].indexOf(p_left.tag) > -1
                     set p_left.tag = '+'
                     if isTextualNode(p_left)
                         set p_left.name = getNodeText(p_left)
@@ -1322,7 +1322,7 @@ module
                 _ ret.children.push
                     @ p_left
                 # loog 'LogicalExpression.p_left', p_left
-                if isTextualNode(p_right) || ['@id', 'literal'].indexOf(p_right.tag) > -1
+                if isTextualNode(p_right) || ['@id', 'literal', 'this'].indexOf(p_right.tag) > -1
                     set p_right.tag = '+'
                     if isTextualNode(p_right)
                         set p_right.name = getNodeText(p_right)
@@ -1541,7 +1541,7 @@ module
                 if node.typeParameters
 
                     foreach item in p_arguments.children
-                        if [$*'@expr', 27/3/21*$'@id', 'literal'].indexOf(item.tag) > -1
+                        if [$*'@expr', 27/3/21*$'@id', 'literal', 'this'].indexOf(item.tag) > -1
                             set item.tag = '@'
                         _ lastCallee.children.push
                             @ item
@@ -1558,7 +1558,7 @@ module
                             set ret.isText = true
                         else
                             foreach item in p_arguments.children
-                                if [$*'@expr', 27/3/21*$'@id', 'literal'].indexOf(item.tag) > -1
+                                if [$*'@expr', 27/3/21*$'@id', 'literal', 'this'].indexOf(item.tag) > -1
                                     set item.tag = '@'
                                 _ lastCallee.children.push
                                     @ item
@@ -1603,7 +1603,7 @@ module
                             if lastCallee.tag === '.'
                                 set lastCallee.tag = '._'
                                 foreach item in p_arguments.children
-                                    if [$*'@expr', 27/3/21*$'@id', 'literal'].indexOf(item.tag) > -1
+                                    if [$*'@expr', 27/3/21*$'@id', 'literal', 'this'].indexOf(item.tag) > -1
                                         set item.tag = '@'
                                     _ lastCallee.children.push
                                         @ item
@@ -1613,7 +1613,7 @@ module
                                         @ tag '('
                                         [ children
                                 foreach item in p_arguments.children
-                                    if [$*'@expr', 27/3/21*$'@id', 'literal'].indexOf(item.tag) > -1
+                                    if [$*'@expr', 27/3/21*$'@id', 'literal', 'this'].indexOf(item.tag) > -1
                                         set item.tag = '@'
                                     _ call.children.push
                                         @ item
@@ -1627,7 +1627,7 @@ module
                         set ret.name = p_callee.tag
                         if p_arguments && p_arguments.children.length > 0
                             foreach item in p_arguments.children
-                                if [$*'@expr', 27/3/21*$'@id', 'literal'].indexOf(item.tag) > -1
+                                if [$*'@expr', 27/3/21*$'@id', 'literal', 'this'].indexOf(item.tag) > -1
                                     set item.tag = '@'
                                 _ ret.children.push
                                     @ item
@@ -1646,7 +1646,7 @@ module
                             @ lastCallee
                     set ret.children = temp
                     foreach item in p_arguments.children
-                        if [$*'@expr', 27/3/21*$'@id', 'literal'].indexOf(item.tag) > -1
+                        if [$*'@expr', 27/3/21*$'@id', 'literal', 'this'].indexOf(item.tag) > -1
                             set item.tag = '@'
                         _ lastCallee.children.push
                             @ item
@@ -1716,7 +1716,7 @@ module
                             _ ret.children.push
                                 @ item
                     foreach item in argumentsNode.children
-                        if [$*'@expr', 27/3/21*$'@id', 'literal'].indexOf(item.tag) > -1
+                        if [$*'@expr', 27/3/21*$'@id', 'literal', 'this'].indexOf(item.tag) > -1
                             set item.tag = '@'
                         _ ret.children.push
                             @ item
@@ -1734,7 +1734,7 @@ module
             f_a( expressions, true, Expression 
             # A sequence expression, i.e., a comma-separated sequence of expressions.
             foreach item in ret.children
-                if [$*'@expr', 27/3/21*$'@id', 'literal'].indexOf(item.tag) > -1
+                if [$*'@expr', 27/3/21*$'@id', 'literal', 'this'].indexOf(item.tag) > -1
                     set item.tag = 'set'
 
         f( DoExpression, do
@@ -1752,7 +1752,7 @@ module
                     _ ret.children.push(item)
                 var e = p_expressions.children[i]
                 # loog 'TemplateLiteral.e', e
-                if ['@expr', '@id', 'literal', 'set'].indexOf(e.tag) > -1
+                if ['@expr', '@id', 'literal', 'this', 'set'].indexOf(e.tag) > -1
                     set e.tag = '@'
                 _ ret.children.push(e)
             if p_quasis.children[i] && p_quasis.children[i].children.length > 0
@@ -1976,7 +1976,7 @@ module
             if node.computed
                 set ret.name = '[' + ret.name + ']'
             elif p_value && p_value.tag
-                if ['@id', '@expr', 'literal'].indexOf(p_value.tag) > -1
+                if ['@id', '@expr', 'literal', 'this'].indexOf(p_value.tag) > -1
                     set p_value.tag = '='
                 _ ret.children.push
                     @ p_value

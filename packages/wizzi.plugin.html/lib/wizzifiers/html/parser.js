@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.html\.wizzi-override\lib\wizzifiers\html\parser.js.ittf
-    utc time: Wed, 07 Jun 2023 07:55:35 GMT
+    utc time: Thu, 27 Jul 2023 12:54:24 GMT
 */
 'use strict';
 var util = require('util');
@@ -158,6 +158,12 @@ priv.loop = function(ch, state) {
     if (priv.specialCases(ch, state)) {
         return ;
     }
+    else {
+        if (state.currenttagname === 'script' || state.currenttagname === 'style') {
+            priv.append(ch, state);
+            return ;
+        }
+    }
     if (ch === '<') {
         priv.doLT(state);
     }
@@ -216,9 +222,7 @@ priv.specialCases = function(ch, state) {
     // loog 'specialCases.state.currenttagname', state.currenttagname
     if (state.currenttagname === 'script' || state.currenttagname === 'style') {
         
-        // loog 'isEndTag', state.currenttagname
-        
-        // (NO done in priv.onclosetag) _ state.stack.pop
+        // loog 'specialCases.isEndTag', state.currenttagname, state.line
         if (isEndTag(state.currenttagname, ch, state)) {
             priv.ontext(state);
             priv.resetStateOpenTag(state);
@@ -560,6 +564,7 @@ priv.onopentag = function(state) {
     // loog 'onopentag', state.tagname, 'line', state.line
     if (state.tagname == 'script' || state.tagname == 'style') {
     }
+    // loog 'onopentag', state.tagname, 'line', state.line
     state.currenttagname = state.tagname;
     if (state.onopentag) {
         state.onopentag(state.tagname, state.attribs)
@@ -667,13 +672,17 @@ function isEndTag(tagName, ch, state) {
     if (ch != '<') {
         return false;
     }
-    var ch2 = state.input[state.pos];
+    var cf1, ch2 = state.input[state.pos];
     // loog 'isEndTag 2', ch2, state.pos
     if (ch2 != '/') {
         return false;
     }
     for (var i = 0; i < tagName.length; i++) {
         ch2 = state.input[state.pos+1+i];
+        cf1 = tagName[i];
+        if (ch2 != cf1) {
+            return false;
+        }
         // loog 'isEndTag 3', ch2, state.pos+1+i, i, tagName.length, tagName
         if (isTagChar(ch2) == false) {
             return false;

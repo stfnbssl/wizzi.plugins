@@ -4,54 +4,65 @@ module
         var md = {
             name: 'html',
         };
-    +
-    +
-    import async
-    import path
-    import util
-    +
-    var htmlwizzifier = require('../lib/wizzifiers/html/wizzifier')
-    var file = require('wizzi-utils').file
-    +
-    let arg = process.argv[2]
-    const moduleName = arg && arg.length > 0 ? arg : 'first'
-    _ async.map
-        [
-            @ moduleName
-        @ wizzify
-        a_cb_no_throw( result )
-            info ''
-            info 'Terminated. result: ', result
-    function wizzify
-        param name
-        param callback
+    v08/examples/plugin( &md )
+        $append plugins
+            [ items
+                @ './wizzi.plugin.html/index.js'
+                @ './wizzi.plugin.js/index.js'
+                @ './wizzi.plugin.css/index.js'
+                @ './wizzi.plugin.svg/index.js'
+                @ './wizzi.plugin.vtt/index.js'
+            @ pluginsBaseFolder
+                _ path.resolve
+                    @ __dirname
+                    @ '..'
+                    @ '..'
+        $append imports
+            var htmlwizzifier = require('../lib/wizzifiers/html/wizzifier')
         +
-        var source
-            _ path.join
-                @ __dirname
-                @ 'data'
-                @ name + '.html'
-        +
-        _ htmlwizzifier.getWizziIttf
-            _ file.read
-                @ source
-            {
-                @ syntaxOutFile
-                    _ path.join
-                        @ __dirname
-                        @ 'data'
-                        @ 'output'
-                        @ name + '.html.syntax'
-            a_cb_no_throw( ittf )
-                if err
-                    error 'error wizzifying: ' + source
-                    error 'err', err
-                    return callback(null, 'error ' + source)
-                _ file.write
-                    _ path.join
-                        @ __dirname
-                        @ 'data'
-                        @ 'output'
-                        @ name + '.html.ittf'
-                    @ ittf
-                return callback(null, 'success ' + source)
+        let arg = process.argv[2]
+        const moduleName = arg && arg.length > 0 ? arg : 'first'
+        _ async.map
+            [
+                @ moduleName
+            @ wizzify
+            a_cb_no_throw( result )
+                info ''
+                info 'Terminated. result: ', result
+        function wizzify
+            param name
+            param callback
+            +
+            var source
+                _ path.join
+                    @ __dirname
+                    @ 'data'
+                    @ name + '.html'
+            +
+            _ createWizziFactory
+                {
+                a_cb_no_throw( wf )
+                    _ htmlwizzifier.getWizziIttf
+                        _ file.read
+                            @ source
+                        {
+                            @ wf wf
+                            @ syntaxOutFile
+                                _ path.join
+                                    @ __dirname
+                                    @ 'data'
+                                    @ 'output'
+                                    @ name + '.html.syntax'
+                        a_cb_no_throw( ittf )
+                            if err
+                                error 'error wizzifying: ' + source
+                                error 'err', err
+                                return callback(null, 'error ' + source)
+                            _ file.write
+                                _ path.join
+                                    @ __dirname
+                                    @ 'data'
+                                    @ 'output'
+                                    @ name + '.html.ittf'
+                                @ ittf
+                            return callback(null, 'success ' + source)
