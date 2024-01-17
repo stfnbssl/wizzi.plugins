@@ -1,0 +1,12 @@
+﻿{
+	$params name, value|''
+
+	$
+		value = _.replace(value, '"', '\"');
+
+	[ nodes
+		{
+			@ n "${name}"
+			@ v "${value}"
+			[ children
+				$hook

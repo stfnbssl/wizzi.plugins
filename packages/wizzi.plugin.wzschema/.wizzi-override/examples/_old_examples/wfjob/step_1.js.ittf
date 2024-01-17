@@ -1,0 +1,178 @@
+module
+	kind jsfile
+
+    $
+        var opt = {
+            level: 0,
+            step: 1,
+            name: 'wfJob_step_1',
+            title: 'wfJob step 1 - execute',
+            folderLevel: 2
+        }
+
+    common\example\core(&opt)
+
+        $append plugins
+            [ items
+                @ 'wizzi-js'
+                @ 'wizzi-web'
+                @ './index'
+            @ pluginsBaseFolder
+                _ path.resolve
+                    @ __dirname
+                    @ '..'
+                    @ '..'
+
+        _ heading2
+            @ 'basic wizzi job mTree'
+        
+        _ loadMTree
+            _ path.join
+                @ __dirname
+                @ 'ittf'
+                @ 'basic.wfjob.ittf'
+            {
+            f_cb_test( jobResult )
+                _ printEvaluatedNodes
+                    @ jobResult
+                    @ 'basic.wfjob'
+
+$*
+
+    _ executeLoadFolderModels
+        @ 'wfjobs'
+        @ 'wfjob'
+        {
+        f_cb()
+            _ executeFolderJobs
+                @ 'wfjobs'
+                @ 'wfjob'
+                {
+                f_cb()
+
+    function executeLoadFolderModels
+        param folder
+        param schema
+        param context
+        param callback
+
+		var suffix
+			iif schema === 'ittf'
+				then '.ittf'
+				else '.' + schema + '.ittf'
+		
+        var ittfPath
+			_ path.join
+				@ __dirname
+				@ 'ittf'
+				@ folder
+		
+        _ async.mapSeries
+            @ getFiles(ittfPath,schema)
+            function
+                param item
+                param callback
+                set item = item.substring(0, item.length - suffix.length)
+                # loog 'wizzi-core.examples.jobs.item', item, 'schema', schema
+                _ executeLoadModel(item, folder, schema, context, callback)
+            f_cb( result )
+                r_cb()
+
+	function executeLoadModel
+		param name
+		param folder
+        param schema
+        param context
+        param callback
+		
+		var ittfSource
+			_ path.join
+				@ __dirname
+				@ 'ittf'
+				@ folder
+				iif schema === 'ittf'
+					then name + '.ittf'
+					else name + '.' + schema + '.ittf'
+		
+		var jsOutput
+			_ path.join
+				@ __dirname
+				@ 'outputs'
+				@ folder
+				@ name + '.g.' + schema
+		
+		# loog 'wizzi-core.examples.jobs.before-load ittfSource', ittfSource, 'schema', schema
+		_ loadWizziModel
+			@ ittfSource
+			@ context || {}
+			f_cb_test( jsWizziModel )
+				# loog 'wizzi-core.examples.index.loaded ittfSource', ittfSource, 'schema', schema
+				# loog 'jsWizziModel', jsWizziModel
+				if jsWizziModel.toJson
+					_ file.write
+						@ jsOutput
+						_ stringify
+							@ jsWizziModel.toJson()
+							@ null
+							@ 4
+				else
+					_ file.write
+						@ jsOutput
+						_ stringify
+							@ jsWizziModel
+							@ null
+							@ 4
+                r_cb()
+
+    function executeFolderJobs
+        param folder
+        param schema
+        param context
+        param callback
+
+		var suffix
+			iif schema === 'ittf'
+				then '.ittf'
+				else '.' + schema + '.ittf'
+		
+        var ittfPath
+			_ path.join
+				@ __dirname
+				@ 'ittf'
+				@ folder
+
+        _ async.mapSeries
+            @ getFiles(ittfPath,schema)
+            function
+                param item
+                param callback
+                set item = item.substring(0, item.length - suffix.length)
+                # loog 'wizzi-core.examples.jobs.item', item, 'schema', schema
+                _ executeJob(item, folder, schema, context, callback)
+            f_cb( result )
+                r_cb()
+
+	function executeJob
+		param name
+		param folder
+        param schema
+        param context
+        param callback
+		
+		var ittfSource
+			_ path.join
+				@ __dirname
+				@ 'ittf'
+				@ folder
+				iif schema === 'ittf'
+					then name + '.ittf'
+					else name + '.' + schema + '.ittf'
+
+		_ executeWizziJob
+			@ ittfSource
+			@ context || {}
+			f_cb_test( jobResult )
+                # loog 'jobResult', jobResult
+                r_cb()
+
+*$

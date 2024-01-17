@@ -1,0 +1,35 @@
+module
+	kind jsfile
+
+    $
+        var opt = {
+            level: 0,
+            step: 2,
+            name: 'Schemas_xml_step_2',
+            title: 'Schemas xml step 2 - generate xml document',
+            folderLevel: 3
+        }
+
+    common\example\core(&opt)
+
+        $append plugins
+            [ items
+                @ 'wizzi-js'
+                @ 'wizzi-web'
+                @ './index'
+            @ pluginsBaseFolder
+                _ path.resolve
+                    @ __dirname
+                    @ '..'
+                    @ '..'
+                    @ '..'
+
+        _ loadModelAndGenerateArtifact
+			_ path.join
+				@ __dirname
+				@ 'ittf'
+				@ 'basic.xml.ittf'
+            {
+            @ "xml/document"
+            f_cb_test( artifactText )
+                _ printValue('yaml', artifactText)

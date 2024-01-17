@@ -1,0 +1,43 @@
+module
+	kind jsfile
+
+    $
+        var opt = {
+            level: 0,
+            step: 2,
+            name: 'js_step_2',
+            title: 'js step 2 - generate',
+            folderLevel: 2
+        }
+
+    common\example\js(&opt)
+
+        _ heading2
+            @ 'basic js generations'     
+
+        const example_ittfs
+            [
+                @ 'iife'
+                @ 'jsx'
+                @ 'loops'
+
+   		_ async.mapSeries
+			@ example_ittfs
+            function
+                param ittf
+                param callback
+                info '======================================================================================'
+                info 'generate file', ittf + '.js.ittf'
+                info '--------------------------------------------------------------------------------------'
+                _ loadModelAndGenerateArtifact
+                    _ path.join
+                        @ __dirname
+                        @ 'ittf'
+                        @ ittf + '.js.ittf'
+                    {
+                    @ "js/module"
+                    f_cb_test( artifactText )
+                        _ printValue(ittf, artifactText)
+                        r_cb( ittf )
+            f_cb_test( result )
+                log result

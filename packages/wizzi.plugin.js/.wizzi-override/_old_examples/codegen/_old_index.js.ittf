@@ -1,0 +1,78 @@
+﻿module
+	kind jsfile
+
+	var path = require('path')
+	var fs = require('fs')
+	var basicLoader = require('../../tests/mocks').basicLoader
+	var jsNode = require('../../tests/mocks').jsNode
+	var genContext = require('../../tests/mocks').genContext
+	var file = require('../../tests/mocks').file
+	var verify = require('../../tests/mocks').verify
+	var index = require('../../index')
+
+	var js_ittf_files
+		_ getFiles
+			_ path.join
+				@ __dirname
+				@ 'ittf'
+
+	var item
+	repeater(1, js_ittf_files)
+		set item = item_1.substring(0, item_1.length - '.js.ittf'.length)
+		# loog 'wizzi-codegen.examples.item', item
+		_ execute
+			@ item
+			f_cb()
+				repeater_increment(1)
+
+	function execute
+		param name
+		param callback
+		var ittfSource
+			_ path.join
+				@ __dirname
+				@ 'ittf'
+				@ name + '.js.ittf'
+		# loog 'wizzi-codegen.examples.ittfSource', ittfSource
+		var jsOutput
+			_ path.join
+				@ __dirname
+				@ 'ittf'
+				@ name + '.g.js'
+		_ basicLoader.loadMTree
+			@ ittfSource
+			{
+			f_cb_test( mTree )
+				# loog 'mTree', mTree
+				var js = new jsNode(mTree.n, mTree.v)
+				_ js.loadFromMTree(mTree)
+				# loog 'jsNode', js
+				var ctx
+					new genContext
+						{
+							@ options
+								{
+									@ CRLF '\n'
+									@ indentSpaces 4
+				_ index.js_Statement.gen
+					@ js
+					@ ctx
+					f_cb()
+						log name, 'ctx\n' + ctx.getContent()
+						_ file.write
+							@ jsOutput
+							@ ctx.getContent()
+						r_cb()
+
+	function getFiles
+		param srcpath
+		return
+			_ fs.readdirSync
+				@ srcpath
+				._ filter
+					=>
+						param file
+						return 
+							&&
+								_ fs.lstatSync(path.join(srcpath, file)).isFile()
+								_ verify.endsWith(file, '.js.ittf')

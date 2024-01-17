@@ -1,0 +1,80 @@
+svg
+    $
+        var baseY = 200;
+
+    width 899
+    height 868
+    viewBox 0 0 1200 1200
+    fill none
+    xmlns http://www.w3.org/2000/svg
+    class css-1i6zs05
+    ::style
+        css
+            . year
+                fill #00ff00    
+                @ dominant-baseline middle
+                @ text-anchor middle
+            . legend
+                fill #000000    
+                @ dominant-baseline middle
+                @ text-anchor middle
+                font-size 13px
+    rect
+        x 50
+        y ${baseY - 5}
+        width 1000
+        height 10
+        fill #FF0000
+    
+    tl_year( 2010, 1, ${baseY} )
+    tl_text( I PLS decidono di, 1, ${baseY + 50}, legend )
+    tl_text( lavorare su, 1, ${baseY + 70}, legend )
+    tl_text( sovrappeso e, 1, ${baseY + 90}, legend )
+    tl_text( obesità infantile, 1, ${baseY + 110}, legend )
+    
+    tl_year( 2013, 4, ${baseY} )
+    tl_text( Rilevazione, 4, ${baseY - 110}, legend )
+    tl_text( quanto peso a 3 anni, 4, ${baseY - 90}, legend )
+    tl_text( Trial su counseling motivazionale, 4, ${baseY - 70}, legend )
+    tl_text( Delibera RE-R, 4, ${baseY - 50}, legend )
+    
+    tl_year( 2015, 6, ${baseY} )
+    tl_text( Programma BMInforma, 6, ${baseY + 50}, legend )
+    
+    tl_year( 2016, 7, ${baseY} )
+    tl_text( Studio GET, 7, ${baseY - 50}, legend )
+
+    tl_year( 2017, 8, ${baseY} )
+    tl_text( Studio H2020 Cosie e, 8, ${baseY + 50}, legend )
+    tl_text( sviluppo BeBa, 8, ${baseY + 70}, legend )
+
+    tl_year( 2020, 11, ${baseY} )
+
+
+
+    symbol
+        id beba1 
+        width 225
+        height 300
+        view-box 0 0 225 300 
+        beba_b(0, 0, 100, #00FF00)
+        transform rotate(45)
+
+    $*
+    beba_b(400, 500, 100, #FF0000)
+    beba_b(700, 500, 10, #FF0000)
+    *$
+
+    use 
+        xlink:href #beba1
+        x 100
+        y 500
+        
+
+    $*
+    path
+        fill #0000FF
+        d M 100 500 C 100 500 200 600 300 500
+    *$
+
+

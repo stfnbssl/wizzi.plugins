@@ -1,0 +1,152 @@
+html
+    $
+        var dollar = '$';
+    head
+        link
+            href http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext
+            rel stylesheet
+            type text/css    
+        $include docs-styles
+    body
+        . doc-container
+
+            article
+                . doc-title
+                    + ITTF documents
+
+                . doc-summary
+                    p ITTF documents are the source files of the Wizzi Factory. ITTF stands for Indented Text Tree Format, 
+                        \b a human-friendly text format for representing 
+                        \b a tree data structure of node names and values. 
+
+                    ittf-panel
+                        title Sample ITTF document
+                        schema html
+                        ittf
+                            html
+                                body
+                                    ul
+                                        li
+                                            a The Wizzi Factory
+                                                href https://wizzifactory.github.io
+
+                    p Every line is a node consisting of a name-value pair.
+                        \b The name is the first string of chars of the line and is separated
+                        \b from the value by a space or a tab.
+
+                    p Child nodes are indented to their parent.                    
+
+                    p An ITTF document can include or merge others ITTF documents.
+
+                    ittf-panel
+                        schema html
+                        ittf
+                            html
+                                body
+                                    $raw header(&page)
+                                    $raw content(&page)
+                                    ${'$'}include footer
+
+                    p The root node can be a mixer or includer.
+
+                    ittf-panel
+                        title Root node that mixes its container.
+                        schema html
+                        ittf
+                            $raw layout( Welcome to my site )
+                                ${'$'}append appbar
+                                    ul
+                                        ${'$'}foreach item in menulist
+                                            li 
+                                                a ${'$'}{item.name}
+                                                    href ${'$'}{item.path}
+                                . wrapper
+                                    . content
+
+
+                    p An ITTF document is a template and can be merged and interpolated with context data.
+                    ittf-panel
+                        schema html
+                        ittf
+                            ul
+                                ${'$'}foreach item in site.TopMenu.items
+                                    li
+                                        a ${'$'}{item.label}
+                                            href ${'$'}{item.url}
+
+                    p Scripts can be used to manipulate nodes.
+                    ittf-panel
+                        schema html
+                        ittf
+                            div
+                                ${'$'} var i = 0
+                                ${'$'}while i < 5
+                                    p Hello number ${'$'}{i}
+                                    ${'$'} i++
+
+                    p &nbsp;
+                    
+                    ittf-panel
+                        title Sample container ITTF document
+                        schema html
+                        ittf
+                            html
+                                ${'$'}params title
+                                head
+                                    title ${'$'}{title}
+                                body
+                                    header
+                                        h1 ${'$'}{title}
+                                        ${'$'}hook appbar
+                                    section
+                                        ${'$'}hook
+
+                    p &nbsp;
+                    ul ITTF documents are of three kinds
+                        li Primary: the document is the entry item of an ITTF processing.
+                        li Mix: the document can receive parameters and my have hook nodes where to append child nodes of the merger document.
+                        li Include: the document is inserted as is and cannot receive parameters.
+
+                    ittf-panel
+                        title A sample 'mix' ITTF document.
+                        schema html
+                        ittf
+                            li
+                                ${'$'}params text, href
+                                a ${'$'}{text}
+                                    href ${'$'}{href}
+
+                    ittf-panel
+                        title A sample 'include' ITTF Document.
+                        schema html
+                        ittf
+                            div License MIT
+                                span copy Stefano Bassoli.
+
+                    h4 JsWizzi
+                    p The template engine of the wizzi factory uses a customized
+                        \b subset of the ECMA-262 javascript standard, sandboxed, and tailored
+                        \b for ITTF processing.
+                        \b JsWizzi is built on the <a href="http://esprima.org/">esprima</a> parser
+                        \b and is run by a custom javascript engine (JsWizziRunner).
+
+                    h4 mTrees
+                    p A document may have semantic and template nodes. Semantic nodes, that can contain interpolation variables,
+                        \b are the document data. Template nodes drive the document composition and its merging with context data
+                        \b and disappear in the final tree structure.
+                        \b The ITTF Processor is agnostic about the content of semantic nodes. It processes template nodes and interpolates semantic node names and values.
+                        \b The result of an ITTF process is a tree data structure of semantic nodes that must have a single root node.
+                    p The tree data structure resulting from an ITTF processing is a javascript object 
+                        \b named `mTree`.
+
+                    h4 Document types
+                    p Documents become usefull when they target a specific domain.
+                        \b Domain specific schemas can be applied to the result of an ITTF processing, see <a href="#concept-4">Wizzi Schemas</a>.
+                        \b The name of the Wizzi Schema that is applyed to an ITTF Document is said to be the type of the document.
+                        \b An ITTF document of type `js` is a document designed to be validated by the `js` Wizzi Schema.
+                    p Each development team may create its own document types or use those already availables, see <a href="#concept-9">Wizzi Plugins</a>.
+
+                    h4 Document file name and extension
+                    p An ITTF document must have extension '.ittf' and the extension must be preceded by '.' the name of
+                        \b the Wizzi Schema that describes the document or by '.ittf' again if the document is not typed.
+

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\artifacts\svg\document\gen\included_writers.js.ittf
-    utc time: Thu, 27 Jul 2023 15:14:41 GMT
+    utc time: Fri, 05 Jan 2024 15:56:14 GMT
 */
 'use strict';
 
@@ -18,6 +18,27 @@ md.writeIncludeJs = function(ctx, element, callback) {
             return callback(err);
         }
         ctx.wizziFactory.generateArtifact(jsModel, 'generated from svg model', 'js/module', {}, (err, artifactText) => {
+        
+            if (err) {
+                return callback(err);
+            }
+            ctx.indent();
+            ctx.writeAligned(artifactText);
+            ctx.deindent();
+            return callback();
+        }
+        )
+    }
+    )
+}
+;
+md.writeIncludeCss = function(ctx, element, callback) {
+    element.get_css((err, cssModel) => {
+    
+        if (err) {
+            return callback(err);
+        }
+        ctx.wizziFactory.generateArtifact(cssModel, 'generated from svg model', 'css/document', {}, (err, artifactText) => {
         
             if (err) {
                 return callback(err);

@@ -27,3 +27,24 @@ module
                             _ ctx.deindent
                             return
                                 _ callback
+    set md.writeIncludeCss
+        function
+            param ctx
+            param element
+            param callback
+            $$ loogmyname, 'enter writeIncludeCss'
+            _ element.get_css
+                a_cb( cssModel )
+                    $$ loogmyname, 'cssModel', cssModel
+                    _ ctx.wizziFactory.generateArtifact
+                        @ cssModel
+                        @ 'generated from svg model'
+                        @ 'css/document'
+                        {
+                        a_cb( artifactText )
+                            $$ loogmyname, 'css module artifactText', artifactText
+                            _ ctx.indent
+                            _ ctx.writeAligned(artifactText)
+                            _ ctx.deindent
+                            return
+                                _ callback

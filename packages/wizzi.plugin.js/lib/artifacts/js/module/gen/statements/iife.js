@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\artifacts\js\module\gen\statements\iife.js.ittf
-    utc time: Thu, 27 Jul 2023 14:19:09 GMT
+    utc time: Wed, 10 Jan 2024 14:54:20 GMT
 */
 'use strict';
 var util = require('util');
@@ -24,6 +24,20 @@ function countStatements(model) {
     for (i=0; i<i_len; i++) {
         item = model.statements[i];
         if (item.wzElement != 'comment' && item.wzElement != 'commentmultiline') {
+            count++;
+        }
+    }
+    return count;
+}
+function hasComments(model) {
+    return countComments(model) > 0;
+}
+function countComments(model) {
+    var count = 0;
+    var i, i_items=model.statements, i_len=model.statements.length, item;
+    for (i=0; i<i_len; i++) {
+        item = model.statements[i];
+        if (item.wzElement == 'comment') {
             count++;
         }
     }

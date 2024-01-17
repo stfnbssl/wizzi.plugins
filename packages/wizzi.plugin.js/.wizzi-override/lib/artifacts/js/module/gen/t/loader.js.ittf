@@ -24,6 +24,18 @@
                 set count++
 		return count
 
+	function hasComments
+		param model
+		return countComments(model) > 0 
+	
+	function countComments
+		param model
+        var count = 0
+        foreach item in model.statements
+            if item.wzElement == 'comment'
+                set count++
+		return count
+
 	function writeComments
 		param model
         param ctx

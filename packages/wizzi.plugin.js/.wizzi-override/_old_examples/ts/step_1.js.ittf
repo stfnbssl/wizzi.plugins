@@ -1,0 +1,56 @@
+module
+	kind jsfile
+
+    $
+        var opt = {
+            level: 0,
+            step: 1,
+            name: 'ts_step_1',
+            title: 'ts step 1 - generate',
+            folderLevel: 2
+        }
+
+    common\example\js(&opt)
+
+        _ heading2
+            @ 'basic ts generations'     
+
+        const example_ittfs
+            [
+                $*
+                @ 'temp'
+                @ 'app.comp'
+                @ 'app.router'
+                @ 'app.main'
+                @ 'decorators'
+                @ 'app.test'
+                @ 'e2e'
+                @ 'styled'
+                @ 'types'
+                @ 'styled'
+                @ 'keyframes'
+                @ 'import-export'
+                *$
+                $$ @ 'quick'
+                @ 'import-export'
+
+   		_ async.mapSeries
+			@ example_ittfs
+            function
+                param ittf
+                param callback
+                info '======================================================================================'
+                info 'generate file', ittf + '.ts.ittf'
+                info '--------------------------------------------------------------------------------------'
+                _ loadModelAndGenerateArtifact
+                    _ path.join
+                        @ __dirname
+                        @ 'ittf'
+                        @ ittf + '.ts.ittf'
+                    {
+                    @ "ts/module"
+                    f_cb_test( artifactText )
+                        _ printValue(ittf, artifactText)
+                        r_cb( ittf )
+            f_cb_test( result )
+                log result

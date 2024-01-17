@@ -1,0 +1,53 @@
+﻿$group
+
+	_ example
+		r( react, Horse
+			
+			n( prop, title
+				n( string
+				n( default, "stefi"
+			
+			n( prop, onClick
+				n( func
+
+			n( style
+				n( @, dark
+					n( {
+						n( @, color 'blue'
+				n( @, appBarHome
+					n( {
+						n(@, backgroundColor 'transparent'
+						n(@, boxShadow 'none'
+
+			n( state
+				n( @, age 10
+
+			n( did-mount
+				n( _, hello
+
+			n( will-unmount
+				n( _, hello
+
+			n( render
+				n( ., hello
+					n( <, Link
+						n( @, href 'miss'
+
+		@ ''
+		{
+			@ __jskind 'react'
+
+		$*
+
+	react-f HorseFunction
+
+		prop title
+			default 'stefi'
+			string
+		prop onClick
+			func
+
+		return
+			div {title}
+
+				*$

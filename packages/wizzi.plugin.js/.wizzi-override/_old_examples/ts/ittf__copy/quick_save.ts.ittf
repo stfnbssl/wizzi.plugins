@@ -1,0 +1,874 @@
+module
+    $*
+    import 
+        as React
+        from 'react'
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import 
+        @ withStyles
+        @ createStyles
+        @ Theme
+        from '@material-ui/core/styles'
+    import 
+        @ commonTypes
+        from '../../../common'
+    import 
+        @ appTypes
+        @ Segment
+        from '../../features/app'
+    import 
+        @ authTypes
+        from '../../features/auth'
+    import 
+        @ prefTypes
+        @ prefColors
+        @ withPreferences
+        from '../../features/preferences'
+    import 
+        @ filelistTypes
+        @ fileActions
+        @ fileUtils
+        from '../../features/filelist'
+    import 
+        @ packiTypes
+        @ packiValids
+        #
+            # , packiDefaults
+        from '../../features/packi'
+    import 
+        @ wizziTypes
+        from '../../features/wizzi'
+    import FileList from '../filelist/FileList'
+    import KeybindingsManager from '../shared/KeybindingsManager'
+    import LazyLoad from '../shared/LazyLoad'
+    import ModalDialog from '../shared/MuiModalDialog'
+    import ProgressIndicator from '../shared/ProgressIndicator'
+    import ContentShell from '../Shell/ContentShell'
+    import LayoutShell from '../Shell/LayoutShell'
+    import EditorShell from '../Shell/EditorShell'
+    import AssetViewer from './AssetViewer'
+    import EditorPanels from './EditorPanels'
+    import EditorToolbar from './EditorToolbar'
+    import EditorFooter from './EditorFooter'
+    import EditorForm from '../../features/form/EditorForm'
+    import NoFileSelected from './NoFileSelected'
+    import KeyboardShortcuts
+        @ Shortcuts
+        from './KeyboardShortcuts'
+    import PackiManager from '../../containers/PackiManager'
+    import PreviousSaves from './PreviousSaves'
+    import GeneratedView from './GeneratedView'
+    import GenerationErrors from './GenerationErrors'
+    import mockFn from '../../mocks/functions'
+    const EDITOR_LOAD_FALLBACK_TIMEOUT = 3000
+    :type EditorProps
+        :intersect 
+            :ref authTypes.AuthProps
+            :{ 
+                :p classes
+                    :any 
+                :p currentPacki
+                    :optional 
+                    :ref packiTypes.Packi
+                :p generatedArtifact
+                    :optional 
+                    :ref wizziTypes.GeneratedArtifact
+                :p saveHistory
+                    :ref packiTypes.SaveHistory
+                :p saveStatus
+                    :ref packiTypes.SaveStatus
+                :p creatorUsername
+                    :optional 
+                    :string 
+                :p fileEntries
+                    :[ 
+                        :ref filelistTypes.FileSystemEntry
+                :p entry
+                    :union 
+                        :ref filelistTypes.TextFileEntry
+                        :ref filelistTypes.AssetFileEntry
+                        :undefined 
+                :p params
+                    :{ 
+                        :p id
+                            :optional 
+                            :string 
+                        # platform?: 'android' | 'ios';
+                # loadingMessage: string | undefined;
+                :p jobError
+                    :ref wizziTypes.JobError
+                :p isWizziJobWaiting
+                    :boolean 
+                :p onSelectPacki
+                    :=> 
+                        :void 
+                        param packiId
+                            :string 
+                :p onCreatePacki
+                    :=> 
+                        :void 
+                        param packiId
+                            :string 
+                        param packiKind
+                            :string 
+                :p onDeletePacki
+                    :=> 
+                        :void 
+                        param packiId
+                            :string 
+                :p onFileEntriesChange
+                    :=> 
+                        :ref Promise
+                            :param void
+                        param entries
+                            :[ 
+                                :ref filelistTypes.FileSystemEntry
+                :p onChangeCode
+                    :=> 
+                        :void 
+                        param code
+                            :string 
+                :p onEntrySelected
+                    :=> 
+                        :void 
+                        param entry
+                            :ref filelistTypes.FileSystemEntry
+                :p onExecuteWizziJob
+                    :=> 
+                        :void 
+                :p onSaveCode
+                    :=> 
+                        :void 
+                #
+                    # 
+                    # onSubmitMetadata: (
+                    # details: {
+                    # name: string;
+                    # description: string;
+                    # },
+                    # draft?: boolean
+                    # ) => Promise<void>;
+                    # uploadFileAsync: (file: File) => Promise<string>;
+                    # syncDependenciesAsync: (
+                    # modules: {
+                    # [name: string]: string | undefined;
+                    # },
+                    # onError: (name: string, e: Error) => void
+                    # ) => Promise<void>;
+                    # 
+                :p userAgent
+                    :string 
+    export 
+        :type Props
+            :intersect 
+                :ref prefTypes.PreferencesContextType
+                :ref EditorProps
+                :{ 
+                    :p loggedUser
+                        :optional 
+                        :ref appTypes.LoggedUser
+    :type ModalName
+        :union 
+            :literal 'auth'
+            :literal 'packi-manager'
+            :literal 'github-commit'
+            :literal 'github-create'
+            :literal 'edit-info'
+            :literal 'shortcuts'
+            :literal 'previous-saves'
+    :type BannerName
+        :union 
+            :literal 'connected'
+            :literal 'disconnected'
+            :literal 'reconnect'
+            :literal 'autosave-disabled'
+            :literal 'slow-connection'
+    :type SplitViewKind
+        :union 
+            :literal 'left'
+            :literal 'right'
+            :literal 'both'
+    :type State
+        :{ 
+            :p currentModal
+                :union 
+                    :ref ModalName
+                    :null 
+            :p currentBanner
+                :union 
+                    :ref BannerName
+                    :null 
+            :p loadedEditor
+                :union 
+                    :literal 'monaco'
+                    :literal 'simple'
+                    :null 
+            :p isDownloading
+                :boolean 
+            :p isMarkdownPreview
+                :boolean 
+            # lintErrors: Annotation[];
+            :p previousEntry
+                :union 
+                    :ref filelistTypes.TextFileEntry
+                    :ref filelistTypes.AssetFileEntry
+                    :undefined 
+            :p splitViewKind
+                :ref SplitViewKind
+    # const BANNER_TIMEOUT_SHORT = 1500;
+    # const BANNER_TIMEOUT_LONG = 5000;
+    *$
+    class EditorView
+        $*
+        super React.Component
+            :param 
+                :ref Props
+            :param 
+                :ref State
+        m getDerivedStateFromProps
+            static
+            param props
+                :ref Props
+            param state
+                :ref State
+            if props.entry !== state.previousEntry
+                const 
+                    { 
+                        @ entry
+                    = props
+                const 
+                    { 
+                        @ previousEntry
+                    = state
+                if entry
+                    _ props.onEntrySelected(entry)
+                let isMarkdownPreview = state.isMarkdownPreview
+                if 
+                    test
+                        && 
+                            + entry && (!previousEntry || entry.item.path !== previousEntry.item.path)
+                            (
+                                && 
+                                    + entry.item.type === 'file' && entry.item.path.endsWith('.md') && !entry.item.asset
+                                    op! 
+                                        @expr 
+                                            ( 
+                                                + entry
+                                                    :as 
+                                                        :ref filelistTypes.TextFileEntry
+                                            . item
+                                            . content
+                                # When an empty markdown file is opened, switch to edit mode
+                    set isMarkdownPreview = false
+                return 
+                    { 
+                        @ isMarkdownPreview
+                        @ previousEntry entry
+            return null
+        p state
+            { 
+                @ loadedEditor null
+                @ currentModal null
+                @ currentBanner null
+                @ isDownloading false
+                @ isMarkdownPreview true
+                @ previousEntry undefined
+                @ splitViewKind
+                    + 'both'
+                        :as 
+                            :ref SplitViewKind
+        m componentDidMount
+        => _handleChangeSplitViewKind
+            param e
+                :ref React.ChangeEvent
+                    :param 
+                        :ref HTMLSelectElement
+            _ this.setState
+                { 
+                    @ splitViewKind
+                        @expr e.target.value
+                            :as 
+                                :ref SplitViewKind
+        => _handleDismissEditModal
+            _ Segment.getInstance().logEvent
+                @ 'DISMISSED_AUTH_MODAL'
+                { 
+                    @ currentModal this.state.currentModal
+            _ this.setState
+                { 
+                    @ currentModal null
+        => _handleShowTitleDescriptionModal
+            _ this.setState
+                { 
+                    @ currentModal 'edit-info'
+        => _handleShowPackiManager
+            _ this.setState
+                { 
+                    @ currentModal 'packi-manager'
+        => _handleShowGithubCommit
+            _ this.setState
+                { 
+                    @ currentModal 'github-commit'
+        => _handleShowGithubCreate
+            _ this.setState
+                { 
+                    @ currentModal 'github-create'
+        => _handleShowAuthModal
+            _ this.setState
+                { 
+                    @ currentModal 'auth'
+        => _handleShowShortcuts
+            _ console.log("_handleShowShortcuts")
+            _ this.setState
+                { 
+                    @ currentModal 'shortcuts'
+        => _handleShowPreviousSaves
+            _ this.setState
+                { 
+                    @ currentModal 'previous-saves'
+        => _handleHideModal
+            _ this.setState
+                { 
+                    @ currentModal null
+        => _handleShowModal
+            param name
+                :any 
+            _ this.setState
+                { 
+                    @ currentModal name
+        => _handleSelectPacki
+            param id
+                :string 
+            _ this._handleDismissEditModal
+            set this.props.onSelectPacki && this.props.onSelectPacki(id)
+        => _handleCreatePacki
+            param id
+                :string 
+            param kind
+                :string 
+            _ this._handleDismissEditModal
+            set this.props.onCreatePacki && this.props.onCreatePacki(id, kind)
+        => _handleDeletePacki
+            param id
+                :string 
+            set this.props.onDeletePacki && this.props.onDeletePacki(id)
+        => _handleCreateGitRepository
+            param owner
+                :string 
+            param name
+                :string 
+            param branch
+                :string 
+            _ this._handleDismissEditModal
+            # this.props.onCreateGitRepository && this.props.onCommitGitRepository(owner, name, branch);
+        => _handleOpenPath
+            param path
+                :string 
+            :return
+                :ref Promise
+                    :param void
+            _ this.props.onFileEntriesChange(fileActions.openEntry(this.props.fileEntries, path, true))
+        => _handleRemoveFile
+            param path
+                :string 
+            const entry
+                _ this.props.fileEntries.find
+                    => 
+                        { 
+                            @ item
+                        set item.path === path
+            if entry && entry.item.type === 'folder'
+                _ this.props.fileEntries.forEach
+                    => 
+                        { 
+                            @ item
+                        if fileUtils.isInsideFolder(item.path, path)
+                            set this._EditorComponent && this._EditorComponent.removePath(item.path)
+            else
+                set this._EditorComponent && this._EditorComponent.removePath(path)
+        => _handleRenameFile
+            param oldPath
+                :string 
+            param newPath
+                :string 
+            const entry
+                _ this.props.fileEntries.find
+                    => 
+                        { 
+                            @ item
+                        set item.path === oldPath
+            if entry && entry.item.type === 'folder'
+                _ this.props.fileEntries.forEach
+                    => 
+                        { 
+                            @ item
+                        if fileUtils.isInsideFolder(item.path, oldPath)
+                            const renamedPath = fileUtils.changeParentPath(item.path, oldPath, newPath)
+                            set this._EditorComponent && this._EditorComponent.renamePath(item.path, renamedPath)
+            else
+                set this._EditorComponent && this._EditorComponent.renamePath(oldPath, newPath)
+        p _EditorComponent
+            :any 
+        => _showErrorPanel
+            _ this.props.setPreferences
+                { 
+                    @ panelType 'errors'
+        => _togglePanels
+            _ this.props.setPreferences
+                { 
+                    @ panelsShown !this.props.preferences.panelsShown
+        => _toggleFileTree
+            _ this.props.setPreferences
+                { 
+                    @ fileTreeShown !this.props.preferences.fileTreeShown
+        => _toggleTheme
+            _ this.props.setPreferences
+                { 
+                    @ theme
+                        iif this.props.preferences.theme === 'light'
+                            then 'dark'
+                            else 'light'
+        => _toggleMarkdownPreview
+            _ this.setState
+                => 
+                    param state
+                    (
+                        { 
+                            @ isMarkdownPreview !state.isMarkdownPreview
+        *$
+        m render
+            const 
+                { 
+                    @ currentModal
+                    #
+                        # , currentBanner
+                    @ isDownloading
+                = this.state
+            const 
+                { 
+                    @ classes
+                    @ currentPacki
+                    @ entry
+                    # params,
+                    @ generatedArtifact
+                    @ saveHistory
+                    @ saveStatus
+                    @ loggedUser
+                    # loadingMessage,
+                    @ jobError
+                    @ isWizziJobWaiting
+                    @ onLoggedOn
+                    @ onLoggedOff
+                    @ onExecuteWizziJob
+                    @ onSaveCode
+                    # uploadFileAsync,
+                    @ preferences
+                = this.props
+            # console.log('EditorView', generatedArtifact);
+            # console.log('EditorView.currentPacki', currentPacki);
+            # const annotations: Annotation[] = [];
+            #
+                # 
+                # if (deviceError) {
+                # annotations.push(convertErrorToAnnotation(deviceError));
+                # }
+                # 
+            # const hasPackiId = !!params.id;
+            # const metadataName = isIntentionallyNamed(name) ? packiDefaults.DEFAULT_METADATA_NAME : name;
+            #
+                # 
+                # const metadataName = name == packiDefaults.DEFAULT_PACKI_NAME ? packiDefaults.DEFAULT_METADATA_NAME : name;
+                # const metadataDescription =
+                # description === packiDefaults.DEFAULT_DESCRIPTION
+                # ? hasPackiId
+                # ? packiDefaults.DEFAULT_METADATA_DESCRIPTION_SAVED
+                # : packiDefaults.DEFAULT_METADATA_DESCRIPTION_EMPTY
+                # : description;
+            const 
+                { 
+                    @ fileEntries
+                = this.props
+            if fileEntries.length == 0
+                return 
+                    h1
+                        + loading ...
+            return 
+                < ContentShell 
+                    { 
+                        iif this.state.loadedEditor
+                            then null
+                            else
+                                < ProgressIndicator 
+                    { 
+                        # 
+                            # <PageMetadata name={metadataName} description={metadataDescription} params={params} />
+                    < React.Fragment 
+                        < KeybindingsManager 
+                            @ bindings {Shortcuts}
+                            @ onTrigger
+                                => 
+                                    param type
+                                    const commands
+                                        :{ 
+                                            :index 
+                                                :union 
+                                                    :paren 
+                                                        :=> 
+                                                            :void 
+                                                    :null 
+                                                param key
+                                                    :string 
+                                        { 
+                                            #
+                                                # 
+                                                # save:
+                                                # saveStatus === 'published'
+                                                # ? null
+                                                # : this.props.isResolving
+                                                # ? null
+                                                # : onPublishAsync,
+                                            @ tree this._toggleFileTree
+                                            @ panels this._togglePanels
+                                            # format: this._prettier,
+                                            @ shortcuts this._handleShowShortcuts
+                                    const fn = commands[type]
+                                    if fn
+                                        _ fn
+                        < EditorToolbar 
+                            # name={name}
+                            # description={description}
+                            # name={name}
+                            # description={description}
+                            @ creatorUsername {this.props.creatorUsername}
+                            @ loggedUser {loggedUser}
+                            @ currentPacki {currentPacki}
+                            @ splitViewKind {this.state.splitViewKind}
+                            @ saveHistory {saveHistory}
+                            @ saveStatus {saveStatus}
+                            @ isDownloading {isDownloading}
+                            # isResolving={this.props.isResolving}
+                            @ isEditModalVisible {currentModal === 'edit-info'}
+                            @ isAuthModalVisible {currentModal === 'auth'}
+                            @ isWizziJobWaiting {isWizziJobWaiting}
+                            @ onChangeSplitViewKind {this._handleChangeSplitViewKind}
+                            @ onLoggedOn {onLoggedOn}
+                            @ onLoggedOff {onLoggedOff}
+                            @ onShowPreviousSaves {this._handleShowPreviousSaves}
+                            @ onShowEditModal {this._handleShowTitleDescriptionModal}
+                            @ onDismissEditModal {this._handleDismissEditModal}
+                            # onSubmitMetadata={this.props.onSubmitMetadata}
+                            @ onShowAuthModal {this._handleShowAuthModal}
+                            @ onDismissAuthModal {this._handleHideModal}
+                            @ onExecuteWizziJob {onExecuteWizziJob}
+                            @ onShowPackiManager {this._handleShowPackiManager}
+                            @ onShowGithubCommit {this._handleShowGithubCommit}
+                            @ onShowGithubCreate {this._handleShowGithubCreate}
+                            @ onSaveCode {onSaveCode}
+                            # onDownloadCode={handleDownloadCode}
+                            # onPublishAsync={onPublishAsync}
+                        div 
+                            @ className {css(styles.editorAreaOuterWrapper)}
+                            div 
+                                @ className {css(styles.editorAreaOuter)}
+                                < LayoutShell 
+                                    < FileList 
+                                        @ entries {fileEntries}
+                                        @ visible {true}
+                                        @ onEntriesChange {this.props.onFileEntriesChange}
+                                        @ onRemoveFile
+                                            => 
+                                                param path
+                                                    :string 
+                                                + path
+                                        @ onRenameFile
+                                            => 
+                                                param oldPath
+                                                    :string 
+                                                param newPath
+                                                    :string 
+                                                set oldPath && newPath
+                                        @ uploadFileAsync
+                                            => 
+                                                param file
+                                                    :ref File
+                                                _ mockFn.promise
+                                                    :param string
+                                                    @ file
+                                        @ onDownloadCode
+                                            => 
+                                                _ mockFn.promise
+                                                    :param void
+                                        @ hasSnackId {false}
+                                        @ saveStatus {'changed'}
+                                        # sdkVersion: SDKVersion;
+                                        # theme={'light'}
+                                        @ preventRedirectWarning
+                                            => 
+                                                + null
+                                    { 
+                                        # 
+                                            # Don't load it conditionally since we need the _EditorComponent object to be available
+                                    { 
+                                        && 
+                                            + (this.state.splitViewKind == 'both' || this.state.splitViewKind == 'left')
+                                            < LazyLoad 
+                                                @ load
+                                                    => 
+                                                        :return
+                                                            :ref Promise
+                                                                :param 
+                                                                    :typeof import('./MonacoEditor')
+                                                        let timeout
+                                                        const MonacoEditorPromise
+                                                            _ import
+                                                                #
+                                                                    # webpackPreload: true
+                                                                @ './MonacoEditor'
+                                                                ._ then
+                                                                    => 
+                                                                        param editor
+                                                                        (
+                                                                            { 
+                                                                                @ editor
+                                                                                @ type 'monaco'
+                                                        return 
+                                                            _ MonacoEditorPromise.then
+                                                                => 
+                                                                    { 
+                                                                        @ editor
+                                                                        @ type
+                                                                        :any 
+                                                                    _ this.setState
+                                                                        { 
+                                                                            @ loadedEditor type
+                                                                    _ clearTimeout(timeout)
+                                                                    return editor
+                                                                ._ catch
+                                                                    => 
+                                                                        param err
+                                                                        _ console.log(err)
+                                                                        _ alert('Failed to load Monaco Editor. See console error.')
+                                                { 
+                                                    => 
+                                                        { 
+                                                            @ loaded
+                                                            @ data Comp
+                                                        set this._EditorComponent = Comp
+                                                        if entry && entry.item.type === 'file'
+                                                            if entry.item.asset
+                                                                return 
+                                                                    < AssetViewer 
+                                                                        @ entry
+                                                                            ( 
+                                                                                + entry
+                                                                                    :as 
+                                                                                        :any 
+                                                                                :as 
+                                                                                    :ref filelistTypes.AssetFileEntry
+                                                            const 
+                                                                { 
+                                                                    @ content
+                                                                =
+                                                                    @expr 
+                                                                        ( 
+                                                                            + entry
+                                                                                :as 
+                                                                                    :ref filelistTypes.TextFileEntry
+                                                                        . item
+                                                            # const isMarkdown = entry.item.path.endsWith('.md');
+                                                            if loaded && Comp
+                                                                return 
+                                                                    < React.Fragment 
+                                                                        < Comp 
+                                                                            @ dependencies {}
+                                                                            # sdkVersion={sdkVersion}
+                                                                            @ entries fileEntries
+                                                                            @ autoFocus {!entry.state.isCreating}
+                                                                            @ annotations []
+                                                                            @ path {entry.item.path}
+                                                                            @ value {content}
+                                                                            @ onValueChange {this.props.onChangeCode}
+                                                                            @ onOpenPath {this._handleOpenPath}
+                                                        else
+                                                            return 
+                                                                < NoFileSelected 
+                                                        return 
+                                                            < EditorShell 
+                                    { 
+                                        iif ((this.state.splitViewKind == 'both' || this.state.splitViewKind == 'right') && generatedArtifact) && generatedArtifact.artifactContent
+                                            then
+                                                < GeneratedView 
+                                                    @ generatedContent {generatedArtifact.artifactContent}
+                                                    @ generatedSourcePath {generatedArtifact.sourcePath}
+                                                    @ splitViewKind {this.state.splitViewKind}
+                                            else
+                                                iif generatedArtifact && generatedArtifact.errorLines
+                                                    then
+                                                        < GenerationErrors 
+                                                            @ errorName {generatedArtifact.errorName}
+                                                            @ errorLines {generatedArtifact.errorLines}
+                                                            @ errorMessage {generatedArtifact.errorMessage}
+                                                            @ errorStack {generatedArtifact.errorStack}
+                                                    else null
+                                    { 
+                                        iif jobError
+                                            then
+                                                < GenerationErrors 
+                                                    @ errorName {jobError.errorName}
+                                                    @ errorLines {[]}
+                                                    @ errorMessage {jobError.errorMessage}
+                                                    @ errorStack {jobError.errorStack}
+                                            else null
+                                { 
+                                    iif preferences.panelsShown
+                                        then
+                                            < EditorPanels 
+                                                # annotations={annotations}
+                                                # annotations={annotations}
+                                                @ onShowErrorPanel {this._showErrorPanel}
+                                                @ onTogglePanels {this._togglePanels}
+                                                @ panelType {preferences.panelType}
+                                        else null
+                        < EditorFooter 
+                            # loadingMessage={loadingMessage}
+                            # annotations={annotations}
+                            # loadingMessage={loadingMessage}
+                            # annotations={annotations}
+                            @ loggedUid {preferences.loggedUid}
+                            @ autoGenSingleDoc {preferences.autoGenSingleDoc}
+                            @ autoExecJob {preferences.autoExecJob}
+                            @ connectGithubRepos {preferences.connectGithubRepos}
+                            @ trustLocalStorage {preferences.trustLocalStorage}
+                            @ fileTreeShown {preferences.fileTreeShown}
+                            @ panelsShown {preferences.panelsShown}
+                            @ onToggleTheme {this._toggleTheme}
+                            @ onTogglePanels {this._togglePanels}
+                            @ onToggleFileTree {this._toggleFileTree}
+                            @ onShowShortcuts {this._handleShowShortcuts}
+                            # onPrettifyCode={this._prettier}
+                            @ theme {this.props.preferences.theme}
+                        { 
+                            && 
+                                + loggedUser
+                                < ModalDialog 
+                                    @ title "Manage your packies"
+                                    @ visible {currentModal === 'packi-manager'}
+                                    @ onDismiss {this._handleHideModal}
+                                    < PackiManager 
+                                        @ onClose {this._handleHideModal}
+                        < ModalDialog 
+                            @ visible {currentModal === 'previous-saves'}
+                            @ title "Previous saves"
+                            @ onDismiss {this._handleHideModal}
+                            < PreviousSaves 
+                                @ saveHistory {saveHistory}
+                        < ModalDialog 
+                            @ title "Shortcuts"
+                            @ visible {currentModal === 'shortcuts'}
+                            @ onDismiss {this._handleHideModal}
+                            < KeyboardShortcuts 
+                        { 
+                            && 
+                                + currentPacki && currentPacki.localPackiData
+                                < ModalDialog 
+                                    @ title "Commit/push git package"
+                                    @ visible {currentModal === 'github-commit'}
+                                    @ onDismiss {this._handleHideModal}
+                                    < EditorForm 
+                                        @ title "Commit/push git package"
+                                        @ action "Done"
+                                        @ visible {true}
+                                        @ onDismiss {this._handleHideModal}
+                                        @ onSubmit
+                                            => 
+                                                param values
+                                                _ alert(JSON.stringify(values))
+                                                # TODO this._handleCommitGitRepository(values['owner'], values['repoName'], values['branch']);
+                                        @ fields
+                                            { 
+                                                { owner
+                                                    @ type 'text'
+                                                    @ label 'Owner'
+                                                    @ default currentPacki.localPackiData.owner
+                                                    @ onValidate packiValids.validatePackiName
+                                                { repoName
+                                                    @ type 'text'
+                                                    @ label 'Repo'
+                                                    @ default currentPacki.localPackiData.repoName
+                                                    @ onValidate packiValids.validatePackiName
+                                                { branch
+                                                    @ type 'text'
+                                                    @ label 'Branch'
+                                                    @ default currentPacki.localPackiData.branch
+                                                    @ onValidate packiValids.validatePackiName
+                        { 
+                            && 
+                                + currentPacki && currentPacki.localPackiData
+                                < ModalDialog 
+                                    @ title "Create git package"
+                                    @ visible {currentModal === 'github-create'}
+                                    @ onDismiss {this._handleHideModal}
+                                    < EditorForm 
+                                        @ title "Create git package"
+                                        @ action "Confirm"
+                                        @ visible {currentModal === 'github-create'}
+                                        @ onDismiss {this._handleHideModal}
+                                        @ onSubmit
+                                            => 
+                                                param values
+                                                _ alert(JSON.stringify(values))
+                                                _ this._handleCreateGitRepository(values['owner'], values['repoName'], values['branch'])
+                                        @ fields
+                                            { 
+                                                { owner
+                                                    @ type 'text'
+                                                    @ label 'Owner'
+                                                    @ default currentPacki.localPackiData.owner
+                                                    @ onValidate packiValids.validatePackiName
+                                                { repoName
+                                                    @ type 'text'
+                                                    @ label 'Repo'
+                                                    @ default currentPacki.localPackiData.repoName
+                                                    @ onValidate packiValids.validatePackiName
+                                                { branch
+                                                    @ type 'text'
+                                                    @ label 'Branch'
+                                                    @ default currentPacki.localPackiData.branch
+                                                    @ onValidate packiValids.validatePackiName
+                        + &lf;            )}&lf;       &nbsp;
+    $*
+    const c = prefColors.c
+    const styles
+        _ StyleSheet.create
+            { 
+                { editorAreaOuter
+                    @ display 'flex'
+                    @ flex 1
+                    @ flexDirection 'column'
+                    @ minWidth 0
+                    @ minHeight 0
+                    @ height '100%'
+                { editorAreaOuterWrapper
+                    @ display 'flex'
+                    @ flex 1
+                    @ flexDirection 'row'
+                    @ minHeight 0
+                    @ minWidth 0
+                    @ marginTop '12px'
+                    @ marginLeft '72px'
+                    @ height '100%'
+    const muiStyles
+        => 
+            param theme
+                :ref Theme
+            _ createStyles
+                { 
+                    { drawerPaper
+                        @ top 0
+                        # 'auto'
+    const StyledComp = withStyles(muiStyles)(EditorView)
+    export-default withPreferences(StyledComp)
+    *$

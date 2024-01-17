@@ -1,0 +1,10 @@
+﻿{
+	$params name, value|''
+	$
+		value = _.replace(value, '"', '\"');
+	
+	@ n "${name}"
+	@ v "${value}"
+	[ children
+		$hook
+

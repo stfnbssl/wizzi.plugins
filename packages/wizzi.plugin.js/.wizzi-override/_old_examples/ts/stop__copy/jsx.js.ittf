@@ -1,0 +1,21 @@
+﻿module
+
+	class Alpha
+		super Component
+
+		m render
+			const { folderData } = this.props
+			const { content } = folderData.data
+
+			return
+				div
+					< alpha
+						@ id 1
+						@ name vera
+					. file js-code-editor container-preview show-code
+						. commit-create
+							< BxCodeMirror
+								@ value { content }
+								@ className form-control file-editor-textarea js-blob-contents js-code-textarea
+
+

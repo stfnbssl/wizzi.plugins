@@ -1,0 +1,11 @@
+﻿block
+	const text
+		template
+			+ # Summary
+			+
+			macro
+				_ route.childRoutes.map
+					=>
+						param childRoute
+						return `- [${childRoute.title}](${childRoute.path})`
+					._ join('\n')

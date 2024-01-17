@@ -1,0 +1,44 @@
+﻿block
+	
+	react Horse
+
+		prop title
+			default 'stefi'
+			string
+		
+		prop onClick
+			func
+
+		style
+			@ dark
+				{
+					@ color 'blue'
+			@ appBarHome
+				{
+					@ backgroundColor 'transparent'
+					@ boxShadow 'none'
+	
+		state
+			@ age 10
+
+		did-mount
+			_ hello
+
+		will-unmount
+			_ hello
+
+		render
+			. hello
+				< Link
+					@ href 'miss'
+
+	react-f HorseFunction
+
+		prop title
+			default 'stefi'
+			string
+		prop onClick
+			func
+
+		return
+			div {title}

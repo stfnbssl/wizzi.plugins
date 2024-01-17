@@ -1,0 +1,55 @@
+﻿module
+	kind jsfile
+
+	var path = require('path')
+	var fs = require('fs')
+	var wizziUtils = require('wizzi-utils')
+	var verify = wizziUtils.verify
+	var file = wizziUtils.file
+	var mocks = wizziUtils.mocks
+	var mtree = require('wizzi-mtree')
+
+	$hook
+
+	function getFiles
+		param srcpath
+		param schema
+		var files
+			_ fs.readdirSync
+				@ srcpath
+				._ filter
+					=>
+						param file
+						return 
+							&&
+								_ fs.lstatSync(path.join(srcpath, file)).isFile()
+								_ verify.endsWith(file, '.' + schema + '.ittf')
+		var ret = []
+		foreach file in files
+			_ ret.push
+				{
+					@ path file
+					@ name file.substring(0, file.length - ('.' + schema + '.ittf').length)
+					@ fullPath
+						_ path.join
+							@ srcpath
+							@ file
+		return ret
+
+	function getWizziObject
+		return 
+			{
+				@ loadMTree 
+					_ mtree.createLoadMTree
+						@ mocks.repo.getCreateFilesystemStore()
+						{
+							@ useCache false
+				@ file wizziUtils.file
+				@ verify wizziUtils.verify
+				@ errors mocks.errors
+
+	function getLoadModelContext
+		param mTreeBuildupContext
+		return 
+			_ mocks.getLoadModelContext
+				@ mTreeBuildupContext

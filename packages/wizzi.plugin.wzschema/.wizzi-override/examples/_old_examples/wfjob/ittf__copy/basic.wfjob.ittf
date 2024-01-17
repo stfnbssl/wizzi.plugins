@@ -1,0 +1,26 @@
+﻿wfjob basic-example
+	
+	$
+		var ittf_models_folder  = path.join(__dirname, 'ittf', 'models');
+		var ittf_lib            = path.join(__dirname, 'ittf', 'lib');
+        var dest_folder         = path.join(__dirname, '..', 'dist');
+		
+	model meta
+		schema json
+		src ${ittf_models_folder}/meta.json.ittf
+
+	line ittf-lib
+		cwd-folder ${ittf_lib}
+		dest-folder ${dest_folder}/lib
+
+		wfjob/any_js()
+			ignore ${ittf_lib}/**/*__copy/**/*.js.ittf
+            model-ref meta
+
+		artifact any_ittf_inside___copy
+			src ${ittf_lib}/**/*__copy/**/*.ittf
+			extension ittf
+
+	production
+		dest-folder ${dest_folder}
+		line-ref ittf-lib

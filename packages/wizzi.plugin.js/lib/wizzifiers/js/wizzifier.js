@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\wizzifiers\js\wizzifier.js.ittf
-    utc time: Thu, 27 Jul 2023 14:19:09 GMT
+    utc time: Wed, 10 Jan 2024 14:54:20 GMT
 */
 'use strict';
 var util = require('util');
@@ -1451,9 +1451,7 @@ format.Function = function(parent, node, options) {
     }
     // b( generator
     // b( async
-    /**
-        VIA
-        replaceChildrenOfChildWhenText(ret, getChildPosByTag(ret, 'params'), 'param')*/
+    // VIA
     if (node.generator) {
         ret.tag = 'function*';
     }
@@ -6959,7 +6957,11 @@ format.MemberExpression = function(parent, node, options) {
     // If `computed` is `false`, the node corresponds to a static (`a.b`) member expression and `property` is an `Identifier`.
     // The `optional` flags indicates that the member expression can be called even if the object is null or undefined.
     // If this is the object value (null/undefined) should be returned.
-    // if p_object.name == 'Promise'
+    /**
+        if p_object.name == 'Promise'
+         loog 'MemberExpression.p_object', isTextualNode(p_object), p_object
+         loog 'MemberExpression.p_property', isTextualNode(p_property), p_property
+    */
     var qmark = node.optional ? '?' : '';
     if (isTextualNode(p_object)) {
         var obj = getNodeText(p_object);
@@ -9052,9 +9054,7 @@ format.ClassMethod = function(parent, node, options) {
     else if (node.computed) {
         ret.name = '[' + ret.name + ']';
     }
-    /**
-        VIA
-        replaceChildrenOfChildWhenText(ret, getChildPosByTag(ret, 'params'), 'param')*/
+    // VIA
     if (ret != null) {
         if (__isText) {
             ret.textified = ret.name;
@@ -11632,8 +11632,7 @@ format.JSXExpressionContainer = function(parent, node, options) {
             
         ]
      };
-    /**
-        options.stateAST.push('JSXExpressionContainer')*/
+    //
     // process AST-node-property expression and set it in a var
     var p_expression = null;
     if (typeof(node.expression) !== 'undefined' && node.expression != null) {
@@ -11703,8 +11702,7 @@ format.JSXExpressionContainer = function(parent, node, options) {
             ret.children.push(p_expression)
         }
     }
-    /**
-        options.stateAST.pop()*/
+    //
     if (ret != null) {
         if (__isText) {
             ret.textified = ret.name;

@@ -1,0 +1,68 @@
+﻿common/example/plugin('js examples')
+
+	var js_factory = require('../../lib/wizzi/models/js-factory.g')
+	var js_artifact = require('../../lib/artifacts/js/module/gen/main')
+	+
+	var loadModel
+		_ js_factory.createLoadModel
+			_ getWizziObject
+	+
+	
+	var example_files
+		_ getFilesData
+			_ path.join
+				@ __dirname
+				@ 'ittf'
+			@ 'js'
+
+	repeater(1, example_files)
+		info '======================================================================================'
+		log index_1 + 1, '/', len_1, '', 'file', item_1
+		info '--------------------------------------------------------------------------------------'
+		_ execute
+			@ item_1.name
+			f_cb()
+				
+				repeater_increment(1)
+
+	function execute
+		param name
+		param callback
+
+		#
+			if name != 'graphql'
+				return
+		
+		var ittfSource
+			_ path.join
+				@ __dirname
+				@ 'ittf'
+				@ name + '.js.ittf'
+		
+		var jsOutput
+			_ path.join
+				@ __dirname
+				@ 'ittf'
+				@ name + '.g.js'
+		
+		_ loadModel
+			@ ittfSource
+			_ getLoadModelContext
+				{
+			f_cb_test( jsWizziModel )
+				# loog 'jsWizziModel', stringify(jsWizziModel, null, 2)
+				var ctx = new mocks.getGenContext()
+                set ctx.values
+                    {
+                        @ isWizziUtilsPackage true
+				_ js_artifact.gen
+					@ jsWizziModel
+					@ ctx
+					f_cb_test( ctxout )
+						info 'ctxout', ctxout.getContent()
+						_ file.write
+							@ jsOutput
+							@ ctxout.getContent()
+						r_cb()
+
+	

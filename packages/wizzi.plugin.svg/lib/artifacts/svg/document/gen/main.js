@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\artifacts\svg\document\gen\main.js.ittf
-    utc time: Thu, 27 Jul 2023 15:14:41 GMT
+    utc time: Fri, 05 Jan 2024 15:56:14 GMT
 */
 'use strict';
 // Language artifact that targets
@@ -303,6 +303,36 @@ md.jsInclude = function(model, ctx, callback) {
     }
     else {
         ctx.w("</script>");
+        return callback(null, true);
+    }
+}
+;
+md.cssInclude = function(model, ctx, callback) {
+    ctx.write('<style');
+    var i, i_items=getAttrs(model), i_len=getAttrs(model).length, a;
+    for (i=0; i<i_len; i++) {
+        a = getAttrs(model)[i];
+        if ((a.name in attrsneedsvalue) || (a.value && a.value.length > 0)) {
+            ctx.write(' ' + a.name + '="' + verify.unquote(a.value || '') + '"');
+        }
+        else {
+            ctx.write(' ' + a.name);
+        }
+    }
+    ctx.w('>');
+    if (model.get_css) {
+        included_writers.writeIncludeCss(ctx, model, (err, notUsed) => {
+        
+            if (err) {
+                return callback(err);
+            }
+            ctx.w("</style>");
+            return callback(null, true);
+        }
+        )
+    }
+    else {
+        ctx.w("</style>");
         return callback(null, true);
     }
 }

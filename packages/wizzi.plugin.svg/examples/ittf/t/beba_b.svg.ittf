@@ -1,0 +1,18 @@
+$group
+    $params x:integer, y:integer, size:integer, color
+    rect
+        x ${x}
+        y ${y}
+        width ${size * 1.5}
+        height ${size * 3}
+        fill ${color}
+    circle
+        cx ${x + size * 1.5}
+        cy ${y + size * 0.75}
+        r ${size * 0.75}
+        fill ${color}
+    circle
+        cx ${x + size * 1.5}
+        cy ${y + size * 2.25}
+        r ${size * 0.75}
+        fill ${color}

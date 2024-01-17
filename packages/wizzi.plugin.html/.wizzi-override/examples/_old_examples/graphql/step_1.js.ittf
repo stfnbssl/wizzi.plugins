@@ -1,0 +1,41 @@
+module
+	kind jsfile
+
+    $
+        var opt = {
+            level: 0,
+            step: 1,
+            name: 'graphql_step_1',
+            title: 'graphql step 1 - generate',
+            folderLevel: 2
+        }
+
+    common\example\web(&opt)
+
+        _ heading2
+            @ 'basic graphql generations'     
+
+        const example_ittfs
+            [
+                @ 'basic'
+
+   		_ async.mapSeries
+			@ example_ittfs
+            function
+                param ittf
+                param callback
+                info '======================================================================================'
+                info 'generate file', ittf + '.graphql.ittf'
+                info '--------------------------------------------------------------------------------------'
+                _ loadModelAndGenerateArtifact
+                    _ path.join
+                        @ __dirname
+                        @ 'ittf'
+                        @ ittf + '.graphql.ittf'
+                    {
+                    @ "graphql/document"
+                    f_cb_test( artifactText )
+                        _ printValue(ittf, artifactText)
+                        r_cb( ittf )
+            f_cb_test( result )
+                log result

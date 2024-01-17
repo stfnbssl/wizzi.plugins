@@ -1,0 +1,28 @@
+module
+	kind jsfile
+
+    $
+        var opt = {
+            level: 0,
+            step: 3,
+            name: 'Schemas_ittf_step_4',
+            title: 'Schemas ittf step 4 - artifact tojson',
+            folderLevel: 3
+        }
+
+    common\example\core(&opt)
+
+        _ heading2
+            @ 'Ittf builtin schema'
+
+        _ loadModelAndGenerateArtifact
+			_ path.join
+				@ __dirname
+				@ 'ittf'
+				@ 'basic.ittf.ittf'
+            {
+            @ "ittf/tojson"
+            f_cb_test( artifactText )
+                _ heading2
+                    @ 'Ittf builtin schema - artifact ittf/tojson'
+                _ printValue('ittf/tojson', artifactText)

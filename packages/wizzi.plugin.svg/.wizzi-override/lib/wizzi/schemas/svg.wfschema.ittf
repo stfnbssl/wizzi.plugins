@@ -314,6 +314,16 @@
 	e switch : element
 		$$ svg/getAttrs( transform, element )
 	e symbol : element
+        a width
+        a height
+		a viewBox
+            tag viewBox|view-box
+			# This attribute defines the bound of the SVG viewport for the current SVG fragment.
+			# Value type: <list-of-numbers> ; Default value: none; Animatable: yes
+		a_tag( preserveAspectRatio, preserve-aspect-ratio )
+			# This attribute defines how the svg fragment must be deformed if it is embedded in a container with a different aspect ratio.
+			# Value type: (none| xMinYMin| xMidYMin| xMaxYMin| xMinYMid| xMidYMid| xMaxYMid| xMinYMax| xMidYMax| xMaxYMax) (meet|slice)? ; Default value: xMidYMid meet; Animatable: yes
+		svg/getAttrs( width;height;viewBox;preserveAspectRatio, element )
 	e tref : element
 	e use : element
 		$$ svg/getAttrs( transform, element )
@@ -323,6 +333,7 @@
         a height
         a transform
         a xlink:href
+		svg/getAttrs( x;y;xlink_href, element )
 
 	e view : element
 	e vkern : element
@@ -330,6 +341,10 @@
     e jsInclude : element
         tag ::script
         include js module
+
+    e cssInclude : element
+        tag ::style
+        include css css
 
 	# TODO this should become function
 	m extractAttributes
@@ -342,8 +357,11 @@
 			var names = names_string.split(';')
 			foreach name in names
 				if typeof(element[name]) !== 'undefined' && element != null
+					var nameAttr = name
+					if name == 'xlink_href'
+						set nameAttr = 'xlink:href'
 					_ attrs.push
 						{
-							@ name name
+							@ name nameAttr
 							@ value element[name]
 		return attrs

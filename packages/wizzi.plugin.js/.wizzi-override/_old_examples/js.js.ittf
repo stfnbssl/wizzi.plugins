@@ -1,0 +1,106 @@
+common/example/withMonoRepoWizziFactory()
+    
+    $append plugins
+        [ items
+            @ 'wizzi-core'
+            @ 'wizzi-web'
+            @ './index'
+        @ pluginsBaseFolder
+            _ path.resolve
+                @ __dirname
+                @ '..'
+
+    _ executeLoadFolderModels
+        @ 'jss'
+        @ 'js'
+        {
+        f_cb()
+
+    function executeLoadFolderModels
+        param folder
+        param schema
+        param context
+        param callback
+
+		var suffix
+			iif schema === 'ittf'
+				then '.ittf'
+				else '.' + schema + '.ittf'
+		
+        var ittfPath
+			_ path.join
+				@ __dirname
+				@ 'ittf'
+				@ folder
+		
+        _ async.mapSeries
+            @ getFiles(ittfPath,schema)
+            function
+                param item
+                param callback
+                set item = item.substring(0, item.length - suffix.length)
+                info 'wizzi-core.examples.jobs.item', item, 'schema', schema
+                _ executeLoadModel(item, folder, schema, context, callback)
+            f_cb( result )
+                r_cb()
+
+	function executeLoadModel
+		param name
+		param folder
+        param schema
+        param context
+        param callback
+		
+		var ittfSource
+			_ path.join
+				@ __dirname
+				@ 'ittf'
+				@ folder
+				iif schema === 'ittf'
+					then name + '.ittf'
+					else name + '.' + schema + '.ittf'
+		
+		var jsOutput
+			_ path.join
+				@ __dirname
+				@ 'outputs'
+				@ folder
+				@ name + '.g.' + schema
+		
+		var artifactOutput
+			_ path.join
+				@ __dirname
+				@ 'outputs'
+				@ folder
+				@ name + '.artifact.js'
+
+		info 'wizzi-core.examples.jobs.before-load ittfSource', ittfSource, 'schema', schema
+		_ loadWizziModel
+			@ ittfSource
+			@ context || {}
+			f_cb_test( jsWizziModel )
+				# loog 'wizzi-core.examples.index.loaded ittfSource', ittfSource, 'schema', schema
+				# loog 'jsWizziModel', jsWizziModel
+				if jsWizziModel.toJson
+					_ file.write
+						@ jsOutput
+						_ stringify
+							@ jsWizziModel.toJson()
+							@ null
+							@ 4
+				else
+					_ file.write
+						@ jsOutput
+						_ stringify
+							@ jsWizziModel
+							@ null
+							@ 4
+                _ loadModelAndGenerateArtifact
+                    @ ittfSource
+                    @ context || {}
+                    @ "js/module"
+                    f_cb_test( artifactText )
+                        _ file.write
+                            @ artifactOutput
+                            @ artifactText
+                        r_cb()

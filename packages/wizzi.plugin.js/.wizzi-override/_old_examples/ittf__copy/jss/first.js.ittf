@@ -1,0 +1,31 @@
+module
+  kind react
+
+  react MyComponent
+    p queue []
+    # should be:
+      # queue []
+
+    => handle
+      param message1
+      =>
+        param message2
+
+    # should be:
+    # handle => (message) => () {
+    # }
+
+  const x
+    {
+      { section1
+          @ margin
+              `lit 
+                  + 
+                  set theme.spacing.unit * 3
+                  + px\b
+                  set theme.spacing.unit * 2
+                  + px
+  # should be:
+  # `${theme.spacing.unit * 3}px${theme.spacing.unit * 2}px`
+                  
+    

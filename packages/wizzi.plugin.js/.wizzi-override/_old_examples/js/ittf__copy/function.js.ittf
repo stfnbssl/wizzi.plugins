@@ -1,0 +1,56 @@
+﻿module
+	kind jsfile
+
+	function sayHello
+		success 'Hello'
+
+	function sayHello
+		param name
+		success 'Hello ' + name
+
+	function sayHello
+		string name
+		success 'Hello ' + name
+
+	function sayHello
+		string name
+		callback
+		success 'Hello ' + name
+		r_cb()
+
+	function sayHello
+		string name
+		any greetings
+		callback
+		success 'Hello ' + name + '. ' + greetings
+		r_cb()
+
+	function sayHello
+		string name
+		number age
+		boolean married
+		[ children
+		{ profile
+			string email
+			string weburl
+		any greetings
+		callback
+		return 'Hello ' + name
+		r_cb()
+
+	function sayHello
+		async
+		param id
+		var name
+			await
+				_ getName
+					@ id
+		return 'Hello ' + name
+
+	async-function sayHello2
+		param id
+		var name
+			await
+				_ getName
+					@ id
+		return 'Hello ' + name

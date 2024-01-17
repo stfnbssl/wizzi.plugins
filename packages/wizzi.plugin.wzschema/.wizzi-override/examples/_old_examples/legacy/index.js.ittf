@@ -1,0 +1,22 @@
+﻿module 
+    kind jsfile
+
+	import path
+	var legacy = require('../../legacy')
+
+	_ legacy.jsModule
+		_ path.join
+			@ __dirname
+			@ 'ittf'
+			@ 'sample.js.ittf'
+		{
+		f_cb_throw( artifact )
+			info 'legacy.jsModule.js artifact', artifact
+			_ legacy.htmlDocument
+				_ path.join
+					@ __dirname
+					@ 'ittf'
+					@ 'sample.html.ittf'
+				{
+				f_cb_throw( artifact )
+					info 'legacy.jsModule.html artifact', artifact

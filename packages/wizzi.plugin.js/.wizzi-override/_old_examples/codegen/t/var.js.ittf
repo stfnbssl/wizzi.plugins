@@ -1,0 +1,36 @@
+﻿$group
+
+	_ example
+		r( var, tau
+		@ 'var = tau;'
+				
+	_ example
+		r( var, beta = 'astra'
+		@ "var = beta = 'astra';"
+
+	_ example
+		r( var, alfa
+			n( _, getAlpha 
+		@ "var alpha = getAlpha();"
+
+	_ example
+		r( var
+			n( decl, i
+			n( decl, k = 10
+			n( decl, name
+		@ "var i, k = 10, name;"
+
+	_ example
+		r( let, sigma = 1
+		@ 'let sigma = 1;'
+
+	_ example
+		r( let, omega = 1
+		@ 'let omega = 1;'
+
+	_ example
+		r( const, ossian
+			n( _, buuh 
+				n( @, 'wash'
+		@ "const ossian = buuh('wash')"
+

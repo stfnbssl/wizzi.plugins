@@ -1,0 +1,18 @@
+﻿return
+	new Promise
+		=>
+			param resolve
+			param fail
+			_ sqldb.query
+				{
+					@ sql sql
+					@ timeout 5000
+					@ values sql_values
+					function
+						param error
+						param results
+						param fields
+						if error
+							_ fail(err)
+						else
+							_ resolve(results)

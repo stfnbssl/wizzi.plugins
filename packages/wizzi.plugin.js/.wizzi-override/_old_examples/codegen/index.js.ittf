@@ -1,0 +1,55 @@
+﻿module
+	kind jsfile
+
+	var chalk = require('chalk')
+	var genContext = require('wizzi').genContext
+	var statement = require('../../lib/artifacts/js/module/gen/codegen/statement')
+	var jsNode = require('./jsmodel/jsnode')
+
+	var examples = []
+	
+	function example
+		param test
+		param expected
+		param options
+		_ examples.push
+			{
+				@ test test
+				@ expected expected
+				@ options options || {}
+
+	function getCtx
+		return
+			new genContext
+				{
+					{ options
+						@ CRLF '\n'
+						@ indentSpaces 4
+					{ pman
+						@ globalContext
+							function
+								return {}
+						{ wizziFactory
+
+	$include var
+	$include react
+
+	repeater(1, examples)
+		# loog 'item_1.test', item_1.test
+		var mTree = item_1.test
+		var js = new jsNode(mTree.n, mTree.v)
+		_ js.loadFromMTree(mTree)
+		var ctx = getCtx()
+		set ctx.__jskind = item_1.options.__jskind
+		_ statement.gen
+			@ js
+			@ ctx
+			f_cb()
+				if ctx.getContent() == item_1.expected
+					chalk green 'test' + '\n' + ctx.getContent()
+					chalk green 'expected' + '\n' + item_1.expected
+				else
+					chalk red 'test' + '\n' + ctx.getContent()
+					chalk red 'expected' + '\n' + item_1.expected
+				info '----------------------------------------------------'
+				repeater_increment(1)

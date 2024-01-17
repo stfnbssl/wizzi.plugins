@@ -260,7 +260,7 @@
 		r_cb()
 	
 	stm( comment
-        if hasStatements(model) == false
+        if hasComments(model) == false
             if ctx.__inside_comment
                 _ ctx.w(model.wzName ? (' ' + model.wzName) : '')
             else 
@@ -276,9 +276,10 @@
 		if !ctx.__inside_comment
 			_ ctx.w('/**')
         _ ctx.indent()
-        if model.wzName.length > 0
-            _ ctx.w
-                @ model.wzName
+		# 10/1/24 write blank lines except on first comment line
+        if model.wzName.length > 0 || ctx.__inside_comment 
+			_ ctx.w
+				@ model.wzName
         set ctx.__inside_comment = true
         _ cnt.genItems
             @ model.statements

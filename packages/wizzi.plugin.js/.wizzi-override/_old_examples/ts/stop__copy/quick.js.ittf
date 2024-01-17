@@ -1,0 +1,68 @@
+﻿module
+
+    import 
+        @ withHandlers
+        @ pure
+        @ compose
+        from 'recompose'
+    import 
+        @ firebaseConnect
+        from 'react-redux-firebase'
+    import 
+        @ withNotifications
+        from 'modules/notification'
+    import 
+        @ UserIsNotAuthenticated
+        from 'utils/router'
+    export-default 
+        _ compose
+            @ UserIsNotAuthenticated
+            # redirect to /projects if user is already authed
+            @ withNotifications
+            # add props.showError
+            _ firebaseConnect
+            # add props.firebase
+            # Handlers as props
+            _ withHandlers
+                { 
+                    @ onSubmitFail 
+                        => 
+                            param props
+                            => 
+                                param formErrs
+                                param dispatch
+                                param err
+                                _ props.showError
+                                    iif formErrs
+                                        then 'Form Invalid'
+                                        else
+                                            op err.message || 'Error'
+                    @ googleLogin 
+                        => 
+                            { 
+                                @ firebase firebase
+                                @ showError showError
+                                @ router router
+                            => 
+                                param event
+                                _ firebase.login
+                                    { 
+                                        @ provider 'google'
+                                        @ type 'popup'
+                                    ._ catch
+                                        => 
+                                            param err
+                                            _ showError(err.message)
+                    @ emailLogin 
+                        => 
+                            { 
+                                @ firebase firebase
+                                @ router router
+                                @ showError showError
+                            => 
+                                param creds
+                                _ firebase.login(creds).catch
+                                    => 
+                                        param err
+                                        _ showError(err.message)
+            @ pure

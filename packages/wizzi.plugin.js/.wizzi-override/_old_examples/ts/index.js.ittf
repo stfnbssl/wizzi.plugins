@@ -1,0 +1,64 @@
+﻿common/example/plugin('ts examples')
+
+	var ts_factory = require('../../lib/wizzi/models/ts-factory.g')
+	var ts_artifact = require('../../lib/artifacts/ts/module/gen/main')
+	+
+	var loadModel
+		_ ts_factory.createLoadModel
+			_ getWizziObject
+	+
+	
+	var example_files
+		_ getFilesData
+			_ path.join
+				@ __dirname
+				@ 'ittf'
+			@ 'ts'
+
+	repeater(1, example_files)
+		info '======================================================================================'
+		log index_1 + 1, '/', len_1, '', 'file', item_1
+		info '--------------------------------------------------------------------------------------'
+		_ execute
+			@ item_1.name
+			f_cb()
+				repeater_increment(1)
+
+	function execute
+		param name
+		param callback
+
+		#
+			if name != 'graphql'
+				return
+		
+		var ittfSource
+			_ path.join
+				@ __dirname
+				@ 'ittf'
+				@ name + '.ts.ittf'
+		
+		var tsOutput
+			_ path.join
+				@ __dirname
+				@ 'ittf'
+				@ name + '.g.ts'
+		
+		_ loadModel
+			@ ittfSource
+			_ getLoadModelContext
+				{
+			f_cb_test( tsWizziModel )
+				# loog 'tsWizziModel', stringify(tsWizziModel, null, 2)
+				var ctx = new mocks.getGenContext()
+				_ ts_artifact.gen
+					@ tsWizziModel
+					@ ctx
+					f_cb_test( ctxout )
+						info 'ctxout', ctxout.getContent()
+						_ file.write
+							@ tsOutput
+							@ ctxout.getContent()
+						r_cb()
+
+	
