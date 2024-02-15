@@ -1,5 +1,21 @@
 module
-    kind es6
+    kind react
+
+    function a
+        const 
+            { 
+                @ a x
+            = obj
+        const 
+            {
+                @ text mpsTextContent
+                @ json mpsJsonContent
+            _ api.Packi.extractPackiFileContent
+                @ oldJob.packiFiles
+                @ metaProductionSelectionsFilePath
+                {
+                    @ json true
+
     function 
         param todo
         for 
@@ -24,4 +40,46 @@ module
         sequence 
             set a = s.createElement(o)
             set m = s.getElementsByTagName(o)[0]
+
+    function a
+        return
+            div
+                h3 Plugin {params.item.name}
+                p full path {params.item.fullPath}
+                h4 Schemas
+                {
+                    _ schemas.map
+                        =>
+                            param item
+                            param ndx
+                            div
+                                @ key {ndx}
+                                < Schema
+                                    @ item {item}
+                h4 Artifacts
+                {
+                    _ artifacts.map
+                        =>
+                            param item
+                            param ndx
+                            div
+                                @ key {ndx}
+                                < Artifact
+                                    @ item {item}
+                &&
+                    + wizzifiers.length > 0
+                    div
+                        h4 Wizzifiers
+                        {
+                            _ wizzifiers.map
+                            =>
+                                param item
+                                param ndx
+                                div
+                                    @ key {ndx}
+                                    < Wizzifier
+                                        @ item {item}
+
+
+
 

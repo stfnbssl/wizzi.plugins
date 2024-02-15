@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.css\.wizzi-override\lib\artifacts\css\document\gen\rule.js.ittf
-    utc time: Tue, 11 Apr 2023 19:38:15 GMT
+    utc time: Wed, 31 Jan 2024 05:56:49 GMT
 */
 'use strict';
 var util = require('util');
@@ -289,8 +289,6 @@ function writeRule(md, model, ctx, callback) {
     var isStyledComponent = model.wzElement == "elementRule" && model.wzName == "--styled--";
     var isInsideStyledComponent = ctx.__isStyledComponent;
     // loog 'isStyledComponent, ctx.__isStyledComponent, isInsideStyledComponent, model.wzName', isStyledComponent, ctx.__isStyledComponent, isInsideStyledComponent, model.wzName
-    
-    // log 1
     if (isInsideStyledComponent && model.wzElement === 'ampersand') {
         var text = ['+', '~'].indexOf(model.wzName[0]) > -1 ? ' ' + model.wzName : model.wzName;
         ctx.w('&' + text + ' {');
@@ -301,12 +299,9 @@ function writeRule(md, model, ctx, callback) {
         ctx.w(pref + model.wzName + ' {');
         ctx.indent();
     }
-    
-    // log 2
     else if (isStyledComponent) {
         ctx.__isStyledComponent = true;
     }
-    // log 3
     else {
         ctx.w(ruleText + ' {');
         ctx.indent();
@@ -316,13 +311,10 @@ function writeRule(md, model, ctx, callback) {
         if (err) {
             return callback(err);
         }
-        
-        // log 11
         if (isInsideStyledComponent) {
             ctx.deindent();
             ctx.w('}');
         }
-        // log 12
         else {
             if (!!isStyledComponent == false) {
                 ctx.deindent();
@@ -336,8 +328,6 @@ function writeRule(md, model, ctx, callback) {
             if (err) {
                 return callback(err);
             }
-            
-            // log 13
             if (isStyledComponent) {
                 ctx.__isStyledComponent = false;
             }
@@ -359,7 +349,6 @@ function getWriteProperty(ctx) {
                         if (err) {
                             return callback(err);
                         }
-                        // log myname, 'svgModel', svgModel
                         ctx.wizziFactory.generateArtifact(svgModel, 'generated from css model', 'svg/document', {
                             CRLF: '', 
                             forCssImage: true, 
@@ -369,7 +358,6 @@ function getWriteProperty(ctx) {
                             if (err) {
                                 return callback(err);
                             }
-                            // log myname, 'artifactText', artifactText
                             ctx.w('background-image: url("data:image/svg+xml,' + artifactText + '");');
                             return callback(null);
                         }
@@ -387,7 +375,6 @@ function getWriteProperty(ctx) {
                     if (err) {
                         return callback(err);
                     }
-                    // log myname, 'Object.keys(jsModel)', Object.keys(jsModel)
                     ctx.wizziFactory.generateArtifact(jsModel, 'generated from css model', 'js/module', {
                         noGeneratorComments: true, 
                         noUseStrict: true
@@ -406,7 +393,6 @@ function getWriteProperty(ctx) {
                             return ret.join('\n');
                         }
                         var code = "$" + "{props => {\n" + _indent(artifactText,4) + "\n}}";
-                        // log myname, 'artifactText', code
                         ctx.w(code);
                         return callback(null);
                     }

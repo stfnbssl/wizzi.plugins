@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    artifact generator: C:\My\wizzi\stfnbssl\previous\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\artifacts\js\module\gen\react\html.js.ittf
-    utc time: Wed, 10 Jan 2024 14:54:20 GMT
+    utc time: Sun, 28 Jan 2024 14:34:30 GMT
 */
 'use strict';
 var u = require('../utils/stm');
@@ -19,23 +19,36 @@ md.htmlelement = function(cnt, model, tag, text, ctx, attrs, callback) {
     if (model.wzElement === '_style') {
         return callback(null);
     }
+    // loog 'react.html.htmlelement', 1 , tag
+    
+    // loog 'react.html.htmlelement', 2  , tag
     if (u.parentIsHtmlElement(model) == false) {
+        
+        // loog 'react.html.htmlelement', 3  , tag
         if (u.isArgumentOfCall(model)) {
             ctx.w();
         }
+        // loog 'react.html.htmlelement', 4  , tag
         else {
             ctx.write(' (');
             ctx.w();
         }
     }
-    htmlelement_open(cnt, model, ctx, tag, attrs, (err, done) => {
+    htmlelement_open(cnt, model, ctx, tag, text, attrs, (err, done) => {
     
         if (err) {
             return callback(err);
         }
+        
+        // loog 'react.html.htmlelement', 5  , tag
         if (done) {
+            if (u.parentIsHtmlElement(model) == false && u.isArgumentOfCall(model) == false) {
+                ctx.w(' )');
+            }
+            ctx.deindent();
             return callback(null);
         }
+        // loog 'react.html.htmlelement', 6  , tag
         else {
             htmlelement_end(cnt, model, ctx, tag, text, (err, notUsed) => {
             
@@ -52,7 +65,7 @@ md.htmlelement = function(cnt, model, tag, text, ctx, attrs, callback) {
     )
 }
 ;
-function htmlelement_open(cnt, model, ctx, tag, attrs, callback) {
+function htmlelement_open(cnt, model, ctx, tag, text, attrs, callback) {
     ctx.indent();
     // begin open tag and write attributes
     ctx.write("<" + tag);
@@ -79,12 +92,27 @@ function htmlelement_open(cnt, model, ctx, tag, attrs, callback) {
         
         // end of open tag
         if (model.statements.length > 0) {
-            ctx.w(">");
+            if (text && text.length > 0) {
+                ctx.write(">");
+                ctx.w(text);
+            }
+            else {
+                ctx.w(">");
+            }
             return callback(null, false);
         }
         // end of tag
         else {
-            ctx.w(" />");
+            if (text && text.length > 0) {
+                ctx.write(">");
+                ctx.write(text);
+                ctx.write("</");
+                ctx.write(tag);
+                ctx.w(">");
+            }
+            else {
+                ctx.w(" />");
+            }
             return callback(null, true);
         }
     }
@@ -121,7 +149,6 @@ function htmlelement_attribute(cnt, a, ctx, callback) {
 }
 function htmlelement_end(cnt, model, ctx, tag, text, callback) {
     if (text) {
-        ctx.w(text);
     }
     cnt.genItems(model.statements, ctx, {
         indent: false
@@ -132,14 +159,21 @@ function htmlelement_end(cnt, model, ctx, tag, text, callback) {
         }
         ctx.w("</" + tag + ">");
         ctx.deindent();
+        // loog 'react.html.htmlelement', 11
+        
+        // loog 'react.html.htmlelement', 12
         if (u.parentIsHtmlElement(model)) {
             ctx.w();
         }
+        // loog 'react.html.htmlelement', 13
         else {
+            
+            // loog 'react.html.htmlelement', 14
             
             // _ ctx.write(')')
             if (u.isArgumentOfCall(model)) {
             }
+            // loog 'react.html.htmlelement', 15
             // _ ctx.w(');') // 7/4/2017
             else {
                 ctx.w(')');

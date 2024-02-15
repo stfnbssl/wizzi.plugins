@@ -2,14 +2,14 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.css\.wizzi-override\lib\wizzifiers\css\wizzifier.js.ittf
-    utc time: Tue, 11 Apr 2023 19:38:15 GMT
+    utc time: Wed, 31 Jan 2024 05:56:49 GMT
 */
 'use strict';
 var util = require('util');
 var async = require('async');
 var stringify = require('json-stringify-safe');
 var verify = require('wizzi-utils').verify;
-var lineparser = require('../utils/lineparser');
+var lineParser = require('../utils/lineParser');
 var file = require('wizzi-utils').file;
 var cloner = require('../utils/cloner');
 var ittfwriter = require("../utils/ittfwriter");
@@ -120,7 +120,6 @@ function wizzify(tobeWizzified, options, callback) {
         if (err) {
             return callback(err);
         }
-        // log stringify(syntax, null, 2)
         
         // standard
         if (false) {
@@ -134,7 +133,6 @@ function wizzify(tobeWizzified, options, callback) {
             return callback(null, root);
         }
         // simple format
-        // log "wizziTree", root
         else {
             var root = format(syntax);
             return callback(null, root);
@@ -544,10 +542,7 @@ format['keyframe'] = function(ast) {
 }
 ;
 format['import'] = function(ast) {
-    /**
-        console.log('import', util.inspect(ast, {
-            depth: null
-         }))*/
+    //
     var ret = {
         tag: 'import', 
         name: ast.import, 
@@ -557,10 +552,7 @@ format['import'] = function(ast) {
 }
 ;
 format['charset'] = function(ast) {
-    /**
-        console.log('charset', util.inspect(ast, {
-            depth: null
-         }))*/
+    //
     var ret = {
         tag: 'charset', 
         name: ast.charset, 

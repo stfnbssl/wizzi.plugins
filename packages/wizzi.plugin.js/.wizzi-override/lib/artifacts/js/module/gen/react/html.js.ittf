@@ -26,10 +26,14 @@ module wizzi.plugin.js.artifacts.module.gen.react.html
 			if model.wzElement === '_style'
 				r_cb()
 			
+			# loog 'react.html.htmlelement', 1 , tag
 			if u.parentIsHtmlElement(model) == false
+				# loog 'react.html.htmlelement', 2  , tag
 				if u.isArgumentOfCall(model)
+					# loog 'react.html.htmlelement', 3  , tag
 					_ ctx.w()
 				else
+					# loog 'react.html.htmlelement', 4  , tag
 					_ ctx.write(' (')
 					_ ctx.w()
 			
@@ -38,11 +42,17 @@ module wizzi.plugin.js.artifacts.module.gen.react.html
 				@ model
 				@ ctx
 				@ tag
+				@ text
 				@ attrs
 				a_cb(done)
-                    if done
-                        r_cb()
-                    else
+					if done
+						# loog 'react.html.htmlelement', 5  , tag
+						if u.parentIsHtmlElement(model) == false && u.isArgumentOfCall(model) == false
+							_ ctx.w(' )')
+						_ ctx.deindent()
+						r_cb()
+					else
+						# loog 'react.html.htmlelement', 6  , tag
                         _ htmlelement_end
                             @ cnt
                             @ model
@@ -59,6 +69,7 @@ module wizzi.plugin.js.artifacts.module.gen.react.html
 		param model
 		param ctx
 		param tag
+		param text
 		param attrs
 		param callback
 
@@ -76,11 +87,22 @@ module wizzi.plugin.js.artifacts.module.gen.react.html
 			$append next
                 # loog 'htmlelement_open.model.statements.length', model.statements.length
                 if model.statements.length > 0
-				    _ ctx.w(">");
+					if text && text.length > 0
+						_ ctx.write(">");
+						_ ctx.w(text);
+					else
+				    	_ ctx.w(">");
 				    # end of open tag
 				    r_cb(false)
                 else
-				    _ ctx.w(" />");
+					if text && text.length > 0
+						_ ctx.write(">");
+						_ ctx.write(text);
+						_ ctx.write("</");
+						_ ctx.write(tag);
+						_ ctx.w(">");
+					else
+				    	_ ctx.w(" />");
 				    # end of tag
 				    r_cb(true)
 
@@ -120,7 +142,7 @@ module wizzi.plugin.js.artifacts.module.gen.react.html
 		param callback
 
 		if text
-			_ ctx.w(text)
+			$$ _ ctx.w(text) 23/1/24 see htmlelement_open
 
 		_ cnt.genItems
 			@ model.statements
@@ -130,12 +152,17 @@ module wizzi.plugin.js.artifacts.module.gen.react.html
 			a_cb()
 				_ ctx.w("</" + tag + ">");
 				_ ctx.deindent()
+				# loog 'react.html.htmlelement', 11 
 				if u.parentIsHtmlElement(model)
+					# loog 'react.html.htmlelement', 12 
 					_ ctx.w()
 				else
+					# loog 'react.html.htmlelement', 13 
 					if u.isArgumentOfCall(model)
+						# loog 'react.html.htmlelement', 14 
 						# _ ctx.write(')')
 					else
+						# loog 'react.html.htmlelement', 15 
 						# _ ctx.w(');') // 7/4/2017
 						_ ctx.w(')')
 				r_cb()

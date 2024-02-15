@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.css\.wizzi-override\lib\artifacts\css\document\gen\main.js.ittf
-    utc time: Tue, 11 Apr 2023 19:38:15 GMT
+    utc time: Wed, 31 Jan 2024 05:56:49 GMT
 */
 'use strict';
 
@@ -12,7 +12,7 @@ var util = require('util');
 var path = require('path');
 var async = require('async');
 var verify = require('wizzi-utils').verify;
-var lineparser = require('wizzi-utils').helpers.lineparser;
+var lineParser = require('wizzi-utils').helpers.lineParser;
 var errors = require('../../../../../errors');
 var included_writers = require('./included_writers');
 var postcss = require("postcss");
@@ -283,7 +283,18 @@ function getAttrs(e) {
     return retval;
 }
 
-//
+/**
+     params
+     string errorName
+     # the error name or number
+     string method
+     string message
+     # optional
+     { model
+     # optional
+     { innerError
+     # optional
+*/
 function error(errorName, method, message, model, innerError) {
     return new errors.WizziPluginError(message, model, {
             errorName: errorName, 

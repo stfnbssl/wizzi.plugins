@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    artifact generator: C:\My\wizzi\stfnbssl\previous\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\artifacts\js\module\gen\statements\debug.js.ittf
-    utc time: Wed, 10 Jan 2024 14:54:20 GMT
+    utc time: Sun, 28 Jan 2024 14:34:30 GMT
 */
 'use strict';
 var util = require('util');
@@ -197,29 +197,6 @@ md.load = function(cnt) {
         if (model.wzName && model.wzName.length > 0) {
             ctx.w('console.log("\x1b[31m%s\x1b[0m", ' + model.wzName + ');');
         }
-        return callback(null);
-    }
-    ;
-    cnt.stm.chalk = function(model, ctx, callback) {
-        if (typeof callback === 'undefined') {
-            throw new Error('Missing callback parameter in cnt.stm: ' + myname + '.chalk');
-        }
-        if (typeof callback !== 'function') {
-            throw new Error('The callback parameter must be a function. In ' + myname + '.chalk. Got: ' + callback);
-        }
-        var sw = [];
-        var i, i_items=model.wzName.split(','), i_len=model.wzName.split(',').length, item;
-        for (i=0; i<i_len; i++) {
-            item = model.wzName.split(',')[i];
-            var nv = lineParser.parseNameValueRaw(item, model);
-            if (nv.value()) {
-                sw.push('chalk.' + nv.name() + '(' + nv.value() + ')')
-            }
-            else {
-                sw.push('chalk.red(' + nv.name() + ')')
-            }
-        }
-        ctx.w('console.log(' + sw.join(', ') + ')')
         return callback(null);
     }
     ;

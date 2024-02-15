@@ -1,0 +1,42 @@
+module
+    kind es6
+    const path = require("path")
+    const spawnUtils = require("../services/spawn")
+    +
+    $include plugins
+    +
+    function doGenerate
+        param ndx
+        var pluginName = pluginList[ndx]
+        if !pluginName
+            success "All generations done"
+            return
+        _ executeWizziGeneration
+            @ pluginName
+            a_cb()
+                success "*** Generation of plugin " + pluginName + " DONE ***"
+                _ doGenerate
+                    @ ndx + 1
+    _ doGenerate
+        @ 0
+
+    function executeWizziGeneration
+        param pluginName
+        param callback
+        log 'Starting generation of ', pluginName
+        const PowerShell = spawnUtils.PowerShell
+        let ps
+            new PowerShell
+                @ "wz override"
+                {
+                    @ cwd "C:/My/wizzi/stfnbssl/wizzi.plugins/packages/wizzi.plugin." + pluginName
+        _ spawnUtils.psOutput
+            @ ps
+            {
+            =>
+                param err
+                param stdout
+                param stderr
+                log "powershell 2", err || stderr || stdout
+                _ callback
+                    @ null

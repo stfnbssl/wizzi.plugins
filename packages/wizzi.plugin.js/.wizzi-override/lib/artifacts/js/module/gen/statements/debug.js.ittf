@@ -52,6 +52,7 @@
             _ ctx.w('console.log("\x1b[31m%s\x1b[0m", ' + model.wzName + ');'); 
 		r_cb()
 
+	$* Via 28/1/2024, waiting for damage
 	stm( chalk )
 		var sw = []
 		foreach item in model.wzName.split(',')
@@ -65,3 +66,4 @@
 		_ ctx.w
 			@ 'console.log(' + sw.join(', ') + ')'
 		r_cb()
+	*$

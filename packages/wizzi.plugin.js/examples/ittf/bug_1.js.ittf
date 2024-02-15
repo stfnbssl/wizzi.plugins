@@ -1,0 +1,22 @@
+module
+    kind react
+    function Test
+        return
+            div
+                < React.Fragment
+                $$ TODO <> for < React.Fragment
+                div Ok
+                    h1 Hello
+                    div
+                        iif newsData.length > 0
+                            then
+                                (
+                                    _ newsData.map
+                                        => 
+                                            param news
+                                            param i
+                                            < NewsCard 
+                                                @ key {i}
+                                                @ news {news}
+                            else
+                                < CircularProgress 

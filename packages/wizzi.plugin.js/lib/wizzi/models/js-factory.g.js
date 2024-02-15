@@ -1,7 +1,7 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    artifact generator: C:\My\wizzi\stfnbssl\previous\wizzi.plugins\packages\wizzi.plugin.wzschema\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@0.7.13
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\lib\artifacts\wfschema\factory\gen\ittf\wfschema-factory.js.ittf
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\previous\wizzi.plugins\packages\wizzi.plugin.wzschema\lib\artifacts\wfschema\factory\gen\ittf\wfschema-factory.js.ittf
 */
 'use strict';
 //

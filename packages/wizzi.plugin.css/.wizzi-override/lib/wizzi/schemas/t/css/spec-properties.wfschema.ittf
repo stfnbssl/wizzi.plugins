@@ -198,7 +198,11 @@
 	e grid-template-rows : property
 	e_tag( gridTemplateAreas, grid-template-areas, property )
 		m wzinitialize
-			var sb = [this.wzName]
+			var sb = []
+			if this.wzName && this.wzName.length > 0
+				_ sb.push('"' + this.wzName + '"\n    ')
+			else
+				_ sb.push('\n    ')
 			foreach item in this.properties
 				_ sb.push('"' + item.wzName + '"\n    ')
 			set this.wzName = sb.join(' ')
