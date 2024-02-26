@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.json\.wizzi-override\lib\artifacts\json\toyaml\gen\main.js.ittf
-    utc time: Tue, 11 Apr 2023 15:04:16 GMT
+    utc time: Sun, 25 Feb 2024 14:32:59 GMT
 */
 'use strict';
 
@@ -11,7 +11,7 @@ var util = require('util');
 var path = require('path');
 var async = require('async');
 var verify = require('wizzi-utils').verify;
-var lineparser = require('wizzi-utils').helpers.lineparser;
+var lineParser = require('wizzi-utils').helpers.lineParser;
 var errors = require('../../../../../errors');
 var yaml = require('js-yaml');
 
@@ -29,6 +29,10 @@ md.gen = function(model, ctx, callback) {
     }
     try {
         delete model.___exportName
+        // const yamlData = yaml.load(data);
+        // //Write JSON to Yml
+        // const jsonData = JSON.stringify(yamlData);
+        console.log('toyam.main.model', JSON.stringify(model, null, 4), __filename);
         ctx.w(yaml.dump(model, {
             flowLevel: 100, 
             styles: {
@@ -97,7 +101,18 @@ md.genItem = function(model, ctx, callback) {
 }
 ;
 
-//
+/**
+     params
+     string errorName
+     # the error name or number
+     string method
+     string message
+     # optional
+     { model
+     # optional
+     { innerError
+     # optional
+*/
 function error(errorName, method, message, model, innerError) {
     return new errors.WizziPluginError(message, model, {
             errorName: errorName, 

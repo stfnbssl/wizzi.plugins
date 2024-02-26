@@ -15,6 +15,10 @@
             var yaml = require('js-yaml')
         $append main
             delete model.___exportName
+            # const yamlData = yaml.load(data);
+            # //Write JSON to Yml
+            # const jsonData = JSON.stringify(yamlData);
+            log 'toyam.main.model', JSON.stringify(model, null, 4)
             _ ctx.w
                 _ yaml.dump
                     @ model
@@ -23,4 +27,5 @@
                         { styles
                             @ '!!null' 'camelcase' 
             r_cb(ctx)
+
 

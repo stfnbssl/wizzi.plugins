@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.json\.wizzi-override\root\index.js.ittf
-    utc time: Tue, 11 Apr 2023 15:04:14 GMT
+    utc time: Sun, 25 Feb 2024 14:32:58 GMT
 */
 'use strict';
 
@@ -14,7 +14,9 @@ var errors = require('./errors');
 var md = module.exports = {};
 md.name = 'wizzi.plugin.json.index';
 
-//
+/**
+     FactoryPlugin class
+*/
 class FactoryPlugin {
     constructor(wizziPackage, provides) {
         this.file = wizziPackage.file;
@@ -43,7 +45,11 @@ class FactoryPlugin {
         return this.provides;
     }
     
-    //
+    /**
+         Retrieve a WizziModelFactory by its schema name
+         searching the loader in this package.
+         No search up in "node_modules" folders.
+    */
     getModelFactory(schemaName) {
         var factory = this.modelFactories[schemaName] || null;
         if (factory == null) {
@@ -66,7 +72,11 @@ class FactoryPlugin {
         return factory;
     }
     
-    //
+    /**
+         retrieve a ModelTransformer by its name
+         searching the loader in this package
+         No search up in "node_modules" folders.
+    */
     getModelTransformer(transformerName) {
         
         var transformer = this.modelTransformers[transformerName] || null;
@@ -90,7 +100,11 @@ class FactoryPlugin {
         return transformer;
     }
     
-    //
+    /**
+         Retrieve an ArtifactGenerator by its name
+         Generators are searched in this package
+         No search up in "node_modules" folders.
+    */
     getArtifactGenerator(generationName) {
         
         var generator = this.artifactGenerators[generationName] || null;
@@ -114,7 +128,11 @@ class FactoryPlugin {
         return generator;
     }
     
-    //
+    /**
+         Retrieve a Wizzifier by its name
+         Wizzifiers are searched in this package
+         No search up in "node_modules" folders.
+    */
     getWizzifier(wizzifierName) {
         
         var wizzifier = this.wizzifiers[wizzifierName] || null;
@@ -138,7 +156,11 @@ class FactoryPlugin {
         return wizzifier;
     }
     
-    //
+    /**
+         Retrieve a WizziSchema definition in JSON format
+         searching the loader in this package.
+         No search up in "node_modules" folders.
+    */
     getSchemaDefinition(schemaName) {
         var definition = this.schemaDefinitions[schemaName] || null;
         if (definition == null) {
@@ -172,6 +194,7 @@ function error(errorName, method, message, innerError) {
 }
 
 module.exports = {
+    version: '0.8.2', 
     provides: {
         schemas: [
             'json'

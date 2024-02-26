@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.json\.wizzi-override\lib\artifacts\json\extended\trans\main.js.ittf
-    utc time: Tue, 11 Apr 2023 15:04:16 GMT
+    utc time: Sun, 25 Feb 2024 14:32:59 GMT
 */
 'use strict';
 
@@ -10,7 +10,7 @@
 var util = require('util');
 var async = require('async');
 var verify = require('wizzi-utils').verify;
-var lineparser = verify.lineParser;
+var lineParser = verify.lineParser;
 var errors = require('../../../../../errors');
 
 var md = module.exports = {};
@@ -41,7 +41,18 @@ md.trans = function(model, ctx, callback) {
 }
 ;
 
-//
+/**
+     params
+     string errorName
+     # the error name or number
+     string method
+     string message
+     # optional
+     { model
+     # optional
+     { innerError
+     # optional
+*/
 function error(errorName, method, message, model, innerError) {
     return new errors.WizziPluginError(message, model, {
             errorName: errorName, 

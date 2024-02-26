@@ -2,14 +2,14 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.json\.wizzi-override\lib\wizzifiers\json\wizzifier.js.ittf
-    utc time: Tue, 11 Apr 2023 15:04:16 GMT
+    utc time: Sun, 25 Feb 2024 14:32:59 GMT
 */
 'use strict';
 var util = require('util');
 var async = require('async');
 var stringify = require('json-stringify-safe');
 var verify = require('wizzi-utils').verify;
-var lineparser = require('../utils/lineparser');
+var lineParser = require('../utils/lineParser');
 var file = require('wizzi-utils').file;
 var cloner = require('../utils/cloner');
 var ittfwriter = require("../utils/ittfwriter");
@@ -27,7 +27,6 @@ function parseInternal(tobeWizzified, options, callback) {
      };
     json_parser.parse(tobeWizzified, {
         onObject: function(open) {
-            // log  'onObject', open
             if (open) {
                 var n = {
                     tag: '{', 
@@ -38,14 +37,11 @@ function parseInternal(tobeWizzified, options, callback) {
                 wizziTree.children.push(n);
                 wizziTree = n;
             }
-            // log  "onObject wizziTree.tag", wizziTree.tag
-            // log  "onObject wizziTree.tag", wizziTree.tag
             else {
                 wizziTree = wizziTree.parent;
             }
         }, 
         onArray: function(open) {
-            // log  'onArray', open
             if (open) {
                 var n = {
                     tag: '[', 
@@ -57,14 +53,11 @@ function parseInternal(tobeWizzified, options, callback) {
                 wizziTree = n;
             }
             // FIXME
-            // log  "onArray wizziTree.tag", wizziTree.tag
-            // log  "onArray wizziTree.tag", wizziTree.tag
             else {
                 wizziTree = wizziTree.parent;
             }
         }, 
         onPropName: function(name) {
-            // log  "onPropName", name
             var n = {
                 tag: name, 
                 name: '', 
@@ -72,12 +65,9 @@ function parseInternal(tobeWizzified, options, callback) {
              };
             n.parent = wizziTree;
             wizziTree.children.push(n);
-            // log  wizziTree.tag
             wizziTree = n;
-            // log  wizziTree.tag
         }, 
         onProp: function(name, value) {
-            // log  "onProp", name, value
             var n = {
                 tag: name, 
                 name: value, 
@@ -87,7 +77,6 @@ function parseInternal(tobeWizzified, options, callback) {
             wizziTree.children.push(n);
         }, 
         onObjectProp: function(name) {
-            // log  "onObjectProp", name
             var n = {
                 tag: '{', 
                 name: name, 
@@ -98,7 +87,6 @@ function parseInternal(tobeWizzified, options, callback) {
             wizziTree = n;
         }, 
         onArrayProp: function(name) {
-            // log  "onObjectProp", name
             var n = {
                 tag: '[', 
                 name: name, 
@@ -109,11 +97,9 @@ function parseInternal(tobeWizzified, options, callback) {
             wizziTree = n;
         }, 
         onClosePropName: function() {
-            // log  'onClosePropName'
             wizziTree = wizziTree.parent;
         }, 
         onArrayValue: function(value) {
-            // log  "onArrayValue", value
             var n = {
                 tag: value, 
                 name: '', 
@@ -122,7 +108,6 @@ function parseInternal(tobeWizzified, options, callback) {
             wizziTree.children.push(n);
         }, 
         onHandlebar: function(hb) {
-            // log  "onHandlebar", hb
             var n = {
                 tag: '{{', 
                 name: hb, 
@@ -138,7 +123,6 @@ function parseInternal(tobeWizzified, options, callback) {
         while (wizziTree.parent != null) {
             wizziTree = wizziTree.parent;
         }
-        // log  'wizziTree\n', wizziTree
         var synthax = wizziTree.children[0];
         if (!synthax) {
             return callback(new Error('Json.Wizzifier.Wizzi parse failed. wizziTree: ' + util.inspect(wizziTree, {depth: 2})));
