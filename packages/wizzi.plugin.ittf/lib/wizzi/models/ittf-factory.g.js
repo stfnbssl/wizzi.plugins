@@ -2,11 +2,13 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ittf\.wizzi-override\lib\wizzi\models\ittf-factory.g.js.ittf
-    utc time: Tue, 11 Apr 2023 19:36:14 GMT
+    utc time: Wed, 13 Mar 2024 07:14:23 GMT
 */
 'use strict';
 var verify = require('wizzi-utils').verify;
-//
+/**
+     Pseudo schema ittf
+*/
 var path = require('path');
 var util = require('util');
 var stringify = require('json-stringify-safe');
@@ -17,7 +19,16 @@ var ittfmodel = require('./ittf-model.g');
 var md = module.exports = {};
 
 // called from the wizzi.wizziFactory.getLoadModel method
-// params
+/**
+    params
+        { wizziObject
+            func loadMTree
+             api-ref wizzi-mtree.loader.loadMTree
+            { file
+             api-ref wizzi-utils.file
+            { errors
+             type WizziModelLoadError
+*/
 md.createLoadModel = function(wizziObject) {
     if (verify.isObject(wizziObject) === false) {
         return error(

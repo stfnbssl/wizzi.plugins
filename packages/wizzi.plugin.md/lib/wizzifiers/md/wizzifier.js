@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.md\.wizzi-override\lib\wizzifiers\md\wizzifier.js.ittf
-    utc time: Tue, 13 Jun 2023 15:15:41 GMT
+    utc time: Wed, 13 Mar 2024 07:14:36 GMT
 */
 'use strict';
 var util = require('util');
@@ -12,7 +12,7 @@ var verify = require('wizzi-utils').verify;
 var lineParser = require('../utils/lineParser');
 var file = require('wizzi-utils').file;
 var cloner = require('../utils/cloner');
-var ittfwriter = require("../utils/ittfwriter");
+var ittfWriter = require("../utils/ittfWriter");
 var matter = require('gray-matter');
 var md_parser = require('marked');
 var md_Lexer = require('marked').Lexer;
@@ -89,7 +89,7 @@ md.getWizziIttf = function(input, options, callback) {
                 return callback(err);
             }
             result = cloner(result, options);
-            callback(null, ittfwriter.stringify(result, options))
+            callback(null, ittfWriter.stringify(result, options))
         }
         )
     }

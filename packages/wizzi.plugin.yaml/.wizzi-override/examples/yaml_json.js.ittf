@@ -1,0 +1,29 @@
+module
+    kind jsfile
+    import path
+    const yaml_parser = require('js-yaml')
+    +
+    var file = require('wizzi-utils').file
+    +
+    let arg = process.argv[2]
+    const moduleName = arg && arg.length > 0 ? arg : 'first'
+    var yamlsource
+        _ path.join
+            @ __dirname
+            @ 'data'
+            @ moduleName + '.yaml'
+    const yamlText = file.read(yamlsource)
+    const jsonContent =  yaml_parser.load(yamlText)
+    _ file.write
+        _ path.join
+            @ __dirname
+            @ 'results'
+            @ moduleName + '.json'
+        _ JSON.stringify(jsonContent, null, 4)
+    _ file.write
+        _ path.join
+            @ __dirname
+            @ 'results'
+            @ moduleName + '.json.yaml'
+        _ yaml_parser.dump
+            @ jsonContent

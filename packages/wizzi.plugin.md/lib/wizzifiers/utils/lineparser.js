@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.md\.wizzi-override\lib\wizzifiers\utils\lineparser.js.ittf
-    utc time: Tue, 13 Jun 2023 15:15:41 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.md\.wizzi-override\lib\wizzifiers\utils\lineParser.js.ittf
+    utc time: Wed, 13 Mar 2024 07:14:36 GMT
 */
 'use strict';
 var errors = require('../errors');
@@ -264,7 +264,15 @@ md.parseInterpolation = function(text, node, handlebar, ng) {
          };
 }
 ;
-//
+/**
+     ignore quotes
+     name = first not (blank or tab) char sequence
+     value = all remaining chars after name + (blank or tab)
+     example
+     "trip to the london bridge"
+     name() = "trip"
+     value() = "to the london bridge"
+*/
 md.parseNameValueRaw = function(text, node) {
     var name = '',
         value = '';
@@ -312,7 +320,17 @@ md.parseNameValueRaw = function(text, node) {
          };
 }
 ;
-//
+/**
+     ignore quotes
+     category = first not (blank or tab) char sequence
+     name = second not (blank or tab) char sequence after category + (blank or tab)
+     value = all remaining chars after category + (blank or tab) + name + (blank or tab)
+     example
+     "leisure trip to the london bridge"
+     category() = "leisure"
+     name() = "trip"
+     value() = "to the london bridge"
+*/
 md.parseCategoryNameValue = function(text, node) {
     var nv1 = md.parseNameValueRaw(text, node);
     console.log('parseCategoryNameValue 1v', nv1.value())

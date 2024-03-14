@@ -145,85 +145,218 @@ var dartBase = (function () {
 
 _md.dartBase = dartBase;
 
-// element node
-var node = (function (dartBase) {
-    _inherits(node, dartBase);
-    function node(name, sourceLineInfo) {
-        _get(Object.getPrototypeOf(node.prototype), 'constructor', this).call(this, name,sourceLineInfo);
-        _classCallCheck(this, node);
-        this.wzElement = "node";
-        // relation node
-        this.nodes = [];
+// element statement
+var statement = (function (dartBase) {
+    _inherits(statement, dartBase);
+    function statement(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(statement.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, statement);
+        this.wzElement = "statement";
+        // relation statement
+        this.statements = [];
     }
-    node.prototype.addNode = function(name, sourceLineInfo) {
-        var retval = new _md.node(name, sourceLineInfo);
+    statement.prototype.addStatement = function(name, sourceLineInfo) {
+        var retval = new _md.statement(name, sourceLineInfo);
         retval.wzParent = this;
-        this.nodes.push(retval);
+        this.statements.push(retval);
         return retval;
     }
-    node.prototype.getNode = function(name) {
+    statement.prototype.getStatement = function(name) {
         var found = null;
-        this.nodes.forEach(function(item) {
+        this.statements.forEach(function(item) {
             found = found || (item.wzName === name ? item : null);
         })
         return found;
     }
-    node.prototype.loadChild = function(child) {
+    statement.prototype.loadChild = function(child) {
         var name = child.n.toLowerCase();
-        if (name === 'dart') {
-            return this.wzLoadToChildColl(child, _md.dart, this.nodes);
+        if (name === '#') {
+            return this.wzLoadToChildColl(child, _md.statement, this.statements);
         }
-        if (name === 'node') {
-            return this.wzLoadToChildColl(child, _md.node, this.nodes);
+        if (name === '(') {
+            return this.wzLoadToChildColl(child, _md.paren, this.statements);
+        }
+        if (name === '+') {
+            return this.wzLoadToChildColl(child, _md.taggedline, this.statements);
+        }
+        if (name === '[') {
+            return this.wzLoadToChildColl(child, _md.bracket, this.statements);
+        }
+        if (name === '{') {
+            return this.wzLoadToChildColl(child, _md.block, this.statements);
+        }
+        if (name === 'if') {
+            return this.wzLoadToChildColl(child, _md.xif, this.statements);
+        }
+        if (name === 'for') {
+            return this.wzLoadToChildColl(child, _md.xfor, this.statements);
+        }
+        if (name === 'dart') {
+            return this.wzLoadToChildColl(child, _md.dart, this.statements);
+        }
+        if (name === 'while') {
+            return this.wzLoadToChildColl(child, _md.xwhile, this.statements);
+        }
+        if (name === 'codeline') {
+            return this.wzLoadToChildColl(child, _md.codeline, this.statements);
         }
         return false;
     }
-    node.prototype.loadFromNode = function(node) {
+    statement.prototype.loadFromNode = function(node) {
         node.children.forEach((item) => {
         
             var loaded = this.loadChild(item);
             if (!loaded) {
-                item.v = item.n + ' ' + item.v;
-                item.n = 'text';
-                loaded = this.loadChild(item);
-                if (!loaded) {
-                    throw new _md.dartModelException("Tag not recognized: " + item.n, item, this);
-                }
+                throw new _md.dartModelException("Tag not recognized: " + item.n, item, this);
             }
         }
         )
     }
-    node.prototype.wzVerify = function(ctx) {
-        this.nodes.forEach(item => 
+    statement.prototype.wzVerify = function(ctx) {
+        this.statements.forEach(item => 
         
             item.wzVerify(ctx)
         )
         _md.dartBase.prototype.wzVerify.call(this, ctx);
     }
-    node.prototype.wzInitialize = function(ctx) {
-        this.nodes.forEach(item => 
+    statement.prototype.wzInitialize = function(ctx) {
+        this.statements.forEach(item => 
         
             item.wzInitialize(ctx)
         )
         _md.dartBase.prototype.wzInitialize.call(this, ctx);
     }
-    return node;
+    return statement;
 })(dartBase);
 
-_md.node = node;
+_md.statement = statement;
+// element codeline
+var codeline = (function (statement) {
+    _inherits(codeline, statement);
+    function codeline(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(codeline.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, codeline);
+        this.wzElement = "codeline";
+    }
+    return codeline;
+})(statement);
+
+_md.codeline = codeline;
+// element taggedline
+var taggedline = (function (statement) {
+    _inherits(taggedline, statement);
+    function taggedline(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(taggedline.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, taggedline);
+        this.wzElement = "taggedline";
+    }
+    return taggedline;
+})(statement);
+
+_md.taggedline = taggedline;
 // element dart
-var dart = (function (node) {
-    _inherits(dart, node);
+var dart = (function (statement) {
+    _inherits(dart, statement);
     function dart(name, sourceLineInfo) {
         _get(Object.getPrototypeOf(dart.prototype), 'constructor', this).call(this, name,sourceLineInfo);
         _classCallCheck(this, dart);
         this.wzElement = "dart";
     }
+    dart.prototype.loadChild = function(child) {
+        var ok = false, name = child.n.toLowerCase();
+        ok = _md.statement.prototype.loadChild.call(this, child);
+        if (!ok) {
+            return this.wzLoadToChildColl(child, _md.codeline, this.statements);
+        }
+        return ok;
+    }
+    dart.prototype.loadFromNode = function(node) {
+        node.children.forEach((item) => {
+        
+            var loaded = this.loadChild(item);
+            if (!loaded) {
+                throw new _md.dartModelException("Tag not recognized: " + item.n, item, this);
+            }
+        }
+        )
+    }
     return dart;
-})(node);
+})(statement);
 
 _md.dart = dart;
-_md.__tagElementMapping = {  };
+// element block
+var block = (function (statement) {
+    _inherits(block, statement);
+    function block(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(block.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, block);
+        this.wzElement = "block";
+    }
+    return block;
+})(statement);
+
+_md.block = block;
+// element bracket
+var bracket = (function (statement) {
+    _inherits(bracket, statement);
+    function bracket(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(bracket.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, bracket);
+        this.wzElement = "bracket";
+    }
+    return bracket;
+})(statement);
+
+_md.bracket = bracket;
+// element paren
+var paren = (function (statement) {
+    _inherits(paren, statement);
+    function paren(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(paren.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, paren);
+        this.wzElement = "paren";
+    }
+    return paren;
+})(statement);
+
+_md.paren = paren;
+// element xif
+var xif = (function (statement) {
+    _inherits(xif, statement);
+    function xif(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(xif.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, xif);
+        this.wzElement = "xif";
+    }
+    return xif;
+})(statement);
+
+_md.xif = xif;
+// element xfor
+var xfor = (function (statement) {
+    _inherits(xfor, statement);
+    function xfor(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(xfor.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, xfor);
+        this.wzElement = "xfor";
+    }
+    return xfor;
+})(statement);
+
+_md.xfor = xfor;
+// element xwhile
+var xwhile = (function (statement) {
+    _inherits(xwhile, statement);
+    function xwhile(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(xwhile.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, xwhile);
+        this.wzElement = "xwhile";
+    }
+    return xwhile;
+})(statement);
+
+_md.xwhile = xwhile;
+_md.__tagElementMapping = { '#': 'statement', '+': 'taggedline', '{': 'block', '[': 'bracket', '(': 'paren', 'if': 'xif', 'for': 'xfor', 'while': 'xwhile' };
 // model/replaceUnknownElement( )
 var dartModelException = (function () {
     function dartModelException(message, node, instance) {

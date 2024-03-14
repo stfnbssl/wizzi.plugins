@@ -2,11 +2,13 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.yaml\.wizzi-override\lib\wizzi\models\yaml-factory.g.js.ittf
-    utc time: Tue, 11 Apr 2023 14:18:03 GMT
+    utc time: Wed, 13 Mar 2024 07:15:02 GMT
 */
 'use strict';
 var verify = require('wizzi-utils').verify;
-//
+/**
+     Pseudo schema yaml
+*/
 var path = require('path');
 var util = require('util');
 var stringify = require('json-stringify-safe');
@@ -17,7 +19,18 @@ var yamlmodel = require('./yaml-model.g');
 var md = module.exports = {};
 
 // called from the wizzi.wizziFactory.getLoadModel method
-// params
+/**
+    params
+        { wizziObject
+            func loadMTree
+             api-ref wizzi-mtree.loader.loadMTree
+            { file
+             api-ref wizzi-utils.file
+            { errors
+             type WizziModelLoadError
+            { wizziFactory
+             type wizzi.WizziFactory
+*/
 md.createLoadModel = function(wizziObject) {
     if (verify.isObject(wizziObject) === false) {
         return error(

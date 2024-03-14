@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ppt\.wizzi-override\lib\artifacts\ppt\document\gen\main.js.ittf
-    utc time: Wed, 03 May 2023 09:12:34 GMT
+    utc time: Wed, 13 Mar 2024 07:02:15 GMT
 */
 'use strict';
 
@@ -11,7 +11,7 @@ var util = require('util');
 var path = require('path');
 var async = require('async');
 var verify = require('wizzi-utils').verify;
-var lineparser = require('wizzi-utils').helpers.lineparser;
+var lineParser = require('wizzi-utils').helpers.lineParser;
 var errors = require('../../../../../errors');
 
 var myname = 'wizzi.plugin.ppt.artifacts.ppt.document.gen.main';
@@ -123,9 +123,6 @@ function numOrPerc(text) {
 }
 
 md.ppt = function(model, ctx, callback) {
-    // log "ctx.keys", Object.keys(ctx)
-    // log "ctx.values property", ctx.values
-    // log 'tag ppt, nodes', model.nodes.length
     ctx.values.pptStack = [];
     ctx.values.pptCounter = 0;
     ctx.values.pptMainObject = 'ppt_MainObject';
@@ -176,7 +173,6 @@ md.comment = function(model, ctx, callback) {
 
 md.slide = function(model, ctx, callback) {
     var master = verify.isEmpty(model.wzName) == false ? '"' + model.wzName + '"' : '';
-    // log 'tag slide, master', master
     var pptParent = ctx.values.pptStack[ctx.values.pptStack.length-1];
     var pptNode = "ppt_slide_" + (++ctx.values.pptCounter);
     ctx.values.pptStack.push({
@@ -2082,7 +2078,18 @@ function getAttrs(e) {
     return retval;
 }
 
-//
+/**
+     params
+     string errorName
+     # the error name or number
+     string method
+     string message
+     # optional
+     { model
+     # optional
+     { innerError
+     # optional
+*/
 function error(errorName, method, message, model, innerError) {
     return new errors.WizziPluginError(message, model, {
             errorName: errorName, 

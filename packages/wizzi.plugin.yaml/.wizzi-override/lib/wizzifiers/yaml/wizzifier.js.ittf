@@ -17,7 +17,7 @@ module
                         _ yaml_parser.load
                         	@ tobeWizzified
                     _ cleanAST(syntax)
-                    log 'syntax', syntax
+                    # loog 'syntax', syntax
                 catch ex
                     return
                         _ callback
@@ -50,128 +50,151 @@ module
                 param handler
                 for var k in ast
                     var item = ast[k]
+                    # loog 'analizeAstObject', k, item, 'isObject', verify.isObject(item), 'isArray', verify.isArray(item)
                     if verify.isObject(item)
-                        _ handler.onObject(true)
+                        _ handler.onObject(true, k)
                         _ analizeAstObject(item, handler)
                         _ handler.onObject(false)
                     elif verify.isArray(item)
-                        _ handler.onArray(true)
+                        _ handler.onArray(true, k)
                         _ analizeAstArray(item, handler)
                         _ handler.onArray(false)
                     else
                         _ handler.onProp(k, item)
         +
+        var analizeRootAst
+            function
+                param ast
+                param handler
+                if verify.isObject(ast)
+                    _ analizeAstObject
+                        @ ast
+                        @ handler
+                elif verify.isArray(ast)
+                    _ analizeAstArray
+                        @ ast
+                        @ handler
+                else
+                    throw new Error('Should never happen: JSON root is neither object or array')
+        +
         var format
             function
-                param parent
+                param parentIttfNode
                 param ast
                 param options
-                var wizziTree = parent
-                _ analizeAstObject
+                var wizziTree = parentIttfNode
+                _ analizeRootAst
                     @ ast
                     { 
                         @ onObject
                             function 
                                 param open
-                                log  'onObject', open
+                                param name
+                                # loog  'onObject', open
                                 if open
                                     var n
                                         { 
                                             @ tag '{'
-                                            @ name ''
+                                            @ name name
                                             @ children
                                                 [ 
-                                    set n.parent = wizziTree
+                                    set n.parentIttfNode = wizziTree
                                     _ wizziTree.children.push(n)
                                     set wizziTree = n
                                 else
                                     $$ loog "onObject wizziTree.tag", wizziTree.tag
-                                    set wizziTree = wizziTree.parent
+                                    set wizziTree = wizziTree.parentIttfNode
                                     $$ loog "onObject wizziTree.tag", wizziTree.tag
                         @ onArray
                             function
                                 param open
-                                log  'onArray', open
+                                param name
+                                # loog  'onArray', open
                                 if open
                                     var n
                                         { 
                                             @ tag '['
-                                            @ name ''
+                                            @ name name
                                             @ children
                                                 [ 
-                                    set n.parent = wizziTree
+                                    set n.parentIttfNode = wizziTree
                                     _ wizziTree.children.push(n)
                                     set wizziTree = n
                                 else
                                     # FIXME
                                     $$ loog "onArray wizziTree.tag", wizziTree.tag
-                                    set wizziTree = wizziTree.parent
+                                    set wizziTree = wizziTree.parentIttfNode
                                     $$ loog "onArray wizziTree.tag", wizziTree.tag
+                        $*
                         @ onPropName
                             function 
                                 param name
-                                log  "onPropName", name
+                                # loog  "onPropName", name
                                 var n
                                     { 
-                                        @ tag name
+                                        @ tag wizzifyIttfNodeName(name)
                                         @ name ''
                                         @ children
                                             [ 
-                                set n.parent = wizziTree
+                                set n.parentIttfNode = wizziTree
                                 _ wizziTree.children.push(n)
                                 $$ loog wizziTree.tag
                                 set wizziTree = n
                                 $$ loog wizziTree.tag
+                        *$
                         @ onProp
                             function 
                                 param name
                                 param value
-                                log  "onProp", name, value
+                                # loog  "onProp", name, value
                                 var n
                                     { 
-                                        @ tag name
+                                        @ tag wizzifyIttfNodeName(name)
                                         @ name value
                                         @ children
                                             [ 
-                                set n.parent = wizziTree
+                                set n.parentIttfNode = wizziTree
                                 _ wizziTree.children.push(n)
+                        $*
                         @ onObjectProp
                             function 
                                 param name
-                                log  "onObjectProp", name
+                                # loog  "onObjectProp", name
                                 var n
                                     { 
                                         @ tag '{'
                                         @ name name
                                         @ children
                                             [ 
-                                set n.parent = wizziTree
+                                set n.parentIttfNode = wizziTree
                                 _ wizziTree.children.push(n)
                                 set wizziTree = n
                         @ onArrayProp
                             function 
                                 param name
-                                log  "onObjectProp", name
+                                # loog  "onArrayProp", name
                                 var n
                                     { 
                                         @ tag '['
                                         @ name name
                                         @ children
                                             [ 
-                                set n.parent = wizziTree
+                                set n.parentIttfNode = wizziTree
                                 _ wizziTree.children.push(n)
                                 set wizziTree = n
+                        
                         @ onClosePropName
                             function
-                                log  'onClosePropName'
-                                set wizziTree = wizziTree.parent
+                                # loog  'onClosePropName'
+                                set wizziTree = wizziTree.parentIttfNode
+                        *$
                         @ onArrayValue
                             function 
                                 param value
-                                log  "onArrayValue", value
+                                # loog  "onArrayValue", value
                                 var n
                                     { 
-                                        @ tag value
+                                        @ tag wizzifyIttfNodeName(value)
                                         @ name ''
                                         @ children
                                             [ 
@@ -181,6 +204,7 @@ module
             param tobeWizzified
             param options
             param callback
+            # loog 'yaml.wizzify.options', options
             set options = options || {};
             set options.input = tobeWizzified
             set options.stack = []
@@ -193,15 +217,15 @@ module
                     $$ loogstringify(syntax, null, 2)
                     var root
                         { 
-                            @ tag 'yaml'
+                            @ tag verify.isArray(syntax) ? '[' : '{'
                             @ children
                                 [ 
                     _ format(root, syntax, options)
-                    log stringify(root, null, 2)
+                    # loog 'wizzifier.ittf.formatted.syntax', stringify(root, null, 2)
                     return
                         _ callback
                             @ null
-                            @ root$$.children[0]
+                            @ root
         $include helper_functions
         +
         function isKnownType
@@ -211,6 +235,21 @@ module
         function getTypeName
             param type
             return isKnownType(type) ? type.toLowerCase() : type
+        +
+        function wizzifyIttfNodeName
+            param name
+            var ret = []
+            var seen = false
+            for var i=0; i<name.length; i++
+                if name[i] == '(' && seen == false
+                    _ ret.push
+                        @ "$" + "{'('}"
+                    set seen = true
+                else
+                    _ ret.push
+                        @ name[i]
+            return ret.join('')
+        +
         f( Name, name )
             # name( value )
             #

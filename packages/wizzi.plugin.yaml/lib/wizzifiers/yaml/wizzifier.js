@@ -2,17 +2,17 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.yaml\.wizzi-override\lib\wizzifiers\yaml\wizzifier.js.ittf
-    utc time: Tue, 11 Apr 2023 14:18:03 GMT
+    utc time: Wed, 13 Mar 2024 07:15:02 GMT
 */
 'use strict';
 var util = require('util');
 var async = require('async');
 var stringify = require('json-stringify-safe');
 var verify = require('wizzi-utils').verify;
-var lineparser = require('../utils/lineparser');
+var lineParser = require('../utils/lineParser');
 var file = require('wizzi-utils').file;
 var cloner = require('../utils/cloner');
-var ittfwriter = require("../utils/ittfwriter");
+var ittfWriter = require("../utils/ittfWriter");
 var yaml_parser = require('js-yaml');
 var cleanAST = require('./cleanAST');
 
@@ -22,7 +22,7 @@ function parseInternal(tobeWizzified, options, callback) {
         syntax = yaml_parser.load(tobeWizzified)
         ;
         cleanAST(syntax);
-        console.log('syntax', syntax, __filename);
+        // loog 'syntax', syntax
     } 
     catch (ex) {
         return callback(ex);
@@ -59,13 +59,18 @@ md.getWizziTree = function(input, options, callback) {
         if (err) {
             return callback(err);
         }
-        if (options.syntaxOutFile) {
+        if (options.syntaxOutFile || options.onSyntax) {
             parseInternal(input, options, (err, syntax) => {
             
                 if (err) {
                     return callback(err);
                 }
-                file.write(options.syntaxOutFile, stringify(syntax, null, 2))
+                if (options.syntaxOutFile) {
+                    file.write(options.syntaxOutFile, stringify(syntax, null, 2))
+                }
+                if (options.onSyntax) {
+                    options.onSyntax(syntax)
+                }
             }
             )
         }
@@ -87,7 +92,7 @@ md.getWizziIttf = function(input, options, callback) {
                 return callback(err);
             }
             // set result = cloner(result, options)
-            callback(null, ittfwriter.stringify(result, options))
+            callback(null, ittfWriter.stringify(result, options))
         }
         )
     }
@@ -122,13 +127,14 @@ var analizeAstArray = function(ast, handler) {
 var analizeAstObject = function(ast, handler) {
     for (var k in ast) {
         var item = ast[k];
+        // loog 'analizeAstObject', k, item, 'isObject', verify.isObject(item), 'isArray', verify.isArray(item)
         if (verify.isObject(item)) {
-            handler.onObject(true);
+            handler.onObject(true, k);
             analizeAstObject(item, handler);
             handler.onObject(false);
         }
         else if (verify.isArray(item)) {
-            handler.onArray(true);
+            handler.onArray(true, k);
             analizeAstArray(item, handler);
             handler.onArray(false);
         }
@@ -138,99 +144,68 @@ var analizeAstObject = function(ast, handler) {
     }
 };
 
-var format = function(parent, ast, options) {
-    var wizziTree = parent;
-    analizeAstObject(ast, {
-        onObject: function(open) {
-            console.log('onObject', open, __filename);
+var analizeRootAst = function(ast, handler) {
+    if (verify.isObject(ast)) {
+        analizeAstObject(ast, handler)
+    }
+    else if (verify.isArray(ast)) {
+        analizeAstArray(ast, handler)
+    }
+    else {
+        throw new Error('Should never happen: JSON root is neither object or array');
+    }
+};
+
+var format = function(parentIttfNode, ast, options) {
+    var wizziTree = parentIttfNode;
+    analizeRootAst(ast, {
+        onObject: function(open, name) {
+            // loog  'onObject', open
             if (open) {
                 var n = {
                     tag: '{', 
-                    name: '', 
+                    name: name, 
                     children: []
                  };
-                n.parent = wizziTree;
+                n.parentIttfNode = wizziTree;
                 wizziTree.children.push(n);
                 wizziTree = n;
             }
-            // log  "onObject wizziTree.tag", wizziTree.tag
-            // log  "onObject wizziTree.tag", wizziTree.tag
             else {
-                wizziTree = wizziTree.parent;
+                wizziTree = wizziTree.parentIttfNode;
             }
         }, 
-        onArray: function(open) {
-            console.log('onArray', open, __filename);
+        onArray: function(open, name) {
+            // loog  'onArray', open
             if (open) {
                 var n = {
                     tag: '[', 
-                    name: '', 
+                    name: name, 
                     children: []
                  };
-                n.parent = wizziTree;
+                n.parentIttfNode = wizziTree;
                 wizziTree.children.push(n);
                 wizziTree = n;
             }
             // FIXME
-            // log  "onArray wizziTree.tag", wizziTree.tag
-            // log  "onArray wizziTree.tag", wizziTree.tag
             else {
-                wizziTree = wizziTree.parent;
+                wizziTree = wizziTree.parentIttfNode;
             }
         }, 
-        onPropName: function(name) {
-            console.log("onPropName", name, __filename);
-            var n = {
-                tag: name, 
-                name: '', 
-                children: []
-             };
-            n.parent = wizziTree;
-            wizziTree.children.push(n);
-            // log  wizziTree.tag
-            wizziTree = n;
-            // log  wizziTree.tag
-        }, 
         onProp: function(name, value) {
-            console.log("onProp", name, value, __filename);
+            // loog  "onProp", name, value
             var n = {
-                tag: name, 
+                tag: wizzifyIttfNodeName(name), 
                 name: value, 
                 children: []
              };
-            n.parent = wizziTree;
+            n.parentIttfNode = wizziTree;
             wizziTree.children.push(n);
-        }, 
-        onObjectProp: function(name) {
-            console.log("onObjectProp", name, __filename);
-            var n = {
-                tag: '{', 
-                name: name, 
-                children: []
-             };
-            n.parent = wizziTree;
-            wizziTree.children.push(n);
-            wizziTree = n;
-        }, 
-        onArrayProp: function(name) {
-            console.log("onObjectProp", name, __filename);
-            var n = {
-                tag: '[', 
-                name: name, 
-                children: []
-             };
-            n.parent = wizziTree;
-            wizziTree.children.push(n);
-            wizziTree = n;
-        }, 
-        onClosePropName: function() {
-            console.log('onClosePropName', __filename);
-            wizziTree = wizziTree.parent;
         }, 
         onArrayValue: function(value) {
-            console.log("onArrayValue", value, __filename);
+            // loog  "onArrayValue", value
             var n = {
-                tag: value, 
+                tag: wizzifyIttfNodeName(value), 
                 name: '', 
                 children: []
              };
@@ -240,6 +215,7 @@ var format = function(parent, ast, options) {
 };
 
 function wizzify(tobeWizzified, options, callback) {
+    // loog 'yaml.wizzify.options', options
     options = options || {};
     options.input = tobeWizzified;
     options.stack = [];
@@ -250,13 +226,12 @@ function wizzify(tobeWizzified, options, callback) {
         if (err) {
             return callback(err);
         }
-        // log stringify(syntax, null, 2)
         var root = {
-            tag: 'yaml', 
+            tag: verify.isArray(syntax) ? '[' : '{', 
             children: []
          };
         format(root, syntax, options);
-        console.log(stringify(root, null, 2), __filename);
+        // loog 'wizzifier.ittf.formatted.syntax', stringify(root, null, 2)
         return callback(null, root);
     }
     )
@@ -520,6 +495,22 @@ function isKnownType(type) {
 function getTypeName(type) {
     return isKnownType(type) ? type.toLowerCase() : type;
 }
+
+function wizzifyIttfNodeName(name) {
+    var ret = [];
+    var seen = false;
+    for (var i=0; i<name.length; i++) {
+        if (name[i] == '(' && seen == false) {
+            ret.push("$" + "{'('}")
+            seen = true;
+        }
+        else {
+            ret.push(name[i])
+        }
+    }
+    return ret.join('');
+}
+
 // process AST node Name
 format.Name = function(parent, node, options) {
     console.log('node : Name ----------------------------------------- parent ittf tag : ', parent.tag);
@@ -546,7 +537,11 @@ format.Name = function(parent, node, options) {
         ]
      };
     // name( value )
-    //
+    /**
+         loog 'Name.tag', ret.tag
+         loog 'Name.name', ret.name
+         loog 'Name.textified', ret.textified
+    */
     // loog '### add ', ret.tag , 'to', parent.tag
     parent.children.push(ret);
 }

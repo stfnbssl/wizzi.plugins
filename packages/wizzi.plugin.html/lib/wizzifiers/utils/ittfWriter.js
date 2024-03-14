@@ -149,7 +149,7 @@ writer.prototype.node = function(node) {
 ;
 function formatName(name) {
     if (verify.isObject(name)) {
-        log('ittfwriter.formatName', name);
+        log('ittfWriter.formatName', name);
     }
     return name && name.trim ? name.trim() : '';
 }

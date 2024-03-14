@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.graphql\.wizzi-override\lib\artifacts\graphql\document\gen\main.js.ittf
-    utc time: Sat, 08 Apr 2023 04:30:16 GMT
+    utc time: Wed, 13 Mar 2024 07:01:37 GMT
 */
 'use strict';
 var verify = require('wizzi-utils').verify;
@@ -32,7 +32,6 @@ md.gen = function gen(model, ctx, callback) {
             'InvalidArgument', 'gen', { parameter: 'ctx', message: 'The ctx parameter must be an object. Received: ' + ctx }
         ));
     }
-    // log myname, 'enter', 'ctx.values', ctx.values
     // check the model is a wizzi model of type 'graphql'
     if (model.wzElement !== 'graphql') {
         return callback(ctx.error(myname + " error: the model paramater should be an 'graphql' wizzi model", model));
@@ -48,7 +47,6 @@ md.gen = function gen(model, ctx, callback) {
 }
 ;
 md.graphql = function(model, ctx, callback) {
-    // log "Object.keys(model)", Object.keys(model), Object.keys(model.selectionSet)
     async.mapSeries(model.typeDefs, md.typeDef(ctx), (err, notUsed) => {
     
         if (err) {
@@ -983,7 +981,7 @@ function error(code, method, message, innerError) {
     }
     return verify.error(innerError, {
         name: ( verify.isNumber(code) ? 'Err-' + code : code ),
-        method: 'wizzi-web@0.0.1.lib.artifacts.graphql.document.gen.main.' + method,
+        method: 'wizzi-web@0.8.1.lib.artifacts.graphql.document.gen.main.' + method,
         parameter: parameter,
         sourcePath: __filename
     }, message || 'Error message unavailable');

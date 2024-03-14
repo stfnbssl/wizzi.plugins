@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzifiers\utils\ittfWriter.js.ittf
-    utc time: Fri, 05 Jan 2024 15:56:14 GMT
+    utc time: Wed, 13 Mar 2024 07:14:39 GMT
 */
 'use strict';
 var chalk = require('chalk');
@@ -149,7 +149,7 @@ writer.prototype.node = function(node) {
 ;
 function formatName(name) {
     if (verify.isObject(name)) {
-        log('ittfwriter.formatName', name);
+        log('ittfWriter.formatName', name);
     }
     return name && name.trim ? name.trim() : '';
 }

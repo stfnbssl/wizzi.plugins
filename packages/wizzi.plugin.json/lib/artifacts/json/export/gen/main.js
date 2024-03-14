@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.json\.wizzi-override\lib\artifacts\json\export\gen\main.js.ittf
-    utc time: Sun, 25 Feb 2024 14:32:59 GMT
+    utc time: Wed, 13 Mar 2024 07:14:33 GMT
 */
 'use strict';
 
@@ -24,20 +24,19 @@ md.gen = function(model, ctx, callback) {
     if (typeof(callback) !== 'function') {
         throw new Error(error('InvalidArgument', 'gen', 'The callback parameter must be a function. Received: ' + callback, model));
     }
-    if (verify.isObject(model) == false) {
-        return callback(error('InvalidArgument', 'gen', 'The model parameter must be an object. Received: ' + model, model));
+    var modelTypeIsValid = verify.isObject(model) || verify.isArray(model);
+    if (!modelTypeIsValid) {
+        return callback(error('InvalidArgument', 'gen', 'The model parameter must be an object or an array. Received: ' + model, model));
     }
     try {
-        var json;
         if (model.toJson) {
-            json = model.toJson();
-            ;
+            var jsonObject = model.toJson();
+            ctx.w(stringify(jsonObject, null, 4))
+            return callback(null, ctx);
         }
         else {
             return callback(error('The model has no toJson method'));
         }
-        ctx.w(stringify(json, null, 4))
-        return callback(null, ctx);
     } 
     catch (ex) {
         return callback(error('Exception', 'gen', 'An exception encountered during generation', model, ex));

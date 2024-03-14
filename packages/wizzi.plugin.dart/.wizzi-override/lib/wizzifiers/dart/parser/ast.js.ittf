@@ -1,0 +1,43 @@
+module
+    kind es6
+
+    const md = module.exports = {}
+
+    class AstNode
+        ctor
+            param tag
+            param name
+            set this.tag = tag
+            set this.name = name || ''
+            set this.children = []
+        m add
+            param tag
+            param name
+            const node = new AstNode(tag, name)
+            set node.parent = this
+            _ this.children.push
+                @ node
+            return node
+        m nameIs
+            param value
+            const test = this.name.trim().split(' ')
+            return value == test[0]
+        m toIttf
+            const sb = []
+            _ this._toIttfDeep
+                @ sb
+                @ 0
+            return sb.join('\n')
+        m _toIttfDeep
+            param sb
+            param indent
+            const spaces = new Array( (indent||0) * 4 + 1).join(' ')
+            _ sb.push(spaces + this.tag + ' ' + this.name)
+            foreach c in this.children
+                _ c._toIttfDeep
+                    @ sb
+                    @ indent + 1
+
+    set md.AstNode = AstNode
+
+

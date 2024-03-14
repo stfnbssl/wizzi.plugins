@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\previous\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\wizzifiers\utils\lineparser.js.ittf
-    utc time: Sun, 28 Jan 2024 14:34:30 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\wizzifiers\utils\lineParser.js.ittf
+    utc time: Wed, 13 Mar 2024 07:14:29 GMT
 */
 'use strict';
 var errors = require('../errors');

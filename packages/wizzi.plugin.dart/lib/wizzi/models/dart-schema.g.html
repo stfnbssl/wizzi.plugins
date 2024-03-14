@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\node_modules\wizzi-web\lib\artifacts\html\document\gen\main.js
     package: wizzi-web@0.7.16
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\lib\artifacts\wfschema\html_docs\gen\ittf\wfschema-docs.html.ittf
-    utc time: Sun, 25 Feb 2024 15:53:28 GMT
+    utc time: Tue, 27 Feb 2024 19:59:50 GMT
 -->
 <!doctype html>
 <html>
@@ -44,14 +44,30 @@
         <h1>Wizzi Schema dart</h1>
         <div class="main-left">
             <ul>
-                <li><a href="#element_node">node</a>
+                <li><a href="#element_statement">statement</a>
+                </li>
+                <li><a href="#element_codeline">codeline</a>
+                </li>
+                <li><a href="#element_taggedline">taggedline</a>
                 </li>
                 <li><a href="#element_dart">dart</a>
+                </li>
+                <li><a href="#element_block">block</a>
+                </li>
+                <li><a href="#element_bracket">bracket</a>
+                </li>
+                <li><a href="#element_paren">paren</a>
+                </li>
+                <li><a href="#element_xif">xif</a>
+                </li>
+                <li><a href="#element_xfor">xfor</a>
+                </li>
+                <li><a href="#element_xwhile">xwhile</a>
                 </li>
             </ul>
         </div>
         <div class="main-center">
-            <table id="element_node" class="pretty-table">
+            <table id="element_statement" class="pretty-table">
                 <thead>
                     <tr>
                         <th>Element</th>
@@ -63,10 +79,61 @@
                 <tbody>
                     <tr>
                         <td>
-                            <b>node</b>
+                            <b>statement</b>
                         </td>
-                        <td>node</td>
+                        <td>#</td>
                         <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Description</h5>
+            <div>
+                <span>A statement line node with unlimited depth. &nbsp;</span>
+                <span>Is the schema base node. &nbsp;</span>
+                <span>In itself works as a comment line. &nbsp;</span>
+            </div>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>statement</td>
+                            <td>statements</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_codeline" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>codeline</b>
+                        </td>
+                        <td>codeline</td>
+                        <td>statement</td>
                         <td></td>
                     </tr>
                 </tbody>
@@ -86,10 +153,55 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>node</td>
-                            <td>nodes</td>
+                            <td>statement</td>
+                            <td>statements</td>
                             <td>one-to-many</td>
+                            <td>statement</td>
                             <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_taggedline" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>taggedline</b>
+                        </td>
+                        <td>+</td>
+                        <td>statement</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>statement</td>
+                            <td>statements</td>
+                            <td>one-to-many</td>
+                            <td>statement</td>
                             <td></td>
                             <td></td>
                         </tr>
@@ -111,7 +223,7 @@
                             <b>dart</b>
                         </td>
                         <td>dart</td>
-                        <td>node</td>
+                        <td>statement</td>
                         <td></td>
                     </tr>
                 </tbody>
@@ -131,10 +243,280 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>node</td>
-                            <td>nodes</td>
+                            <td>statement</td>
+                            <td>statements</td>
                             <td>one-to-many</td>
-                            <td>node</td>
+                            <td>statement</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_block" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>block</b>
+                        </td>
+                        <td>{</td>
+                        <td>statement</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>statement</td>
+                            <td>statements</td>
+                            <td>one-to-many</td>
+                            <td>statement</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_bracket" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>bracket</b>
+                        </td>
+                        <td>[</td>
+                        <td>statement</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>statement</td>
+                            <td>statements</td>
+                            <td>one-to-many</td>
+                            <td>statement</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_paren" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>paren</b>
+                        </td>
+                        <td>(</td>
+                        <td>statement</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>statement</td>
+                            <td>statements</td>
+                            <td>one-to-many</td>
+                            <td>statement</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_xif" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>xif</b>
+                        </td>
+                        <td>if</td>
+                        <td>statement</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>statement</td>
+                            <td>statements</td>
+                            <td>one-to-many</td>
+                            <td>statement</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_xfor" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>xfor</b>
+                        </td>
+                        <td>for</td>
+                        <td>statement</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>statement</td>
+                            <td>statements</td>
+                            <td>one-to-many</td>
+                            <td>statement</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_xwhile" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>xwhile</b>
+                        </td>
+                        <td>while</td>
+                        <td>statement</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>statement</td>
+                            <td>statements</td>
+                            <td>one-to-many</td>
+                            <td>statement</td>
                             <td></td>
                             <td></td>
                         </tr>

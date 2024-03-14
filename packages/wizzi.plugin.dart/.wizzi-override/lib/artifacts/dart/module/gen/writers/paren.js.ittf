@@ -1,0 +1,17 @@
+﻿module
+    kind es6
+
+    statements-writer(paren)
+
+        $append imports
+                
+        statement( paren
+            _ ctx.write('(')
+            _ mainWriter.genItems
+                @ model.statements
+                @ ctx
+                {
+                    @ indent true
+                a_cb()
+                    _ ctx.w(')')
+                    r_cb()

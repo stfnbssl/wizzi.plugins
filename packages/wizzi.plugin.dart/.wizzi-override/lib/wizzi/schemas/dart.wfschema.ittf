@@ -1,4 +1,4 @@
-wfschema go
+wfschema dart
 
     e statement
 		# A statement line node with unlimited depth.
@@ -9,18 +9,22 @@ wfschema go
 
 	e codeline : statement
 
-    e go : statement
+	e taggedline : statement
+        tag +
+
+    e dart : statement
 		is-root
         any codeline/statements
 
-	e param
-
-    e function : statement
-        a rtype
-            # return type
-        r param/s
-        any codeline/statements
+    e block : statement
+        tag {
 	
-    e return : statement
+    e bracket : statement
+        tag [
 
-    $$ $include go/...
+    e paren : statement
+        tag (
+
+    e if : statement
+    e for : statement
+    e while : statement

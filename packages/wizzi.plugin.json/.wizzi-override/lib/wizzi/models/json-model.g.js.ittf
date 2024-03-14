@@ -83,19 +83,26 @@
 							_ error
 								@ 'A json property must have a value or a child object or array. Found: ' + node.n + ' ' + node.v
 								@ node
-					if node.children[0].n === '{'
-						checked_call_return( value )
-							_ toJsonObject(node.children[0].children)
-						set ret[node.n] = value
-					elif node.children[0].n === '['
-						checked_call_return( value )
-							_ toJsonArray(node.children[0].children)
-						set ret[node.n] = value
+					elif node.children.length == 1
+						if node.children[0].n === '{'
+							checked_call_return( value )
+								_ toJsonObject(node.children[0].children)
+							set ret[node.n] = value
+						elif node.children[0].n === '['
+							checked_call_return( value )
+								_ toJsonArray(node.children[0].children)
+							set ret[node.n] = value
+						else
+							return
+								_ error
+									@ 'A json property must have a value or a child object or array. Found: ' + node.n + ' ' + node.v + ' first child: ' + node.children[0].n + ' ' + node.children[0].v
+									@ node
 					else
 						return
 							_ error
-								@ 'A json property must have a value or a child object or array. Found: ' + node.n + ' ' + node.v + ' first child: ' + node.children[0].n + ' ' + node.children[0].v
+								@ 'A json property must have a value or a single child, object or array. Found: ' + node.n + ' ' + node.v + ' children count: ' + node.children.length
 								@ node
+
 		return ret
 
 	function toJsonArray

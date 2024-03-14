@@ -10,7 +10,6 @@ var util = require('util');
 var _ = require('lodash');
 
 var stringify = require('json-stringify-safe');
-var dartmTreePreProcessor = require('./dart-mtree-preprocessor.g');
 
 var dartschema = require('./dart-model.g');
 
@@ -166,8 +165,6 @@ md.createLoadModel = function(wizziObject) {
                         var ittfDumpPath = path.join(path.dirname(ittfDocumentUri), '_debug', path.basename(ittfDocumentUri) + '.ittf.json');
                         file.write(ittfDumpPath, stringify(mTree, null, 2))
                     }
-                    mTree = dartmTreePreProcessor(mTree, loadContext)
-                    ;
                     loadModelFromMTree(mTree, ittfDocumentUri, wizziModelRequest, {
                         wizziFactory: wizziFactory
                      }, callback)

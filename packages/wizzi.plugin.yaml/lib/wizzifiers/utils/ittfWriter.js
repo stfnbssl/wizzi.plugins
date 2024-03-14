@@ -2,38 +2,41 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.yaml\.wizzi-override\lib\wizzifiers\utils\ittfWriter.js.ittf
-    utc time: Tue, 11 Apr 2023 14:18:03 GMT
+    utc time: Wed, 13 Mar 2024 07:15:02 GMT
 */
 'use strict';
-var chalk = require('chalk');
 var util = require('util');
 var file = require('wizzi-utils').file;
 var verify = require('wizzi-utils').verify;
 var StringWriter = require("./stringWriter");
-function log(label, obj) {
-    console.log(label, util.inspect(obj, {
-        depth: null
-     }))
+
+function logError(label, obj, depth) {
+    var message = util.inspect(obj, {
+        depth: depth || null
+     });
+    console.log("[31m%s[0m", '@wizzi/plugin.yaml.wizzifiers.utils.ittfWriter', label, message);
 }
+
 var writer = function() {
 };
+
 writer.prototype.write = function(filepath, node, callback) {
     this.indentValue = 0;
-    var _this = this;
-    file.openWrite(filepath, function(err, stream) {
+    file.openWrite(filepath, (err, stream) => {
+    
         if (err) {
-            callback(err);
-            return ;
+            return callback(err);
         }
-        _this.stream = stream;
-        _this.node(node);
-        _this.stream.end();
-        callback(null, null);
-    })
+        this.stream = stream;
+        this.node(node);
+        this.stream.end();
+        return callback(null, null);
+    }
+    )
 }
 ;
+
 writer.prototype.stringify = function(node, options) {
-    this.lang = options.lang;
     this.keepDeleted = options.keepDeleted;
     this.indentValue = 0;
     this.stream = new StringWriter();
@@ -41,6 +44,7 @@ writer.prototype.stringify = function(node, options) {
     return this.stream.toString();
 }
 ;
+
 writer.prototype.node = function(node) {
     if (!this.keepDeleted && node.__deleted) {
         return ;
@@ -48,77 +52,36 @@ writer.prototype.node = function(node) {
     if (!node.tag) {
         return ;
     }
-    var _this = this;
-    var indent = Array(this.indentValue * 4 + 1).join(" ");
-    if (!node.tag) {
-    }
     if (node.tag === '$dummy') {
         return ;
     }
     if (node.tag === '$group') {
-        node.children.forEach(function(item) {
-            item.__parent = node;
+        node.children.forEach((item) => {
+        
             if (!item) {
-                throw new Error('node has empty children, ' + (util.inspect(node, {
-                        depth: 2
-                     })));
+                throw new Error(logError('node has an empty child', node, 2));
             }
-            _this.node(item);
-        })
+            item.__parent = node;
+            this.node(item);
+        }
+        )
         return ;
     }
-    if (this.lang === 'js' && node.tag === 'block') {
-        if (preserveBlockTags.indexOf(node.__parent.tag) == -1) {
-            node.children.forEach(function(item) {
-                if (!item) {
-                    throw new Error('node has empty children,' + (util.inspect(node, {
-                            depth: 2
-                         })));
-                }
-                item.__parent = node;
-                _this.node(item);
-            })
-            return ;
-        }
-    }
-    if (node.children.length == 1) {
-        var c = node.children[0];
-        if (!c) {
-            throw new Error('node has empty children,' + (util.inspect(node, {
-                    depth: 2
-                 })));
-        }
-        var t = c.tag;
-        if (([
-            '@', 
-            'var', 
-            'decl', 
-            'block'
-        ].indexOf(node.tag)) === -1 && t === 'iife') {
-            console.log(chalk.red('IttfWriter ATTENTION: written iife suppressing parent tag ' + node.tag));
-            _this.node(c);
-            return ;
-        }
-        if (node.tag === 'set' && t === 'set') {
-            _this.node(c);
-            return ;
-        }
-        if (node.tag === 'set' && t === '_' && formatName(node.name).length == 0) {
-            _this.node(c);
-            return ;
-        }
-    }
+    var indent = Array(this.indentValue * 4 + 1).join(" ");
     this.stream.write(indent + node.tag);
     if (typeof node.name !== 'undefined') {
         this.stream.write(' ' + formatName(node.name) + ((node.__deleted ? '  (deleted)' : '')))
     }
-    // if (typeof node.source !== 'undefined' && node.source.length < 50 ) this.stream.write('    $$ ' + node.source);
     this.stream.write('\n');
     this.indentValue++;
     indent = Array(this.indentValue * 4 + 1).join(" ");
-    for (var k in node.attribs) {
-        this.stream.write(indent + k + ' ' + formatAttrib(node.attribs[k]) + '\n');
+    
+    if (node.attribs) {
+        for (var k in node.attribs) {
+            this.stream.write(indent + k + ' ' + formatAttrib(node.attribs[k]) + '\n');
+        }
     }
+    
     if (node.lines && node.lines.length > 0) {
         var lindent = indent;
         if (node.tag !== '$.') {
@@ -130,29 +93,33 @@ writer.prototype.node = function(node) {
             self.stream.write(lindent + l + '\n');
         })
     }
+    
     if (!node.children) {
-        log('node without children', node);
+        throw new Error(logError('node without children', node));
     }
-    node.children.forEach(function(item) {
+    
+    node.children.forEach((item) => {
+    
         if (!item) {
-            console.log('node has empty children, ' + (util.inspect(node, {
-                depth: 2
-             })))
+            throw new Error(logError('node has an empty child', node, 2));
         }
         else {
             item.__parent = node;
-            _this.node(item);
+            this.node(item);
         }
-    })
+    }
+    )
     this.indentValue--;
 }
 ;
+
 function formatName(name) {
     if (verify.isObject(name)) {
-        log('ittfwriter.formatName', name);
+        log('ittfWriter.formatName', name);
     }
-    return name && name.trim ? name.trim() : '';
+    return name && name.trim ? name.trim() : name;
 }
+
 function formatAttrib(a) {
     if (typeof a === 'undefined' || a == null) {
         return '';
@@ -170,28 +137,14 @@ function formatAttrib(a) {
         return acc.join(' ');
     }
 }
+
 exports.write = function(filepath, node, callback) {
-    new writer().write(filepath, node, function(err, result) {
-        if (err) {
-            callback(err);
-            return ;
-        }
-        callback(null, result);
-    })
+    new writer().write(filepath, node, callback)
 }
 ;
+
 exports.stringify = function(node, options) {
     options = options || {};
     return new writer().stringify(node, options);
 }
 ;
-var preserveBlockTags = [
-    'if', 
-    'else', 
-    'elif', 
-    'for', 
-    'while', 
-    'do', 
-    'case', 
-    'default'
-];

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.dart\.wizzi-override\examples\dart_document.js.ittf
-    utc time: Sun, 25 Feb 2024 15:53:27 GMT
+    utc time: Tue, 27 Feb 2024 19:59:49 GMT
 */
 'use strict';
 var path = require('path');
@@ -46,7 +46,7 @@ function executeExample() {
         async.mapSeries(modules, (module, callback) => {
         
             var ittfDocumentUri = path.join(__dirname, 'ittf', module + '.dart.ittf');
-            var outputPath = path.join(__dirname, 'results', module + '.document.dart');
+            var outputPath = path.join(__dirname, 'results', module + '.dart.document.html');
             loadWizziModel(ittfDocumentUri, {
                 wzCtx: wzCtx
              }, (err, wizziModel) => {

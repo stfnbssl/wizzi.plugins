@@ -2,57 +2,45 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.yaml\.wizzi-override\lib\wizzi\models\yaml-model.g.js.ittf
-    utc time: Tue, 11 Apr 2023 14:18:03 GMT
+    utc time: Wed, 13 Mar 2024 07:15:02 GMT
 */
 'use strict';
-//
+/**
+     Pseudo schema yaml
+*/
 var util = require('util');
 var verify = require('wizzi-utils').verify;
 var errors = require('wizzi-utils').errors;
-var jsyaml = require('js-yaml');
-var lineparser = require('./lineParser');
+
+var myname = 'wizzi.plugin.yaml.lib.wizzi.models.yaml-model.g.js.ittf';
 
 module.exports = function(mTree, ittfDocumentUri, request, callback) {
-    // loog 'wizzi-core.wizzi.models.yaml-model.g', mTree
+    // loog myname, mTree
     if (!(mTree.nodes && mTree.nodes.length == 1)) {
         return callback(error('Malformed mTree. Must have one root node. Found mTree.nodes: ' + mTree.nodes, {}));
     }
     var root = mTree.nodes[0];
     root.__mTree = mTree;
-    var sb = [];
-    var i, i_items=root.children, i_len=root.children.length, node;
-    for (i=0; i<i_len; i++) {
-        node = root.children[i];
-        appendNode(node, 0, sb)
+    if (root.n !== "{" && root.n !== "[") {
+        return callback(error('The root node of a yaml ittf document must be : "{" or "[". Found: ' + root.n + ' ' + root.v, root));
     }
-    console.log('yaml source', '\n' + sb.join('\n'), __filename);
-    var yaml = jsyaml.load(sb.join('\n'));
-    if (verify.isString(yaml)) {
-        return callback(error('Invalid yaml format. js-yaml returned a string.', root));
+    if (root.n === "{") {
+        var yaml = toYamlObject(root.children);
+        if (yaml && yaml.__is_error) {
+            console.log("[31m%s[0m", '__is_error ', yaml);
+            return callback(yaml);
+        }
     }
-    console.log('yaml', yaml, __filename);
+    else {
+        var yaml = toYamlArray(root.children);
+        if (yaml && yaml.__is_error) {
+            console.log("[31m%s[0m", '__is_error ', yaml);
+            return callback(yaml);
+        }
+    }
     return callback(null, yaml);
 }
 ;
-function appendNode(node, indent, sb) {
-    console.log('appendNode', indent, node.n + ' ' + node.v, __filename);
-    var indentString = new Array(indent * 2).join(' ');
-    if (node.n === '-') {
-        sb.push(indentString + node.n + ' ' + node.v)
-    }
-    else if (node.n === ':') {
-        var nv = lineparser.parseNameValueRaw(node.v);
-        sb.push(indentString + nv.name() + ': ' + nv.value())
-    }
-    else {
-        sb.push(indentString + node.n + ' ' + node.v)
-    }
-    var i, i_items=node.children, i_len=node.children.length, child;
-    for (i=0; i<i_len; i++) {
-        child = node.children[i];
-        appendNode(child, indent + 1, sb)
-    }
-}
 function toYamlObject(mTreeNodeChilds) {
     var ret = {}, value;
     if (mTreeNodeChilds) {
@@ -97,24 +85,29 @@ function toYamlObject(mTreeNodeChilds) {
             }
             else {
                 if (!node.children || node.children.length == 0) {
-                    return error('A yaml property must have a value or a child object or array. Found: ' + node.n + ' ' + node.v, node);
+                    ret[node.n] = null;
                 }
-                if (node.children[0].n === '{') {
-                    var value = toYamlObject(node.children[0].children);
-                    if (value && value.__is_error) {
-                        return value;
+                else if (node.children.length == 1) {
+                    if (node.children[0].n === '{') {
+                        var value = toYamlObject(node.children[0].children);
+                        if (value && value.__is_error) {
+                            return value;
+                        }
+                        ret[node.n] = value;
                     }
-                    ret[node.n] = value;
-                }
-                else if (node.children[0].n === '[') {
-                    var value = toYamlArray(node.children[0].children);
-                    if (value && value.__is_error) {
-                        return value;
+                    else if (node.children[0].n === '[') {
+                        var value = toYamlArray(node.children[0].children);
+                        if (value && value.__is_error) {
+                            return value;
+                        }
+                        ret[node.n] = value;
                     }
-                    ret[node.n] = value;
+                    else {
+                        return error('A yaml property must have a value or a single child, object or array. Found: ' + node.n + ' ' + node.v + ' first child: ' + node.children[0].n + ' ' + node.children[0].v, node);
+                    }
                 }
                 else {
-                    return error('A yaml property must have a value or a child object or array. Found: ' + node.n + ' ' + node.v + ' first child: ' + node.children[0].n + ' ' + node.children[0].v, node);
+                    return error('A yaml property must have a value or a single child, object or array. Found: ' + node.n + ' ' + node.v + ' children count: ' + node.children.length, node);
                 }
             }
         }
@@ -145,9 +138,6 @@ function toYamlArray(mTreeNodeChilds) {
                 }
                 ret.push(value)
             }
-            else if (node.v && node.v.length && isQuoted(node.n + ' ' + node.v) == false) {
-                return error('A yaml array item must be an object, an array or a value not a property. Found: ' + node.n + ' ' + node.v, node);
-            }
             else {
                 var value = yamlValue(node.n + (verify.isNotEmpty(node.v) ? ' ' + node.v : ''), node);
                 if (value && value.__is_error) {
@@ -160,13 +150,24 @@ function toYamlArray(mTreeNodeChilds) {
     return ret;
 }
 function yamlValue(value, node) {
-    var yamlString = "{ \"value\": " + check(value) + "}";
+    // loog 'yamlValue 1', value
+    var yamlString = "{ \"value\": " + check(value) + " }";
     try {
         var yaml = JSON.parse(yamlString);
+        // loog 'yamlValue', value, yaml.value
         return yaml.value;
     } 
     catch (ex) {
-        return error('Error parsing yaml value. Message: ' + ex.message + '. Value: ' + value, node);
+        // loog 'yamlValue 2', quote(value)
+        var yamlString = "{ \"value\": " + quote(check(value)) + " }";
+        try {
+            var yaml = JSON.parse(yamlString);
+            // loog 'yamlValue', value, yaml.value
+            return yaml.value;
+        } 
+        catch (ex) {
+            return error('Error parsing yaml value. Message: ' + ex.message + '. Value: ' + value, node);
+        } 
     } 
 }
 function check(value) {
@@ -181,22 +182,33 @@ function check(value) {
     }
 }
 function isQuoted(value) {
+    // loog 'isQuoted', value
+    
+    // loog 'isQuoted', value, true
     if ((value.length > 1 && value[0] === "'" && value[value.length-1] === "'") || (value.length > 1 && value[0] === '"' && value[value.length-1] === '"')) {
         return true;
     }
     else {
-        return value;
+        return false;
     }
 }
 function unquote(str) {
     return str.substr(1, str.length -2);
 }
+function quote(str) {
+    // loog 'quote 1', str
+    if (isQuoted(str)) {
+        return str;
+    }
+    // loog 'quote 2', check('"' + str + '"')
+    return check('"' + str + '"');
+}
 function error(message, node) {
-    // loog 'wizzi-core.wizzi.models.yaml-model.g.error', node
+    // loog myname, node
     nodeInfo(node, message)
     return {
             __is_error: true, 
-            source: 'wizzi-core/lib/wizzi/models/yaml-model.g', 
+            source: myname, 
             node: node.n + ' ' + node.v + ' pos: ' + node.r + ', ' + node.c, 
             message: message, 
             errorLines: nodeInfo(node, message)

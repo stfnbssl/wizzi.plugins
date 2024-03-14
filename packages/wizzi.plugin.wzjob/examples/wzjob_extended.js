@@ -2,15 +2,15 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzjob\.wizzi-override\examples\wzjob_extended.js.ittf
-    utc time: Sun, 09 Apr 2023 09:35:24 GMT
+    utc time: Wed, 13 Mar 2024 07:14:54 GMT
 */
 'use strict';
 var path = require('path');
 var fs = require('fs');
 var async = require('async');
 var wizzi = null;
-var wizziUtils = require('wizzi-utils');
-var mtree = require('wizzi-mtree');
+var wizziUtils = require('@wizzi/utils');
+var mtree = require('@wizzi/mtree');
 var verify = wizziUtils.verify;
 var file = wizziUtils.file;
 var mocks = wizziUtils.mocks;
@@ -66,7 +66,7 @@ function createWizziFactory(globalContext, callback) {
     
     // The wizzi package will be the npm version from wizzi/node_modules
     if (wizzi == null) {
-        wizzi = require('wizzi');
+        wizzi = require('@wizzi/factory');
     }
     console.log('"wizzi" package version', wizzi.version);
     wizzi.fsFactory({

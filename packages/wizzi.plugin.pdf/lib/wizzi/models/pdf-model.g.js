@@ -780,7 +780,7 @@ var pageMargins = (function (node) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.pdf\.wizzi-override\lib\wizzi\schemas\pdf.wfschema.ittf
-            utc time: Thu, 18 May 2023 08:41:01 GMT
+            utc time: Wed, 13 Mar 2024 07:02:05 GMT
         */
         var ss = this.wzName.split(/[\s,]+/);
         this.wzName = ss.join(',');
@@ -805,7 +805,7 @@ var margin = (function (node) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.pdf\.wizzi-override\lib\wizzi\schemas\pdf.wfschema.ittf
-            utc time: Thu, 18 May 2023 08:41:01 GMT
+            utc time: Wed, 13 Mar 2024 07:02:05 GMT
         */
         var ss = this.wzName.split(/[\s,]+/);
         if (ss.length == 1) {
@@ -890,7 +890,7 @@ var widths = (function (node) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.pdf\.wizzi-override\lib\wizzi\schemas\pdf.wfschema.ittf
-            utc time: Thu, 18 May 2023 08:41:01 GMT
+            utc time: Wed, 13 Mar 2024 07:02:05 GMT
         */
         var ss = this.wzName.split(/[\s,]+/);
         this.wzName = ss.join(',');

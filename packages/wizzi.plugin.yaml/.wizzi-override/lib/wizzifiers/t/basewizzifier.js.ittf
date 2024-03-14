@@ -6,7 +6,7 @@ $group
     var lineParser = require('../utils/lineParser')
     var file = require('wizzi-utils').file
     var cloner = require('../utils/cloner')
-    var ittfwriter = require("../utils/ittfwriter")
+    var ittfWriter = require("../utils/ittfWriter")
     $hook imports
     var verbose = false
     function log
@@ -50,17 +50,21 @@ $group
                 @ input
                 @ options
                 a_cb( syntax )
-                    if options.syntaxOutFile
+                    if options.syntaxOutFile || options.onSyntax
                         _ parseInternal
                             @ input
                             @ options
                             a_cb( syntax )
-                                _ file.write
-                                    @ options.syntaxOutFile
-                                    _ stringify
+                                if options.syntaxOutFile
+                                    _ file.write
+                                        @ options.syntaxOutFile
+                                        _ stringify
+                                            @ syntax
+                                            @ null
+                                            @ 2
+                                if options.onSyntax
+                                    _ options.onSyntax
                                         @ syntax
-                                        @ null
-                                        @ 2
                     # loog 'Parsed in ' + Date.now() - startTime + ' ms'
                     _ callback(null, syntax)
     set md.getWizziIttf
@@ -78,7 +82,7 @@ $group
                             # set result = cloner(result, options)
                             _ callback
                                 @ null
-                                _ ittfwriter.stringify(result, options)
+                                _ ittfWriter.stringify(result, options)
     # ovveridable
     set md.getWizzifierIncludes
         function

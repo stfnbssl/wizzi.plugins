@@ -2,17 +2,17 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.xml\.wizzi-override\lib\wizzifiers\xml\wizzifier.js.ittf
-    utc time: Tue, 11 Apr 2023 14:20:49 GMT
+    utc time: Wed, 13 Mar 2024 07:14:59 GMT
 */
 'use strict';
 var util = require('util');
 var async = require('async');
 var stringify = require('json-stringify-safe');
 var verify = require('wizzi-utils').verify;
-var lineparser = require('../utils/lineparser');
+var lineParser = require('../utils/lineParser');
 var file = require('wizzi-utils').file;
 var cloner = require('../utils/cloner');
-var ittfwriter = require("../utils/ittfwriter");
+var ittfWriter = require("../utils/ittfWriter");
 var xml2js = require('xml2js');
 var xml_parser = new xml2js.Parser();
 var cleanAST = require('./cleanAST');
@@ -93,7 +93,7 @@ md.getWizziIttf = function(input, options, callback) {
                 return callback(err);
             }
             result = cloner(result, options);
-            callback(null, ittfwriter.stringify(result, options))
+            callback(null, ittfWriter.stringify(result, options))
         }
         )
     }
@@ -117,7 +117,6 @@ function wizzify(tobeWizzified, options, callback) {
         if (err) {
             return callback(err);
         }
-        // log stringify(syntax, null, 2)
         return callback(null, syntax);
     }
     )
@@ -166,7 +165,6 @@ function wizzify(tobeWizzified, options, callback) {
                 }
             }
         }
-        // log "wizziTree", wizziTree
         return callback(null, wizziTree);
     }
     )

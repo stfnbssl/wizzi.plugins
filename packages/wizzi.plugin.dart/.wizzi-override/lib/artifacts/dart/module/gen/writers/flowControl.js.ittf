@@ -1,0 +1,36 @@
+﻿module
+    kind es6
+
+    statements-writer(flowControl)
+
+        $append imports
+                
+        statement( xif
+            _ ctx.w('if (' + name + ')')
+            _ mainWriter.genItems
+                @ model.statements
+                @ ctx
+                {
+                    @ indent true
+                a_cb()
+                    r_cb()
+
+        statement( xfor
+            _ ctx.w('for (' + name + ')')
+            _ mainWriter.genItems
+                @ model.statements
+                @ ctx
+                {
+                    @ indent true
+                a_cb()
+                    r_cb()                        
+
+        statement( xwhile
+            _ ctx.w('while (' + name + ')')
+            _ mainWriter.genItems
+                @ model.statements
+                @ ctx
+                {
+                    @ indent true
+                a_cb()
+                    r_cb()                                                

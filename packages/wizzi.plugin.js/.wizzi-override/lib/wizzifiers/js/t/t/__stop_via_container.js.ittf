@@ -7,7 +7,7 @@
 	var file = require('wizzi-utils').file
 	var verify = require('wizzi-utils').verify
 	var parser = require("@babel/parser")
-	var ittfwriter = require("../../../util/ittfwriter")
+	var ittfWriter = require("../../../util/ittfWriter")
 	var cleanBabel = require('./cleanBabel')
 	var codeReplacer = require('../../../util/jsCodeReplacer')
 	var CommentManager = require('../../../util/commentManager')
@@ -259,7 +259,7 @@
 				@ input
 				@ options
 				a_cb( root ) 
-					var ittf = ittfwriter.stringify(root, { lang: 'js' });
+					var ittf = ittfWriter.stringify(root, { lang: 'js' });
 					$$ loog"md.getWizziIttf\n" + ittf
 					_ callback(null, ittf)
 

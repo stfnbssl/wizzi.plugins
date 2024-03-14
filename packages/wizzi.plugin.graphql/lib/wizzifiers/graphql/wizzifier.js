@@ -2,16 +2,16 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.graphql\.wizzi-override\lib\wizzifiers\graphql\wizzifier.js.ittf
-    utc time: Sat, 08 Apr 2023 04:30:16 GMT
+    utc time: Wed, 13 Mar 2024 07:01:37 GMT
 */
 'use strict';
 var util = require('util');
 var async = require('async');
 var verify = require('wizzi-utils').verify;
-var lineparser = require('../utils/lineparser');
+var lineParser = require('../utils/lineParser');
 var file = require('wizzi-utils').file;
 var cloner = require('../utils/cloner');
-var ittfwriter = require("../utils/ittfwriter");
+var ittfWriter = require("../utils/ittfWriter");
 var graphql_parser = require('graphql/language/parser');
 var cleanAST = require('./cleanAST');
 function parseInternal(tobeWizzified, options, callback) {
@@ -84,7 +84,7 @@ md.getWizziIttf = function(input, options, callback) {
                 return callback(err);
             }
             result = cloner(result, options);
-            callback(null, ittfwriter.stringify(result, options))
+            callback(null, ittfWriter.stringify(result, options))
         }
         )
     }
@@ -439,7 +439,11 @@ format.Name = function(parent, node, options) {
         ret.textified = ret.name;
     }
     // loog 't/name ittf.ret', ret
-    //
+    /**
+         loog 'Name.tag', ret.tag
+         loog 'Name.name', ret.name
+         loog 'Name.textified', ret.textified
+    */
     // loog '### add ', ret.tag , 'to', parent.tag
     parent.children.push(ret);
 }

@@ -1,0 +1,30 @@
+module
+    kind es6
+    const path = require('path')
+    const minimist = require('minimist')
+    +
+    const args = minimist(process.argv.slice(2))
+    log 'args', args
+    let cmd = args._[0] || 'generate'
+    if args.version || args.v
+        set cmd = 'version'
+    if args.help || args.h || args['?']
+        set cmd = 'help'
+    log 'cmd', cmd
+    switch cmd
+        case 'genall'
+            _ require('./src/actions/generate_all')(args)
+            break
+        case 'puball'
+            _ require('./src/actions/publish_all')(args)
+            break
+        case 'help'
+            _ require('./src/actions/help')(args)
+            break
+        case 'version'
+            info 'Version 0.1'
+            break
+        default
+            error `"${cmd}" is not a valid command!`
+            error `try wizzi help`, true
+            break

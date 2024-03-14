@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzjob\.wizzi-override\root\index.js.ittf
-    utc time: Sun, 09 Apr 2023 09:35:24 GMT
+    utc time: Wed, 13 Mar 2024 07:14:53 GMT
 */
 'use strict';
 
@@ -26,7 +26,9 @@ var window_transformers = {
  };
 var window_schemaDefinitions = {};
 
-//
+/**
+     FactoryPlugin class
+*/
 class FactoryPlugin {
     constructor(wizziPackage, provides) {
         this.file = wizziPackage.file;
@@ -54,7 +56,11 @@ class FactoryPlugin {
         return this.provides;
     }
     
-    //
+    /**
+         Retrieve a WizziModelFactory by its schema name
+         searching the loader in this package.
+         No search up in "node_modules" folders.
+    */
     getModelFactory(schemaName) {
         var factory = this.modelFactories[schemaName] || null;
         if (factory == null) {
@@ -77,7 +83,11 @@ class FactoryPlugin {
         return factory;
     }
     
-    //
+    /**
+         retrieve a ModelTransformer by its name
+         searching the loader in this package
+         No search up in "node_modules" folders.
+    */
     getModelTransformer(transformerName) {
         
         var transformer = this.modelTransformers[transformerName] || null;
@@ -101,7 +111,11 @@ class FactoryPlugin {
         return transformer;
     }
     
-    //
+    /**
+         Retrieve an ArtifactGenerator by its name
+         Generators are searched in this package
+         No search up in "node_modules" folders.
+    */
     getArtifactGenerator(generationName) {
         
         var generator = this.artifactGenerators[generationName] || null;
@@ -125,7 +139,11 @@ class FactoryPlugin {
         return generator;
     }
     
-    //
+    /**
+         Retrieve a WizziSchema definition in JSON format
+         searching the loader in this package.
+         No search up in "node_modules" folders.
+    */
     getSchemaDefinition(schemaName) {
         var definition = this.schemaDefinitions[schemaName] || null;
         if (definition == null) {
@@ -159,6 +177,7 @@ function error(errorName, method, message, innerError) {
 }
 
 module.exports = {
+    version: '0.7.9', 
     provides: {
         schemas: [
             'wzjob', 

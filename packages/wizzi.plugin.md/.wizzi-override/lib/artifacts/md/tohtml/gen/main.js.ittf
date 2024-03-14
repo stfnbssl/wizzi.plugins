@@ -11,7 +11,7 @@ module wizzi.plugin.md@${wzCtx.version}.lib.artifacts.md.document.gen.main
     
     gen( &md )
         $append imports
-            const wizzi = require('wizzi')
+            const wizzi = require('@wizzi/factory')
             const createDOMPurify = require('dompurify')
             const { JSDOM } = require('jsdom')
             var marked = require('marked')

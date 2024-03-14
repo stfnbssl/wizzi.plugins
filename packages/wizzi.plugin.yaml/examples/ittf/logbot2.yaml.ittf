@@ -1,0 +1,23 @@
+{
+    { services
+        { lb_iot_proxy__iot-gate-imx8_aarch64_v1.0.0_42c40d51
+            image lbregistry.logbotiot.cloud/logbot/iot/iot_apps/lb-iot-proxy:aarch64_v1.0.0_42c40d51
+            restart always
+            [ command
+                --log.level=WARN 
+                --global.sendAnonymousUsage=false 
+                --api.insecure=false 
+                --api.dashboard=false 
+                --accesslog.filepath=/data/access.log 
+                --providers.docker=true 
+                --providers.docker.exposedbydefault=false 
+                --providers.docker.network=internal-net 
+                --entrypoints.web.address=:80 
+                --providers.docker.endpoint=unix:///run/balena.sock 
+            { networks
+                internal-net 
+            [ ports
+                80:80 
+            [ volumes
+                access_logs:/data 
+                lb_setup_auth:/basic-auth 

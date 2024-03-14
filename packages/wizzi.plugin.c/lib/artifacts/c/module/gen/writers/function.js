@@ -1,7 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.13
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.c\.wizzi-override\lib\artifacts\c\module\gen\writers\function.js.ittf
+    utc time: Wed, 13 Mar 2024 07:01:15 GMT
 */
 'use strict';
 var util = require('util');
@@ -91,6 +92,7 @@ md.loadStatementWriters = function(mainWriter) {
         ctx.write(rtype + ' ' + name + '(');
         var param_count = 0;
         (function next() {
+        
             var param = model.params[param_count++];
             if (!param) {
                 ctx.write(')');

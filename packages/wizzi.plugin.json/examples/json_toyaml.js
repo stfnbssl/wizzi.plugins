@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.json\.wizzi-override\examples\json_toyaml.js.ittf
-    utc time: Sun, 25 Feb 2024 14:32:58 GMT
+    utc time: Wed, 13 Mar 2024 07:14:33 GMT
 */
 'use strict';
 var path = require('path');
@@ -39,7 +39,7 @@ function executeExample() {
         
             console.log('json/document.example.executeGenerateModules.module: ' + module, __filename);
             var ittfDocumentUri = path.join(__dirname, 'ittf', module + '.json.ittf');
-            var outputPath = path.join(__dirname, 'results', 'json', module + '-toyaml.g.json');
+            var outputPath = path.join(__dirname, 'results', 'json', module + '-toyaml.g.yaml');
             loadModelAndGenerateArtifact(ittfDocumentUri, {}, 'json/toyaml', (err, artifactText) => {
             
                 if (err) {

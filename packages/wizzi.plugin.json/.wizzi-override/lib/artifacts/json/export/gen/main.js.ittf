@@ -7,21 +7,21 @@
             schema: 'json',
             rootElement: '',
             checkSchema: false,
+            modelIsObjectOrArray: true,
             isAsync: true,
         };
     gen( &md )
         $append imports
             var stringify = require('json-stringify-safe')
         $append main
-            var json
             if model.toJson
-                set json
+                var jsonObject
                     _ model.toJson()
+                _ ctx.w
+                    _ stringify(jsonObject, null, 4)
+                r_cb(ctx)                    
             else
                 return
                     _ callback
                         _ error
                             @ 'The model has no toJson method'
-            _ ctx.w
-                _ stringify(json, null, 4)
-            r_cb(ctx)

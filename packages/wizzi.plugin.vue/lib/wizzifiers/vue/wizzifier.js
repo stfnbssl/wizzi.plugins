@@ -10,7 +10,7 @@ var verify = require('wizzi-utils').verify;
 var lineparser = require('../utils/lineparser');
 var file = require('wizzi-utils').file;
 var cloner = require('../utils/cloner');
-var ittfwriter = require("../utils/ittfwriter");
+var ittfWriter = require("../utils/ittfWriter");
 var vue_parser = require('vue/language/parser');
 var cleanAST = require('./cleanAST');
 function parseInternal(tobeWizzified, options, callback) {
@@ -83,7 +83,7 @@ md.getWizziIttf = function(input, options, callback) {
                 return callback(err);
             }
             result = cloner(result, options);
-            callback(null, ittfwriter.stringify(result, options))
+            callback(null, ittfWriter.stringify(result, options))
         }
         )
     }

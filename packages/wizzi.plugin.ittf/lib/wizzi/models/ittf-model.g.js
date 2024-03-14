@@ -2,10 +2,12 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ittf\.wizzi-override\lib\wizzi\models\ittf-model.g.js.ittf
-    utc time: Tue, 11 Apr 2023 19:36:14 GMT
+    utc time: Wed, 13 Mar 2024 07:14:23 GMT
 */
 'use strict';
-//
+/**
+     Pseudo schema ittf
+*/
 var util = require('util');
 var lineParser = require('./lineParser');
 

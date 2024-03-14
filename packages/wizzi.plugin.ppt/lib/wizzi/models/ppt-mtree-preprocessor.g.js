@@ -2,13 +2,12 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ppt\.wizzi-override\lib\wizzi\models\ppt-mtree-preprocessor.g.js.ittf
-    utc time: Wed, 03 May 2023 09:12:34 GMT
+    utc time: Wed, 13 Mar 2024 07:02:15 GMT
 */
 'use strict';
 var verify = require('wizzi-utils').verify;
 var mdfs = {};
 mdfs['p'] = function(node, state) {
-    // log 'before, node.n is', node.n
     var i, i_items=node.children, i_len=node.children.length, item;
     for (i=0; i<i_len; i++) {
         item = node.children[i];
@@ -20,7 +19,6 @@ mdfs['p'] = function(node, state) {
 }
 ;
 mdfs['link'] = function(node, state) {
-    // log 'before, node.n is', node.n
     var i, i_items=node.children, i_len=node.children.length, item;
     for (i=0; i<i_len; i++) {
         item = node.children[i];
@@ -32,7 +30,6 @@ mdfs['link'] = function(node, state) {
 }
 ;
 mdfs['bullet'] = function(node, state) {
-    // log 'before, node.n is', node.n
     if (node.children.length > 0) {
         node.n = 'bullet-obj';
     }

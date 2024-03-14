@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.yaml\.wizzi-override\examples\yaml_wizzify.js.ittf
-    utc time: Tue, 11 Apr 2023 14:18:03 GMT
+    utc time: Wed, 13 Mar 2024 07:15:01 GMT
 */
 'use strict';
 
@@ -29,7 +29,7 @@ function wizzify(name, callback) {
     var source = path.join(__dirname, 'data', name + '.yaml');
     
     yamlwizzifier.getWizziIttf(file.read(source), {
-        syntaxOutFile: path.join(__dirname, 'data', 'output', name + '.yaml.sinthax')
+        syntaxOutFile: path.join(__dirname, 'data', 'wizzified', name + '.yaml.sinthax')
      }, (err, ittf) => {
     
         if (err) {
@@ -37,7 +37,7 @@ function wizzify(name, callback) {
             console.log("[31m%s[0m", 'err', err);
             return callback(null, 'error ' + source);
         }
-        file.write(path.join(__dirname, 'data', 'output', name + '.yaml.ittf'), ittf)
+        file.write(path.join(__dirname, 'data', 'wizzified', name + '.yaml.ittf'), ittf)
         return callback(null, 'success ' + source);
     }
     )

@@ -1,7 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.13
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.c\.wizzi-override\lib\artifacts\c\module\gen\writers\index.js.ittf
+    utc time: Wed, 13 Mar 2024 07:01:15 GMT
 */
 'use strict';
 
@@ -58,6 +59,7 @@ md.gen = function(model, ctx, callback) {
 md.genMany = function(models, ctx, callback) {
     var item_count = 0;
     (function next() {
+    
         var item = models[item_count++];
         if (!item) {
             return callback(null);
@@ -113,6 +115,7 @@ md.genItems = function(statements, ctx, options, callback) {
     }
     var item_count = 0;
     (function next() {
+    
         var item = statements[item_count++];
         if (!item) {
             if (indent) {

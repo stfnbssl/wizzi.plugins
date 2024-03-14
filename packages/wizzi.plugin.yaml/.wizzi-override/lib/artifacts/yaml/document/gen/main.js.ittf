@@ -7,6 +7,7 @@ module
             schema: 'yaml',
             rootElement: '',
             checkSchema: false,
+            modelIsObjectOrArray: true,
             isAsync: true,
         };
     gen( &md )
@@ -14,6 +15,7 @@ module
             var yaml = require('js-yaml')
         $append main
             delete model.___exportName
+            # loog 'yaml.document.model', model
             _ ctx.w
                 _ yaml.dump
                     @ model

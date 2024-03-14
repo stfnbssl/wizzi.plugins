@@ -1,14 +1,15 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.13
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.go\.wizzi-override\lib\artifacts\go\document\gen\main.js.ittf
+    utc time: Wed, 13 Mar 2024 07:01:34 GMT
 */
 'use strict';
 var util = require('util');
 var path = require('path');
 var async = require('async');
 var verify = require('wizzi-utils').verify;
-var lineparser = require('wizzi-utils').helpers.lineparser;
+var lineParser = require('wizzi-utils').helpers.lineParser;
 var errors = require('../../../../../errors');
 
 var myname = 'wizzi.plugin.go.artifacts.go.document.gen.main';
@@ -165,7 +166,18 @@ function getAttrs(e) {
     return retval;
 }
 
-//
+/**
+     params
+     string errorName
+     # the error name or number
+     string method
+     string message
+     # optional
+     { model
+     # optional
+     { innerError
+     # optional
+*/
 function error(errorName, method, message, model, innerError) {
     return new errors.WizziPluginError(message, model, {
             errorName: errorName, 

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\artifacts\svg\document\gen\main.js.ittf
-    utc time: Fri, 05 Jan 2024 15:56:14 GMT
+    utc time: Wed, 13 Mar 2024 07:14:39 GMT
 */
 'use strict';
 // Language artifact that targets
@@ -142,15 +142,7 @@ md.standardElement = function(model, ctx, callback) {
     }
 }
 ;
-/**
-    md.linearGradient = function(model, ctx, callback) {
-        writeBeginTag(ctx, 'linearGradient')
-        writeAttributes(model, ctx);
-        writeCloseBegin(ctx)
-         TODO
-        writeEndTag(ctx, 'linearGradient', callback(null, true))
-    }
-*/
+//
 md.myGenItems = function(elements, ctx, options, callback) {
     var opt = options || {},
         from = opt.from || 0,
@@ -389,7 +381,18 @@ function getAttrs(e) {
     return retval;
 }
 
-//
+/**
+     params
+     string errorName
+     # the error name or number
+     string method
+     string message
+     # optional
+     { model
+     # optional
+     { innerError
+     # optional
+*/
 function error(errorName, method, message, model, innerError) {
     return new errors.WizziPluginError(message, model, {
             errorName: errorName, 

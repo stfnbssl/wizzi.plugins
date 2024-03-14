@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.json\.wizzi-override\lib\artifacts\json\toml\gen\main.js.ittf
-    utc time: Sun, 25 Feb 2024 14:32:59 GMT
+    utc time: Wed, 13 Mar 2024 07:14:33 GMT
 */
 'use strict';
 
@@ -23,8 +23,9 @@ md.gen = function(model, ctx, callback) {
     if (typeof(callback) !== 'function') {
         throw new Error(error('InvalidArgument', 'gen', 'The callback parameter must be a function. Received: ' + callback, model));
     }
-    if (verify.isObject(model) == false) {
-        return callback(error('InvalidArgument', 'gen', 'The model parameter must be an object. Received: ' + model, model));
+    var modelTypeIsValid = verify.isObject(model) || verify.isArray(model);
+    if (!modelTypeIsValid) {
+        return callback(error('InvalidArgument', 'gen', 'The model parameter must be an object or an array. Received: ' + model, model));
     }
     try {
         // loog 'model', model
@@ -128,42 +129,46 @@ function error(errorName, method, message, model, innerError) {
             inner: innerError
          });
 }
-function writeArray(arr, ctx) {
+function writeArray(arr, ctx, sb) {
+    var sb = sb || [];
     var first = true;
     var i, i_items=arr, i_len=arr.length, item;
     for (i=0; i<i_len; i++) {
         item = arr[i];
         if (!first) {
-            ctx.w(', ');
+            sb.push(', ');
         }
         if (verify.isObject(item)) {
-            ctx.w('{' + writeObject(item, ctx) + '}')
+            sb.push('{' + writeObject(item, ctx, sb) + '}' + '\n')
         }
         else if (verify.isArray(item)) {
-            ctx.w('[' + writeArray(item, ctx) + ']')
+            sb.push('[' + writeArray(item, ctx, sb) + ']' + '\n')
         }
         else {
-            ctx.w(verify.isString(item) ? '"' + item + '"' : item)
+            sb.push(verify.isString(item) ? '"' + item + '"' : item + '\n')
         }
         first = false;
     }
+    return sb.join('');
 }
-function writeObject(obj, ctx, top) {
+function writeObject(obj, ctx, top, sb) {
+    var sb = sb || [];
     if (top) {
         var i, i_items=Object.keys(obj), i_len=Object.keys(obj).length, key;
         for (i=0; i<i_len; i++) {
             key = Object.keys(obj)[i];
             var item = obj[key];
             if (verify.isObject(item)) {
-                ctx.w(key + ' = ')
-                writeObject(item, ctx, false)
+                sb.push(key + ' = ' + '\n')
+                writeObject(item, ctx, false, sb)
             }
             else if (verify.isArray(item)) {
-                ctx.w(key + ' = [' + writeArray(item, ctx) + ']')
+                sb.push(key + ' = [' + writeArray(item, ctx, sb) + ']' + '\n')
             }
             else {
-                ctx.w(key + ' = ' + (verify.isString(item) ? ('"' + item + '"') : item))
+                sb.push(key + ' = ' + (verify.isString(item) ? ('"' + item + '"') : item))
             }
         }
     }
+    return sb.join('');
 }

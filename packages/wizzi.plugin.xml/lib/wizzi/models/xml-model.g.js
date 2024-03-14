@@ -2,12 +2,14 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.xml\.wizzi-override\lib\wizzi\models\xml-model.g.js.ittf
-    utc time: Tue, 11 Apr 2023 14:20:49 GMT
+    utc time: Wed, 13 Mar 2024 07:14:59 GMT
 */
 'use strict';
-//
+/**
+     Pseudo schema xml
+*/
 var util = require('util');
-var lineparser = require('./lineParser');
+var lineParser = require('./lineParser');
 
 module.exports = function(mTree, ittfDocumentUri, request, callback) {
     if (!(mTree.nodes && mTree.nodes.length == 1)) {
@@ -38,7 +40,7 @@ function toXmlElement(tag, nodes) {
         node = nodes[i];
         // loog '===== ++++++ xml.toXmlElement, node.n', node.n, node.v, node.children.length
         if (node.n === '@') {
-            var nv = lineparser.parseNameValueRaw(node.v);
+            var nv = lineParser.parseNameValueRaw(node.v);
             if (tag === 'xml' && nv.name() === 'encoding') {
                 ret.encoding = nv.value();
             }

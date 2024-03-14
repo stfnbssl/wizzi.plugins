@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.json\.wizzi-override\lib\artifacts\json\toyaml\gen\main.js.ittf
-    utc time: Sun, 25 Feb 2024 14:32:59 GMT
+    utc time: Wed, 13 Mar 2024 07:14:33 GMT
 */
 'use strict';
 
@@ -24,15 +24,16 @@ md.gen = function(model, ctx, callback) {
     if (typeof(callback) !== 'function') {
         throw new Error(error('InvalidArgument', 'gen', 'The callback parameter must be a function. Received: ' + callback, model));
     }
-    if (verify.isObject(model) == false) {
-        return callback(error('InvalidArgument', 'gen', 'The model parameter must be an object. Received: ' + model, model));
+    var modelTypeIsValid = verify.isObject(model) || verify.isArray(model);
+    if (!modelTypeIsValid) {
+        return callback(error('InvalidArgument', 'gen', 'The model parameter must be an object or an array. Received: ' + model, model));
     }
     try {
         delete model.___exportName
         // const yamlData = yaml.load(data);
         // //Write JSON to Yml
         // const jsonData = JSON.stringify(yamlData);
-        console.log('toyam.main.model', JSON.stringify(model, null, 4), __filename);
+        console.log('toyaml.main.model', JSON.stringify(model, null, 4), __filename);
         ctx.w(yaml.dump(model, {
             flowLevel: 100, 
             styles: {

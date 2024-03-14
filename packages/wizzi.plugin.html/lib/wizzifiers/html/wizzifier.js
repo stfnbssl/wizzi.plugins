@@ -12,7 +12,7 @@ var verify = require('wizzi-utils').verify;
 var lineParser = require('../utils/lineParser');
 var file = require('wizzi-utils').file;
 var cloner = require('../utils/cloner');
-var ittfwriter = require("../utils/ittfwriter");
+var ittfWriter = require("../utils/ittfWriter");
 
 var html_parser = require('./parser');
 var cloner = require('./cloner');
@@ -341,7 +341,7 @@ md.getWizziIttf = function(input, options, callback) {
                 return callback(err);
             }
             result = cloner(result, options);
-            callback(null, ittfwriter.stringify(result, options))
+            callback(null, ittfWriter.stringify(result, options))
         }
         )
     }

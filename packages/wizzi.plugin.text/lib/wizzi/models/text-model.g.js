@@ -2,10 +2,12 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.text\.wizzi-override\lib\wizzi\models\text-model.g.js.ittf
-    utc time: Tue, 11 Apr 2023 14:27:35 GMT
+    utc time: Wed, 13 Mar 2024 07:14:44 GMT
 */
 'use strict';
-//
+/**
+     Pseudo schema text
+*/
 var util = require('util');
 
 module.exports = function(mTree, ittfDocumentUri, request, callback) {

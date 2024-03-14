@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.json\.wizzi-override\lib\wizzi\models\json-model.g.js.ittf
-    utc time: Sun, 25 Feb 2024 14:32:59 GMT
+    utc time: Wed, 13 Mar 2024 07:14:33 GMT
 */
 'use strict';
 /**
@@ -85,22 +85,27 @@ function toJsonObject(mTreeNodeChilds) {
                 if (!node.children || node.children.length == 0) {
                     return error('A json property must have a value or a child object or array. Found: ' + node.n + ' ' + node.v, node);
                 }
-                if (node.children[0].n === '{') {
-                    var value = toJsonObject(node.children[0].children);
-                    if (value && value.__is_error) {
-                        return value;
+                else if (node.children.length == 1) {
+                    if (node.children[0].n === '{') {
+                        var value = toJsonObject(node.children[0].children);
+                        if (value && value.__is_error) {
+                            return value;
+                        }
+                        ret[node.n] = value;
                     }
-                    ret[node.n] = value;
-                }
-                else if (node.children[0].n === '[') {
-                    var value = toJsonArray(node.children[0].children);
-                    if (value && value.__is_error) {
-                        return value;
+                    else if (node.children[0].n === '[') {
+                        var value = toJsonArray(node.children[0].children);
+                        if (value && value.__is_error) {
+                            return value;
+                        }
+                        ret[node.n] = value;
                     }
-                    ret[node.n] = value;
+                    else {
+                        return error('A json property must have a value or a child object or array. Found: ' + node.n + ' ' + node.v + ' first child: ' + node.children[0].n + ' ' + node.children[0].v, node);
+                    }
                 }
                 else {
-                    return error('A json property must have a value or a child object or array. Found: ' + node.n + ' ' + node.v + ' first child: ' + node.children[0].n + ' ' + node.children[0].v, node);
+                    return error('A json property must have a value or a single child, object or array. Found: ' + node.n + ' ' + node.v + ' children count: ' + node.children.length, node);
                 }
             }
         }

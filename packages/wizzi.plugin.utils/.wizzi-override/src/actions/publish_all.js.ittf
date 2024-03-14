@@ -1,0 +1,46 @@
+module
+    kind es6
+    const path = require("path")
+    const spawnUtils = require("../services/spawn")
+    +
+    $include plugins
+    +
+    function doPublish
+        param ndx
+        var pluginName = pluginList[ndx]
+        if !pluginName
+            success "All generations done"
+            return
+        _ executePublishing
+            @ pluginName
+            a_cb()
+                success "*** Generation of plugin " + pluginName + " DONE ***"
+                _ doPublish
+                    @ ndx + 1
+    _ doPublish
+        @ 0
+
+    function executePublishing
+        param pluginName
+        param callback
+        log 'Starting generation of ', pluginName
+        const PowerShell = spawnUtils.PowerShell
+        let ps
+            new PowerShell
+                @ "npm publish"
+                {
+                    @ cwd "C:/My/wizzi/stfnbssl/wizzi.plugins/packages/wizzi.plugin." + pluginName
+        _ spawnUtils.psOutput
+            @ ps
+            {
+            =>
+                param err
+                param stdout
+                param stderr
+                log "powershell 2", err || stderr || stdout
+                _ callback
+                    @ null
+
+    +
+    set module.exports = doPublish
+    +

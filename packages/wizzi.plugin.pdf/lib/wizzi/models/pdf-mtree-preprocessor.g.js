@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.pdf\.wizzi-override\lib\wizzi\models\pdf-mtree-preprocessor.g.js.ittf
-    utc time: Thu, 18 May 2023 08:41:00 GMT
+    utc time: Wed, 13 Mar 2024 07:02:05 GMT
 */
 'use strict';
 var verify = require('wizzi-utils').verify;

@@ -1,0 +1,115 @@
+module
+    kind es6
+
+    var AstNode = require('./ast').AstNode
+
+    const md = module.exports = {}
+
+    set md.parse
+        function
+            param source
+
+            const asts = []
+            const root = new AstNode('Program')
+            let current = root.add('+')
+
+            for var i=0; i<source.length; i++
+                let ch = source[i]
+                if ['{', '(', '['].indexOf(ch) > -1 
+                    const ast
+                        _ current.add
+                            @ ch
+                    _ asts.push(current)
+                    set current
+                        _ ast.add
+                            @ '+'
+                elif ['}', ')', ']'].indexOf(ch) > -1 
+                    set current = asts.pop()
+                    set current
+                        _ current.parent.add
+                            @ '+'
+                elif ch == '\n'
+                    set current
+                        _ current.parent.add('+')
+                elif ch == '\r'
+                elif ch == '/' && source[i+1] == '/' && source[i+2] == '/'
+                    while ch != '\n' || i == source.length
+                        set current.name += ch
+                        set ch = source[++i]
+                    set current
+                        _ current.parent.add('+')
+                else
+                    set current.name += ch
+
+            const reviewdNode = new AstNode("Program")
+            foreach node in root.children
+                _ reviewNodes
+                    @ node
+                    @ reviewdNode
+            # return root
+            return reviewdNode
+
+    function reviewNodes
+        param old_ast
+        param new_ast
+        let next_new = new_ast
+        if old_ast.tag == '+' && old_ast.name.length == 0
+            if old_ast.children.length == 0
+                return
+        else
+            _ knownTags(old_ast)
+            set next_new
+                _ new_ast.add
+                    @ old_ast.tag
+                    @ old_ast.name
+        foreach c in old_ast.children
+            _ reviewNodes
+                @ c
+                @ next_new
+
+    function knownTags
+        param ast
+        _ inlineTagWithParen('if', ast)
+        _ inlineTagWithParen('for', ast)
+        _ inlineTagWithParen('while', ast)
+
+    function inlineTagWithParen
+        param tagName
+        param ast
+        if ast.nameIs(tagName)
+            log 'inlineTagWithParen', tagName, ast.children.length
+            if ast.children.length == 1 && ast.children[0].tag == '('
+                const sb = ['(']
+                foreach c in ast.children[0].children
+                    _ inlineTags
+                        @ c
+                        @ sb
+                _ sb.push(')')
+                set ast.tag = tagName
+                set ast.name = sb.join('')
+                set ast.children = []
+                return true
+        return false
+    
+    function inlineTags
+        param ast
+        param sb
+        if ast.tag == '+'
+            _ sb.push(ast.name)
+        elif ['{', '(', '['].indexOf(ast.tag) > -1 
+            _ sb.push(ast.tag)
+            _ sb.push(ast.name)
+        else
+            throw new Error('Parsing dart file unexpected tag in "inlineTags" method: ' + ast.tag)
+        foreach c in ast.children
+            _ inlineTags
+                @ c
+                @ sb
+        if ast.tag == '{'
+            _ sb.push('}')
+        if ast.tag == '('
+            _ sb.push(')')
+        if ast.tag == '['
+            _ sb.push(']')
+
+

@@ -7,6 +7,7 @@
             schema: 'json',
             rootElement: '',
             checkSchema: false,
+            modelIsObjectOrArray: true,
             isAsync: true,
         };
         
@@ -37,39 +38,46 @@
     function writeArray
         param arr
         param ctx
+        param sb
+        var sb = sb || []
         var first = true
         foreach item in arr
             if !first
-                _ ctx.w(', ')
+                _ sb.push(', ')
             if verify.isObject(item)
-                _ ctx.w
-                    @ '{' + writeObject(item, ctx) + '}'
+                _ sb.push
+                    @ '{' + writeObject(item, ctx, sb) + '}' + '\n'
             elif verify.isArray(item)
-                _ ctx.w
-                    @ '[' + writeArray(item, ctx) + ']'
+                _ sb.push
+                    @ '[' + writeArray(item, ctx, sb) + ']' + '\n'
             else
-                _ ctx.w
-                    @ verify.isString(item) ? '"' + item + '"' : item
+                _ sb.push
+                    @ verify.isString(item) ? '"' + item + '"' : item + '\n'
             set first = false
+        return sb.join('') 
 
     function writeObject
         param obj
         param ctx
         param top
+        param sb
+        var sb = sb || []
         if top
             foreach key in Object.keys(obj)
                 var item = obj[key]
                 if verify.isObject(item)
-                    _ ctx.w
-                        @ key + ' = '
+                    _ sb.push
+                        @ key + ' = ' + '\n'
                     _ writeObject
                         @ item
                         @ ctx
                         @ false
+                        @ sb
                 elif verify.isArray(item)
-                    _ ctx.w
-                        @ key + ' = [' + writeArray(item, ctx) + ']'
+                    _ sb.push
+                        @ key + ' = [' + writeArray(item, ctx, sb) + ']' + '\n'
                 else
-                    _ ctx.w
+                    _ sb.push
                         @ key + ' = ' + (verify.isString(item) ? ('"' + item + '"') : item)
+        return sb.join('') 
 

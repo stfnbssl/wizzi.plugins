@@ -1,14 +1,15 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.13
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.go\.wizzi-override\lib\artifacts\go\package\gen\main.js.ittf
+    utc time: Wed, 13 Mar 2024 07:01:34 GMT
 */
 'use strict';
 var util = require('util');
 var path = require('path');
 var async = require('async');
 var verify = require('wizzi-utils').verify;
-var lineparser = require('wizzi-utils').helpers.lineparser;
+var lineParser = require('wizzi-utils').helpers.lineParser;
 var errors = require('../../../../../errors');
 var writers = require('./writers/index');
 
@@ -31,6 +32,7 @@ md.gen = function(model, ctx, callback) {
         mainStart(model, ctx)
         var item_count = 0;
         (function next() {
+        
             var item = model.statements[item_count++];
             if (!item) {
                 return terminate_gen(model, ctx);
@@ -69,7 +71,18 @@ function mainStart(model, ctx) {
 function mainFinish(model, ctx) {
 }
 
-//
+/**
+     params
+     string errorName
+     # the error name or number
+     string method
+     string message
+     # optional
+     { model
+     # optional
+     { innerError
+     # optional
+*/
 function error(errorName, method, message, model, innerError) {
     return new errors.WizziPluginError(message, model, {
             errorName: errorName, 

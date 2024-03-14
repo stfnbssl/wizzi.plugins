@@ -113,9 +113,18 @@ module
                                     @ '${schema.name}/${artifact.name}'
                     @ wizzifiers
                         [
+                            $ var used = {}
+
                             $foreach schema in wzCtx.Schemas
                                 $if schema.hasWizzifier
                                     @ '${schema.name}'
+                                    $ used[schema.name] = true
+
+                                    $foreach ext in schema.fileExtensions
+                                        $if !used[ext]
+                                            @ "${ext}"
+                                            $ used[ext] = true
+
             @ createFactoryPlugin
                 function
                     param wizziPackage

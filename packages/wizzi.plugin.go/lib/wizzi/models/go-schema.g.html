@@ -1,351 +1,357 @@
+<!--
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\node_modules\wizzi-web\lib\artifacts\html\document\gen\main.js
+    package: wizzi-web@0.7.16
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\lib\artifacts\wfschema\html_docs\gen\ittf\wfschema-docs.html.ittf
+    utc time: Wed, 13 Mar 2024 07:01:34 GMT
+-->
 <!doctype html>
-<html VERSION-5="5" VERSION-4="4" version="5">
-    <head>
-        <title>Wizzi schema go</title>
-        <style>
-            body {
-              font-family: verdana;
-              font-size: 13px;
-            } 
-            .main-left {
-              position: fixed;
-              margin-left: 5%;
-              top: 80px;
-              width: 20%;
-              height: 80%;
-              background: #eee;
-              overflow: auto;
-            } 
-            .main-center {
-              top: 80px;
-              margin-left: 30%;
-              height: 80%;
-              width: 50%;
-              position: fixed;
-              overflow: auto;
-              z-index: 1;
-            } 
-            .well {
-              border: solid 1px #aaa;
-            } 
-            .pretty-table { border: 1px solid #333; width: 100%; margin-top: 30px; }
-            .pretty-table th, .pretty-table td { border: 1px dotted #666; }
-            .pretty-table-2 { border: 1px solid #999; width: 100%; margin-top: 20px; }
-        </style>
-    </head>
-    <body>
-        <div class="main">
-            <h1>Wizzi Schema go</h1>
-            <div class="main-left">
-                <ul>
-                    <li><a href="#element_statement">statement</a>
-                    </li>
-                    <li><a href="#element_codeline">codeline</a>
-                    </li>
-                    <li><a href="#element_go">go</a>
-                    </li>
-                    <li><a href="#element_param">param</a>
-                    </li>
-                    <li><a href="#element_xfunction">xfunction</a>
-                    </li>
-                    <li><a href="#element_xreturn">xreturn</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="main-center">
-                <table id="element_statement" class="pretty-table">
-                    <thead>
-                        <tr>
-                            <th>Element</th>
-                            <th>Tag</th>
-                            <th>Super</th>
-                            <th>Flags</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <b>statement</b>
-                            </td>
-                            <td>#</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <h5>Description</h5>
-                <div>
-                    <span>A statement line node with unlimited depth. &nbsp;</span>
-                    <span>Is the schema base node. &nbsp;</span>
-                    <span>In itself works as a comment line. &nbsp;</span>
-                </div>
-                <h5>Relations</h5>
-                <small>
-                    <table class="table table-condensed table-bordered" style="width:100%;">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Role</th>
-                                <th>Cardinality</th>
-                                <th>Inherited</th>
-                                <th>Flags</th>
-                                <th>Description</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>statement</td>
-                                <td>statements</td>
-                                <td>one-to-many</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </small>
-                <table id="element_codeline" class="pretty-table">
-                    <thead>
-                        <tr>
-                            <th>Element</th>
-                            <th>Tag</th>
-                            <th>Super</th>
-                            <th>Flags</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <b>codeline</b>
-                            </td>
-                            <td>codeline</td>
-                            <td>statement</td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <h5>Relations</h5>
-                <small>
-                    <table class="table table-condensed table-bordered" style="width:100%;">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Role</th>
-                                <th>Cardinality</th>
-                                <th>Inherited</th>
-                                <th>Flags</th>
-                                <th>Description</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>statement</td>
-                                <td>statements</td>
-                                <td>one-to-many</td>
-                                <td>statement</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </small>
-                <table id="element_go" class="pretty-table">
-                    <thead>
-                        <tr>
-                            <th>Element</th>
-                            <th>Tag</th>
-                            <th>Super</th>
-                            <th>Flags</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <b>go</b>
-                            </td>
-                            <td>go</td>
-                            <td>statement</td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <h5>Relations</h5>
-                <small>
-                    <table class="table table-condensed table-bordered" style="width:100%;">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Role</th>
-                                <th>Cardinality</th>
-                                <th>Inherited</th>
-                                <th>Flags</th>
-                                <th>Description</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>statement</td>
-                                <td>statements</td>
-                                <td>one-to-many</td>
-                                <td>statement</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </small>
-                <table id="element_param" class="pretty-table">
-                    <thead>
-                        <tr>
-                            <th>Element</th>
-                            <th>Tag</th>
-                            <th>Super</th>
-                            <th>Flags</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <b>param</b>
-                            </td>
-                            <td>param</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table id="element_xfunction" class="pretty-table">
-                    <thead>
-                        <tr>
-                            <th>Element</th>
-                            <th>Tag</th>
-                            <th>Super</th>
-                            <th>Flags</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <b>xfunction</b>
-                            </td>
-                            <td>function</td>
-                            <td>statement</td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <h5>Attributes</h5>
-                <small>
-                    <table class="table table-condensed table-bordered" style="width:100%;">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Tag</th>
-                                <th>Type</th>
-                                <th>Default</th>
-                                <th>Inherited</th>
-                                <th>Flags</th>
-                                <th>Description</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>rtype</td>
-                                <td>rtype</td>
-                                <td>string</td>
-                                <td>string</td>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                    <div>
-                                        <span>return type &nbsp;</span>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </small>
-                <h5>Relations</h5>
-                <small>
-                    <table class="table table-condensed table-bordered" style="width:100%;">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Role</th>
-                                <th>Cardinality</th>
-                                <th>Inherited</th>
-                                <th>Flags</th>
-                                <th>Description</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>param</td>
-                                <td>params</td>
-                                <td>one-to-many</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>statement</td>
-                                <td>statements</td>
-                                <td>one-to-many</td>
-                                <td>statement</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </small>
-                <table id="element_xreturn" class="pretty-table">
-                    <thead>
-                        <tr>
-                            <th>Element</th>
-                            <th>Tag</th>
-                            <th>Super</th>
-                            <th>Flags</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <b>xreturn</b>
-                            </td>
-                            <td>return</td>
-                            <td>statement</td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <h5>Relations</h5>
-                <small>
-                    <table class="table table-condensed table-bordered" style="width:100%;">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Role</th>
-                                <th>Cardinality</th>
-                                <th>Inherited</th>
-                                <th>Flags</th>
-                                <th>Description</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>statement</td>
-                                <td>statements</td>
-                                <td>one-to-many</td>
-                                <td>statement</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </small>
-            </div>
+<html>
+<head>
+    <title>Wizzi schema go</title>
+    <style>
+        body {
+          font-family: verdana;
+          font-size: 13px;
+        } 
+        .main-left {
+          position: fixed;
+          margin-left: 5%;
+          top: 80px;
+          width: 20%;
+          height: 80%;
+          background: #eee;
+          overflow: auto;
+        } 
+        .main-center {
+          top: 80px;
+          margin-left: 30%;
+          height: 80%;
+          width: 50%;
+          position: fixed;
+          overflow: auto;
+          z-index: 1;
+        } 
+        .well {
+          border: solid 1px #aaa;
+        } 
+        .pretty-table { border: 1px solid #333; width: 100%; margin-top: 30px; }
+        .pretty-table th, .pretty-table td { border: 1px dotted #666; }
+        .pretty-table-2 { border: 1px solid #999; width: 100%; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <h1>Wizzi Schema go</h1>
+        <div class="main-left">
+            <ul>
+                <li><a href="#element_statement">statement</a>
+                </li>
+                <li><a href="#element_codeline">codeline</a>
+                </li>
+                <li><a href="#element_go">go</a>
+                </li>
+                <li><a href="#element_param">param</a>
+                </li>
+                <li><a href="#element_xfunction">xfunction</a>
+                </li>
+                <li><a href="#element_xreturn">xreturn</a>
+                </li>
+            </ul>
         </div>
-    </body>
+        <div class="main-center">
+            <table id="element_statement" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>statement</b>
+                        </td>
+                        <td>#</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Description</h5>
+            <div>
+                <span>A statement line node with unlimited depth. &nbsp;</span>
+                <span>Is the schema base node. &nbsp;</span>
+                <span>In itself works as a comment line. &nbsp;</span>
+            </div>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>statement</td>
+                            <td>statements</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_codeline" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>codeline</b>
+                        </td>
+                        <td>codeline</td>
+                        <td>statement</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>statement</td>
+                            <td>statements</td>
+                            <td>one-to-many</td>
+                            <td>statement</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_go" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>go</b>
+                        </td>
+                        <td>go</td>
+                        <td>statement</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>statement</td>
+                            <td>statements</td>
+                            <td>one-to-many</td>
+                            <td>statement</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_param" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>param</b>
+                        </td>
+                        <td>param</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <table id="element_xfunction" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>xfunction</b>
+                        </td>
+                        <td>function</td>
+                        <td>statement</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Attributes</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Tag</th>
+                            <th>Type</th>
+                            <th>Default</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>rtype</td>
+                            <td>rtype</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <div>
+                                    <span>return type &nbsp;</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>param</td>
+                            <td>params</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>statement</td>
+                            <td>statements</td>
+                            <td>one-to-many</td>
+                            <td>statement</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_xreturn" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>xreturn</b>
+                        </td>
+                        <td>return</td>
+                        <td>statement</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>statement</td>
+                            <td>statements</td>
+                            <td>one-to-many</td>
+                            <td>statement</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+        </div>
+    </div>
+</body>
 
 </html>
 

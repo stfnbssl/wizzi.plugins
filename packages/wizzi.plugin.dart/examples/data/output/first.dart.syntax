@@ -1,0 +1,1384 @@
+{
+  "tag": "Program",
+  "name": "",
+  "children": [
+    {
+      "tag": "+",
+      "name": "import '../core/parser.dart';",
+      "children": [],
+      "parent": "[Circular ~]"
+    },
+    {
+      "tag": "+",
+      "name": "import '../parser/misc/epsilon.dart';",
+      "children": [],
+      "parent": "[Circular ~]"
+    },
+    {
+      "tag": "+",
+      "name": "import '../shared/types.dart';",
+      "children": [],
+      "parent": "[Circular ~]"
+    },
+    {
+      "tag": "+",
+      "name": "import 'internal/cycle_set.dart';",
+      "children": [],
+      "parent": "[Circular ~]"
+    },
+    {
+      "tag": "+",
+      "name": "import 'internal/first_set.dart';",
+      "children": [],
+      "parent": "[Circular ~]"
+    },
+    {
+      "tag": "+",
+      "name": "import 'internal/follow_set.dart';",
+      "children": [],
+      "parent": "[Circular ~]"
+    },
+    {
+      "tag": "+",
+      "name": "import 'internal/path.dart';",
+      "children": [],
+      "parent": "[Circular ~]"
+    },
+    {
+      "tag": "+",
+      "name": "import 'iterable.dart';",
+      "children": [],
+      "parent": "[Circular ~]"
+    },
+    {
+      "tag": "+",
+      "name": "/// Helper to reflect on properties of a grammar.",
+      "children": [],
+      "parent": "[Circular ~]"
+    },
+    {
+      "tag": "+",
+      "name": "class Analyzer ",
+      "children": [
+        {
+          "tag": "{",
+          "name": "",
+          "children": [
+            {
+              "tag": "+",
+              "name": "  /// Constructs an analyzer on the parser graph starting at [root].",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  Analyzer",
+              "children": [
+                {
+                  "tag": "(",
+                  "name": "",
+                  "children": [
+                    {
+                      "tag": "+",
+                      "name": "this.root",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.1.children.0]"
+                    }
+                  ],
+                  "parent": "[Circular ~.children.9.children.0.children.1]"
+                }
+              ],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": ";",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  /// The start parser of analysis.",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  final Parser root;",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  /// Returns a set of all parsers reachable from [root].",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  Iterable<Parser> get parsers => _parsers;",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  late final Set<Parser> _parsers = allParser",
+              "children": [
+                {
+                  "tag": "(",
+                  "name": "",
+                  "children": [
+                    {
+                      "tag": "+",
+                      "name": "root",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.7.children.0]"
+                    }
+                  ],
+                  "parent": "[Circular ~.children.9.children.0.children.7]"
+                }
+              ],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": ".toSet",
+              "children": [
+                {
+                  "tag": "(",
+                  "name": "",
+                  "children": [],
+                  "parent": "[Circular ~.children.9.children.0.children.8]"
+                }
+              ],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": ";",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  /// Returns a set of all deep children reachable from [parser].",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  ///",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  /// The returned set does only include the [parser] itself, if it is",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  /// recursively calling itself.",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  Set<Parser> allChildren",
+              "children": [
+                {
+                  "tag": "(",
+                  "name": "",
+                  "children": [
+                    {
+                      "tag": "+",
+                      "name": "Parser parser",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.14.children.0]"
+                    }
+                  ],
+                  "parent": "[Circular ~.children.9.children.0.children.14]"
+                }
+              ],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": " ",
+              "children": [
+                {
+                  "tag": "{",
+                  "name": "",
+                  "children": [
+                    {
+                      "tag": "+",
+                      "name": "    assert",
+                      "children": [
+                        {
+                          "tag": "(",
+                          "name": "",
+                          "children": [
+                            {
+                              "tag": "+",
+                              "name": "parsers.contains",
+                              "children": [
+                                {
+                                  "tag": "(",
+                                  "name": "",
+                                  "children": [
+                                    {
+                                      "tag": "+",
+                                      "name": "parser",
+                                      "children": [],
+                                      "parent": "[Circular ~.children.9.children.0.children.15.children.0.children.0.children.0.children.0.children.0]"
+                                    }
+                                  ],
+                                  "parent": "[Circular ~.children.9.children.0.children.15.children.0.children.0.children.0.children.0]"
+                                }
+                              ],
+                              "parent": "[Circular ~.children.9.children.0.children.15.children.0.children.0.children.0]"
+                            },
+                            {
+                              "tag": "+",
+                              "name": ", 'parser is not part of the analyzer'",
+                              "children": [],
+                              "parent": "[Circular ~.children.9.children.0.children.15.children.0.children.0.children.0]"
+                            }
+                          ],
+                          "parent": "[Circular ~.children.9.children.0.children.15.children.0.children.0]"
+                        }
+                      ],
+                      "parent": "[Circular ~.children.9.children.0.children.15.children.0]"
+                    },
+                    {
+                      "tag": "+",
+                      "name": ";",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.15.children.0]"
+                    },
+                    {
+                      "tag": "+",
+                      "name": "    return _allChildren.putIfAbsent",
+                      "children": [
+                        {
+                          "tag": "(",
+                          "name": "",
+                          "children": [
+                            {
+                              "tag": "+",
+                              "name": "        parser,",
+                              "children": [],
+                              "parent": "[Circular ~.children.9.children.0.children.15.children.0.children.2.children.0]"
+                            },
+                            {
+                              "tag": "+",
+                              "name": "        ",
+                              "children": [
+                                {
+                                  "tag": "(",
+                                  "name": "",
+                                  "children": [],
+                                  "parent": "[Circular ~.children.9.children.0.children.15.children.0.children.2.children.0.children.1]"
+                                }
+                              ],
+                              "parent": "[Circular ~.children.9.children.0.children.15.children.0.children.2.children.0]"
+                            },
+                            {
+                              "tag": "+",
+                              "name": " => parser.children.fold",
+                              "children": [
+                                {
+                                  "tag": "(",
+                                  "name": "",
+                                  "children": [
+                                    {
+                                      "tag": "+",
+                                      "name": "            <Parser>",
+                                      "children": [
+                                        {
+                                          "tag": "{",
+                                          "name": "",
+                                          "children": [],
+                                          "parent": "[Circular ~.children.9.children.0.children.15.children.0.children.2.children.0.children.2.children.0.children.0]"
+                                        }
+                                      ],
+                                      "parent": "[Circular ~.children.9.children.0.children.15.children.0.children.2.children.0.children.2.children.0]"
+                                    },
+                                    {
+                                      "tag": "+",
+                                      "name": ", ",
+                                      "children": [
+                                        {
+                                          "tag": "(",
+                                          "name": "",
+                                          "children": [
+                                            {
+                                              "tag": "+",
+                                              "name": "result, child",
+                                              "children": [],
+                                              "parent": "[Circular ~.children.9.children.0.children.15.children.0.children.2.children.0.children.2.children.0.children.1.children.0]"
+                                            }
+                                          ],
+                                          "parent": "[Circular ~.children.9.children.0.children.15.children.0.children.2.children.0.children.2.children.0.children.1]"
+                                        }
+                                      ],
+                                      "parent": "[Circular ~.children.9.children.0.children.15.children.0.children.2.children.0.children.2.children.0]"
+                                    },
+                                    {
+                                      "tag": "+",
+                                      "name": " => result..addAll",
+                                      "children": [
+                                        {
+                                          "tag": "(",
+                                          "name": "",
+                                          "children": [
+                                            {
+                                              "tag": "+",
+                                              "name": "allParser",
+                                              "children": [
+                                                {
+                                                  "tag": "(",
+                                                  "name": "",
+                                                  "children": [
+                                                    {
+                                                      "tag": "+",
+                                                      "name": "child",
+                                                      "children": [],
+                                                      "parent": "[Circular ~.children.9.children.0.children.15.children.0.children.2.children.0.children.2.children.0.children.2.children.0.children.0.children.0]"
+                                                    }
+                                                  ],
+                                                  "parent": "[Circular ~.children.9.children.0.children.15.children.0.children.2.children.0.children.2.children.0.children.2.children.0.children.0]"
+                                                }
+                                              ],
+                                              "parent": "[Circular ~.children.9.children.0.children.15.children.0.children.2.children.0.children.2.children.0.children.2.children.0]"
+                                            }
+                                          ],
+                                          "parent": "[Circular ~.children.9.children.0.children.15.children.0.children.2.children.0.children.2.children.0.children.2]"
+                                        }
+                                      ],
+                                      "parent": "[Circular ~.children.9.children.0.children.15.children.0.children.2.children.0.children.2.children.0]"
+                                    }
+                                  ],
+                                  "parent": "[Circular ~.children.9.children.0.children.15.children.0.children.2.children.0.children.2]"
+                                }
+                              ],
+                              "parent": "[Circular ~.children.9.children.0.children.15.children.0.children.2.children.0]"
+                            }
+                          ],
+                          "parent": "[Circular ~.children.9.children.0.children.15.children.0.children.2]"
+                        }
+                      ],
+                      "parent": "[Circular ~.children.9.children.0.children.15.children.0]"
+                    },
+                    {
+                      "tag": "+",
+                      "name": ";",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.15.children.0]"
+                    },
+                    {
+                      "tag": "+",
+                      "name": "  ",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.15.children.0]"
+                    }
+                  ],
+                  "parent": "[Circular ~.children.9.children.0.children.15]"
+                }
+              ],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  late final Map<Parser, Set<Parser>> _allChildren = ",
+              "children": [
+                {
+                  "tag": "{",
+                  "name": "",
+                  "children": [],
+                  "parent": "[Circular ~.children.9.children.0.children.16]"
+                }
+              ],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": ";",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  /// Returns the shortest path from [source] that satisfies the given",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  /// [predicate], if any.",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  ParserPath? findPath",
+              "children": [
+                {
+                  "tag": "(",
+                  "name": "",
+                  "children": [
+                    {
+                      "tag": "+",
+                      "name": "Parser source, Predicate<ParserPath> predicate",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.20.children.0]"
+                    }
+                  ],
+                  "parent": "[Circular ~.children.9.children.0.children.20]"
+                }
+              ],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": " ",
+              "children": [
+                {
+                  "tag": "{",
+                  "name": "",
+                  "children": [
+                    {
+                      "tag": "+",
+                      "name": "    ParserPath? path;",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.21.children.0]"
+                    },
+                    {
+                      "tag": "for",
+                      "name": "(final current in findAllPaths(source, predicate))",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.21.children.0]"
+                    },
+                    {
+                      "tag": "+",
+                      "name": " ",
+                      "children": [
+                        {
+                          "tag": "{",
+                          "name": "",
+                          "children": [
+                            {
+                              "tag": "if",
+                              "name": "(path == null || current.length < path.length)",
+                              "children": [],
+                              "parent": "[Circular ~.children.9.children.0.children.21.children.0.children.2.children.0]"
+                            },
+                            {
+                              "tag": "+",
+                              "name": " ",
+                              "children": [
+                                {
+                                  "tag": "{",
+                                  "name": "",
+                                  "children": [
+                                    {
+                                      "tag": "+",
+                                      "name": "        path = current;",
+                                      "children": [],
+                                      "parent": "[Circular ~.children.9.children.0.children.21.children.0.children.2.children.0.children.1.children.0]"
+                                    },
+                                    {
+                                      "tag": "+",
+                                      "name": "      ",
+                                      "children": [],
+                                      "parent": "[Circular ~.children.9.children.0.children.21.children.0.children.2.children.0.children.1.children.0]"
+                                    }
+                                  ],
+                                  "parent": "[Circular ~.children.9.children.0.children.21.children.0.children.2.children.0.children.1]"
+                                }
+                              ],
+                              "parent": "[Circular ~.children.9.children.0.children.21.children.0.children.2.children.0]"
+                            },
+                            {
+                              "tag": "+",
+                              "name": "    ",
+                              "children": [],
+                              "parent": "[Circular ~.children.9.children.0.children.21.children.0.children.2.children.0]"
+                            }
+                          ],
+                          "parent": "[Circular ~.children.9.children.0.children.21.children.0.children.2]"
+                        }
+                      ],
+                      "parent": "[Circular ~.children.9.children.0.children.21.children.0]"
+                    },
+                    {
+                      "tag": "+",
+                      "name": "    return path;",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.21.children.0]"
+                    },
+                    {
+                      "tag": "+",
+                      "name": "  ",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.21.children.0]"
+                    }
+                  ],
+                  "parent": "[Circular ~.children.9.children.0.children.21]"
+                }
+              ],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  /// Returns the shortest path from [source] to [target], if any.",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  ParserPath? findPathTo",
+              "children": [
+                {
+                  "tag": "(",
+                  "name": "",
+                  "children": [
+                    {
+                      "tag": "+",
+                      "name": "Parser source, Parser target",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.23.children.0]"
+                    }
+                  ],
+                  "parent": "[Circular ~.children.9.children.0.children.23]"
+                }
+              ],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": " ",
+              "children": [
+                {
+                  "tag": "{",
+                  "name": "",
+                  "children": [
+                    {
+                      "tag": "+",
+                      "name": "    assert",
+                      "children": [
+                        {
+                          "tag": "(",
+                          "name": "",
+                          "children": [
+                            {
+                              "tag": "+",
+                              "name": "parsers.contains",
+                              "children": [
+                                {
+                                  "tag": "(",
+                                  "name": "",
+                                  "children": [
+                                    {
+                                      "tag": "+",
+                                      "name": "target",
+                                      "children": [],
+                                      "parent": "[Circular ~.children.9.children.0.children.24.children.0.children.0.children.0.children.0.children.0]"
+                                    }
+                                  ],
+                                  "parent": "[Circular ~.children.9.children.0.children.24.children.0.children.0.children.0.children.0]"
+                                }
+                              ],
+                              "parent": "[Circular ~.children.9.children.0.children.24.children.0.children.0.children.0]"
+                            },
+                            {
+                              "tag": "+",
+                              "name": ", 'target is not part of the analyzer'",
+                              "children": [],
+                              "parent": "[Circular ~.children.9.children.0.children.24.children.0.children.0.children.0]"
+                            }
+                          ],
+                          "parent": "[Circular ~.children.9.children.0.children.24.children.0.children.0]"
+                        }
+                      ],
+                      "parent": "[Circular ~.children.9.children.0.children.24.children.0]"
+                    },
+                    {
+                      "tag": "+",
+                      "name": ";",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.24.children.0]"
+                    },
+                    {
+                      "tag": "+",
+                      "name": "    return findPath",
+                      "children": [
+                        {
+                          "tag": "(",
+                          "name": "",
+                          "children": [
+                            {
+                              "tag": "+",
+                              "name": "source, ",
+                              "children": [
+                                {
+                                  "tag": "(",
+                                  "name": "",
+                                  "children": [
+                                    {
+                                      "tag": "+",
+                                      "name": "path",
+                                      "children": [],
+                                      "parent": "[Circular ~.children.9.children.0.children.24.children.0.children.2.children.0.children.0.children.0]"
+                                    }
+                                  ],
+                                  "parent": "[Circular ~.children.9.children.0.children.24.children.0.children.2.children.0.children.0]"
+                                }
+                              ],
+                              "parent": "[Circular ~.children.9.children.0.children.24.children.0.children.2.children.0]"
+                            },
+                            {
+                              "tag": "+",
+                              "name": " => path.target == target",
+                              "children": [],
+                              "parent": "[Circular ~.children.9.children.0.children.24.children.0.children.2.children.0]"
+                            }
+                          ],
+                          "parent": "[Circular ~.children.9.children.0.children.24.children.0.children.2]"
+                        }
+                      ],
+                      "parent": "[Circular ~.children.9.children.0.children.24.children.0]"
+                    },
+                    {
+                      "tag": "+",
+                      "name": ";",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.24.children.0]"
+                    },
+                    {
+                      "tag": "+",
+                      "name": "  ",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.24.children.0]"
+                    }
+                  ],
+                  "parent": "[Circular ~.children.9.children.0.children.24]"
+                }
+              ],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  /// Returns all paths starting at [source] that satisfy the given [predicate].",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  Iterable<ParserPath> findAllPaths",
+              "children": [
+                {
+                  "tag": "(",
+                  "name": "",
+                  "children": [
+                    {
+                      "tag": "+",
+                      "name": "      Parser source, Predicate<ParserPath> predicate",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.26.children.0]"
+                    }
+                  ],
+                  "parent": "[Circular ~.children.9.children.0.children.26]"
+                }
+              ],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": " ",
+              "children": [
+                {
+                  "tag": "{",
+                  "name": "",
+                  "children": [
+                    {
+                      "tag": "+",
+                      "name": "    assert",
+                      "children": [
+                        {
+                          "tag": "(",
+                          "name": "",
+                          "children": [
+                            {
+                              "tag": "+",
+                              "name": "parsers.contains",
+                              "children": [
+                                {
+                                  "tag": "(",
+                                  "name": "",
+                                  "children": [
+                                    {
+                                      "tag": "+",
+                                      "name": "source",
+                                      "children": [],
+                                      "parent": "[Circular ~.children.9.children.0.children.27.children.0.children.0.children.0.children.0.children.0]"
+                                    }
+                                  ],
+                                  "parent": "[Circular ~.children.9.children.0.children.27.children.0.children.0.children.0.children.0]"
+                                }
+                              ],
+                              "parent": "[Circular ~.children.9.children.0.children.27.children.0.children.0.children.0]"
+                            },
+                            {
+                              "tag": "+",
+                              "name": ", 'source is not part of the analyzer'",
+                              "children": [],
+                              "parent": "[Circular ~.children.9.children.0.children.27.children.0.children.0.children.0]"
+                            }
+                          ],
+                          "parent": "[Circular ~.children.9.children.0.children.27.children.0.children.0]"
+                        }
+                      ],
+                      "parent": "[Circular ~.children.9.children.0.children.27.children.0]"
+                    },
+                    {
+                      "tag": "+",
+                      "name": ";",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.27.children.0]"
+                    },
+                    {
+                      "tag": "+",
+                      "name": "    return depthFirstSearch",
+                      "children": [
+                        {
+                          "tag": "(",
+                          "name": "",
+                          "children": [
+                            {
+                              "tag": "+",
+                              "name": "ParserPath",
+                              "children": [
+                                {
+                                  "tag": "(",
+                                  "name": "",
+                                  "children": [
+                                    {
+                                      "tag": "[",
+                                      "name": "",
+                                      "children": [
+                                        {
+                                          "tag": "+",
+                                          "name": "source",
+                                          "children": [],
+                                          "parent": "[Circular ~.children.9.children.0.children.27.children.0.children.2.children.0.children.0.children.0.children.0]"
+                                        }
+                                      ],
+                                      "parent": "[Circular ~.children.9.children.0.children.27.children.0.children.2.children.0.children.0.children.0]"
+                                    },
+                                    {
+                                      "tag": "+",
+                                      "name": ", ",
+                                      "children": [
+                                        {
+                                          "tag": "[",
+                                          "name": "",
+                                          "children": [],
+                                          "parent": "[Circular ~.children.9.children.0.children.27.children.0.children.2.children.0.children.0.children.0.children.1]"
+                                        }
+                                      ],
+                                      "parent": "[Circular ~.children.9.children.0.children.27.children.0.children.2.children.0.children.0.children.0]"
+                                    }
+                                  ],
+                                  "parent": "[Circular ~.children.9.children.0.children.27.children.0.children.2.children.0.children.0]"
+                                }
+                              ],
+                              "parent": "[Circular ~.children.9.children.0.children.27.children.0.children.2.children.0]"
+                            },
+                            {
+                              "tag": "+",
+                              "name": ", predicate",
+                              "children": [],
+                              "parent": "[Circular ~.children.9.children.0.children.27.children.0.children.2.children.0]"
+                            }
+                          ],
+                          "parent": "[Circular ~.children.9.children.0.children.27.children.0.children.2]"
+                        }
+                      ],
+                      "parent": "[Circular ~.children.9.children.0.children.27.children.0]"
+                    },
+                    {
+                      "tag": "+",
+                      "name": ";",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.27.children.0]"
+                    },
+                    {
+                      "tag": "+",
+                      "name": "  ",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.27.children.0]"
+                    }
+                  ],
+                  "parent": "[Circular ~.children.9.children.0.children.27]"
+                }
+              ],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  /// Returns all paths starting at [source] that end in [target].",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  Iterable<ParserPath> findAllPathsTo",
+              "children": [
+                {
+                  "tag": "(",
+                  "name": "",
+                  "children": [
+                    {
+                      "tag": "+",
+                      "name": "Parser source, Parser target",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.29.children.0]"
+                    }
+                  ],
+                  "parent": "[Circular ~.children.9.children.0.children.29]"
+                }
+              ],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": " ",
+              "children": [
+                {
+                  "tag": "{",
+                  "name": "",
+                  "children": [
+                    {
+                      "tag": "+",
+                      "name": "    assert",
+                      "children": [
+                        {
+                          "tag": "(",
+                          "name": "",
+                          "children": [
+                            {
+                              "tag": "+",
+                              "name": "parsers.contains",
+                              "children": [
+                                {
+                                  "tag": "(",
+                                  "name": "",
+                                  "children": [
+                                    {
+                                      "tag": "+",
+                                      "name": "target",
+                                      "children": [],
+                                      "parent": "[Circular ~.children.9.children.0.children.30.children.0.children.0.children.0.children.0.children.0]"
+                                    }
+                                  ],
+                                  "parent": "[Circular ~.children.9.children.0.children.30.children.0.children.0.children.0.children.0]"
+                                }
+                              ],
+                              "parent": "[Circular ~.children.9.children.0.children.30.children.0.children.0.children.0]"
+                            },
+                            {
+                              "tag": "+",
+                              "name": ", 'target is not part of the analyzer'",
+                              "children": [],
+                              "parent": "[Circular ~.children.9.children.0.children.30.children.0.children.0.children.0]"
+                            }
+                          ],
+                          "parent": "[Circular ~.children.9.children.0.children.30.children.0.children.0]"
+                        }
+                      ],
+                      "parent": "[Circular ~.children.9.children.0.children.30.children.0]"
+                    },
+                    {
+                      "tag": "+",
+                      "name": ";",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.30.children.0]"
+                    },
+                    {
+                      "tag": "+",
+                      "name": "    return findAllPaths",
+                      "children": [
+                        {
+                          "tag": "(",
+                          "name": "",
+                          "children": [
+                            {
+                              "tag": "+",
+                              "name": "source, ",
+                              "children": [
+                                {
+                                  "tag": "(",
+                                  "name": "",
+                                  "children": [
+                                    {
+                                      "tag": "+",
+                                      "name": "path",
+                                      "children": [],
+                                      "parent": "[Circular ~.children.9.children.0.children.30.children.0.children.2.children.0.children.0.children.0]"
+                                    }
+                                  ],
+                                  "parent": "[Circular ~.children.9.children.0.children.30.children.0.children.2.children.0.children.0]"
+                                }
+                              ],
+                              "parent": "[Circular ~.children.9.children.0.children.30.children.0.children.2.children.0]"
+                            },
+                            {
+                              "tag": "+",
+                              "name": " => path.target == target",
+                              "children": [],
+                              "parent": "[Circular ~.children.9.children.0.children.30.children.0.children.2.children.0]"
+                            }
+                          ],
+                          "parent": "[Circular ~.children.9.children.0.children.30.children.0.children.2]"
+                        }
+                      ],
+                      "parent": "[Circular ~.children.9.children.0.children.30.children.0]"
+                    },
+                    {
+                      "tag": "+",
+                      "name": ";",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.30.children.0]"
+                    },
+                    {
+                      "tag": "+",
+                      "name": "  ",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.30.children.0]"
+                    }
+                  ],
+                  "parent": "[Circular ~.children.9.children.0.children.30]"
+                }
+              ],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  /// Returns `true` if [parser] is transitively nullable, that is it can",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  /// successfully parse nothing.",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  bool isNullable",
+              "children": [
+                {
+                  "tag": "(",
+                  "name": "",
+                  "children": [
+                    {
+                      "tag": "+",
+                      "name": "Parser parser",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.33.children.0]"
+                    }
+                  ],
+                  "parent": "[Circular ~.children.9.children.0.children.33]"
+                }
+              ],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": " => _firstSets",
+              "children": [
+                {
+                  "tag": "[",
+                  "name": "",
+                  "children": [
+                    {
+                      "tag": "+",
+                      "name": "parser",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.34.children.0]"
+                    }
+                  ],
+                  "parent": "[Circular ~.children.9.children.0.children.34]"
+                }
+              ],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "!.contains",
+              "children": [
+                {
+                  "tag": "(",
+                  "name": "",
+                  "children": [
+                    {
+                      "tag": "+",
+                      "name": "sentinel",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.35.children.0]"
+                    }
+                  ],
+                  "parent": "[Circular ~.children.9.children.0.children.35]"
+                }
+              ],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": ";",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  /// Returns the first-set of [parser].",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  ///",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  /// The first-set of a parser is the set of terminal parsers which can appear",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  /// as the first element of any chain of parsers derivable from [parser].",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  /// Includes [sentinel], if the set is nullable.",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  Iterable<Parser> firstSet",
+              "children": [
+                {
+                  "tag": "(",
+                  "name": "",
+                  "children": [
+                    {
+                      "tag": "+",
+                      "name": "Parser parser",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.42.children.0]"
+                    }
+                  ],
+                  "parent": "[Circular ~.children.9.children.0.children.42]"
+                }
+              ],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": " => _firstSets",
+              "children": [
+                {
+                  "tag": "[",
+                  "name": "",
+                  "children": [
+                    {
+                      "tag": "+",
+                      "name": "parser",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.43.children.0]"
+                    }
+                  ],
+                  "parent": "[Circular ~.children.9.children.0.children.43]"
+                }
+              ],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "!;",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  late final Map<Parser, Set<Parser>> _firstSets =",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "      computeFirstSets",
+              "children": [
+                {
+                  "tag": "(",
+                  "name": "",
+                  "children": [
+                    {
+                      "tag": "+",
+                      "name": "parsers: _parsers, sentinel: sentinel",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.46.children.0]"
+                    }
+                  ],
+                  "parent": "[Circular ~.children.9.children.0.children.46]"
+                }
+              ],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": ";",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  /// Returns the follow-set of a [parser].",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  ///",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  /// The follow-set of a parser is the list of terminal parsers that can",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  /// appear immediately after [parser]. Includes [sentinel], if the parse can",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  /// complete when starting at [root].",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  Iterable<Parser> followSet",
+              "children": [
+                {
+                  "tag": "(",
+                  "name": "",
+                  "children": [
+                    {
+                      "tag": "+",
+                      "name": "Parser parser",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.53.children.0]"
+                    }
+                  ],
+                  "parent": "[Circular ~.children.9.children.0.children.53]"
+                }
+              ],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": " => _followSet",
+              "children": [
+                {
+                  "tag": "[",
+                  "name": "",
+                  "children": [
+                    {
+                      "tag": "+",
+                      "name": "parser",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.54.children.0]"
+                    }
+                  ],
+                  "parent": "[Circular ~.children.9.children.0.children.54]"
+                }
+              ],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "!;",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  late final Map<Parser, Set<Parser>> _followSet = computeFollowSets",
+              "children": [
+                {
+                  "tag": "(",
+                  "name": "",
+                  "children": [
+                    {
+                      "tag": "+",
+                      "name": "      root: root, parsers: _parsers, firstSets: _firstSets, sentinel: sentinel",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.56.children.0]"
+                    }
+                  ],
+                  "parent": "[Circular ~.children.9.children.0.children.56]"
+                }
+              ],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": ";",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  /// Returns the cycle-set of a [parser].",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  Iterable<Parser> cycleSet",
+              "children": [
+                {
+                  "tag": "(",
+                  "name": "",
+                  "children": [
+                    {
+                      "tag": "+",
+                      "name": "Parser parser",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.59.children.0]"
+                    }
+                  ],
+                  "parent": "[Circular ~.children.9.children.0.children.59]"
+                }
+              ],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": " => _cycleSet",
+              "children": [
+                {
+                  "tag": "[",
+                  "name": "",
+                  "children": [
+                    {
+                      "tag": "+",
+                      "name": "parser",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.60.children.0]"
+                    }
+                  ],
+                  "parent": "[Circular ~.children.9.children.0.children.60]"
+                }
+              ],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "!;",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  late final Map<Parser, List<Parser>> _cycleSet =",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "      computeCycleSets",
+              "children": [
+                {
+                  "tag": "(",
+                  "name": "",
+                  "children": [
+                    {
+                      "tag": "+",
+                      "name": "parsers: _parsers, firstSets: _firstSets",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.63.children.0]"
+                    }
+                  ],
+                  "parent": "[Circular ~.children.9.children.0.children.63]"
+                }
+              ],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": ";",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  /// A unique parser used as a marker in [firstSet] and [followSet]",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  /// computations.",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": "  static final sentinel = EpsilonParser<void>",
+              "children": [
+                {
+                  "tag": "(",
+                  "name": "",
+                  "children": [
+                    {
+                      "tag": "+",
+                      "name": "null",
+                      "children": [],
+                      "parent": "[Circular ~.children.9.children.0.children.67.children.0]"
+                    }
+                  ],
+                  "parent": "[Circular ~.children.9.children.0.children.67]"
+                }
+              ],
+              "parent": "[Circular ~.children.9.children.0]"
+            },
+            {
+              "tag": "+",
+              "name": ";",
+              "children": [],
+              "parent": "[Circular ~.children.9.children.0]"
+            }
+          ],
+          "parent": "[Circular ~.children.9]"
+        }
+      ],
+      "parent": "[Circular ~]"
+    }
+  ]
+}

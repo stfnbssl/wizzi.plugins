@@ -6,8 +6,8 @@
 	var util = require('util')
 	var verify = require('wizzi-utils').verify
 	var errors = require('wizzi-utils').errors
-    var jsyaml = require('js-yaml');
-    var lineParser = require('./lineParser')
+	+
+	var myname = 'wizzi.plugin.yaml.lib.wizzi.models.yaml-model.g.js.ittf'
 	+
     set module.exports
 		function
@@ -16,7 +16,7 @@
 			param request
 			param callback
 
-			# loog 'wizzi-core.wizzi.models.yaml-model.g', mTree
+			# loog myname, mTree
 
 			if !(mTree.nodes && mTree.nodes.length == 1)
 				return
@@ -27,57 +27,28 @@
 
 			var root = mTree.nodes[0]
 			set root.__mTree = mTree
+			if root.n !== "{" && root.n !== "["
+				return
+					_ callback
+						_ error
+							@ 'The root node of a yaml ittf document must be : "{" or "[". Found: ' + root.n + ' ' + root.v
+							@ root
 
-            var sb = []
-            foreach node in root.children
-                _ appendNode
-                    @ node
-                    @ 0
-                    @ sb
-
-            log 'yaml source', '\n' + sb.join('\n')
-            var yaml
-                _ jsyaml.load
-                    _ sb.join('\n')
-
-            if verify.isString(yaml)
-                return 
-                    _ callback
-                        _ error
-                            @ 'Invalid yaml format. js-yaml returned a string.'
-                            @ root
-
-			log 'yaml', yaml
-            return
+			if root.n === "{" 
+				checked_call( yaml )
+					_ toYamlObject
+						@ root.children
+			else
+				checked_call( yaml )
+					_ toYamlArray
+						@ root.children
+			
+			return
 				_ callback
 					@ null
 					@ yaml
 
-	function appendNode
-        param node
-        param indent
-        param sb
-        log 'appendNode', indent, node.n + ' ' + node.v 
-        var indentString = new Array(indent * 2).join(' ')
-        if node.n === '-'
-            _ sb.push
-                @ indentString + node.n + ' ' + node.v
-        elif node.n === ':'
-            var nv
-                _ lineParser.parseNameValueRaw
-                    @ node.v
-            _ sb.push
-                @ indentString + nv.name() + ': ' + nv.value()
-        else
-            _ sb.push
-                @ indentString + node.n + ' ' + node.v
-        foreach child in node.children
-            _ appendNode
-                @ child
-                @ indent + 1
-                @ sb
-
-    function toYamlObject
+	function toYamlObject
 		param mTreeNodeChilds
 		var ret = {}, value
 		if mTreeNodeChilds
@@ -110,22 +81,25 @@
 								@ node
 				else
 					if !node.children || node.children.length == 0
-						return
-							_ error
-								@ 'A yaml property must have a value or a child object or array. Found: ' + node.n + ' ' + node.v
-								@ node
-					if node.children[0].n === '{'
-						checked_call_return( value )
-							_ toYamlObject(node.children[0].children)
-						set ret[node.n] = value
-					elif node.children[0].n === '['
-						checked_call_return( value )
-							_ toYamlArray(node.children[0].children)
-						set ret[node.n] = value
+						set ret[node.n] = null
+					elif node.children.length == 1
+						if node.children[0].n === '{'
+							checked_call_return( value )
+								_ toYamlObject(node.children[0].children)
+							set ret[node.n] = value
+						elif node.children[0].n === '['
+							checked_call_return( value )
+								_ toYamlArray(node.children[0].children)
+							set ret[node.n] = value
+						else
+							return
+								_ error
+									@ 'A yaml property must have a value or a single child, object or array. Found: ' + node.n + ' ' + node.v + ' first child: ' + node.children[0].n + ' ' + node.children[0].v
+									@ node
 					else
 						return
 							_ error
-								@ 'A yaml property must have a value or a child object or array. Found: ' + node.n + ' ' + node.v + ' first child: ' + node.children[0].n + ' ' + node.children[0].v
+								@ 'A yaml property must have a value or a single child, object or array. Found: ' + node.n + ' ' + node.v + ' children count: ' + node.children.length
 								@ node
 		return ret
 
@@ -148,11 +122,13 @@
 							@ node.children
 					_ ret.push
 						@ value
+				$* VIA: item array may have blanks 
 				elif node.v && node.v.length && isQuoted(node.n + ' ' + node.v) == false
 					return
 						_ error
 							@ 'A yaml array item must be an object, an array or a value not a property. Found: ' + node.n + ' ' + node.v
 							@ node
+				*$
 				else
 					checked_call_return( value )
 						_ yamlValue
@@ -165,15 +141,24 @@
 	function yamlValue
 		param value
 		param node
-		var yamlString = "{ \"value\": " + check(value) + "}"
+		# loog 'yamlValue 1', value
+		var yamlString = "{ \"value\": " + check(value) + " }"
 		try
 			var yaml = JSON.parse(yamlString)
+			# loog 'yamlValue', value, yaml.value
 			return yaml.value
 		catch ex
-			return
-				_ error
-					@ 'Error parsing yaml value. Message: ' + ex.message + '. Value: ' + value
-					@ node
+			# loog 'yamlValue 2', quote(value)
+			var yamlString = "{ \"value\": " + quote(check(value)) + " }"
+			try
+				var yaml = JSON.parse(yamlString)
+				# loog 'yamlValue', value, yaml.value
+				return yaml.value
+			catch ex
+				return
+					_ error
+						@ 'Error parsing yaml value. Message: ' + ex.message + '. Value: ' + value
+						@ node
 
 	function check
 		param value
@@ -187,27 +172,37 @@
 	
 	function isQuoted
 		param value
+		# loog 'isQuoted', value
 		if (value.length > 1 && value[0] === "'" && value[value.length-1] === "'") ||
 			\b (value.length > 1 && value[0] === '"' && value[value.length-1] === '"')
 			return true
+			# loog 'isQuoted', value, true
 		else
-			return value
+			return false
 
 	function unquote
 		param str
 		return str.substr(1, str.length -2)
 
+	function quote
+		param str
+		# loog 'quote 1', str
+		if isQuoted(str)
+			return str
+		# loog 'quote 2', check('"' + str + '"')
+		return check('"' + str + '"')
+
 	function error
 		param message
 		param node
-		# loog 'wizzi-core.wizzi.models.yaml-model.g.error', node
+		# loog myname, node
 		_ nodeInfo
 			@ node
 			@ message
 		return
 			{
 				@ __is_error true
-				@ source 'wizzi-core/lib/wizzi/models/yaml-model.g'
+				@ source myname
 				@ node node.n + ' ' + node.v + ' pos: ' + node.r + ', ' + node.c
 				@ message message
 				@ errorLines
