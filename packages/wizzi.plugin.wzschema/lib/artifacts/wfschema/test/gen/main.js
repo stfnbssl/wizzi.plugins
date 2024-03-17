@@ -1,7 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.14
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\.wizzi-override\lib\artifacts\wfschema\test\gen\main.js.ittf
+    utc time: Fri, 15 Mar 2024 08:46:06 GMT
 */
 'use strict';
 var util = require('util');
@@ -17,7 +18,7 @@ md.gen = function(model, ctx, callback) {
         if (err) {
             return callback(err);
         }
-        var mTreeBuildupContext = {
+        var mTreeBuildUpContext = {
             schema: bootWizziModel, 
             request: {
                 emitKey: ctx.emitKey || 'node-js', 
@@ -38,7 +39,7 @@ md.gen = function(model, ctx, callback) {
                 return callback(err);
             }
             wf.loadModelAndGenerateArtifact(path.join(__dirname, 'ittf', 'wfschema-test.js.ittf'), {
-                modelRequestContext: mTreeBuildupContext, 
+                modelRequestContext: mTreeBuildUpContext, 
                 artifactRequestContext: {}
              }, 'js/module', (err, artifactText) => {
             

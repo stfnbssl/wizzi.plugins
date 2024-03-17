@@ -21,7 +21,7 @@
 		info '--------------------------------------------------------------------------------------'
 		_ execute
 			@ item_1.name
-			f_cb()
+			a_cb()
 				repeater_increment(1)
 
 	function execute
@@ -48,13 +48,13 @@
 			@ ittfSource
 			_ getLoadModelContext
 				{
-			f_cb_test( tsWizziModel )
+			a_cb_test( tsWizziModel )
 				# loog 'tsWizziModel', stringify(tsWizziModel, null, 2)
 				var ctx = new mocks.getGenContext()
 				_ ts_artifact.gen
 					@ tsWizziModel
 					@ ctx
-					f_cb_test( ctxout )
+					a_cb_test( ctxout )
 						info 'ctxout', ctxout.getContent()
 						_ file.write
 							@ tsOutput

@@ -35,12 +35,12 @@
 			{
 				@ __productionManager
 					_ mocks.getProductionManager
-			f_cb_test( wizziModel )
+			a_cb_test( wizziModel )
 				info 'vtt wizziModel', JSON.stringify(wizziModel.toJson(), null, 2)
 				var ctx
 					_ mocks.getGenContext
 				_ vttgenerator.gen
 					@ wizziModel
 					@ ctx
-					f_cb_test( ctxout )
+					a_cb_test( ctxout )
 						info 'ctxout', ctxout.getContent()

@@ -1,0 +1,9 @@
+$group
+    $params coll, indent|@@null
+    _ md.genItems
+        @ model.${coll}
+        @ ctx
+        {
+            @ indent ${indent == "indent" ? true : false}
+        a_cb()
+            $hook

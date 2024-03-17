@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.dart\.wizzi-override\examples\dart_extended.js.ittf
-    utc time: Tue, 27 Feb 2024 19:59:49 GMT
+    utc time: Fri, 15 Mar 2024 19:45:55 GMT
 */
 'use strict';
 var path = require('path');
@@ -153,7 +153,7 @@ function loadWizziModel(ittfDocumentUri, context, plugins, callback) {
             return callback(err);
         }
         wf.loadModel(fi.schema, ittfDocumentUri, {
-            mTreeBuildupContext: context, 
+            mTreeBuildUpContext: context, 
             globalContext: {}
          }, callback)
     }
@@ -266,7 +266,7 @@ function executeWizziJob(ittfDocumentUri, context, plugins, callback) {
     }
     )
 }
-function executegenerateModelDoms(wfschemaIttfDocumentUri, outputPackagePath, wfschemaName, mTreeBuildupContext, plugins, callback) {
+function executegenerateModelDoms(wfschemaIttfDocumentUri, outputPackagePath, wfschemaName, mTreeBuildUpContext, plugins, callback) {
     
     if (!callback) {
         callback = plugins;
@@ -278,7 +278,7 @@ function executegenerateModelDoms(wfschemaIttfDocumentUri, outputPackagePath, wf
         if (err) {
             return callback(err);
         }
-        wf.generateModelDoms(wfschemaIttfDocumentUri, outputPackagePath, wfschemaName, mTreeBuildupContext, callback)
+        wf.generateModelDoms(wfschemaIttfDocumentUri, outputPackagePath, wfschemaName, mTreeBuildUpContext, callback)
     }
     )
 }

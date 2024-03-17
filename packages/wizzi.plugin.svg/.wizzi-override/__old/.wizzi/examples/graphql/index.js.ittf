@@ -35,14 +35,14 @@
 			{
 				@ __productionManager
 					_ mocks.getProductionManager
-			f_cb_test( wizziModel )
+			a_cb_test( wizziModel )
 				info 'graphql wizziModel', JSON.stringify(wizziModel.toJson(), null, 2)
 				var ctx
 					_ mocks.getGenContext
 				_ graphqlgenerator.gen
 					@ wizziModel
 					@ ctx
-					f_cb_test( ctxout )
+					a_cb_test( ctxout )
 						info 'ctxout begin ========', '\n' + ctxout.getContent(), '\nctxout end ============'
 						_ file.write
 							@ graphqlOutput

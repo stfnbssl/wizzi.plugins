@@ -22,13 +22,13 @@
 			@ info.ittfPath
 			_ getLoadModelContext
 				{
-			f_cb_test( wizziModel )
+			a_cb_test( wizziModel )
 				# log? wizziModel
 				var ctx = new mocks.getGenContext()
 				_ css_artifact.gen
 					@ wizziModel
 					@ ctx
-					f_cb_test( result )
+					a_cb_test( result )
 						var artifactText = result.getContent()
 						tobe_string_value( artifactText, info.expectedContent )
 						_ done
@@ -44,13 +44,13 @@
 			@ info.ittfPath
 			_ getLoadModelContext
 				{
-			f_cb_test( wizziModel )
+			a_cb_test( wizziModel )
 				# log? wizziModel
 				var ctx = new mocks.getGenContext()
 				_ css_artifact.gen
 					@ wizziModel
 					@ ctx
-					f_cb_test( result )
+					a_cb_test( result )
 						var artifactText = result.getContent()
 						tobe_string_value( artifactText, info.expectedContent )
 						_ done

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzjob\.wizzi-override\examples\wfjob_extended.js.ittf
-    utc time: Wed, 13 Mar 2024 07:14:54 GMT
+    utc time: Fri, 15 Mar 2024 07:53:18 GMT
 */
 'use strict';
 var path = require('path');
@@ -107,7 +107,7 @@ function loadWizziModel(ittfDocumentUri, context, callback) {
             return callback(err);
         }
         wf.loadModel(fi.schema, ittfDocumentUri, {
-            mTreeBuildupContext: context, 
+            mTreeBuildUpContext: context, 
             globalContext: {}
          }, callback)
     }
@@ -230,13 +230,13 @@ function executeWizziJob_2(wfjobDocumentUri, options) {
         }
     })
 }
-function executegenerateModelDoms(wfschemaIttfDocumentUri, outputPackagePath, wfschemaName, mTreeBuildupContext, callback) {
+function executegenerateModelDoms(wfschemaIttfDocumentUri, outputPackagePath, wfschemaName, mTreeBuildUpContext, callback) {
     createWizziFactory({}, (err, wf) => {
     
         if (err) {
             return callback(err);
         }
-        wf.generateModelDoms(wfschemaIttfDocumentUri, outputPackagePath, wfschemaName, mTreeBuildupContext, callback)
+        wf.generateModelDoms(wfschemaIttfDocumentUri, outputPackagePath, wfschemaName, mTreeBuildUpContext, callback)
     }
     )
 }

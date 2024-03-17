@@ -11,17 +11,15 @@ module
             param ctx
             param element
             param callback
-            $$ loogmyname, 'enter writeIncludeJs'
+            # loog myname, 'enter writeIncludeJs'
             _ element.get_js
                 a_cb( jsModel )
-                    $$ loogmyname, 'jsModel', jsModel
                     _ ctx.wizziFactory.generateArtifact
                         @ jsModel
                         @ 'generated from wzschema model'
                         @ 'js/module'
                         {
                         a_cb( artifactText )
-                            $$ loogmyname, 'js module artifactText', artifactText
                             _ ctx.indent
                             _ ctx.writeAligned(artifactText)
                             _ ctx.deindent

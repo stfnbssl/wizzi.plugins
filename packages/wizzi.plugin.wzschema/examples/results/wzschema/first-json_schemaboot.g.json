@@ -1,0 +1,1273 @@
+{
+    "wzElement": "wfschema",
+    "elements": [
+        {
+            "wzName": "basenode",
+            "wzId": "basenode",
+            "comments": [],
+            "wzElement": "element",
+            "attributes": [],
+            "elements": [],
+            "includes": [],
+            "relations": [],
+            "methods": [],
+            "restricts": [],
+            "wildTags": [],
+            "typeTags": [],
+            "choiceOrdered": [],
+            "superId": null,
+            "superType": "firstBase",
+            "addToChildren": false,
+            "isAbstract": true,
+            "isRoot": true,
+            "acceptAnyTagCollection": null,
+            "suppressCollectionEmit_Flat": false,
+            "nameIsRequired": false,
+            "defaultWhenDeclared": null,
+            "wzParent": {
+                "wzName": "first",
+                "wzId": "first",
+                "comments": [
+                    {
+                        "wzName": "A schema to test elements inheritance",
+                        "wzId": "A_schema_to_test_elements_inheritance",
+                        "comments": [],
+                        "wzElement": "comment",
+                        "wzParent": "[Circular ~.elements.0.wzParent]"
+                    }
+                ],
+                "wzElement": "wfschema",
+                "elements": "[Circular ~.elements]",
+                "declares": [],
+                "methods": [],
+                "requires": [],
+                "requiredModules": [],
+                "requiredFunctions": [],
+                "exportTos": [
+                    {
+                        "wzName": "json",
+                        "wzId": "json",
+                        "comments": [],
+                        "wzElement": "exportTo",
+                        "wzParent": "[Circular ~.elements.0.wzParent]"
+                    }
+                ],
+                "preserveTags": true,
+                "mTreeIsPreprocessed": false,
+                "rootElement": "[Circular ~.elements.0]",
+                "unknownElementReplacer": false,
+                "tagElementMapping": "{ '-': 'node' }",
+                "requiredContextMethods": []
+            },
+            "suppressCollectionEmit": false,
+            "schema": {
+                "wzName": "first",
+                "wzId": "first",
+                "comments": [
+                    {
+                        "wzName": "A schema to test elements inheritance",
+                        "wzId": "A_schema_to_test_elements_inheritance",
+                        "comments": [],
+                        "wzElement": "comment",
+                        "wzParent": "[Circular ~.elements.0.schema]"
+                    }
+                ],
+                "wzElement": "wfschema",
+                "elements": "[Circular ~.elements]",
+                "declares": [],
+                "methods": [],
+                "requires": [],
+                "requiredModules": [],
+                "requiredFunctions": [],
+                "exportTos": [
+                    {
+                        "wzName": "json",
+                        "wzId": "json",
+                        "comments": [],
+                        "wzElement": "exportTo",
+                        "wzParent": "[Circular ~.elements.0.schema]"
+                    }
+                ],
+                "preserveTags": true,
+                "mTreeIsPreprocessed": false,
+                "rootElement": "[Circular ~.elements.0]",
+                "unknownElementReplacer": false,
+                "tagElementMapping": "{ '-': 'node' }",
+                "requiredContextMethods": []
+            },
+            "wzIdCapital": "Basenode",
+            "tagName": "basenode",
+            "tagSafe": "basenode",
+            "xmlTag": "basenode",
+            "derived": [
+                {
+                    "wzName": "node",
+                    "wzId": "node",
+                    "comments": [],
+                    "wzElement": "element",
+                    "attributes": [],
+                    "elements": [],
+                    "includes": [],
+                    "relations": [
+                        {
+                            "wzName": "node",
+                            "wzId": "node",
+                            "comments": [],
+                            "wzElement": "relation",
+                            "wzNamePlural": "nodes",
+                            "wzIdPlural": "nodes",
+                            "childRole": null,
+                            "rightElement": "[Circular ~.elements.0.derived.0]",
+                            "noGetMethod": false,
+                            "hasAddOnce": false,
+                            "isOneToOne": false,
+                            "wzParent": "[Circular ~.elements.0.derived.0]",
+                            "leftElement": "[Circular ~.elements.0.derived.0]",
+                            "childEntityId": "node",
+                            "childEntityIdCapital": "Node"
+                        }
+                    ],
+                    "methods": [],
+                    "restricts": [],
+                    "wildTags": [],
+                    "typeTags": [],
+                    "choiceOrdered": [
+                        {
+                            "char": "-",
+                            "length": 1,
+                            "choices": [
+                                {
+                                    "length": 1,
+                                    "char": "-",
+                                    "test": "-",
+                                    "codelines": [
+                                        "return this.wzLoadToChildColl(child, _md.node, this.nodes);"
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "super": "basenode",
+                    "superId": "basenode",
+                    "superType": "basenode",
+                    "addToChildren": false,
+                    "isAbstract": false,
+                    "isRoot": false,
+                    "acceptAnyTagCollection": null,
+                    "suppressCollectionEmit_Flat": false,
+                    "nameIsRequired": false,
+                    "tagInternal": "-",
+                    "defaultWhenDeclared": null,
+                    "wzParent": {
+                        "wzName": "first",
+                        "wzId": "first",
+                        "comments": [
+                            {
+                                "wzName": "A schema to test elements inheritance",
+                                "wzId": "A_schema_to_test_elements_inheritance",
+                                "comments": [],
+                                "wzElement": "comment",
+                                "wzParent": "[Circular ~.elements.0.derived.0.wzParent]"
+                            }
+                        ],
+                        "wzElement": "wfschema",
+                        "elements": "[Circular ~.elements]",
+                        "declares": [],
+                        "methods": [],
+                        "requires": [],
+                        "requiredModules": [],
+                        "requiredFunctions": [],
+                        "exportTos": [
+                            {
+                                "wzName": "json",
+                                "wzId": "json",
+                                "comments": [],
+                                "wzElement": "exportTo",
+                                "wzParent": "[Circular ~.elements.0.derived.0.wzParent]"
+                            }
+                        ],
+                        "preserveTags": true,
+                        "mTreeIsPreprocessed": false,
+                        "rootElement": "[Circular ~.elements.0]",
+                        "unknownElementReplacer": false,
+                        "tagElementMapping": "{ '-': 'node' }",
+                        "requiredContextMethods": []
+                    },
+                    "suppressCollectionEmit": false,
+                    "schema": {
+                        "wzName": "first",
+                        "wzId": "first",
+                        "comments": [
+                            {
+                                "wzName": "A schema to test elements inheritance",
+                                "wzId": "A_schema_to_test_elements_inheritance",
+                                "comments": [],
+                                "wzElement": "comment",
+                                "wzParent": "[Circular ~.elements.0.derived.0.schema]"
+                            }
+                        ],
+                        "wzElement": "wfschema",
+                        "elements": "[Circular ~.elements]",
+                        "declares": [],
+                        "methods": [],
+                        "requires": [],
+                        "requiredModules": [],
+                        "requiredFunctions": [],
+                        "exportTos": [
+                            {
+                                "wzName": "json",
+                                "wzId": "json",
+                                "comments": [],
+                                "wzElement": "exportTo",
+                                "wzParent": "[Circular ~.elements.0.derived.0.schema]"
+                            }
+                        ],
+                        "preserveTags": true,
+                        "mTreeIsPreprocessed": false,
+                        "rootElement": "[Circular ~.elements.0]",
+                        "unknownElementReplacer": false,
+                        "tagElementMapping": "{ '-': 'node' }",
+                        "requiredContextMethods": []
+                    },
+                    "wzIdCapital": "Node",
+                    "tagName": "-",
+                    "tagSafe": "-",
+                    "xmlTag": "node",
+                    "derived": [],
+                    "superElement": "[Circular ~.elements.0]"
+                }
+            ]
+        },
+        {
+            "wzName": "node",
+            "wzId": "node",
+            "comments": [],
+            "wzElement": "element",
+            "attributes": [],
+            "elements": [],
+            "includes": [],
+            "relations": [
+                {
+                    "wzName": "node",
+                    "wzId": "node",
+                    "comments": [],
+                    "wzElement": "relation",
+                    "wzNamePlural": "nodes",
+                    "wzIdPlural": "nodes",
+                    "childRole": null,
+                    "rightElement": "[Circular ~.elements.1]",
+                    "noGetMethod": false,
+                    "hasAddOnce": false,
+                    "isOneToOne": false,
+                    "wzParent": "[Circular ~.elements.1]",
+                    "leftElement": "[Circular ~.elements.1]",
+                    "childEntityId": "node",
+                    "childEntityIdCapital": "Node"
+                }
+            ],
+            "methods": [],
+            "restricts": [],
+            "wildTags": [],
+            "typeTags": [],
+            "choiceOrdered": [
+                {
+                    "char": "-",
+                    "length": 1,
+                    "choices": [
+                        {
+                            "length": 1,
+                            "char": "-",
+                            "test": "-",
+                            "codelines": [
+                                "return this.wzLoadToChildColl(child, _md.node, this.nodes);"
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "super": "basenode",
+            "superId": "basenode",
+            "superType": "basenode",
+            "addToChildren": false,
+            "isAbstract": false,
+            "isRoot": false,
+            "acceptAnyTagCollection": null,
+            "suppressCollectionEmit_Flat": false,
+            "nameIsRequired": false,
+            "tagInternal": "-",
+            "defaultWhenDeclared": null,
+            "wzParent": {
+                "wzName": "first",
+                "wzId": "first",
+                "comments": [
+                    {
+                        "wzName": "A schema to test elements inheritance",
+                        "wzId": "A_schema_to_test_elements_inheritance",
+                        "comments": [],
+                        "wzElement": "comment",
+                        "wzParent": "[Circular ~.elements.1.wzParent]"
+                    }
+                ],
+                "wzElement": "wfschema",
+                "elements": "[Circular ~.elements]",
+                "declares": [],
+                "methods": [],
+                "requires": [],
+                "requiredModules": [],
+                "requiredFunctions": [],
+                "exportTos": [
+                    {
+                        "wzName": "json",
+                        "wzId": "json",
+                        "comments": [],
+                        "wzElement": "exportTo",
+                        "wzParent": "[Circular ~.elements.1.wzParent]"
+                    }
+                ],
+                "preserveTags": true,
+                "mTreeIsPreprocessed": false,
+                "rootElement": {
+                    "wzName": "basenode",
+                    "wzId": "basenode",
+                    "comments": [],
+                    "wzElement": "element",
+                    "attributes": [],
+                    "elements": [],
+                    "includes": [],
+                    "relations": [],
+                    "methods": [],
+                    "restricts": [],
+                    "wildTags": [],
+                    "typeTags": [],
+                    "choiceOrdered": [],
+                    "superId": null,
+                    "superType": "firstBase",
+                    "addToChildren": false,
+                    "isAbstract": true,
+                    "isRoot": true,
+                    "acceptAnyTagCollection": null,
+                    "suppressCollectionEmit_Flat": false,
+                    "nameIsRequired": false,
+                    "defaultWhenDeclared": null,
+                    "wzParent": "[Circular ~.elements.1.wzParent]",
+                    "suppressCollectionEmit": false,
+                    "schema": "[Circular ~.elements.1.wzParent]",
+                    "wzIdCapital": "Basenode",
+                    "tagName": "basenode",
+                    "tagSafe": "basenode",
+                    "xmlTag": "basenode",
+                    "derived": [
+                        "[Circular ~.elements.1]"
+                    ]
+                },
+                "unknownElementReplacer": false,
+                "tagElementMapping": "{ '-': 'node' }",
+                "requiredContextMethods": []
+            },
+            "suppressCollectionEmit": false,
+            "schema": {
+                "wzName": "first",
+                "wzId": "first",
+                "comments": [
+                    {
+                        "wzName": "A schema to test elements inheritance",
+                        "wzId": "A_schema_to_test_elements_inheritance",
+                        "comments": [],
+                        "wzElement": "comment",
+                        "wzParent": "[Circular ~.elements.1.schema]"
+                    }
+                ],
+                "wzElement": "wfschema",
+                "elements": "[Circular ~.elements]",
+                "declares": [],
+                "methods": [],
+                "requires": [],
+                "requiredModules": [],
+                "requiredFunctions": [],
+                "exportTos": [
+                    {
+                        "wzName": "json",
+                        "wzId": "json",
+                        "comments": [],
+                        "wzElement": "exportTo",
+                        "wzParent": "[Circular ~.elements.1.schema]"
+                    }
+                ],
+                "preserveTags": true,
+                "mTreeIsPreprocessed": false,
+                "rootElement": {
+                    "wzName": "basenode",
+                    "wzId": "basenode",
+                    "comments": [],
+                    "wzElement": "element",
+                    "attributes": [],
+                    "elements": [],
+                    "includes": [],
+                    "relations": [],
+                    "methods": [],
+                    "restricts": [],
+                    "wildTags": [],
+                    "typeTags": [],
+                    "choiceOrdered": [],
+                    "superId": null,
+                    "superType": "firstBase",
+                    "addToChildren": false,
+                    "isAbstract": true,
+                    "isRoot": true,
+                    "acceptAnyTagCollection": null,
+                    "suppressCollectionEmit_Flat": false,
+                    "nameIsRequired": false,
+                    "defaultWhenDeclared": null,
+                    "wzParent": "[Circular ~.elements.1.schema]",
+                    "suppressCollectionEmit": false,
+                    "schema": "[Circular ~.elements.1.schema]",
+                    "wzIdCapital": "Basenode",
+                    "tagName": "basenode",
+                    "tagSafe": "basenode",
+                    "xmlTag": "basenode",
+                    "derived": [
+                        "[Circular ~.elements.1]"
+                    ]
+                },
+                "unknownElementReplacer": false,
+                "tagElementMapping": "{ '-': 'node' }",
+                "requiredContextMethods": []
+            },
+            "wzIdCapital": "Node",
+            "tagName": "-",
+            "tagSafe": "-",
+            "xmlTag": "node",
+            "derived": [],
+            "superElement": {
+                "wzName": "basenode",
+                "wzId": "basenode",
+                "comments": [],
+                "wzElement": "element",
+                "attributes": [],
+                "elements": [],
+                "includes": [],
+                "relations": [],
+                "methods": [],
+                "restricts": [],
+                "wildTags": [],
+                "typeTags": [],
+                "choiceOrdered": [],
+                "superId": null,
+                "superType": "firstBase",
+                "addToChildren": false,
+                "isAbstract": true,
+                "isRoot": true,
+                "acceptAnyTagCollection": null,
+                "suppressCollectionEmit_Flat": false,
+                "nameIsRequired": false,
+                "defaultWhenDeclared": null,
+                "wzParent": {
+                    "wzName": "first",
+                    "wzId": "first",
+                    "comments": [
+                        {
+                            "wzName": "A schema to test elements inheritance",
+                            "wzId": "A_schema_to_test_elements_inheritance",
+                            "comments": [],
+                            "wzElement": "comment",
+                            "wzParent": "[Circular ~.elements.1.superElement.wzParent]"
+                        }
+                    ],
+                    "wzElement": "wfschema",
+                    "elements": "[Circular ~.elements]",
+                    "declares": [],
+                    "methods": [],
+                    "requires": [],
+                    "requiredModules": [],
+                    "requiredFunctions": [],
+                    "exportTos": [
+                        {
+                            "wzName": "json",
+                            "wzId": "json",
+                            "comments": [],
+                            "wzElement": "exportTo",
+                            "wzParent": "[Circular ~.elements.1.superElement.wzParent]"
+                        }
+                    ],
+                    "preserveTags": true,
+                    "mTreeIsPreprocessed": false,
+                    "rootElement": "[Circular ~.elements.1.superElement]",
+                    "unknownElementReplacer": false,
+                    "tagElementMapping": "{ '-': 'node' }",
+                    "requiredContextMethods": []
+                },
+                "suppressCollectionEmit": false,
+                "schema": {
+                    "wzName": "first",
+                    "wzId": "first",
+                    "comments": [
+                        {
+                            "wzName": "A schema to test elements inheritance",
+                            "wzId": "A_schema_to_test_elements_inheritance",
+                            "comments": [],
+                            "wzElement": "comment",
+                            "wzParent": "[Circular ~.elements.1.superElement.schema]"
+                        }
+                    ],
+                    "wzElement": "wfschema",
+                    "elements": "[Circular ~.elements]",
+                    "declares": [],
+                    "methods": [],
+                    "requires": [],
+                    "requiredModules": [],
+                    "requiredFunctions": [],
+                    "exportTos": [
+                        {
+                            "wzName": "json",
+                            "wzId": "json",
+                            "comments": [],
+                            "wzElement": "exportTo",
+                            "wzParent": "[Circular ~.elements.1.superElement.schema]"
+                        }
+                    ],
+                    "preserveTags": true,
+                    "mTreeIsPreprocessed": false,
+                    "rootElement": "[Circular ~.elements.1.superElement]",
+                    "unknownElementReplacer": false,
+                    "tagElementMapping": "{ '-': 'node' }",
+                    "requiredContextMethods": []
+                },
+                "wzIdCapital": "Basenode",
+                "tagName": "basenode",
+                "tagSafe": "basenode",
+                "xmlTag": "basenode",
+                "derived": [
+                    "[Circular ~.elements.1]"
+                ]
+            }
+        }
+    ],
+    "declares": [],
+    "methods": [],
+    "requires": [],
+    "requiredModules": [],
+    "requiredFunctions": [],
+    "exportTos": [
+        {
+            "wzName": "json",
+            "wzId": "json",
+            "comments": [],
+            "wzElement": "exportTo",
+            "wzParent": {
+                "wzName": "first",
+                "wzId": "first",
+                "comments": [
+                    {
+                        "wzName": "A schema to test elements inheritance",
+                        "wzId": "A_schema_to_test_elements_inheritance",
+                        "comments": [],
+                        "wzElement": "comment",
+                        "wzParent": "[Circular ~.exportTos.0.wzParent]"
+                    }
+                ],
+                "wzElement": "wfschema",
+                "elements": [
+                    {
+                        "wzName": "basenode",
+                        "wzId": "basenode",
+                        "comments": [],
+                        "wzElement": "element",
+                        "attributes": [],
+                        "elements": [],
+                        "includes": [],
+                        "relations": [],
+                        "methods": [],
+                        "restricts": [],
+                        "wildTags": [],
+                        "typeTags": [],
+                        "choiceOrdered": [],
+                        "superId": null,
+                        "superType": "firstBase",
+                        "addToChildren": false,
+                        "isAbstract": true,
+                        "isRoot": true,
+                        "acceptAnyTagCollection": null,
+                        "suppressCollectionEmit_Flat": false,
+                        "nameIsRequired": false,
+                        "defaultWhenDeclared": null,
+                        "wzParent": "[Circular ~.exportTos.0.wzParent]",
+                        "suppressCollectionEmit": false,
+                        "schema": "[Circular ~.exportTos.0.wzParent]",
+                        "wzIdCapital": "Basenode",
+                        "tagName": "basenode",
+                        "tagSafe": "basenode",
+                        "xmlTag": "basenode",
+                        "derived": [
+                            {
+                                "wzName": "node",
+                                "wzId": "node",
+                                "comments": [],
+                                "wzElement": "element",
+                                "attributes": [],
+                                "elements": [],
+                                "includes": [],
+                                "relations": [
+                                    {
+                                        "wzName": "node",
+                                        "wzId": "node",
+                                        "comments": [],
+                                        "wzElement": "relation",
+                                        "wzNamePlural": "nodes",
+                                        "wzIdPlural": "nodes",
+                                        "childRole": null,
+                                        "rightElement": "[Circular ~.exportTos.0.wzParent.elements.0.derived.0]",
+                                        "noGetMethod": false,
+                                        "hasAddOnce": false,
+                                        "isOneToOne": false,
+                                        "wzParent": "[Circular ~.exportTos.0.wzParent.elements.0.derived.0]",
+                                        "leftElement": "[Circular ~.exportTos.0.wzParent.elements.0.derived.0]",
+                                        "childEntityId": "node",
+                                        "childEntityIdCapital": "Node"
+                                    }
+                                ],
+                                "methods": [],
+                                "restricts": [],
+                                "wildTags": [],
+                                "typeTags": [],
+                                "choiceOrdered": [
+                                    {
+                                        "char": "-",
+                                        "length": 1,
+                                        "choices": [
+                                            {
+                                                "length": 1,
+                                                "char": "-",
+                                                "test": "-",
+                                                "codelines": [
+                                                    "return this.wzLoadToChildColl(child, _md.node, this.nodes);"
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "super": "basenode",
+                                "superId": "basenode",
+                                "superType": "basenode",
+                                "addToChildren": false,
+                                "isAbstract": false,
+                                "isRoot": false,
+                                "acceptAnyTagCollection": null,
+                                "suppressCollectionEmit_Flat": false,
+                                "nameIsRequired": false,
+                                "tagInternal": "-",
+                                "defaultWhenDeclared": null,
+                                "wzParent": "[Circular ~.exportTos.0.wzParent]",
+                                "suppressCollectionEmit": false,
+                                "schema": "[Circular ~.exportTos.0.wzParent]",
+                                "wzIdCapital": "Node",
+                                "tagName": "-",
+                                "tagSafe": "-",
+                                "xmlTag": "node",
+                                "derived": [],
+                                "superElement": "[Circular ~.exportTos.0.wzParent.elements.0]"
+                            }
+                        ]
+                    },
+                    {
+                        "wzName": "node",
+                        "wzId": "node",
+                        "comments": [],
+                        "wzElement": "element",
+                        "attributes": [],
+                        "elements": [],
+                        "includes": [],
+                        "relations": [
+                            {
+                                "wzName": "node",
+                                "wzId": "node",
+                                "comments": [],
+                                "wzElement": "relation",
+                                "wzNamePlural": "nodes",
+                                "wzIdPlural": "nodes",
+                                "childRole": null,
+                                "rightElement": "[Circular ~.exportTos.0.wzParent.elements.1]",
+                                "noGetMethod": false,
+                                "hasAddOnce": false,
+                                "isOneToOne": false,
+                                "wzParent": "[Circular ~.exportTos.0.wzParent.elements.1]",
+                                "leftElement": "[Circular ~.exportTos.0.wzParent.elements.1]",
+                                "childEntityId": "node",
+                                "childEntityIdCapital": "Node"
+                            }
+                        ],
+                        "methods": [],
+                        "restricts": [],
+                        "wildTags": [],
+                        "typeTags": [],
+                        "choiceOrdered": [
+                            {
+                                "char": "-",
+                                "length": 1,
+                                "choices": [
+                                    {
+                                        "length": 1,
+                                        "char": "-",
+                                        "test": "-",
+                                        "codelines": [
+                                            "return this.wzLoadToChildColl(child, _md.node, this.nodes);"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+                        "super": "basenode",
+                        "superId": "basenode",
+                        "superType": "basenode",
+                        "addToChildren": false,
+                        "isAbstract": false,
+                        "isRoot": false,
+                        "acceptAnyTagCollection": null,
+                        "suppressCollectionEmit_Flat": false,
+                        "nameIsRequired": false,
+                        "tagInternal": "-",
+                        "defaultWhenDeclared": null,
+                        "wzParent": "[Circular ~.exportTos.0.wzParent]",
+                        "suppressCollectionEmit": false,
+                        "schema": "[Circular ~.exportTos.0.wzParent]",
+                        "wzIdCapital": "Node",
+                        "tagName": "-",
+                        "tagSafe": "-",
+                        "xmlTag": "node",
+                        "derived": [],
+                        "superElement": {
+                            "wzName": "basenode",
+                            "wzId": "basenode",
+                            "comments": [],
+                            "wzElement": "element",
+                            "attributes": [],
+                            "elements": [],
+                            "includes": [],
+                            "relations": [],
+                            "methods": [],
+                            "restricts": [],
+                            "wildTags": [],
+                            "typeTags": [],
+                            "choiceOrdered": [],
+                            "superId": null,
+                            "superType": "firstBase",
+                            "addToChildren": false,
+                            "isAbstract": true,
+                            "isRoot": true,
+                            "acceptAnyTagCollection": null,
+                            "suppressCollectionEmit_Flat": false,
+                            "nameIsRequired": false,
+                            "defaultWhenDeclared": null,
+                            "wzParent": "[Circular ~.exportTos.0.wzParent]",
+                            "suppressCollectionEmit": false,
+                            "schema": "[Circular ~.exportTos.0.wzParent]",
+                            "wzIdCapital": "Basenode",
+                            "tagName": "basenode",
+                            "tagSafe": "basenode",
+                            "xmlTag": "basenode",
+                            "derived": [
+                                "[Circular ~.exportTos.0.wzParent.elements.1]"
+                            ]
+                        }
+                    }
+                ],
+                "declares": [],
+                "methods": [],
+                "requires": [],
+                "requiredModules": [],
+                "requiredFunctions": [],
+                "exportTos": "[Circular ~.exportTos]",
+                "preserveTags": true,
+                "mTreeIsPreprocessed": false,
+                "rootElement": {
+                    "wzName": "basenode",
+                    "wzId": "basenode",
+                    "comments": [],
+                    "wzElement": "element",
+                    "attributes": [],
+                    "elements": [],
+                    "includes": [],
+                    "relations": [],
+                    "methods": [],
+                    "restricts": [],
+                    "wildTags": [],
+                    "typeTags": [],
+                    "choiceOrdered": [],
+                    "superId": null,
+                    "superType": "firstBase",
+                    "addToChildren": false,
+                    "isAbstract": true,
+                    "isRoot": true,
+                    "acceptAnyTagCollection": null,
+                    "suppressCollectionEmit_Flat": false,
+                    "nameIsRequired": false,
+                    "defaultWhenDeclared": null,
+                    "wzParent": "[Circular ~.exportTos.0.wzParent]",
+                    "suppressCollectionEmit": false,
+                    "schema": "[Circular ~.exportTos.0.wzParent]",
+                    "wzIdCapital": "Basenode",
+                    "tagName": "basenode",
+                    "tagSafe": "basenode",
+                    "xmlTag": "basenode",
+                    "derived": [
+                        {
+                            "wzName": "node",
+                            "wzId": "node",
+                            "comments": [],
+                            "wzElement": "element",
+                            "attributes": [],
+                            "elements": [],
+                            "includes": [],
+                            "relations": [
+                                {
+                                    "wzName": "node",
+                                    "wzId": "node",
+                                    "comments": [],
+                                    "wzElement": "relation",
+                                    "wzNamePlural": "nodes",
+                                    "wzIdPlural": "nodes",
+                                    "childRole": null,
+                                    "rightElement": "[Circular ~.exportTos.0.wzParent.rootElement.derived.0]",
+                                    "noGetMethod": false,
+                                    "hasAddOnce": false,
+                                    "isOneToOne": false,
+                                    "wzParent": "[Circular ~.exportTos.0.wzParent.rootElement.derived.0]",
+                                    "leftElement": "[Circular ~.exportTos.0.wzParent.rootElement.derived.0]",
+                                    "childEntityId": "node",
+                                    "childEntityIdCapital": "Node"
+                                }
+                            ],
+                            "methods": [],
+                            "restricts": [],
+                            "wildTags": [],
+                            "typeTags": [],
+                            "choiceOrdered": [
+                                {
+                                    "char": "-",
+                                    "length": 1,
+                                    "choices": [
+                                        {
+                                            "length": 1,
+                                            "char": "-",
+                                            "test": "-",
+                                            "codelines": [
+                                                "return this.wzLoadToChildColl(child, _md.node, this.nodes);"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ],
+                            "super": "basenode",
+                            "superId": "basenode",
+                            "superType": "basenode",
+                            "addToChildren": false,
+                            "isAbstract": false,
+                            "isRoot": false,
+                            "acceptAnyTagCollection": null,
+                            "suppressCollectionEmit_Flat": false,
+                            "nameIsRequired": false,
+                            "tagInternal": "-",
+                            "defaultWhenDeclared": null,
+                            "wzParent": "[Circular ~.exportTos.0.wzParent]",
+                            "suppressCollectionEmit": false,
+                            "schema": "[Circular ~.exportTos.0.wzParent]",
+                            "wzIdCapital": "Node",
+                            "tagName": "-",
+                            "tagSafe": "-",
+                            "xmlTag": "node",
+                            "derived": [],
+                            "superElement": "[Circular ~.exportTos.0.wzParent.rootElement]"
+                        }
+                    ]
+                },
+                "unknownElementReplacer": false,
+                "tagElementMapping": "{ '-': 'node' }",
+                "requiredContextMethods": []
+            }
+        }
+    ],
+    "preserveTags": true,
+    "mTreeIsPreprocessed": false,
+    "rootElement": {
+        "wzName": "basenode",
+        "wzId": "basenode",
+        "comments": [],
+        "wzElement": "element",
+        "attributes": [],
+        "elements": [],
+        "includes": [],
+        "relations": [],
+        "methods": [],
+        "restricts": [],
+        "wildTags": [],
+        "typeTags": [],
+        "choiceOrdered": [],
+        "superId": null,
+        "superType": "firstBase",
+        "addToChildren": false,
+        "isAbstract": true,
+        "isRoot": true,
+        "acceptAnyTagCollection": null,
+        "suppressCollectionEmit_Flat": false,
+        "nameIsRequired": false,
+        "defaultWhenDeclared": null,
+        "wzParent": {
+            "wzName": "first",
+            "wzId": "first",
+            "comments": [
+                {
+                    "wzName": "A schema to test elements inheritance",
+                    "wzId": "A_schema_to_test_elements_inheritance",
+                    "comments": [],
+                    "wzElement": "comment",
+                    "wzParent": "[Circular ~.rootElement.wzParent]"
+                }
+            ],
+            "wzElement": "wfschema",
+            "elements": [
+                "[Circular ~.rootElement]",
+                {
+                    "wzName": "node",
+                    "wzId": "node",
+                    "comments": [],
+                    "wzElement": "element",
+                    "attributes": [],
+                    "elements": [],
+                    "includes": [],
+                    "relations": [
+                        {
+                            "wzName": "node",
+                            "wzId": "node",
+                            "comments": [],
+                            "wzElement": "relation",
+                            "wzNamePlural": "nodes",
+                            "wzIdPlural": "nodes",
+                            "childRole": null,
+                            "rightElement": "[Circular ~.rootElement.wzParent.elements.1]",
+                            "noGetMethod": false,
+                            "hasAddOnce": false,
+                            "isOneToOne": false,
+                            "wzParent": "[Circular ~.rootElement.wzParent.elements.1]",
+                            "leftElement": "[Circular ~.rootElement.wzParent.elements.1]",
+                            "childEntityId": "node",
+                            "childEntityIdCapital": "Node"
+                        }
+                    ],
+                    "methods": [],
+                    "restricts": [],
+                    "wildTags": [],
+                    "typeTags": [],
+                    "choiceOrdered": [
+                        {
+                            "char": "-",
+                            "length": 1,
+                            "choices": [
+                                {
+                                    "length": 1,
+                                    "char": "-",
+                                    "test": "-",
+                                    "codelines": [
+                                        "return this.wzLoadToChildColl(child, _md.node, this.nodes);"
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "super": "basenode",
+                    "superId": "basenode",
+                    "superType": "basenode",
+                    "addToChildren": false,
+                    "isAbstract": false,
+                    "isRoot": false,
+                    "acceptAnyTagCollection": null,
+                    "suppressCollectionEmit_Flat": false,
+                    "nameIsRequired": false,
+                    "tagInternal": "-",
+                    "defaultWhenDeclared": null,
+                    "wzParent": "[Circular ~.rootElement.wzParent]",
+                    "suppressCollectionEmit": false,
+                    "schema": "[Circular ~.rootElement.wzParent]",
+                    "wzIdCapital": "Node",
+                    "tagName": "-",
+                    "tagSafe": "-",
+                    "xmlTag": "node",
+                    "derived": [],
+                    "superElement": "[Circular ~.rootElement]"
+                }
+            ],
+            "declares": [],
+            "methods": [],
+            "requires": [],
+            "requiredModules": [],
+            "requiredFunctions": [],
+            "exportTos": [
+                {
+                    "wzName": "json",
+                    "wzId": "json",
+                    "comments": [],
+                    "wzElement": "exportTo",
+                    "wzParent": "[Circular ~.rootElement.wzParent]"
+                }
+            ],
+            "preserveTags": true,
+            "mTreeIsPreprocessed": false,
+            "rootElement": "[Circular ~.rootElement]",
+            "unknownElementReplacer": false,
+            "tagElementMapping": "{ '-': 'node' }",
+            "requiredContextMethods": []
+        },
+        "suppressCollectionEmit": false,
+        "schema": {
+            "wzName": "first",
+            "wzId": "first",
+            "comments": [
+                {
+                    "wzName": "A schema to test elements inheritance",
+                    "wzId": "A_schema_to_test_elements_inheritance",
+                    "comments": [],
+                    "wzElement": "comment",
+                    "wzParent": "[Circular ~.rootElement.schema]"
+                }
+            ],
+            "wzElement": "wfschema",
+            "elements": [
+                "[Circular ~.rootElement]",
+                {
+                    "wzName": "node",
+                    "wzId": "node",
+                    "comments": [],
+                    "wzElement": "element",
+                    "attributes": [],
+                    "elements": [],
+                    "includes": [],
+                    "relations": [
+                        {
+                            "wzName": "node",
+                            "wzId": "node",
+                            "comments": [],
+                            "wzElement": "relation",
+                            "wzNamePlural": "nodes",
+                            "wzIdPlural": "nodes",
+                            "childRole": null,
+                            "rightElement": "[Circular ~.rootElement.schema.elements.1]",
+                            "noGetMethod": false,
+                            "hasAddOnce": false,
+                            "isOneToOne": false,
+                            "wzParent": "[Circular ~.rootElement.schema.elements.1]",
+                            "leftElement": "[Circular ~.rootElement.schema.elements.1]",
+                            "childEntityId": "node",
+                            "childEntityIdCapital": "Node"
+                        }
+                    ],
+                    "methods": [],
+                    "restricts": [],
+                    "wildTags": [],
+                    "typeTags": [],
+                    "choiceOrdered": [
+                        {
+                            "char": "-",
+                            "length": 1,
+                            "choices": [
+                                {
+                                    "length": 1,
+                                    "char": "-",
+                                    "test": "-",
+                                    "codelines": [
+                                        "return this.wzLoadToChildColl(child, _md.node, this.nodes);"
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "super": "basenode",
+                    "superId": "basenode",
+                    "superType": "basenode",
+                    "addToChildren": false,
+                    "isAbstract": false,
+                    "isRoot": false,
+                    "acceptAnyTagCollection": null,
+                    "suppressCollectionEmit_Flat": false,
+                    "nameIsRequired": false,
+                    "tagInternal": "-",
+                    "defaultWhenDeclared": null,
+                    "wzParent": "[Circular ~.rootElement.schema]",
+                    "suppressCollectionEmit": false,
+                    "schema": "[Circular ~.rootElement.schema]",
+                    "wzIdCapital": "Node",
+                    "tagName": "-",
+                    "tagSafe": "-",
+                    "xmlTag": "node",
+                    "derived": [],
+                    "superElement": "[Circular ~.rootElement]"
+                }
+            ],
+            "declares": [],
+            "methods": [],
+            "requires": [],
+            "requiredModules": [],
+            "requiredFunctions": [],
+            "exportTos": [
+                {
+                    "wzName": "json",
+                    "wzId": "json",
+                    "comments": [],
+                    "wzElement": "exportTo",
+                    "wzParent": "[Circular ~.rootElement.schema]"
+                }
+            ],
+            "preserveTags": true,
+            "mTreeIsPreprocessed": false,
+            "rootElement": "[Circular ~.rootElement]",
+            "unknownElementReplacer": false,
+            "tagElementMapping": "{ '-': 'node' }",
+            "requiredContextMethods": []
+        },
+        "wzIdCapital": "Basenode",
+        "tagName": "basenode",
+        "tagSafe": "basenode",
+        "xmlTag": "basenode",
+        "derived": [
+            {
+                "wzName": "node",
+                "wzId": "node",
+                "comments": [],
+                "wzElement": "element",
+                "attributes": [],
+                "elements": [],
+                "includes": [],
+                "relations": [
+                    {
+                        "wzName": "node",
+                        "wzId": "node",
+                        "comments": [],
+                        "wzElement": "relation",
+                        "wzNamePlural": "nodes",
+                        "wzIdPlural": "nodes",
+                        "childRole": null,
+                        "rightElement": "[Circular ~.rootElement.derived.0]",
+                        "noGetMethod": false,
+                        "hasAddOnce": false,
+                        "isOneToOne": false,
+                        "wzParent": "[Circular ~.rootElement.derived.0]",
+                        "leftElement": "[Circular ~.rootElement.derived.0]",
+                        "childEntityId": "node",
+                        "childEntityIdCapital": "Node"
+                    }
+                ],
+                "methods": [],
+                "restricts": [],
+                "wildTags": [],
+                "typeTags": [],
+                "choiceOrdered": [
+                    {
+                        "char": "-",
+                        "length": 1,
+                        "choices": [
+                            {
+                                "length": 1,
+                                "char": "-",
+                                "test": "-",
+                                "codelines": [
+                                    "return this.wzLoadToChildColl(child, _md.node, this.nodes);"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "super": "basenode",
+                "superId": "basenode",
+                "superType": "basenode",
+                "addToChildren": false,
+                "isAbstract": false,
+                "isRoot": false,
+                "acceptAnyTagCollection": null,
+                "suppressCollectionEmit_Flat": false,
+                "nameIsRequired": false,
+                "tagInternal": "-",
+                "defaultWhenDeclared": null,
+                "wzParent": {
+                    "wzName": "first",
+                    "wzId": "first",
+                    "comments": [
+                        {
+                            "wzName": "A schema to test elements inheritance",
+                            "wzId": "A_schema_to_test_elements_inheritance",
+                            "comments": [],
+                            "wzElement": "comment",
+                            "wzParent": "[Circular ~.rootElement.derived.0.wzParent]"
+                        }
+                    ],
+                    "wzElement": "wfschema",
+                    "elements": [
+                        "[Circular ~.rootElement]",
+                        "[Circular ~.rootElement.derived.0]"
+                    ],
+                    "declares": [],
+                    "methods": [],
+                    "requires": [],
+                    "requiredModules": [],
+                    "requiredFunctions": [],
+                    "exportTos": [
+                        {
+                            "wzName": "json",
+                            "wzId": "json",
+                            "comments": [],
+                            "wzElement": "exportTo",
+                            "wzParent": "[Circular ~.rootElement.derived.0.wzParent]"
+                        }
+                    ],
+                    "preserveTags": true,
+                    "mTreeIsPreprocessed": false,
+                    "rootElement": "[Circular ~.rootElement]",
+                    "unknownElementReplacer": false,
+                    "tagElementMapping": "{ '-': 'node' }",
+                    "requiredContextMethods": []
+                },
+                "suppressCollectionEmit": false,
+                "schema": {
+                    "wzName": "first",
+                    "wzId": "first",
+                    "comments": [
+                        {
+                            "wzName": "A schema to test elements inheritance",
+                            "wzId": "A_schema_to_test_elements_inheritance",
+                            "comments": [],
+                            "wzElement": "comment",
+                            "wzParent": "[Circular ~.rootElement.derived.0.schema]"
+                        }
+                    ],
+                    "wzElement": "wfschema",
+                    "elements": [
+                        "[Circular ~.rootElement]",
+                        "[Circular ~.rootElement.derived.0]"
+                    ],
+                    "declares": [],
+                    "methods": [],
+                    "requires": [],
+                    "requiredModules": [],
+                    "requiredFunctions": [],
+                    "exportTos": [
+                        {
+                            "wzName": "json",
+                            "wzId": "json",
+                            "comments": [],
+                            "wzElement": "exportTo",
+                            "wzParent": "[Circular ~.rootElement.derived.0.schema]"
+                        }
+                    ],
+                    "preserveTags": true,
+                    "mTreeIsPreprocessed": false,
+                    "rootElement": "[Circular ~.rootElement]",
+                    "unknownElementReplacer": false,
+                    "tagElementMapping": "{ '-': 'node' }",
+                    "requiredContextMethods": []
+                },
+                "wzIdCapital": "Node",
+                "tagName": "-",
+                "tagSafe": "-",
+                "xmlTag": "node",
+                "derived": [],
+                "superElement": "[Circular ~.rootElement]"
+            }
+        ]
+    }
+}

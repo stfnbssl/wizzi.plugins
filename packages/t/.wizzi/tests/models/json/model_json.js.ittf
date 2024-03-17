@@ -20,13 +20,13 @@
 				@ 'basic.json.ittf'
 			_ getLoadModelContext
 				{
-			f_cb_test( wizziModel )
+			a_cb_test( wizziModel )
 				# log? wizziModel
 				var ctx = new mocks.getGenContext()
 				_ json_artifact.gen
 					@ wizziModel
 					@ ctx
-					f_cb_test( result )
+					a_cb_test( result )
 						var artifactText = result.getContent()
 						tobe_string( artifactText, {\n    "Hello": "stefi"\n}\n )
 						_ done
@@ -41,13 +41,13 @@
 				@ 'mixed.json.ittf'
 			_ getLoadModelContext
 				{
-			f_cb_test( wizziModel )
+			a_cb_test( wizziModel )
 				# log? wizziModel
 				var ctx = new mocks.getGenContext()
 				_ json_artifact.gen
 					@ wizziModel
 					@ ctx
-					f_cb_test( result )
+					a_cb_test( result )
 						var artifactText = result.getContent()
 						tobe_string( artifactText, {\n    "Copyright": "(c) Wizzi"\n}\n )
 						_ done

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.dart\.wizzi-override\lib\wizzifiers\dart\cleanAST.js.ittf
-    utc time: Tue, 27 Feb 2024 19:59:49 GMT
+    utc time: Fri, 15 Mar 2024 19:45:56 GMT
 */
 'use strict';
 var verify = require('wizzi-utils').verify;

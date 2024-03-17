@@ -1,0 +1,216 @@
+﻿$group
+	
+	m initializeLoad
+		param ctx
+		var choiceSet = new ChoiceSet()
+		var typeTagSet = new TypeTagSet()
+		_ this.initializeLoad_attributes(ctx, choiceSet)
+		_ this.initializeLoad_relations(ctx, choiceSet, typeTagSet)
+		_ this.initializeLoad_includes(ctx, choiceSet, typeTagSet)
+		set this.choiceOrdered = choiceSet.createOrdered()
+		set this.typeTags = typeTagSet.typeTags
+		# loog 'wizzi.models.bootstrap.this.typeTags', this.wzId, this.typeTags
+
+	m initializeLoad_attributes
+		param ctx
+		param choiceSet
+		
+		foreach attribute in this.attributes
+
+			if attribute.isReadOnly
+				continue
+
+			var DEFAULT;
+			if schemautil.isEmpty(attribute.defaultWhenDeclared)
+				set DEFAULT = "null"
+			elif attribute.jsType == "string"
+				set DEFAULT = "\"" + attribute.defaultWhenDeclared + "\""
+			else
+				set DEFAULT = attribute.defaultWhenDeclared;
+			
+			if schemautil.endsWith(attribute.tagName, "*") && this.schema.preserveTags
+				_ this.wildTags.push(attribute.tagName);
+			else
+				foreach test in attribute.getTags(ctx)
+					_ choiceSet.addChoice
+						@ test
+						function
+							param codelines
+							if attribute.jsType === 'string'
+								_ codelines.push("this." + attribute.wzId + " = child.v; return true;")
+							else
+								_ codelines.push("this." + attribute.wzId + " = parse" + attribute.jsType + "(child.v, " + DEFAULT + ", child); return true;");
+
+	m initializeLoad_relations
+		param ctx
+		param choiceSet
+		param typeTagSet
+
+		var first = true
+		foreach relation in this.relations
+			
+			if relation.isOneToOne
+
+				var RELATION = relation.wzName
+				if !relation.rightElement.isAbstract
+					
+					var CHILD_ENTITY = relation.rightElement.wzId
+					
+					if relation.rightElement.tagType && relation.rightElement.tagType.length > 0
+						_ typeTagSet.addTypeTag
+							@ relation.rightElement.tagType
+							function
+								param codelines
+								_ codelines.push("return this.wzLoadOneToOne(child, _md." + CHILD_ENTITY + ", '" + RELATION + "');")
+					
+					foreach test in relation.rightElement.getTags(ctx)
+						_ choiceSet.addChoice
+							@ test
+							function
+								param codelines
+								_ codelines.push("return this.wzLoadOneToOne(child, _md." + CHILD_ENTITY + ", '" + RELATION + "');")
+
+				foreach d in relation.rightElement.derived
+					
+					if d.isAbstract
+						continue
+					
+					var CHILD_ENTITY
+					if d.superElement != null && d.superElement.SuppressCollectionEmit_Flat
+						set CHILD_ENTITY = d.superElement.wzId
+					else
+						set CHILD_ENTITY = d.wzId
+					
+					if d.tagType && d.tagType.length > 0
+						_ typeTagSet.addTypeTag
+							@ d.tagType
+							function
+								param codelines
+								_ codelines.push("return this.wzLoadOneToOne(child, _md." + CHILD_ENTITY + ", '" + RELATION + "')")
+
+					foreach test in d.getTags(ctx)
+						_ choiceSet.addChoice
+							@ test
+							function
+								param codelines
+								_ codelines.push("return this.wzLoadOneToOne(child, _md." + CHILD_ENTITY + ", '" + RELATION + "')")
+
+			else
+			
+				var RELATION = relation.wzIdPlural
+				if !relation.rightElement.isAbstract
+					var CHILD_ENTITY = relation.rightElement.wzId
+
+					if relation.rightElement.tagType && relation.rightElement.tagType.length > 0
+						_ typeTagSet.addTypeTag
+							@ relation.rightElement.tagType
+							function
+								param codelines
+								if relation.rightElement.addToChildren
+									_ codelines.push("return this.wzLoadToChildren(child, _md." + CHILD_ENTITY + ");")
+								else
+									_ codelines.push("return this.wzLoadToChildColl(child, _md." + CHILD_ENTITY + ", this." + RELATION + ");")
+
+					foreach test in relation.rightElement.getTags(ctx)
+						_ choiceSet.addChoice
+							@ test
+							function
+								param codelines
+								if relation.rightElement.addToChildren
+									_ codelines.push("return this.wzLoadToChildren(child, _md." + CHILD_ENTITY + ");")
+								else
+									_ codelines.push("return this.wzLoadToChildColl(child, _md." + CHILD_ENTITY + ", this." + RELATION + ");")
+			
+				if relation.rightElement.addToChildren
+					foreach deriv in relation.rightElement.derived
+						if deriv.isAbstract
+							continue
+						var CHILD_ENTITY = deriv.wzId
+
+						if deriv.tagType && deriv.tagType.length > 0
+							_ typeTagSet.addTypeTag
+								@ deriv.tagType
+								function
+									param codelines
+									_ codelines.push("item = new " + CHILD_ENTITY + "(child.v, new wzSourceLineInfo(child.r, child.c, child.u))")
+									_ codelines.push("item.wzTag = name;")
+									_ codelines.push("this.AddChild(item);")
+									_ codelines.push("item.LoadFromNode(child);")
+									_ codelines.push("return true;")
+
+						foreach test in deriv.getTags(ctx)
+							_ choiceSet.addChoice
+								@ test
+								function
+									param codelines
+									_ codelines.push("item = new " + CHILD_ENTITY + "(child.v, new wzSourceLineInfo(child.r, child.c, child.u))")
+									_ codelines.push("item.wzTag = name;")
+									_ codelines.push("this.AddChild(item);")
+									_ codelines.push("item.LoadFromNode(child);")
+									_ codelines.push("return true;")
+				else
+
+					foreach d in relation.rightElement.derived
+					
+						if d.isAbstract
+							continue
+					
+						var CHILD_ENTITY
+						if d.superElement != null && d.superElement.SuppressCollectionEmit_Flat
+							set CHILD_ENTITY = d.superElement.wzId
+						else
+							set CHILD_ENTITY = d.wzId
+					
+						var RELATION = relation.wzIdPlural
+					
+						if d.tagType && d.tagType.length > 0
+							_ typeTagSet.addTypeTag
+								@ d.tagType
+								function
+									param codelines
+									_ codelines.push("return this.wzLoadToChildColl(child, _md." + CHILD_ENTITY + ", this." + RELATION + ")")
+
+						foreach test in d.getTags(ctx)
+							_ choiceSet.addChoice
+								@ test
+								function
+									param codelines
+									_ codelines.push("return this.wzLoadToChildColl(child, _md." + CHILD_ENTITY + ", this." + RELATION + ")")
+
+	m initializeLoad_includes
+		param ctx
+		param choiceSet
+
+		var first = true
+		foreach include in this.includes
+			# rootEntityName
+			_ choiceSet.addChoice
+				@ include.rootEntityName
+				function
+					param codelines
+					_ codelines.push("// generated by wizzi/lib/wizzi/models/bootstrap/t/wfschema/t/element_load")
+					_ codelines.push("this." + include.actualNameLower + '_' + include.rootEntityNameId + '_items.push(child);')
+					_ codelines.push("var err, wizziModel;")
+					_ codelines.push("this.wzRoot().wzFactory.loadModelFromMtree( //")
+					_ codelines.push("    '" + include.actualNameLower + "',  //")
+					_ codelines.push("    { nodes: [ child ], loadHistory: this.wzRoot().loadHistory }, //")
+					_ codelines.push("    function(cberr, cbwizziModel) { //")
+					_ codelines.push("        err = cberr;")
+					_ codelines.push("        wizziModel = cbwizziModel;")
+					# _ codelines.push("        console.log(err, wizziModel);")
+					_ codelines.push("    });")
+					_ codelines.push("this.get_" + include.actualNameLower + " = function(callback) { //")
+					_ codelines.push("    // We must wait until the async loadModelFromMtree(..) has returned a wizziModel or an err")
+					_ codelines.push("    var iv = setInterval(function() { //")
+					_ codelines.push("        if (err || wizziModel) { //")
+					_ codelines.push("            clearInterval(iv);")
+					_ codelines.push("            if (callback) { //")
+					_ codelines.push("                callback(err, wizziModel);")
+					_ codelines.push("                callback = null;")
+					_ codelines.push("            } //")
+					_ codelines.push("        } //")
+					_ codelines.push("    }, 100);")
+					_ codelines.push("}")
+					_ codelines.push("return true;")
+
+

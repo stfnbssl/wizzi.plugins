@@ -1,0 +1,178 @@
+﻿module
+    kind es6
+    $
+        var md = {
+            plugin: 'wizzi.plugin.wzschema',
+            name: 'schemaboot',
+            schema: 'wzschema',
+            checkSchema: true
+        };
+    trans( &md )
+        $append imports
+            var _ = require('lodash')
+            var utilsErrors = require('@wizzi/utils').errors
+            var BootWizziSchema = require('../../bootstrap/wfschema-boot-model').WizziSchema
+            # taken from C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\wizzi\models\js-model.g.js
+            var js__tagElementMapping = { '+': 'statement', '#': 'comment', '##': 'commentmultiline', 'module': 'xmodule', '++': 'statementmultiline', 'var': 'xvar', 'wz-var': 'wzVar', 'wzvar': 'wzVar', 'const': 'xconst', 'wz-const': 'wzConst', 'wzconst': 'wzConst', 'let': 'xlet', '=': 'initValue', '@id': 'identifier', '@expr': 'expressionMember', 'void': 'xvoid', 'op!': 'not', '!!': 'notnot', '||': 'or', 'op||': 'or', '&&': 'and', 'op&&': 'and', '??': 'op_nullish', 'op??': 'op_nullish', '===': 'op_eq_strict', 'op===': 'op_eq_strict', '!==': 'op_noteq_strict', 'op!==': 'op_noteq_strict', '==': 'op_eq', 'op==': 'op_eq', '!=': 'op_noteq', 'op!=': 'op_noteq', 'minus': 'op_minus', 'op-': 'op_minus', 'op': 'op_minus', 'plus': 'op_plus', 'op+': 'op_plus', 'times': 'op_times', 'op*': 'op_times', 'divide': 'op_div', 'op/': 'op_div', 'power': 'op_power', 'op**': 'op_power', 'mod': 'op_mod', 'op&': 'bit_and', 'op|': 'bit_or', 'xor': 'op_xor', 'op^': 'op_xor', 'xand': 'op_xand', 'op~': 'bit_not', 'op<<': 'bit_left_shift', 'op>>': 'bit_right_shift', 'op>>>': 'zero_fill_right_shift', 'gt': 'op_gt', 'op>': 'op_gt', '>=': 'op_ge', 'op>=': 'op_ge', 'lt': 'op_lt', 'op<': 'op_lt', '<=': 'op_le', 'op<=': 'op_le', 'typeof': 'op_typeof', 'optypeof': 'op_typeof', 'require': 'xrequire', 'import': 'ximport', 'export': 'xexport', 'export-default': 'exportDefault', 'exportdefault': 'exportDefault', 'if': 'xif', 'else': 'xelse', 'for': 'xfor', 'left': 'xleft', 'of': 'xof', 'in': 'xin', 'break': 'xbreak', 'continue': 'xcontinue', 'while': 'xwhile', 'do': 'xdo', 'switch': 'xswitch', 'case': 'xcase', 'default': 'xdefault', 'try': 'xtry', 'catch': 'xcatch', 'finally': 'xfinally', 'throw': 'xthrow', 'delete': 'xdelete', ':param': 'typeParameterInst', '_': 'call', '._': 'memberCall', '@_': 'decoratorCall', '(': 'callOnValue', '.': 'memberAccess', '.[': 'memberAccessComputed', '{': 'jsObject', '[': 'jsArray', '@': 'jsPropertyOrValue', '@[': 'jsPropertyOrValueComputed', '...': 'jsRest', ':': 'namedCallParam', 'jst': 'jsonStatementTree', 'function': 'xfunction', 'wz-iife': 'wzIife', 'wziife': 'wzIife', '=>': 'arrowfunction', 'async=>': 'asyncarrowfunction', 'function*': 'generatorfunction', 'async-function': 'asyncfunction', 'm': 'method', 'wz-function': 'wzFunction', 'wzfunction': 'wzFunction', 'yield': 'xyield', 'await': 'xawait', 'return': 'xreturn', 'class': 'xclass', 'wz-class': 'wzClass', 'wzclass': 'wzClass', 'new': 'xnew', '`lit': 'template', '`tag': 'taggedTemplate', '_`': 'tagFunctionCall', 'macro': 'macroExpr', 'react': 'reactComponent', 'react-f': 'reactFunction', 'reactf': 'reactFunction', 'set-state': 'setState', 'setstate': 'setState', 'will-mount': 'willMount', 'willmount': 'willMount', 'did-mount': 'didMount', 'didmount': 'didMount', 'will-unmount': 'willUnmount', 'willunmount': 'willUnmount', 'should-update': 'shouldUpdate', 'shouldupdate': 'shouldUpdate', 'did-update': 'didUpdate', 'didupdate': 'didUpdate', 'will-update': 'willUpdate', 'willupdate': 'willUpdate', 'will-receive-props': 'willReceiveProps', 'willreceiveprops': 'willReceiveProps', 'event': 'htmlevent', '<': 'htmlelement', 'style-jsx': 'styleJsx', 'stylejsx': 'styleJsx', 'styled-css': 'styledCss', 'styledcss': 'styledCss', '@param': 'htmlParam', '@filter': 'htmlFilter', 'wz-require': 'wzRequire', 'wzrequire': 'wzRequire', 'graphql-query': 'graphqlQuery', 'graphqlquery': 'graphqlQuery', 'graphql-mutation': 'graphqlMutation', 'graphqlmutation': 'graphqlMutation', '{{': 'handlebar', 'log?': 'inspect', 'it-async': 'itAsync', 'itasync': 'itAsync', 'before-async': 'beforeAsync', 'beforeasync': 'beforeAsync', 'before-each': 'beforeEach', 'beforeeach': 'beforeEach', 'after-async': 'afterAsync', 'afterasync': 'afterAsync', 'after-each': 'afterEach', 'aftereach': 'afterEach', 'enum': 'enumFacet', 'max-length': 'maxLengthFacet', 'maxlength': 'maxLengthFacet', 'min-length': 'minLengthFacet', 'minlength': 'minLengthFacet', 'max-value': 'maxValueFacet', 'maxvalue': 'maxValueFacet', 'min-value': 'minValueFacet', 'minvalue': 'minValueFacet', 'range': 'rangeFacet', 'regexp': 'regexpFacet', 'array-of': 'arrayOf', 'arrayof': 'arrayOf', 'instance-of': 'instanceOf', 'instanceof': 'instanceOf', 'one-of': 'oneOf', 'oneof': 'oneOf', 'one-of-type': 'oneOfType', 'oneoftype': 'oneOfType', 'string': 'stringParam', 'boolean': 'booleanParam', 'number': 'numberParam', 'date': 'dateParam', 'func': 'functionParam', 'symbol': 'symbolParam', 'node': 'nodeParam', 'element': 'elementParam', 'exact': 'exactParam', 'any': 'anyParam', 'callback': 'callbackParam', 'options-callback': 'optionsCallbackParam', 'optionscallback': 'optionsCallbackParam', '[{': 'arrayOrObjectParam', 'react-style': 'reactStyleParam', 'reactstyle': 'reactStyleParam', 'shape': 'shapeParam' };
+        $append main
+            var bootWizziModel = new BootWizziSchema(model.wzName)
+            _ bootWizziModel.loadFromWizziModel
+                @ model
+                @ ctx
+                a_cb()
+                    set ctx.result
+                        {
+                            @ name bootWizziModel.wzName
+                            @ preserveTags bootWizziModel.preserveTags
+                    _ md.wfschema(bootWizziModel, ctx)
+                    _ callback(null, ctx.result)
+
+    tagoper( wfschema )
+        set ctx.result.requires = []
+        set ctx.result.exportTos = []
+        set ctx.result.elements = []
+        foreach exportTo in model.exportTos
+            _ md.exportTo(exportTo, ctx, ctx.result)
+        foreach element in model.elements
+            _ md.element(element, ctx, ctx.result)
+
+    tagoper( exportTo )
+        _ parent.exportTos.push(model.wzName)
+
+    tagoper( element )
+        var flags = ''
+        set flags += model.isAbstract ? 'is-abstract ' : ''
+        set flags += model.addToChildren ? 'add-to-children ' : ''
+        var tagEscaped = verify.replaceAll(model.tagName, '\\|', '__&%%&__')
+        var tagsEscaped = tagEscaped.split('|')
+        var tags = []
+        foreach tag in tagsEscaped
+            _ tags.push
+                _ verify.replaceAll(tag, '__&%%&__', '|')
+        var node
+            {
+                @ name model.wzId
+                @ super model.superId
+                @ isRoot model.isRoot
+                @ tags tags
+                @ flags flags
+                @ attributes
+                    [
+                @ relations
+                    [
+                @ derived
+                    [
+                @ restricts
+                    [
+                @ methods
+                    [
+                @ comments
+                    [
+        var flatAttributes = model.getFlatAttributes()
+        foreach attr in flatAttributes
+            _ node.attributes.push(attr)
+
+        var flatRelations = model.getFlatRelations()
+        foreach r in flatRelations
+            _ node.relations.push(r)
+
+        foreach d in model.derived
+            var tagEscaped = verify.replaceAll(d.tagName, '\\|', '__&%%&__')
+            var tagsEscaped = tagEscaped.split('|')
+            var tags = []
+            foreach tag in tagsEscaped
+                _ tags.push
+                    _ verify.replaceAll(tag, '__&%%&__', '|')
+            _ node.derived.push
+                {
+                    @ name d.wzId
+                    @ tags tags
+
+        foreach m in model.methods
+            var methodNode 
+                {
+                    @ name m.wzName
+                    @ emitKey m.emitKey
+                    @ isStatic m.isStatic
+                    @ isKnownMethod m.isKnownMethod
+                    @ params
+                        [
+                    @ statements
+                        [
+                    @ comments
+                        [
+
+            foreach param in m.params
+                _ methodNode.params.push(param.wzName)
+
+            foreach stm in m.statements
+                foreach item in normalizeJST(stm.wzName)
+                    _ methodNode.statements.push(item)
+            
+            foreach comment in m.comments
+                _ methodNode.comments.push(comment.wzName)
+
+            _ node.methods.push(methodNode)
+
+        foreach restrict in model.restricts
+            _ node.restricts.push(getRestrictFill(restrict))
+
+        foreach comment in model.comments
+            _ node.comments.push(comment.wzName)
+
+        _ parent.elements.push(node)
+
+    function getRestrictFill
+        param model
+        var restrictCloned
+            {
+                @ facets
+                    [
+                @ comments
+                    [
+        foreach facet in model.facets
+            var facetCloned
+                {
+                    @ type facet.wzElement
+                    @ value facet.wzName
+                    @ comments
+                        [
+            foreach comment in facet.comments
+                _ facetCloned.comments.push(comment.wzName)
+
+            _ restrictCloned.facets.push(facetCloned)
+
+        foreach comment in model.comments
+            _ restrictCloned.comments.push(comment.wzName)
+
+        return restrictCloned
+
+    function normalizeJST
+        param stm
+        var json = JSON.parse(stm)
+        var ret = []
+        if verify.isArray(json)
+            foreach item in json
+                _ ret.push(normalizeJSTNode(item))
+        else
+            _ ret.push(normalizeJSTNode(json))
+        return ret
+
+    function normalizeJSTNode
+        param jstnode
+        var node
+            {
+                @ tag jstnode.n
+                @ name jstnode.n
+                @ value jstnode.v
+                @ statements
+                    [
+        
+        if js__tagElementMapping[jstnode.n]
+            set node.name = js__tagElementMapping[jstnode.n]
+        
+        if jstnode.children
+            foreach item in jstnode.children
+                _ node.statements.push(normalizeJSTNode(item))
+        
+        return node

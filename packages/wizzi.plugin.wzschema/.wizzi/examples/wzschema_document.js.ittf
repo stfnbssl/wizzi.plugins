@@ -3,37 +3,47 @@ module
     $
         var md = {
             name: 'wzschema',
+            bif: 1
         };
-    v08/examples/plugin( &md )
+    wizziplugin/examples/plugin( &md )
         $append plugins
             [ items
-                @ './index.js'
-                @ 'wizzi-js'
-            @ pluginsBaseFolder
-                _ path.resolve
-                    @ __dirname
-                    @ '..'
+                @ './wizzi.plugin.wzschema/index.js'
+                @ './wizzi.plugin.json/index.js'
+                @ './wizzi.plugin.js/index.js'
+            @ pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
         let arg = process.argv[2]
         const moduleName = arg && arg.length > 0 ? arg : 'first'
-        _ executeGenerateModules
-            [
-                @ moduleName
-            a_cb_no_throw( result )
+        _ getWzCtx
+            _ path.resolve
+                @ __dirname
+                @ '..'
+                @ '.wizzi-override'
+                @ 'models'
+            a_cb_no_throw( wzCtx )
                 if err
-                    error 'wzschema.examples.executeGenerateModules.err', err
-                    error 'wzschema.examples.executeGenerateModules.err.toString()', err.toString()
-                    if err.inner
-                        error 'wzschema.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
-                else
+                    error err
+                    return
+                _ executeGenerateModules
+                    [
+                        @ moduleName
+                    @ wzCtx
+                    a_cb_no_throw( result )
+                        if err
+                            error 'wzschema.examples.executeGenerateModules.err', err
+                            error 'wzschema.examples.executeGenerateModules.err.toString()', err.toString()
+                            if err.inner
+                                error 'wzschema.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
+                        else
         function executeGenerateModules
             param modules
+            param wzCtx
             param callback
             _ async.mapSeries
                 @ modules
                 =>
                     param module
                     param callback
-                    log 'wzschema.example.executeGenerateModules.module: ' + module
                     var ittfDocumentUri
                         _ path.join
                             @ __dirname
@@ -43,10 +53,11 @@ module
                         _ path.join
                             @ __dirname
                             @ 'results'
-                            @ module + '.wzschema.document.html'
+                            @ module + '.document.wzschema'
                     _ loadWizziModel
                         @ ittfDocumentUri
                         {
+                            @ wzCtx wzCtx
                         a_cb( wizziModel )
                             if wizziModel.toJson
                                 _ file.write
@@ -58,9 +69,9 @@ module
                             _ loadModelAndGenerateArtifact
                                 @ ittfDocumentUri
                                 {
+                                    @ wzCtx wzCtx
                                 @ 'wzschema/document'
                                 a_cb( artifactText )
-                                    log 'wzschema.example.executeGenerateModules.outputPath: ' + outputPath
                                     _ file.write
                                         @ outputPath
                                         @ artifactText

@@ -1,0 +1,36 @@
+﻿$group
+
+	m getFlatRelations
+		
+		if typeof this.flatRelations === 'undefined'
+			var flatRelations = []
+			_ this.flatRelationsFill(flatRelations, false)
+			set this.flatRelations = flatRelations
+		return this.flatRelations
+
+	m flatRelationsFill
+		param flatRelations
+		param inherited
+		
+		foreach relation in this.relations
+			var flags = ''
+			set flags += relation.isOneToOne ? 'is-one-to-one ' : ''
+			set flags += relation.noGetMethod ? 'no-get-method ' : ''
+			set flags += relation.hasAddOnce ? 'has-add-once ' : ''
+			var cloned
+				{
+					@ name relation.wzName
+					@ role relation.wzNamePlural
+					@ tags relation.rightElement.tagName.split('|')
+					@ cardinality (relation.isOneToOne ? 'one-to-one' : 'one-to-many')
+					@ flags flags
+					@ inheritedFrom (inherited ? this.wzId : null)
+					@ comments
+						[
+			foreach comment in relation.comments
+				_ cloned.comments.push(comment.wzName)
+			_ flatRelations.push(cloned)
+				
+		if schemautil.isNotEmpty(this.superId)
+			if this.superElement
+				_ this.superElement.flatRelationsFill(flatRelations, true)

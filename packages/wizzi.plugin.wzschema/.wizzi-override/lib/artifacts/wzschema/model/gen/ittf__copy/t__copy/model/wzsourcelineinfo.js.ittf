@@ -1,0 +1,19 @@
+﻿$group
+
+	class wzSourceLineInfo
+		ctor
+			param row
+			param col
+			param sourceKey
+			set this.row = row
+			set this.col = col
+			set this.sourceKey = sourceKey
+
+		m toString
+			param instance
+			if instance
+				return 'row: ' + this.row + ', col: ' + this.col + ', file: ' + instance.wzSourceFilepath(this.sourceKey)
+			else 
+				return 'row: ' + this.row + ', col: ' + this.col + ', sourceKey: ' + this.sourceKey
+
+	set _md.wzSourceLineInfo = wzSourceLineInfo

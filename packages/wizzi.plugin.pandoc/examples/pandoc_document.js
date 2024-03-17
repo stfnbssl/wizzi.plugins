@@ -155,7 +155,7 @@ function loadWizziModel(ittfDocumentUri, context, plugins, callback) {
             return callback(err);
         }
         wf.loadModel(fi.schema, ittfDocumentUri, {
-            mTreeBuildupContext: context, 
+            mTreeBuildUpContext: context, 
             globalContext: {}
          }, callback)
     }
@@ -268,7 +268,7 @@ function executeWizziJob(ittfDocumentUri, context, plugins, callback) {
     }
     )
 }
-function executegenerateModelDoms(wfschemaIttfDocumentUri, outputPackagePath, wfschemaName, mTreeBuildupContext, plugins, callback) {
+function executegenerateModelDoms(wfschemaIttfDocumentUri, outputPackagePath, wfschemaName, mTreeBuildUpContext, plugins, callback) {
     
     if (!callback) {
         callback = plugins;
@@ -280,7 +280,7 @@ function executegenerateModelDoms(wfschemaIttfDocumentUri, outputPackagePath, wf
         if (err) {
             return callback(err);
         }
-        wf.generateModelDoms(wfschemaIttfDocumentUri, outputPackagePath, wfschemaName, mTreeBuildupContext, callback)
+        wf.generateModelDoms(wfschemaIttfDocumentUri, outputPackagePath, wfschemaName, mTreeBuildUpContext, callback)
     }
     )
 }

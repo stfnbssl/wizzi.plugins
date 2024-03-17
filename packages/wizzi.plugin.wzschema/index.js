@@ -1,7 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.14
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\.wizzi-override\root\index.js.ittf
+    utc time: Fri, 15 Mar 2024 20:53:18 GMT
 */
 'use strict';
 
@@ -13,19 +14,9 @@ var errors = require('./errors');
 var md = module.exports = {};
 md.name = 'wizzi.plugin.wzschema.index';
 
-// window(s) vars must be declared even if empty
-var window_modelFactories = {
-    'wzschema': require('./lib/wizzi/models/wzschema-factory.g')
- };
-var window_artifactGenerators = {
-    'wzschema/document': require('./lib/artifacts/wzschema/document/gen/main')
- };
-var window_transformers = {
-    'wzschema/extended': require('./lib/artifacts/wzschema/extended/trans/main')
- };
-var window_schemaDefinitions = {};
-
-//
+/**
+     FactoryPlugin class
+*/
 class FactoryPlugin {
     constructor(wizziPackage, provides) {
         this.file = wizziPackage.file;
@@ -33,6 +24,7 @@ class FactoryPlugin {
         this.modelFactories = {};
         this.modelTransformers = {};
         this.artifactGenerators = {};
+        this.wizzifiers = {};
         this.schemaDefinitions = {};
     }
     
@@ -53,7 +45,11 @@ class FactoryPlugin {
         return this.provides;
     }
     
-    //
+    /**
+         Retrieve a WizziModelFactory by its schema name
+         searching the loader in this package.
+         No search up in "node_modules" folders.
+    */
     getModelFactory(schemaName) {
         var factory = this.modelFactories[schemaName] || null;
         if (factory == null) {
@@ -76,7 +72,11 @@ class FactoryPlugin {
         return factory;
     }
     
-    //
+    /**
+         retrieve a ModelTransformer by its name
+         searching the loader in this package
+         No search up in "node_modules" folders.
+    */
     getModelTransformer(transformerName) {
         
         var transformer = this.modelTransformers[transformerName] || null;
@@ -100,7 +100,11 @@ class FactoryPlugin {
         return transformer;
     }
     
-    //
+    /**
+         Retrieve an ArtifactGenerator by its name
+         Generators are searched in this package
+         No search up in "node_modules" folders.
+    */
     getArtifactGenerator(generationName) {
         
         var generator = this.artifactGenerators[generationName] || null;
@@ -124,7 +128,50 @@ class FactoryPlugin {
         return generator;
     }
     
-    //
+    /**
+         Map a file extension to Retrieve a Wizzifier by its name
+    */
+    mapExtensionToSchema(extension) {
+        if (extension == 'wzschema') {
+            return 'wzschema';
+        }
+        return null;
+    }
+    /**
+         Retrieve a Wizzifier by its name
+         Wizzifiers are searched in this package
+         No search up in "node_modules" folders.
+    */
+    getWizzifier(wizzifierName) {
+        
+        wizzifierName = this.mapExtensionToSchema(wizzifierName);
+        
+        var wizzifier = this.wizzifiers[wizzifierName] || null;
+        if (wizzifier == null) {
+            if (typeof window !== 'undefined') {
+                wizzifier = window_wizzifiers[wizzifierName];
+            }
+            else {
+                var modulePath = path.resolve(__dirname, './lib/wizzifiers/' + wizzifierName + '/wizzifier.js');
+                if (this.file.exists(modulePath)) {
+                    try {
+                        wizzifier = require('./lib/wizzifiers/' + wizzifierName + '/wizzifier');
+                    } 
+                    catch (ex) {
+                        return error('WizziPluginError', 'getWizzifier', 'Error loading wizzifier: ' + modulePath + ', in plugin: ' + this.getFilename(), ex);
+                    } 
+                }
+            }
+            this.wizzifiers[wizzifierName] = wizzifier;
+        }
+        return wizzifier;
+    }
+    
+    /**
+         Retrieve a WizziSchema definition in JSON format
+         searching the loader in this package.
+         No search up in "node_modules" folders.
+    */
     getSchemaDefinition(schemaName) {
         var definition = this.schemaDefinitions[schemaName] || null;
         if (definition == null) {
@@ -158,17 +205,67 @@ function error(errorName, method, message, innerError) {
 }
 
 module.exports = {
-    version: '0.0.1', 
     provides: {
         schemas: [
             'wzschema'
         ], 
+        schemasExt: [
+            {
+                name: 'wzschema', 
+                fileExtensions: [
+                    "wzschema"
+                ], 
+                artifactsGenerators: [
+                    {
+                        name: "model", 
+                        outmime: "js", 
+                        contentType: "text/javascript", 
+                        isDefault: true
+                     }, 
+                    {
+                        name: "html_docs", 
+                        outmime: "html", 
+                        contentType: "text/html", 
+                        isDefault: false
+                     }, 
+                    {
+                        name: "factory", 
+                        outmime: "js", 
+                        contentType: "text/javascript", 
+                        isDefault: false
+                     }, 
+                    {
+                        name: "text", 
+                        outmime: "js", 
+                        contentType: "text/javascript", 
+                        isDefault: false
+                     }, 
+                    {
+                        name: "json_schemaboot", 
+                        outmime: "json", 
+                        contentType: "application/json", 
+                        isDefault: false
+                     }
+                ], 
+                defaultArtifact: 'model', 
+                dependency: [
+                    "js", 
+                    "html"
+                ]
+             }
+        ], 
         modelTransformers: [
-            'wzschema/extended'
+            'wzschema/json_docs', 
+            'wzschema/schemaboot'
         ], 
         artifactGenerators: [
-            'wzschema/document'
-        ]
+            'wzschema/model', 
+            'wzschema/html_docs', 
+            'wzschema/factory', 
+            'wzschema/text', 
+            'wzschema/json_schemaboot'
+        ], 
+        wizzifiers: []
      }, 
     createFactoryPlugin: function(wizziPackage, options, callback) {
         var plugin = new FactoryPlugin(wizziPackage, this.provides);

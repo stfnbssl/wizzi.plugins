@@ -1,0 +1,17 @@
+﻿$group
+	
+	function isWizziPackageSchema
+		param name
+		
+		var ndx
+			[
+				@ 'nools'
+				@ 'npmpackage'
+				@ 'wftest'
+				@ 'wfjob'
+				@ 'wzjob'
+				@ 'wfpackage'
+				@ 'wfschema'
+				@ 'wzschema'
+			._ indexOf(name)
+		return ndx > -1

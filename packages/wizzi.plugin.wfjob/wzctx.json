@@ -1,0 +1,55 @@
+{
+    "name": "wizzi.plugin.wfjob",
+    "npmName": "@wizzi/plugin.wfjob",
+    "pluginBasename": "",
+    "version": "0.8.2",
+    "description": "Wizzi Job Definition",
+    "author": {
+        "name": "Stefano Bassoli",
+        "email": "stfn.bssl@gmail.com"
+    },
+    "github": {
+        "userid": "stfnbssl"
+    },
+    "license": {
+        "name": "MIT",
+        "copy": "copy 2024"
+    },
+    "Build": {
+        "isWizziPlugin": true,
+        "useWizziV08": true,
+        "wizziV08": {},
+        "utils": {
+            "useStringifySafe": true,
+            "useObjectInspect": true
+        }
+    },
+    "Schemas": [
+        {
+            "name": "wfjob",
+            "title": "wfjob wizzi schema",
+            "builtin": false,
+            "modelTransformers": [],
+            "artifactGenerators": [
+                {
+                    "name": "document",
+                    "outmime": "wfjob",
+                    "contentType": "text/plain",
+                    "isDefault": true
+                }
+            ],
+            "defaultArtifact": "document",
+            "wizzifiers": [],
+            "fileExtensions": [
+                "wfjob"
+            ],
+            "includes": [
+                {
+                    "Name": "Js",
+                    "name": "js",
+                    "options": []
+                }
+            ]
+        }
+    ]
+}

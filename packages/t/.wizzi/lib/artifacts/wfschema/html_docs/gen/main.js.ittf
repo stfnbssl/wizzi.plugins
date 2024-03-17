@@ -16,7 +16,7 @@
 
             var ittfDocumentPath = path.join(__dirname, 'ittf', 'wfschema-docs.html.ittf')
 
-            var mTreeBuildupContext
+            var mTreeBuildUpContext
                 {
                     @ schema model
                     @ request
@@ -24,7 +24,7 @@
             # loog 'htmlContext', util.inspect(htmlContext, { depth: 2 })
             _ legacy.htmlDocument
                 @ ittfDocumentPath
-                @ mTreeBuildupContext
-                f_cb( result )
+                @ mTreeBuildUpContext
+                a_cb( result )
                     _ ctx.w(result)
                     _ callback(null, ctx)

@@ -1,4 +1,5 @@
 $group
+    $params &md
     set md.gen
         function
             param model
@@ -12,12 +13,15 @@ $group
                             @ 'gen'
                             @ 'The callback parameter must be a function. Received: ' + callback
                             @ model
-            if verify.isObject(model) == false
+            $if md.modelIsObjectOrArray
+                var modelTypeIsValid = verify.isObject(model) || verify.isArray(model)
+            $else
+                var modelTypeIsValid = verify.isObject(model)
+            if !modelTypeIsValid
                 return
                     _ callback
                         _ error
                             @ 'InvalidArgument'
                             @ 'gen'
-                            @ 'The model parameter must be an object. Received: ' + model
+                            @ 'The model parameter must be an object${md.modelIsObjectOrArray ? ' or an array' : ''}. Received: ' + model
                             @ model
-            $hook

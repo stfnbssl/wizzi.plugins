@@ -134,7 +134,7 @@ md.createLoadModel = function(wizziObject) {
                             { productionContext
                              { aclstat
                      { __ittfDocumentStore
-                        { mTreeBuildupContext
+                        { mTreeBuildUpContext
                          optional
                         { __request
                          This is a legacy that should disappear.
@@ -158,7 +158,7 @@ md.createLoadModel = function(wizziObject) {
                 if (verify.isObject(loadContext.__productionManager) !== true) {
                     return callback(error('InvalidArgument', 'loadModel', 'The loadContext.__productionManager parameter must be an object'));
                 }
-                loadContext.mTreeBuildupContext = Object.assign({}, loadContext.__productionManager.globalContext(), loadContext.mTreeBuildupContext);
+                loadContext.mTreeBuildUpContext = Object.assign({}, loadContext.__productionManager.globalContext(), loadContext.mTreeBuildUpContext);
                 var wizziModelRequest = loadContext.__request || {};
                 var start = Date.now();
                 // load the magical tree

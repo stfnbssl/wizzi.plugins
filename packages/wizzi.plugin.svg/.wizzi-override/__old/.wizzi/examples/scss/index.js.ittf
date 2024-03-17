@@ -41,12 +41,12 @@
 							[
 								@ 'wizzi-web'
 
-			f_cb_throw( wf )
+			a_cb_throw( wf )
 				_ wf.loadModel
 					@ 'scss'
 					@ ittfSource
 					{
-					f_cb_throw( wizziModel )
+					a_cb_throw( wizziModel )
 						info 'examples/scss result wizziModel.rules', wizziModel.rules
 						var ctx
 							_ mocks.getGenContext
@@ -54,7 +54,7 @@
 						_ scssgenerator.gen
 							@ wizziModel
 							@ ctx
-							f_cb_test( ctxout )
+							a_cb_test( ctxout )
 								info 'ctxout begin ========', '\n' + ctxout.getContent(), '\nctxout end ============'
 								_ file.write
 									@ scssOutput

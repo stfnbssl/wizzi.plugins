@@ -15,7 +15,7 @@ var wzutils = require('wizzi-utils');
 var verify = require('wizzi-utils').verify;
 var vfile = require('wizzi-utils').vfile;
 var fsfile = vfile();
-var mTreeBuildupContext = {};
+var mTreeBuildUpContext = {};
 var artifactContext = {};
 var globalContext = {};
 var regexp_examples_step_2 = function(step_callback) {
@@ -37,7 +37,7 @@ var regexp_examples_step_2 = function(step_callback) {
         test: {
             dumps: {
                 dumpsBaseFolder: path.join(__dirname, 'step_2', 'dumps'), 
-                mTreeBuildupJsWizziScript: {
+                mTreeBuildUpJsWizziScript: {
                     dump: true
                  }
              }

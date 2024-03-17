@@ -5,6 +5,8 @@ module
             plugin: 'wizzi.plugin.wzschema',
             name: 'document',
             schema: 'wzschema',
+            rootElement: '',
+            rootTag: '',
             checkSchema: true,
             isAsync: true,
         };
@@ -21,41 +23,17 @@ module
                     else
                         # generation OK
                         r_cb( ctx )
-        
         async-md( wzschema )
-            xml-dump-el-open( wzschema )
-            _ ctx.w('>')
-            _md_gen_items( elements, indent )
-                xml-dump-el-close( wzschema )
-                r_cb()
-        
-        async-md( element )
-            xml-dump-el-open( element )
-            xml-dump-attr( super )
-            xml-dump-attr( tag )
-            xml-dump-attr( isRoot, last )
-            _md_gen_items( attributes, indent )
-                _md_gen_items( relations, indent )
-                    xml-dump-el-close( element )
+            _ ctx.w('<wzschema>')
+            _ md.genItems
+                @ model.nodes
+                @ ctx
+                {
+                    @ indent true
+                a_cb()
+                    _ ctx.w('</wzschema>')
                     r_cb()
-        
-        async-md( attribute )
-            xml-dump-el-open( attribute )
-            xml-dump-attr( tag )
-            xml-dump-attr( type )
-            xml-dump-attr( default )
-            xml-dump-attr( defaultWhenDeclared, last )
-            xml-dump-el-close( attribute )
-            r_cb()
-        
-        async-md( relation )
-            xml-dump-el-open( relation )
-            xml-dump-attr( type, last )
-            xml-dump-el-close( relation )
-            r_cb()
-        
         $include includes
-        
         var noattrs
             [
                 @ 'wzTag'

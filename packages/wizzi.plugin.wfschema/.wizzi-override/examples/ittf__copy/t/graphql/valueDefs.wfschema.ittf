@@ -1,0 +1,45 @@
+$group
+	
+	e_tag( valueDef, ref, basenode
+		# ArgumentDefinition / InputValueDefinition
+		a type
+		a_tag( defaultValue, =
+
+	e_tag( stringValueDef, string, valueDef
+		m wzInitialize
+			set this.type = 'String'
+
+	e_tag( intValueDef, int, valueDef
+		m wzInitialize
+			set this.type = 'Int'
+
+	e_tag( floatValueDef, float, valueDef
+		m wzInitialize
+			set this.type = 'Float'
+
+	e_tag( booleanValueDef, boolean, valueDef
+		m wzInitialize
+			set this.type = 'Boolean'
+	
+	e_tag( IDValueDef, ID, valueDef
+		m wzInitialize
+			set this.type = 'ID'
+
+	e_tag( enumValueDef, enum, valueDef
+		r objectField/s
+		m wzInitialize
+			set this.type = 'enum'
+
+	e_tag( objectValueDef, {, valueDef
+		r valueDef/s
+		m wzInitialize
+			set this.type = 'object'
+
+	e_tag( objectField, @, valueDef
+		r valueDef
+			one-to-one
+
+	e_tag( arrayValueDef, [, valueDef
+		r valueDef/s
+		m wzInitialize
+			set this.type = 'array'

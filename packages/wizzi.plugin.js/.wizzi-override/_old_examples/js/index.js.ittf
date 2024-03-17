@@ -21,7 +21,7 @@
 		info '--------------------------------------------------------------------------------------'
 		_ execute
 			@ item_1.name
-			f_cb()
+			a_cb()
 				
 				repeater_increment(1)
 
@@ -49,7 +49,7 @@
 			@ ittfSource
 			_ getLoadModelContext
 				{
-			f_cb_test( jsWizziModel )
+			a_cb_test( jsWizziModel )
 				# loog 'jsWizziModel', stringify(jsWizziModel, null, 2)
 				var ctx = new mocks.getGenContext()
                 set ctx.values
@@ -58,7 +58,7 @@
 				_ js_artifact.gen
 					@ jsWizziModel
 					@ ctx
-					f_cb_test( ctxout )
+					a_cb_test( ctxout )
 						info 'ctxout', ctxout.getContent()
 						_ file.write
 							@ jsOutput

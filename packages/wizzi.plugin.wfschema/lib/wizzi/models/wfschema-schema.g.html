@@ -1,0 +1,1893 @@
+<!doctype html>
+<html VERSION-5="5" VERSION-4="4" version="5">
+    <head>
+        <title>Wizzi schema wfschema</title>
+        <style>
+            body {
+              font-family: verdana;
+              font-size: 13px;
+            } 
+            .main-left {
+              position: fixed;
+              margin-left: 5%;
+              top: 80px;
+              width: 20%;
+              height: 80%;
+              background: #eee;
+              overflow: auto;
+            } 
+            .main-center {
+              top: 80px;
+              margin-left: 30%;
+              height: 80%;
+              width: 50%;
+              position: fixed;
+              overflow: auto;
+              z-index: 1;
+            } 
+            .well {
+              border: solid 1px #aaa;
+            } 
+            .pretty-table { border: 1px solid #333; width: 100%; margin-top: 30px; }
+            .pretty-table th, .pretty-table td { border: 1px dotted #666; }
+            .pretty-table-2 { border: 1px solid #999; width: 100%; margin-top: 20px; }
+        </style>
+    </head>
+    <body>
+        <div class="main">
+            <h1>Wizzi Schema wfschema</h1>
+            <div class="main-left">
+                <ul>
+                    <li><a href="#element_comment">comment</a>
+                    </li>
+                    <li><a href="#element_schemaitem">schemaitem</a>
+                    </li>
+                    <li><a href="#element_wfschema">wfschema</a>
+                    </li>
+                    <li><a href="#element_include">include</a>
+                    </li>
+                    <li><a href="#element_element">element</a>
+                    </li>
+                    <li><a href="#element_attribute">attribute</a>
+                    </li>
+                    <li><a href="#element_relation">relation</a>
+                    </li>
+                    <li><a href="#element_restrict">restrict</a>
+                    </li>
+                    <li><a href="#element_facet">facet</a>
+                    </li>
+                    <li><a href="#element_enumFacet">enumFacet</a>
+                    </li>
+                    <li><a href="#element_maxLengthFacet">maxLengthFacet</a>
+                    </li>
+                    <li><a href="#element_minLengthFacet">minLengthFacet</a>
+                    </li>
+                    <li><a href="#element_maxValueFacet">maxValueFacet</a>
+                    </li>
+                    <li><a href="#element_minValueFacet">minValueFacet</a>
+                    </li>
+                    <li><a href="#element_regexpFacet">regexpFacet</a>
+                    </li>
+                    <li><a href="#element_elementFacet">elementFacet</a>
+                    </li>
+                    <li><a href="#element_exportTo">exportTo</a>
+                    </li>
+                    <li><a href="#element_xrequire">xrequire</a>
+                    </li>
+                    <li><a href="#element_declare">declare</a>
+                    </li>
+                    <li><a href="#element_method">method</a>
+                    </li>
+                    <li><a href="#element_param">param</a>
+                    </li>
+                    <li><a href="#element_statement">statement</a>
+                    </li>
+                    <li><a href="#element_jsInclude">jsInclude</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="main-center">
+                <table id="element_comment" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>comment</b>
+                            </td>
+                            <td>#</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Description</h5>
+                <div>
+                    <span>A comment line for describing entities. &nbsp;</span>
+                </div>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_schemaitem" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>schemaitem</b>
+                            </td>
+                            <td>schemaitem</td>
+                            <td>comment</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>comment</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_wfschema" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>wfschema</b>
+                            </td>
+                            <td>wfschema</td>
+                            <td>schemaitem</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Description</h5>
+                <div>
+                    <span>The root element of a wizzi factory schema. &nbsp;</span>
+                    <span>r include/s &nbsp;</span>
+                </div>
+                <h5>Attributes</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Tag</th>
+                                <th>Type</th>
+                                <th>Default</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>preserveTags</td>
+                                <td>preserve-tags</td>
+                                <td>boolean</td>
+                                <td>false</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>If declared, the WizziModelLoader will preserve, in the loaded WizziModelInstance, &nbsp;</span>
+                                        <span>the tags used in the source IttfDocuments. &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>mTreeIsPreprocessed</td>
+                                <td>mtree-is-preprocessed</td>
+                                <td>boolean</td>
+                                <td>false</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>If declared, the WizziModelLoader will preprocess the builded mTree &nbsp;</span>
+                                        <span>before loading the WizziModelInstance, &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>unknownElementReplacer</td>
+                                <td>unknown-element-replacer</td>
+                                <td>string</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>v4 (pre-release) implementation &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>element</td>
+                                <td>elements</td>
+                                <td>one-to-many</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>exportTo</td>
+                                <td>exportTos</td>
+                                <td>one-to-many</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>require</td>
+                                <td>requires</td>
+                                <td>one-to-many</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>method</td>
+                                <td>methods</td>
+                                <td>one-to-many</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>declare</td>
+                                <td>declares</td>
+                                <td>one-to-many</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>comment</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_include" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>include</b>
+                            </td>
+                            <td>include</td>
+                            <td>schemaitem</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Description</h5>
+                <div>
+                    <span>Represent the root node of another external schema. &nbsp;</span>
+                    <span>The wzName contains a blank separated name-value pair: &nbsp;</span>
+                    <span>- the name is the type name of the external wfschema &nbsp;</span>
+                    <span>- the value is the wzTag of the root node of the external wfschema (defaults to name) &nbsp;</span>
+                    <span>see wizzi/models/bootstrap/t/wfschema/include.js.ittf &nbsp;</span>
+                    <span>examples &nbsp;</span>
+                    <span>include js module &nbsp;</span>
+                    <span>- js : the external wfschema &nbsp;</span>
+                    <span>- module : the wzTag of the root node of the js wfschema &nbsp;</span>
+                    <span>include css &nbsp;</span>
+                    <span>- css : the external wfschema &nbsp;</span>
+                    <span>- css : the wzTag of the root node of the css wfschema &nbsp;</span>
+                    <span>Children nodes will be loaded by the model factory of the external schema, &nbsp;</span>
+                    <span>whose plugin must be listed in the plugin configuration when creating &nbsp;</span>
+                    <span>the wizzi.wizziFactory instance. &nbsp;</span>
+                </div>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>comment</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_element" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>element</b>
+                            </td>
+                            <td>e</td>
+                            <td>schemaitem</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Description</h5>
+                <div>
+                    <span>A schema element. A classifier model element that may have attributes and relations. &nbsp;</span>
+                </div>
+                <h5>Attributes</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Tag</th>
+                                <th>Type</th>
+                                <th>Default</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>super</td>
+                                <td>super</td>
+                                <td>string</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>The base (super) element from which this element derives. &nbsp;</span>
+                                        <span>Attributes and relations of the base element are inherited. &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>isAbstract</td>
+                                <td>is-abstract</td>
+                                <td>boolean</td>
+                                <td>false</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>This element is abstract and cannot be declared in Ittf documents. &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>isRoot</td>
+                                <td>is-root</td>
+                                <td>boolean</td>
+                                <td>false</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>Mark the element as the root element of the schema. &nbsp;</span>
+                                        <span>If not explicit, the root element is inferred, &nbsp;</span>
+                                        <span>and the first element declared in the schema is assumed as the root. &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>tagInternal</td>
+                                <td>tag</td>
+                                <td>string</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>The tag used to declare this element in Ittf documents. &nbsp;</span>
+                                        <span>Optional. The default is the element IttfNodeValue &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>xmlTagInternal</td>
+                                <td>xml-tag</td>
+                                <td>string</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>The Xml tag used for this element when persisted in Xml Format. &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>tagType</td>
+                                <td>tag-type</td>
+                                <td>string</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>Any node tag of this type will match this element &nbsp;</span>
+                                    </div>
+                                    <h5>restrict</h5>
+                                    <table>
+                                        <tr>
+                                            <td>Any node tag of this type will match this element number</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>number css-length</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>acceptAnyTag</td>
+                                <td>any</td>
+                                <td>string</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>This element can have any text as a child element. &nbsp;</span>
+                                        <span>The IttfNodeValue of this attribute must be the name of the element collection &nbsp;</span>
+                                        <span>to which child text nodes will be appended. &nbsp;</span>
+                                        <span>Any child node produces an internal ANY element that is appended to this collection. &nbsp;</span>
+                                        <span>TODO example &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>nameIsRequired</td>
+                                <td>name-is-required</td>
+                                <td>boolean</td>
+                                <td>false</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>This element must have a not empty IttfNodeValue (the wzName property in the wizzi model) &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>addToChildren</td>
+                                <td>add-to-children</td>
+                                <td>boolean</td>
+                                <td>false</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>Every child node of this element will be added to the wzChildren collection. &nbsp;</span>
+                                        <span>Artifact generators will use the wzElement attribute to distinguish child elements. &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>hasMTreeData</td>
+                                <td>has-mtree-data</td>
+                                <td>boolean</td>
+                                <td>false</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>Data calculated in the mTree preprocessing step will be set on the &nbsp;</span>
+                                        <span>wzMTreeData property of this element. &nbsp;</span>
+                                        <span>This wfschema MUST have the 'mtree-is-preprocessed' flag set to true &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>suppressCollectionEmit</td>
+                                <td>suppress-collection-emit</td>
+                                <td>boolean</td>
+                                <td>false</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>TODO ??? &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>attribute</td>
+                                <td>attributes</td>
+                                <td>one-to-many</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>relation</td>
+                                <td>relations</td>
+                                <td>one-to-many</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>restrict</td>
+                                <td>restricts</td>
+                                <td>one-to-many</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>method</td>
+                                <td>methods</td>
+                                <td>one-to-many</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>include</td>
+                                <td>includes</td>
+                                <td>one-to-many</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>comment</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_attribute" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>attribute</b>
+                            </td>
+                            <td>a</td>
+                            <td>schemaitem</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Description</h5>
+                <div>
+                    <span>An element attribute. &nbsp;</span>
+                </div>
+                <h5>Attributes</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Tag</th>
+                                <th>Type</th>
+                                <th>Default</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>tagInternal</td>
+                                <td>tag</td>
+                                <td>string</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>The tag used to declare the attribute in IttfDocuments. &nbsp;</span>
+                                        <span>Optional. The default is the attribute IttfNodeValue &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>type</td>
+                                <td>type</td>
+                                <td>string</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>The attribute data type &nbsp;</span>
+                                    </div>
+                                    <h5>restrict</h5>
+                                    <table>
+                                        <tr>
+                                            <td>The attribute data type string</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>string boolean</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>boolean integer</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>integer float</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>float date</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>date regexp</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>regexp code</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>default</td>
+                                <td>default</td>
+                                <td>string</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>The attribute default value &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>isRequired</td>
+                                <td>is-required</td>
+                                <td>boolean</td>
+                                <td>false</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>If true the attribute must be declared. &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>isDataType</td>
+                                <td>is-datatype</td>
+                                <td>boolean</td>
+                                <td>false</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>This attribute is a datatype attribute and type services will be available to artifact generators. &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>defaultWhenDeclared</td>
+                                <td>default-when-declared</td>
+                                <td>string</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>When the attribute is declared without a IttfNodeValue, this will be its value. &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>restrict</td>
+                                <td>restricts</td>
+                                <td>one-to-many</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>comment</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_relation" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>relation</b>
+                            </td>
+                            <td>r</td>
+                            <td>schemaitem</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Description</h5>
+                <div>
+                    <span>A relation to a child element. &nbsp;</span>
+                    <span>By default is a one-to-many relation. &nbsp;</span>
+                    <span>Can be set to a one-to-one, declaring the attribute isOneToOne. &nbsp;</span>
+                </div>
+                <h5>Attributes</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Tag</th>
+                                <th>Type</th>
+                                <th>Default</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>isOneToOne</td>
+                                <td>one-to-one</td>
+                                <td>boolean</td>
+                                <td>false</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>noGetMethod</td>
+                                <td>no-get</td>
+                                <td>boolean</td>
+                                <td>false</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>hasAddOnce</td>
+                                <td>add-once</td>
+                                <td>boolean</td>
+                                <td>false</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>comment</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_restrict" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>restrict</b>
+                            </td>
+                            <td>restrict</td>
+                            <td>schemaitem</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Description</h5>
+                <div>
+                    <span>Group of restrictions to the element or attribute values &nbsp;</span>
+                </div>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>facet</td>
+                                <td>facets</td>
+                                <td>one-to-many</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>comment</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_facet" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>facet</b>
+                            </td>
+                            <td>facet</td>
+                            <td>schemaitem</td>
+                            <td>is-abstract </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Description</h5>
+                <div>
+                    <span>The abstract base class for facet restrictions &nbsp;</span>
+                </div>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>comment</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_enumFacet" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>enumFacet</b>
+                            </td>
+                            <td>enum</td>
+                            <td>facet</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Description</h5>
+                <div>
+                    <span>A restriction of type enumeration applied to an attribute. &nbsp;</span>
+                </div>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>comment</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_maxLengthFacet" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>maxLengthFacet</b>
+                            </td>
+                            <td>max-length</td>
+                            <td>facet</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Description</h5>
+                <div>
+                    <span>A restriction of type maximum length applied to an attribute. &nbsp;</span>
+                </div>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>comment</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_minLengthFacet" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>minLengthFacet</b>
+                            </td>
+                            <td>min-length</td>
+                            <td>facet</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Description</h5>
+                <div>
+                    <span>A restriction of type minimum length applied to an attribute. &nbsp;</span>
+                </div>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>comment</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_maxValueFacet" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>maxValueFacet</b>
+                            </td>
+                            <td>max-value</td>
+                            <td>facet</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Description</h5>
+                <div>
+                    <span>A restriction of type maximum value applied to an attribute. &nbsp;</span>
+                </div>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>comment</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_minValueFacet" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>minValueFacet</b>
+                            </td>
+                            <td>min-value</td>
+                            <td>facet</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Description</h5>
+                <div>
+                    <span>A restriction of type minimum value applied to an attribute. &nbsp;</span>
+                </div>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>comment</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_regexpFacet" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>regexpFacet</b>
+                            </td>
+                            <td>regexp</td>
+                            <td>facet</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Description</h5>
+                <div>
+                    <span>A restriction of type regexp test applied to an attribute. &nbsp;</span>
+                </div>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>comment</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_elementFacet" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>elementFacet</b>
+                            </td>
+                            <td>element</td>
+                            <td>facet</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Description</h5>
+                <div>
+                    <span>A restriction of type allowed child element applied to an element. &nbsp;</span>
+                </div>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>comment</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_exportTo" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>exportTo</b>
+                            </td>
+                            <td>export-to</td>
+                            <td>schemaitem</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Description</h5>
+                <div>
+                    <span>Require the emission, in the WizziModelType of the schema, of a function &nbsp;</span>
+                    <span>for exporting the model instance to a different format. &nbsp;</span>
+                    <span>There are a few built-in ExportTo functions. New export formats may be created &nbsp;</span>
+                    <span>by WizziPackage developers using methods. &nbsp;</span>
+                </div>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>comment</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_xrequire" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>xrequire</b>
+                            </td>
+                            <td>require</td>
+                            <td>schemaitem</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Description</h5>
+                <div>
+                    <span>A node-js require statement that is emitted in the WizziModelType of the schema. &nbsp;</span>
+                    <span>The IttfNodeValue is the package name. It is also the variable name of the required package &nbsp;</span>
+                    <span>unless a declare-var attribute is present. &nbsp;</span>
+                </div>
+                <h5>Attributes</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Tag</th>
+                                <th>Type</th>
+                                <th>Default</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>kind</td>
+                                <td>kind</td>
+                                <td>string</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <h5>restrict</h5>
+                                    <table>
+                                        <tr>
+                                            <td> function</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>function module</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>module context-method</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>declareVar</td>
+                                <td>declare-var</td>
+                                <td>string</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>comment</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_declare" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>declare</b>
+                            </td>
+                            <td>declare</td>
+                            <td>schemaitem</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Description</h5>
+                <div>
+                    <span>a section for top level (module scope) variable and functions declarations &nbsp;</span>
+                </div>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>statement</td>
+                                <td>statements</td>
+                                <td>one-to-many</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>comment</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_method" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>method</b>
+                            </td>
+                            <td>m</td>
+                            <td>schemaitem</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Description</h5>
+                <div>
+                    <span>A method of an element pseudo-class generated in the WizziModelType. &nbsp;</span>
+                </div>
+                <h5>Attributes</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Tag</th>
+                                <th>Type</th>
+                                <th>Default</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>emitkey</td>
+                                <td>emitkey</td>
+                                <td>string</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>The emit key of the artifact which should insert this method. &nbsp;</span>
+                                        <span>Can be any string that artifact generators will filter. &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>param</td>
+                                <td>params</td>
+                                <td>one-to-many</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>require</td>
+                                <td>requires</td>
+                                <td>one-to-many</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>statement</td>
+                                <td>statements</td>
+                                <td>one-to-many</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>comment</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_param" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>param</b>
+                            </td>
+                            <td>param</td>
+                            <td>schemaitem</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Description</h5>
+                <div>
+                    <span>A parameter of a method or function element. &nbsp;</span>
+                </div>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>comment</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_statement" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>statement</b>
+                            </td>
+                            <td>statement</td>
+                            <td>schemaitem</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>statement</td>
+                                <td>statements</td>
+                                <td>one-to-many</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>comment</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+                <table id="element_jsInclude" class="pretty-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Tag</th>
+                            <th>Super</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>jsInclude</b>
+                            </td>
+                            <td>::js</td>
+                            <td>statement</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Relations</h5>
+                <small>
+                    <table class="table table-condensed table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Cardinality</th>
+                                <th>Inherited</th>
+                                <th>Flags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>statement</td>
+                                <td>statements</td>
+                                <td>one-to-many</td>
+                                <td>statement</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>comment</td>
+                                <td>comments</td>
+                                <td>one-to-many</td>
+                                <td>comment</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </small>
+            </div>
+        </div>
+    </body>
+
+</html>
+

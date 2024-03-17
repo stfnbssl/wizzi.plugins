@@ -1,13 +1,17 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.14
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\.wizzi-override\lib\artifacts\wzschema\extended\trans\main.js.ittf
+    utc time: Fri, 15 Mar 2024 20:53:19 GMT
 */
 'use strict';
+
+
 var util = require('util');
 var async = require('async');
-var verify = require('wizzi-utils').verify;
-var lineparser = verify.lineParser;
+var verify = require('@wizzi/utils').verify;
+var lineParser = verify.lineParser;
+var errors = require('../../../../../errors');
 
 var md = module.exports = {};
 var myname = 'wizzi.plugin.wzschema.wzschema.extended.trans.main';
@@ -20,7 +24,7 @@ md.trans = function(model, ctx, callback) {
         return callback(error('InvalidArgument', 'gen', 'The model parameter must be an object. Received: ' + model, model));
     }
     if (model.wzElement !== 'wzschema') {
-        callback(error('InvalidArgument', 'gen', 'Invalid model schema. Expected "wzschema". Received: ' + model.wzElement, model))
+        return callback(error('InvalidArgument', 'gen', 'Invalid model schema. Expected "wzschema". Received: ' + model.wzElement, model));
     }
     
     try {
@@ -30,6 +34,7 @@ md.trans = function(model, ctx, callback) {
             item = model.items[i];
             doitem(item, transformedModel)
         }
+        callback(null, transformedModel)
     } 
     catch (ex) {
         return callback(ex);
@@ -37,7 +42,18 @@ md.trans = function(model, ctx, callback) {
 }
 ;
 
-//
+/**
+     params
+     string errorName
+     # the error name or number
+     string method
+     string message
+     # optional
+     { model
+     # optional
+     { innerError
+     # optional
+*/
 function error(errorName, method, message, model, innerError) {
     return new errors.WizziPluginError(message, model, {
             errorName: errorName, 

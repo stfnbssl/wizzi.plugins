@@ -1,13 +1,14 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.14
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\.wizzi-override\lib\artifacts\wfschema\json_docs\trans\main.js.ittf
+    utc time: Fri, 15 Mar 2024 08:46:06 GMT
 */
 'use strict';
 var util = require('util');
 var async = require('async');
 var verify = require('wizzi-utils').verify;
-var lineparser = verify.lineParser;
+var lineParser = verify.lineParser;
 var _ = require('lodash');
 var utilsErrors = require('wizzi-utils').errors;
 var wizzi = require('wizzi');
@@ -51,7 +52,18 @@ md.trans = function(model, ctx, callback) {
 }
 ;
 
-//
+/**
+     params
+     string errorName
+     # the error name or number
+     string method
+     string message
+     # optional
+     { model
+     # optional
+     { innerError
+     # optional
+*/
 function error(errorName, method, message, model, innerError) {
     return new errors.WizziPluginError(message, model, {
             errorName: errorName, 

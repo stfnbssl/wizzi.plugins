@@ -1,10 +1,8 @@
 wzschema first
-    e schema
-        is-root
-        r table/s
-    e table
-        tag t
-        r column/s
-    e column
-        tag c
-        a type
+    # A schema to test elements inheritance
+    export-to json
+    e basenode
+        is-abstract
+    e node : basenode
+        tag -
+        r node/s

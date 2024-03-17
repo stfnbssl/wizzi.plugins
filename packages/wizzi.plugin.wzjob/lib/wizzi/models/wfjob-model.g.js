@@ -820,7 +820,7 @@ var modelRef = (function (wfjobBase) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzjob\.wizzi-override\lib\wizzi\schemas\wfjob.wfschema.ittf
-            utc time: Wed, 13 Mar 2024 07:14:55 GMT
+            utc time: Fri, 15 Mar 2024 07:53:20 GMT
         */
         
         // loog 'this.modelCollection.wzName', this.modelCollection.wzName
@@ -1638,7 +1638,7 @@ var production = (function (wfjobBase) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzjob\.wizzi-override\lib\wizzi\schemas\wfjob.wfschema.ittf
-            utc time: Wed, 13 Mar 2024 07:14:55 GMT
+            utc time: Fri, 15 Mar 2024 07:53:20 GMT
         */
         this.wfjob = this.wzParent;
         var i, i_items=this.modelRefs, i_len=this.modelRefs.length, modelRef;
@@ -1762,7 +1762,7 @@ var env = (function (wfjobBase) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzjob\.wizzi-override\lib\wizzi\schemas\wfjob.wfschema.ittf
-            utc time: Wed, 13 Mar 2024 07:14:55 GMT
+            utc time: Fri, 15 Mar 2024 07:53:20 GMT
         */
         var nv = verify.parseNameValue(this.wzName);
         this.__name = nv.name;
@@ -1852,7 +1852,7 @@ var arg = (function (wfjobBase) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzjob\.wizzi-override\lib\wizzi\schemas\wfjob.wfschema.ittf
-            utc time: Wed, 13 Mar 2024 07:14:55 GMT
+            utc time: Fri, 15 Mar 2024 07:53:20 GMT
         */
         var nv = verify.parseNameValue(this.wzName);
         if (nv.value && nv.value.length > 0) {
@@ -2002,7 +2002,7 @@ function wzinitialize() {
         artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
         package: wizzi-js@
         primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzjob\.wizzi-override\lib\wizzi\schemas\wfjob.wfschema.ittf
-        utc time: Wed, 13 Mar 2024 07:14:55 GMT
+        utc time: Fri, 15 Mar 2024 07:53:20 GMT
     */
     var options = {};
     if (this.cwd && this.cwd.length > 0) {

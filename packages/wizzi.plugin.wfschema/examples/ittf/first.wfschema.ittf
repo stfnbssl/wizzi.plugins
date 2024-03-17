@@ -1,0 +1,81 @@
+wfschema second
+	
+	# A schema to test elements inheritance
+
+	export-to json
+
+    require sigma
+        kind function
+        declare-var alpha
+
+	require tau
+        kind module
+        declare-var beta
+
+	require lambda
+        kind context-method
+        declare-var gamma
+
+    declare
+        function Hello
+            log "Hello world" 
+
+	e comment
+		tag #
+        r comment/s
+	
+	e directive
+		is-abstract
+        r comment/s
+
+	e directiveA : directive
+		tag @
+
+	e directiveB : directive
+		tag §
+
+	e basenode
+        is-abstract
+        # kind MUST be abstract for directiveA and directiveB to work
+		r comment/s
+        r directive/s
+    
+    e node : basenode
+        tag -
+        r node/s
+
+    e second : node
+        is-root
+        r kind/s
+        m wzinitialize
+            log "Hello"
+            set this.initialize = 'Whaao!'
+		
+    e kind
+        is-abstract
+        # kind MUST be abstract for kind1 and kind2 to work
+    
+    e kind1 : kind
+        tag k1
+    
+    e kind2 : kind
+        tag k2
+
+    m methodX
+        param alpha
+        log 'Bye'
+
+	e statement
+        r statement/s
+
+    e param
+    
+    e function : statement
+		r param/s
+
+		m getParams
+			var ret = []
+			foreach item in this.params
+				_ ret.push(item.wzName)
+			return ret
+

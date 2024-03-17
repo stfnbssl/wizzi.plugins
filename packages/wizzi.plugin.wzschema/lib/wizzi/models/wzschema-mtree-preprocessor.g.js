@@ -1,7 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.14
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\.wizzi-override\lib\wizzi\models\wzschema-mtree-preprocessor.g.js.ittf
+    utc time: Fri, 15 Mar 2024 20:53:19 GMT
 */
 'use strict';
 var verify = require('wizzi-utils').verify;
@@ -31,21 +32,68 @@ function traverse(node, state) {
     state.parent = saveParent;
 }
 function preprocessNode(node, state) {
-    if (node.n === 'ittf-panel') {
-        node.wzMTreeData = {
-            mTree: state.mTree
+    if (node.n === 'declare') {
+        const jsInclude = {
+            n: '::js', 
+            v: '', 
+            children: [
+                {
+                    n: 'module', 
+                    v: 'wfschema.method.' + node.v, 
+                    children: [
+                        {
+                            n: 'kind', 
+                            v: 'es6', 
+                            children: [
+                                
+                            ]
+                         }
+                    ]
+                 }
+            ]
          };
+        const replChildren = jsInclude.children[0].children;
         var i, i_items=node.children, i_len=node.children.length, item;
         for (i=0; i<i_len; i++) {
             item = node.children[i];
-            if (item.n === 'ittf') {
-                node.wzMTreeData[item.n] = item;
+            replChildren.push(item);
+        }
+        node.children = [jsInclude];
+    }
+    if (node.n === 'm') {
+        const replChildren = [];
+        const jsInclude = {
+            n: '::js', 
+            v: '', 
+            children: [
+                {
+                    n: 'module', 
+                    v: 'wfschema.method.' + node.v, 
+                    children: [
+                        {
+                            n: 'kind', 
+                            v: 'es6', 
+                            children: [
+                                
+                            ]
+                         }
+                    ]
+                 }
+            ]
+         };
+        const jsStatements = jsInclude.children[0].children;
+        var i, i_items=node.children, i_len=node.children.length, item;
+        for (i=0; i<i_len; i++) {
+            item = node.children[i];
+            if (item.n === 'param' || item.n === 'static') {
+                replChildren.push(item);
             }
             else {
-                node.wzMTreeData[item.n] = item.v;
+                jsStatements.push(item);
             }
         }
-        node.children = [];
+        replChildren.push(jsInclude);
+        node.children = replChildren;
     }
     else {
         return false;

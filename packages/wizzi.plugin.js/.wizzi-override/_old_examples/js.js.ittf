@@ -14,7 +14,7 @@ common/example/withMonoRepoWizziFactory()
         @ 'jss'
         @ 'js'
         {
-        f_cb()
+        a_cb()
 
     function executeLoadFolderModels
         param folder
@@ -41,7 +41,7 @@ common/example/withMonoRepoWizziFactory()
                 set item = item.substring(0, item.length - suffix.length)
                 info 'wizzi-core.examples.jobs.item', item, 'schema', schema
                 _ executeLoadModel(item, folder, schema, context, callback)
-            f_cb( result )
+            a_cb( result )
                 r_cb()
 
 	function executeLoadModel
@@ -78,7 +78,7 @@ common/example/withMonoRepoWizziFactory()
 		_ loadWizziModel
 			@ ittfSource
 			@ context || {}
-			f_cb_test( jsWizziModel )
+			a_cb_test( jsWizziModel )
 				# loog 'wizzi-core.examples.index.loaded ittfSource', ittfSource, 'schema', schema
 				# loog 'jsWizziModel', jsWizziModel
 				if jsWizziModel.toJson
@@ -99,7 +99,7 @@ common/example/withMonoRepoWizziFactory()
                     @ ittfSource
                     @ context || {}
                     @ "js/module"
-                    f_cb_test( artifactText )
+                    a_cb_test( artifactText )
                         _ file.write
                             @ artifactOutput
                             @ artifactText

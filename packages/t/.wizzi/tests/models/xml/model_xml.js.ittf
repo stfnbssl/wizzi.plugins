@@ -20,13 +20,13 @@
 				@ 'basic.xml.ittf'
 			_ getLoadModelContext
 				{
-			f_cb_test( wizziModel )
+			a_cb_test( wizziModel )
 				# log? wizziModel
 				var ctx = new mocks.getGenContext()
 				_ xml_artifact.gen
 					@ wizziModel
 					@ ctx
-					f_cb_test( result )
+					a_cb_test( result )
 						var artifactText = result.getContent()
 						tobe_string( artifactText, <?xml version="1.0">\n<user name="stefi" />\n )
 						_ done
@@ -41,13 +41,13 @@
 				@ 'mixed.xml.ittf'
 			_ getLoadModelContext
 				{
-			f_cb_test( wizziModel )
+			a_cb_test( wizziModel )
 				# log? wizziModel
 				var ctx = new mocks.getGenContext()
 				_ xml_artifact.gen
 					@ wizziModel
 					@ ctx
-					f_cb_test( result )
+					a_cb_test( result )
 						var artifactText = result.getContent()
 						tobe_string( artifactText, <?xml version="1.0">\n<footer Copyright="(c) Wizzi" />\n )
 						_ done

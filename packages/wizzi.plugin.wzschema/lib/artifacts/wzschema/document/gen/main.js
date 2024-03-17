@@ -1,14 +1,17 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.14
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\.wizzi-override\lib\artifacts\wzschema\document\gen\main.js.ittf
+    utc time: Fri, 15 Mar 2024 20:53:19 GMT
 */
 'use strict';
+
+
 var util = require('util');
 var path = require('path');
 var async = require('async');
-var verify = require('wizzi-utils').verify;
-var lineparser = require('wizzi-utils').helpers.lineparser;
+var verify = require('@wizzi/utils').verify;
+var lineParser = require('@wizzi/utils').helpers.lineParser;
 var errors = require('../../../../../errors');
 var included_writers = require('./included_writers');
 
@@ -21,11 +24,12 @@ md.gen = function(model, ctx, callback) {
     if (typeof(callback) !== 'function') {
         throw new Error(error('InvalidArgument', 'gen', 'The callback parameter must be a function. Received: ' + callback, model));
     }
-    if (verify.isObject(model) == false) {
+    var modelTypeIsValid = verify.isObject(model);
+    if (!modelTypeIsValid) {
         return callback(error('InvalidArgument', 'gen', 'The model parameter must be an object. Received: ' + model, model));
     }
     if (model.wzElement !== 'wzschema') {
-        callback(error('InvalidArgument', 'gen', 'Invalid model schema. Expected root element "wzschema". Received: ' + model.wzElement, model))
+        return callback(error('InvalidArgument', 'gen', 'Invalid model schema. Expected root element "wzschema". Received: ' + model.wzElement, model));
     }
     try {
         md.wzschema(model, ctx, (err, notUsed) => {
@@ -46,7 +50,7 @@ md.gen = function(model, ctx, callback) {
     catch (ex) {
         return callback(error('Exception', 'gen', 'An exception encountered during generation', model, ex));
     } 
-    function terminate_gen(model, ctx) {
+    function terminate_gen(model, ctx, callback) {
         if (ctx.artifactGenerationErrors.length > 0) {
             return callback(ctx.artifactGenerationErrors);
         }
@@ -103,13 +107,8 @@ md.genItem = function(model, ctx, callback) {
 }
 ;
 md.wzschema = function(model, ctx, callback) {
-    ctx.write('<wzschema');
-    console.log('model.wzName', model.wzName, __filename);
-    if (model.wzName && model.wzName.length > 0) {
-        ctx.write(' wzName="' + model.wzName.replace(/\"/g, "'") + '"')
-    }
-    ctx.w('>');
-    md.genItems(model.elements, ctx, {
+    ctx.w('<wzschema>');
+    md.genItems(model.nodes, ctx, {
         indent: true
      }, (err, notUsed) => {
     
@@ -120,81 +119,6 @@ md.wzschema = function(model, ctx, callback) {
         return callback(null);
     }
     )
-}
-;
-md.element = function(model, ctx, callback) {
-    ctx.write('<element');
-    console.log('model.wzName', model.wzName, __filename);
-    if (model.wzName && model.wzName.length > 0) {
-        ctx.write(' wzName="' + model.wzName.replace(/\"/g, "'") + '"')
-    }
-    if (model.super && (model.super.length > 0 || model.super == true)) {
-        ctx.write(' super="' + model.super.replace(/\"/g, "'") + '"')
-    }
-    if (model.tag && (model.tag.length > 0 || model.tag == true)) {
-        ctx.write(' tag="' + model.tag.replace(/\"/g, "'") + '"')
-    }
-    if (model.isRoot && (model.isRoot.length > 0 || model.isRoot == true)) {
-        ctx.write(' isRoot="' + model.isRoot.replace(/\"/g, "'") + '"')
-    }
-    ctx.w('>');
-    md.genItems(model.attributes, ctx, {
-        indent: true
-     }, (err, notUsed) => {
-    
-        if (err) {
-            return callback(err);
-        }
-        md.genItems(model.relations, ctx, {
-            indent: true
-         }, (err, notUsed) => {
-        
-            if (err) {
-                return callback(err);
-            }
-            ctx.w('</element>');
-            return callback(null);
-        }
-        )
-    }
-    )
-}
-;
-md.attribute = function(model, ctx, callback) {
-    ctx.write('<attribute');
-    console.log('model.wzName', model.wzName, __filename);
-    if (model.wzName && model.wzName.length > 0) {
-        ctx.write(' wzName="' + model.wzName.replace(/\"/g, "'") + '"')
-    }
-    if (model.tag && (model.tag.length > 0 || model.tag == true)) {
-        ctx.write(' tag="' + model.tag.replace(/\"/g, "'") + '"')
-    }
-    if (model.type && (model.type.length > 0 || model.type == true)) {
-        ctx.write(' type="' + model.type.replace(/\"/g, "'") + '"')
-    }
-    if (model.default && (model.default.length > 0 || model.default == true)) {
-        ctx.write(' default="' + model.default.replace(/\"/g, "'") + '"')
-    }
-    if (model.defaultWhenDeclared && (model.defaultWhenDeclared.length > 0 || model.defaultWhenDeclared == true)) {
-        ctx.write(' defaultWhenDeclared="' + model.defaultWhenDeclared.replace(/\"/g, "'") + '"')
-    }
-    ctx.w('>');
-    ctx.w('</attribute>');
-    return callback(null);
-}
-;
-md.relation = function(model, ctx, callback) {
-    ctx.write('<relation');
-    console.log('model.wzName', model.wzName, __filename);
-    if (model.wzName && model.wzName.length > 0) {
-        ctx.write(' wzName="' + model.wzName.replace(/\"/g, "'") + '"')
-    }
-    if (model.type && (model.type.length > 0 || model.type == true)) {
-        ctx.write(' type="' + model.type.replace(/\"/g, "'") + '"')
-    }
-    ctx.w('>');
-    ctx.w('</relation>');
-    return callback(null);
 }
 ;
 md.jsInclude = function(model, ctx, callback) {
@@ -276,7 +200,18 @@ function getAttrs(e) {
     return retval;
 }
 
-//
+/**
+     params
+     string errorName
+     # the error name or number
+     string method
+     string message
+     # optional
+     { model
+     # optional
+     { innerError
+     # optional
+*/
 function error(errorName, method, message, model, innerError) {
     return new errors.WizziPluginError(message, model, {
             errorName: errorName, 

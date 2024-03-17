@@ -22,7 +22,7 @@ module.exports = {
         "./wizzi.plugin.text/index.js", 
         "./wizzi.plugin.svg/index.js", 
         "./wizzi.plugin.wzjob/index.js", 
-        "./wizzi.plugin.wzschema/index.js", 
+        "./wizzi.plugin.wfschema/index.js", 
         "./wizzi.plugin.xml/index.js", 
         "./wizzi.plugin.yaml/index.js"
     ], 

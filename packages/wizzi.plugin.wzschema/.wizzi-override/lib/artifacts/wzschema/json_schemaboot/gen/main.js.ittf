@@ -1,0 +1,29 @@
+module
+    kind es6
+    $
+        var md = {
+            plugin: 'wizzi.plugin.wzschema',
+            name: 'json_schemaboot',
+            schema: 'wzschema',
+            checkSchema: true,
+            isAsync: true,
+        };
+    gen( &md )
+        $append imports
+            var BootWizziSchema = require('../../bootstrap/wfschema-boot-model').WizziSchema
+            var stringify = require('json-stringify-safe')
+
+        $append main
+            var bootWizziModel = new BootWizziSchema(model.wzName)
+            _ bootWizziModel.loadFromWizziModel
+                @ model
+                @ ctx
+                a_cb()
+                    var jsonObject
+                        _ bootWizziModel.toJson()
+                    _ ctx.w
+                        _ stringify
+                            @ jsonObject
+                            @ null
+                            @ 4
+                    r_cb( ctx )                

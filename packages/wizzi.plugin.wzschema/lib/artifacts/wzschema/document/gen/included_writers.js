@@ -1,7 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.14
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\.wizzi-override\lib\artifacts\wzschema\document\gen\included_writers.js.ittf
+    utc time: Fri, 15 Mar 2024 20:53:19 GMT
 */
 'use strict';
 
@@ -11,6 +12,7 @@ var verify = require('wizzi-utils').verify;
 
 var md = module.exports = {};
 md.writeIncludeJs = function(ctx, element, callback) {
+    // loog myname, 'enter writeIncludeJs'
     element.get_js((err, jsModel) => {
     
         if (err) {

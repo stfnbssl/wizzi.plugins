@@ -34,14 +34,14 @@
 			@ ittfSource
 			_ getLoadModelContext
 				{
-			f_cb_test( mdWizziModel )
+			a_cb_test( mdWizziModel )
 				info 'mdWizziModel', mdWizziModel
 				var ctx
 					_ mocks.getGenContext
 				_ mdgenerator.gen
 					@ mdWizziModel
 					@ ctx
-					f_cb_test( ctxout )
+					a_cb_test( ctxout )
 						info 'ctxout', ctxout.getContent()
 						_ file.write
 							@ mdOutput

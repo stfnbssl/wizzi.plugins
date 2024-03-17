@@ -22,7 +22,7 @@
 		# loog 'wizzi-codegen.examples.item', item
 		_ execute
 			@ item
-			f_cb()
+			a_cb()
 				repeater_increment(1)
 
 	function execute
@@ -42,7 +42,7 @@
 		_ basicLoader.loadMTree
 			@ ittfSource
 			{
-			f_cb_test( mTree )
+			a_cb_test( mTree )
 				# loog 'mTree', mTree
 				var js = new jsNode(mTree.n, mTree.v)
 				_ js.loadFromMTree(mTree)
@@ -57,7 +57,7 @@
 				_ index.js_Statement.gen
 					@ js
 					@ ctx
-					f_cb()
+					a_cb()
 						log name, 'ctx\n' + ctx.getContent()
 						_ file.write
 							@ jsOutput

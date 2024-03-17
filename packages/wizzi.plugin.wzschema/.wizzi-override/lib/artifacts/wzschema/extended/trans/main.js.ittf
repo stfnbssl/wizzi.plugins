@@ -5,6 +5,7 @@ module
             plugin: 'wizzi.plugin.wzschema',
             name: 'extended',
             schema: 'wzschema',
+            rootElement: '',
             checkSchema: true
         };
     trans( &md )
@@ -15,6 +16,9 @@ module
                 _ doitem
                     @ item
                     @ transformedModel
+            _ callback
+                @ null
+                @ transformedModel
     function doitem
         param parent
         param resultObj

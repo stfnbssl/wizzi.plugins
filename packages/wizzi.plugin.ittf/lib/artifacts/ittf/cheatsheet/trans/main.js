@@ -122,7 +122,7 @@ function generateArtifacts(ctx, workObj, callback_main) {
                             item.generated = '\n' + verify.htmlEscape(stringify(err, null, 2));
                         }
                         else {
-                            item.generated = '\n' + verify.htmlEscape(script.mTreeBuildupScript);
+                            item.generated = '\n' + verify.htmlEscape(script.mTreeBuildUpScript);
                         }
                         callback(null)
                     }

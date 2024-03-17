@@ -39,7 +39,7 @@
             _ generateArtifacts
                 @ ctx
                 @ workObj
-                f_cb( result )
+                a_cb( result )
                     # loog 'executeTrans.result', result
                     _ callback
                         @ null
@@ -133,7 +133,7 @@
                         function
                             _ pretty.prettifyIttfHtmlFromString
                                 @ item.ittfWrapped
-                                f_cb( pretty )
+                                a_cb( pretty )
                                     set item.ittfPretty = pretty
                                     # loog 'pretty', pretty
                                     # loog 'ittf.cheatsheet.ctx', ctx
@@ -143,12 +143,12 @@
                                         _ ctx.wizziFactory.loadMTreeBuildupScriptFromText
                                             @ item.ittfWrapped
                                             {
-                                            f_cb_no_err(script)
+                                            a_cb_no_err(script)
                                                 # loog 'counter', --counter
                                                 if err
                                                     set item.generated = '\n' + verify.htmlEscape(stringify(err, null, 2))
                                                 else
-                                                    set item.generated = '\n' + verify.htmlEscape(script.mTreeBuildupScript)
+                                                    set item.generated = '\n' + verify.htmlEscape(script.mTreeBuildUpScript)
                                                 _ callback
                                                     @ null
                                     else
@@ -160,7 +160,7 @@
                                                     @ noUseStrict true
                                                     @ noGeneratorComments true
                                             @ artifactNameFromSchema(item.schema)
-                                            f_cb_no_err(artifactText)
+                                            a_cb_no_err(artifactText)
                                                 # loog 'err, artifactText', err, artifactText
                                                 # loog 'counter', --counter
                                                 if err
@@ -170,7 +170,7 @@
                                                     set item.generated = '\n' + artifactText
                                                 _ callback
                                                     @ null
-                f_cb()
+                a_cb()
                     var dump
                         _ stringify
                             @ workObj

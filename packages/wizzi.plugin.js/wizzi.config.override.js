@@ -18,7 +18,7 @@ module.exports = {
         "./wizzi.plugin.md/index.js", 
         "./wizzi.plugin.text/index.js", 
         "./wizzi.plugin.wzjob/index.js", 
-        "./wizzi.plugin.wzschema/index.js", 
+        "./wizzi.plugin.wfschema/index.js", 
     ], 
     pluginsBaseFolder: "C:/My/wizzi/stfnbssl/previous/wizzi.plugins/packages", 
     schemas: [
