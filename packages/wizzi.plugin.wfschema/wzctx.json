@@ -1,9 +1,9 @@
 {
     "name": "wizzi.plugin.wfschema",
-    "npnName": "@wizzi/plugin.wfschema",
-    "pluginBasename": "wfschema",
+    "npmName": "@wizzi/plugin.wfschema",
+    "pluginBasename": "",
     "version": "0.8.2",
-    "description": "wizzi.plugin.wfschema",
+    "description": "Wizzi Schema Definition",
     "author": {
         "name": "Stefano Bassoli",
         "email": "stfn.bssl@gmail.com"
@@ -13,10 +13,12 @@
     },
     "license": {
         "name": "MIT",
-        "copy": "copy 2022"
+        "copy": "copy 2024"
     },
     "Build": {
         "isWizziPlugin": true,
+        "useWizziV08": true,
+        "wizziV08": {},
         "utils": {
             "useStringifySafe": true,
             "useObjectInspect": true
@@ -27,15 +29,51 @@
             "name": "wfschema",
             "title": "wfschema wizzi schema",
             "builtin": false,
+            "hasCheatsheetFolder": true,
             "modelTransformers": [
                 {
-                    "name": "extended"
+                    "name": "json_docs"
+                },
+                {
+                    "name": "schemaboot"
                 }
             ],
             "artifactGenerators": [
                 {
-                    "name": "document"
+                    "name": "model",
+                    "outmime": "js",
+                    "contentType": "text/javascript",
+                    "isDefault": true
+                },
+                {
+                    "name": "html_docs",
+                    "outmime": "html",
+                    "contentType": "text/html",
+                    "isDefault": false
+                },
+                {
+                    "name": "factory",
+                    "outmime": "js",
+                    "contentType": "text/javascript",
+                    "isDefault": false
+                },
+                {
+                    "name": "text",
+                    "outmime": "js",
+                    "contentType": "text/javascript",
+                    "isDefault": false
+                },
+                {
+                    "name": "json_schemaboot",
+                    "outmime": "json",
+                    "contentType": "application/json",
+                    "isDefault": false
                 }
+            ],
+            "defaultArtifact": "model",
+            "wizzifiers": [],
+            "fileExtensions": [
+                "wfschema"
             ],
             "includes": [
                 {

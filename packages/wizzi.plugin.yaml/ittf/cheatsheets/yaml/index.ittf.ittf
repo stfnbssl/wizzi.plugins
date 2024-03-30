@@ -1,0 +1,112 @@
+meta
+	schema yaml
+	language yaml
+	element
+		tag {
+		ast 
+		category
+
+		item 
+			title Simple object
+			ittf
+				{
+					name "stefi"
+					email "stefi@gmail.com"
+
+		item 
+			title Property value types
+			ittf
+				{
+					# strings can be quoted
+					name "stefi"
+					# or unquoted
+					email wizzi
+					integer 3
+					float 3.45
+					# true is boolean
+					boolean true
+
+		item 
+			title Complex object
+			ittf
+				{
+					name "stefi"
+					job "wizzi"
+					[ friends
+						"arthur"
+						"marius"
+						"george"
+					{ states
+						id 1
+						name Washington
+		item
+			title Error: invalid root node
+			is-error true
+			ittf
+				version 2.1
+				name duby
+
+		item 
+			title Error: missing property name
+			is-error true
+			ittf
+				{
+					name "stefi"
+					{ 
+						id 1
+						name Washington						
+
+	element
+		tag [
+		ast 
+		category
+
+		item
+			title Array of scalars
+			ittf
+				[
+					alpha
+					beta
+					1
+					true
+
+		item
+			title Array of objects
+			ittf
+				[
+					{
+						id 1
+						name george
+					{
+						id 2
+						name mildred
+
+		item
+			title Array of arrays of scalars
+			ittf
+				[
+					[
+						sigma
+						tau
+					[
+						nexus
+						plexus
+
+		item
+			title Array of arrays of objects
+			ittf
+				[
+					[
+						{
+							id 1
+							letter delta
+						{
+							id 2
+							letter gamma
+					[
+						{
+							id 1
+							letter lambda
+						{
+							id 1
+							letter omega

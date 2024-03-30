@@ -5,28 +5,38 @@ module
             name: 'xml',
             artifact: 'document',
         };
-    v08/examples/plugin( &md )
+    wizziplugin/examples/plugin( &md )
         $append plugins
             [ items
-                @ './index.js'
-            @ pluginsBaseFolder
-                _ path.resolve
-                    @ __dirname
-                    @ '..'
+                @ './wizzi.plugin.xml/index.js'
+                @ './wizzi.plugin.json/index.js'
+            @ pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
         let arg = process.argv[2]
         const moduleName = arg && arg.length > 0 ? arg : 'first'
-        _ executeGenerateModules
-            [
-                @ moduleName
-            a_cb_no_throw( result )
+        _ getWzCtx
+            _ path.resolve
+                @ __dirname
+                @ '..'
+                @ '.wizzi-override'
+                @ 'models'
+            a_cb_no_throw( wzCtx )
                 if err
-                    error 'xml/document.examples.executeGenerateModules.err', err
-                    error 'xml/document.examples.executeGenerateModules.err.toString()', err.toString()
-                    if err.inner
-                        error 'xml/document.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
-                else
+                    error err
+                    return
+                _ executeGenerateModules
+                    [
+                        @ moduleName
+                    @ wzCtx
+                    a_cb_no_throw( result )
+                        if err
+                            error 'xml/document.examples.executeGenerateModules.err', err
+                            error 'xml/document.examples.executeGenerateModules.err.toString()', err.toString()
+                            if err.inner
+                                error 'xml/document.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
+                        else
         function executeGenerateModules
             param modules
+            param wzCtx
             param callback
             _ async.mapSeries
                 @ modules
@@ -44,13 +54,26 @@ module
                             @ 'results'
                             @ 'xml'
                             @ module + '-document.g.xml'
-                    _ loadModelAndGenerateArtifact
+                    _ loadWizziModel
                         @ ittfDocumentUri
                         {
-                        @ 'xml/document'
-                        a_cb( artifactText )
-                            _ file.write
-                                @ outputPath
-                                @ artifactText
-                            r_cb( artifactText )
+                            @ wzCtx wzCtx
+                        a_cb( wizziModel )
+                            if wizziModel.toJson
+                                _ file.write
+                                    @ outputPath + '.json'
+                                    _ stringify
+                                        _ wizziModel.toJson
+                                        @ null
+                                        @ 4
+                            _ loadModelAndGenerateArtifact
+                                @ ittfDocumentUri
+                                {
+                                    @ wzCtx wzCtx
+                                @ 'xml/document'
+                                a_cb( artifactText )
+                                    _ file.write
+                                        @ outputPath
+                                        @ artifactText
+                                    r_cb( artifactText )
                 @ callback

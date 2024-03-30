@@ -1,6 +1,6 @@
 # wizzi.plugin.wfschema
 
-wizzi.plugin.wfschema
+Wizzi Schema Definition
 
 
 ## Features
@@ -8,12 +8,7 @@ wizzi.plugin.wfschema
 
 <table>
 <tr>
-<th>Schema</th>
-<th>Descriptionn</th>
-<th>Builtin</th>
-<th>Model transformers</th>
-<th>Artifacts</th>
-</tr>
+<th>Schema<th>Descriptionn<th>Builtin<th>Model transformers<th>Artifacts</tr>
 <tr>
 <td>
 <a href https://github.com//wizzi.plugin.wfschema/tree/master/.wizzi/ittf/lib/wizzi/schemas/wfschema.wfschema.ittf>wfschema</a><td>wfschema wizzi schema</td>
@@ -22,7 +17,10 @@ no<td>
 
 <table>
 <tr>
-<td>extended</td>
+<td>json_docs</td>
+</tr>
+<tr>
+<td>schemaboot</td>
 </tr>
 </table>
 
@@ -30,7 +28,19 @@ no<td>
 
 <table>
 <tr>
-<td>document</td>
+<td>model</td>
+</tr>
+<tr>
+<td>html_docs</td>
+</tr>
+<tr>
+<td>factory</td>
+</tr>
+<tr>
+<td>text</td>
+</tr>
+<tr>
+<td>json_schemaboot</td>
 </tr>
 </table>
 
@@ -39,7 +49,7 @@ no<td>
 
 
 
-<p>remember legacy version`wz override -l 0.8`
+<p>remember legacy versionwz override -l 0.8
 </p>
 
 
@@ -63,10 +73,10 @@ One machinery many productions.
 <p><a href="https://stfnbssl.github.io/wizzi">Project page</a></p>
 
 ## Built With
-* [Nodejs](https://nodejs.org)
-
-* [Wizzi](https://github.com/stfnbssl/wizzi)
-
+    * [Nodejs](https://nodejs.org)
+    
+    * [Wizzi](https://github.com/stfnbssl/wizzi)
+    
 
 ## License
 

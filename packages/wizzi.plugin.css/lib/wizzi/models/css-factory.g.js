@@ -1,7 +1,7 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.wfschema\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@0.7.13
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\lib\artifacts\wfschema\factory\gen\ittf\wfschema-factory.js.ittf
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.wfschema\lib\artifacts\wfschema\factory\gen\ittf\wfschema-factory.js.ittf
 */
 'use strict';
 //
@@ -126,7 +126,7 @@ md.createLoadModel = function(wizziObject) {
                     // { productionContext
                         // { aclstat
                 // { __ittfDocumentStore
-                // { mTreeBuildUpContext
+                // { mTreeBuildupContext
                     // optional
                 // { __request
                     // This is a legacy that should disappear.
@@ -151,7 +151,7 @@ md.createLoadModel = function(wizziObject) {
                 if (verify.isObject(loadContext.__productionManager) !== true) {
                     return callback(error('InvalidArgument', 'loadModel', 'The loadContext.__productionManager parameter must be an object'));
                 }
-                loadContext.mTreeBuildUpContext = Object.assign({}, loadContext.__productionManager.globalContext(), loadContext.mTreeBuildUpContext)
+                loadContext.mTreeBuildupContext = Object.assign({}, loadContext.__productionManager.globalContext(), loadContext.mTreeBuildupContext)
                 ;
                 var wizziModelRequest = loadContext.__request || {};
                 var start = Date.now();

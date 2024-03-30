@@ -1,6 +1,6 @@
 # wizzi.plugin.xml
 
-wizzi.plugin.xml
+Xml document
 
 
 ## Features
@@ -16,9 +16,6 @@ wizzi.plugin.xml
 yes<td>
 
 <table>
-<tr>
-<td>extended</td>
-</tr>
 </table>
 
 <td>

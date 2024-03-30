@@ -1,9 +1,9 @@
 {
     "name": "wizzi.plugin.yaml",
-    "npnName": "@wizzi/plugin.yaml",
-    "pluginBasename": "yaml",
+    "npmName": "@wizzi/plugin.yaml",
+    "pluginBasename": "",
     "version": "0.8.10",
-    "description": "wizzi.plugin.yaml",
+    "description": "Yaml document",
     "author": {
         "name": "Stefano Bassoli",
         "email": "stfn.bssl@gmail.com"
@@ -13,7 +13,7 @@
     },
     "license": {
         "name": "MIT",
-        "copy": "copy 2023"
+        "copy": "copy 2024"
     },
     "Build": {
         "isWizziPlugin": true,
@@ -29,22 +29,16 @@
         {
             "name": "yaml",
             "title": "yaml wizzi schema",
+            "rootTag": "{|[",
             "builtin": true,
             "hasWizzifier": true,
-            "modelTransformers": [
-                {
-                    "name": "extended"
-                }
-            ],
+            "hasCheatsheetFolder": true,
+            "modelTransformers": [],
             "artifactGenerators": [
-                {
-                    "name": "document"
-                }
-            ],
-            "artifacts": [
                 {
                     "name": "document",
                     "outmime": "yaml",
+                    "contentType": "text/yaml",
                     "isDefault": true
                 }
             ],

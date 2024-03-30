@@ -1,9 +1,9 @@
 {
     "name": "wizzi.plugin.text",
-    "npnName": "@wizzi/plugin.text",
-    "pluginBasename": "text",
+    "npmName": "@wizzi/plugin.text",
+    "pluginBasename": "",
     "version": "0.8.2",
-    "description": "wizzi.plugin.text",
+    "description": "Text document",
     "author": {
         "name": "Stefano Bassoli",
         "email": "stfn.bssl@gmail.com"
@@ -13,7 +13,7 @@
     },
     "license": {
         "name": "MIT",
-        "copy": "copy 2023"
+        "copy": "copy 2024"
     },
     "Build": {
         "isWizziPlugin": true,
@@ -30,20 +30,13 @@
             "title": "text wizzi schema",
             "builtin": true,
             "hasWizzifier": true,
-            "modelTransformers": [
-                {
-                    "name": "extended"
-                }
-            ],
+            "hasCheatsheetFolder": true,
+            "modelTransformers": [],
             "artifactGenerators": [
-                {
-                    "name": "document"
-                }
-            ],
-            "artifacts": [
                 {
                     "name": "document",
                     "outmime": "txt",
+                    "contentType": "text/plain",
                     "isDefault": true
                 }
             ],

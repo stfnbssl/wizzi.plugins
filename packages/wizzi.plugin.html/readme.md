@@ -1,6 +1,6 @@
 # wizzi.plugin.html
 
-wizzi.plugin.html
+Html document
 
 
 ## Features

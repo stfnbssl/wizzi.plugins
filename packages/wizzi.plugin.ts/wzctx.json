@@ -1,9 +1,9 @@
 {
     "name": "wizzi.plugin.ts",
-    "npnName": "@wizzi/plugin.ts",
-    "pluginBasename": "ts",
+    "npmName": "@wizzi/plugin.ts",
+    "pluginBasename": "",
     "version": "0.8.3",
-    "description": "wizzi.plugin.ts",
+    "description": "Typescript language",
     "author": {
         "name": "Stefano Bassoli",
         "email": "stfn.bssl@gmail.com"
@@ -13,7 +13,7 @@
     },
     "license": {
         "name": "MIT",
-        "copy": "copy 2023"
+        "copy": "copy 2024"
     },
     "Build": {
         "isWizziPlugin": true,
@@ -23,11 +23,6 @@
             "useStringifySafe": true,
             "useObjectInspect": true
         },
-        "useBabel": true,
-        "babel": {
-            "useParser": true,
-            "useParserTypescript": true
-        },
         "useBabelParser": true,
         "useBabelParserTypescript": true
     },
@@ -35,9 +30,11 @@
         {
             "name": "ts",
             "title": "ts wizzi schema",
+            "rootElement": "xmodule",
+            "rootTag": "module",
             "builtin": false,
             "hasWizzifier": true,
-            "includes": [],
+            "hasCheatsheetFolder": true,
             "modelTransformers": [],
             "artifactGenerators": [
                 {
@@ -56,7 +53,8 @@
             "fileExtensions": [
                 "ts",
                 "tsx"
-            ]
+            ],
+            "includes": []
         }
     ]
 }

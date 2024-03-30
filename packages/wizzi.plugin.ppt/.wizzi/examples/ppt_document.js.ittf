@@ -5,28 +5,38 @@ module
             name: 'ppt',
             artifact: 'document',
         };
-    v08/examples/plugin( &md )
+    wizziplugin/examples/plugin( &md )
         $append plugins
             [ items
-                @ './index.js'
-            @ pluginsBaseFolder
-                _ path.resolve
-                    @ __dirname
-                    @ '..'
+                @ './wizzi.plugin.ppt/index.js'
+                @ './wizzi.plugin.json/index.js'
+            @ pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
         let arg = process.argv[2]
         const moduleName = arg && arg.length > 0 ? arg : 'first'
-        _ executeGenerateModules
-            [
-                @ moduleName
-            a_cb_no_throw( result )
+        _ getWzCtx
+            _ path.resolve
+                @ __dirname
+                @ '..'
+                @ '.wizzi-override'
+                @ 'models'
+            a_cb_no_throw( wzCtx )
                 if err
-                    error 'ppt/document.examples.executeGenerateModules.err', err
-                    error 'ppt/document.examples.executeGenerateModules.err.toString()', err.toString()
-                    if err.inner
-                        error 'ppt/document.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
-                else
+                    error err
+                    return
+                _ executeGenerateModules
+                    [
+                        @ moduleName
+                    @ wzCtx
+                    a_cb_no_throw( result )
+                        if err
+                            error 'ppt/document.examples.executeGenerateModules.err', err
+                            error 'ppt/document.examples.executeGenerateModules.err.toString()', err.toString()
+                            if err.inner
+                                error 'ppt/document.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
+                        else
         function executeGenerateModules
             param modules
+            param wzCtx
             param callback
             _ async.mapSeries
                 @ modules
@@ -44,13 +54,26 @@ module
                             @ 'results'
                             @ 'ppt'
                             @ module + '-document.g.ppt'
-                    _ loadModelAndGenerateArtifact
+                    _ loadWizziModel
                         @ ittfDocumentUri
                         {
-                        @ 'ppt/document'
-                        a_cb( artifactText )
-                            _ file.write
-                                @ outputPath
-                                @ artifactText
-                            r_cb( artifactText )
+                            @ wzCtx wzCtx
+                        a_cb( wizziModel )
+                            if wizziModel.toJson
+                                _ file.write
+                                    @ outputPath + '.json'
+                                    _ stringify
+                                        _ wizziModel.toJson
+                                        @ null
+                                        @ 4
+                            _ loadModelAndGenerateArtifact
+                                @ ittfDocumentUri
+                                {
+                                    @ wzCtx wzCtx
+                                @ 'ppt/document'
+                                a_cb( artifactText )
+                                    _ file.write
+                                        @ outputPath
+                                        @ artifactText
+                                    r_cb( artifactText )
                 @ callback

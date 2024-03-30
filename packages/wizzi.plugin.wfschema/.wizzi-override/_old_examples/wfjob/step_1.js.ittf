@@ -105,21 +105,21 @@ $*
 		_ loadWizziModel
 			@ ittfSource
 			@ context || {}
-			a_cb_test( jsWizziModel )
+			a_cb_test( JsWizziModel )
 				# loog 'wizzi-core.examples.index.loaded ittfSource', ittfSource, 'schema', schema
-				# loog 'jsWizziModel', jsWizziModel
-				if jsWizziModel.toJson
+				# loog 'JsWizziModel', JsWizziModel
+				if JsWizziModel.toJson
 					_ file.write
 						@ jsOutput
 						_ stringify
-							@ jsWizziModel.toJson()
+							@ JsWizziModel.toJson()
 							@ null
 							@ 4
 				else
 					_ file.write
 						@ jsOutput
 						_ stringify
-							@ jsWizziModel
+							@ JsWizziModel
 							@ null
 							@ 4
                 r_cb()

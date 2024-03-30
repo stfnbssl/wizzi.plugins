@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.vtt\.wizzi-override\lib\artifacts\utils\utilNode.js.ittf
-    utc time: Fri, 07 Apr 2023 18:39:15 GMT
+    utc time: Thu, 21 Mar 2024 16:06:04 GMT
 */
 'use strict';
 

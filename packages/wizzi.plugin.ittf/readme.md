@@ -1,6 +1,6 @@
 # wizzi.plugin.ittf
 
-wizzi.plugin.ittf
+Ittf document
 
 
 ## Features

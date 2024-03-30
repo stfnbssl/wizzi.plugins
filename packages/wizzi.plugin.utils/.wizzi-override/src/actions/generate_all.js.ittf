@@ -26,7 +26,8 @@ module
         const PowerShell = spawnUtils.PowerShell
         let ps
             new PowerShell
-                @ "wz override"
+                $$ @ "wz override"
+                @ "wz lastsafe"
                 {
                     @ cwd "C:/My/wizzi/stfnbssl/wizzi.plugins/packages/wizzi.plugin." + pluginName
         _ spawnUtils.psOutput

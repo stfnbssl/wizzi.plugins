@@ -31,7 +31,7 @@ var regexp_examples_step_1 = function(step_callback) {
     
     // Create a filesystem factory without access control.
     // For mTrees we require the dump of the mTree
-    // buildup jsWizzi script. Just to take a look.
+    // buildup JsWizzi script. Just to take a look.
     wizzi.fsFactory({
         globalContext: globalContext, 
         test: {

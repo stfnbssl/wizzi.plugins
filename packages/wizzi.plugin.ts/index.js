@@ -1,15 +1,18 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\root\index.js.ittf
-    utc time: Wed, 13 Mar 2024 07:14:46 GMT
+    utc time: Thu, 21 Mar 2024 16:05:56 GMT
 */
 'use strict';
 
 var util = require('util');
 var path = require('path');
 var stringify = require('json-stringify-safe');
+var wizziUtils = require('@wizzi/utils');
 var errors = require('./errors');
+
+const vfile = wizziUtils.fSystem.vfile;
 
 var md = module.exports = {};
 md.name = 'wizzi.plugin.ts.index';
@@ -26,6 +29,7 @@ class FactoryPlugin {
         this.artifactGenerators = {};
         this.wizzifiers = {};
         this.schemaDefinitions = {};
+        this.schemaCheatsheetDefinitions = {};
     }
     
     initialize(options, callback) {
@@ -35,6 +39,14 @@ class FactoryPlugin {
     
     getName() {
         return 'wizzi.plugin.ts';
+    }
+    
+    getNpmName() {
+        return '@wizzi/plugin.ts';
+    }
+    
+    getVersion() {
+        return '0.8.3';
     }
     
     getFilename() {
@@ -182,6 +194,65 @@ class FactoryPlugin {
         }
         return definition;
     }
+    
+    /**
+         Retrieve a Cheatsheet definitions folder packed in a packiFiles object.
+    */
+    getCheatsheetFolder(schemaName, callback) {
+        var definition = this.schemaCheatsheetDefinitions[schemaName] || null;
+        if (definition == null) {
+            var cheatsheetFolderUri = path.resolve(__dirname, 'ittf', 'cheatsheets', schemaName);
+            if (this.file.exists(cheatsheetFolderUri)) {
+                try {
+                    createPackifilesFromFs(cheatsheetFolderUri, (err, result) => {
+                    
+                        if (err) {
+                            return callback(err);
+                        }
+                        this.schemaCheatsheetDefinitions[schemaName] = result;
+                        return callback(null, result);
+                    }
+                    )
+                } 
+                catch (ex) {
+                    return callback(error('WizziPluginError', 'getCheatsheetFolder', 'Error loading wizzi cheatsheet definition: ' + cheatsheetFolderUri + ', in plugin: ' + this.getFilename(), ex));
+                } 
+            }
+            else {
+                return callback(null, null);
+            }
+        }
+        else {
+            return callback(null, definition);
+        }
+    }
+}
+
+/**
+     Scan a filesystem folder and returns the content in a packiFiles object.
+*/
+function createPackifilesFromFs(folderPath, callback) {
+    const fsFile = vfile();
+    fsFile.getFiles(folderPath, {
+        deep: true, 
+        documentContent: true
+     }, (err, files) => {
+    
+        if (err) {
+            return callback(err);
+        }
+        const packiFiles = {};
+        var i, i_items=files, i_len=files.length, file;
+        for (i=0; i<i_len; i++) {
+            file = files[i];
+            packiFiles[file.relPath] = {
+                type: 'CODE', 
+                contents: file.content
+             };
+        }
+        return callback(null, packiFiles);
+    }
+    )
 }
 
 function error(errorName, method, message, innerError) {
@@ -201,6 +272,8 @@ module.exports = {
         schemasExt: [
             {
                 name: 'ts', 
+                rootElement: 'xmodule', 
+                rootTag: 'module', 
                 fileExtensions: [
                     "ts", 
                     "tsx"
@@ -224,6 +297,9 @@ module.exports = {
             'ts/module'
         ], 
         wizzifiers: [
+            'ts'
+        ], 
+        cheatsheetFolders: [
             'ts'
         ]
      }, 

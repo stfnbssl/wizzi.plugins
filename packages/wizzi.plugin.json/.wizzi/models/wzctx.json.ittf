@@ -1,10 +1,10 @@
 {
     $include versions
     name "wizzi.plugin.json"
-    npnName "@wizzi/plugin.json"
-    pluginBasename "json"
+    npmName "@wizzi/plugin.json"
+    pluginBasename ""
     version '${versions['@wizzi/plugin.json@next']}'
-    description "wizzi.plugin.json"
+    description "JSON document"
     { author
         name "Stefano Bassoli"
         email "stfn.bssl@gmail.com"
@@ -12,7 +12,7 @@
         userid "stfnbssl"
     { license
         name "MIT"
-        copy "copy 2023"
+        copy "copy 2024"
     { Build
         isWizziPlugin true
         useWizziV08 true
@@ -24,25 +24,31 @@
         {
             name "json"
             title "json wizzi schema"
+            rootTag "{|["
             builtin true
             hasWizzifier true
+            hasCheatsheetFolder true
             [ modelTransformers
             [ artifactGenerators
                 {
                     name "document"
                     outmime "json"
+                    contentType "application/json"
                     isDefault true
                 {
                     name "export"
                     outmime "json"
+                    contentType "application/json"
                     isDefault false
                 {
                     name "toml"
                     outmime "ml"
+                    contentType "text/ml"
                     isDefault false
                 {
                     name "toyaml"
                     outmime "yaml"
+                    contentType "text/yaml"
                     isDefault false
             defaultArtifact "document"
             [ wizzifiers

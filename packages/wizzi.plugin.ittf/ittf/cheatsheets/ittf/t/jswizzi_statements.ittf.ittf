@@ -1,0 +1,71 @@
+$group
+
+	element JsWizzi statements
+		tag
+		ast 
+		category
+
+		item
+			title JsWizzi - Conditions
+			render script
+			ittf
+				root
+					${'$'}
+						var name = 'Derby', winner = null;
+						if (name == 'Ascot') {
+							winner = 'Ribot';
+						} else if (name == 'Arc de triomphe') {
+							winner = 'Varenne';
+						} else if (name == 'Derby') {
+							winner = 'Ribot';
+						} else {
+							winner = 'Varenne';
+						}
+					node If the race was ${'$'}{name} the winner was ${'$'}{winner}.
+
+		item
+			title JsWizzi - For loop
+			render script
+			ittf
+				root
+					${'$'}
+						var sletters = 'a,b,c,d,e,f,g,h';
+						var aletters = sletters.split(',');
+						var letter, label='';
+						for (var i=0; i<aletters.length; i++) {
+							letter = aletters[i];
+							label += i % 2 == 0 ? letter : letter.toUpperCase();
+						}
+					node The resulting label has the even letters upper cased: ${'$'}{label}.
+
+
+		item
+			title JsWizzi - While loop
+			render script
+			ittf
+				root
+					${'$'}
+						var x = 1, odds = '1';
+						while ( x < 10 ) {
+							x += 2;
+							odds += ', ' + x 
+						}
+					node First odd numbers: ${'$'}{odds}.
+
+					
+		item
+			title JsWizzi - Functions
+			render script
+			ittf
+				root
+					${'$'}
+						function sayHello(name) {
+							return 'Hii I am ' + name;
+						}
+						${'$'}${'$'}TODO var sh = sayHello;
+
+					p If Varenne could have talked he would have said: ${'$'}{ sayHello('Varenne') }.
+					${'$'}${'$'}TODO p If Ribot could have talked he would have said: ${'$'}{ sh('Ribot') }.
+
+
+												

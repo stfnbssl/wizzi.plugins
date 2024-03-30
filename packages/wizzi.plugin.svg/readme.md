@@ -1,6 +1,6 @@
 # wizzi.plugin.svg
 
-wizzi.plugin.svg
+Svg document
 
 
 ## Features
@@ -16,9 +16,6 @@ wizzi.plugin.svg
 no<td>
 
 <table>
-<tr>
-<td>extended</td>
-</tr>
 </table>
 
 <td>

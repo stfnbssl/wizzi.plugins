@@ -49,14 +49,14 @@
 			@ ittfSource
 			_ getLoadModelContext
 				{
-			a_cb_test( jsWizziModel )
-				# loog 'jsWizziModel', stringify(jsWizziModel, null, 2)
+			a_cb_test( JsWizziModel )
+				# loog 'JsWizziModel', stringify(JsWizziModel, null, 2)
 				var ctx = new mocks.getGenContext()
                 set ctx.values
                     {
                         @ isWizziUtilsPackage true
 				_ js_artifact.gen
-					@ jsWizziModel
+					@ JsWizziModel
 					@ ctx
 					a_cb_test( ctxout )
 						info 'ctxout', ctxout.getContent()

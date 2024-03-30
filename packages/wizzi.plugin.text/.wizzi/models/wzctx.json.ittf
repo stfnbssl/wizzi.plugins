@@ -1,10 +1,10 @@
 {
     $include versions
     name "wizzi.plugin.text"
-    npnName "@wizzi/plugin.text"
-    pluginBasename "text"
+    npmName "@wizzi/plugin.text"
+    pluginBasename ""
     version '${versions['@wizzi/plugin.text@next']}'
-    description "wizzi.plugin.text"
+    description "Text document"
     { author
         name "Stefano Bassoli"
         email "stfn.bssl@gmail.com"
@@ -12,7 +12,7 @@
         userid "stfnbssl"
     { license
         name "MIT"
-        copy "copy 2023"
+        copy "copy 2024"
     { Build
         isWizziPlugin true
         useWizziV08 true
@@ -26,11 +26,13 @@
             title "text wizzi schema"
             builtin true
             hasWizzifier true
+            hasCheatsheetFolder true
             [ modelTransformers
             [ artifactGenerators
                 {
                     name "document"
                     outmime "txt"
+                    contentType "text/plain"
                     isDefault true
             defaultArtifact "document"
             [ wizzifiers

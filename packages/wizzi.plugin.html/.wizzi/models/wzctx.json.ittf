@@ -1,18 +1,18 @@
 {
     $include versions
     name "wizzi.plugin.html"
-    npmName ""
+    npmName "@wizzi/plugin.html"
     pluginBasename ""
-    version '${versions['@next']}'
-    description "Wizzi plugin for "
+    version '${versions['@wizzi/plugin.html@next']}'
+    description "Html document"
     { author
         name "Stefano Bassoli"
         email "stfn.bssl@gmail.com"
     { github
         userid "stfnbssl"
     { license
-        name ""
-        copy "copy 2023"
+        name "MIT"
+        copy "copy 2024"
     { Build
         isWizziPlugin true
         useWizziV08 true
@@ -26,6 +26,7 @@
             title "html wizzi schema"
             builtin false
             hasWizzifier true
+            hasCheatsheetFolder true
             [ modelTransformers
             [ artifactGenerators
                 {

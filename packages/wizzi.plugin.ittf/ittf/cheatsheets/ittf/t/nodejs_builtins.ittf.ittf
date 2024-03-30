@@ -1,0 +1,45 @@
+$group
+
+	element JsWizzi, NodeJs builtin modules
+		tag
+		ast 
+		category
+
+		item
+			title JsWizzi - NodeJs `path` builtin functions
+			render ittf
+			ittf
+				root
+					#
+					# All NodeJs methods of the `path` module are supported
+					#
+					# Examples:
+					#
+					${'$'}
+						var folder = path.join('c:/alpha', 'beta', 'gamma.json');
+					#
+					node folder = ${'$'}{folder}
+					#
+					#
+					node <a href="https://nodejs.org/api/path.html"></a>
+
+		item
+			title JsWizzi - NodeJs `util` builtin functions
+			render ittf
+			ittf
+				root
+					#
+					# All NodeJs methods of the `util` module are supported
+					#
+					# Examples:
+					#
+					${'$'}
+						var obj = {
+							name: 'annie'
+						};
+					#
+					node util.inspect(obj) = ${'$'}{util.inspect(obj)}
+					#
+					#
+					node <a href="https://nodejs.org/api/util.html"></a>
+

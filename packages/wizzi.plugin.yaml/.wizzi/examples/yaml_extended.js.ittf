@@ -3,25 +3,37 @@ module
     $
         var md = {
             name: 'yaml',
+            bif: 1
         };
-    v08/examples/plugin( &md )
+    wizziplugin/examples/plugin( &md )
         $append plugins
             [ items
-                @ './index.js'
-            @ pluginsBaseFolder
-                _ path.resolve
-                    @ __dirname
-                    @ '..'
-        _ executeGenerateModules
-            [
-                @ 'first'
-            a_cb_no_throw( result )
+                @ './wizzi.plugin.yaml/index.js'
+                @ './wizzi.plugin.json/index.js'
+            @ pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
+        +
+        let arg = process.argv[2]
+        const moduleName = arg && arg.length > 0 ? arg : 'first'
+        _ getWzCtx
+            _ path.resolve
+                @ __dirname
+                @ '..'
+                @ '.wizzi-override'
+                @ 'models'
+            a_cb_no_throw( wzCtx )
                 if err
-                    error 'yaml.examples.executeGenerateModules.err', err
-                    error 'yaml.examples.executeGenerateModules.err.toString()', err.toString()
-                    if err.inner
-                        error 'yaml.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
-                else
+                    error err
+                    return
+                _ executeGenerateModules
+                    [
+                        @ moduleName
+                    a_cb_no_throw( result )
+                        if err
+                            error 'yaml.examples.executeGenerateModules.err', err
+                            error 'yaml.examples.executeGenerateModules.err.toString()', err.toString()
+                            if err.inner
+                                error 'yaml.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
+                        else
         function executeGenerateModules
             param modules
             param callback

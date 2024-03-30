@@ -4,7 +4,7 @@ module
         var md = {
             name: 'ittf',
         };
-    v08/examples/plugin( &md )
+    wizziplugin/examples/plugin( &md )
         $append plugins
             [ items
                 @ './index.js'
@@ -13,7 +13,7 @@ module
                     @ __dirname
                     @ '..'
         let arg = process.argv[2]
-        const moduleName = arg && arg.length > 0 ? arg : 'first'        
+        const moduleName = arg && arg.length > 0 ? arg : 'first'
         _ executeGenerateModules
             [
                 @ moduleName
@@ -32,7 +32,6 @@ module
                 =>
                     param module
                     param callback
-                    log 'ittf.example.executeGenerateModules.module: ' + module
                     var ittfDocumentUri
                         _ path.join
                             @ __dirname
@@ -43,7 +42,7 @@ module
                             @ __dirname
                             @ 'results'
                             @ module + '.ittf.json'
-                    var outputTransformedPath
+                    var outputExtendedPath
                         _ path.join
                             @ __dirname
                             @ 'results'
@@ -52,22 +51,19 @@ module
                         @ ittfDocumentUri
                         {
                         a_cb( model )
-                            log 'ittf.example.executeGenerateModules.outputLoadedPath: ' + outputLoadedPath
-                            if model.toJson && verify.isFunction(model.toJson)
-                                _ file.write
-                                    @ outputLoadedPath
-                                    _ stringify
-                                        @ model.toJson()
-                                        @ null
-                                        @ 4
+                            _ file.write
+                                @ outputLoadedPath
+                                _ stringify
+                                    @ model.toJson()
+                                    @ null
+                                    @ 4
                             _ loadModelAndTransform
                                 @ ittfDocumentUri
                                 {
                                 @ "ittf/cheatsheet"
                                 a_cb( model )
-                                    log 'ittf.example.executeGenerateModules.outputTransformedPath: ' + outputTransformedPath
                                     _ file.write
-                                        @ outputTransformedPath
+                                        @ outputExtendedPath
                                         _ stringify
                                             @ model
                                             @ null

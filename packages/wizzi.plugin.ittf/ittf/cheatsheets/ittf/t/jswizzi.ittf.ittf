@@ -1,0 +1,160 @@
+$group
+
+	element JsWizzi
+		tag
+		ast 
+		category
+
+		item
+			title JsWizzi - Variable declarations
+			render ittf
+			ittf
+				any
+					#
+					# The `var` statement (`let` and `const` not implemented)
+					#
+					${'$'}
+						var alphaVar1 = "name";
+						var alphaVar2 = 'name';
+						var integerVar = 3;
+						var floatVar = 3.14;
+						var objectVar1 = {
+							name: 'annie'
+						};
+						var arrayVar1 = [
+							'joe',
+							'barbie'
+						];
+						var objectVar2 = {
+							obj1: objectVar1,
+							arr1: arrayVar1,
+						};
+						var arrayVar2 = [
+							objectVar2,
+							{
+								arr1: arrayVar1
+							}
+						];
+					any arrayVar2[0].obj1.name: ${'$'}{arrayVar2[0].obj1.name}!
+
+
+		item
+			title JsWizzi - Unary expressions
+			render ittf
+			ittf
+				any
+					any +2 =  ${'$'}{ +2 }
+					any -2 = ${'$'}{ -2 }
+					any !(2 == 2) = ${'$'}{ !(2 == 2) }
+					${'$'}
+						var a = 0;
+					any a = = ${'$'}{ a }
+					any ++a = ${'$'}{ ++a }
+					any ++a = ${'$'}{ ++a }
+					any --a = ${'$'}{ --a }
+					any typeof 3 = ${'$'}{ typeof 3 }
+					any typeof '3' = ${'$'}{ typeof '3' }
+					any typeof xyz = ${'$'}{ typeof xyz }
+
+		item
+			title JsWizzi - Binary expressions
+			render ittf
+			ittf
+				any
+					any 2 + 2 = ${'$'}{ 2 + 2 }
+					any 5 - 2 = ${'$'}{ 5 - 2 }
+					any 3 * 3 = ${'$'}{ 3 * 3 }
+					any 6 / 2 = ${'$'}{ 6 / 2 }
+					any 5 % 2 = ${'$'}{ 5 % 2 }
+					any 5 == 2 = ${'$'}{ 5 == 2 }
+					any 5 != 2 = ${'$'}{ 5 != 2 }
+					any 5 > 2 = ${'$'}{ 5 > 2 }
+					any 5 >= 5 = ${'$'}{ 5 >= 5 }
+					any 5 < 2 = ${'$'}{ 5 < 2 }
+					any 5 <= 5 = ${'$'}{ 5 <= 5 }
+					any "a" in { a: 1} = ${'$'}{ "a" in { a: 1} }
+					any typeof 5 === 'string' = ${'$'}{ typeof 5 === 'string' }
+					any String(5) = ${'$'}{ String(5) }
+					any Number('5.5') = ${'$'}{ Number('5.5') }
+					any Date(2013,6,12) = ${'$'}{ Date(2013,6,12) }
+					any 5 << 5 = ${'$'}{ 5 << 5 }
+					any 5 >> 5 = ${'$'}{ 5 >> 5 }
+					any 5 >>> 5 = ${'$'}{ 5 >>> 5 }
+					any 5 | 5 = ${'$'}{ 5 | 5 }
+					any 5 & 5 = ${'$'}{ 5 & 5 }
+					any 5 ^ 5 = ${'$'}{ 5 ^ 5 }
+
+
+		item 
+			title JsWizzi - Conditional operator
+			render ittf
+			ittf
+				root
+					node (3 == 3 ? 1 : 0) = ${'$'}{ 3 == 3 ? 1 : 0 }
+					node (true ? 5 : 2) = ${'$'}{ true ? 5 : 2 }
+
+
+		item 
+			title JsWizzi - Assignments
+			render ittf
+			ittf
+				root
+					${'$'} var a = 0;
+					node var a = 0; a += 2; -> ${'$'}{ a += 2 }
+					${'$'} var a = 0;
+					node var a = 0; a -= 2; -> ${'$'}{ a -= 2 }
+					${'$'} var a = 3;
+					node var a = 3; a *= 2; -> ${'$'}{ a *= 2 }
+					${'$'} var a = 3;
+					node var a = 3; a /= 2; -> ${'$'}{ a /= 2 }
+					${'$'} var a = 3;
+					node var a = 3; a %= 2; -> ${'$'}{ a %= 2 }
+					${'$'} var a = 3;
+					node var a = 3; a <<= 2; -> ${'$'}{ a <<= 2 }
+					${'$'} var a = 3;
+					node var a = 3; a >>= 2; -> ${'$'}{ a >>= 2 }
+					${'$'} var a = 3;
+					node var a = 3; a >>>= 2; -> ${'$'}{ a >>>= 2 }
+					${'$'} var a = 3;
+					node var a = 3; a &= 2; -> ${'$'}{ a &= 2 }
+					${'$'} var a = 3;
+					node var a = 3; a |= 2; -> ${'$'}{ a |= 2 }
+					${'$'} var a = 3;
+					node var a = 3; a ^= 2; -> ${'$'}{ a ^= 2 }
+
+
+
+		item
+			title JsWizzi - Variable declaration and interpolation
+			render ittf
+			ittf
+				root
+					${'$'}
+						var name = 'stefi';
+						var options = {
+							title: 'Chapter 1'
+						};
+					node title is ${'$'}{options.title}
+					node name is ${'$'}{name}
+
+		item 
+			title JsWizzi - More variable declarations
+			render ittf
+			ittf
+				html
+					${'$'}
+						var name = 'Ribot';
+						var runDowns = 16, runWon = 16;
+						var placements = [1, 1, 1, 1, 1];
+						var pedigree = {
+							mother: 'Romanella',
+							father: 'Tenerani',
+							paternalGrandfather: 'Bellini',
+							maternalGrandfather: 'El greco'
+						};
+
+					p ${'$'}{name} was undefeated. Won ${'$'}{runWon} out of ${'$'}{runDowns} races.
+					p His father was ${'$'}{pedigree.father} and his mother ${'$'}{pedigree.mother}.
+					p His placements are boring: ${'$'}{placements}, ...
+
+

@@ -1,0 +1,250 @@
+$group
+
+	element Ittf nodes - The `$mix` template command
+		tag
+		ast 
+		category
+
+		item 
+			title Ittf nodes - Features of `$mix`
+			render ittf
+			fragment fragment-1
+				f-root-1
+					${'$'}
+						var name = 'bax';
+					f-node-1a f-value-1a-${'$'}{name} 
+					f-node-1b f-value-1b-${'$'}{name} 
+			ittf
+				root
+					# With `$mix` the nodes of the fragment are mixed.
+					# The mixed fragment mantains its evaluation context
+					# separated from that of the mixer.
+					node-1 value-1
+					fragment-1${'('})
+					# This should raise a JsWizziError
+					node-2 value-2-${'$'}{name} 
+
+
+		item 
+			title Ittf nodes - `$mix` a fragment as root
+			render ittf
+			fragment fragment-1
+				f-root-1
+					f-node-1a f-value-1a
+					f-node-1b f-value-1b
+			ittf
+				fragment-1${'('})
+					# You can `$mix` a fragment as root node.
+					# Child nodes of the mixer are appended
+					# to the root of the mixed.
+					node-1 value-1
+					node-2 value-2
+
+		item 
+			title Ittf nodes - The `$hook` template command
+			render ittf
+			fragment fragment-1
+				f-root-1
+					f-node-1a f-value-1a
+					# How to mix child nodes of the mixer
+					# in a specific insertion point of the mixed?
+					# You can place e `$hook` node in the mixed.
+					${'$'}hook
+					f-node-1b f-value-1b
+					
+			ittf
+				fragment-1${'('})
+					node-1 value-1
+					node-2 value-2
+
+		item 
+			title Ittf nodes - The `$append` template command
+			render ittf
+			fragment fragment-1
+				f-root-1
+					f-node-1a f-value-1a
+					# You may need more than one insertion point.
+					# You can place more `$hook` commands, but 
+					# you must give them names
+					${'$'}hook one
+					f-node-1b f-value-1b
+						f-node-1b1 f-value-1b1
+							# The `$hook` with no name is 
+							# the default hook.
+							${'$'}hook
+					
+			ittf
+				fragment-1${'('})
+					${'$'}append one
+						# To append children to named hooks
+						# use an `$append` command with the
+						# hook name
+						node-1a f-value-1a
+					# These are appended to the default hook
+					node-1b1a f-value-1b1a
+					node-1b1b f-value-1b1b
+
+		item 
+			title Ittf nodes - The `$virtual` and `$override` template commands
+			render ittf
+			fragment fragment-1
+				f-root-1
+					f-node-1a f-value-1a
+					# With $hook commands you set insertion points.
+					# With the $virtual template command you can set replace points.
+					${'$'}virtual one
+						f-node-1b-virtual ** f-value-1b-virtual **
+					
+			ittf
+				root
+					# To replace virtual nodes use an `$override` command with the virtual name
+					#
+					# With override, the override node is included
+					fragment-1${'('})
+						${'$'}override one
+							node-1a-override ** f-value-1a-override **
+						node-1b1a f-value-1b1a
+
+					# With no override, the virtual node is included
+					fragment-1${'('})
+						node-1b1a f-value-1b1a
+
+		item
+			title Ittf nodes - The `$group` template command
+			render ittf
+			fragment fragment-1
+				${'$'}group
+					f-root-1
+						f-node-1a
+						f-node-ba
+					f-root-2
+						f-node-2a
+						f-node-2a
+			ittf
+				root
+					# You may need fragments with many root nodes
+					# Ittf rules do not allow more than one root node
+					# You can use a `$group` template command as 
+					# root node of a fragment.
+					${'$'}include fragment-1
+
+		item 
+			title Ittf fragments - Parameters by value
+			render ittf
+			fragment lia
+				${'$'}group
+					${'$'}params text, href
+					li
+						a ${'$'}{text}
+							href ${'$'}{href}
+			ittf
+				root
+					# You can pass parameters to mixed fragments.
+					# Parameters are comma separated.
+					# These parameters are passed by value:
+					ul
+						lia${'('}alfa, #alfa)
+						lia${'('}beta, #beta)
+
+		
+		item 
+			title Ittf fragments - Parameters default values
+			render ittf
+			fragment fragment-1
+				f-root
+					${'$'}params name|stefi
+					node ${'$'}{name}
+
+			ittf
+				root
+					# Fragment parameters may have default values
+					fragment-1${'('})
+					fragment-1${'('} annie )
+
+
+		item 
+			title Ittf fragments - The `@@null` default value
+			render ittf
+			fragment fragment-1
+				f-root
+					${'$'}params name, kind|@@null
+					node ${'$'}{name}
+					${'$'}if kind != null
+						# ok kind not null
+						${'$'}if kind == 'alpha'
+							... alpha kind ...
+
+			ittf
+				root
+					# Sometimes is useful to test 
+					# explicitly for null (missing parameter)
+					fragment-1${'('} bax )
+					fragment-1${'('} bax, alpha )
+
+		item 
+			title Ittf fragments - Parameter types
+			render ittf
+			fragment fragment-1
+				f-root
+					${'$'}params name:string|bax, age:integer|33, hasdegree:boolean|false
+					
+					# The other types are: float and date
+
+					node ${'$'}{name}
+					${'$'}if age < 40
+						node is young
+					${'$'}else
+						node is old
+					${'$'}if hasdegree
+						node has a degree
+					${'$'}else
+						node has not a degree
+			
+			ittf
+				root
+					# Parameters can be typed
+					fragment-1${'('} jim )
+					fragment-1${'('} bax, 67, true )
+
+
+		item 
+			title Ittf fragments - Manipulation of parameters
+			render ittf
+			fragment fragment-1
+				f-root
+					${'$'}params commandParam|alpha;beta;gamma
+					${'$'}
+						var commands = [];
+						var actions = commandParam.split(';')
+						for (var i=0; i<actions.length; i++) {
+							var tokens = actions[i].trim().split(' ');
+							var command = { name: tokens[0] };
+							commands.push (command);
+						}
+					f-node Commands: ${'$'}{ _.inspect(commands) }
+			ittf
+				root
+					# Sample manipulation of parameters
+					fragment-1${'('} )
+					fragment-1${'('} sigma;tau )
+
+		item 
+			title Ittf fragments - Parameters by reference
+			render ittf
+			fragment fragment-1
+				${'$'}group
+					${'$'}params &options
+					${'$'}if options.useBlog
+						blog ${'$'}{options.blog.name}
+			ittf
+				root
+					# You can pass references to objects
+					# as parameters of mixed fragments.
+					${'$'}
+						var options = {
+							useBlog: true,
+							blog: { name: 'Hello' }
+						}
+					fragment-1${'('} &options )
+
+

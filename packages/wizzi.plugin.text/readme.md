@@ -1,6 +1,6 @@
 # wizzi.plugin.text
 
-wizzi.plugin.text
+Text document
 
 
 ## Features
@@ -16,9 +16,6 @@ wizzi.plugin.text
 yes<td>
 
 <table>
-<tr>
-<td>extended</td>
-</tr>
 </table>
 
 <td>

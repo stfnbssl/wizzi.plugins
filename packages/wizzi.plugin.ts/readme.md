@@ -1,6 +1,6 @@
 # wizzi.plugin.ts
 
-wizzi.plugin.ts
+Typescript language
 
 
 ## Features

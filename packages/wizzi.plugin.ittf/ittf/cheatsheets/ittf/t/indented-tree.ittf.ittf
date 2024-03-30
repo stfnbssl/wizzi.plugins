@@ -1,0 +1,102 @@
+$group
+
+	element Ittf nodes, The Indented Text Tree Format
+		tag
+		ast 
+		category
+
+		item
+			title Ittf documents are the source files of a Wizzi production
+			render ittf
+			ittf
+				root
+				    node
+					    node
+							node
+								node The Wizzi Factory
+									node https://wizzihub.com/
+						node ITTF stands for Indented Text Tree Format, 
+							node a human-friendly text format 
+							node for representing a tree data structure 
+							node of node names and values.
+
+		item
+			title Ittf indented tree
+			render ittf
+			ittf
+				root A document must have one and only one root node
+					${'$'}${'$'} the indentation shapes the tree (this is a comment, see later)
+					node child 1
+					node child 2
+						node child 2.a
+							node child 2.a.1
+						node child 2.b
+
+		item
+			title Ittf nodes
+			render ittf
+			ittf
+				node-name node-value
+					${'$'}${'$'} Every line is a node consisting of a name-value pair. 
+					${'$'}${'$'} The name is the first string of chars of the line
+					${'$'}${'$'} is separated from the value by a space or a tab.									
+					name the value is separated from the name by a space or tab
+					name-is-a-word value is a string until end of line
+					
+		item
+			title Ittf nodes - Line continuation
+			render ittf
+			ittf
+				node-name node-value
+					name the value can span many lines
+						${'\\'} , and continue without separation
+					name , or continue
+						${'\\b'} with a blank separator
+					name , or continue
+						${'\\n'} with a line feed separator
+
+		item
+			title Ittf nodes - Values
+			render ittf-show-blanks
+			ittf
+				root
+					name ${'   '} values always are trimmed
+					name ${'\\b'}  you must use the blank escape   ${'\\b'}
+					name to insert start or end spaces
+
+		item
+			title Ittf nodes - Escapes
+			render ittf
+			ittf
+				root
+					name except the blank escape, as first or last character,
+						${'\\b'} the escape char is ignored
+					name \n, \t, \b, and so on, are inserted unescaped in the value string
+					name how do you insert a \b sequence at start or end line?
+					${'$'}asis name \b*|^^ the $asis command at rescue ${'\\b'}
+
+		item
+			title Ittf nodes - Comments
+			render ittf
+			ittf
+				root
+					${'$'}${'$'} this node is commented out entirely until end of line
+					and ${'$'}${'$'}this part too
+					node value
+					${'$'}*
+					this is a multiline
+					comment
+					*${'$'}
+					node value
+					this too ${'$'}*is
+					a multiline comment
+					*${'$'}
+
+		item
+			title Ittf nodes - Comment tricks
+			render ittf
+			ittf
+				root
+					node how do you insert a "${'$'}${'$'}" or "${'$'}*" in a value?
+					node you must use `JsWizzi` (see later)
+					node And you can insert ${'$'}{'$'}${'$'}{'$'} and ${'$'}{'$'}* and *${'$'}{'$'}

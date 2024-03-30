@@ -1,15 +1,23 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.html\.wizzi-override\lib\artifacts\utils\lineParser.js.ittf
-    utc time: Thu, 27 Jul 2023 12:54:24 GMT
+    utc time: Thu, 21 Mar 2024 16:05:31 GMT
 */
 'use strict';
 
 var verify = require('wizzi-utils').verify;
 
 var md = module.exports = {};
-//
+/**
+     ignore quotes
+     name = first not (blank or tab) char sequence
+     value = all remaining chars after name + (blank or tab)
+     example
+     "trip to the london bridge"
+     name() = "trip"
+     value() = "to the london bridge"
+*/
 md.parseNameValueRaw = function(text, node) {
     var name = '',
         value = '';

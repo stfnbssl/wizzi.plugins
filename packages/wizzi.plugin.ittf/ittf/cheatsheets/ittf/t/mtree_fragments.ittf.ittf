@@ -1,0 +1,61 @@
+$group
+
+	element Ittf nodes - Ittf fragments mixup and inclusion
+		tag
+		ast 
+		category
+
+		item 
+			title Ittf nodes - Including fragments
+			render ittf
+			fragment fragment-1
+				f-root-1
+					f-node-1a f-value-1a
+					f-node-1b f-value-1b
+			ittf
+				root
+					# Trees of Ittf nodes of other files (Ittf units)
+					# can be included as branches in any node of 
+					# the includer Ittf document
+					node-1 value-1
+					${'$'}include fragment-1
+					node-2 value-2
+
+		item 
+			title Ittf nodes - Mixing fragments
+			render ittf
+			fragment fragment-1
+				f-root-1
+					${'$'}params suffix
+					f-node-1a f-value-1a-${'$'}{suffix}
+					f-node-1b f-value-1b-${'$'}{suffix}
+			ittf
+				root
+					# Trees of Ittf nodes of other files (Ittf units)
+					# can be mixed as branches in any node of 
+					# the includer Ittf document, 
+					# passing values as parameters, and having options
+					# for shaping the resulting node tree (see later)
+					node-1 value-1
+					fragment-1${'('}hello)
+					node-2 value-2
+
+
+		item 
+			title Ittf nodes - Mixing inline fragments
+			render ittf
+			ittf
+				root
+					#
+					# Fragments can be defined inside 
+					# the Ittf that mixes them
+					#
+					${'$'}fragment fragment_1
+						${'$'}params name
+						---
+						node hello ${'$'}{name}
+						---
+
+					#
+					fragment_1${'('}bax)
+

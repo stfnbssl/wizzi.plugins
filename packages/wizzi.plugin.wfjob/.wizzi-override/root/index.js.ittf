@@ -4,23 +4,13 @@ module
     var util = require('util')
     var path = require('path')
     var stringify = require('json-stringify-safe')
+    var wizziUtils = require('@wizzi/utils')
     var errors = require('./errors')
+    +
+    const vfile = wizziUtils.fSystem.vfile
     +
     var md = module.exports = {}
     set md.name = '${wzCtx.name}.index'
-    +
-    # window(s) vars must be declared even if empty
-    var window_modelFactories
-        {
-            @ 'wfjob' require('./lib/wizzi/models/wfjob-factory.g')
-    var window_artifactGenerators
-        {
-            @ 'wfjob/document' require('./lib/artifacts/wfjob/document/gen/main')
-    var window_transformers
-        {
-            @ 'wfjob/extended' require('./lib/artifacts/wfjob/extended/trans/main')
-    var window_schemaDefinitions
-        {
     +
     #
         # FactoryPlugin class
@@ -33,7 +23,9 @@ module
             set this.modelFactories = {}
             set this.modelTransformers = {}
             set this.artifactGenerators = {}
+            set this.wizzifiers = {}
             set this.schemaDefinitions = {}
+            set this.schemaCheatsheetDefinitions = {}
         +
         m initialize
             param options
@@ -44,6 +36,12 @@ module
         +
         m getName
             return '${wzCtx.name}'
+        +
+        m getNpmName
+            return '${wzCtx.npmName}'
+        +
+        m getVersion
+            return '${wzCtx.version}'
         +
         m getFilename
             return __filename
@@ -57,7 +55,31 @@ module
         +
         $include artifact-generation
         +
+        $include wizzification
+        +
         $include schema-definition
+        +
+        $include cheatsheet
+    +
+    #
+        # Scan a filesystem folder and returns the content in a packiFiles object.
+    function createPackifilesFromFs
+        param folderPath
+        param callback
+        const fsFile = vfile()
+        _ fsFile.getFiles
+            @ folderPath
+            {
+                @ deep true
+                @ documentContent true
+            a_cb( files )
+                const packiFiles = {}
+                foreach file in files
+                    set packiFiles[file.relPath]
+                        {
+                            @ type 'CODE'
+                            @ contents file.content
+                r_cb( packiFiles )
     +
     function error
         param errorName
@@ -76,13 +98,35 @@ module
     +
     set module.exports
         {
-            @ version '${wzCtx.version}'
             @ provides
                 {
                     @ schemas
                         [
                             $foreach schema in wzCtx.Schemas
                                 @ '${schema.name}'
+                    @ schemasExt
+                        [
+                            $foreach schema in wzCtx.Schemas
+                                {
+                                    @ name '${schema.name}'
+                                    $if schema.rootElement
+                                        @ rootElement '${schema.rootElement}'
+                                    $if schema.rootTag
+                                        @ rootTag '${schema.rootTag}'
+                                    [ fileExtensions
+                                        $foreach ext in schema.fileExtensions
+                                            @ "${ext}"
+                                    [ artifactsGenerators
+                                        $foreach art in schema.artifactGenerators
+                                            {
+                                                @ name "${art.name}"
+                                                @ outmime "${art.outmime}"
+                                                @ contentType "${art.contentType}"
+                                                @ isDefault ${art.isDefault ? 'true' : 'false'}
+                                    @ defaultArtifact '${schema.defaultArtifact}'
+                                    [ dependency
+                                        $foreach include in schema.includes
+                                            @ "${include.name}"
                     @ modelTransformers
                         [
                             $foreach schema in wzCtx.Schemas
@@ -93,6 +137,16 @@ module
                             $foreach schema in wzCtx.Schemas
                                 $foreach artifact in schema.artifactGenerators
                                     @ '${schema.name}/${artifact.name}'
+                    @ wizzifiers
+                        [
+                            $foreach schema in wzCtx.Schemas
+                                $if schema.hasWizzifier
+                                    @ '${schema.name}'
+                    @ cheatsheetFolders
+                        [
+                            $foreach schema in wzCtx.Schemas
+                                $if schema.hasCheatsheetFolder
+                                    @ '${schema.name}'
             @ createFactoryPlugin
                 function
                     param wizziPackage

@@ -1,0 +1,107 @@
+$group
+
+	element Ittf nodes - template commands
+		tag
+		ast 
+		category
+
+		item
+			title Ittf nodes - The `$` and `$global` template command
+			render ittf
+			ittf
+				root
+					# With the `$` template command you can declare
+					# variables and functions in the body of a Ittf Document
+					# that have document unit scope.
+					${'$'}
+						var name = 'bax';
+						function sum(a,b) { return a+b; }
+					# With the `$global` template command you can declare
+					# variables and functions in the body of a main Ittf Document
+					# that have global scope for any Ittf Fragment included or mixed.
+					${'$'}global
+						var name = 'bax';
+						function sum(a,b) { return a+b; }
+
+		item
+			title Ittf nodes - The `$if`, `$elif`, `$else` template commands
+			render ittf
+			ittf
+				root
+					${'$'}
+						var name = 'Derby';
+					${'$'}if name == 'Ascot'
+						node If the race was ${'$'}{name} the winner was Ribot
+					${'$'}elif name == 'Arc de triomphe'
+						node If the race was ${'$'}{name} the winner was Varenne
+					${'$'}elif name == 'Derby'
+						node If the race was ${'$'}{name} the winner was Ribot
+					${'$'}else
+						node If the race was ${'$'}{name} the winner was Varenne
+
+		item
+			title Ittf nodes - The `$for` template command
+			render script
+			ittf
+				root
+					${'$'}
+						var sletters = 'a,b,c,d,e,f,g,h';
+					${'$'}foreach letter in aletters
+						node ${'$'}{ letter.toUpperCase() }
+
+		item
+			title Ittf nodes - The `$foreach` and `$backeach` template commands
+			render ittf
+			ittf
+				root
+					${'$'}
+						var sletters = 'a,b,c,d,e,f,g,h';
+						var aletters = sletters.split(',');
+					node The resulting tree has the odd node values upper cased:
+						${'$'}foreach letter in aletters
+							node ${'$'}{ letter_index} ${'$'}{ letter_index % 2 == 0 ? letter : letter.toUpperCase() }
+					node The same backword with backeach
+						${'$'}backeach letter in aletters
+							node ${'$'}{ letter_index} ${'$'}{ letter_index % 2 == 0 ? letter : letter.toUpperCase() }
+
+		item
+			title Ittf nodes - The `$raw` template command
+			render ittf
+			ittf
+				root
+					# You may need node branches where nodes
+					# are not interpolated. 
+					# Use the `$raw` node template command.
+					${'$'}raw
+						node ${'$'}{unexistent}
+
+		item
+			title Ittf nodes - The `$while` template command
+			render ittf
+			ittf
+				root
+					${'$'} var x = 1, odds = '1'
+					${'$'}while x < 10
+						${'$'} x += 2
+						node ${'$'}{ odds += ', ' + x } 
+
+		item
+			title Ittf nodes - The `$.` template command
+			render script
+			ittf
+				root
+					# The `$.` template command compresses a node hierarchy 
+					# in a single string into the node value of the parent
+					${'$'}.
+						alpha
+							beta
+							gamma
+					#
+					# Plugins can use the function `inlinedTextToTextLines` to extract
+					# the text lines compressed in a node value:
+					#
+					# var inlinedTextToTextLines = require("@wizzi/utils").helpers.inlinedTextToTextLines
+					# var lines = inlinedTextToTextLines(model.wzName)
+					#
+
+						

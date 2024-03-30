@@ -1,10 +1,10 @@
 {
     $include versions
     name "wizzi.plugin.js"
-    npnName "@wizzi/plugin.js"
-    pluginBasename "js"
+    npmName "@wizzi/plugin.js"
+    pluginBasename ""
     version '${versions['@wizzi/plugin.js@next']}'
-    description "wizzi.plugin.js"
+    description "Javascript language"
     { author
         name "Stefano Bassoli"
         email "stfn.bssl@gmail.com"
@@ -12,7 +12,7 @@
         userid "stfnbssl"
     { license
         name "MIT"
-        copy "copy 2023"
+        copy "copy 2024"
     { Build
         isWizziPlugin true
         useWizziV08 true
@@ -20,10 +20,6 @@
         { utils
             useStringifySafe true
             useObjectInspect true
-        useBabel true
-        { babel
-            useParser true
-            useParserJs true
         useBabelParser true
         useBabelParserJs true
     [ Schemas
@@ -34,6 +30,7 @@
             rootTag "module"
             builtin false
             hasWizzifier true
+            hasCheatsheetFolder true
             [ modelTransformers
             [ artifactGenerators
                 {

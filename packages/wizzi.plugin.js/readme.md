@@ -1,6 +1,6 @@
 # wizzi.plugin.js
 
-wizzi.plugin.js
+Javascript language
 
 
 ## Features

@@ -1,10 +1,10 @@
 {
     $include versions
     name "wizzi.plugin.ittf"
-    npnName "@wizzi/plugin.ittf"
-    pluginBasename "ittf"
+    npmName "@wizzi/plugin.ittf"
+    pluginBasename ""
     version '${versions['@wizzi/plugin.ittf@next']}'
-    description "wizzi.plugin.ittf"
+    description "Ittf document"
     { author
         name "Stefano Bassoli"
         email "stfn.bssl@gmail.com"
@@ -12,7 +12,7 @@
         userid "stfnbssl"
     { license
         name "MIT"
-        copy "copy 2023"
+        copy "copy 2024"
     { Build
         isWizziPlugin true
         useWizziV08 true
@@ -24,7 +24,9 @@
         {
             name "ittf"
             title "ittf wizzi schema"
+            rootTag "@@any"
             builtin true
+            hasCheatsheetFolder true
             [ modelTransformers
                 {
                     name "html-pretty"

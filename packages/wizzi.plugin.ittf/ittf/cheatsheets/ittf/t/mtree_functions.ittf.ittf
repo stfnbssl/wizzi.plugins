@@ -1,0 +1,96 @@
+$group
+
+	element Ittf nodes - function template commands
+		tag
+		ast 
+		category
+
+		item
+			title Ittf nodes - The `$function`, `$param`, `$_` and `$@` template commands
+			render ittf
+			ittf
+				root
+					# Template function commands allow a more compacted
+					# fragment composition
+					${'$'}function nodeItem
+						${'$'}param name
+						node value ${'$'}{name}
+
+
+					${'$'}_ nodeItem
+						${'$'}@ 'stefi'
+
+		item
+			title Ittf nodes - Recursive `$function`
+			render ittf
+			ittf
+				root
+					# A recursive `$function` for building a tree view
+					${'$'}
+						var treeObj = {
+							name: 'root', value: 'sample',
+							children: [{
+								name: 'node', value: 'branch 1',
+								children: [{
+									name: 'node', value: 'leaf 1a', children: []
+								}]
+							},{
+								name: 'node', value: 'branch 2',
+								children: [{
+									name: 'node', value: 'branch 2a',
+									children: [{
+										name: 'node', value: 'leaf 2a1', children: []
+									}, {
+										name: 'node', value: 'leaf 2a2', children: []
+									}]
+								}]
+							}]
+						}
+
+					${'$'}function nodeView
+						${'$'}param nodeObj
+						
+						${'$'}{nodeObj.name} ${'$'}{nodeObj.value}
+						
+						${'$'}foreach item in nodeObj.children
+							${'$'}_ nodeView
+								${'$'}@ item
+
+					${'$'}_ nodeView
+						${'$'}@ treeObj
+
+
+$*
+
+
+ 1 root
+   2   $
+   3     function buildNode(parent, childCount, deep) {
+   4       parent.childs = [];
+   5       if (deep > 3) { return; }
+   6       parent.childs = [];
+   7       for (var i = 0; i < childCount; i++) {
+   8         var child = { id: parent.id + '-' + i};
+   9         buildNode (child, childCount, deep + 1);
+  10         parent.childs.push (child);
+  11       }
+  12     }
+  13     var tree = { id: 0 };
+  14     buildNode (tree, 2, 0);
+  15   node
+  16   node Let us inspect the 'tree' variable we built.
+  17   node
+  18   node ${ _.inspect(tree) }
+  19   node
+  20   node beautiful tree buildup without depth limits
+  21   node
+  22   $function nodeView
+  23     $param parent
+  24     div node${parent.id}
+  25       $foreach nodeChild in parent.childs
+  26         $_ nodeView
+  27           $@ nodeChild
+  28   $_ nodeView
+  29     $@ tree						
+
+  *$

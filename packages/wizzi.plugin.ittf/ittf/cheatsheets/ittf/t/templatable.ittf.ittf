@@ -1,0 +1,89 @@
+$group
+
+	element Ittf documents are templates
+		tag
+		ast 
+		category
+
+		item 
+			title Ittf are templates - scripts
+			render ittf
+			ittf
+				root
+					# Ittf documents are templates
+					#
+					# Node names and values can contain scripts that drive the tree buildUp.
+					#
+					# There are single line `code nodes`
+					${'$'} var kind = 'number'
+					#
+					# There are multiline `code nodes`
+					${'$'}
+						var items = [
+							'item-1',
+							'item-2'
+						];
+					#
+					# The script language is `JsWizzi` a subset of javascript.
+					# See later all `JsWizzi` statements.
+
+		item 
+			title Ittf are templates - Node template commands
+			render ittf
+			ittf
+				root
+					#
+					# Than we have `node template commands`
+					#
+					${'$'} var kind = 'number'
+					#
+					${'$'}if kind == 'string'
+						node hello
+					${'$'}elif kind == 'num' + 'BER'.toLowerCase()
+						node 33
+					${'$'}else
+						node what?
+
+		item 
+			title Ittf are templates - `ittfMacro` (Interpolation)
+			render ittf
+			ittf
+				root
+					#
+					# And then we have `ittfMacro` (interpolation)
+					#
+					${'$'} var kind = 'number'
+					#
+					# The selected kind is: "${'$'}{kind}"
+					#
+					# So that ...
+					#
+					${'$'}
+						var items = [
+							'item-1',
+							'item-2'
+						];
+					#
+					# ... can give
+					#
+					items:
+					${'$'}foreach item in items
+						${'$'}{item} 
+					;
+					#
+					# See later all `node template commands`
+					#
+
+		item 
+			title Ittf are templates - `ittfMacro` rules
+			render ittf
+			ittf
+				root
+					#  ittfMacro expressions are enclosed by ${'$'}{ and } delimiters.
+					#  example: ${'$'}{name}.
+					#  A ittfMacro expression can be escaped and used as a literal,
+					#  example: \${'$'}\{name}.
+					#  A ittfMacro expression may contain paired graphs { },
+					#  example: ${'$'}{ for { var i=0; i<10; i++} ; return i; }.
+					#  An empty ittfMacro ${} is treated as a literal, it is not replaced.
+					#  An unclosed delimiter ${ is treated as a literal, it is not an error.

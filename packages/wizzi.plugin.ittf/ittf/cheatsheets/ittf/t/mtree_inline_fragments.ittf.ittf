@@ -1,0 +1,83 @@
+$group
+
+	element Ittf nodes - Inline Ittf fragments
+		tag
+		ast 
+		category
+
+		item 
+			title Ittf nodes - Passing parameters to inline fragments
+			render ittf
+			ittf
+				html
+					${'$'}global
+						var gName = 'bepi';
+						var gData = {
+							name: 'dudu'
+						}
+					${'$'}${'$'} param by value
+					${'$'}fragment hello_1
+						${'$'}params name
+						h1 hello_1
+						h3 ${'$'}{name} (... should be stefi, passed by value)
+					
+					${'$'}${'$'} param by ref is string
+					${'$'}fragment hello_2
+						${'$'}params &name
+						h1 hello_2
+						h3 ${'$'}{name}  (... should be annie, passed var by ref)
+
+					${'$'}${'$'} default param is literal value
+					${'$'}fragment hello_3
+						${'$'}params name|stefi
+						h1 hello_3
+						h3 ${'$'}{name} (... should be stefi, param default value)
+
+					${'$'}${'$'} default param is global context value (string)
+					${'$'}fragment hello_4
+						${'$'}params name|&gName
+						h1 hello_4
+						h3 ${'$'}{name} (... should be bepi, param default reference to global var)
+					
+					${'$'}${'$'} param by ref is object
+					${'$'}fragment hello_5
+						${'$'}params &data
+						h1 hello_5
+						h3 ${'$'}{data.name} (... should be afro, passed as object property)
+
+					${'$'}${'$'} default param is global context value (object)
+					${'$'}fragment hello_6
+						${'$'}params data|&gData
+						h1 hello_6
+						h3 ${'$'}{data.name} (... should be dudu, property of object that is param default value)
+
+					body
+						hello_1${'('}stefi)
+						${'$'} var name = 'annie'
+						hello_2${'('}&name)
+						hello_3${'('})
+						hello_4${'('})
+						${'$'} var data = { name: 'afro' }
+						hello_5${'('}&data)
+						hello_6${'('})
+
+		item 
+			title Inline fragments - The evaluation context
+			render ittf
+			ittf
+				root
+					${'$'} 
+						var name = 'annie';
+
+					${'$'}fragment fragment-1
+						${'$'}params greeting|hello
+						node ${'$'}{greeting} ${'$'}{typeof(name)} 
+
+					fragment-1${'('})
+
+					${'$'}global 
+						var name = 'annie';
+
+					fragment-1${'('})
+
+

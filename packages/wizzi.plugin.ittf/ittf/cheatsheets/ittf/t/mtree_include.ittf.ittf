@@ -1,0 +1,43 @@
+$group
+
+	element Ittf nodes - The `$include` template command
+		tag
+		ast 
+		category
+
+		item 
+			title Ittf nodes - Features of `$include`
+			render ittf
+			fragment fragment-1
+				f-root-1
+					${'$'}
+						var name = 'bax';
+					f-node-1a f-value-1a-${'$'}{name} 
+					f-node-1b f-value-1b-${'$'}{name} 
+			ittf
+				root
+					# With `$include` the nodes of the fragment are included as is.
+					# You cannot pass parameters to included documents.
+					# The evaluation context of the scripts of the fragment
+					# is included in the evaluation context of the includer.
+					node-1 value-1
+					${'$'}include fragment-1
+					node-2 value-2-${'$'}{name} 
+
+		item 
+			title Ittf nodes - `$include` fragment as root
+			$$ TODO 
+			$$ render error
+			render ittf
+			fragment fragment-1
+				f-root-1
+					f-node-1a f-value-1a
+					f-node-1b f-value-1b
+			ittf
+				${'$'}include fragment-1
+					# You cannot `$include` a fragment as the 
+					# root node of the includer.
+					# There is no way to append child nodes 
+					# to the included branch.
+					node-1 value-1
+					node-2 value-2

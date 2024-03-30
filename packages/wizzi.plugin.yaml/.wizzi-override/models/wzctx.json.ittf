@@ -1,10 +1,10 @@
 {
     $include versions
     name "wizzi.plugin.yaml"
-    npnName "@wizzi/plugin.yaml"
-    pluginBasename "yaml"
+    npmName "@wizzi/plugin.yaml"
+    pluginBasename ""
     version '${versions['@wizzi/plugin.yaml@next']}'
-    description "wizzi.plugin.yaml"
+    description "Yaml document"
     { author
         name "Stefano Bassoli"
         email "stfn.bssl@gmail.com"
@@ -12,7 +12,7 @@
         userid "stfnbssl"
     { license
         name "MIT"
-        copy "copy 2023"
+        copy "copy 2024"
     { Build
         isWizziPlugin true
         useWizziV08 true
@@ -25,18 +25,16 @@
         {
             name "yaml"
             title "yaml wizzi schema"
+            rootTag "{|["
             builtin true
             hasWizzifier true
+            hasCheatsheetFolder true
             [ modelTransformers
-                {
-                    name "extended"
             [ artifactGenerators
                 {
                     name "document"
-            [ artifacts
-                {
-                    name "document"
                     outmime "yaml"
+                    contentType "text/yaml"
                     isDefault true
             defaultArtifact "document"
             [ wizzifiers
@@ -46,4 +44,3 @@
                 "yaml"
                 "yml"
             [ includes
-

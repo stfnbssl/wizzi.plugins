@@ -1,6 +1,6 @@
 # wizzi.plugin.css
 
-wizzi.plugin.css
+Css language
 
 
 ## Features

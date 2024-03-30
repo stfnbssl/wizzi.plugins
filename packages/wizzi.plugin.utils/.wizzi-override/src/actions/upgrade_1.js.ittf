@@ -1,0 +1,165 @@
+module
+    kind es6
+    const path = require("path")
+    const file = require("@wizzi/utils").fSystem.file
+    const spawnUtils = require("../services/spawn")
+    +
+    const pluginsFolder = "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
+    +
+    $include plugins
+    +
+    function doUpgrade
+        param ndx
+        var pluginName = pluginList[ndx]
+        if !pluginName
+            success "All plugin upgrades done"
+            return
+        _ deleteFiles
+            @ pluginName
+            a_cb()
+                _ updateFiles
+                    @ pluginName
+                    a_cb()
+                        _ updateFolders
+                            @ pluginName
+                            a_cb()
+                                success "*** Upgrade of plugin folders of  " + pluginName + " DONE ***"
+                                _ doUpgrade
+                                    @ ndx + 1
+    _ doUpgrade
+        @ 0
+
+    function updateFiles
+        param pluginName
+        param callback
+        const pluginFolder 
+            _ path.join
+                @ pluginsFolder
+                @ "wizzi.plugin." + pluginName
+        #
+        #
+        const files
+            [
+                @ "root/t/cheatsheet.js"
+                @ "root/index.js"
+                @ "models/wzctx.json"
+        foreach item in files
+            const fromFile
+                _ path.join
+                    @ pluginFolder
+                    @ ".wizzi"
+                    @ item + ".ittf"
+            const toFile
+                _ path.join
+                    @ pluginFolder
+                    @ ".wizzi-override"
+                    @ item + ".ittf"
+            _ file.copy
+                @ fromFile
+                @ toFile
+        _ callback
+            @ null
+
+    function deleteFiles
+        param pluginName
+        param callback
+        const pluginFolder 
+            _ path.join
+                @ pluginsFolder
+                @ "wizzi.plugin." + pluginName
+        const files
+            [
+                $$ @ "..."
+        function exec
+            param ndx
+            const fileRelPath = files[ndx]
+            if !fileRelPath
+                r_cb()
+            let filePath
+                _ path.join
+                    @ pluginFolder
+                    @ '.wizzi'
+                    @ fileRelPath 
+            _ file.deleteFile
+                @ filePath
+                a_cb()
+                    log 'deleted file', filePath
+                    set filePath
+                        _ path.join
+                            @ pluginFolder
+                            @ '.wizzi-override'
+                            @ fileRelPath 
+                    _ file.deleteFile
+                        @ filePath
+                        a_cb()
+                            log 'deleted file', filePath
+                            _ exec
+                                @ ndx + 1
+        _ exec
+            @ 0
+
+    function deleteFolders
+        param pluginName
+        param callback
+        const pluginFolder 
+            _ path.join
+                @ pluginsFolder
+                @ "wizzi.plugin." + pluginName
+        const folders
+            [
+                $$ @ "..."
+        function exec
+            param ndx
+            const folderRelPath = folders[ndx]
+            if !folderRelPath
+                r_cb()
+            const folderPath
+                _ path.join
+                    @ pluginFolder
+                    @ folderRelPath 
+            _ file.deleteFolder
+                @ folderRelPath
+                a_cb()
+                    log 'deleted folder', folderPath
+                    _ exec
+                        @ ndx + 1
+        _ exec
+            @ 0
+
+    
+    function updateFolders
+        param pluginName
+        param callback
+        const pluginFolder 
+            _ path.join
+                @ pluginsFolder
+                @ "wizzi.plugin." + pluginName
+        const folders
+            [
+                $$ @ "..."
+        function exec
+            param ndx
+            const folderRelPath = folders[ndx]
+            if !folderRelPath
+                r_cb()
+            const fromFolder
+                _ path.join
+                    @ pluginFolder
+                    @ ".wizzi"
+                    @ folderRelPath 
+            const toFolder
+                _ path.join
+                    @ pluginFolder
+                    @ folderRelPath
+            _ file.copyFolder
+                @ fromFolder
+                @ toFolder
+                a_cb()
+                    log 'copied folder from', fromFolder, 'to', toFolder
+                    _ exec
+                        @ ndx + 1
+        _ exec
+            @ 0
+
+    set module.exports = doUpgrade
+

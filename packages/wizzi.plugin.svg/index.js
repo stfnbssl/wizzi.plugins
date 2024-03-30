@@ -1,33 +1,21 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\root\index.js.ittf
-    utc time: Wed, 13 Mar 2024 07:14:38 GMT
+    utc time: Thu, 21 Mar 2024 16:05:49 GMT
 */
 'use strict';
 
 var util = require('util');
 var path = require('path');
 var stringify = require('json-stringify-safe');
+var wizziUtils = require('@wizzi/utils');
 var errors = require('./errors');
+
+const vfile = wizziUtils.fSystem.vfile;
 
 var md = module.exports = {};
 md.name = 'wizzi.plugin.svg.index';
-
-// window(s) vars must be declared even if empty
-var window_modelFactories = {
-    'svg': require('./lib/wizzi/models/svg-factory.g')
- };
-var window_artifactGenerators = {
-    'svg/document': require('./lib/artifacts/svg/document/gen/main')
- };
-var window_transformers = {
-    'svg/extended': require('./lib/artifacts/svg/extended/trans/main')
- };
-var window_wizzifiers = {
-    'svg/wizzifier': require('./lib/wizzifiers/svg/wizzifier')
- };
-var window_schemaDefinitions = {};
 
 /**
      FactoryPlugin class
@@ -41,6 +29,7 @@ class FactoryPlugin {
         this.artifactGenerators = {};
         this.wizzifiers = {};
         this.schemaDefinitions = {};
+        this.schemaCheatsheetDefinitions = {};
     }
     
     initialize(options, callback) {
@@ -50,6 +39,14 @@ class FactoryPlugin {
     
     getName() {
         return 'wizzi.plugin.svg';
+    }
+    
+    getNpmName() {
+        return '@wizzi/plugin.svg';
+    }
+    
+    getVersion() {
+        return '0.8.2';
     }
     
     getFilename() {
@@ -197,6 +194,65 @@ class FactoryPlugin {
         }
         return definition;
     }
+    
+    /**
+         Retrieve a Cheatsheet definitions folder packed in a packiFiles object.
+    */
+    getCheatsheetFolder(schemaName, callback) {
+        var definition = this.schemaCheatsheetDefinitions[schemaName] || null;
+        if (definition == null) {
+            var cheatsheetFolderUri = path.resolve(__dirname, 'ittf', 'cheatsheets', schemaName);
+            if (this.file.exists(cheatsheetFolderUri)) {
+                try {
+                    createPackifilesFromFs(cheatsheetFolderUri, (err, result) => {
+                    
+                        if (err) {
+                            return callback(err);
+                        }
+                        this.schemaCheatsheetDefinitions[schemaName] = result;
+                        return callback(null, result);
+                    }
+                    )
+                } 
+                catch (ex) {
+                    return callback(error('WizziPluginError', 'getCheatsheetFolder', 'Error loading wizzi cheatsheet definition: ' + cheatsheetFolderUri + ', in plugin: ' + this.getFilename(), ex));
+                } 
+            }
+            else {
+                return callback(null, null);
+            }
+        }
+        else {
+            return callback(null, definition);
+        }
+    }
+}
+
+/**
+     Scan a filesystem folder and returns the content in a packiFiles object.
+*/
+function createPackifilesFromFs(folderPath, callback) {
+    const fsFile = vfile();
+    fsFile.getFiles(folderPath, {
+        deep: true, 
+        documentContent: true
+     }, (err, files) => {
+    
+        if (err) {
+            return callback(err);
+        }
+        const packiFiles = {};
+        var i, i_items=files, i_len=files.length, file;
+        for (i=0; i<i_len; i++) {
+            file = files[i];
+            packiFiles[file.relPath] = {
+                type: 'CODE', 
+                contents: file.content
+             };
+        }
+        return callback(null, packiFiles);
+    }
+    )
 }
 
 function error(errorName, method, message, innerError) {
@@ -209,7 +265,6 @@ function error(errorName, method, message, innerError) {
 }
 
 module.exports = {
-    version: '0.8.2', 
     provides: {
         schemas: [
             'svg'
@@ -221,18 +276,27 @@ module.exports = {
                     "svg"
                 ], 
                 artifactsGenerators: [
-                    "document"
+                    {
+                        name: "document", 
+                        outmime: "svg", 
+                        contentType: "image/svg+xml", 
+                        isDefault: true
+                     }
                 ], 
-                defaultArtifact: 'document'
+                defaultArtifact: 'document', 
+                dependency: [
+                    "js"
+                ]
              }
         ], 
-        modelTransformers: [
-            'svg/extended'
-        ], 
+        modelTransformers: [], 
         artifactGenerators: [
             'svg/document'
         ], 
         wizzifiers: [
+            'svg'
+        ], 
+        cheatsheetFolders: [
             'svg'
         ]
      }, 

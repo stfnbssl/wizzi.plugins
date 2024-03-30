@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.yaml\.wizzi-override\lib\wizzifiers\utils\ittfWriter.js.ittf
-    utc time: Wed, 13 Mar 2024 07:15:02 GMT
+    utc time: Thu, 21 Mar 2024 16:06:09 GMT
 */
 'use strict';
 var util = require('util');
@@ -14,7 +14,7 @@ function logError(label, obj, depth) {
     var message = util.inspect(obj, {
         depth: depth || null
      });
-    console.log("[31m%s[0m", '@wizzi/plugin.yaml.wizzifiers.utils.ittfWriter', label, message);
+    console.log("[31m%s[0m", '.wizzifiers.utils.ittfWriter', label, message);
 }
 
 var writer = function() {

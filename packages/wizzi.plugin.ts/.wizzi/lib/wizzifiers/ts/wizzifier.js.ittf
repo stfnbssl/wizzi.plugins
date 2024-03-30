@@ -4,7 +4,7 @@ module
     kind es6
     basewizzifier()
         $append imports
-            var js_parser = require('@babel/parser')
+            var ts_parser = require('@babel/parser')
             var cleanAST = require('./cleanAST')
             +
             function parseInternal
@@ -15,18 +15,11 @@ module
                 try
                     set syntax
                         var plugins
-                        if options.ts_or_flow === 'typescript'
-                        	set plugins
-                        		[
-                        			@ 'typescript'
-                        		._ concat
-                        			@ commonPlugins
-                        else
-                        	set plugins
-                        		[
-                        		@ 'flow'
-                        		._ concat
-                        			@ commonPlugins
+                        set plugins
+                        	[
+                        		@ 'typescript'
+                        	._ concat
+                        		@ commonPlugins
                         return
                         	_ parser.parse
                         		@ tobeWizzified

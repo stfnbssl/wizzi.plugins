@@ -1,9 +1,9 @@
 {
     "name": "wizzi.plugin.xml",
-    "npnName": "@wizzi/plugin.xml",
-    "pluginBasename": "xml",
+    "npmName": "@wizzi/plugin.xml",
+    "pluginBasename": "",
     "version": "0.8.2",
-    "description": "wizzi.plugin.xml",
+    "description": "Xml document",
     "author": {
         "name": "Stefano Bassoli",
         "email": "stfn.bssl@gmail.com"
@@ -13,7 +13,7 @@
     },
     "license": {
         "name": "MIT",
-        "copy": "copy 2023"
+        "copy": "copy 2024"
     },
     "Build": {
         "isWizziPlugin": true,
@@ -31,20 +31,13 @@
             "title": "xml wizzi schema",
             "builtin": true,
             "hasWizzifier": true,
-            "modelTransformers": [
-                {
-                    "name": "extended"
-                }
-            ],
+            "hasCheatsheetFolder": true,
+            "modelTransformers": [],
             "artifactGenerators": [
-                {
-                    "name": "document"
-                }
-            ],
-            "artifacts": [
                 {
                     "name": "document",
                     "outmime": "xml",
+                    "contentType": "text/xml",
                     "isDefault": true
                 }
             ],

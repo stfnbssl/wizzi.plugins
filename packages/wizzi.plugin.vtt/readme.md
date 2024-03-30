@@ -1,6 +1,6 @@
 # wizzi.plugin.vtt
 
-wizzi.plugin.vtt
+Vtt document
 
 
 ## Features
@@ -16,9 +16,6 @@ wizzi.plugin.vtt
 no<td>
 
 <table>
-<tr>
-<td>extended</td>
-</tr>
 </table>
 
 <td>

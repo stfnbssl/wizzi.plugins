@@ -1,6 +1,6 @@
 # wizzi.plugin.yaml
 
-wizzi.plugin.yaml
+Yaml document
 
 
 ## Features
@@ -16,9 +16,6 @@ wizzi.plugin.yaml
 yes<td>
 
 <table>
-<tr>
-<td>extended</td>
-</tr>
 </table>
 
 <td>

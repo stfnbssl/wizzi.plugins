@@ -1,6 +1,6 @@
 # wizzi.plugin.md
 
-Wizzi plugin for 
+Markdown language
 
 
 ## Features

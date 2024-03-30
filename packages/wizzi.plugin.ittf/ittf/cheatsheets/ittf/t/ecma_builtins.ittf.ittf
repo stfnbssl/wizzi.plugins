@@ -1,0 +1,265 @@
+$group
+
+	element Ecma builtin objects
+		tag
+		ast 
+		category
+
+		item
+			title JsWizzi - Ecma builtin functions
+			render ittf
+			ittf
+				root
+					node parseInt('43.5') = ${'$'}{ parseInt(43.5) }
+					node parseFloat('43.5') = ${'$'}{ parseFloat(43.5) }
+					node isFinite(Infinity) = ${'$'}{ isFinite(Infinity) }
+					node isFinite(NaN) = ${'$'}{ isFinite(NaN) }
+					node isFinite(null) = ${'$'}{ isFinite(null) }
+					node isFinite(0) = ${'$'}{ isFinite(0) }
+					node isNaN(NaN) = ${'$'}{ isNaN(NaN) }
+					node isNaN(undefined) = ${'$'}{ isNaN(undefined) }
+					node isNaN({}) = ${'$'}{ isNaN({})}
+					node isNaN(true) = ${'$'}{ isNaN(true) }
+					node isNaN(null) = ${'$'}{ isNaN(null) }
+					node isNaN(37) = ${'$'}{ isNaN(37) }
+					node isNaN('37') = ${'$'}{ isNaN('37') }
+					node isNaN('37.37') = ${'$'}{ isNaN('37.37') }
+					node isNaN('123ABC') = ${'$'}{ isNaN('123ABC') }
+					node parseInt('123ABC') = ${'$'}{ parseInt('123ABC') }
+					node isNaN('') = ${'$'}{ isNaN('') }
+					node isNaN(' ') = ${'$'}{ isNaN(' ') }
+					node isNaN(new Date()) = ${'$'}{ isNaN(new Date()) }
+					node isNaN(new Date().toString()) = ${'$'}{ isNaN(new Date().toString()) }
+					node isNaN('blabla') = ${'$'}{ isNaN('blabla') } 
+					node parseFloat(3.14) = ${'$'}{ parseFloat(3.14) }
+					node parseFloat('3.14') = ${'$'}{ parseFloat('3.14') }
+					node parseFloat('314e-2') = ${'$'}{ parseFloat('314e-2') }
+					node parseFloat('0.0314E+2') = ${'$'}{ parseFloat('0.0314E+2') }
+					node parseFloat('3.14more non-digit characters') = ${'$'}{parseFloat('3.14more non-digit characters') }
+					node parseInt(' 0xF', 16) = ${'$'}{ parseInt(' 0xF', 16) }
+					node parseInt(' F', 16) = ${'$'}{ parseInt(' F', 16) }
+					node parseInt('17', 8) = ${'$'}{ parseInt('17', 8) }
+					$$ not allowed in strict mode : parseInt(021, 8) = parseInt(021, 8) }
+					node parseInt('015', 10) = ${'$'}{ parseInt('015', 10) }
+					node parseInt(15.99, 10) = ${'$'}{ parseInt(15.99, 10) }
+					node parseInt('15,123', 10) = ${'$'}{ parseInt('15,123', 10) }
+					node parseInt('FXX123', 16) = ${'$'}{ parseInt('FXX123', 16) }
+					node parseInt('1111', 2) = ${'$'}{ parseInt('1111', 2) }
+					node parseInt('15 * 3', 10) = ${'$'}{ parseInt('15 * 3', 10) }
+					node parseInt('15e2', 10) = ${'$'}{ parseInt('15e2', 10) }
+					node parseInt('15px', 10) = ${'$'}{ parseInt('15px', 10) }
+					node parseInt('12', 13) = ${'$'}{ parseInt('12', 13) }
+					$*
+					node set1 // Reserved Characters', set1 }
+					node set2 // Unescaped Characters', set2 }
+					node set3 // Number Sign', set3 }
+					node set4 // Alphanumeric Characters + Space', set4 }
+					*$
+					node reserved chars : encodeURI(";,/?:@&=+$") = ${'$'}{ encodeURI(";,/?:@&=+$") }
+					node unescaped chars : encodeURI("-_.!~*'()") = ${'$'}{ encodeURI("-_.!~*'()") }
+					node number sign: encodeURI("#") = ${'$'}{ encodeURI("#") }
+					node alphanumeric chars + space : encodeURI("ABC abc 123") = ${'$'}{ encodeURI("ABC abc 123") }
+
+					node encodeURIComponent(";,/?:@&=+$") = ${'$'}{ encodeURIComponent(";,/?:@&=+$") }
+					node encodeURIComponent("-_.!~*'()") = ${'$'}{ encodeURIComponent("-_.!~*'()") }
+					node encodeURIComponent("#") = ${'$'}{ encodeURIComponent("#") }
+					node encodeURIComponent("ABC abc 123") = ${'$'}{ encodeURIComponent("ABC abc 123") }
+
+		
+		item
+			title JsWizzi - Ecma builtin Array object
+			render ittf
+			ittf
+				root
+					#
+					# All ECMA builtin methods of the `Array` object are supported
+					#
+					# Examples:
+					#
+					node new Array(4) = ${'$'}{ new Array(4) }
+					node new Array(4).join('0') = ${'$'}{ new Array(4).join('0') }
+					#
+					node <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array"></a>
+
+
+		item
+			title JsWizzi - Ecma builtin Date object
+			render ittf
+			ittf
+				root
+					#
+					# All ECMA builtin methods of the `Date` object are supported
+					#
+					# Examples:
+					#
+					node <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date"></a>
+					node today: new Date() = ${'$'}{ new Date() }
+					node new Date('December 17, 1995 03:24:00') = ${'$'}{ new Date('December 17, 1995 03:24:00') }
+					node new Date('1995-12-17T03:24:00') = ${'$'}{ new Date('1995-12-17T03:24:00') }
+					node new Date(1995, 11, 17) = ${'$'}{ new Date(1995, 11, 17) }
+					node new Date(1995, 11, 17, 3, 24, 0) = ${'$'}{ new Date(1995, 11, 17, 3, 24, 0) }
+
+		item 
+			title JsWizzi - Ecma builtin JSON object
+			render ittf
+			ittf
+				root
+					#
+					# All ECMA builtin methods of the `JSON` object are supported
+					#
+					# Examples:
+					#
+					${'$'}
+						var arrayVar1 = [
+							'joe',
+							'barbie'
+						];
+					#
+					# node JSON.stringify(arrayVar1) = ${'$'}{JSON.stringify(arrayVar1)}
+					#
+					node <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON"></a>
+
+		item
+			title JsWizzi - Ecma builtin Math object
+			render ittf
+			ittf
+				root
+					#
+					# All ECMA builtin methods of the `Math` object are supported
+					#
+					#
+					${'$'}
+						function getRandomInt(max) {
+  							return Math.floor(Math.random() * max);
+						}
+					#
+					# getRandomInt(10): ${'$'}{getRandomInt(10)}
+					# getRandomInt(10): ${'$'}{getRandomInt(10)}
+					# getRandomInt(10): ${'$'}{getRandomInt(10)}
+					#
+					node <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math"></a>		
+
+		item
+			title JsWizzi - Ecma builtin Map object
+			render ittf
+			ittf
+				root
+					#
+					# All ECMA builtin methods of the `Map` object are supported
+					#
+					# Examples:
+					#
+					${'$'}
+						const map1 = new Map();
+						map1.set ('a', 1);
+						map1.set ('b', 2);
+						map1.set ('c', 3);
+					#
+					node map1.get('a') = ${'$'}{map1.get('a')}
+					#
+					#
+					node <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map"></a>
+
+		item
+			title JsWizzi - Ecma builtin Number object
+			render ittf
+			ittf
+				root
+					#
+					# All ECMA builtin methods of the `Number` object are supported
+					#
+					# Examples:
+					#
+					node Number.MAX_VALUE  = ${'$'}{ Number.MAX_VALUE }
+					node Number.MIN_VALUE = ${'$'}{ Number.MIN_VALUE }
+					node Number.POSITIVE_INFINITY = ${'$'}{ Number.POSITIVE_INFINITY }
+					node Number.NEGATIVE_INFINITY = ${'$'}{ Number.NEGATIVE_INFINITY }
+					node Number.isFinite(null) = ${'$'}{ Number.isFinite(null) }
+					node Number.isFinite(0) = ${'$'}{ Number.isFinite(0) }
+					node Number.NaN = ${'$'}{ Number.NaN }
+					node Number('123') = ${'$'}{ Number('123') }
+					node Number('12.3') = ${'$'}{ Number('12.3') }
+					node Number('') = ${'$'}{ Number('') }
+					node Number(' ') = ${'$'}{ Number(' ') }
+					node Number('blabla') = ${'$'}{ Number('blabla') } 
+					node Number('0x11') = ${'$'}{ Number('0x11') }
+					node Number('0b11') = ${'$'}{ Number('0b11') }
+					node Number('0o11') = ${'$'}{ Number('0o11') }
+					node Number('foo') = ${'$'}{ Number('foo') }
+					node Number('100a') = ${'$'}{ Number('100a') }
+					node Number('123ABC') = ${'$'}{ Number('123ABC') }
+		
+		item
+			title JsWizzi - Ecma builtin Object object
+			render ittf
+			ittf
+				root
+					#
+					# All ECMA builtin methods of the `Object` object are supported
+					#
+					node new Object(true) = ${'$'}{ new Object(true).toString() }
+					#
+					#
+					node <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object"></a>
+
+		item
+			title JsWizzi - Ecma builtin RegExp object
+			render ittf
+			ittf
+				root
+					#
+					# All ECMA builtin methods of the `Number` object are supported
+					#
+					# Examples:
+					#
+					node new RegExp('\\w+') = ${'$'}{ new RegExp('\\w+') }
+					node 'John Smith'.replace(new RegExp('(\\w+)\\s(\\w+)'), '$2, $1') = 
+						${'\\b'} ${'$'}{ 'John Smith'.replace(new RegExp('(\\w+)\\s(\\w+)'), '$2, $1') } 
+					${'$'}
+						var str = 'John Smith';
+						var reValue = '(\\w+)\\s(\\w+)';
+						var re = new RegExp(reValue);
+					node str.replace(re, '$2, $1') = ${'$'}{ str.replace(re, '$2, $1') } 
+					#
+					#
+					node <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp"></a>
+
+		item 
+			title JsWizzi - Ecma builtin Set object
+			render ittf
+			ittf
+				root
+					#
+					# All ECMA builtin methods of the `Set` object are supported
+					#
+					# Examples:
+					#
+					${'$'}
+						const mySet1 = new Set();
+						mySet1.add (1); 
+						mySet1.add (5); 
+						mySet1.add (5); 
+					#
+					# node mySet1.size: ${'$'}{mySet1.size}
+					#
+					#
+					node <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set"></a>
+
+		item 
+			title JsWizzi - Ecma builtin String object
+			render ittf
+			ittf
+				root
+					#
+					# All ECMA builtin methods of the `String` object are supported
+					#
+					# Examples:
+					#
+					node ${'$'}{'a'.toUpperCase()}
+					node ${'$'}{'A'.toLowerCase()}
+					node ${'$'}{'a' + '  b  ' + 'c'}
+					node ${'$'}{'a' + '  b  '.trim() + 'c'}
+					node ${'$'}{'a,b,c,d'.split(',').join('-')}
+					#
+					#
+					node <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String"></a>

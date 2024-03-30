@@ -1,6 +1,6 @@
 # wizzi.plugin.json
 
-wizzi.plugin.json
+JSON document
 
 
 ## Features

@@ -3,25 +3,37 @@ module
     $
         var md = {
             name: 'ittf',
+            bif: 1
         };
-    v08/examples/plugin( &md )
+    wizziplugin/examples/plugin( &md )
         $append plugins
             [ items
-                @ './index.js'
-            @ pluginsBaseFolder
-                _ path.resolve
-                    @ __dirname
-                    @ '..'
-        _ executeGenerateModules
-            [
-                @ 'first'
-            a_cb_no_throw( result )
+                @ './wizzi.plugin.ittf/index.js'
+                @ './wizzi.plugin.json/index.js'
+            @ pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
+        +
+        let arg = process.argv[2]
+        const moduleName = arg && arg.length > 0 ? arg : 'first'
+        _ getWzCtx
+            _ path.resolve
+                @ __dirname
+                @ '..'
+                @ '.wizzi-override'
+                @ 'models'
+            a_cb_no_throw( wzCtx )
                 if err
-                    error 'ittf.examples.executeGenerateModules.err', err
-                    error 'ittf.examples.executeGenerateModules.err.toString()', err.toString()
-                    if err.inner
-                        error 'ittf.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
-                else
+                    error err
+                    return
+                _ executeGenerateModules
+                    [
+                        @ moduleName
+                    a_cb_no_throw( result )
+                        if err
+                            error 'ittf.examples.executeGenerateModules.err', err
+                            error 'ittf.examples.executeGenerateModules.err.toString()', err.toString()
+                            if err.inner
+                                error 'ittf.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
+                        else
         function executeGenerateModules
             param modules
             param callback
@@ -30,7 +42,6 @@ module
                 =>
                     param module
                     param callback
-                    log 'ittf.example.executeGenerateModules.module: ' + module
                     var ittfDocumentUri
                         _ path.join
                             @ __dirname
@@ -50,19 +61,18 @@ module
                         @ ittfDocumentUri
                         {
                         a_cb( model )
-                            log 'ittf.example.executeGenerateModules.outputLoadedPath: ' + outputLoadedPath
-                            _ file.write
-                                @ outputLoadedPath
-                                _ stringify
-                                    @ model.toJson()
-                                    @ null
-                                    @ 4
+                            if model.toJson && verify.isFunction(model.toJson)
+                                _ file.write
+                                    @ outputLoadedPath
+                                    _ stringify
+                                        @ model.toJson()
+                                        @ null
+                                        @ 4
                             _ loadModelAndTransform
                                 @ ittfDocumentUri
                                 {
                                 @ "ittf/extended"
                                 a_cb( model )
-                                    log 'ittf.example.executeGenerateModules.outputExtendedPath: ' + outputExtendedPath
                                     _ file.write
                                         @ outputExtendedPath
                                         _ stringify
