@@ -13,7 +13,7 @@ var util = require('util');
 var path = require('path');
 var _ = require('lodash');
 var chalk = require('chalk');
-var wzutils = require('wizzi-utils');
+var wzutils = require('@wizzi/utils');
 var verify = wzutils.verify;
 
 //
@@ -22,7 +22,7 @@ var verify = wzutils.verify;
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.css\.wizzi-override\lib\wizzi\schemas\css.wfschema.ittf
-    utc time: Thu, 21 Mar 2024 16:05:27 GMT
+    utc time: Tue, 02 Apr 2024 11:08:00 GMT
 */
 // Global level vars and functions that
 // will be written in the generated wizzi model type.
@@ -373,7 +373,7 @@ var css = (function (cssBase) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.css\.wizzi-override\lib\wizzi\schemas\css.wfschema.ittf
-            utc time: Thu, 21 Mar 2024 16:05:27 GMT
+            utc time: Tue, 02 Apr 2024 11:08:00 GMT
         */
         if (verify.isObject(this.extends)) {
             var rule;
@@ -405,7 +405,7 @@ var css = (function (cssBase) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.css\.wizzi-override\lib\wizzi\schemas\css.wfschema.ittf
-            utc time: Thu, 21 Mar 2024 16:05:27 GMT
+            utc time: Tue, 02 Apr 2024 11:08:00 GMT
         */
         var ret = null;
         var i, i_items=this.rules, i_len=this.rules.length, item;
@@ -2162,7 +2162,7 @@ var rule = (function (cssBase) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.css\.wizzi-override\lib\wizzi\schemas\css.wfschema.ittf
-            utc time: Thu, 21 Mar 2024 16:05:27 GMT
+            utc time: Tue, 02 Apr 2024 11:08:00 GMT
         */
         // loog '*** rule.initialize.start', this.wzElement, this.wzName
         this.parentRuleParts = this.getAscendingRuleParts();
@@ -2177,7 +2177,7 @@ var rule = (function (cssBase) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.css\.wizzi-override\lib\wizzi\schemas\css.wfschema.ittf
-            utc time: Thu, 21 Mar 2024 16:05:27 GMT
+            utc time: Tue, 02 Apr 2024 11:08:00 GMT
         */
         if (this.canHaveContent && this.getSelector() === name) {
             return this;
@@ -2200,7 +2200,7 @@ var rule = (function (cssBase) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.css\.wizzi-override\lib\wizzi\schemas\css.wfschema.ittf
-            utc time: Thu, 21 Mar 2024 16:05:27 GMT
+            utc time: Tue, 02 Apr 2024 11:08:00 GMT
         */
         var i, i_items=this.rules, i_len=this.rules.length, item;
         for (i=0; i<i_len; i++) {
@@ -2218,7 +2218,7 @@ var rule = (function (cssBase) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.css\.wizzi-override\lib\wizzi\schemas\css.wfschema.ittf
-            utc time: Thu, 21 Mar 2024 16:05:27 GMT
+            utc time: Tue, 02 Apr 2024 11:08:00 GMT
         */
         if (final && this.wzElement === 'placeholder') {
             return this.parentRuleParts.slice(1).join(', ');
@@ -2234,7 +2234,7 @@ var rule = (function (cssBase) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.css\.wizzi-override\lib\wizzi\schemas\css.wfschema.ittf
-            utc time: Thu, 21 Mar 2024 16:05:27 GMT
+            utc time: Tue, 02 Apr 2024 11:08:00 GMT
         */
         var retval = [];
         for (var prop in this) {
@@ -2307,7 +2307,7 @@ var rule = (function (cssBase) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.css\.wizzi-override\lib\wizzi\schemas\css.wfschema.ittf
-            utc time: Thu, 21 Mar 2024 16:05:27 GMT
+            utc time: Tue, 02 Apr 2024 11:08:00 GMT
         */
         var thisRuleParts = [];
         if (this.wzElement !== 'media') {
@@ -6063,7 +6063,7 @@ var gridTemplateAreas = (function (property) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.css\.wizzi-override\lib\wizzi\schemas\css.wfschema.ittf
-            utc time: Thu, 21 Mar 2024 16:05:27 GMT
+            utc time: Tue, 02 Apr 2024 11:08:00 GMT
         */
         var sb = [];
         if (this.wzName && this.wzName.length > 0) {
@@ -8223,7 +8223,7 @@ var extend = (function (rule) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.css\.wizzi-override\lib\wizzi\schemas\css.wfschema.ittf
-            utc time: Thu, 21 Mar 2024 16:05:27 GMT
+            utc time: Tue, 02 Apr 2024 11:08:00 GMT
         */
         var root = this.wzRoot();
         if (!root.extends) {

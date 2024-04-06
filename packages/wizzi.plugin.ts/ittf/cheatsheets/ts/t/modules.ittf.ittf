@@ -5,7 +5,7 @@ element modules
 	
 	item
 		title Exporting a declaration
-		expected
+		expectedStop
 			+ /* Validation.ts */
 			+ export interface StringValidator {
 				+ isAcceptable(s: string): boolean;
@@ -40,7 +40,7 @@ element modules
 							return s.length === 5 && numberRegexp.test(s)
 	item
 		title Export statements
-		expected
+		expectedStop
 			+ class ZipCodeValidator implements StringValidator {
 				+ isAcceptable(s: string) {
 					+ return s.length === 5 && numberRegexp.test(s);
@@ -63,7 +63,7 @@ element modules
 						as mainValidator
 	item
 		title Re - exports
-		expected
+		expectedStop
 			+ /* ParseIntBasedZipCodeValidator.ts */
 			+ export class ParseIntBasedZipCodeValidator {
 				+ isAcceptable(s: string) {
@@ -101,7 +101,7 @@ element modules
 					from "./ZipCodeValidator"
 	item
 		title Import a single export from a module
-		expected
+		expectedStop
 			+ import { ZipCodeValidator } from "./ZipCodeValidator";
 			+ let myValidator = new ZipCodeValidator();
 			+ /* imports can also be renamed */
@@ -137,7 +137,7 @@ element modules
 				import "./my-module.js"
 	item
 		title Default exports
-		expected
+		expectedStop
 			+ /* JQuery.d.ts */
 			+ declare let $: JQuery;
 			+ export default $;
@@ -159,7 +159,7 @@ element modules
 
 	item
 		title Default exports of classes and functions
-		expected
+		expectedStop
 			+ /* ZipCodeValidator.ts */
 			+ export default class ZipCodeValidator {
 				+ static numberRegexp = /^[0-9]+$/;
@@ -231,7 +231,7 @@ element modules
 								+ 
 	item
 		title Default exports can also be just values:
-		expected
+		expectedStop
 			+ /* default exports can also be just values: */
 			+ /* OneTwoThree.ts */
 			+ export default "123";
@@ -250,7 +250,7 @@ element modules
 	
 	item
 		title export = and import = require()
-		expected
+		expectedStop
 			+ /* ZipCodeValidator.ts */
 			+ let numberRegexp = /^[0-9]+$/;
 			+ class ZipCodeValidator {
@@ -306,7 +306,7 @@ element modules
 	
 	item
 		title Code Generation for Modules
-		expected
+		expectedStop
 			+ import m = require("mod");
 			+ export let t = m.something + 1;
 			+ /* AMD / RequireJS SimpleModule.js */
@@ -419,7 +419,7 @@ element modules
 
 	item
 		title Simple Example
-		expected
+		expectedStop
 			+ /* Validation.ts */
 			+ export interface StringValidator {
 				+ isAcceptable(s: string): boolean;
@@ -535,7 +535,7 @@ element modules
 									+ 
 	item
 		title Optional Module Loading
-		expected
+		expectedStop
 			+ /* Dynamic Module Loading in Node.js */
 			+ declare function require(moduleName: string): any;
 			+ import { ZipCodeValidator as Zip } from "./ZipCodeValidator";
@@ -629,7 +629,7 @@ element modules
 
 	item
 		title Ambient Modules
-		expected
+		expectedStop
 			+ /* node.d.ts(simplified excerpt) */
 			+ declare module "url" {
 				+ export interface Url {
@@ -702,7 +702,7 @@ element modules
     
 	item
 		title Shorthand ambient modules
-		expected
+		expectedStop
 			+ /*declarations.d.ts */
 			+ declare module "hot-new-module";
 			+ /* All imports from a shorthand module will have the any type. */
@@ -723,7 +723,7 @@ element modules
 
 	item
 		title Wildcard module declarations
-		expected
+		expectedStop
 			+ declare module "*!text" {
 				+ const content: string;
 				+ export default content;
@@ -756,7 +756,7 @@ element modules
 
 	item
 		title UMD modules
-		expected
+		expectedStop
 			+ /* math-lib.d.ts */
 			+ export function isPrime(x: number): boolean;
 			+ export as namespace mathLib;
@@ -791,7 +791,7 @@ element modules
 
 	item
 		title Export as close to top-level as possible
-		expected
+		expectedStop
 			+ MyClass.ts */
 			+ export default class SomeType {
 				+ constructor() {}
@@ -875,7 +875,7 @@ element modules
 
 	item
 		title Re -export to extend
-		expected
+		expectedStop
 			+ export class Calculator {
 				+ private current = 0;
 				+ private memory = 0;

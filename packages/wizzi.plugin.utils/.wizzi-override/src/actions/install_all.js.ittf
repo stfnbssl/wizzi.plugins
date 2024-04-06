@@ -1,0 +1,45 @@
+module
+    kind es6
+    const path = require("path")
+    const spawnUtils = require("../services/spawn")
+    $include plugins
+    +
+    function doInstall
+        param ndx
+        var pluginName = pluginList[ndx]
+        if !pluginName
+            success "All npm installations done"
+            return
+        _ executeWizziInstallation
+            @ pluginName
+            a_cb()
+                success "*** Npm installation of plugin " + pluginName + " DONE ***"
+                _ doInstall
+                    @ ndx + 1
+    _ doInstall
+        @ 0
+
+    function executeWizziInstallation
+        param pluginName
+        param callback
+        log 'Starting npm installation of ', pluginName
+        const PowerShell = spawnUtils.PowerShell
+        let ps
+            new PowerShell
+                @ "npm i"
+                {
+                    @ cwd "C:/My/wizzi/stfnbssl/wizzi.plugins/packages/wizzi.plugin." + pluginName
+        _ spawnUtils.psOutput
+            @ ps
+            {
+            =>
+                param err
+                param stdout
+                param stderr
+                log "powershell 2", err || stderr || stdout
+                _ callback
+                    @ null
+    
+    +
+    set module.exports = doInstall
+    +

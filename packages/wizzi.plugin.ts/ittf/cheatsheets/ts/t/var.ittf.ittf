@@ -5,7 +5,7 @@ element variables
 	
 	item
 		title Boolean
-		expected
+		expectedStop
 			+ let isDone: boolean = false;
 		ittf
 			let isDone
@@ -13,7 +13,7 @@ element variables
 				:= false
 	item
 		title Number
-		expected
+		expectedStop
 			+ let decimal: number = 6;
 		ittf
 			let decimal
@@ -21,7 +21,7 @@ element variables
 				:= 6
 	item
 		title String
-		expected
+		expectedStop
 			+ let color: string = "blue";
 		ittf
 			let color
@@ -29,7 +29,7 @@ element variables
 				:= "blue"
 	item
 		title String literal 1
-		expected
+		expectedStop
 			+ let fullName: string = `Bob Bobbington`;
 		ittf
 			let fullName
@@ -38,7 +38,7 @@ element variables
 					+ Bob Bobbington
 	item
 		title String literal 2
-		expected
+		expectedStop
 			+ let sentence: string = `Hello, my name is ${fullName}`;
 		ittf
 			let sentence
@@ -49,7 +49,7 @@ element variables
 					+ 
 	item
 		title String literal 3
-		expected
+		expectedStop
 			+ let sentence: string = "Hello, my name is " + fullName + ".\n\n" + "I'll be " + (age + 1) + " years old next month.";
 		ittf
 			let sentence
@@ -58,7 +58,7 @@ element variables
 	
 	item
 		title Array 1
-		expected
+		expectedStop
 			+ let list: number[] = [1, 2, 3];
 		ittf
 			let list
@@ -71,7 +71,7 @@ element variables
 	
 	item
 		title Array 2
-		expected
+		expectedStop
 			+ let list: Array&lt;number&gt; = [1, 2, 3];
 		ittf
 			let list
@@ -84,7 +84,7 @@ element variables
 	
 	item
 		title Tuple
-		expected
+		expectedStop
 			+ let x: [string, number];
 		ittf
 			let x
@@ -94,7 +94,7 @@ element variables
 
 	item
 		title Enum
-		expected
+		expectedStop
 			+ enum Color { Red, Green, Blue }
 			+ let c: Color = Color.Green;
 			+ enum Color { Red = 1, Green, Blue }
@@ -136,7 +136,7 @@ element variables
 
 	item
 		title Any, Void, Null, Undefined
-		expected
+		expectedStop
 			+ let notSure: any = 4;
 			+ notSure = "maybe a string instead";
 			+ notSure = false; // okay, definitely a boolean
@@ -194,7 +194,7 @@ element variables
 	
 	item
 		title Never
-		expected
+		expectedStop
 			+ function error(message: string): never {
 				+ throw new Error(message);
 			+ }
@@ -223,7 +223,7 @@ element variables
     
 	item
 		title Object
-		expected
+		expectedStop
 			+ declare function create(o: object | null): void;
 			+ let strLength: number = (someValue as string).length;
 		ittf

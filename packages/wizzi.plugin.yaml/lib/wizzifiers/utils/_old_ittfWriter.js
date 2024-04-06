@@ -2,13 +2,13 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.yaml\.wizzi-override\lib\wizzifiers\utils\_old_ittfWriter.js.ittf
-    utc time: Thu, 21 Mar 2024 16:06:09 GMT
+    utc time: Tue, 02 Apr 2024 09:37:40 GMT
 */
 'use strict';
 var chalk = require('chalk');
 var util = require('util');
-var file = require('wizzi-utils').file;
-var verify = require('wizzi-utils').verify;
+var file = require('@wizzi/utils').file;
+var verify = require('@wizzi/utils').verify;
 var StringWriter = require("./stringWriter");
 function log(label, obj) {
     console.log(label, util.inspect(obj, {

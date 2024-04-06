@@ -2,12 +2,12 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.css\.wizzi-override\lib\artifacts\css\document\gen\rule.js.ittf
-    utc time: Thu, 21 Mar 2024 16:05:27 GMT
+    utc time: Tue, 02 Apr 2024 11:07:59 GMT
 */
 'use strict';
 var util = require('util');
 var async = require('async');
-var verify = require('wizzi-utils').verify;
+var verify = require('@wizzi/utils').verify;
 var lineParser = require('../../../utils/lineParser');
 var mymd = module.exports = {};
 var myname = 'css.document.rule';

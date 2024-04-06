@@ -167,7 +167,7 @@
             # loog 'u.onlyChildIs(model, "callOnValue")', u.onlyChildIs(model, 'callOnValue')
             # loog 'u.onlyChildIsHtmlElement(model)', u.onlyChildIsHtmlElement(model)
             # loog 'u.onlyChildIs(model, "arrowfunction")', u.onlyChildIs(model, 'arrowfunction')
-            log "u.isImplicitReturn(model)", u.isImplicitReturn(model)
+            # loog "u.isImplicitReturn(model)", u.isImplicitReturn(model)
         if ctx.__is_react_class && model.wzParent.wzElement == 'reactComponent'
             var implicitReturn = u.isImplicitReturn(model)
             _ ctx.w(model.wzName + ' = ' + async_str + '(' + model.paramNames.join(', ') + ') =>' + (implicitReturn ? '' : '{'))

@@ -1,0 +1,66 @@
+element variables
+	tag var|const|let
+	ast 
+	category
+	
+	item
+		title Variable declaration
+		ittf
+			module
+				kind es6
+				var i
+				var i = 0
+				var
+					decl a
+					decl b
+					decl c = 99
+				let i
+				let i = 0
+				let
+					decl a
+					decl b
+					decl c = 99
+		
+				const i
+				const i = 0
+				const
+					decl a
+					decl b
+					decl c = 99
+
+	item
+		title String literal
+		ittf
+			module
+				kind es6
+				${'$'}
+					var fullName = "Baby"
+				
+				# Here fullName is a reference to a JsWizzi variable inside a Ittf Macro
+				const author = "${'$'}{fullName}"
+				+
+				# Here fullName is a javascript variable
+				var fullName = "George"
+				+
+				# The backtick [`] (alt+96) can embed Ittf Macros as normal text
+				const author = `${fullName}`
+				+
+				# You can write also:
+				let sentence
+					`lit 
+						+ Hello, my name is\b
+						@ fullName
+	item
+		title String literal 2
+		ittf
+			let sentence
+				set "Hello, my name is " + fullName + ".\n\n" + "I'll be " + (age + 1) + " years old next month."
+	
+	item
+		title Array 1
+		ittf
+			let list
+				[ 
+					@ 1
+					@ 2
+					@ 3  

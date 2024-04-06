@@ -1,5 +1,5 @@
 {
-    name "${wzCtx.npnName ? wzCtx.npnName : wzCtx.name}"
+    name "${wzCtx.npmName ? wzCtx.npmName : wzCtx.name}"
     version "${wzCtx.version}"
     $if wzCtx.author
         { author
@@ -11,8 +11,9 @@
             {
                 type "${wzCtx.license.type}"
                 url "${wzCtx.license.url}"
+                copy "${wzCtx.license.copy}"
     main "${wzCtx.main}"
-    $if wzCtx.Build.useVite
+    $if wzCtx.Build.useVite || wzCtx.Build.useESM
         type "module"
     $else
         $if wzCtx.type

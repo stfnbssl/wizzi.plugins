@@ -5,7 +5,7 @@ module
 	var path = require('path')
 	var _ = require('lodash')
     var chalk = require('chalk')
-	var wzutils = require('wizzi-utils')
+	var wzutils = require('@wizzi/utils')
 	var verify = wzutils.verify
 	$foreach require in schema.requiredModules
 		var ${require.declareVar} = require('${require.wzName}')${require.invoke}

@@ -9,12 +9,12 @@ module
         param ndx
         var pluginName = pluginList[ndx]
         if !pluginName
-            success "All generations done"
+            success "All publishings done"
             return
         _ executePublishing
             @ pluginName
             a_cb()
-                success "*** Generation of plugin " + pluginName + " DONE ***"
+                success "*** publishing of plugin " + pluginName + " DONE ***"
                 _ doPublish
                     @ ndx + 1
     _ doPublish
@@ -23,7 +23,7 @@ module
     function executePublishing
         param pluginName
         param callback
-        log 'Starting generation of ', pluginName
+        log 'Starting publishing of ', pluginName
         const PowerShell = spawnUtils.PowerShell
         let ps
             new PowerShell

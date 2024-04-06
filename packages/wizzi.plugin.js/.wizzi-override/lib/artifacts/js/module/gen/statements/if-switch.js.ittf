@@ -66,6 +66,10 @@
                 else
                     _ temp.push
                         @ item
+            if !condition
+                return
+                    _ callback
+                        _ ctx.error("Malformed switch. Should be: `switch` <condition> or to have a child conditional statement of `switch`", model)
             set model.statements = temp
             _ ctx.write('switch (')
             _ cnt.genItem

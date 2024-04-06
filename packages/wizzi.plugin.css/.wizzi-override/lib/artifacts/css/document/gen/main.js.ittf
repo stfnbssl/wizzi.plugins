@@ -122,7 +122,7 @@ module wizzi.plugin.css@${wzCtx.version}.lib.artifacts.css.document.gen.main
             if (!!ctx.values.noGeneratorComments) == false
                 _ ctx.w('/*')
                 _ ctx.w('    artifact generator: ' + __filename)
-                _ ctx.w('    package: wizzi-web@${versions['wizzi-web@next']}')
+                _ ctx.w('    package: @wizzi/plugin.css@${versions['@wizzi/plugin.css@next']}')
                 _ ctx.w('    primary source IttfDocument: ' + model.wzSourceFilepath('f1'))
                 if (!!ctx.values.wzConfigIsPackageDeploy) == false
                     _ ctx.w('    utc time: ' + new Date().toUTCString())

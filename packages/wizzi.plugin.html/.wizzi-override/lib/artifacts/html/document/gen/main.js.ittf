@@ -14,8 +14,8 @@ module wizzi.plugin.html@${wzCtx.version}.lib.artifacts.html.document.gen.main
             var included_writers = require('./included_writers')
             var utilNode = require('../../../utils/utilNode')
             var lineParser = require('../../../utils/lineParser')
-            var lorem = require('wizzi-utils').lorem
-            var pretty = require('wizzi-utils').pretty
+            var lorem = require('@wizzi/utils').lorem
+            var pretty = require('@wizzi/utils').pretty
             var myname = 'wizzi.plugin.html.artifacts.document.gen.main'
             var myGenItemsStackCount = 0
         $append main
@@ -399,7 +399,7 @@ module wizzi.plugin.html@${wzCtx.version}.lib.artifacts.html.document.gen.main
             if (!!ctx.values.noGeneratorComments) == false
                 _ ctx.w('<!--')
                 _ ctx.w('    artifact generator: ' + __filename)
-                _ ctx.w('    package: wizzi-web@${versions['wizzi-web@next']}')
+                _ ctx.w('    package: @wizzi/plugin.html@${versions['@wizzi/plugin.html@next']}')
                 _ ctx.w('    primary source IttfDocument: ' + model.wzSourceFilepath('f1'))
                 if (!!ctx.values.wzConfigIsPackageDeploy) == false
                     _ ctx.w('    utc time: ' + new Date().toUTCString())

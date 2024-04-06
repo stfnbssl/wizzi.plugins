@@ -2,13 +2,13 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\artifacts\ts\module\gen\statements\if-switch.js.ittf
-    utc time: Thu, 21 Mar 2024 16:05:59 GMT
+    utc time: Tue, 02 Apr 2024 18:13:56 GMT
 */
 'use strict';
 var util = require('util');
-var verify = require('wizzi-utils').verify;
-var node = require('wizzi-utils').node;
-var errors = require('wizzi-utils').errors;
+var verify = require('@wizzi/utils').verify;
+var node = require('@wizzi/utils').node;
+var errors = require('@wizzi/utils').errors;
 var u = require('../utils/stm');
 
 var myname = 'wizzi-js.artifacts.ts.module.gen.codegen.statements.if-switch';

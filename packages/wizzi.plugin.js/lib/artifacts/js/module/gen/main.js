@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\artifacts\js\module\gen\main.js.ittf
-    utc time: Thu, 21 Mar 2024 16:05:40 GMT
+    utc time: Sat, 06 Apr 2024 05:38:00 GMT
 */
 'use strict';
 
@@ -10,8 +10,8 @@
 var util = require('util');
 var path = require('path');
 var async = require('async');
-var verify = require('wizzi-utils').verify;
-var lineParser = require('wizzi-utils').helpers.lineParser;
+var verify = require('@wizzi/utils').verify;
+var lineParser = require('@wizzi/utils').helpers.lineParser;
 var errors = require('../../../../../errors');
 var module_es6 = require('./es6/module');
 var statement = require('./statement');
@@ -69,7 +69,7 @@ md.gen = function(model, ctx, callback) {
     catch (ex) {
         return callback(error('Exception', 'gen', 'An exception encountered during generation', model, ex));
     } 
-    function terminate_gen(model, ctx) {
+    function terminate_gen(model, ctx, callback) {
         if (ctx.artifactGenerationErrors.length > 0) {
             return callback(ctx.artifactGenerationErrors);
         }
@@ -132,7 +132,7 @@ function main_init(model, ctx) {
     if ((!!ctx.values.noGeneratorComments) == false) {
         ctx.w('/*');
         ctx.w('    artifact generator: ' + __filename);
-        ctx.w('    package: wizzi-js@');
+        ctx.w('    package: @wizzi/plugin.js@0.8.8');
         ctx.w('    primary source IttfDocument: ' + model.wzSourceFilepath('f1'));
         ctx.w('    utc time: ' + new Date().toUTCString());
         ctx.w('*/');
@@ -148,7 +148,7 @@ function main_init(model, ctx) {
                 ctx.w("var verify = require('wizzi-helpers').verify;");
             }
             else {
-                ctx.w("var verify = require('wizzi-utils').verify;");
+                ctx.w("var verify = require('@wizzi/utils').verify;");
             }
         }
     }

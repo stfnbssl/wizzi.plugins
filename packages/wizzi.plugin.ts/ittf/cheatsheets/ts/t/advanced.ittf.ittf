@@ -5,7 +5,7 @@ element advanced
 	
 	item
 		title Intersection Types
-		expected
+		expectedStop
 			+ function extend<T, U>(first: T, second: U): T & U {
 				+ let result = {} as T & U;
 				+ for (let id in first) {
@@ -98,7 +98,7 @@ element advanced
 
 	item
 		title Union Types - fail at run time
-		expected
+		expectedStop
 			+ function padLeft(value: string, padding: any) {
 				+ if (typeof padding === "number") {
 					+ return Array(padding + 1).join(" ") + value;
@@ -132,7 +132,7 @@ element advanced
 				let indentedString = padLeft("Hello world", true)
 	item
 		title Union Types - succeds at run time
-		expected
+		expectedStop
 			+ function padLeft(value: string, padding: string | number) {
 				+ // ...
 			+ }
@@ -151,7 +151,7 @@ element advanced
 				
 	item
 		title Union Types - common members
-		expected
+		expectedStop
 			+ // If we have a value that has a union type, we can only access members that are common to all types in the union.
 			+ interface Bird {
 				+ fly();
@@ -183,7 +183,7 @@ element advanced
 
 	item
 		title Type Guards and Differentiating Types
-		expected
+		expectedStop
 			+ let pet = getSmallPet();
 			+ if ((pet as Fish).swim) {
 				+ (pet as Fish).swim();
@@ -217,7 +217,7 @@ element advanced
     
 	item
 		title User - Defined Type Guards
-		expected
+		expectedStop
 			+ function isFish(pet: Fish | Bird): pet is Fish {
 				+ return (pet as Fish).swim !== undefined;
 			+ }
@@ -290,7 +290,7 @@ element advanced
 
 	item
 		title Instanceof type guards
-		expected
+		expectedStop
 			+ interface Padder {
 				+ getPaddingString(): string
 			+ }
@@ -359,7 +359,7 @@ element advanced
 
 	item
 		title Nullable types
-		expected
+		expectedStop
 			+ let s = "foo";
 			+ s = null; // error, 'null' is not assignable to 'string'
 			+ let sn: string | null = "bar";
@@ -426,7 +426,7 @@ element advanced
 
 	item
 		title Type guards and type assertions
-		expected
+		expectedStop
 			+ function f(sn: string | null): string {
 				+ if (sn == null) {
 					+ return "default";
@@ -512,7 +512,7 @@ element advanced
 
 	item
 		title Type Aliases
-		expected
+		expectedStop
 			+ type Name = string;
 			+ type NameResolver = () => string;
 			+ type NameOrResolver = Name | NameResolver;
@@ -606,7 +606,7 @@ element advanced
 
 	item
 		title Interfaces vs.Type Aliases
-		expected
+		expectedStop
 			+
 		ittf
 			+
@@ -630,7 +630,7 @@ element advanced
 	
 	item
 		title String Literal Types
-		expected
+		expectedStop
 			+ type Easing = "ease-in" | "ease-out" | "ease-in-out";
 			+ class UIElement {
 				+ animate(dx: number, dy: number, easing: Easing) {
@@ -697,7 +697,7 @@ element advanced
 
 	item
 		title Numeric Literal Types
-		expected
+		expectedStop
 			+ function rollDie(): 1 | 2 | 3 | 4 | 5 | 6 {
 			+ }
 			+ // These are seldom written explicitly, they can be useful when narrowing can catch bugs:
@@ -726,7 +726,7 @@ element advanced
 
 	item
 		title Enum Member Types
-		expected
+		expectedStop
 			+ interface Square {
 				+ kind: "square";
 				+ size: number;
@@ -789,7 +789,7 @@ element advanced
 
 	item
 		title Exhaustiveness checking
-		expected
+		expectedStop
 			+ type Shape = Square | Rectangle | Circle | Triangle;
 			+ function area(s: Shape) {
 				+ switch (s.kind) {
@@ -874,7 +874,7 @@ element advanced
 	
 	item
 		title Polymorphic this types
-		expected
+		expectedStop
 			+ class BasicCalculator {
 				+ public constructor(protected value: number = 0) { }
 				+ public currentValue(): number {
@@ -950,7 +950,7 @@ element advanced
 
 	item
 		title Index types
-		expected
+		expectedStop
 			+ function pluck(o, names) {
 				+ return names.map(n => o[n]);
 			+ }
@@ -1090,7 +1090,7 @@ element advanced
 
 	item
 		title Mapped types
-		expected
+		expectedStop
 			+ interface PersonPartial {
 				+ name?: string;
 				+ age?: number;
@@ -1168,7 +1168,7 @@ element advanced
 
 	item
 		title Mapped types 2
-		expected
+		expectedStop
 			+ /*
 				+ The type variable K, which gets bound to each property in turn.
 				+ The string literal union Keys, which contains the names of properties to iterate over.
@@ -1316,7 +1316,7 @@ element advanced
 
 	item
 		title Inference from mapped types
-		expected
+		expectedStop
 			+ function unproxify<T>(t: Proxify<T>): T {
 				+ let result = {} as T;
 				+ for (const k in t) {
@@ -1344,7 +1344,7 @@ element advanced
 
 	item
 		title Conditional Types
-		expected
+		expectedStop
 			+ declare function f<T extends boolean>(x: T): T extends true ? string : number;
 			+ // Type is 'string | number
 			+ let x = f(Math.random() < 0.5)
@@ -1498,7 +1498,7 @@ element advanced
 
 	item
 		title Distributive conditional types
-		expected
+		expectedStop
 			+ type T10 = TypeName<string | (() => void)>;  // "string" | "function"
 			+ type T12 = TypeName<string | string[] | undefined>;  // "string" | "object" | "undefined"
 			+ type T11 = TypeName<string[] | number[]>;  // "object"
@@ -1738,7 +1738,7 @@ element advanced
 						:= y
 	item
 		title Conditional types combined with mapped types:
-		expected
+		expectedStop
 			+ // conditional types are particularly useful when combined with mapped types:
 			+ type FunctionPropertyNames<T> = {[K in keyof T]: T[K] extends Function ? K : never }[keyof T];
 			+ type FunctionProperties<T> = Pick<T, FunctionPropertyNames<T>>;
@@ -1865,7 +1865,7 @@ element advanced
 
 	item
 		title Type inference in conditional types
-		expected
+		expectedStop
 			+ //For example, the following extracts the return type of a function type:
 			+ type ReturnType<T> = T extends (...args: any[]) => infer R ? R : any;
 			+ // Conditional types can be nested to form a sequence of pattern matches that are evaluated in order:
@@ -2132,7 +2132,7 @@ element advanced
 
 	item
 		title Predefined conditional types
-		expected
+		expectedStop
 			+ type T00 = Exclude<"a" | "b" | "c" | "d", "a" | "c" | "f">;  // "b" | "d"
 			+ type T01 = Extract<"a" | "b" | "c" | "d", "a" | "c" | "f">;  // "a" | "c"
 			+ type T02 = Exclude<string | number | (() => void), Function>;  // string | number

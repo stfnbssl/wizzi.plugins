@@ -13,7 +13,7 @@ var util = require('util');
 var path = require('path');
 var _ = require('lodash');
 var chalk = require('chalk');
-var wzutils = require('wizzi-utils');
+var wzutils = require('@wizzi/utils');
 var verify = wzutils.verify;
 
 

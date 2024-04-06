@@ -5,7 +5,7 @@ element generics
 	
 	item
 		title Identity function with any
-		expected
+		expectedStop
 			+ function identity(arg: any): any {
 				+ return arg;
 			+ }
@@ -19,7 +19,7 @@ element generics
     
 	item
 		title Identity function with type variable
-		expected
+		expectedStop
 			+ function identity<T>(arg: T): T {
 				+ return arg;
 			+ }
@@ -34,7 +34,7 @@ element generics
 
 	item
 		title Type argument
-		expected
+		expectedStop
 			+ let output = identity<string>("myString");  // type of output will be 'string'
 		ittf
 			let output
@@ -44,7 +44,7 @@ element generics
 
 	item
 		title Length property fails
-		expected
+		expectedStop
 			+ function loggingIdentity<T>(arg: T): T {
 				+ console.log(arg.length);
 				+ return arg;
@@ -61,7 +61,7 @@ element generics
 
 	item
 		title Length property succeds 1
-		expected
+		expectedStop
 			+ function loggingIdentity<T>(arg: T[]): T[] {
 				+ console.log(arg.length);
 				+ return arg;
@@ -82,7 +82,7 @@ element generics
 
 	item
 		title Length property succeds 2
-		expected
+		expectedStop
 			+ function loggingIdentity<T>(arg: Array<T>): Array<T> {
 				+ console.log(arg.length);
 				+ return arg;
@@ -101,7 +101,7 @@ element generics
 
 	item
 		title Generic function
-		expected
+		expectedStop
 			+ function identity<T>(arg: T): T {
 				+ return arg;
 			+ }
@@ -124,7 +124,7 @@ element generics
 	
 	item
 		title Call signature object literal type
-		expected
+		expectedStop
 			+ function identity<T>(arg: T): T {
 				+ return arg;
 			+ }
@@ -149,7 +149,7 @@ element generics
 				
 	item
 		title Generic interface
-		expected
+		expectedStop
 			+ interface GenericIdentityFn<T> {
 				+ (arg: T): T;
 			+ }
@@ -180,7 +180,7 @@ element generics
 
 	item
 		title Generic Classes
-		expected
+		expectedStop
 			+ class GenericNumber<T> {
 				+ zeroValue: T;
 				+ add: (x: T, y: T) => T;
@@ -200,7 +200,7 @@ element generics
 
 	item
 		title Generic Constraints - fails
-		expected
+		expectedStop
 			+ function loggingIdentity<T>(arg: T): T {
 				+ console.log(arg.length);  // Error: T doesn't have .length
 				+ return arg;
@@ -217,7 +217,7 @@ element generics
 	
 	item
 		title Generic Constraints - succeds
-		expected
+		expectedStop
 			+ interface Lengthwise {
 				+ length: number;
 			+ }
@@ -242,7 +242,7 @@ element generics
 
 	item
 		title Type Parameters in Generic Constraints
-		expected
+		expectedStop
 			+ function getProperty<T, K extends keyof T>(obj: T, key: K) {
 				+ return obj[key];
 			+ }
@@ -272,7 +272,7 @@ element generics
 
 	item
 		title Class Types in Generics
-		expected
+		expectedStop
 			+ function create<T>(c: { new (): T; }): T {
 				+ return new c();
 			+ }
@@ -289,7 +289,7 @@ element generics
 
 	item
 		title Prototype property
-		expected
+		expectedStop
 			+ class BeeKeeper {
 				+ hasMask: boolean;
 			+ }

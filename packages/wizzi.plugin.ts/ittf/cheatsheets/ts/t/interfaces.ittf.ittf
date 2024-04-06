@@ -5,7 +5,7 @@ element interfaces
 	
 	item
 		title Simple interface
-		expected
+		expectedStop
 			+ interface LabelledValue {
 				+ label: string;
 			+ }
@@ -16,7 +16,7 @@ element interfaces
 			
 	item
 		title Reference to interface
-		expected
+		expectedStop
 			+ function printLabel(labelledObj: LabelledValue) {
 				+ console.log(labelledObj.label);
 			+ }
@@ -36,7 +36,7 @@ element interfaces
 	
 	item
 		title Optional properties
-		expected
+		expectedStop
 			+ interface SquareConfig {
 				+ color?: string;
 				+ width?: number;
@@ -53,7 +53,7 @@ element interfaces
 
 	item
 		title Optional properties 2
-		expected
+		expectedStop
 			+ interface SquareConfig {
 				+ color?: string;
 				+ width?: number;
@@ -106,7 +106,7 @@ element interfaces
 
 	item
 		title Readonly properties
-		expected
+		expectedStop
 			+ interface Point {
 				+ readonly x: number;
 				+ readonly y: number;
@@ -133,7 +133,7 @@ element interfaces
 
 	item
 		title Readonly vs const
-		expected
+		expectedStop
 			+ interface SquareConfig {
 				+ color?: string;
 				+ width?: number;
@@ -169,7 +169,7 @@ element interfaces
 
 	item
 		title Call signature
-		expected
+		expectedStop
 			+ interface SearchFunc {
 				+ (source: string, subString: string): boolean;
 			+ }
@@ -201,7 +201,7 @@ element interfaces
 				
 	item
 		title Index signature
-		expected
+		expectedStop
 			+ interface StringArray {
 				+ [index: number]: string;
 			+ }
@@ -228,7 +228,7 @@ element interfaces
 
 	item
 		title Index signature 2
-		expected
+		expectedStop
 			+ class Animal {
 				+ name: string;
 			+ }
@@ -261,7 +261,7 @@ element interfaces
 							:string 
 	item
 		title Index signature 3
-		expected
+		expectedStop
 			+ interface NumberDictionary {
 				+ [index: string]: number;
 				+ length: number; // ok, length is a number
@@ -279,7 +279,7 @@ element interfaces
 					:string 
 	item
 		title Readonly index signature 3
-		expected
+		expectedStop
 			+ interface ReadonlyStringArray {
 				+ readonly [index: number]: string;
 			+ }
@@ -302,7 +302,7 @@ element interfaces
 
 	item
 		title Class Types
-		expected
+		expectedStop
 			+ interface ClockInterface {
 				+ currentTime: Date;
 			+ }
@@ -358,7 +358,7 @@ element interfaces
     
 	item
 		title static and instance sides of classes - fails
-		expected
+		expectedStop
 			+ interface ClockConstructor {
 				+ new (hour: number, minute: number);
 			+ }
@@ -387,7 +387,7 @@ element interfaces
     
 	item
 		title static and instance sides of classes - succeds
-		expected
+		expectedStop
 			+ interface ClockConstructor {
 				+ new (hour: number, minute: number): ClockInterface;
 			+ }
@@ -462,7 +462,7 @@ element interfaces
 	
 	item
 		title Extending Interfaces 1
-		expected
+		expectedStop
 			+ interface Shape {
 				+ color: string;
 			+ }
@@ -491,7 +491,7 @@ element interfaces
 				
 	item
 		title Extending Interfaces 2
-		expected
+		expectedStop
 			+ interface Shape {
 				+ color: string;
 			+ }
@@ -528,7 +528,7 @@ element interfaces
 	
 	item
 		title Hybrid Types
-		expected
+		expectedStop
 			+ interface Counter {
 				+ (start: number): string;
 				+ interval: number;
@@ -571,7 +571,7 @@ element interfaces
 	
 	item
 		title Class with private property
-		expected
+		expectedStop
 			+ class Control {
 				+ private state: any;
 			+ }

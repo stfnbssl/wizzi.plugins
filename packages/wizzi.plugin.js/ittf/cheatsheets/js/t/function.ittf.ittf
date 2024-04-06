@@ -40,3 +40,63 @@ element function
 				callback
 				log 'Hello ' + name
 
+	item
+		title Arrow function
+		ittf
+			module
+				kind es6
+				var handler
+					=>
+						param event
+						set value = event.target.value
+
+	item
+		title Async arrow function
+		ittf
+			module
+				kind es6
+
+				var handler
+				async=>
+					param event
+					const obj
+						await
+							_ getObject
+								@ event.target.value
+
+	item
+		title Generator function
+		ittf
+			module
+				kind es6
+				# reference https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Operators/yield
+				function* foo
+					var index = 0
+					while index <= 2
+						yield index++
+
+	item
+		title Async function, await statement
+		ittf
+			module
+				kind es6
+
+				async-function foo
+					var index
+					await
+						_ myPromiseFunc
+
+	item
+		title IIFE function
+		ittf
+			module
+				kind es6
+
+				iife
+					unary-prefix ;
+					param x
+					param y
+					return alpha = x + ': ' + y
+					(
+						@ key
+						@ id

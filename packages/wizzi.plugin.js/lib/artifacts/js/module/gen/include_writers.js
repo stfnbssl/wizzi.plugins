@@ -2,13 +2,13 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\artifacts\js\module\gen\include_writers.js.ittf
-    utc time: Thu, 21 Mar 2024 16:05:40 GMT
+    utc time: Sat, 06 Apr 2024 05:38:00 GMT
 */
 'use strict';
 
 var myname = 'wizzi.js.artifacts.module.gen.include_writers';
 
-var verify = require('wizzi-utils').verify;
+var verify = require('@wizzi/utils').verify;
 
 var md = module.exports = {};
 md.writeIncludeCss = function(ctx, model, callback) {

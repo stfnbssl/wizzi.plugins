@@ -10,8 +10,8 @@ $group
     var util = require('util')
     var path = require('path')
     var async = require('async')
-    var verify = require('wizzi-utils').verify
-    var lineParser = require('wizzi-utils').helpers.lineParser
+    var verify = require('@wizzi/utils').verify
+    var lineParser = require('@wizzi/utils').helpers.lineParser
     var errors = require('../../../../../errors')
     $hook imports
     +
@@ -54,6 +54,7 @@ $group
         function terminate_gen
             param model
             param ctx
+            param callback
             if ctx.artifactGenerationErrors.length > 0
                 return
                     _ callback(ctx.artifactGenerationErrors)

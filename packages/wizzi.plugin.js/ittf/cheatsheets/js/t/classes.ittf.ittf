@@ -1,0 +1,159 @@
+element class
+	tag class
+	ast 
+	category
+	
+	item
+		title Simple class
+		ittf
+			module 
+				kind es6
+				class Greeter
+					p greeting
+					ctor 
+						param message
+						set this.greeting = message
+					m greet
+						return "Hello, " + this.greeting
+				let greeter = new Greeter("world")
+	
+	item
+		title Class extension
+		ittf
+			module 
+				kind es6
+				class Animal
+					m move
+						param distanceInMeters
+						_ console.log
+							`lit 
+								+ Animal moved ${'\\'}b
+								@ distanceInMeters
+								+ m.
+				class Dog
+					super Animal
+					m bark
+						_ console.log('Woof! Woof!')
+        
+	item
+		title Complex class example
+		ittf
+			module 
+				kind es6
+				class Animal
+					p name
+					ctor 
+						param theName
+						set this.name = theName
+					m move
+						param distanceInMeters
+						_ console.log
+							`lit 
+								+ 
+								@ this.name
+								+ ${'\\'}b moved ${'\\'}b
+								@ distanceInMeters
+								+ m.
+				class Snake
+					super Animal
+					ctor 
+						param name
+						_ super(name)
+					m move
+						param distanceInMeters = 5
+						_ console.log("Slithering...")
+						_ super.move(distanceInMeters)
+			
+				class Horse
+					super Animal
+					ctor 
+						param name
+						_ super(name)
+					m move
+						param distanceInMeters = 45
+						_ console.log("Galloping...")
+						_ super.move(distanceInMeters)
+    
+	item
+		title Class accessors
+		ittf
+			module 
+				kind es6
+				class Animal
+					p name
+					ctor 
+						param theName
+						set this.name = theName
+				class Rhino
+					super Animal
+					ctor 
+						_ super("Rhino")
+				class Employee
+					p name
+					ctor 
+						param theName
+						set this.name = theName
+				let animal = new Animal("Goat")
+				let rhino = new Rhino()
+				let employee = new Employee("Bob")
+				set animal = rhino
+				set animal = employee
+	
+	item
+		title Class accessors
+		ittf
+			module 
+				kind es6
+				class Person
+					p name
+					ctor 
+						param name
+						set this.name = name
+    
+				class Employee
+					super Person
+					p department
+					ctor 
+						param name
+						param department
+						_ super(name)
+						set this.department = department
+					m getElevatorPitch
+						return 
+							`lit 
+								+ Hello, my name is ${'\\'}b
+								@ this.name
+								+ ${'\\'}b and I work in ${'\\'}b
+								@ this.department
+								+ .								
+	
+	item
+		title Static members
+		ittf
+			class Grid
+				p origin
+					static
+					@ x 0
+					@ y 0
+				ctor 
+					param scale
+				m calculateDistanceFromOrigin
+					param point
+					let xDist = (point.x - Grid.origin.x)
+					let yDist = (point.y - Grid.origin.y)
+					return Math.sqrt(xDist * xDist + yDist * yDist) / this.scale
+	
+	item
+		title Static members
+		ittf
+			+
+				class Greeter
+					p standardGreeting = "Hello, there"
+						static
+					p greeting
+					m greet
+						if this.greeting
+							return "Hello, " + this.greeting
+						else
+							return Greeter.standardGreeting
+    

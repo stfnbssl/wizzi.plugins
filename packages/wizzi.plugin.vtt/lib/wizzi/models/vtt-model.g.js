@@ -13,7 +13,7 @@ var util = require('util');
 var path = require('path');
 var _ = require('lodash');
 var chalk = require('chalk');
-var wzutils = require('wizzi-utils');
+var wzutils = require('@wizzi/utils');
 var verify = wzutils.verify;
 
 
@@ -2818,7 +2818,7 @@ var rule = (function (comment) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.vtt\.wizzi-override\lib\wizzi\schemas\vtt.wfschema.ittf
-            utc time: Thu, 21 Mar 2024 16:06:04 GMT
+            utc time: Tue, 02 Apr 2024 09:37:35 GMT
         */
         var retval = [];
         var i, i_items=this.properties, i_len=this.properties.length, prop;
@@ -8824,7 +8824,7 @@ var gridTemplateAreas = (function (property) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.vtt\.wizzi-override\lib\wizzi\schemas\vtt.wfschema.ittf
-            utc time: Thu, 21 Mar 2024 16:06:04 GMT
+            utc time: Tue, 02 Apr 2024 09:37:35 GMT
         */
         var sb = [this.wzName];
         var i, i_items=this.properties, i_len=this.properties.length, item;

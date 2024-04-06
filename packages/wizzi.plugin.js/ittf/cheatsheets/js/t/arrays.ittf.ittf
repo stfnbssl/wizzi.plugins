@@ -6,27 +6,30 @@ element array
 	item
 		title array concat single line statement
 		ittf
-			concat myarray 0, 1, 2, [3, 4]
+			const myArrayNew
+				concat myArray 0, 1, 2, [3, 4]
 
 	item
 		title array concat multi line statement
 		ittf
-			concat myarray
-				@ 0
-				@ 1
-				@ 2
-				[
-					@ 3
-					@ 4
+			const myArrayNew
+				concat myarray
+					@ 0
+					@ 1
+					@ 2
+					[
+						@ 3
+						@ 4
 
 	item
 		title array concat mixed line statement
 		ittf
-			concat myarray 0, 1
-				@ 2
-				[
-					@ 3
-					@ 4
+			const myArrayNew		
+				concat myarray 0, 1
+					@ 2
+					[
+						@ 3
+						@ 4
 
 	item
 		title array forEach statement with default thisArg

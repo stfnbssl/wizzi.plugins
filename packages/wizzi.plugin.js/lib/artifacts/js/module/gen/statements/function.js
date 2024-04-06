@@ -2,13 +2,13 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\artifacts\js\module\gen\statements\function.js.ittf
-    utc time: Thu, 21 Mar 2024 16:05:40 GMT
+    utc time: Sat, 06 Apr 2024 05:38:00 GMT
 */
 'use strict';
 var util = require('util');
-var verify = require('wizzi-utils').verify;
-var node = require('wizzi-utils').node;
-var errors = require('wizzi-utils').errors;
+var verify = require('@wizzi/utils').verify;
+var node = require('@wizzi/utils').node;
+var errors = require('@wizzi/utils').errors;
 var u = require('../utils/stm');
 var lineParser = require('../utils/lineParser');
 
@@ -791,7 +791,7 @@ md.load = function(cnt) {
              loog 'u.onlyChildIs(model, "callOnValue")', u.onlyChildIs(model, 'callOnValue')
              loog 'u.onlyChildIsHtmlElement(model)', u.onlyChildIsHtmlElement(model)
              loog 'u.onlyChildIs(model, "arrowfunction")', u.onlyChildIs(model, 'arrowfunction')
-            console.log("u.isImplicitReturn(model)", u.isImplicitReturn(model), __filename);
+             loog "u.isImplicitReturn(model)", u.isImplicitReturn(model)
         */
         if (ctx.__is_react_class && model.wzParent.wzElement == 'reactComponent') {
             var implicitReturn = u.isImplicitReturn(model);

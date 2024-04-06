@@ -37,35 +37,38 @@ $group
 			render ittf
 			ittf
 				root
-					${'$'}
-						function buildNode(parent, childCount, deep) {
-							parent.childs = [];
-							if (deep > 3) { return; }
-							parent.childs = [];
-							for (var i = 0; i < childCount; i++) {
-								var child = { id: parent.id + '-' + i};
-								buildNode (child, childCount, deep + 1);
-								parent.childs.push (child);
+					$if true
+						${'$'}
+							function buildNode(parent, childCount, deep) {
+								_.log ('deep', deep)
+								parent.childs = [];
+								if (deep > 3) { return; }
+								_.log ('deep after test', deep)
+								parent.childs = [];
+								for (var i = 0; i < childCount; i++) {
+									var child = { id: parent.id + '-' + i};
+									buildNode (child, childCount, deep + 1);
+									parent.childs.push (child);
+								}
 							}
-						}
-						var tree = { id: 0 };
-						buildNode (tree, 2, 0);
+							var tree = { id: 0 };
+							buildNode (tree, 2, 0);
+					$if true
+						node
+						node Let us inspect the 'tree' variable we built.
+						node
+						node ${'$'}{ _.inspect(tree) }
 
-					node
-					node Let us inspect the 'tree' variable we built.
-					node
-					node ${'$'}{ _.inspect(tree) }
+						node
+						node beautiful tree buildup without depth limits
+						node
+		
+						${'$'}function nodeView
+							${'$'}param parent
+							div node${'$'}{parent.id}
+								${'$'}foreach nodeChild in parent.childs
+									${'$'}_ nodeView
+										${'$'}@ nodeChild
 
-					node
-					node beautiful tree buildup without depth limits
-					node
-	
-					${'$'}function nodeView
-						${'$'}param parent
-						div node${'$'}{parent.id}
-							${'$'}foreach nodeChild in parent.childs
-								${'$'}_ nodeView
-									${'$'}@ nodeChild
-
-					${'$'}_ nodeView
-						${'$'}@ tree
+						${'$'}_ nodeView
+							${'$'}@ tree

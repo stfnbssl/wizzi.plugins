@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.css\.wizzi-override\lib\artifacts\css\document\gen\main.js.ittf
-    utc time: Thu, 21 Mar 2024 16:05:27 GMT
+    utc time: Tue, 02 Apr 2024 11:07:59 GMT
 */
 'use strict';
 
@@ -11,8 +11,8 @@
 var util = require('util');
 var path = require('path');
 var async = require('async');
-var verify = require('wizzi-utils').verify;
-var lineParser = require('wizzi-utils').helpers.lineParser;
+var verify = require('@wizzi/utils').verify;
+var lineParser = require('@wizzi/utils').helpers.lineParser;
 var errors = require('../../../../../errors');
 var included_writers = require('./included_writers');
 var postcss = require("postcss");

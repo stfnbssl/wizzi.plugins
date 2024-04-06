@@ -1,0 +1,27 @@
+element Ittf panels
+	tag @style + css
+	ast
+	category
+	
+	item
+		title Panel that highlight ittf nodes
+		ittf
+            html
+                ${'$'}
+                    var opt = {
+                        language: 'js',
+                        generated: 'function alpha(a, b) {\n    return a + b;\n}'
+                    }
+                body
+                    ittf-panel
+                        schema js
+                        title Var declaration
+                        ittf
+                            var i
+                                _ random(10)
+
+                    pre
+                        style width: 50%;
+                        code 
+                            class ${'$'}{opt.language}
+                            + ${'$'}{opt.generated}

@@ -5,7 +5,7 @@ element function
 	
 	item
 		title Typed functions 1
-		expected
+		expectedStop
 			+ function add(x: number, y: number): number {
 				+ return x + y;
 			+ }
@@ -32,7 +32,7 @@ element function
 
 	item
 		title Typed functions 2
-		expected
+		expectedStop
 			+ let myAdd: (baseValue: number, increment: number) => number =
 				+ function (x, y) { return x + y; };
 		ittf
@@ -54,7 +54,7 @@ element function
 
 	item
 		title Optional parameters
-		expected
+		expectedStop
 			+ function buildName(firstName: string, lastName?: string) {
 				+ if (lastName)
 					+ return firstName + " " + lastName;
@@ -86,7 +86,7 @@ element function
 
 	item
 		title Rest parameters
-		expected
+		expectedStop
 			+ function buildName(firstName: string, ...restOfName: string[]) {
 				+ return firstName + " " + restOfName.join(" ");
 			+ }
@@ -113,7 +113,7 @@ element function
     
 	item
 		title This and arrow functions
-		expected
+		expectedStop
 			+ let deck = {
 				+ suits: ["hearts", "spades", "clubs", "diamonds"],
 				+ cards: Array(52),
@@ -152,7 +152,7 @@ element function
 
 	item
 		title This parameters in callbacks
-		expected
+		expectedStop
 			+ interface UIElement {
 				+ addClickListener(onclick: (this: void, e: Event) => void): void;
 			+ }
@@ -189,7 +189,7 @@ element function
 
 	item
 		title Overloads 1
-		expected
+		expectedStop
 			+ let suits = ["hearts", "spades", "clubs", "diamonds"];
 			+ function pickCard(x): any {
 				+ // Check to see if we're working with an object/array
@@ -231,7 +231,7 @@ element function
 
 	item
 		title Overloads 2
-		expected
+		expectedStop
 			+ let suits = ["hearts", "spades", "clubs", "diamonds"];
 			+ function pickCard(x: { suit: string; card: number; }[]): number;
 			+ function pickCard(x: number): { suit: string; card: number; };

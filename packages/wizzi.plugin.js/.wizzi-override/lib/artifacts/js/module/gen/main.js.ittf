@@ -57,7 +57,7 @@ module wizzi.plugin.js@${wzCtx.version}.lib.artifacts.js.module.gen.main
             if (!!ctx.values.noGeneratorComments) == false
                 _ ctx.w('/*')
                 _ ctx.w('    artifact generator: ' + __filename)
-                _ ctx.w('    package: wizzi-js@${versions['wizzi.plugin.js@next']}')
+                _ ctx.w('    package: @wizzi/plugin.js@${versions['@wizzi/plugin.js@next']}')
                 _ ctx.w('    primary source IttfDocument: ' + model.wzSourceFilepath('f1'))
                 $if wzConfigIsPackageDeploy == false
                     _ ctx.w('    utc time: ' + new Date().toUTCString())
@@ -79,7 +79,7 @@ module wizzi.plugin.js@${wzCtx.version}.lib.artifacts.js.module.gen.main
                     if (!!ctx.values.isWizziUtilsPackage) == true
                         _ ctx.w("var verify = require('wizzi-helpers').verify;")
                     else
-                        _ ctx.w("var verify = require('wizzi-utils').verify;")
+                        _ ctx.w("var verify = require('@wizzi/utils').verify;")
             if ctx.__wzItems && ctx.__wzItems.length > 0
                 _ emit_Iife_WzModule(model, ctx)
 

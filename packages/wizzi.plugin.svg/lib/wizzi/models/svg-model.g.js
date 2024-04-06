@@ -13,7 +13,7 @@ var util = require('util');
 var path = require('path');
 var _ = require('lodash');
 var chalk = require('chalk');
-var wzutils = require('wizzi-utils');
+var wzutils = require('@wizzi/utils');
 var verify = wzutils.verify;
 
 //
@@ -22,7 +22,7 @@ var verify = wzutils.verify;
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-    utc time: Thu, 21 Mar 2024 16:05:50 GMT
+    utc time: Tue, 02 Apr 2024 09:37:20 GMT
 */
 var styles = [
     {
@@ -1536,7 +1536,7 @@ var element = (function (svgBase) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-            utc time: Thu, 21 Mar 2024 16:05:50 GMT
+            utc time: Tue, 02 Apr 2024 09:37:20 GMT
         */
         return extractAttributes(this, 'id;class;dataName;href;rotate;transform;xmlns;xmlBase;xmlLang;xmlSpace;pathLength;fill;stroke;strokeWidth;opacity', attrs);
         
@@ -1547,7 +1547,7 @@ var element = (function (svgBase) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-            utc time: Thu, 21 Mar 2024 16:05:50 GMT
+            utc time: Tue, 02 Apr 2024 09:37:20 GMT
         */
         var ret = [];
         var i, i_items=styles, i_len=styles.length, style;
@@ -1685,7 +1685,7 @@ var rect = (function (element) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-            utc time: Thu, 21 Mar 2024 16:05:50 GMT
+            utc time: Tue, 02 Apr 2024 09:37:20 GMT
         */
         attrs = _md.element.prototype.getAttributes.call(this, attrs);
         ;
@@ -1783,7 +1783,7 @@ var svg = (function (rect) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-            utc time: Thu, 21 Mar 2024 16:05:50 GMT
+            utc time: Tue, 02 Apr 2024 09:37:20 GMT
         */
         attrs = _md.element.prototype.getAttributes.call(this, attrs);
         ;
@@ -1864,7 +1864,7 @@ var line = (function (element) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-            utc time: Thu, 21 Mar 2024 16:05:50 GMT
+            utc time: Tue, 02 Apr 2024 09:37:20 GMT
         */
         attrs = _md.element.prototype.getAttributes.call(this, attrs);
         ;
@@ -1927,7 +1927,7 @@ var polyline = (function (element) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-            utc time: Thu, 21 Mar 2024 16:05:50 GMT
+            utc time: Tue, 02 Apr 2024 09:37:20 GMT
         */
         attrs = _md.element.prototype.getAttributes.call(this, attrs);
         ;
@@ -1990,7 +1990,7 @@ var polygon = (function (element) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-            utc time: Thu, 21 Mar 2024 16:05:50 GMT
+            utc time: Tue, 02 Apr 2024 09:37:20 GMT
         */
         attrs = _md.element.prototype.getAttributes.call(this, attrs);
         ;
@@ -2065,7 +2065,7 @@ var circle = (function (element) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-            utc time: Thu, 21 Mar 2024 16:05:50 GMT
+            utc time: Tue, 02 Apr 2024 09:37:20 GMT
         */
         attrs = _md.element.prototype.getAttributes.call(this, attrs);
         ;
@@ -2146,7 +2146,7 @@ var ellipse = (function (element) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-            utc time: Thu, 21 Mar 2024 16:05:50 GMT
+            utc time: Tue, 02 Apr 2024 09:37:20 GMT
         */
         attrs = _md.element.prototype.getAttributes.call(this, attrs);
         ;
@@ -2209,7 +2209,7 @@ var path = (function (element) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-            utc time: Thu, 21 Mar 2024 16:05:50 GMT
+            utc time: Tue, 02 Apr 2024 09:37:20 GMT
         */
         attrs = _md.element.prototype.getAttributes.call(this, attrs);
         ;
@@ -2314,7 +2314,7 @@ var text = (function (element) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-            utc time: Thu, 21 Mar 2024 16:05:50 GMT
+            utc time: Tue, 02 Apr 2024 09:37:20 GMT
         */
         attrs = _md.element.prototype.getAttributes.call(this, attrs);
         ;
@@ -2424,7 +2424,7 @@ var tspan = (function (element) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-            utc time: Thu, 21 Mar 2024 16:05:50 GMT
+            utc time: Tue, 02 Apr 2024 09:37:20 GMT
         */
         attrs = _md.element.prototype.getAttributes.call(this, attrs);
         ;
@@ -4259,7 +4259,7 @@ var radialGradient = (function (element) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-            utc time: Thu, 21 Mar 2024 16:05:50 GMT
+            utc time: Tue, 02 Apr 2024 09:37:20 GMT
         */
         attrs = _md.element.prototype.getAttributes.call(this, attrs);
         ;
@@ -4386,7 +4386,7 @@ var stop = (function (element) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-            utc time: Thu, 21 Mar 2024 16:05:50 GMT
+            utc time: Tue, 02 Apr 2024 09:37:20 GMT
         */
         attrs = _md.element.prototype.getAttributes.call(this, attrs);
         ;
@@ -4565,7 +4565,7 @@ var symbol = (function (element) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-            utc time: Thu, 21 Mar 2024 16:05:50 GMT
+            utc time: Tue, 02 Apr 2024 09:37:20 GMT
         */
         attrs = _md.element.prototype.getAttributes.call(this, attrs);
         ;
@@ -4687,7 +4687,7 @@ var use = (function (element) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-            utc time: Thu, 21 Mar 2024 16:05:50 GMT
+            utc time: Tue, 02 Apr 2024 09:37:20 GMT
         */
         attrs = _md.element.prototype.getAttributes.call(this, attrs);
         ;
@@ -4985,7 +4985,7 @@ function extractAttributes(element, names_string, attrs) {
         artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
         package: wizzi-js@
         primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzi\schemas\svg.wfschema.ittf
-        utc time: Thu, 21 Mar 2024 16:05:50 GMT
+        utc time: Tue, 02 Apr 2024 09:37:20 GMT
     */
     if (!attrs) {
         attrs = [];

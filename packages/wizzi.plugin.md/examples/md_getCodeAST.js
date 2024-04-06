@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.md\.wizzi-override\examples\md_getCodeAST.js.ittf
-    utc time: Thu, 21 Mar 2024 16:05:46 GMT
+    utc time: Tue, 02 Apr 2024 09:37:17 GMT
 */
 'use strict';
 
@@ -12,7 +12,7 @@ var path = require('path');
 var util = require('util');
 
 var mdwizzifier = require('../lib/wizzifiers/md/wizzifier');
-var file = require('wizzi-utils').file;
+var file = require('@wizzi/utils').file;
 var stringify = require('json-stringify-safe');
 
 let arg = process.argv[2];

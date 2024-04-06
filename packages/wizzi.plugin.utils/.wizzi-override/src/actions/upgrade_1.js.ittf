@@ -40,9 +40,27 @@ module
         #
         const files
             [
+                $*
                 @ "root/t/cheatsheet.js"
                 @ "root/index.js"
                 @ "models/wzctx.json"
+                *$
+                @ "root/package.json"
+                @ "t/package/0_0_1/browser.json"
+                @ "t/package/0_0_1/dependencies.json"
+                @ "t/package/0_0_1/devDependencies.json"
+                @ "t/package/0_0_1/resolutions.json"
+                @ "t/package/0_0_1/scripts.json"
+                @ "t/package/0_0_1/tools.json"
+                @ "models/wzctx.json"
+                @ "lib/artifacts/t/trans.js"
+                @ "lib/artifacts/t/gen.js"
+                @ "lib/artifacts/utils/utilNode.js"
+                @ "lib/artifacts/utils/lineParser.js"
+                @ "lib/artifacts/t/statements-writer.js"
+                @ "examples/t/example_step.js"
+                $$ @ "t/v08/lib/wizzi/models/mtree-preprocessor.js"
+                $$ @ "t/v08/examples/plugin.js"
         foreach item in files
             const fromFile
                 _ path.join
