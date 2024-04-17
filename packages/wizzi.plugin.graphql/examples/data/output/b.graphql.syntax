@@ -1,0 +1,185 @@
+{
+  "kind": "Document",
+  "definitions": [
+    {
+      "kind": "OperationDefinition",
+      "operation": "query",
+      "variableDefinitions": [
+        {
+          "kind": "VariableDefinition",
+          "variable": {
+            "kind": "Variable",
+            "name": {
+              "kind": "Name",
+              "value": "id"
+            }
+          },
+          "type": {
+            "kind": "NamedType",
+            "name": {
+              "kind": "Name",
+              "value": "String"
+            }
+          },
+          "directives": []
+        }
+      ],
+      "directives": [],
+      "selectionSet": {
+        "kind": "SelectionSet",
+        "selections": [
+          {
+            "kind": "Field",
+            "name": {
+              "kind": "Name",
+              "value": "mdx"
+            },
+            "arguments": [
+              {
+                "kind": "Argument",
+                "name": {
+                  "kind": "Name",
+                  "value": "id"
+                },
+                "value": {
+                  "kind": "ObjectValue",
+                  "fields": [
+                    {
+                      "kind": "ObjectField",
+                      "name": {
+                        "kind": "Name",
+                        "value": "eq"
+                      },
+                      "value": {
+                        "kind": "Variable",
+                        "name": {
+                          "kind": "Name",
+                          "value": "id"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "directives": [],
+            "selectionSet": {
+              "kind": "SelectionSet",
+              "selections": [
+                {
+                  "kind": "Field",
+                  "name": {
+                    "kind": "Name",
+                    "value": "frontmatter"
+                  },
+                  "arguments": [],
+                  "directives": [],
+                  "selectionSet": {
+                    "kind": "SelectionSet",
+                    "selections": [
+                      {
+                        "kind": "Field",
+                        "name": {
+                          "kind": "Name",
+                          "value": "title"
+                        },
+                        "arguments": [],
+                        "directives": []
+                      },
+                      {
+                        "kind": "Field",
+                        "name": {
+                          "kind": "Name",
+                          "value": "date"
+                        },
+                        "arguments": [
+                          {
+                            "kind": "Argument",
+                            "name": {
+                              "kind": "Name",
+                              "value": "formatString"
+                            },
+                            "value": {
+                              "kind": "StringValue",
+                              "value": "MMMM DD, YYYY",
+                              "block": false
+                            }
+                          }
+                        ],
+                        "directives": []
+                      },
+                      {
+                        "kind": "Field",
+                        "name": {
+                          "kind": "Name",
+                          "value": "hero_image_alt"
+                        },
+                        "arguments": [],
+                        "directives": []
+                      },
+                      {
+                        "kind": "Field",
+                        "name": {
+                          "kind": "Name",
+                          "value": "hero_image_credit_link"
+                        },
+                        "arguments": [],
+                        "directives": []
+                      },
+                      {
+                        "kind": "Field",
+                        "name": {
+                          "kind": "Name",
+                          "value": "hero_image_credit_text"
+                        },
+                        "arguments": [],
+                        "directives": []
+                      },
+                      {
+                        "kind": "Field",
+                        "name": {
+                          "kind": "Name",
+                          "value": "hero_image"
+                        },
+                        "arguments": [],
+                        "directives": [],
+                        "selectionSet": {
+                          "kind": "SelectionSet",
+                          "selections": [
+                            {
+                              "kind": "Field",
+                              "name": {
+                                "kind": "Name",
+                                "value": "childImageSharp"
+                              },
+                              "arguments": [],
+                              "directives": [],
+                              "selectionSet": {
+                                "kind": "SelectionSet",
+                                "selections": [
+                                  {
+                                    "kind": "Field",
+                                    "name": {
+                                      "kind": "Name",
+                                      "value": "gatsbyImageData"
+                                    },
+                                    "arguments": [],
+                                    "directives": []
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

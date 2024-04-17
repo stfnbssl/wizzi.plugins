@@ -1,0 +1,24 @@
+$group
+    $params name
+    # process AST-node-property-collection ${name} and append ittfNode(s) to `ret`
+    if node.${name}
+        foreach item in node.${name}
+            _ format(ret, item, options)
+        if ret.children.length == 1 && ret.children[0].tag == '+' && ret.children[0].children.length == 0
+            set ret.name = ret.children[0].name
+            set ret.children.length = 0
+        else
+            var items = []
+            var pluses = 0
+            var savename = ret.name
+            foreach item in ret.children
+                if item.tag == '+'
+                    set ret.name = item.name
+                    set pluses++
+                else
+                    _ items.push
+                        @ item
+            if pluses == 1
+                set ret.children = items
+            else
+                set ret.name = savename

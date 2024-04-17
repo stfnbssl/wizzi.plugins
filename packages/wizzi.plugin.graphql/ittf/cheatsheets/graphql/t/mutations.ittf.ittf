@@ -1,0 +1,37 @@
+element mutations
+	tag type|.|:string
+	ast 
+	category types
+	
+	item
+		title Mutation
+		ittf
+            mutation (example5)
+                # This mutation operation might “like” a story and 
+                # then retrieve the new number of likes:
+                # example 5
+                # https://spec.graphql.org/draft/#example-ed6a8
+                
+                {
+                    _ likeStory
+                        @ storyID 12345
+                        { 
+                            . story
+                                { 
+                                    . likeCount
+
+	item
+		title Mutation (example25)
+		ittf
+            mutation example25
+                # example 25
+                # https://spec.graphql.org/draft/#example-fe73f
+                {
+                    _ sendEmail
+                        @ message
+                            string
+                                + Hello
+                                    + World!
+                                + Yours
+                                    + GraphQL.
+

@@ -1,8 +1,8 @@
 <!--
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\node_modules\wizzi-web\lib\artifacts\html\document\gen\main.js
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.wfschema\node_modules\wizzi-web\lib\artifacts\html\document\gen\main.js
     package: wizzi-web@0.7.16
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\lib\artifacts\wfschema\html_docs\gen\ittf\wfschema-docs.html.ittf
-    utc time: Wed, 13 Mar 2024 07:01:38 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.wfschema\lib\artifacts\wfschema\html_docs\gen\ittf\wfschema-docs.html.ittf
+    utc time: Sat, 13 Apr 2024 11:30:37 GMT
 -->
 <!doctype html>
 <html>
@@ -90,6 +90,8 @@
                 </li>
                 <li><a href="#element_field">field</a>
                 </li>
+                <li><a href="#element_functionField">functionField</a>
+                </li>
                 <li><a href="#element_fragmentSpread">fragmentSpread</a>
                 </li>
                 <li><a href="#element_inlineFragment">inlineFragment</a>
@@ -124,9 +126,19 @@
                 </li>
                 <li><a href="#element_enumValue">enumValue</a>
                 </li>
-                <li><a href="#element_genericArgument">genericArgument</a>
+                <li><a href="#element_implement">implement</a>
                 </li>
-                <li><a href="#element_ifArgument">ifArgument</a>
+                <li><a href="#element_scalarTypeDef">scalarTypeDef</a>
+                </li>
+                <li><a href="#element_objectTypeDef">objectTypeDef</a>
+                </li>
+                <li><a href="#element_interfaceTypeDef">interfaceTypeDef</a>
+                </li>
+                <li><a href="#element_unionTypeDef">unionTypeDef</a>
+                </li>
+                <li><a href="#element_unionMemberType">unionMemberType</a>
+                </li>
+                <li><a href="#element_inputObjectTypeDef">inputObjectTypeDef</a>
                 </li>
                 <li><a href="#element_value">value</a>
                 </li>
@@ -515,13 +527,6 @@
                     </tr>
                 </tbody>
             </table>
-            <h5>Description</h5>
-            <div>
-                <span>Using the '%' character instead of '@' to designate directive tags &nbsp;</span>
-                <span>will unfortunately be confusing for many, &nbsp;</span>
-                <span>but Wizzi routinely uses the '@' character to designate arguments &nbsp;</span>
-                <span>and using it for directives would have been even more confusing. &nbsp;</span>
-            </div>
             <h5>Relations</h5>
             <small>
                 <table class="table table-condensed table-bordered" style="width:100%;">
@@ -951,7 +956,7 @@
             </table>
             <h5>Description</h5>
             <div>
-                <span>OperationType: one of query mutation subscription &nbsp;</span>
+                <span>OperationType: one of query, mutation, subscription &nbsp;</span>
                 <span>wzName is name: optional &nbsp;</span>
             </div>
             <h5>Relations</h5>
@@ -1620,6 +1625,98 @@
                     </thead>
                     <tbody>
                         <tr>
+                            <td>selectionSet</td>
+                            <td></td>
+                            <td>one-to-one</td>
+                            <td></td>
+                            <td>is-one-to-one </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>directive</td>
+                            <td>directives</td>
+                            <td>one-to-many</td>
+                            <td>basenode</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>comment</td>
+                            <td>comments</td>
+                            <td>one-to-many</td>
+                            <td>commentable</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_functionField" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>functionField</b>
+                        </td>
+                        <td>_</td>
+                        <td>selection</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Description</h5>
+            <div>
+                <span>wzName is name &nbsp;</span>
+            </div>
+            <h5>Attributes</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Tag</th>
+                            <th>Type</th>
+                            <th>Default</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>alias</td>
+                            <td>as</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
                             <td>argument</td>
                             <td>arguments</td>
                             <td>one-to-many</td>
@@ -1913,6 +2010,15 @@
                             <td></td>
                             <td></td>
                         </tr>
+                        <tr>
+                            <td>defaultValue</td>
+                            <td>=</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
                     </tbody>
                 </table>
             </small>
@@ -1987,6 +2093,15 @@
                         <tr>
                             <td>type</td>
                             <td>type</td>
+                            <td>string</td>
+                            <td></td>
+                            <td>variable</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>defaultValue</td>
+                            <td>=</td>
                             <td>string</td>
                             <td></td>
                             <td>variable</td>
@@ -2094,6 +2209,15 @@
                             <td></td>
                             <td></td>
                         </tr>
+                        <tr>
+                            <td>defaultValue</td>
+                            <td>=</td>
+                            <td>string</td>
+                            <td></td>
+                            <td>variable</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
                     </tbody>
                 </table>
             </small>
@@ -2195,6 +2319,15 @@
                             <td></td>
                             <td></td>
                         </tr>
+                        <tr>
+                            <td>defaultValue</td>
+                            <td>=</td>
+                            <td>string</td>
+                            <td></td>
+                            <td>variable</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
                     </tbody>
                 </table>
             </small>
@@ -2290,6 +2423,15 @@
                         <tr>
                             <td>type</td>
                             <td>type</td>
+                            <td>string</td>
+                            <td></td>
+                            <td>variable</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>defaultValue</td>
+                            <td>=</td>
                             <td>string</td>
                             <td></td>
                             <td>variable</td>
@@ -2473,7 +2615,7 @@
                         <td>
                             <b>schemaDef</b>
                         </td>
-                        <td>schema</td>
+                        <td>:schema</td>
                         <td>typeDef</td>
                         <td></td>
                     </tr>
@@ -2886,7 +3028,7 @@
                     </tbody>
                 </table>
             </small>
-            <table id="element_genericArgument" class="pretty-table">
+            <table id="element_implement" class="pretty-table">
                 <thead>
                     <tr>
                         <th>Element</th>
@@ -2898,41 +3040,14 @@
                 <tbody>
                     <tr>
                         <td>
-                            <b>genericArgument</b>
+                            <b>implement</b>
                         </td>
-                        <td>@</td>
-                        <td>argument</td>
+                        <td>&</td>
+                        <td>commentable</td>
                         <td></td>
                     </tr>
                 </tbody>
             </table>
-            <h5>Attributes</h5>
-            <small>
-                <table class="table table-condensed table-bordered" style="width:100%;">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Tag</th>
-                            <th>Type</th>
-                            <th>Default</th>
-                            <th>Inherited</th>
-                            <th>Flags</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>defaultValue</td>
-                            <td>=</td>
-                            <td>string</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </small>
             <h5>Relations</h5>
             <small>
                 <table class="table table-condensed table-bordered" style="width:100%;">
@@ -2948,10 +3063,55 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>value</td>
+                            <td>comment</td>
+                            <td>comments</td>
+                            <td>one-to-many</td>
+                            <td>commentable</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_scalarTypeDef" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>scalarTypeDef</b>
+                        </td>
+                        <td>:scalar</td>
+                        <td>typeDef</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>description</td>
                             <td></td>
                             <td>one-to-one</td>
-                            <td>argument</td>
+                            <td>typeDef</td>
                             <td>is-one-to-one </td>
                             <td></td>
                         </tr>
@@ -2974,7 +3134,7 @@
                     </tbody>
                 </table>
             </small>
-            <table id="element_ifArgument" class="pretty-table">
+            <table id="element_objectTypeDef" class="pretty-table">
                 <thead>
                     <tr>
                         <th>Element</th>
@@ -2986,10 +3146,10 @@
                 <tbody>
                     <tr>
                         <td>
-                            <b>ifArgument</b>
+                            <b>objectTypeDef</b>
                         </td>
-                        <td>if</td>
-                        <td>argument</td>
+                        <td>:type</td>
+                        <td>typeDef</td>
                         <td></td>
                     </tr>
                 </tbody>
@@ -3009,10 +3169,294 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>value</td>
+                            <td>implement</td>
+                            <td>implements</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>fieldDef</td>
+                            <td>fieldDefs</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>description</td>
                             <td></td>
                             <td>one-to-one</td>
-                            <td>argument</td>
+                            <td>typeDef</td>
+                            <td>is-one-to-one </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>directive</td>
+                            <td>directives</td>
+                            <td>one-to-many</td>
+                            <td>basenode</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>comment</td>
+                            <td>comments</td>
+                            <td>one-to-many</td>
+                            <td>commentable</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_interfaceTypeDef" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>interfaceTypeDef</b>
+                        </td>
+                        <td>:interface</td>
+                        <td>typeDef</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>implement</td>
+                            <td>implements</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>fieldDef</td>
+                            <td>fieldDefs</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>description</td>
+                            <td></td>
+                            <td>one-to-one</td>
+                            <td>typeDef</td>
+                            <td>is-one-to-one </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>directive</td>
+                            <td>directives</td>
+                            <td>one-to-many</td>
+                            <td>basenode</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>comment</td>
+                            <td>comments</td>
+                            <td>one-to-many</td>
+                            <td>commentable</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_unionTypeDef" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>unionTypeDef</b>
+                        </td>
+                        <td>:union</td>
+                        <td>typeDef</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>unionMemberType</td>
+                            <td>unionMemberTypes</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>description</td>
+                            <td></td>
+                            <td>one-to-one</td>
+                            <td>typeDef</td>
+                            <td>is-one-to-one </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>directive</td>
+                            <td>directives</td>
+                            <td>one-to-many</td>
+                            <td>basenode</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>comment</td>
+                            <td>comments</td>
+                            <td>one-to-many</td>
+                            <td>commentable</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_unionMemberType" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>unionMemberType</b>
+                        </td>
+                        <td>|</td>
+                        <td>typeDef</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>description</td>
+                            <td></td>
+                            <td>one-to-one</td>
+                            <td>typeDef</td>
+                            <td>is-one-to-one </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>directive</td>
+                            <td>directives</td>
+                            <td>one-to-many</td>
+                            <td>basenode</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>comment</td>
+                            <td>comments</td>
+                            <td>one-to-many</td>
+                            <td>commentable</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_inputObjectTypeDef" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>inputObjectTypeDef</b>
+                        </td>
+                        <td>:input</td>
+                        <td>typeDef</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>description</td>
+                            <td></td>
+                            <td>one-to-one</td>
+                            <td>typeDef</td>
                             <td>is-one-to-one </td>
                             <td></td>
                         </tr>

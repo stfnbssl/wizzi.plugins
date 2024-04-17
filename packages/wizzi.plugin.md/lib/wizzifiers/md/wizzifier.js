@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.md\.wizzi-override\lib\wizzifiers\md\wizzifier.js.ittf
-    utc time: Tue, 02 Apr 2024 09:37:17 GMT
+    utc time: Wed, 17 Apr 2024 14:40:21 GMT
 */
 'use strict';
 var util = require('util');
@@ -13,6 +13,9 @@ var lineParser = require('../utils/lineParser');
 var file = require('@wizzi/utils').file;
 var cloner = require('../utils/cloner');
 var ittfWriter = require("../utils/ittfWriter");
+var helpers = require("@wizzi/utils").helpers;
+var textIndentParser = helpers.textIndentParser;
+var preserveSpaces = helpers.lineParser.preserveSpaces;
 var matter = require('gray-matter');
 var md_parser = require('marked');
 var md_Lexer = require('marked').Lexer;
@@ -107,6 +110,7 @@ function wizzify(tobeWizzified, options, callback) {
     options.input = tobeWizzified;
     options.stack = [];
     options.formatTextNodes = [];
+    options.wizziIncludes = [];
     options.verbose = true;
     parseInternal(tobeWizzified, options, (err, syntax) => {
     
@@ -121,12 +125,44 @@ function wizzify(tobeWizzified, options, callback) {
          };
         processFrontMatter(syntax, options, root, (err, root) => {
         
-            var i, i_items=syntax, i_len=syntax.length, item;
+            var i, i_items=preprocessSyntax(syntax), i_len=preprocessSyntax(syntax).length, item;
             for (i=0; i<i_len; i++) {
-                item = syntax[i];
+                item = preprocessSyntax(syntax)[i];
                 format(root, item, options);
             }
-            return callback(null, root);
+            async.map(options.wizziIncludes, function(item, callback) {
+                if (item.kind === 'css') {
+                    options.wf.getWizziTreeFromText(item.literal, "css", (err, ittf) => {
+                    
+                        if (err) {
+                            console.log("[31m%s[0m", err);
+                        }
+                        console.log('getWizzifierIncludes.css.item.ittf', ittf, __filename);
+                        item.node.children.push(ittf)
+                        return callback(null);
+                    }
+                    )
+                }
+                else {
+                    options.wf.getWizziTreeFromText(item.literal, "html", (err, ittf) => {
+                    
+                        if (err) {
+                            console.log("[31m%s[0m", err);
+                        }
+                        console.log('getWizzifierIncludes.html.item.ittf', ittf, __filename);
+                        item.node.children.push(ittf)
+                        return callback(null);
+                    }
+                    )
+                }
+            }, (err, notUsed) => {
+            
+                if (err) {
+                    return callback(err);
+                }
+                return callback(null, root);
+            }
+            )
         }
         )
     }
@@ -134,7 +170,8 @@ function wizzify(tobeWizzified, options, callback) {
 }
 
 function processFrontMatter(syntax, options, root, callback) {
-    if (syntax.__frontMatter) {
+    console.log('processFrontMatter', syntax.__frontMatter, __filename);
+    if (syntax.__frontMatter && Object.keys(syntax.__frontMatter).length > 0) {
         options.wf.getWizziTreeFromText(JSON.stringify(syntax.__frontMatter), "json", (err, ittf) => {
         
             var fmIttf = {
@@ -154,6 +191,34 @@ function processFrontMatter(syntax, options, root, callback) {
     }
 }
 
+function preprocessSyntax(syntax) {
+    var ret = [];
+    var html = null;
+    var i, i_items=syntax, i_len=syntax.length, item;
+    for (i=0; i<i_len; i++) {
+        item = syntax[i];
+        if (item.type == 'html') {
+            if (html == null) {
+                html = item;
+            }
+            else {
+                html.raw += item.raw;
+                html.text += item.text;
+            }
+        }
+        else {
+            if (html) {
+                ret.push(html)
+                html = null;
+            }
+            ret.push(item)
+        }
+    }
+    if (html) {
+        ret.push(html)
+    }
+    return ret;
+}
 function appendIttf(node, ittf) {
     var toAppend = {
         tag: ittf.tag, 
@@ -226,14 +291,46 @@ format.blockquote = function(parent, node, options) {
             
         ]
      };
-    // "tokens": [
-    var i, i_items=node.tokens, i_len=node.tokens.length, item;
-    for (i=0; i<i_len; i++) {
-        item = node.tokens[i];
-        format(ret, item, options);
+    // process AST-node-property-collection tokens and append ittfNode(s) to `ret`
+    if (node.tokens) {
+        var i, i_items=node.tokens, i_len=node.tokens.length, item;
+        for (i=0; i<i_len; i++) {
+            item = node.tokens[i];
+            format(ret, item, options);
+        }
+        if (ret.children.length == 1 && ret.children[0].tag == '+' && ret.children[0].children.length == 0) {
+            ret.name = ret.children[0].name;
+            ret.children.length = 0;
+        }
+        else {
+            var items = [];
+            var pluses = 0;
+            var savename = ret.name;
+            var i, i_items=ret.children, i_len=ret.children.length, item;
+            for (i=0; i<i_len; i++) {
+                item = ret.children[i];
+                if (item.tag == '+') {
+                    ret.name = item.name;
+                    pluses++;
+                }
+                else {
+                    items.push(item)
+                }
+            }
+            if (pluses == 1) {
+                ret.children = items;
+            }
+            else {
+                ret.name = savename;
+            }
+        }
     }
     // loog '### add ', ret.tag , 'to', parent.tag
     parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
 }
 ;
 // process AST node code
@@ -268,12 +365,16 @@ format.code = function(parent, node, options) {
             text: node.lang
          }, options)
     }
-    format.text(ret, {
-        text: node.text, 
-        tokens: node.tokens
-     }, options)
+    textIndentParser.nodify(node.text, ret, {
+        name: 'tag', 
+        value: 'name'
+     })
     // loog '### add ', ret.tag , 'to', parent.tag
     parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
 }
 ;
 // process AST node codespan
@@ -289,7 +390,7 @@ format.codespan = function(parent, node, options) {
         }
     }
     var ret = {
-        tag: 'code', 
+        tag: 'codespan', 
         name: '', 
         isText: false, 
         textified: null, 
@@ -302,6 +403,10 @@ format.codespan = function(parent, node, options) {
     ret.name = node.text;
     // loog '### add ', ret.tag , 'to', parent.tag
     parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
 }
 ;
 // process AST node del
@@ -326,14 +431,46 @@ format.del = function(parent, node, options) {
             
         ]
      };
-    // "tokens": [
-    var i, i_items=node.tokens, i_len=node.tokens.length, item;
-    for (i=0; i<i_len; i++) {
-        item = node.tokens[i];
-        format(ret, item, options);
+    // process AST-node-property-collection tokens and append ittfNode(s) to `ret`
+    if (node.tokens) {
+        var i, i_items=node.tokens, i_len=node.tokens.length, item;
+        for (i=0; i<i_len; i++) {
+            item = node.tokens[i];
+            format(ret, item, options);
+        }
+        if (ret.children.length == 1 && ret.children[0].tag == '+' && ret.children[0].children.length == 0) {
+            ret.name = ret.children[0].name;
+            ret.children.length = 0;
+        }
+        else {
+            var items = [];
+            var pluses = 0;
+            var savename = ret.name;
+            var i, i_items=ret.children, i_len=ret.children.length, item;
+            for (i=0; i<i_len; i++) {
+                item = ret.children[i];
+                if (item.tag == '+') {
+                    ret.name = item.name;
+                    pluses++;
+                }
+                else {
+                    items.push(item)
+                }
+            }
+            if (pluses == 1) {
+                ret.children = items;
+            }
+            else {
+                ret.name = savename;
+            }
+        }
     }
     // loog '### add ', ret.tag , 'to', parent.tag
     parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
 }
 ;
 // process AST node em
@@ -358,14 +495,46 @@ format.em = function(parent, node, options) {
             
         ]
      };
-    // "tokens": [
-    var i, i_items=node.tokens, i_len=node.tokens.length, item;
-    for (i=0; i<i_len; i++) {
-        item = node.tokens[i];
-        format(ret, item, options);
+    // process AST-node-property-collection tokens and append ittfNode(s) to `ret`
+    if (node.tokens) {
+        var i, i_items=node.tokens, i_len=node.tokens.length, item;
+        for (i=0; i<i_len; i++) {
+            item = node.tokens[i];
+            format(ret, item, options);
+        }
+        if (ret.children.length == 1 && ret.children[0].tag == '+' && ret.children[0].children.length == 0) {
+            ret.name = ret.children[0].name;
+            ret.children.length = 0;
+        }
+        else {
+            var items = [];
+            var pluses = 0;
+            var savename = ret.name;
+            var i, i_items=ret.children, i_len=ret.children.length, item;
+            for (i=0; i<i_len; i++) {
+                item = ret.children[i];
+                if (item.tag == '+') {
+                    ret.name = item.name;
+                    pluses++;
+                }
+                else {
+                    items.push(item)
+                }
+            }
+            if (pluses == 1) {
+                ret.children = items;
+            }
+            else {
+                ret.name = savename;
+            }
+        }
     }
     // loog '### add ', ret.tag , 'to', parent.tag
     parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
 }
 ;
 // process AST node escape
@@ -392,6 +561,10 @@ format.escape = function(parent, node, options) {
      };
     // loog '### add ', ret.tag , 'to', parent.tag
     parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
 }
 ;
 // process AST node heading
@@ -419,13 +592,57 @@ format.heading = function(parent, node, options) {
     // "depth": 1
     // "tokens": [
     ret.tag = 'h' + node.depth;
-    var i, i_items=node.tokens, i_len=node.tokens.length, item;
-    for (i=0; i<i_len; i++) {
-        item = node.tokens[i];
-        format(ret, item, options);
+    // process AST-node-property-collection tokens and append ittfNode(s) to `ret`
+    if (node.tokens) {
+        var i, i_items=node.tokens, i_len=node.tokens.length, item;
+        for (i=0; i<i_len; i++) {
+            item = node.tokens[i];
+            format(ret, item, options);
+        }
+        if (ret.children.length == 1 && ret.children[0].tag == '+' && ret.children[0].children.length == 0) {
+            ret.name = ret.children[0].name;
+            ret.children.length = 0;
+        }
+        else {
+            var items = [];
+            var pluses = 0;
+            var savename = ret.name;
+            var i, i_items=ret.children, i_len=ret.children.length, item;
+            for (i=0; i<i_len; i++) {
+                item = ret.children[i];
+                if (item.tag == '+') {
+                    ret.name = item.name;
+                    pluses++;
+                }
+                else {
+                    items.push(item)
+                }
+            }
+            if (pluses == 1) {
+                ret.children = items;
+            }
+            else {
+                ret.name = savename;
+            }
+        }
+    }
+    // loog 'heading', node.raw.endsWith("\n\n")
+    if (node.raw.endsWith("\n\n")) {
+        ret.postAdd = {
+            tag: 'br', 
+            name: '', 
+            isText: false, 
+            children: [
+                
+            ]
+         };
     }
     // loog '### add ', ret.tag , 'to', parent.tag
     parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
 }
 ;
 // process AST node hr
@@ -452,6 +669,10 @@ format.hr = function(parent, node, options) {
      };
     // loog '### add ', ret.tag , 'to', parent.tag
     parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
 }
 ;
 // process AST node html
@@ -476,9 +697,28 @@ format.html = function(parent, node, options) {
             
         ]
      };
-    ret.name = node.text;
+    // set ret.name = node.text
+    options.wizziIncludes.push({
+        kind: 'html', 
+        node: ret, 
+        literal: node.raw || node.text
+     })
+    if (node.raw.endsWith("\n\n")) {
+        ret.postAdd = {
+            tag: 'br', 
+            name: '', 
+            isText: false, 
+            children: [
+                
+            ]
+         };
+    }
     // loog '### add ', ret.tag , 'to', parent.tag
     parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
 }
 ;
 // process AST node image
@@ -506,11 +746,22 @@ format.image = function(parent, node, options) {
     format.src(ret, {
         text: node.href
      }, options)
-    format.title(ret, {
-        text: node.title
-     }, options)
+    if (verify.isNotEmpty(node.title)) {
+        format.title(ret, {
+            text: node.title
+         }, options)
+    }
+    if (verify.isNotEmpty(node.text)) {
+        format.alt(ret, {
+            text: preserveSpaces(node.raw || node.text)
+         }, options)
+    }
     // loog '### add ', ret.tag , 'to', parent.tag
     parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
 }
 ;
 // process AST node link
@@ -541,16 +792,51 @@ format.link = function(parent, node, options) {
     format.href(ret, {
         text: node.href
      }, options)
-    format.title(ret, {
-        text: node.title
-     }, options)
-    var i, i_items=node.tokens, i_len=node.tokens.length, item;
-    for (i=0; i<i_len; i++) {
-        item = node.tokens[i];
-        format(ret, item, options);
+    if (verify.isNotEmpty(node.title)) {
+        format.title(ret, {
+            text: node.title
+         }, options)
+    }
+    // process AST-node-property-collection tokens and append ittfNode(s) to `ret`
+    if (node.tokens) {
+        var i, i_items=node.tokens, i_len=node.tokens.length, item;
+        for (i=0; i<i_len; i++) {
+            item = node.tokens[i];
+            format(ret, item, options);
+        }
+        if (ret.children.length == 1 && ret.children[0].tag == '+' && ret.children[0].children.length == 0) {
+            ret.name = ret.children[0].name;
+            ret.children.length = 0;
+        }
+        else {
+            var items = [];
+            var pluses = 0;
+            var savename = ret.name;
+            var i, i_items=ret.children, i_len=ret.children.length, item;
+            for (i=0; i<i_len; i++) {
+                item = ret.children[i];
+                if (item.tag == '+') {
+                    ret.name = item.name;
+                    pluses++;
+                }
+                else {
+                    items.push(item)
+                }
+            }
+            if (pluses == 1) {
+                ret.children = items;
+            }
+            else {
+                ret.name = savename;
+            }
+        }
     }
     // loog '### add ', ret.tag , 'to', parent.tag
     parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
 }
 ;
 // process AST node list
@@ -580,7 +866,7 @@ format.list = function(parent, node, options) {
     // "loose": false
     // "items": [
     if (node.ordered) {
-        format.ordered(ret, {}, options)
+        ret.tag = 'ol';
     }
     if (node.loose) {
         format.loose(ret, {}, options)
@@ -597,6 +883,10 @@ format.list = function(parent, node, options) {
     }
     // loog '### add ', ret.tag , 'to', parent.tag
     parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
 }
 ;
 // process AST node list_item
@@ -632,13 +922,55 @@ format.list_item = function(parent, node, options) {
     if (node.ordered) {
         format.ordered(ret, {}, options)
     }
-    var i, i_items=node.tokens, i_len=node.tokens.length, item;
-    for (i=0; i<i_len; i++) {
-        item = node.tokens[i];
-        format(ret, item, options);
+    if (node.checked) {
+        format.checked(ret, {}, options)
+    }
+    if (node.task) {
+        format.task(ret, {}, options)
+    }
+    if (node.loose) {
+        format.loose(ret, {}, options)
+    }
+    // process AST-node-property-collection tokens and append ittfNode(s) to `ret`
+    if (node.tokens) {
+        var i, i_items=node.tokens, i_len=node.tokens.length, item;
+        for (i=0; i<i_len; i++) {
+            item = node.tokens[i];
+            format(ret, item, options);
+        }
+        if (ret.children.length == 1 && ret.children[0].tag == '+' && ret.children[0].children.length == 0) {
+            ret.name = ret.children[0].name;
+            ret.children.length = 0;
+        }
+        else {
+            var items = [];
+            var pluses = 0;
+            var savename = ret.name;
+            var i, i_items=ret.children, i_len=ret.children.length, item;
+            for (i=0; i<i_len; i++) {
+                item = ret.children[i];
+                if (item.tag == '+') {
+                    ret.name = item.name;
+                    pluses++;
+                }
+                else {
+                    items.push(item)
+                }
+            }
+            if (pluses == 1) {
+                ret.children = items;
+            }
+            else {
+                ret.name = savename;
+            }
+        }
     }
     // loog '### add ', ret.tag , 'to', parent.tag
     parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
 }
 ;
 // process AST node paragraph
@@ -665,13 +997,46 @@ format.paragraph = function(parent, node, options) {
      };
     // tokens [
     // text ""
-    var i, i_items=node.tokens, i_len=node.tokens.length, item;
-    for (i=0; i<i_len; i++) {
-        item = node.tokens[i];
-        format(ret, item, options);
+    // process AST-node-property-collection tokens and append ittfNode(s) to `ret`
+    if (node.tokens) {
+        var i, i_items=node.tokens, i_len=node.tokens.length, item;
+        for (i=0; i<i_len; i++) {
+            item = node.tokens[i];
+            format(ret, item, options);
+        }
+        if (ret.children.length == 1 && ret.children[0].tag == '+' && ret.children[0].children.length == 0) {
+            ret.name = ret.children[0].name;
+            ret.children.length = 0;
+        }
+        else {
+            var items = [];
+            var pluses = 0;
+            var savename = ret.name;
+            var i, i_items=ret.children, i_len=ret.children.length, item;
+            for (i=0; i<i_len; i++) {
+                item = ret.children[i];
+                if (item.tag == '+') {
+                    ret.name = item.name;
+                    pluses++;
+                }
+                else {
+                    items.push(item)
+                }
+            }
+            if (pluses == 1) {
+                ret.children = items;
+            }
+            else {
+                ret.name = savename;
+            }
+        }
     }
     // loog '### add ', ret.tag , 'to', parent.tag
     parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
 }
 ;
 // process AST node space
@@ -698,6 +1063,10 @@ format.space = function(parent, node, options) {
      };
     // loog '### add ', ret.tag , 'to', parent.tag
     parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
 }
 ;
 // process AST node strong
@@ -722,14 +1091,46 @@ format.strong = function(parent, node, options) {
             
         ]
      };
-    // tokens [
-    var i, i_items=node.tokens, i_len=node.tokens.length, item;
-    for (i=0; i<i_len; i++) {
-        item = node.tokens[i];
-        format(ret, item, options);
+    // process AST-node-property-collection tokens and append ittfNode(s) to `ret`
+    if (node.tokens) {
+        var i, i_items=node.tokens, i_len=node.tokens.length, item;
+        for (i=0; i<i_len; i++) {
+            item = node.tokens[i];
+            format(ret, item, options);
+        }
+        if (ret.children.length == 1 && ret.children[0].tag == '+' && ret.children[0].children.length == 0) {
+            ret.name = ret.children[0].name;
+            ret.children.length = 0;
+        }
+        else {
+            var items = [];
+            var pluses = 0;
+            var savename = ret.name;
+            var i, i_items=ret.children, i_len=ret.children.length, item;
+            for (i=0; i<i_len; i++) {
+                item = ret.children[i];
+                if (item.tag == '+') {
+                    ret.name = item.name;
+                    pluses++;
+                }
+                else {
+                    items.push(item)
+                }
+            }
+            if (pluses == 1) {
+                ret.children = items;
+            }
+            else {
+                ret.name = savename;
+            }
+        }
     }
     // loog '### add ', ret.tag , 'to', parent.tag
     parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
 }
 ;
 // process AST node table
@@ -754,6 +1155,44 @@ format.table = function(parent, node, options) {
             
         ]
      };
+    format(ret, {
+        type: "thead", 
+        header: node.header
+     }, options)
+    format(ret, {
+        type: "tbody", 
+        rows: node.rows
+     }, options)
+    // loog '### add ', ret.tag , 'to', parent.tag
+    parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
+}
+;
+// process AST node thead
+format.thead = function(parent, node, options) {
+    var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
+    for (i=0; i<i_len; i++) {
+        item = Object.keys(node)[i];
+        if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
+            if (verify.isNotEmpty(node[item])) {
+            }
+            else {
+            }
+        }
+    }
+    var ret = {
+        tag: 'thead', 
+        name: '', 
+        isText: false, 
+        textified: null, 
+        source: options.input.substring(node.start, node.end), 
+        children: [
+            
+        ]
+     };
     var i, i_items=node.header, i_len=node.header.length, item;
     for (i=0; i<i_len; i++) {
         item = node.header[i];
@@ -762,6 +1201,36 @@ format.table = function(parent, node, options) {
             item: item
          }, options)
     }
+    // loog '### add ', ret.tag , 'to', parent.tag
+    parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
+}
+;
+// process AST node tbody
+format.tbody = function(parent, node, options) {
+    var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
+    for (i=0; i<i_len; i++) {
+        item = Object.keys(node)[i];
+        if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
+            if (verify.isNotEmpty(node[item])) {
+            }
+            else {
+            }
+        }
+    }
+    var ret = {
+        tag: 'tbody', 
+        name: '', 
+        isText: false, 
+        textified: null, 
+        source: options.input.substring(node.start, node.end), 
+        children: [
+            
+        ]
+     };
     var i, i_items=node.rows, i_len=node.rows.length, item;
     for (i=0; i<i_len; i++) {
         item = node.rows[i];
@@ -772,6 +1241,10 @@ format.table = function(parent, node, options) {
     }
     // loog '### add ', ret.tag , 'to', parent.tag
     parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
 }
 ;
 // process AST node tr
@@ -806,6 +1279,10 @@ format.tr = function(parent, node, options) {
     }
     // loog '### add ', ret.tag , 'to', parent.tag
     parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
 }
 ;
 // process AST node td
@@ -833,8 +1310,16 @@ format.td = function(parent, node, options) {
     // loog 'td.node.item', node.item
     node.item.type = node.item.type || 'text';
     format(ret, node.item, options);
+    if (ret.children.length == 1 && ret.children[0].children.length == 0) {
+        ret.name = ret.children[0].name;
+        ret.children.length = 0;
+    }
     // loog '### add ', ret.tag , 'to', parent.tag
     parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
 }
 ;
 // process AST node th
@@ -862,8 +1347,16 @@ format.th = function(parent, node, options) {
     // loog 'th.node.item', node.item
     node.item.type = node.item.type || 'text';
     format(ret, node.item, options);
+    if (ret.children.length == 1 && ret.children[0].children.length == 0) {
+        ret.name = ret.children[0].name;
+        ret.children.length = 0;
+    }
     // loog '### add ', ret.tag , 'to', parent.tag
     parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
 }
 ;
 // process AST node text
@@ -902,13 +1395,15 @@ format.text = function(parent, node, options) {
                 
             ]
          };
-        var ss = node.text.split('\n');
+        console.log('node.raw || node.text', '|' + (node.raw || node.text) + '|', __filename);
+        var ss = preserveSpaces(node.raw || node.text).split('\n');
         ret.name = ss[0];
+        console.log(ret.name, '|' + ss[0] + '|', ss.length, __filename);
         retcontainer.children.push(ret);
         if (ss.length > 1) {
             for (var i=1; i<ss.length; i++) {
                 format.text(retcontainer, {
-                    text: ss[i]
+                    text: preserveSpaces(ss[i])
                  }, options)
             }
         }
@@ -947,6 +1442,10 @@ format.href = function(parent, node, options) {
     ret.name = node.text;
     // loog '### add ', ret.tag , 'to', parent.tag
     parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
 }
 ;
 // process AST node src
@@ -974,6 +1473,41 @@ format.src = function(parent, node, options) {
     ret.name = node.text;
     // loog '### add ', ret.tag , 'to', parent.tag
     parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
+}
+;
+// process AST node alt
+format.alt = function(parent, node, options) {
+    var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
+    for (i=0; i<i_len; i++) {
+        item = Object.keys(node)[i];
+        if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
+            if (verify.isNotEmpty(node[item])) {
+            }
+            else {
+            }
+        }
+    }
+    var ret = {
+        tag: 'alt', 
+        name: '', 
+        isText: false, 
+        textified: null, 
+        source: options.input.substring(node.start, node.end), 
+        children: [
+            
+        ]
+     };
+    ret.name = node.text;
+    // loog '### add ', ret.tag , 'to', parent.tag
+    parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
 }
 ;
 // process AST node lang
@@ -1001,6 +1535,10 @@ format.lang = function(parent, node, options) {
     ret.name = node.text;
     // loog '### add ', ret.tag , 'to', parent.tag
     parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
 }
 ;
 // process AST node loose
@@ -1027,6 +1565,10 @@ format.loose = function(parent, node, options) {
      };
     // loog '### add ', ret.tag , 'to', parent.tag
     parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
 }
 ;
 // process AST node ordered
@@ -1053,6 +1595,70 @@ format.ordered = function(parent, node, options) {
      };
     // loog '### add ', ret.tag , 'to', parent.tag
     parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
+}
+;
+// process AST node checked
+format.checked = function(parent, node, options) {
+    var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
+    for (i=0; i<i_len; i++) {
+        item = Object.keys(node)[i];
+        if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
+            if (verify.isNotEmpty(node[item])) {
+            }
+            else {
+            }
+        }
+    }
+    var ret = {
+        tag: 'checked', 
+        name: '', 
+        isText: false, 
+        textified: null, 
+        source: options.input.substring(node.start, node.end), 
+        children: [
+            
+        ]
+     };
+    // loog '### add ', ret.tag , 'to', parent.tag
+    parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
+}
+;
+// process AST node task
+format.task = function(parent, node, options) {
+    var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
+    for (i=0; i<i_len; i++) {
+        item = Object.keys(node)[i];
+        if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
+            if (verify.isNotEmpty(node[item])) {
+            }
+            else {
+            }
+        }
+    }
+    var ret = {
+        tag: 'task', 
+        name: '', 
+        isText: false, 
+        textified: null, 
+        source: options.input.substring(node.start, node.end), 
+        children: [
+            
+        ]
+     };
+    // loog '### add ', ret.tag , 'to', parent.tag
+    parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
 }
 ;
 // process AST node start
@@ -1080,6 +1686,10 @@ format.start = function(parent, node, options) {
     ret.name = node.text;
     // loog '### add ', ret.tag , 'to', parent.tag
     parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
 }
 ;
 // process AST node style
@@ -1107,6 +1717,10 @@ format.style = function(parent, node, options) {
     ret.tag = node.text;
     // loog '### add ', ret.tag , 'to', parent.tag
     parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
 }
 ;
 // process AST node task
@@ -1134,6 +1748,10 @@ format.task = function(parent, node, options) {
     ret.name = node.text;
     // loog '### add ', ret.tag , 'to', parent.tag
     parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
 }
 ;
 // process AST node title
@@ -1161,6 +1779,10 @@ format.title = function(parent, node, options) {
     ret.name = node.text;
     // loog '### add ', ret.tag , 'to', parent.tag
     parent.children.push(ret);
+    if (ret.postAdd) {
+        parent.children.push(ret.postAdd);
+        delete ret.postAdd
+    }
 }
 ;
 

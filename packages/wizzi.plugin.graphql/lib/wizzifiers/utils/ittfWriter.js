@@ -1,14 +1,14 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.graphql\.wizzi-override\lib\wizzifiers\utils\ittfWriter.js.ittf
-    utc time: Wed, 13 Mar 2024 07:01:37 GMT
+    utc time: Sat, 13 Apr 2024 11:30:36 GMT
 */
 'use strict';
 var chalk = require('chalk');
 var util = require('util');
-var file = require('wizzi-utils').file;
-var verify = require('wizzi-utils').verify;
+var file = require('@wizzi/utils').file;
+var verify = require('@wizzi/utils').verify;
 var StringWriter = require("./stringWriter");
 function log(label, obj) {
     console.log(label, util.inspect(obj, {

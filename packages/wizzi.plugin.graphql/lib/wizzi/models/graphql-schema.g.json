@@ -144,18 +144,6 @@
           ]
         },
         {
-          "name": "genericArgument",
-          "tags": [
-            "@"
-          ]
-        },
-        {
-          "name": "ifArgument",
-          "tags": [
-            "if"
-          ]
-        },
-        {
           "name": "selection",
           "tags": [
             "selection"
@@ -165,6 +153,12 @@
           "name": "field",
           "tags": [
             "."
+          ]
+        },
+        {
+          "name": "functionField",
+          "tags": [
+            "_"
           ]
         },
         {
@@ -224,7 +218,7 @@
         {
           "name": "schemaDef",
           "tags": [
-            "schema"
+            ":schema"
           ]
         },
         {
@@ -255,6 +249,43 @@
           "name": "enumType",
           "tags": [
             ":enum"
+          ]
+        },
+        {
+          "name": "scalarTypeDef",
+          "tags": [
+            ":scalar"
+          ]
+        },
+        {
+          "name": "objectTypeDef",
+          "tags": [
+            ":type"
+          ]
+        },
+        {
+          "name": "interfaceTypeDef",
+          "tags": [
+            ":interface"
+          ]
+        },
+        {
+          "name": "unionTypeDef",
+          "tags": [
+            ":union"
+          ]
+        },
+        {
+          "name": "unionMemberType",
+          "tags": [
+            "",
+            ""
+          ]
+        },
+        {
+          "name": "inputObjectTypeDef",
+          "tags": [
+            ":input"
           ]
         },
         {
@@ -375,6 +406,12 @@
           "name": "enumValue",
           "tags": [
             "."
+          ]
+        },
+        {
+          "name": "implement",
+          "tags": [
+            "&"
           ]
         },
         {
@@ -537,18 +574,6 @@
           ]
         },
         {
-          "name": "genericArgument",
-          "tags": [
-            "@"
-          ]
-        },
-        {
-          "name": "ifArgument",
-          "tags": [
-            "if"
-          ]
-        },
-        {
           "name": "selection",
           "tags": [
             "selection"
@@ -558,6 +583,12 @@
           "name": "field",
           "tags": [
             "."
+          ]
+        },
+        {
+          "name": "functionField",
+          "tags": [
+            "_"
           ]
         },
         {
@@ -617,7 +648,7 @@
         {
           "name": "schemaDef",
           "tags": [
-            "schema"
+            ":schema"
           ]
         },
         {
@@ -648,6 +679,43 @@
           "name": "enumType",
           "tags": [
             ":enum"
+          ]
+        },
+        {
+          "name": "scalarTypeDef",
+          "tags": [
+            ":scalar"
+          ]
+        },
+        {
+          "name": "objectTypeDef",
+          "tags": [
+            ":type"
+          ]
+        },
+        {
+          "name": "interfaceTypeDef",
+          "tags": [
+            ":interface"
+          ]
+        },
+        {
+          "name": "unionTypeDef",
+          "tags": [
+            ":union"
+          ]
+        },
+        {
+          "name": "unionMemberType",
+          "tags": [
+            "",
+            ""
+          ]
+        },
+        {
+          "name": "inputObjectTypeDef",
+          "tags": [
+            ":input"
           ]
         },
         {
@@ -914,12 +982,7 @@
       ],
       "restricts": [],
       "methods": [],
-      "comments": [
-        "Using the '%' character instead of '@' to designate directive tags",
-        "will unfortunately be confusing for many,",
-        "but Wizzi routinely uses the '@' character to designate arguments",
-        "and using it for directives would have been even more confusing."
-      ]
+      "comments": []
     },
     {
       "name": "genericDirective",
@@ -1293,7 +1356,7 @@
       "restricts": [],
       "methods": [],
       "comments": [
-        "OperationType: one of query mutation subscription",
+        "OperationType: one of query, mutation, subscription",
         "wzName is name: optional"
       ]
     },
@@ -1604,18 +1667,6 @@
           "tags": [
             "if"
           ]
-        },
-        {
-          "name": "genericArgument",
-          "tags": [
-            "@"
-          ]
-        },
-        {
-          "name": "ifArgument",
-          "tags": [
-            "if"
-          ]
         }
       ],
       "restricts": [],
@@ -1773,6 +1824,12 @@
           ]
         },
         {
+          "name": "functionField",
+          "tags": [
+            "_"
+          ]
+        },
+        {
           "name": "fragmentSpread",
           "tags": [
             "..."
@@ -1797,6 +1854,69 @@
       "isRoot": false,
       "tags": [
         "."
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "alias",
+          "type": "string",
+          "tags": [
+            "as"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "selectionSet",
+          "role": null,
+          "tags": [
+            "{"
+          ],
+          "cardinality": "one-to-one",
+          "flags": "is-one-to-one ",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "directive",
+          "role": "directives",
+          "tags": [
+            "directive"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "basenode",
+          "comments": []
+        },
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "wzName is name"
+      ]
+    },
+    {
+      "name": "functionField",
+      "super": "selection",
+      "isRoot": false,
+      "tags": [
+        "_"
       ],
       "flags": "",
       "attributes": [
@@ -2046,6 +2166,17 @@
           "inheritedFrom": null,
           "restricts": [],
           "comments": []
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "tags": [
+            "="
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
         }
       ],
       "relations": [
@@ -2121,6 +2252,17 @@
           "inheritedFrom": "variable",
           "restricts": [],
           "comments": []
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "tags": [
+            "="
+          ],
+          "flags": "",
+          "inheritedFrom": "variable",
+          "restricts": [],
+          "comments": []
         }
       ],
       "relations": [
@@ -2182,6 +2324,17 @@
           "type": "string",
           "tags": [
             "type"
+          ],
+          "flags": "",
+          "inheritedFrom": "variable",
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "tags": [
+            "="
           ],
           "flags": "",
           "inheritedFrom": "variable",
@@ -2253,6 +2406,17 @@
           "inheritedFrom": "variable",
           "restricts": [],
           "comments": []
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "tags": [
+            "="
+          ],
+          "flags": "",
+          "inheritedFrom": "variable",
+          "restricts": [],
+          "comments": []
         }
       ],
       "relations": [
@@ -2314,6 +2478,17 @@
           "type": "string",
           "tags": [
             "type"
+          ],
+          "flags": "",
+          "inheritedFrom": "variable",
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "tags": [
+            "="
           ],
           "flags": "",
           "inheritedFrom": "variable",
@@ -2441,7 +2616,7 @@
         {
           "name": "schemaDef",
           "tags": [
-            "schema"
+            ":schema"
           ]
         },
         {
@@ -2475,6 +2650,43 @@
           ]
         },
         {
+          "name": "scalarTypeDef",
+          "tags": [
+            ":scalar"
+          ]
+        },
+        {
+          "name": "objectTypeDef",
+          "tags": [
+            ":type"
+          ]
+        },
+        {
+          "name": "interfaceTypeDef",
+          "tags": [
+            ":interface"
+          ]
+        },
+        {
+          "name": "unionTypeDef",
+          "tags": [
+            ":union"
+          ]
+        },
+        {
+          "name": "unionMemberType",
+          "tags": [
+            "",
+            ""
+          ]
+        },
+        {
+          "name": "inputObjectTypeDef",
+          "tags": [
+            ":input"
+          ]
+        },
+        {
           "name": "objectTypeDef",
           "tags": [
             "type"
@@ -2502,7 +2714,7 @@
       "super": "typeDef",
       "isRoot": false,
       "tags": [
-        "schema"
+        ":schema"
       ],
       "flags": "",
       "attributes": [],
@@ -2860,36 +3072,51 @@
       "comments": []
     },
     {
-      "name": "genericArgument",
-      "super": "argument",
+      "name": "implement",
+      "super": "commentable",
       "isRoot": false,
       "tags": [
-        "@"
+        "&"
       ],
       "flags": "",
-      "attributes": [
+      "attributes": [],
+      "relations": [
         {
-          "name": "defaultValue",
-          "type": "string",
+          "name": "comment",
+          "role": "comments",
           "tags": [
-            "="
+            "#"
           ],
+          "cardinality": "one-to-many",
           "flags": "",
-          "inheritedFrom": null,
-          "restricts": [],
+          "inheritedFrom": "commentable",
           "comments": []
         }
       ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "scalarTypeDef",
+      "super": "typeDef",
+      "isRoot": false,
+      "tags": [
+        ":scalar"
+      ],
+      "flags": "",
+      "attributes": [],
       "relations": [
         {
-          "name": "value",
+          "name": "description",
           "role": null,
           "tags": [
-            "value"
+            "\"\"\""
           ],
           "cardinality": "one-to-one",
           "flags": "is-one-to-one ",
-          "inheritedFrom": "argument",
+          "inheritedFrom": "typeDef",
           "comments": []
         },
         {
@@ -2921,24 +3148,277 @@
       "comments": []
     },
     {
-      "name": "ifArgument",
-      "super": "argument",
+      "name": "objectTypeDef",
+      "super": "typeDef",
       "isRoot": false,
       "tags": [
-        "if"
+        ":type"
       ],
       "flags": "",
       "attributes": [],
       "relations": [
         {
-          "name": "value",
+          "name": "implement",
+          "role": "implements",
+          "tags": [
+            "&"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "fieldDef",
+          "role": "fieldDefs",
+          "tags": [
+            "."
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "description",
           "role": null,
           "tags": [
-            "value"
+            "\"\"\""
           ],
           "cardinality": "one-to-one",
           "flags": "is-one-to-one ",
-          "inheritedFrom": "argument",
+          "inheritedFrom": "typeDef",
+          "comments": []
+        },
+        {
+          "name": "directive",
+          "role": "directives",
+          "tags": [
+            "directive"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "basenode",
+          "comments": []
+        },
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "interfaceTypeDef",
+      "super": "typeDef",
+      "isRoot": false,
+      "tags": [
+        ":interface"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "implement",
+          "role": "implements",
+          "tags": [
+            "&"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "fieldDef",
+          "role": "fieldDefs",
+          "tags": [
+            "."
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "description",
+          "role": null,
+          "tags": [
+            "\"\"\""
+          ],
+          "cardinality": "one-to-one",
+          "flags": "is-one-to-one ",
+          "inheritedFrom": "typeDef",
+          "comments": []
+        },
+        {
+          "name": "directive",
+          "role": "directives",
+          "tags": [
+            "directive"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "basenode",
+          "comments": []
+        },
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "unionTypeDef",
+      "super": "typeDef",
+      "isRoot": false,
+      "tags": [
+        ":union"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "unionMemberType",
+          "role": "unionMemberTypes",
+          "tags": [
+            "",
+            ""
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "description",
+          "role": null,
+          "tags": [
+            "\"\"\""
+          ],
+          "cardinality": "one-to-one",
+          "flags": "is-one-to-one ",
+          "inheritedFrom": "typeDef",
+          "comments": []
+        },
+        {
+          "name": "directive",
+          "role": "directives",
+          "tags": [
+            "directive"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "basenode",
+          "comments": []
+        },
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "unionMemberType",
+      "super": "typeDef",
+      "isRoot": false,
+      "tags": [
+        "",
+        ""
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "description",
+          "role": null,
+          "tags": [
+            "\"\"\""
+          ],
+          "cardinality": "one-to-one",
+          "flags": "is-one-to-one ",
+          "inheritedFrom": "typeDef",
+          "comments": []
+        },
+        {
+          "name": "directive",
+          "role": "directives",
+          "tags": [
+            "directive"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "basenode",
+          "comments": []
+        },
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "inputObjectTypeDef",
+      "super": "typeDef",
+      "isRoot": false,
+      "tags": [
+        ":input"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "description",
+          "role": null,
+          "tags": [
+            "\"\"\""
+          ],
+          "cardinality": "one-to-one",
+          "flags": "is-one-to-one ",
+          "inheritedFrom": "typeDef",
           "comments": []
         },
         {

@@ -1,0 +1,77 @@
+element prettify
+	tag ittf-panel|js-panel|bash-panel
+	ast
+	category
+	
+	item
+        title ittf pretty
+        ittf
+            html
+                body
+                    ittf-panel
+                        title Ittf pretty
+                        ittf
+                            ...
+                                ${'$'}foreach item in coll
+                    ittf-panel
+                        title The '$' command
+                        ittf
+                            ...
+                                ${'$'} jswizzi-statement
+
+
+	item
+        title js pretty
+        ittf
+            html
+                head 
+                    css https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/default.min.css
+                body
+                    js-panel
+                        title Js pretty
+                        ittf
+                            var x = 0;
+                            var y = call(x)
+                    js https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js
+                    script
+                        module
+                            _ document.addEventListener
+                                @ 'DOMContentLoaded'
+                                =>
+                                    param event
+                                    info 'DOMContentLoaded'
+                                    _ document.querySelectorAll
+                                        @ 'pre code'
+                                        ._ forEach
+                                            =>
+                                                param el
+                                                info 'querySelectorAll', el
+                                                _ hljs.highlightElement(el)    
+	item
+        title bash pretty
+        ittf
+            html
+                head 
+                    css https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/default.min.css
+                body
+                    bash-panel
+                        title Bash pretty
+                        ittf
+                            git clone ...
+                            cd ...
+                            npm install
+                    js https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js
+                    script
+                        module
+                            _ document.addEventListener
+                                @ 'DOMContentLoaded'
+                                =>
+                                    param event
+                                    info 'DOMContentLoaded'
+                                    _ document.querySelectorAll
+                                        @ 'pre code'
+                                        ._ forEach
+                                            =>
+                                                param el
+                                                info 'querySelectorAll', el
+                                                _ hljs.highlightElement(el)    

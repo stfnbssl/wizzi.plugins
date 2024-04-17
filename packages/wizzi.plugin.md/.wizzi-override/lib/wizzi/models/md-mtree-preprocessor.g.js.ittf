@@ -28,34 +28,14 @@ module
     function preprocessNode
         param node
         param state
-
-        if node.n === '--css' || inferCssInclude(node)
+        if node.n === 'html'
             set node.n = '::html'
-            if childNameIsOneOf(node, ['html']) == false
-                var scoped
-                    _ extractRemove
-                        @ node
-                        @ 'scoped'
-                _ wrapChilds
-                    @ node
-                    {
-                        @ n 'html'
-                        @ v ''
-                if scoped
-                    _ node.children.push
-                        @ scoped
-                return true
-        elif ['ittf-panel', 'js-panel', 'bash-panel'].indexOf(node.n) >-1
-            # loog '%$%$%$%$%$'
-            set node.wzMTreeData
+            _ wrapChilds
+                @ node
                 {
-                    @ mTree state.mTree
-            foreach item in node.children
-                if item.n === 'ittf'
-                    set node.wzMTreeData[item.n] = processIttf(item)
-                else
-                    set node.wzMTreeData[item.n] = item.v
-            set node.children = []
+                    @ n 'html'
+                    @ v ''
+            return true
         else
             return false
 

@@ -9,7 +9,7 @@ $group
 		r description
             one-to-one
     
-    e_tag( schemaDef, schema, typeDef)
+    e_tag( schemaDef, :schema, typeDef)
         r operationType/s
 
 	e operationType : typeDef
@@ -27,27 +27,27 @@ $group
 
 	e_tag( enumValue, ., commentable
 
-    $*
     e implement : commentable
         tag &
 
-
-    e_tag( scalarTypeDef, scalar, typeDef
+    e_tag( scalarTypeDef, :scalar, typeDef
 	
-    e_tag( objectTypeDef, :{, typeDef
+    e_tag( objectTypeDef, :type, typeDef
 		r implement/s
 		r fieldDef/s
 	
-    e_tag( interfaceTypeDef, interface, typeDef
+    e_tag( interfaceTypeDef, :interface, typeDef
+        r implement/s
 		r fieldDef/s
 
-	e_tag( unionTypeDef, union, typeDef
+	e_tag( unionTypeDef, :union, typeDef
 		r unionMemberType/s
 
 	e_tag( unionMemberType, |, typeDef
 
 
-    e_tag( inputObjectTypeDef, input, typeDef
+    e_tag( inputObjectTypeDef, :input, typeDef
+        $*
         r objectValueDef
 			one-to-one
-    *$
+        *$

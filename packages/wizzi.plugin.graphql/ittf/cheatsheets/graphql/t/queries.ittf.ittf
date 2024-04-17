@@ -1,0 +1,136 @@
+element types
+	tag type|.|:string
+	ast 
+	category types
+	
+
+	item
+		title Query shorthand
+		ittf
+            { 
+                # https://spec.graphql.org/draft/#sec-Language.Operations.Query-Shorthand
+                . field
+
+	item
+		title Query - Selection set
+		ittf
+            { 
+                # https://spec.graphql.org/draft/#sec-Selection-Sets
+                # example 7
+                # https://spec.graphql.org/draft/#example-21649
+                . id
+                . firstName
+                . lastName
+
+	item
+		title Query by id (example3)
+		ittf
+			query example3
+                { 
+                    # example 3
+                    # https://spec.graphql.org/draft/#example-85684
+                    _ user
+                        @ id 4
+                        { 
+                            . name
+
+	item
+		title Query - Fields (example8)
+		ittf
+            query example8
+                # https://spec.graphql.org/draft/#sec-Language.Fields
+                # example 8
+                # https://spec.graphql.org/draft/#example-100a3
+                { 
+                    . me
+                        {
+                            . id
+                            . firstName
+                            . lastName
+                            . birthday 
+                                {
+                                    . month
+                                    . day
+                            . friends 
+                                {
+                                    . name
+
+	item
+		title Query - Field arguments (example11)
+		ittf
+            query example11
+                # https://spec.graphql.org/draft/#sec-Language.Arguments
+                # example 11
+                # https://spec.graphql.org/draft/#example-34b2d
+                { 
+                    _ user
+                        @ id 4
+                        {
+                            . id
+                            . name
+                            _ profilePic
+                                @ width 100
+                                @ height 50
+
+	item
+		title Query - Field alias (example14)
+		ittf
+            query example14
+                # https://spec.graphql.org/draft/#sec-Field-Alias
+                # example 14
+                # https://spec.graphql.org/draft/#example-34435
+                { 
+                    _ user
+                        @ id 4
+                        {
+                            . id
+                            . name
+                            _ profilePic
+                                as smallPic
+                                @ size 64
+                            _ profilePic
+                                as bigPic
+                                @ size 1024
+
+	item
+		title Query example16
+		ittf
+            query example16
+                # example 16
+                # https://spec.graphql.org/draft/#example-27d2f
+                { 
+                    _ user
+                        as zuck
+                        @ id 4
+                        {
+                            . id
+                            . name
+
+
+
+	item
+		title Query function
+		ittf
+            :enum Language
+                """
+                    The set of languages supported by `translate`
+                . EN
+                    # English
+                . FR
+                    # French
+                . CH
+                    # Chinese
+            type Query
+                """
+                    Root type for all your query operations
+                . translate
+                    :string
+                    @ fromLanguage
+                        :ref Language
+                        # The original language that `text` is provided in.
+                    @ toLanguage
+                        :ref Language
+                        # The translated language to be returned.
+                    @ text
+                        :string
+                        # The text to be translated.

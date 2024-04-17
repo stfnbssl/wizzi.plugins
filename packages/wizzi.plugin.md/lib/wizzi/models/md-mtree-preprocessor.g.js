@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.md\.wizzi-override\lib\wizzi\models\md-mtree-preprocessor.g.js.ittf
-    utc time: Tue, 02 Apr 2024 09:37:17 GMT
+    utc time: Wed, 17 Apr 2024 14:40:21 GMT
 */
 'use strict';
 var verify = require('@wizzi/utils').verify;
@@ -32,37 +32,13 @@ function traverse(node, state) {
     state.parent = saveParent;
 }
 function preprocessNode(node, state) {
-    if (node.n === '--css' || inferCssInclude(node)) {
+    if (node.n === 'html') {
         node.n = '::html';
-        if (childNameIsOneOf(node, ['html']) == false) {
-            var scoped = extractRemove(node, 'scoped');
-            wrapChilds(node, {
-                n: 'html', 
-                v: ''
-             })
-            if (scoped) {
-                node.children.push(scoped)
-            }
-            return true;
-        }
-    }
-    
-    // loog '%$%$%$%$%$'
-    else if (['ittf-panel', 'js-panel', 'bash-panel'].indexOf(node.n) >-1) {
-        node.wzMTreeData = {
-            mTree: state.mTree
-         };
-        var i, i_items=node.children, i_len=node.children.length, item;
-        for (i=0; i<i_len; i++) {
-            item = node.children[i];
-            if (item.n === 'ittf') {
-                node.wzMTreeData[item.n] = processIttf(item);
-            }
-            else {
-                node.wzMTreeData[item.n] = item.v;
-            }
-        }
-        node.children = [];
+        wrapChilds(node, {
+            n: 'html', 
+            v: ''
+         })
+        return true;
     }
     else {
         return false;

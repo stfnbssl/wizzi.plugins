@@ -1,0 +1,127 @@
+{
+  "kind": "Document",
+  "definitions": [
+    {
+      "kind": "OperationDefinition",
+      "operation": "subscription",
+      "name": {
+        "kind": "Name",
+        "value": "sub"
+      },
+      "variableDefinitions": [],
+      "directives": [],
+      "selectionSet": {
+        "kind": "SelectionSet",
+        "selections": [
+          {
+            "kind": "Field",
+            "name": {
+              "kind": "Name",
+              "value": "newMessage"
+            },
+            "arguments": [],
+            "directives": [],
+            "selectionSet": {
+              "kind": "SelectionSet",
+              "selections": [
+                {
+                  "kind": "Field",
+                  "name": {
+                    "kind": "Name",
+                    "value": "body"
+                  },
+                  "arguments": [],
+                  "directives": []
+                },
+                {
+                  "kind": "Field",
+                  "name": {
+                    "kind": "Name",
+                    "value": "sender"
+                  },
+                  "arguments": [],
+                  "directives": []
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "kind": "OperationDefinition",
+      "operation": "subscription",
+      "name": {
+        "kind": "Name",
+        "value": "sub"
+      },
+      "variableDefinitions": [],
+      "directives": [],
+      "selectionSet": {
+        "kind": "SelectionSet",
+        "selections": [
+          {
+            "kind": "FragmentSpread",
+            "name": {
+              "kind": "Name",
+              "value": "newMessageFields"
+            },
+            "directives": []
+          }
+        ]
+      }
+    },
+    {
+      "kind": "FragmentDefinition",
+      "name": {
+        "kind": "Name",
+        "value": "newMessageFields"
+      },
+      "typeCondition": {
+        "kind": "NamedType",
+        "name": {
+          "kind": "Name",
+          "value": "Subscription"
+        }
+      },
+      "directives": [],
+      "selectionSet": {
+        "kind": "SelectionSet",
+        "selections": [
+          {
+            "kind": "Field",
+            "name": {
+              "kind": "Name",
+              "value": "newMessage"
+            },
+            "arguments": [],
+            "directives": [],
+            "selectionSet": {
+              "kind": "SelectionSet",
+              "selections": [
+                {
+                  "kind": "Field",
+                  "name": {
+                    "kind": "Name",
+                    "value": "body"
+                  },
+                  "arguments": [],
+                  "directives": []
+                },
+                {
+                  "kind": "Field",
+                  "name": {
+                    "kind": "Name",
+                    "value": "sender"
+                  },
+                  "arguments": [],
+                  "directives": []
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,16 +1,16 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.graphql\.wizzi-override\lib\artifacts\graphql\document\gen\main.js.ittf
-    utc time: Wed, 13 Mar 2024 07:01:37 GMT
+    utc time: Sat, 13 Apr 2024 11:30:36 GMT
 */
 'use strict';
-var verify = require('wizzi-utils').verify;
+var verify = require('@wizzi/utils').verify;
 var myname = 'wizzi-web.lib.artifacts.graphql.schema.gen.main';
 
 var util = require('util');
 var async = require('async');
-var verify = require('wizzi-utils').verify;
+var verify = require('@wizzi/utils').verify;
 
 var lineParser = require('../../../utils/lineParser');
 
@@ -405,41 +405,57 @@ md.fragmentCtx = function(ctx) {
 }
 ;
 md.query = function(model, ctx, callback) {
-    var vars = [];
-    var i, i_items=model.variables, i_len=model.variables.length, item;
-    for (i=0; i<i_len; i++) {
-        item = model.variables[i];
-        vars.push(getVariableDeclaration(item))
+    getVariableDeclarations(model, ctx, (err, vars) => {
+    
+        if (err) {
+            return callback(err);
+        }
+        var varsDeclare = vars.length > 0 ? '(' + vars.join(', ') + ')' : '';
+        ctx.write( 'query' + (model.wzName.length > 0 ? ' ' + model.wzName : '') + varsDeclare + ' ');
+        if (model.directives.length > 0) {
+            ctx.w();
+            ctx.indent();
+        }
+        writeDirectives(model.directives, ctx, (err, notUsed) => {
+        
+            if (err) {
+                return callback(err);
+            }
+            if (model.directives.length > 0) {
+                ctx.deindent();
+            }
+            if (model.selectionSet) {
+                md.selectionSet(model.selectionSet, ctx, callback)
+            }
+            else {
+                return callback(null);
+            }
+        }
+        )
     }
-    var varsDeclare = vars.length > 0 ? '(' + vars.join(', ') + ')' : '';
-    ctx.write( 'query' + (model.wzName.length > 0 ? ' ' + model.wzName : '') + varsDeclare + ' ');
-    if (model.selectionSet) {
-        md.selectionSet(model.selectionSet, ctx, callback)
-    }
-    else {
-        return callback(null);
-    }
+    )
 }
 ;
 md.mutation = function(model, ctx, callback) {
-    var vars = [];
-    var i, i_items=model.variables, i_len=model.variables.length, item;
-    for (i=0; i<i_len; i++) {
-        item = model.variables[i];
-        vars.push(getVariableDeclaration(item))
+    getVariableDeclarations(model, ctx, (err, vars) => {
+    
+        if (err) {
+            return callback(err);
+        }
+        var varsDeclare = vars.length > 0 ? '(' + vars.join(', ') + ')' : '';
+        ctx.write( 'mutation' + (model.wzName.length > 0 ? ' ' + model.wzName : '') + varsDeclare + ' ' );
+        if (model.selectionSet) {
+            md.selectionSet(model.selectionSet, ctx, callback)
+        }
+        else {
+            return callback(null);
+        }
     }
-    var varsDeclare = vars.length > 0 ? '(' + vars.join(', ') + ')' : '';
-    ctx.write( 'mutation' + (model.wzName.length > 0 ? ' ' + model.wzName : '') + varsDeclare + ' ' );
-    if (model.selectionSet) {
-        md.selectionSet(model.selectionSet, ctx, callback)
-    }
-    else {
-        return callback(null);
-    }
+    )
 }
 ;
 md.selectionSet = function(model, ctx, callback) {
-    console.log('selectionSet', model.selections.length, __filename);
+    // loog 'selectionSet', model.selections.length
     if (model.wzName.length > 0) {
         ctx.write( model.wzName);
         writeArguments(model.xarguments || [], ctx, (err, notUsed) => {
@@ -458,7 +474,7 @@ md.selectionSet = function(model, ctx, callback) {
 }
 ;
 function selectionSet_step_2(model, ctx, callback) {
-    console.log('selectionSet_step_2', __filename);
+    // loog 'selectionSet_step_2'
     ctx.w( '{' );
     ctx.indent();
     async.mapSeries(model.selections, md.selection(ctx), (err, notUsed) => {
@@ -474,7 +490,7 @@ function selectionSet_step_2(model, ctx, callback) {
 }
 md.selection = function(ctx) {
     return function(model, callback) {
-            console.log('selection', __filename);
+            // loog 'selection'
             // loog 'calling selection', model.wzElement
             var method = md[model.wzElement];
             method(model, ctx, callback)
@@ -482,7 +498,23 @@ md.selection = function(ctx) {
 }
 ;
 md.field = function(model, ctx, callback) {
-    console.log('field', __filename);
+    // loog 'field'
+    if (model.alias && model.alias.length > 0) {
+        ctx.write( model.alias + ': ' );
+    }
+    ctx.write( model.wzName );
+    if (model.selectionSet) {
+        ctx.write( ' ' );
+        md.selectionSet(model.selectionSet, ctx, callback)
+    }
+    else {
+        ctx.w();
+        return callback(null);
+    }
+}
+;
+md.functionField = function(model, ctx, callback) {
+    // loog 'field'
     if (model.alias && model.alias.length > 0) {
         ctx.write( model.alias + ': ' );
     }
@@ -492,7 +524,7 @@ md.field = function(model, ctx, callback) {
         if (err) {
             return callback(err);
         }
-        console.log('field.model.selectionSet', model.selectionSet, __filename);
+        // loog 'field.model.selectionSet', model.selectionSet
         if (model.selectionSet) {
             ctx.write( ' ' );
             md.selectionSet(model.selectionSet, ctx, callback)
@@ -729,11 +761,13 @@ function writeText(model, ctx) {
 }
 md.genericArgument = function(model, ctx, callback) {
     if (model.defaultValue) {
+        console.log('genericArgument,model.defaultValue', model.defaultValue, __filename);
         ctx.write( model.wzName + ': ' + model.defaultValue);
         return callback(null);
     }
     else if (model.value) {
         ctx.write( model.wzName + ': ');
+        console.log('genericArgument,model.value.wzElement', model.value.wzElement, __filename);
         md[model.value.wzElement](model.value, ctx, (err, notUsed) => {
         
             if (err) {
@@ -784,6 +818,7 @@ function writeArguments(args, ctx, callback) {
         if (index_1 > 0) {
             ctx.write(', ');
         }
+        console.log('writeArguments,item_1.wzElement', item_1.wzElement, __filename);
         md[item_1.wzElement](item_1, ctx, (err, notUsed) => {
         
             if (err) {
@@ -889,16 +924,13 @@ function writeDirectives(directives, ctx, callback) {
             return next_1();
         }
         var item_1 = directives[index_1];
-        if (index_1 > 0) {
-            ctx.write(', ');
-        }
-        console.log('writeDirectives 1', item_1.wzElement, __filename);
+        // loog 'writeDirectives 1', item_1.wzElement
         md[item_1.wzElement](item_1, ctx, (err, notUsed) => {
         
             if (err) {
                 return callback(err);
             }
-            console.log('writeDirectives 2', __filename);
+            // loog 'writeDirectives 2'
             writeArguments(item_1.xarguments, ctx, (err, notUsed) => {
             
                 if (err) {
@@ -914,7 +946,7 @@ function writeDirectives(directives, ctx, callback) {
     }
     repeater_1(0);
     function next_1() {
-        console.log('writeDirectives 3', __filename);
+        // loog 'writeDirectives 3'
         return callback(null);
     }
 }
@@ -953,15 +985,53 @@ function getTypedArgumentDeclaration(model) {
     }
     return ret.join('');
 }
-function getVariableDeclaration(model) {
+function getVariableDeclarations(model, ctx, callback) {
+    var vars = [];
+    function doVar(ndx) {
+        if (!model.variables[ndx]) {
+            return callback(null, vars);
+        }
+        getVariableDeclaration(model.variables[ndx], ctx, (err, text) => {
+        
+            if (err) {
+                return callback(err);
+            }
+            vars.push(text);
+            return doVar(ndx + 1);
+        }
+        )
+    }
+    doVar(0);
+}
+function getVariableDeclaration(model, ctx, callback) {
     var name = model.wzName;
     var type = model.type;
     var ret = [ name ];
+    console.log('getVariableDeclaration', model.wzName, model.defaultValue, __filename);
     if (type) {
         ret.push(' : ');
         ret.push(type);
     }
-    return ret.join('');
+    if (model.defaultValue) {
+        ret.push(' = ' + model.defaultValue);
+    }
+    var childCtx = ctx.createChildGenContext();
+    if (model.directives.length > 0) {
+        ret.push(' ');
+        writeDirectives(model.directives, childCtx, (err, notUsed) => {
+        
+            if (err) {
+                return callback(err);
+            }
+            console.log('childCtx.getContent()', 'x' + childCtx.getContent() + 'x', __filename);
+            ret.push(verify.replaceAll(childCtx.getContent(), '\n', ''))
+            return callback(null, ret.join(''));
+        }
+        )
+    }
+    else {
+        return callback(null, ret.join(''));
+    }
 }
 /**
   params
@@ -981,7 +1051,7 @@ function error(code, method, message, innerError) {
     }
     return verify.error(innerError, {
         name: ( verify.isNumber(code) ? 'Err-' + code : code ),
-        method: 'wizzi-web@0.8.1.lib.artifacts.graphql.document.gen.main.' + method,
+        method: 'wizzi-web@0.8.6.lib.artifacts.graphql.document.gen.main.' + method,
         parameter: parameter,
         sourcePath: __filename
     }, message || 'Error message unavailable');

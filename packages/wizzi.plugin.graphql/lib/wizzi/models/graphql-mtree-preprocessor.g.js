@@ -1,13 +1,13 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.graphql\.wizzi-override\lib\wizzi\models\graphql-mtree-preprocessor.g.js.ittf
-    utc time: Wed, 13 Mar 2024 07:01:37 GMT
+    utc time: Sat, 13 Apr 2024 11:30:36 GMT
 */
 'use strict';
-var verify = require('wizzi-utils').verify;
+var verify = require('@wizzi/utils').verify;
 function preprocessNode(node, state) {
-    if (node.n === 'string' || node.n === '"""') {
+    if (node.n === '"""') {
         if (node.children.length > 0) {
             var childrenTexts = [];
             var i, i_items=node.children, i_len=node.children.length, item;

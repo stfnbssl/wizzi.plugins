@@ -2,17 +2,19 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.md\.wizzi-override\lib\wizzifiers\utils\cloner.js.ittf
-    utc time: Tue, 02 Apr 2024 09:37:17 GMT
+    utc time: Wed, 17 Apr 2024 14:40:21 GMT
 */
 'use strict';
+// usefull: https://github.com/douglascrockford/JSON-js/blob/master/cycle.js
 var verify = require('@wizzi/utils').verify;
-function clone(obj) {
+function clone(obj, objects, path) {
+    var objects = objects || new WeakMap();
     if (verify.isArray(obj)) {
         var ret = [];
         var i, i_items=obj, i_len=obj.length, item;
         for (i=0; i<i_len; i++) {
             item = obj[i];
-            var value = clone(item);
+            var value = clone(item, objects, path + "[" + i + "]");
             if (value !== null) {
                 ret.push(value);
             }
@@ -20,10 +22,17 @@ function clone(obj) {
         return ret;
     }
     else if (verify.isObject(obj)) {
+        var old_path = objects.get(obj);
+        if (old_path !== undefined) {
+            return {
+                    $ref: old_path
+                 };
+        }
+        objects.set(obj, path);
         var ret = {};
         for (var prop in obj) {
             if (obj.hasOwnProperty(prop)) {
-                ret[prop] = clone(obj[prop]);
+                ret[prop] = clone(obj[prop], objects, path + "[" + JSON.stringify(prop) + "]");
             }
         }
         return ret;
@@ -33,6 +42,6 @@ function clone(obj) {
     }
 }
 module.exports = function(ast) {
-    return clone(ast);
+    return clone(ast, null, '');
 }
 ;

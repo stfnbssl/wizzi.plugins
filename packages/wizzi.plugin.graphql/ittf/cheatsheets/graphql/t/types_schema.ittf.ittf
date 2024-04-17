@@ -1,0 +1,31 @@
+element types - schema
+	tag schema|:type|:|:p|:m|param
+	ast 
+	category types
+
+	item
+		title Schema
+		ittf
+            schema 
+                query MyQueryRootType
+                mutation MyMutationRootType
+                subscription MySubscriptionRootType
+            :type MyQueryRootType
+                :p someField1
+                    : string
+                :p someField2
+                    : string
+            :type MyMutationRootType
+                :m setSomeField1
+                    : string
+                    param to
+                        : string
+                :m setSomeField2
+                    : string
+                    param to
+                        : string
+            :type MySubscriptionRootType
+                :p someField1
+                    : string
+                :p someField2
+                    : string

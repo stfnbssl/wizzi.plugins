@@ -1,0 +1,38 @@
+{
+  "kind": "Document",
+  "definitions": [
+    {
+      "kind": "OperationDefinition",
+      "operation": "mutation",
+      "variableDefinitions": [],
+      "directives": [],
+      "selectionSet": {
+        "kind": "SelectionSet",
+        "selections": [
+          {
+            "kind": "Field",
+            "name": {
+              "kind": "Name",
+              "value": "sendEmail"
+            },
+            "arguments": [
+              {
+                "kind": "Argument",
+                "name": {
+                  "kind": "Name",
+                  "value": "message"
+                },
+                "value": {
+                  "kind": "StringValue",
+                  "value": "Hello,\n  World!\n\nYours,\n  GraphQL.",
+                  "block": true
+                }
+              }
+            ],
+            "directives": []
+          }
+        ]
+      }
+    }
+  ]
+}

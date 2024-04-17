@@ -1,0 +1,227 @@
+graphql
+    :schema 
+        % a
+            @ x 1
+        query MyQueryRootType
+        mutation MyMutationRootType
+    :type MyQueryRootType
+        % a
+            @ x 1
+        :p someField1
+            : string
+            % a
+                @ x 1
+        :p someField2
+            : string
+            % a
+                @ x 1
+    :type MyMutationRootType
+        % a
+            @ x 1
+        :m setSomeField1
+            : string
+            % a
+                @ x 1
+            param to
+                : string
+                % a
+                    @ x 1
+        :m setSomeField2
+            : string
+            % a
+                @ x 1
+            param to
+                : string
+                % a
+                    @ x 1
+    :extend-schema 
+        % b
+            @ y 1
+    :extend-schema 
+        % b
+            @ y 1
+        subscription MySubscriptionRootType
+    :type MySubscriptionRootType
+        % a
+            @ x 1
+        :p someField1
+            : string
+        :p someField2
+            : string
+    :scalar UUID
+        % specifiedBy
+            @ url "https://tools.ietf.org/html/rfc4122"
+    :scalar URL
+        % specifiedBy
+            @ url "https://tools.ietf.org/html/rfc3986"
+    :scalar DateTime
+        % specifiedBy
+            @ url "https://scalars.graphql.org/andimarek/date-time"
+    :extend-scalar UUID
+        % c
+            @ z 0
+    :type Person
+        & LivingBeing
+        & Organic
+        :p name
+            : string
+        :p age
+            : int
+        :p picture
+            : Url
+    :type ExampleType
+        :p oldField
+            : string
+            % deprecated
+    :extend-type Story
+        :p isHiddenLocally
+            : boolean
+    :extend-type User
+        % addedDirective
+    :interface NamedEntity
+        :p name
+            : string
+    :interface ValuedEntity
+        :p value
+            : int
+    :type Person
+        & NamedEntity
+        :p name
+            : string
+        :p age
+            : int
+    :type Business
+        & NamedEntity
+        & ValuedEntity
+        :p name
+            : string
+        :p value
+            : int
+        :p employeeCount
+            : int
+    :interface Image
+        & Resource
+        & Node
+        :p id
+            :! ID
+        :p url
+            : string
+        :p thumbnail
+            : string
+    :extend-interface NamedEntity
+        :p nickname
+            : string
+    :extend-type Person
+        :p nickname
+            : string
+    :extend-type Business
+        :p nickname
+            : string
+    :extend-interface NamedEntity
+        % addedDirective
+    :union SearchResult
+        | Photo
+        | Person
+    :type Person
+        :p name
+            : string
+        :p age
+            : int
+    :type Photo
+        :p height
+            : int
+        :p width
+            : int
+    :type SearchQuery
+        :p firstSearchResult
+            : SearchResult
+    :extend-union SearchResult
+        | Business
+        | Image
+        % d
+            @ z 0
+    :extend-union SearchResult
+        % d
+            @ z 0
+    :enum Direction
+        % e
+            @ w 0
+        @ NORTH
+        @ EAST
+        @ SOUTH
+            % e
+                @ w 0
+        @ WEST
+    :extend-enum Direction
+        % f
+            @ w 0
+        @ NORTH_EAST
+        @ SUD_OVEST
+            % e
+                @ w 0
+    :extend-enum Direction
+        % f
+            @ w 0
+    input Example
+        {
+            @ self
+                :![ 
+                    :! Example
+            @ value
+                : string
+            @ matrix
+                :[ 
+                    :![ 
+                        :! int
+            @ matrix2
+                :![ 
+                    :![ 
+                        :! int
+    :% example
+        on FIELD
+    fragment SomeFragment
+        on SomeType
+        { 
+            . field
+                % example
+    :% example
+        on FIELD
+        on FRAGMENT_SPREAD
+        on INLINE_FRAGMENT
+    :% example
+        on FIELD_DEFINITION
+        on ARGUMENT_DEFINITION
+    :type SomeType
+        :m field
+            : string
+            % example
+            param arg
+                : int
+                % example
+    :% delegateField
+        @ name
+            :! string
+        on OBJECT
+        on INTERFACE
+    :type Book
+        % delegateField
+            @ name "pageCount"
+        % delegateField
+            @ name "author"
+        :p id
+            :! ID
+    :extend-type Book
+        % delegateField
+            @ name "index"
+    :% skip
+        @ if
+            :! boolean
+        on FIELD
+        on FRAGMENT_SPREAD
+        on INLINE_FRAGMENT
+    query 
+        boolean $someTest
+        { 
+            . experimentalField
+                % skip
+                    @ if $someTest

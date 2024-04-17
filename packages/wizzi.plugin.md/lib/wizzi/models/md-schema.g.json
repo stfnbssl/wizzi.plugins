@@ -129,6 +129,24 @@
           ]
         },
         {
+          "name": "em",
+          "tags": [
+            "em"
+          ]
+        },
+        {
+          "name": "del",
+          "tags": [
+            "del"
+          ]
+        },
+        {
+          "name": "escape",
+          "tags": [
+            "escape"
+          ]
+        },
+        {
           "name": "p",
           "tags": [
             "p"
@@ -210,6 +228,12 @@
           "name": "code",
           "tags": [
             "code"
+          ]
+        },
+        {
+          "name": "codespan",
+          "tags": [
+            "codespan"
           ]
         },
         {
@@ -775,6 +799,120 @@
       "comments": []
     },
     {
+      "name": "em",
+      "super": "element",
+      "isRoot": false,
+      "tags": [
+        "em"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "attribute",
+          "role": "attributes",
+          "tags": [
+            "@"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "element",
+          "comments": []
+        },
+        {
+          "name": "element",
+          "role": "elements",
+          "tags": [
+            "<"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "element",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "del",
+      "super": "element",
+      "isRoot": false,
+      "tags": [
+        "del"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "attribute",
+          "role": "attributes",
+          "tags": [
+            "@"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "element",
+          "comments": []
+        },
+        {
+          "name": "element",
+          "role": "elements",
+          "tags": [
+            "<"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "element",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "escape",
+      "super": "element",
+      "isRoot": false,
+      "tags": [
+        "escape"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "attribute",
+          "role": "attributes",
+          "tags": [
+            "@"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "element",
+          "comments": []
+        },
+        {
+          "name": "element",
+          "role": "elements",
+          "tags": [
+            "<"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "element",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
       "name": "p",
       "super": "element",
       "isRoot": false,
@@ -934,7 +1072,34 @@
         "li"
       ],
       "flags": "",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "checked",
+          "type": "boolean",
+          "tags": [
+            "checked"
+          ],
+          "default": "false",
+          "defaultWhenDeclared": "true",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "task",
+          "type": "boolean",
+          "tags": [
+            "task"
+          ],
+          "default": "false",
+          "defaultWhenDeclared": "true",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "attribute",
@@ -989,6 +1154,17 @@
           "type": "string",
           "tags": [
             "title"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "alt",
+          "type": "string",
+          "tags": [
+            "alt"
           ],
           "flags": "",
           "inheritedFrom": null,
@@ -1340,6 +1516,69 @@
       "isRoot": false,
       "tags": [
         "code"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "indented",
+          "type": "boolean",
+          "tags": [
+            "indented"
+          ],
+          "default": "false",
+          "defaultWhenDeclared": "true",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "lang",
+          "type": "string",
+          "tags": [
+            "lang"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "attribute",
+          "role": "attributes",
+          "tags": [
+            "@"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "element",
+          "comments": []
+        },
+        {
+          "name": "element",
+          "role": "elements",
+          "tags": [
+            "<"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "element",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "codespan",
+      "super": "element",
+      "isRoot": false,
+      "tags": [
+        "codespan"
       ],
       "flags": "",
       "attributes": [],

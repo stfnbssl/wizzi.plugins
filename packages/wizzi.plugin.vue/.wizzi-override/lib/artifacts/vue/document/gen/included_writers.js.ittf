@@ -115,7 +115,8 @@ module
 						@ 'generated from html model'
 						@ 'html/document'
 						{
-							@ forVueTemplate true
+							@ noDocType true
+							@ noHtmlRoot true
 						a_cb( artifactText )
 							$$ loogmyname, 'html module artifactText', artifactText
 							_ ctx.w('<template>')

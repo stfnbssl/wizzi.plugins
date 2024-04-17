@@ -31,20 +31,22 @@
         if directives.length < 1
             r_cb()
         repeater( 1, directives )
+            $* NO
             if index_1 > 0
                 _ ctx.write(', ')
-            log 'writeDirectives 1', item_1.wzElement
+            *$
+            # loog 'writeDirectives 1', item_1.wzElement
             _ md[item_1.wzElement]
                 @ item_1
                 @ ctx
                 a_cb()
-                    log 'writeDirectives 2'
+                    # loog 'writeDirectives 2'
                     _ writeArguments
                         @ item_1.xarguments
                         @ ctx
                         a_cb()
                             repeater_increment( 1 )
             $append next
-                log 'writeDirectives 3'
+                # loog 'writeDirectives 3'
                 r_cb()
 

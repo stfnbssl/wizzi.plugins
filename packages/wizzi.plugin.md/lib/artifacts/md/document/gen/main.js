@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.md\.wizzi-override\lib\artifacts\md\document\gen\main.js.ittf
-    utc time: Tue, 02 Apr 2024 09:37:17 GMT
+    utc time: Wed, 17 Apr 2024 14:40:21 GMT
 */
 'use strict';
 
@@ -156,89 +156,315 @@ md.div = function(model, ctx, callback) {
 }
 ;
 md.h1 = function(model, ctx, callback) {
-    if (ctx.isHtml || (!ctx.isCode && model.elements.length > 0)) {
-        md.writeHtml('h1', model, ctx, callback)
-    }
-    else {
-        ctx.w("# " + model.wzName);
-        return callback(null);
-    }
+    ctx.w("# " + model.wzName);
+    return callback(null);
 }
 ;
 md.h2 = function(model, ctx, callback) {
-    if (ctx.isHtml || (!ctx.isCode && model.elements.length > 0)) {
-        md.writeHtml('h2', model, ctx, callback)
-    }
-    else {
-        ctx.w("## " + model.wzName);
-        return callback(null);
-    }
+    ctx.w("## " + model.wzName);
+    return callback(null);
 }
 ;
 md.h3 = function(model, ctx, callback) {
-    if (ctx.isHtml || (!ctx.isCode && model.elements.length > 0)) {
-        md.writeHtml('h3', model, ctx, callback)
-    }
-    else {
-        ctx.w("### " + model.wzName);
-        return callback(null);
-    }
+    ctx.w("### " + model.wzName);
+    return callback(null);
 }
 ;
 md.h4 = function(model, ctx, callback) {
-    if (ctx.isHtml || (!ctx.isCode && model.elements.length > 0)) {
-        md.writeHtml('h4', model, ctx, callback)
-    }
-    else {
-        ctx.w("#### " + model.wzName);
-        return callback(null);
-    }
+    ctx.w("#### " + model.wzName);
+    return callback(null);
 }
 ;
 md.h5 = function(model, ctx, callback) {
-    if (ctx.isHtml || (!ctx.isCode && model.elements.length > 0)) {
-        md.writeHtml('h5', model, ctx, callback);
-    }
-    else {
-        ctx.w("##### " + model.wzName);
-        return callback(null);
-    }
+    ctx.w("##### " + model.wzName);
+    return callback(null);
 }
 ;
 md.h6 = function(model, ctx, callback) {
-    if (ctx.isHtml || (!ctx.isCode && model.elements.length > 0)) {
-        md.writeHtml('h6', model, ctx, callback);
-    }
-    else {
-        ctx.w("##### " + model.wzName);
-        return callback(null);
-    }
+    ctx.w("###### " + model.wzName);
+    return callback(null);
 }
 ;
 md.a = function(model, ctx, callback) {
-    if (ctx.isHtml || (!ctx.isCode && model.elements.length > 0)) {
-        md.writeHtml('a', model, ctx, callback);
-    }
-    else {
-        ctx.write('[' + model.wzName + ']');
+    ctx.write('[');
+    ctx.write(model.wzName);
+    ctx.nolf = true;
+    md.genItems(model.elements, ctx, {
+        indent: false, 
+        from: 0
+     }, (err, notUsed) => {
+    
+        if (err) {
+            return callback(err);
+        }
+        ctx.write(']');
         ctx.write('(' + model.href);
         if (verify.isString(model.title)) {
             ctx.write(' "' + model.title + '"');
         }
         ctx.w(')');
+        ctx.nolf = false;
+        return callback(null);
+    }
+    )
+}
+;
+md.ul = function(model, ctx, callback) {
+    if (ctx.isInsideList) {
+        if (ctx.pendingLF) {
+            ctx.w('');
+            ctx.pendingLF = false;
+        }
+        md.genItems(model.elements, ctx, {
+            indent: true
+         }, callback)
+    }
+    else {
+        ctx.isInsideList = true;
+        md.genItems(model.elements, ctx, {
+            indent: false
+         }, (err, notUsed) => {
+        
+            if (err) {
+                return callback(err);
+            }
+            ctx.isInsideList = false;
+            return callback(null);
+        }
+        )
+    }
+}
+;
+md.li = function(model, ctx, callback) {
+    if (model.wzParent.nextListOrderCount) {
+        ctx.write(model.wzParent.nextListOrderCount++ + '. ');
+    }
+    else {
+        ctx.write('* ');
+    }
+    if (model.wzName && model.wzName.length > 0) {
+        ctx.write(model.wzName + ' ' );
+    }
+    ctx.pendingLF = true;
+    md.genItems(model.elements, ctx, {
+        indent: false, 
+        from: 0
+     }, (err, notUsed) => {
+    
+        if (err) {
+            return callback(err);
+        }
+        // loog 'exit ', model.wzName
+        if (ctx.pendingLF) {
+            ctx.w('');
+            ctx.pendingLF = false;
+        }
+        return callback(null);
+    }
+    )
+}
+;
+md.ol = function(model, ctx, callback) {
+    model.nextListOrderCount = 1;
+    if (ctx.isInsideList) {
+        if (ctx.pendingLF) {
+            ctx.w('');
+            ctx.pendingLF = false;
+        }
+        md.genItems(model.elements, ctx, {
+            indent: true
+         }, callback)
+    }
+    else {
+        ctx.isInsideList = true;
+        md.genItems(model.elements, ctx, {
+            indent: false
+         }, (err, notUsed) => {
+        
+            if (err) {
+                return callback(err);
+            }
+            ctx.isInsideList = false;
+            return callback(null);
+        }
+        )
+    }
+}
+;
+md.img = function(model, ctx, callback) {
+    ctx.write('![' + model.alt + ']');
+    ctx.write('(' + model.src);
+    if (verify.isString(model.title)) {
+        ctx.write(' "' + model.title + '"');
+    }
+    md.genItems(model.elements, ctx, {
+        indent: false, 
+        from: 0
+     }, (err, notUsed) => {
+    
+        if (err) {
+            return callback(err);
+        }
+        if (ctx.nolf) {
+            ctx.write(')');
+        }
+        else {
+            ctx.w(')');
+        }
+        return callback(null);
+    }
+    )
+}
+;
+md.video = function(model, ctx, callback) {
+    return callback(null);
+}
+;
+md.table = function(model, ctx, callback) {
+    md.analizeTable(model)
+    md.genItems(model.elements, ctx, {
+        indent: false, 
+        from: 0
+     }, (err, notUsed) => {
+    
+        if (err) {
+            return callback(err);
+        }
+        ctx.w();
+        return callback(null);
+    }
+    )
+}
+;
+md.thead = function(model, ctx, callback) {
+    md.genItems(model.elements, ctx, {
+        indent: false, 
+        from: 0
+     }, (err, notUsed) => {
+    
+        if (err) {
+            return callback(err);
+        }
+        ctx.w('|');
+        ctx.write('|');
+        var i, i_items=model.elements, i_len=model.elements.length, th;
+        for (i=0; i<i_len; i++) {
+            th = model.elements[i];
+            ctx.write(md.getThLine(th));
+            ctx.write('|');
+        }
+        ctx.w();
+        return callback(null);
+    }
+    )
+}
+;
+md.tbody = function(model, ctx, callback) {
+    md.genItems(model.elements, ctx, {
+        indent: false, 
+        from: 0
+     }, (err, notUsed) => {
+    
+        if (err) {
+            return callback(err);
+        }
+        return callback(null);
+    }
+    )
+}
+;
+md.tr = function(model, ctx, callback) {
+    md.genItems(model.elements, ctx, {
+        indent: false, 
+        from: 0
+     }, (err, notUsed) => {
+    
+        if (err) {
+            return callback(err);
+        }
+        ctx.w('|');
+        return callback(null);
+    }
+    )
+}
+;
+md.td = function(model, ctx, callback) {
+    ctx.write('|');
+    ctx.addEscape('|');
+    if (model.wzName) {
+        ctx.write(md.getColumnValue(model, ctx));
+    }
+    if (model.elements && model.elements.length > 0) {
+        md.genItems(model.elements, ctx, {
+            indent: false, 
+            from: 0
+         }, (err, notUsed) => {
+        
+            if (err) {
+                return callback(err);
+            }
+            ctx.removeEscape('|');
+            return callback(null);
+        }
+        )
+    }
+    else {
+        ctx.removeEscape('|');
         return callback(null);
     }
 }
 ;
-md.ul = function(model, ctx, callback) {
-    md.genItems(model.elements, ctx, callback);
+md.th = function(model, ctx, callback) {
+    ctx.write('|');
+    ctx.addEscape('|');
+    if (model.wzName) {
+        ctx.write(md.getColumnValue(model, ctx));
+    }
+    if (model.elements && model.elements.length > 0) {
+        md.genItems(model.elements, ctx, {
+            indent: false, 
+            from: 0
+         }, (err, notUsed) => {
+        
+            if (err) {
+                return callback(err);
+            }
+            ctx.removeEscape('|');
+            return callback(null);
+        }
+        )
+    }
+    else {
+        ctx.removeEscape('|');
+        return callback(null);
+    }
 }
 ;
-md.li = function(model, ctx, callback) {
-    ctx.write('* ');
-    if (model.wzName && model.wzName.length > 0) {
-        ctx.write(model.wzName + ' ' );
+md.quote = function(model, ctx, callback) {
+    ctx.write('> ');
+    ctx.nolf = true;
+    md.genItems(model.elements, ctx, {
+        indent: false, 
+        from: 0
+     }, (err, notUsed) => {
+    
+        if (err) {
+            return callback(err);
+        }
+        ctx.w();
+        ctx.nolf = false;
+        return callback(null);
     }
+    )
+}
+;
+md.hr = function(model, ctx, callback) {
+    ctx.w('***');
+    return callback(null);
+}
+;
+md.p = function(model, ctx, callback) {
+    ctx.write(model.wzName);
     md.genItems(model.elements, ctx, {
         indent: false, 
         from: 0
@@ -251,192 +477,6 @@ md.li = function(model, ctx, callback) {
         return callback(null);
     }
     )
-}
-;
-md.ol = function(model, ctx, callback) {
-    md.genItems(model.elements, ctx, {
-        indent: false, 
-        from: 0
-     }, (err, notUsed) => {
-    
-        if (err) {
-            return callback(err);
-        }
-        return callback(null);
-    }
-    )
-}
-;
-md.img = function(model, ctx, callback) {
-    if (ctx.isHtml || (!ctx.isCode && model.elements.length > 0)) {
-        md.writeHtml('img', model, ctx, callback);
-    }
-    else {
-        ctx.write('![' + model.wzName + ']');
-        ctx.write('(' + model.src);
-        if (verify.isString(model.title)) {
-            ctx.write(' "' + model.title + '"');
-        }
-        ctx.w(')');
-        return callback(null);
-    }
-}
-;
-md.video = function(model, ctx, callback) {
-    return callback(null);
-}
-;
-md.table = function(model, ctx, callback) {
-    ctx.w();
-    ctx.w('<table>');
-    md.genItems(model.elements, ctx, {
-        indent: false, 
-        from: 0
-     }, (err, notUsed) => {
-    
-        if (err) {
-            return callback(err);
-        }
-        ctx.w('</table>');
-        ctx.w();
-        return callback(null);
-    }
-    )
-}
-;
-md.thead = function(model, ctx, callback) {
-    ctx.w('<thead>');
-    md.genItems(model.elements, ctx, {
-        indent: false, 
-        from: 0
-     }, (err, notUsed) => {
-    
-        if (err) {
-            return callback(err);
-        }
-        ctx.w('</thead>');
-        return callback(null);
-    }
-    )
-}
-;
-md.tbody = function(model, ctx, callback) {
-    ctx.w('<tbody>');
-    md.genItems(model.elements, ctx, {
-        indent: false, 
-        from: 0
-     }, (err, notUsed) => {
-    
-        if (err) {
-            return callback(err);
-        }
-        ctx.w('</tbody>');
-        return callback(null);
-    }
-    )
-}
-;
-md.tr = function(model, ctx, callback) {
-    ctx.w('<tr>');
-    md.genItems(model.elements, ctx, {
-        indent: false, 
-        from: 0
-     }, (err, notUsed) => {
-    
-        if (err) {
-            return callback(err);
-        }
-        ctx.w('</tr>');
-        return callback(null);
-    }
-    )
-}
-;
-md.td = function(model, ctx, callback) {
-    ctx.write('<td>');
-    if (model.wzName) {
-        ctx.write(model.wzName);
-    }
-    if (model.elements && model.elements.length > 0) {
-        ctx.w();
-        md.genItems(model.elements, ctx, {
-            indent: false, 
-            from: 0
-         }, (err, notUsed) => {
-        
-            if (err) {
-                return callback(err);
-            }
-            return callback(null);
-        }
-        )
-    }
-    else {
-        ctx.w('</td>');
-        return callback(null);
-    }
-}
-;
-md.th = function(model, ctx, callback) {
-    ctx.write('<th>');
-    if (model.wzName) {
-        ctx.write(model.wzName);
-        return callback(null);
-    }
-    if (model.elements && model.elements.length > 0) {
-        ctx.w();
-        md.genItems(model.elements, ctx, {
-            indent: false, 
-            from: 0
-         }, (err, notUsed) => {
-        
-            if (err) {
-                return callback(err);
-            }
-            return callback(null);
-        }
-        )
-    }
-    else {
-        ctx.w('</th>');
-        return callback(null);
-    }
-}
-;
-md.quote = function(model, ctx, callback) {
-    return callback(null);
-}
-;
-md.hr = function(model, ctx, callback) {
-    ctx.w('* * *');
-    return callback(null);
-}
-;
-md.p = function(model, ctx, callback) {
-    if (ctx.isHtml || (!ctx.isCode && model.elements.length > 0)) {
-        md.writeHtml('p', model, ctx,callback);
-    }
-    else {
-        ctx.w(model.wzName);
-        if (ctx.isCode) {
-            ctx.indent();
-        }
-        md.genItems(model.elements, ctx, {
-            indent: false, 
-            from: 0
-         }, (err, notUsed) => {
-        
-            if (err) {
-                return callback(err);
-            }
-            if (ctx.isCode) {
-                ctx.deindent();
-            }
-            ctx.w('');
-            return callback(null);
-        }
-        )
-    }
 }
 ;
 md.span = function(model, ctx, callback) {
@@ -491,6 +531,43 @@ md.b = function(model, ctx, callback) {
     )
 }
 ;
+md.em = function(model, ctx, callback) {
+    ctx.write('_' + model.wzName);
+    md.genItems(model.elements, ctx, {
+        indent: false, 
+        from: 0
+     }, (err, notUsed) => {
+    
+        if (err) {
+            return callback(err);
+        }
+        ctx.write('_');
+        return callback(null);
+    }
+    )
+}
+;
+md.del = function(model, ctx, callback) {
+    ctx.write('~~' + model.wzName);
+    md.genItems(model.elements, ctx, {
+        indent: false, 
+        from: 0
+     }, (err, notUsed) => {
+    
+        if (err) {
+            return callback(err);
+        }
+        ctx.write('~~');
+        return callback(null);
+    }
+    )
+}
+;
+md.escape = function(model, ctx, callback) {
+    ctx.write('\\' + model.wzName);
+    return callback(null);
+}
+;
 md.blank = function(model, ctx, callback) {
     ctx.write(' ' + model.wzName);
     md.genItems(model.elements, ctx, {
@@ -507,25 +584,11 @@ md.blank = function(model, ctx, callback) {
 }
 ;
 md.plus = function(model, ctx, callback) {
-    if (ctx.isCode) {
-        ctx.w(model.wzName);
+    if (/*model.wzParent.wzElement == 'li' &&*/ model.wzName.startsWith('⋅⋅')) {
+        ctx.w();
     }
-    else {
-        ctx.w("`" + model.wzName + "`");
-    }
-    ctx.indent();
-    md.genItems(model.elements, ctx, {
-        indent: false, 
-        from: 0
-     }, (err, notUsed) => {
-    
-        if (err) {
-            return callback(err);
-        }
-        ctx.deindent();
-        return callback(null);
-    }
-    )
+    ctx.write(model.wzName);
+    return callback(null);
 }
 ;
 md.js = function(model, ctx, callback) {
@@ -547,6 +610,19 @@ md.js = function(model, ctx, callback) {
 }
 ;
 md.html = function(model, ctx, callback) {
+    if (model.get_html) {
+        included_writers.writeIncludeHtml(ctx, model, (err, notUsed) => {
+        
+            if (err) {
+                return callback(err);
+            }
+            return callback(null, true);
+        }
+        )
+    }
+    else {
+        throw new Error("Wizzifier error. Html tag with no `get_html` method.");
+    }
     ctx.w("```html");
     ctx.isCode = true;
     md.genItems(model.elements, ctx, {
@@ -636,6 +712,11 @@ md.code = function(model, ctx, callback) {
     )
 }
 ;
+md.codespan = function(model, ctx, callback) {
+    ctx.write("`" + model.wzName + "`");
+    return callback(null);
+}
+;
 md.imgRef = function(model, ctx, callback) {
     ctx.write('![' + model.alt + ']');
     ctx.w('[' + model.wzName + ']');
@@ -653,6 +734,73 @@ md.comment = function(model, ctx, callback) {
     ctx.write('');
     ctx.write('[comment]: # ' + model.wzName);
     return callback(null);
+}
+;
+
+md.analizeTable = function(table) {
+    var columns = {};
+    var i, i_items=table.elements, i_len=table.elements.length, item;
+    for (i=0; i<i_len; i++) {
+        item = table.elements[i];
+        console.log('analizeTable', item.wzElement, item.wzName, __filename);
+        if (item.wzElement == 'thead') {
+            var j, j_items=item.elements, j_len=item.elements.length, th;
+            for (j=0; j<j_len; j++) {
+                th = item.elements[j];
+                var prevTHL = columns[item.elements.indexOf(th)] || 0;
+                columns[item.elements.indexOf(th)] = Math.max(prevTHL, th.wzName.length);
+                console.log(item.elements.indexOf(th), prevTHL, th.wzName.length, th.wzName, __filename);
+            }
+        }
+        else if (item.wzElement == 'tbody') {
+            var j, j_items=item.elements, j_len=item.elements.length, tr;
+            for (j=0; j<j_len; j++) {
+                tr = item.elements[j];
+                var k, k_items=tr.elements, k_len=tr.elements.length, td;
+                for (k=0; k<k_len; k++) {
+                    td = tr.elements[k];
+                    var prevTDL = columns[tr.elements.indexOf(td)] || 0;
+                    columns[tr.elements.indexOf(td)] = Math.max(prevTDL, td.wzName.length);
+                    console.log(tr.elements.indexOf(td), prevTDL, td.wzName.length, td.wzName, __filename);
+                }
+            }
+        }
+    }
+    var i, i_items=table.elements, i_len=table.elements.length, item;
+    for (i=0; i<i_len; i++) {
+        item = table.elements[i];
+        if (item.wzElement == 'thead') {
+            var j, j_items=item.elements, j_len=item.elements.length, th;
+            for (j=0; j<j_len; j++) {
+                th = item.elements[j];
+                th.maxLength = columns[item.elements.indexOf(th)];
+                console.log(item.elements.indexOf(th), th.maxLength, th.wzName, __filename);
+            }
+        }
+        else if (item.wzElement == 'tbody') {
+            var j, j_items=item.elements, j_len=item.elements.length, tr;
+            for (j=0; j<j_len; j++) {
+                tr = item.elements[j];
+                var k, k_items=tr.elements, k_len=tr.elements.length, td;
+                for (k=0; k<k_len; k++) {
+                    td = tr.elements[k];
+                    td.maxLength = columns[tr.elements.indexOf(td)];
+                    console.log(tr.elements.indexOf(td), td.maxLength, td.wzName, __filename);
+                }
+            }
+        }
+    }
+}
+;
+md.getColumnValue = function(el, ctx) {
+    var text = ctx.doEscape(el.wzName);
+    var diff = el.maxLength-text.length;
+    // !!! el.wzName not text, it will be escaped when written
+    return el.wzName + new Array(diff > 0 ? diff + 1 : 0).join(' ');
+}
+;
+md.getThLine = function(el) {
+    return new Array(el.maxLength+1).join('-');
 }
 ;
 

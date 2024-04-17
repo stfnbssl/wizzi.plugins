@@ -49,6 +49,7 @@ module wizzi.plugin.md@${wzCtx.version}.lib.artifacts.md.document.gen.main
             _ md.writeHtml('div', model, ctx, callback)
 
         async-md( h1 )
+            $*
             if ctx.isHtml || (!ctx.isCode && model.elements.length > 0)
                 _ md.writeHtml
                     @ 'h1'
@@ -56,10 +57,12 @@ module wizzi.plugin.md@${wzCtx.version}.lib.artifacts.md.document.gen.main
                     @ ctx
                     @ callback
             else
-                _ ctx.w("# " + model.wzName)
-                r_cb()
+            *$
+            _ ctx.w("# " + model.wzName)
+            r_cb()
     
         async-md( h2 )
+            $*
             if ctx.isHtml || (!ctx.isCode && model.elements.length > 0)
                 _ md.writeHtml
                     @ 'h2'
@@ -67,10 +70,12 @@ module wizzi.plugin.md@${wzCtx.version}.lib.artifacts.md.document.gen.main
                     @ ctx
                     @ callback
             else
-                _ ctx.w("## " + model.wzName)
-                r_cb()
+            *$
+            _ ctx.w("## " + model.wzName)
+            r_cb()
     
         async-md( h3 )
+            $*
             if ctx.isHtml || (!ctx.isCode && model.elements.length > 0)
                 _ md.writeHtml
                     @ 'h3'
@@ -78,10 +83,12 @@ module wizzi.plugin.md@${wzCtx.version}.lib.artifacts.md.document.gen.main
                     @ ctx
                     @ callback
             else
-                _ ctx.w("### " + model.wzName)
-                r_cb()
+            *$
+            _ ctx.w("### " + model.wzName)
+            r_cb()
     
         async-md( h4 )
+            $*
             if ctx.isHtml || (!ctx.isCode && model.elements.length > 0)
                 _ md.writeHtml
                     @ 'h4'
@@ -89,123 +96,212 @@ module wizzi.plugin.md@${wzCtx.version}.lib.artifacts.md.document.gen.main
                     @ ctx
                     @ callback
             else
-                _ ctx.w("#### " + model.wzName)
-                r_cb()
+            *$
+            _ ctx.w("#### " + model.wzName)
+            r_cb()
     
         async-md( h5 )
+            $*
             if ctx.isHtml || (!ctx.isCode && model.elements.length > 0)
                 _ md.writeHtml('h5', model, ctx, callback)
             else
-                _ ctx.w("##### " + model.wzName)
-                r_cb()
+            *$
+            _ ctx.w("##### " + model.wzName)
+            r_cb()
     
         async-md( h6 )
+            $*
             if ctx.isHtml || (!ctx.isCode && model.elements.length > 0)
                 _ md.writeHtml('h6', model, ctx, callback)
             else
-                _ ctx.w("##### " + model.wzName)
-                r_cb()
+            *$
+            _ ctx.w("###### " + model.wzName)
+            r_cb()
     
         async-md( a )
+            $*
             if ctx.isHtml || (!ctx.isCode && model.elements.length > 0)
                 _ md.writeHtml('a', model, ctx, callback)
             else
-                _ ctx.write('[' + model.wzName + ']')
+            *$
+            _ ctx.write('[');
+            _ ctx.write(model.wzName)
+            set ctx.nolf = true
+            _md_gen_items( elements)
+                _ ctx.write(']')
                 _ ctx.write('(' + model.href)
                 if verify.isString(model.title)
                     _ ctx.write(' "' + model.title + '"')
                 _ ctx.w(')')
+                set ctx.nolf = false
                 r_cb()
-
+           
         async-md( ul )
-            _ md.genItems(model.elements, ctx, callback)
+            if ctx.isInsideList
+                if ctx.pendingLF
+                    _ ctx.w('')
+                    set ctx.pendingLF = false
+                _ md.genItems
+                    @ model.elements
+                    @ ctx
+                    {
+                        @ indent true
+                    @ callback
+            else
+                set ctx.isInsideList = true
+                _ md.genItems
+                    @ model.elements
+                    @ ctx
+                    {
+                        @ indent false
+                    a_cb()
+                        set ctx.isInsideList = false
+                        r_cb()
 
         async-md( li )
-            _ ctx.write('* ')
+            if model.wzParent.nextListOrderCount
+                _ ctx.write(model.wzParent.nextListOrderCount++ + '. ')
+            else
+                _ ctx.write('* ')
             if model.wzName && model.wzName.length > 0
                 _ ctx.write(model.wzName + ' ' )
-            _md_gen_items( elements)
-                _ ctx.w('')
+            set ctx.pendingLF = true
+            _md_gen_items( elements )
+                # loog 'exit ', model.wzName
+                if ctx.pendingLF
+                    _ ctx.w('')
+                    set ctx.pendingLF = false
                 r_cb()
     
         async-md( ol )
-            _md_gen_items( elements)
-                r_cb()
+            
+            set model.nextListOrderCount = 1
+            if ctx.isInsideList
+                if ctx.pendingLF
+                    _ ctx.w('')
+                    set ctx.pendingLF = false
+                _ md.genItems
+                    @ model.elements
+                    @ ctx
+                    {
+                        @ indent true
+                    @ callback
+            else
+                set ctx.isInsideList = true
+                _ md.genItems
+                    @ model.elements
+                    @ ctx
+                    {
+                        @ indent false
+                    a_cb()
+                        set ctx.isInsideList = false
+                        r_cb()
 
         async-md( img )
+            $*
             if ctx.isHtml || (!ctx.isCode && model.elements.length > 0)
                 _ md.writeHtml('img', model, ctx, callback)
             else
-                _ ctx.write('![' + model.wzName + ']')
-                _ ctx.write('(' + model.src)
-                if verify.isString(model.title)
-                    _ ctx.write(' "' + model.title + '"')
-                _ ctx.w(')')
+            *$
+            _ ctx.write('![' + model.alt + ']')
+            _ ctx.write('(' + model.src)
+            if verify.isString(model.title)
+                _ ctx.write(' "' + model.title + '"')
+            _md_gen_items( elements)
+                if ctx.nolf
+                    _ ctx.write(')')
+                else
+                    _ ctx.w(')')
                 r_cb()
 
         async-md( video )
             r_cb()
 
         async-md( table )
-            _ ctx.w
-            _ ctx.w('<table>')
+            _ md.analizeTable
+                @ model
+            $$ _ ctx.w
+            $$ _ ctx.w('<table>')
             _md_gen_items( elements )
-                _ ctx.w('</table>')
+                $$ _ ctx.w('</table>')
                 _ ctx.w
                 r_cb()
 
         async-md( thead )
-            _ ctx.w('<thead>')
+            $$ _ ctx.w('<thead>')
             _md_gen_items( elements )
-                _ ctx.w('</thead>')
+                $$ _ ctx.w('</thead>')
+                _ ctx.w('|')
+                _ ctx.write('|')
+                foreach th in model.elements
+                    _ ctx.write(md.getThLine(th))
+                    _ ctx.write('|')
+                _ ctx.w()
                 r_cb()
 
         async-md( tbody )
-            _ ctx.w('<tbody>')
+            $$ _ ctx.w('<tbody>')
             _md_gen_items( elements )
-                _ ctx.w('</tbody>')
+                $$ _ ctx.w('</tbody>')
                 r_cb()
 
 
         async-md( tr )
-            _ ctx.w('<tr>')
+            $$ _ ctx.w('<tr>')
             _md_gen_items( elements )
-                _ ctx.w('</tr>')
+                $$ _ ctx.w('</tr>')
+                _ ctx.w('|')
                 r_cb()
 
         async-md( td )
-            _ ctx.write('<td>')
+            _ ctx.write('|')
+            _ ctx.addEscape('|')
             if model.wzName
-                _ ctx.write(model.wzName)
+                _ ctx.write(md.getColumnValue(model, ctx))
             if model.elements && model.elements.length > 0
-                _ ctx.w()
+                $$ _ ctx.w()
                 _md_gen_items( elements )
+                    _ ctx.removeEscape('|')
                     r_cb()
             else
-                _ ctx.w('</td>')
+                $$ _ ctx.w('</td>')
+                _ ctx.removeEscape('|')
                 r_cb()
 
         async-md( th )
-            _ ctx.write('<th>')
+            _ ctx.write('|')
+            _ ctx.addEscape('|')
             if model.wzName
-                _ ctx.write(model.wzName)
-                r_cb()
+                _ ctx.write(md.getColumnValue(model, ctx))
             if model.elements && model.elements.length > 0
-                _ ctx.w()
+                $$ _ ctx.w()
                 _md_gen_items( elements )
+                    _ ctx.removeEscape('|')
                     r_cb()
             else
-                _ ctx.w('</th>')
+                $$ _ ctx.w('</th>')
+                _ ctx.removeEscape('|')
                 r_cb()
 
         async-md( quote )
-            r_cb()
+            _ ctx.write('> ')
+            set ctx.nolf = true
+            _md_gen_items( elements )
+                _ ctx.w()
+                set ctx.nolf = false
+                r_cb()
 
         async-md( hr )
-            _ ctx.w('* * *')
+            _ ctx.w('***')
             r_cb()
 
         async-md( p )
+            _ ctx.write(model.wzName) 
+            _md_gen_items( elements )
+                _ ctx.w('')
+                r_cb()
+            $*
+            log 'p', ctx.isHtml, !ctx.isCode && model.elements.length > 0
             if ctx.isHtml || (!ctx.isCode && model.elements.length > 0)
                 _ md.writeHtml('p', model, ctx,callback)
             else
@@ -217,6 +313,7 @@ module wizzi.plugin.md@${wzCtx.version}.lib.artifacts.md.document.gen.main
                         _ ctx.deindent()
                     _ ctx.w('')
                     r_cb()
+            *$
     
         async-md( span )
             _ ctx.write
@@ -240,12 +337,34 @@ module wizzi.plugin.md@${wzCtx.version}.lib.artifacts.md.document.gen.main
                 _ ctx.write('**')
                 r_cb()
     
+        async-md( em )
+            _ ctx.write('_' + model.wzName)
+            _md_gen_items( elements )
+                _ ctx.write('_')
+                r_cb()
+
+        async-md( del )
+            _ ctx.write('~~' + model.wzName)
+            _md_gen_items( elements )
+                _ ctx.write('~~')
+                r_cb()
+
+        async-md( escape )
+            _ ctx.write('\\' + model.wzName)
+            r_cb()
+
         async-md( blank )
             _ ctx.write(' ' + model.wzName)
             _md_gen_items( elements )
                 r_cb()
     
+        
         async-md( plus )
+            if /*model.wzParent.wzElement == 'li' &&*/ model.wzName.startsWith('⋅⋅')
+                _ ctx.w()
+            _ ctx.write(model.wzName)
+            r_cb()
+            $*
             if ctx.isCode
                 _ ctx.w(model.wzName)
             else
@@ -254,6 +373,7 @@ module wizzi.plugin.md@${wzCtx.version}.lib.artifacts.md.document.gen.main
             _md_gen_items( elements )
                 _ ctx.deindent
                 r_cb()
+            *$
 
         async-md( js )
             _ ctx.w("```javascript")
@@ -264,6 +384,14 @@ module wizzi.plugin.md@${wzCtx.version}.lib.artifacts.md.document.gen.main
                 r_cb()
 
         async-md( html )
+            if model.get_html
+                _ included_writers.writeIncludeHtml
+                    @ ctx
+                    @ model
+                    a_cb( notUsed )
+                        r_cb( true )
+            else
+                throw new Error("Wizzifier error. Html tag with no `get_html` method.")
             _ ctx.w("```html")
             set ctx.isCode = true
             _md_gen_items( elements )
@@ -303,6 +431,10 @@ module wizzi.plugin.md@${wzCtx.version}.lib.artifacts.md.document.gen.main
                 _ ctx.w("```")
                 r_cb()
 
+        async-md( codespan )
+            _ ctx.write("`" + model.wzName + "`")
+            r_cb()
+
         async-md( imgRef )
             _ ctx.write('![' + model.alt + ']')
             _ ctx.w('[' + model.wzName + ']')
@@ -319,6 +451,47 @@ module wizzi.plugin.md@${wzCtx.version}.lib.artifacts.md.document.gen.main
             _ ctx.write('[comment]: # ' + model.wzName)
             r_cb()
 
+        +
+        set md.analizeTable
+            function
+                param table
+                var columns
+                    {
+                foreach item in table.elements
+                    log 'analizeTable', item.wzElement, item.wzName
+                    if item.wzElement == 'thead'
+                        foreach th in item.elements
+                            var prevTHL = columns[item.elements.indexOf(th)] || 0
+                            set columns[item.elements.indexOf(th)] = Math.max(prevTHL, th.wzName.length)
+                            log item.elements.indexOf(th), prevTHL, th.wzName.length, th.wzName
+                    elif item.wzElement == 'tbody'
+                        foreach tr in item.elements
+                            foreach td in tr.elements
+                                var prevTDL = columns[tr.elements.indexOf(td)] || 0
+                                set columns[tr.elements.indexOf(td)] = Math.max(prevTDL, td.wzName.length)
+                                log tr.elements.indexOf(td), prevTDL, td.wzName.length, td.wzName
+                foreach item in table.elements
+                    if item.wzElement == 'thead'
+                        foreach th in item.elements
+                            set th.maxLength = columns[item.elements.indexOf(th)]
+                            log item.elements.indexOf(th), th.maxLength, th.wzName
+                    elif item.wzElement == 'tbody'
+                        foreach tr in item.elements
+                            foreach td in tr.elements
+                                set td.maxLength = columns[tr.elements.indexOf(td)]
+                                log tr.elements.indexOf(td), td.maxLength, td.wzName
+        set md.getColumnValue
+            function
+                param el 
+                param ctx
+                var text = ctx.doEscape(el.wzName)
+                var diff = el.maxLength-text.length
+                # !!! el.wzName not text, it will be escaped when written
+                return el.wzName + new Array(diff > 0 ? diff + 1 : 0).join(' ')
+        set md.getThLine
+            function
+                param el 
+                return new Array(el.maxLength+1).join('-')
         +
         set md.writeHtml
             function

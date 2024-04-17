@@ -1,0 +1,172 @@
+schema @a(x: 1) {
+  query: MyQueryRootType
+  mutation: MyMutationRootType
+  
+}
+
+type MyQueryRootType @a(x: 1) {
+  someField1: String @a(x: 1)
+  someField2: String @a(x: 1)
+}
+
+type MyMutationRootType @a(x: 1) {
+  setSomeField1(to: String @a(x: 1)): String @a(x: 1)
+  setSomeField2(to: String @a(x: 1)): String @a(x: 1)
+}
+
+extend schema @b(y: 1) 
+
+extend schema @b(y: 1) {
+    subscription: MySubscriptionRootType
+}
+
+type MySubscriptionRootType @a(x: 1) {
+  someField1: String
+  someField2: String
+}
+
+scalar UUID @specifiedBy(url: "https://tools.ietf.org/html/rfc4122")
+scalar URL @specifiedBy(url: "https://tools.ietf.org/html/rfc3986")
+scalar DateTime
+  @specifiedBy(url: "https://scalars.graphql.org/andimarek/date-time")
+
+extend scalar UUID @c(z: 0)
+
+type Person implements LivingBeing & Organic {
+    name: String
+    age: Int
+    picture: Url
+}            
+
+type ExampleType {
+  oldField: String @deprecated
+}
+
+extend type Story {
+  isHiddenLocally: Boolean
+}
+
+extend type User @addedDirective
+
+interface NamedEntity {
+  name: String
+}
+
+interface ValuedEntity {
+  value: Int
+}
+
+type Person implements NamedEntity {
+  name: String
+  age: Int
+}
+
+type Business implements NamedEntity & ValuedEntity {
+  name: String
+  value: Int
+  employeeCount: Int
+}
+
+interface Image implements Resource & Node {
+  id: ID!
+  url: String
+  thumbnail: String
+}
+
+extend interface NamedEntity {
+  nickname: String
+}
+
+extend type Person {
+  nickname: String
+}
+
+extend type Business {
+  nickname: String
+}
+
+extend interface NamedEntity @addedDirective
+
+union SearchResult = Photo | Person
+
+type Person {
+  name: String
+  age: Int
+}
+
+type Photo {
+  height: Int
+  width: Int
+}
+
+type SearchQuery {
+  firstSearchResult: SearchResult
+}
+
+extend union SearchResult @d(z: 0) = Business | Image 
+
+extend union SearchResult @d(z: 0)
+
+enum Direction @e(w: 0) {
+  NORTH
+  EAST
+  SOUTH @e(w: 0)
+  WEST
+}
+
+extend enum Direction @f(w: 0) {
+  NORTH_EAST
+  SUD_OVEST @e(w: 0)
+}
+
+extend enum Direction @f(w: 0)
+
+input Example {
+  self: [Example!]!
+  value: String
+  matrix: [[Int!]!]
+  matrix2: [[Int!]!]!
+}
+
+directive @example on FIELD
+
+fragment SomeFragment on SomeType {
+  field @example
+}
+
+# Directive locations may be defined with an optional leading | character to aid formatting when representing a longer list of possible locations:
+
+directive @example on
+  | FIELD
+  | FRAGMENT_SPREAD
+  | INLINE_FRAGMENT
+
+# Directives can also be used to annotate the type system definition language as well, which can be a useful tool for supplying additional metadata in order to generate GraphQL execution services, produce client generated runtime code, or many other useful extensions of the GraphQL semantics.
+
+# In this example, the directive @example annotates field and argument definitions:
+
+directive @example on FIELD_DEFINITION | ARGUMENT_DEFINITION
+
+type SomeType {
+  field(arg: Int @example): String @example
+}
+
+# A directive may be defined as repeatable by including the “repeatable” keyword. Repeatable directives are often useful when the same directive should be used with different arguments at a single location, especially in cases where additional information needs to be provided to a type or schema extension via a directive:
+
+directive @delegateField(name: String!) repeatable on OBJECT | INTERFACE
+
+type Book @delegateField(name: "pageCount") @delegateField(name: "author") {
+  id: ID!
+}
+
+extend type Book @delegateField(name: "index")
+
+directive @skip(if: Boolean!) on FIELD | FRAGMENT_SPREAD | INLINE_FRAGMENT
+
+# The @skip built-in directive may be provided for fields, fragment spreads, and inline fragments, and allows for conditional exclusion during execution as described by the if argument.
+
+# In this example experimentalField will only be queried if the variable $someTest has the value false.
+
+query myQuery($someTest: Boolean!) {
+  experimentalField @skip(if: $someTest)
+}

@@ -4,7 +4,9 @@ module
     kind es6
     basewizzifier()
         $append imports
+            var helpers = require("@wizzi/utils").helpers
             var graphql_parser = require('graphql/language/parser')
+            var textIndentParser = helpers.textIndentParser
             var cleanAST = require('./cleanAST')
             function parseInternal
                 param tobeWizzified
@@ -39,7 +41,7 @@ module
                         _ showstack(options)
                         throw new Error('parent is null.' + util.inspect(ast, 4))
                 if options.verbose
-                    info 'ast.kind', ast.kind
+                    # info 'ast.kind', ast.kind
                 var kind = ast.kind === 'arguments' ? 'xarguments' : ast.kind
                 var formatter = format[kind]
                 if formatter
@@ -62,7 +64,7 @@ module
                 @ tobeWizzified
                 @ options
                 a_cb( syntax )
-                    log JSON.stringify(syntax, null, 2)
+                    # loog JSON.stringify(syntax, null, 2)
                     var root
                         {
                             @ tag '${schemaName}'
@@ -88,10 +90,17 @@ module
                 # loog 'Name.name', ret.name
                 # loog 'Name.textified', ret.textified
 
-        f( NonNullType, ! )
+        f( NonNullType, :! )
             f_p_temp( type 
-            # loog 'NonNullType.p_type', p_type
             set ret.name = p_type.name
+            f_p( type
+            # loog 'NonNullType.ret', ret
+            if ret.children[0].tag == 'namedType'
+                set ret.children.length = 0
+            $*
+            if p_type.children[0].tag == 'namedType'
+                set p_type.children[0].tag = ':'
+            *$
 
         f( NamedType, namedType )
             f_p_temp( name
@@ -105,9 +114,13 @@ module
         f( Document, skip)
             f_a( definitions )
 
-        f( SchemaDefinition, schema
-            f_a( operationTypes
+        f( SchemaDefinition, :schema
             f_a( directives
+            f_a( operationTypes
+
+        f( SchemaExtension, :extend-schema
+            f_a( directives
+            f_a( operationTypes
 
         f( OperationTypeDefinition, operation-type
             tag( operation 
@@ -117,7 +130,68 @@ module
             else
                 new Error('InterfaceTypeDefinition. Expected textual name: ' + JSON.stringify(node, null, 2))
 
-        f( ObjectTypeDefinition, {
+        f( ObjectTypeDefinition, :type
+            f_p_temp( name 
+            if isTextualNode(p_name)
+                set ret.name = getNodeText(p_name)
+            else
+                new Error('ObjectTypeDefinition. Expected textual name: ' + JSON.stringify(node, null, 2))
+            f_a_temp( interfaces
+            if p_interfaces != null
+                foreach item in p_interfaces.children
+                    set item.tag = '&'
+                    _ ret.children.push(item)
+            f_a( directives
+            f_a( fields
+
+        f( FieldDefinition, :p
+            f_p_temp( name 
+            if isTextualNode(p_name)
+                set ret.name = getNodeText(p_name)
+            else
+                new Error('FieldDefinition. Expected textual name: ' + JSON.stringify(node, null, 2))
+            f_p( type 
+            if ret.children[0].tag == ':!'
+                if ret.children[0].children.length == 1 && ret.children[0].children[0].tag == ':['
+                    set ret.children[0].tag = ':!['
+                    set ret.children[0].children = ret.children[0].children[0].children
+                if ret.children[0].children.length == 1 && ret.children[0].children[0].tag == 'namedType'
+                    set ret.children[0].children.length = 0
+            if ret.children[0].tag == 'namedType'
+                set ret.children[0].tag = ':'
+            if node.arguments.length > 0
+                set ret.tag = ':m'
+
+            # loog 'FieldDefinition.type', ret.children[0]
+            f_a( directives
+            f_a_temp( arguments
+            # loog 'FieldDefinition.arguments', p_arguments
+            foreach item in p_arguments.children
+                if item.tag == '@'
+                    set item.tag = 'param'
+                    if item.children[0].tag[0] != ':'
+                        set item.children[0].name = item.children[0].tag
+                        set item.children[0].tag = ':'
+                _ ret.children.push
+                    @ item
+            
+
+        f( ObjectTypeExtension, :extend-type
+            f_p_temp( name 
+            if isTextualNode(p_name)
+                set ret.name = getNodeText(p_name)
+            else
+                new Error('ObjectTypeExtension. Expected textual name: ' + JSON.stringify(node, null, 2))
+            f_a_temp( interfaces
+            if p_interfaces != null
+                foreach item in p_interfaces.children
+                    set item.tag = '&'
+                    _ ret.children.push(item)
+            f_a( directives
+            f_a( fields
+            
+
+        f( InterfaceTypeDefinition, :interface
             f_p_temp( name 
             if isTextualNode(p_name)
                 set ret.name = getNodeText(p_name)
@@ -128,89 +202,79 @@ module
                 foreach item in p_interfaces.children
                     set item.tag = '&'
                     _ ret.children.push(item)
+            f_a( directives
             f_a( fields
-            f_a( directives
-
-        f( FieldDefinition, field-def
-            f_p_temp( name 
-            f_p_temp( type 
-            if p_type.tag === 'namedType'
-                if node.arguments.length > 0
-                    set ret.tag = 'm'
-                    set ret.name = p_name.name
-                    _ ret.children.push
-                        {
-                            @ tag 'type'
-                            @ name p_type.name
-                            [ children
-                else
-                    set ret.tag = p_type.name
-                    set ret.name = p_name.name
-            else
-                _ ret.children.push(p_name)
-                _ ret.children.push(p_type)
-            f_a( arguments
-            f_a( directives
-
-        f( ObjectTypeExtension, extend-{
+            
+        f( InterfaceTypeExtension, :extend-interface
             f_p_temp( name 
             if isTextualNode(p_name)
                 set ret.name = getNodeText(p_name)
             else
                 new Error('InterfaceTypeDefinition. Expected textual name: ' + JSON.stringify(node, null, 2))
-            f_a_temp( interfaces
-            if p_interfaces != null
-                foreach item in p_interfaces.children
-                    set item.tag = '&'
-                    _ ret.children.push(item)
-            f_a( fields
             f_a( directives
+            f_a( fields
 
-        f( InterfaceTypeDefinition, interface
+        f( UnionTypeDefinition, :union
             f_p_temp( name 
             if isTextualNode(p_name)
                 set ret.name = getNodeText(p_name)
             else
-                new Error('InterfaceTypeDefinition. Expected textual name: ' + JSON.stringify(node, null, 2))
-            f_a( fields
-            f_a( directives
-
-        f( InterfaceTypeExtension, extend-interface
-            f_p_temp( name 
-            if isTextualNode(p_name)
-                set ret.name = getNodeText(p_name)
-            else
-                new Error('InterfaceTypeDefinition. Expected textual name: ' + JSON.stringify(node, null, 2))
-            f_a( fields
-            f_a( directives
-
-        f( UnionTypeDefinition, union
-            f_p_temp( name 
-            if isTextualNode(p_name)
-                set ret.name = getNodeText(p_name)
-            else
-                new Error('InputObjectTypeDefinition. Expected textual name: ' + JSON.stringify(node, null, 2))
+                new Error('UnionTypeDefinition. Expected textual name: ' + JSON.stringify(node, null, 2))
             f_a( types
             foreach item in ret.children
                 if item.tag === 'namedType'
                     set item.tag = '|'
             f_a( directives
 
-        f( ListType, [
-            f_p( type 
+        f( UnionTypeExtension, :extend-union
+            f_p_temp( name 
+            if isTextualNode(p_name)
+                set ret.name = getNodeText(p_name)
+            else
+                new Error('UnionTypeDefinition. Expected textual name: ' + JSON.stringify(node, null, 2))
+            f_a( types
+            foreach item in ret.children
+                if item.tag === 'namedType'
+                    set item.tag = '|'
+            f_a( directives
 
-        f( ScalarTypeDefinition, scalar
-            f_p( name 
+        f( ListType, :[
+            f_p( type 
+            # loog 'ListType', ret
+            if ret.children[0].tag == 'namedType'
+                set ret.children[0].tag = ':'
+            if ret.children[0].tag == ':!'
+                if ret.children[0].children.length == 1 && ret.children[0].children[0].tag == ':['
+                    set ret.children[0].tag = ':!['
+                    set ret.children[0].children = ret.children[0].children[0].children
+                $*
+                if ret.children[0].children.length == 1 && ret.children[0].children[0].tag == 'namedType'
+                    set ret.children[0].children.length = 0
+                *$
+
+
+        f( ScalarTypeDefinition, :scalar
+            f_p_name(ScalarTypeDefinition)
             f_p( description, false 
             f_a( directives
 
-        f( EnumTypeDefinition, enum
-            f_p( name 
-            f_a( values
+        f( ScalarTypeExtension, :extend-scalar
+            f_p_name(ScalarTypeDefinition)
+            f_p( description, false 
             f_a( directives
 
+        f( EnumTypeDefinition, :enum
+            f_p_name(EnumTypeDefinition)
+            f_a( directives
+            f_a( values
+
+        f( EnumTypeExtension, :extend-enum
+            f_p_name(EnumTypeDefinition)
+            f_a( directives
+            f_a( values
+
         f( EnumValueDefinition, @
-            f_p( name 
+            f_p_name(EnumValueDefinition)
             f_a( directives
 
         format( OperationDefinition $$ , oper
@@ -228,7 +292,7 @@ module
             else
                 var ret
                     {
-                        @ tag node.operation
+                        @ tag ':' + node.operation
                         @ name ''
                         @ isText false
                         @ textified null
@@ -236,28 +300,47 @@ module
                         [ children
                 f_a( variableDefinitions
                 f_a( directives
+            # loog 'OperationDefinition.ret', ret
             _ format
                 @ ret
                 @ node.selectionSet
                 @ options
+            # loog 'OperationDefinition.after.ret', ret
+            _ parent.children.push(ret)
 
         f( SelectionSet, {
             f_a( selections
 
-        f( InputValueDefinition, input
+        f( InputValueDefinition, @
             f_p_temp( name 
-            f_p_temp( type 
-            f_p_temp( defaultValue, false
-            # loog 'InputValueDefinition', p_type, p_name
-            if p_type.tag === 'namedType'
-                set ret.tag = p_type.name
-                set ret.name = p_name.name
+            if isTextualNode(p_name)
+                set ret.name = getNodeText(p_name)
             else
-                _ ret.children.push(p_name)
+                new Error('InputValueDefinition. Expected textual name: ' + JSON.stringify(node, null, 2))
+            f_p( type 
+            if ret.children[0].tag == ':!'
+                if ret.children[0].children.length == 1 && ret.children[0].children[0].tag == ':['
+                    set ret.children[0].tag = ':!['
+                    set ret.children[0].children = ret.children[0].children[0].children
+                if ret.children[0].children.length == 1 && ret.children[0].children[0].tag == 'namedType'
+                    set ret.children[0].children.length = 0
+            if ret.children[0].tag == 'namedType'
+                set ret.children[0].tag = ':'
+            #
+                f_p_temp( type 
+                # loog 'InputValueDefinition.p_type', ret.name, p_type
+                if p_type.tag === 'namedType'
+                    set p_type.tag = p_type.name
+                    if p_type.tag == 'string'
+                        set p_type.name = '"' + p_name.name + '"'
+                    else
+                        set p_type.name = p_name.name
                 _ ret.children.push(p_type)
-            if p_defaultValue != null
-                set p_defaultValue.tag = 'default'
-                _ ret.children.push(p_defaultValue)
+            f_p( defaultValue, false
+            if ret.children.length == 2
+                set ret.children[1].tag = '='
+                if p_type.tag == 'string'
+                    set ret.children[1].name = '"' +  ret.children[1].name + '"'
             f_a( directives
 
         f( InputObjectTypeDefinition, input
@@ -266,25 +349,40 @@ module
                 set ret.name = getNodeText(p_name)
             else
                 new Error('InputObjectTypeDefinition. Expected textual name: ' + JSON.stringify(node, null, 2))
-            f_a_in_tag( fields, {
             f_a( directives
+            f_a_in_tag( fields, {
 
         f( Field, .
+            if node.arguments.length > 0
+                set ret.tag = '_'
             name( name.value
             f_p_temp( alias, false
             if p_alias != null
                 set p_alias.tag = 'as'
                 _ ret.children.push(p_alias)
             
+            f_a( directives
             f_a( arguments
             f_p( selectionSet, false
-            f_a( directives
+            
 
         f( Argument, @
             f_p_temp( name
             if isTextualNode(p_name)
                 set ret.name = getNodeText(p_name)
+            else
+                new Error('Argument. Expected textual name: ' + JSON.stringify(node, null, 2))
             f_p( value
+            # loog 'Argument', ret.name, ret.children.length
+            if ret.children.length == 1
+                # loog 'Argument', ret.name, ret.children[0].tag, ret.children[0].name, ret.children[0].children.length
+                if ret.children[0].children.length < 1
+                    if ret.children[0].tag == 'string'
+                        # set ret.children[0].name = '"' +  ret.children[0].name + '"'
+                        set ret.name = ret.name + ' ' + '"' +  ret.children[0].name + '"'
+                    else
+                        set ret.name = ret.name + ' ' + ret.children[0].name
+                    set ret.children.length = 0
 
         f( IntValue, int
             name( value )
@@ -300,15 +398,63 @@ module
 
         f( StringValue, string
             name( value )
-            var lines = ret.name.split(/\n\r|\n|\r/)
-            if lines.length > 1
-                set ret.name = lines[0]
-                for var i = 1; i<lines.length;i++
-                    _ ret.children.push
-                        {
-                            @ tag '\\n'
-                            @ name lines[i]
-                            [ children
+            var lines 
+                _ textIndentParser.parse
+                    @ ret.name
+            # loog 'lines', lines
+            if lines.length < 1
+                var 
+                    decl nodes
+                        [ 
+                    decl root = null
+                    decl current = null
+                    decl line
+                    decl i
+                    decl l = lines.length
+                
+                for var i = 0; i < l; i++
+                    set line = lines[i]
+                    set line.tag = '+'
+                    set line.name = line.value
+                    if line.indent <= 0
+                        set line.parent = ret
+                        # loog line.value, 'added to', ret.tag, ret.name
+                        _ ret.children.push(line)
+                    elif line.indent == current.indent
+                        set line.parent = current.parent
+                        # loog line.value, 'added to', current.parent.tag, current.parent.name
+                        _ current.parent.children.push(line)
+                    elif line.indent > current.indent
+                        set line.parent = current
+                        # loog line.value, 'added to', current.tag, current.name
+                        _ current.children.push(line)
+                    elif line.indent < current.indent
+                        var parent = current.parent
+                        while parent != null && line.indent < parent.indent
+                            set parent = parent.parent
+                        set line.parent = parent.parent
+                        if parent.parent
+                            # loog line.value, 'added to', parent.parent.tag, parent.parent.name
+                            _ parent.parent.children.push(line)
+                        else
+                            # loog line.value, 'added to', ret.tag, ret.name
+                            _ ret.children.push(line)
+                    set current = line
+                    set current.children = []
+
+                set ret.tag = 'string'
+                set ret.name = null
+            
+            $if false
+                var lines = ret.name.split(/\n\r|\n|\r/)
+                if lines.length > 1
+                    set ret.name = lines[0]
+                    for var i = 1; i<lines.length;i++
+                        _ ret.children.push
+                            {
+                                @ tag '\\n'
+                                @ name lines[i]
+                                [ children
 
         f( ListValue, [
             f_a( values
@@ -317,22 +463,38 @@ module
             f_a( fields
 
         f( ObjectField, @
-            f_p( name 
-            f_p( value 
+            f_p_temp( name
+            if isTextualNode(p_name)
+                set ret.name = getNodeText(p_name)
+            else
+                new Error('ObjectField. Expected textual name: ' + JSON.stringify(node, null, 2))
+            f_p( value
+            if ret.children.length == 1 
+                if ret.children[0].tag = 'var'
+                    set ret.name = ret.name + ' ' + ret.children[0].name
+                    set ret.children.length = 0
 
         f( FragmentDefinition, fragment
-            f_p( name 
+            f_p_temp( name
+            if isTextualNode(p_name)
+                set ret.name = getNodeText(p_name)
+            else
+                new Error('FragmentDefinition. Expected textual name: ' + JSON.stringify(node, null, 2))
             f_p_tag( typeCondition , on
-            #
-                f_p_temp( typeCondition 
-                    if p_typeCondition != null
-                        set p_typeCondition.tag = 'on'
-                        _ ret.children.push(p_typeCondition)
-            f_p( selectionSet, false
+            # loog 'FragmentDefinition.p_typeCondition', p_typeCondition
+            if p_typeCondition.children.length == 1 && p_typeCondition.children[0].tag == "namedType"
+                set p_typeCondition.name = p_typeCondition.children[0].name
+                set p_typeCondition.children.length = 0
             f_a( directives
+            f_p( selectionSet, false
+            
 
         f( FragmentSpread, ...
-            f_p( name 
+            f_p_temp( name
+            if isTextualNode(p_name)
+                set ret.name = getNodeText(p_name)
+            else
+                new Error('FragmentSpread. Expected textual name: ' + JSON.stringify(node, null, 2))
             f_a( directives
 
         f( InlineFragment, ...on
@@ -343,28 +505,47 @@ module
                     set ret.textified = ret.name
                 else
                     _ ret.children.push(p_typeCondition)
-            f_p( selectionSet, false
             f_a( directives
+            f_p( selectionSet, false
+            
 
 
         f( VariableDefinition, var-def
-            f_p( variable 
-            f_p( type
+            f_p_temp( variable
+            # loog 'Variable', p_variable
+            f_p_temp( type
+            # loog 'Type', p_type
+            set ret.tag = p_type.name
+            set ret.name = p_variable.name
+            f_p( defaultValue, false
+            if ret.children.length == 1
+                set ret.children[0].tag = '='
+                if p_type.name == 'string'
+                    set ret.children[0].name = '"' +  ret.children[0].name + '"'
+            f_a( directives
+
 
         f( Variable, var
             f_p_temp( name
             if isTextualNode(p_name)
-                set ret.name = getNodeText(p_name)
+                set ret.name = '$' + getNodeText(p_name)
                 set ret.textified = ret.name
             else
                 _ ret.children.push(p_name)
 
-        f( DirectiveDefinition, %-def
-            f_p( name
+        f( DirectiveDefinition, :%
+            f_p_name( name
             f_a( arguments
-            f_a( locations
+            f_a_temp( locations
+            foreach item in p_locations.children
+                # loog 'DirectiveDefinition.item', item
+                set item.tag = 'on'
+                _ ret.children.push
+                    @ item
 
         f( Directive, %
-            f_p( name 
+            f_p_temp( name
+            # loog 'Directive', p_name
             f_a( arguments
+            set ret.name = p_name.name
 

@@ -1,0 +1,170 @@
+element fragments
+	tag
+	ast 
+	category
+
+	item
+		title Query no fragments
+		ittf
+            query noFragments
+                { 
+                    # https://spec.graphql.org/draft/#sec-Language.Fragments
+                    # example 18
+                    # https://spec.graphql.org/draft/#example-bcf38
+                    _ user
+                        @ id 4
+                        { 
+                            _ friends
+                                @ first 10
+                                { 
+                                    . id
+                                    . name
+                                    _ profilePic
+                                        @ size 50
+                            _ mutualFriends
+                                @ first 10
+                                { 
+                                    . id
+                                    . name
+                                    _ profilePic
+                                        @ size 50
+
+	item
+		title Query with fragments
+		ittf
+            graphql
+                fragment friendFields
+                    on User
+                    {
+                        . id
+                        . name
+                        _ profilePic
+                            @ size 50        
+
+                query withFragments
+                    # example 19
+                    # https://spec.graphql.org/draft/#example-72b4e
+                    { 
+                        _ user
+                            @ id 4
+                            {
+                                _ friends
+                                    @ first 10
+                                    {
+                                        ... friendFields
+                                _ mutualFriends
+                                    @ first 10
+                                    {
+                                        ... friendFields    
+
+	item
+		title Query with nested fragments
+		ittf
+            graphql
+                fragment standardProfilePic
+                    on User
+                    {
+                        _ profilePic
+                            @ size 50
+
+                fragment friendFieldsNested
+                    on User
+                    {
+                        . id
+                        . name
+                        ... standardProfilePic
+
+                query withNestedFragments
+                    # example 20
+                    # https://spec.graphql.org/draft/#example-fb6c3
+                    { 
+                        _ user
+                            @ id 4
+                            {
+                                _ friends
+                                    @ first 10
+                                    {
+                                        ... friendFieldsNested
+                                _ mutualFriends
+                                    @ first 10
+                                    {
+                                        ... friendFieldsNested   
+
+	item
+		title Fragment typing
+		ittf
+            graphql
+            
+                fragment userFragment
+                    on User
+                    {
+                        . friends 
+                            {
+                                . count
+                fragment pageFragment
+                    on Page
+                    {
+                        . likers
+                            {
+                                . count
+                query FragmentTyping
+                    # https://spec.graphql.org/draft/#sec-Type-Conditions
+                    # example 21
+                    # https://spec.graphql.org/draft/#example-80138
+                    { 
+                        _ profiles
+                            @ handles
+                                [
+                                    string zuck
+                                    string coca-cola
+                            {
+                                . handle
+                                ... userFragment
+                                ... pageFragment
+
+	item
+		title Inline fragment typing
+		ittf
+            query inlineFragmentTyping
+                # https://spec.graphql.org/draft/#sec-Inline-Fragments
+                # example 23
+                # https://spec.graphql.org/draft/#example-10b94
+                { 
+                    _ profiles
+                        @ handles
+                            [
+                                string zuck
+                                string coca-cola
+                        {
+                            . handle
+                            ...on User
+                                {
+                                    . friends
+                                        {
+                                            . count
+                            ...on Page
+                                {
+                                    . likers 
+                                        {
+                                            . count
+
+	item
+		title Inline fragment no type
+		ittf
+            query inlineFragmentNoType
+                # example 24
+                # https://spec.graphql.org/draft/#example-77377
+                boolean $expandedInfo
+                { 
+                    _ user
+                        @ handle "zuck"
+                        {
+                            . id
+                            . name
+                            ... 
+                                %include
+                                    if $expandedInfo
+                                {
+                                    . firstName
+                                    . lastName
+                                    . birthday

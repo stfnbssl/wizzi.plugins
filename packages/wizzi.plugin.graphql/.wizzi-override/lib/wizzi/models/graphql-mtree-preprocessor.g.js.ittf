@@ -5,7 +5,7 @@ module
     function preprocessNode
         param node
         param state
-        if node.n === 'string' || node.n === '"""'
+        if $*node.n === 'string' ||*$ node.n === '"""'
             $$ loog'preprocessNode', node
             if node.children.length > 0
                 var childrenTexts = []

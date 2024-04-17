@@ -1,6 +1,6 @@
 # wizzi.plugin.graphql
 
-wizzi.plugin.graphql
+Graphql language
 
 
 ## Features
@@ -16,9 +16,6 @@ wizzi.plugin.graphql
 no<td>
 
 <table>
-<tr>
-<td>extended</td>
-</tr>
 </table>
 
 <td>

@@ -2,10 +2,11 @@ $group
     $params name, tag|notUsed
     # process AST-node-property-collection ${name} and
     # embed its array of nodes in a temp var
+    var p_${name} = null
     if node.${name}
         if typeof node.${name}.length === 'undefined'
             throw new Error('Property node.${name} must be an array')
-        var p_${name}
+        set p_${name}
             {
                 @ tag '${tag}'
                 [ children

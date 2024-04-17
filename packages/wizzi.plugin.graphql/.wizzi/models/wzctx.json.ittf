@@ -1,18 +1,20 @@
 {
     $include versions
     name "wizzi.plugin.graphql"
-    npnName "@wizzi/plugin.graphql"
-    pluginBasename "graphql"
+    npmName "@wizzi/plugin.graphql"
+    pluginBasename ""
     version '${versions['@wizzi/plugin.graphql@next']}'
-    description "wizzi.plugin.graphql"
+    description "Graphql language"
+    main "index.js"
     { author
         name "Stefano Bassoli"
         email "stfn.bssl@gmail.com"
     { github
         userid "stfnbssl"
     { license
-        name "MIT"
-        copy "copy 2023"
+        type "MIT"
+        url "https://github.com/stfnbssl/wizzi.plugins/tree/main/packages/wizzi.plugin.graphql/license.text"
+        copy "copy 2024"
     { Build
         isWizziPlugin true
         useWizziV08 true
@@ -27,16 +29,13 @@
             title "graphql wizzi schema"
             builtin false
             hasWizzifier true
+            hasCheatsheetFolder true
             [ modelTransformers
-                {
-                    name "extended"
             [ artifactGenerators
                 {
                     name "document"
-            [ artifacts
-                {
-                    name "document"
                     outmime "graphql"
+                    contentType "text/graphql"
                     isDefault true
             defaultArtifact "document"
             [ wizzifiers

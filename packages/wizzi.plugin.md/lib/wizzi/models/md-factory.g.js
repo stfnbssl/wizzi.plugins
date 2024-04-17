@@ -10,6 +10,7 @@ var util = require('util');
 var _ = require('lodash');
 
 var stringify = require('json-stringify-safe');
+var mdmTreePreProcessor = require('./md-mtree-preprocessor.g');
 
 var mdschema = require('./md-model.g');
 
@@ -165,6 +166,8 @@ md.createLoadModel = function(wizziObject) {
                         var ittfDumpPath = path.join(path.dirname(ittfDocumentUri), '_debug', path.basename(ittfDocumentUri) + '.ittf.json');
                         file.write(ittfDumpPath, stringify(mTree, null, 2))
                     }
+                    mTree = mdmTreePreProcessor(mTree, loadContext)
+                    ;
                     loadModelFromMTree(mTree, ittfDocumentUri, wizziModelRequest, {
                         wizziFactory: wizziFactory
                      }, callback)

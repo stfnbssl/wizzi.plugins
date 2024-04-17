@@ -9,7 +9,7 @@ $group
     
     e operation : basenode
         is-abstract
-        # OperationType: one of query mutation subscription
+        # OperationType: one of query, mutation, subscription
         # wzName is name: optional
 		r variable/s
 		r selectionSet
@@ -51,6 +51,12 @@ $group
     #  Field
     #    Alias(opt) Name Arguments(opt) Directives(opt) SelectionSet(opt)
     e_tag( field, ., selection
+		a_tag( alias, as
+        # wzName is name
+		r selectionSet
+			one-to-one
+
+    e_tag( functionField, _, selection
 		a_tag( alias, as
         # wzName is name
 		r argument/s

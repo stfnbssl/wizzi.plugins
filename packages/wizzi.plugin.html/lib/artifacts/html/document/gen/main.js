@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.html\.wizzi-override\lib\artifacts\html\document\gen\main.js.ittf
-    utc time: Tue, 02 Apr 2024 11:09:52 GMT
+    utc time: Tue, 16 Apr 2024 09:33:34 GMT
 */
 'use strict';
 
@@ -217,21 +217,6 @@ md.myGenItems = function(items, ctx, options, callback) {
     )
 }
 ;
-md.html = function(model, ctx, callback) {
-    ctx.w('<html>');
-    md.myGenItems(model.nodes, ctx, {
-        indent: true
-     }, (err, notUsed) => {
-    
-        if (err) {
-            return callback(err);
-        }
-        ctx.w('</html>');
-        return callback(null);
-    }
-    )
-}
-;
 md.standardElement = function(model, ctx, callback) {
     preprocess(model, ctx);
     var voidEl = (model.wzTag in voidElements);
@@ -343,13 +328,16 @@ md.standardElement = function(model, ctx, callback) {
 }
 ;
 md.html = function(model, ctx, callback) {
-    if (!!ctx.values.forVueTemplate == false) {
+    console.log('html.ctx.values', ctx.values, __filename);
+    if (!!ctx.values.noDocType == false) {
         if (model.doctype) {
             ctx.w('<!doctype ' + model.doctype + '>');
         }
         else {
             ctx.w('<!doctype html>');
         }
+    }
+    if (!!ctx.values.noHtmlRoot == false) {
         ctx.write('<html');
         var i, i_items=getAttrs(model), i_len=getAttrs(model).length, a;
         for (i=0; i<i_len; i++) {
@@ -370,8 +358,8 @@ md.html = function(model, ctx, callback) {
         if (err) {
             return callback(err);
         }
-        ctx.w();
-        if (!!ctx.values.forVueTemplate == false) {
+        if (!!ctx.values.noHtmlRoot == false) {
+            ctx.w();
             ctx.w('</html>');
         }
         return callback(null, true);
@@ -763,7 +751,7 @@ function main_init(model, ctx) {
     if ((!!ctx.values.noGeneratorComments) == false) {
         ctx.w('<!--');
         ctx.w('    artifact generator: ' + __filename);
-        ctx.w('    package: wizzi-web@');
+        ctx.w('    package: @wizzi/plugin.html@0.8.10');
         ctx.w('    primary source IttfDocument: ' + model.wzSourceFilepath('f1'));
         if ((!!ctx.values.wzConfigIsPackageDeploy) == false) {
             ctx.w('    utc time: ' + new Date().toUTCString());

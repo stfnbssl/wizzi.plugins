@@ -4300,7 +4300,7 @@ var xfunction = (function (statement) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.html\.wizzi-override\lib\wizzi\schemas\html.wfschema.ittf
-            utc time: Tue, 02 Apr 2024 11:09:52 GMT
+            utc time: Tue, 16 Apr 2024 09:33:35 GMT
         */
         var ret = [];
         var i, i_items=this.params, i_len=this.params.length, item;
@@ -4651,7 +4651,7 @@ var rule = (function (htmlBase) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.html\.wizzi-override\lib\wizzi\schemas\html.wfschema.ittf
-            utc time: Tue, 02 Apr 2024 11:09:52 GMT
+            utc time: Tue, 16 Apr 2024 09:33:35 GMT
         */
         this.ruleParts = this.getAscendingRuleParts();
         this.canHaveContent = ['idRule', 'classRule', 'elementRule', 'gtRule', 'ampersand', 'placeholder'].indexOf(this.wzElement) > -1;
@@ -4664,7 +4664,7 @@ var rule = (function (htmlBase) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.html\.wizzi-override\lib\wizzi\schemas\html.wfschema.ittf
-            utc time: Tue, 02 Apr 2024 11:09:52 GMT
+            utc time: Tue, 16 Apr 2024 09:33:35 GMT
         */
         if (typeof this.wzName === 'string' && this.wzName.length > 0) {
             var ruleParts = this.wzName.trim().split(',');
@@ -4705,7 +4705,7 @@ var rule = (function (htmlBase) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.html\.wizzi-override\lib\wizzi\schemas\html.wfschema.ittf
-            utc time: Tue, 02 Apr 2024 11:09:52 GMT
+            utc time: Tue, 16 Apr 2024 09:33:35 GMT
         */
         if (this.canHaveContent && this.getSelector() === name) {
             return this;
@@ -4728,7 +4728,7 @@ var rule = (function (htmlBase) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.html\.wizzi-override\lib\wizzi\schemas\html.wfschema.ittf
-            utc time: Tue, 02 Apr 2024 11:09:52 GMT
+            utc time: Tue, 16 Apr 2024 09:33:35 GMT
         */
         var i, i_items=this.rules, i_len=this.rules.length, item;
         for (i=0; i<i_len; i++) {
@@ -4746,7 +4746,7 @@ var rule = (function (htmlBase) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.html\.wizzi-override\lib\wizzi\schemas\html.wfschema.ittf
-            utc time: Tue, 02 Apr 2024 11:09:52 GMT
+            utc time: Tue, 16 Apr 2024 09:33:35 GMT
         */
         if (final && this.wzElement === 'placeholder') {
             return this.parentRuleParts.slice(1).join(', ');
@@ -4762,7 +4762,7 @@ var rule = (function (htmlBase) {
             artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
             package: wizzi-js@
             primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.html\.wizzi-override\lib\wizzi\schemas\html.wfschema.ittf
-            utc time: Tue, 02 Apr 2024 11:09:52 GMT
+            utc time: Tue, 16 Apr 2024 09:33:35 GMT
         */
         var retval = [];
         var i, i_items=this.properties, i_len=this.properties.length, prop;

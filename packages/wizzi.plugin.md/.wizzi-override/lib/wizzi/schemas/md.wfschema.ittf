@@ -3,6 +3,8 @@ wfschema md
 	# A schema modeling a markdown document
 	# using an html-like sinthax
 
+	mtree-is-preprocessed
+
 	e attribute
 		tag @
 
@@ -37,6 +39,9 @@ wfschema md
 	
 	e i : element
 	e b : element
+	e em : element
+	e del : element
+	e escape : element
 	e p : element
 	
     e span : element
@@ -44,10 +49,13 @@ wfschema md
 	e ul : element
 	e ol : element
 	e li : element
+		a_flag( checked )
+		a_flag( task )
 
 	e img : element
 		a src
 		a title
+		a alt
 
 	e codeBlock : element
 		is-abstract
@@ -58,7 +66,10 @@ wfschema md
 	e sh : codeBlock
 	e py : codeBlock
 	e code : codeBlock
+		a_flag( indented )
+		a lang
 
+	e codespan : element
 	e plus : element
 		tag +
 
@@ -92,7 +103,7 @@ wfschema md
 
     e htmlInclude : element
         tag ::html
-        include html html
+        include html
 
     e cssInclude : element
         tag ::css

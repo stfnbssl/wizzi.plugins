@@ -1,0 +1,17 @@
+graphql
+    subscription 
+        { 
+            . newMessage
+                { 
+                    . body
+                    . sender
+    subscription 
+        { 
+            ... newMessageFields
+    fragment newMessageFields
+        on Subscription
+        { 
+            . newMessage
+                { 
+                    . body
+                    . sender

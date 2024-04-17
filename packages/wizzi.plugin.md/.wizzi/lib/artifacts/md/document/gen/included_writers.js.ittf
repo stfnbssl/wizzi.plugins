@@ -15,10 +15,14 @@ module
             _ element.get_html
                 a_cb( htmlModel )
                     _ ctx.wizziFactory.generateArtifact
+                        @ noGeneratorComments true
                         @ htmlModel
                         @ 'generated from md model'
                         @ 'html/document'
                         {
+                            @ noGeneratorComments true
+							@ noDocType true
+							@ noHtmlRoot true
                         a_cb( artifactText )
                             _ ctx.indent
                             _ ctx.writeAligned(artifactText)

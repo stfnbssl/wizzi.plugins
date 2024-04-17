@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.html\.wizzi-override\lib\wizzifiers\html\parser.js.ittf
-    utc time: Tue, 02 Apr 2024 11:09:52 GMT
+    utc time: Tue, 16 Apr 2024 09:33:34 GMT
 */
 'use strict';
 var util = require('util');

@@ -96,12 +96,52 @@
 			_ ret.push(type)
 		return ret.join('')
 
+	function getVariableDeclarations
+		param model
+		param ctx
+		param callback
+		var vars = []
+		function doVar
+			param ndx
+			if !model.variables[ndx]
+				r_cb(vars)
+			_ getVariableDeclaration
+				@ model.variables[ndx]
+				@ ctx
+				a_cb( text )
+					_ vars.push(text)
+					return
+						_ doVar
+							@ ndx + 1
+		_ doVar(0)
+
 	function getVariableDeclaration
 		param model
+		param ctx
+		param callback
 		var name = model.wzName
 		var type = model.type
 		var ret = [ name ]
+		log 'getVariableDeclaration', model.wzName, model.defaultValue
 		if type
 			_ ret.push(' : ')
 			_ ret.push(type)
-		return ret.join('')
+        if model.defaultValue
+            _ ret.push(' = ' + model.defaultValue)
+		var childCtx
+			_ ctx.createChildGenContext
+        if model.directives.length > 0
+			_ ret.push(' ')
+			_ writeDirectives
+				@ model.directives
+				@ childCtx
+				a_cb()
+					log 'childCtx.getContent()', 'x' + childCtx.getContent() + 'x'
+					_ ret.push
+						_ verify.replaceAll
+							_ childCtx.getContent
+							@ '\n'
+							@ ''
+					r_cb( ret.join('') )
+		else
+			r_cb( ret.join('') )

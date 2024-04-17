@@ -173,18 +173,6 @@ module
                             param item
                             param callback
                             if item.kind === 'css'
-                                $* OLD VIA
-                                if !csswizzifier
-                                    set csswizzifier = require('../../cssparser/css/wizzifier')
-                                _ csswizzifier.getWizziTree
-                                    @ item.literal
-                                    {
-                                    a_cb_no_throw( ittf )
-                                        # loog 'getWizzifierIncludes.item.ittf', ittf
-                                        _ item.node.children.push
-                                            @ ittf
-                                        r_cb()
-                                *$
                                 _ options.wf.getWizziTreeFromText
                                     @ item.literal
                                     @ "css"
@@ -194,18 +182,6 @@ module
                                             @ ittf
                                         r_cb()
                             else
-                                $* OLD VIA
-                                if !htmlwizzifier
-                                    set htmlwizzifier = require('../../htmlparser/wizzi/wizzifier')
-                                _ htmlwizzifier.getWizziTree
-                                    @ item.literal
-                                    {
-                                    a_cb_no_throw( ittf )
-                                        # loog 'getWizzifierIncludes.item.ittf', ittf
-                                        _ item.node.children.push
-                                            @ ittf
-                                        r_cb()
-                                *$
                                 _ options.wf.getWizziTreeFromText
                                     @ item.literal
                                     @ "html"
@@ -235,32 +211,6 @@ module
                                             @ '\t'
                             catch ex
                             r_cb( root )
-        $* VIA
-        +
-        set md.getCodeAST
-            function
-                param input
-                param options
-                param callback
-                set options = options || {}
-                set options.input = input
-                set options.stack = []
-                set options.formatTextNodes = []
-                set options.wizziIncludes = []
-                set options.stateAST = []
-                var babelOptions = options.babel || {}
-                var syntax
-                try
-                    set syntax = md.parse(input, babelOptions)
-                catch ex
-                    return
-                        _ callback
-                            @ ex
-                _ cleanAST(syntax)
-                _ callback
-                    @ null
-                    @ syntax
-        *$
         +
         $include helper_functions
         +

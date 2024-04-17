@@ -1,35 +1,25 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.graphql\.wizzi\root\index.js.ittf
-    utc time: Sat, 08 Apr 2023 04:30:07 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.graphql\.wizzi-override\root\index.js.ittf
+    utc time: Sat, 13 Apr 2024 11:30:35 GMT
 */
 'use strict';
 
 var util = require('util');
 var path = require('path');
 var stringify = require('json-stringify-safe');
+var wizziUtils = require('@wizzi/utils');
 var errors = require('./errors');
+
+const vfile = wizziUtils.fSystem.vfile;
 
 var md = module.exports = {};
 md.name = 'wizzi.plugin.graphql.index';
 
-// window(s) vars must be declared even if empty
-var window_modelFactories = {
-    'graphql': require('./lib/wizzi/models/graphql-factory.g')
- };
-var window_artifactGenerators = {
-    'graphql/document': require('./lib/artifacts/graphql/document/gen/main')
- };
-var window_transformers = {
-    'graphql/extended': require('./lib/artifacts/graphql/extended/trans/main')
- };
-var window_wizzifiers = {
-    'graphql/wizzifier': require('./lib/wizzifiers/graphql/wizzifier')
- };
-var window_schemaDefinitions = {};
-
-//
+/**
+     FactoryPlugin class
+*/
 class FactoryPlugin {
     constructor(wizziPackage, provides) {
         this.file = wizziPackage.file;
@@ -39,6 +29,7 @@ class FactoryPlugin {
         this.artifactGenerators = {};
         this.wizzifiers = {};
         this.schemaDefinitions = {};
+        this.schemaCheatsheetDefinitions = {};
     }
     
     initialize(options, callback) {
@@ -50,6 +41,14 @@ class FactoryPlugin {
         return 'wizzi.plugin.graphql';
     }
     
+    getNpmName() {
+        return '@wizzi/plugin.graphql';
+    }
+    
+    getVersion() {
+        return '0.8.6';
+    }
+    
     getFilename() {
         return __filename;
     }
@@ -58,7 +57,11 @@ class FactoryPlugin {
         return this.provides;
     }
     
-    //
+    /**
+         Retrieve a WizziModelFactory by its schema name
+         searching the loader in this package.
+         No search up in "node_modules" folders.
+    */
     getModelFactory(schemaName) {
         var factory = this.modelFactories[schemaName] || null;
         if (factory == null) {
@@ -81,7 +84,11 @@ class FactoryPlugin {
         return factory;
     }
     
-    //
+    /**
+         retrieve a ModelTransformer by its name
+         searching the loader in this package
+         No search up in "node_modules" folders.
+    */
     getModelTransformer(transformerName) {
         
         var transformer = this.modelTransformers[transformerName] || null;
@@ -105,7 +112,11 @@ class FactoryPlugin {
         return transformer;
     }
     
-    //
+    /**
+         Retrieve an ArtifactGenerator by its name
+         Generators are searched in this package
+         No search up in "node_modules" folders.
+    */
     getArtifactGenerator(generationName) {
         
         var generator = this.artifactGenerators[generationName] || null;
@@ -129,8 +140,23 @@ class FactoryPlugin {
         return generator;
     }
     
-    //
+    /**
+         Map a file extension to Retrieve a Wizzifier by its name
+    */
+    mapExtensionToSchema(extension) {
+        if (extension == 'graphql') {
+            return 'graphql';
+        }
+        return null;
+    }
+    /**
+         Retrieve a Wizzifier by its name
+         Wizzifiers are searched in this package
+         No search up in "node_modules" folders.
+    */
     getWizzifier(wizzifierName) {
+        
+        wizzifierName = this.mapExtensionToSchema(wizzifierName);
         
         var wizzifier = this.wizzifiers[wizzifierName] || null;
         if (wizzifier == null) {
@@ -153,7 +179,11 @@ class FactoryPlugin {
         return wizzifier;
     }
     
-    //
+    /**
+         Retrieve a WizziSchema definition in JSON format
+         searching the loader in this package.
+         No search up in "node_modules" folders.
+    */
     getSchemaDefinition(schemaName) {
         var definition = this.schemaDefinitions[schemaName] || null;
         if (definition == null) {
@@ -175,6 +205,65 @@ class FactoryPlugin {
         }
         return definition;
     }
+    
+    /**
+         Retrieve a Cheatsheet definitions folder packed in a packiFiles object.
+    */
+    getCheatsheetFolder(schemaName, callback) {
+        var definition = this.schemaCheatsheetDefinitions[schemaName] || null;
+        if (definition == null) {
+            var cheatsheetFolderUri = path.resolve(__dirname, 'ittf', 'cheatsheets', schemaName);
+            if (this.file.exists(cheatsheetFolderUri)) {
+                try {
+                    createPackifilesFromFs(cheatsheetFolderUri, (err, result) => {
+                    
+                        if (err) {
+                            return callback(err);
+                        }
+                        this.schemaCheatsheetDefinitions[schemaName] = result;
+                        return callback(null, result);
+                    }
+                    )
+                } 
+                catch (ex) {
+                    return callback(error('WizziPluginError', 'getCheatsheetFolder', 'Error loading wizzi cheatsheet definition: ' + cheatsheetFolderUri + ', in plugin: ' + this.getFilename(), ex));
+                } 
+            }
+            else {
+                return callback(null, null);
+            }
+        }
+        else {
+            return callback(null, definition);
+        }
+    }
+}
+
+/**
+     Scan a filesystem folder and returns the content in a packiFiles object.
+*/
+function createPackifilesFromFs(folderPath, callback) {
+    const fsFile = vfile();
+    fsFile.getFiles(folderPath, {
+        deep: true, 
+        documentContent: true
+     }, (err, files) => {
+    
+        if (err) {
+            return callback(err);
+        }
+        const packiFiles = {};
+        var i, i_items=files, i_len=files.length, file;
+        for (i=0; i<i_len; i++) {
+            file = files[i];
+            packiFiles[file.relPath] = {
+                type: 'CODE', 
+                contents: file.content
+             };
+        }
+        return callback(null, packiFiles);
+    }
+    )
 }
 
 function error(errorName, method, message, innerError) {
@@ -191,13 +280,34 @@ module.exports = {
         schemas: [
             'graphql'
         ], 
-        modelTransformers: [
-            'graphql/extended'
+        schemasExt: [
+            {
+                name: 'graphql', 
+                fileExtensions: [
+                    "graphql"
+                ], 
+                artifactsGenerators: [
+                    {
+                        name: "document", 
+                        outmime: "graphql", 
+                        contentType: "text/graphql", 
+                        isDefault: true
+                     }
+                ], 
+                defaultArtifact: 'document', 
+                dependency: [
+                    
+                ]
+             }
         ], 
+        modelTransformers: [], 
         artifactGenerators: [
             'graphql/document'
         ], 
         wizzifiers: [
+            'graphql'
+        ], 
+        cheatsheetFolders: [
             'graphql'
         ]
      }, 

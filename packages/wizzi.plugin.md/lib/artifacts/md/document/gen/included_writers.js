@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.md\.wizzi-override\lib\artifacts\md\document\gen\included_writers.js.ittf
-    utc time: Tue, 02 Apr 2024 09:37:17 GMT
+    utc time: Wed, 17 Apr 2024 14:40:21 GMT
 */
 'use strict';
 
@@ -18,12 +18,15 @@ md.writeIncludeHtml = function(ctx, element, callback) {
             return callback(err);
         }
         ctx.wizziFactory.generateArtifact(htmlModel, 'generated from md model', 'html/document', {
-            noGeneratorComments: true
+            noGeneratorComments: true, 
+            noDocType: true, 
+            noHtmlRoot: true
          }, (err, artifactText) => {
         
             if (err) {
                 return callback(err);
             }
+            console.log(myname, 'html module artifactText', '[' + artifactText + ']', __filename);
             ctx.writeAligned(artifactText);
             return callback();
         }

@@ -1,0 +1,15 @@
+query alpha($id : Int = 3 @a(k: 1, j: 0) @b(z: 99) , $val : String = "bibi") 
+    @alert(a: 1) {
+    user(id: 4)  {
+        friends(first: 10)  {
+            id
+            name
+            profilePic(size: 50) 
+        }
+        mutualFriends(first: 10)  {
+            id
+            name
+            profilePic(size: 50) 
+        }
+    }
+}

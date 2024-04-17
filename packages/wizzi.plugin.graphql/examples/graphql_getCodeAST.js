@@ -1,18 +1,18 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.graphql\.wizzi\examples\graphql_getCodeAST.js.ittf
-    utc time: Sat, 08 Apr 2023 04:30:08 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.graphql\.wizzi-override\examples\graphql_getCodeAST.js.ittf
+    utc time: Sat, 13 Apr 2024 11:30:35 GMT
 */
 'use strict';
 
 
-var async = require('async');
-var path = require('path');
-var util = require('util');
+import async;
+import path;
+import util;
 
 var graphqlwizzifier = require('../lib/wizzifiers/graphql/wizzifier');
-var file = require('wizzi-utils').file;
+var file = require('@wizzi/utils').file;
 var stringify = require('json-stringify-safe');
 
 let arg = process.argv[2];

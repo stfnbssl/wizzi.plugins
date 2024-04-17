@@ -233,6 +233,9 @@ var element = (function (mdBase) {
         if (name === 'br') {
             return this.wzLoadToChildColl(child, _md.br, this.elements);
         }
+        if (name === 'em') {
+            return this.wzLoadToChildColl(child, _md.em, this.elements);
+        }
         if (name === 'h1') {
             return this.wzLoadToChildColl(child, _md.h1, this.elements);
         }
@@ -290,6 +293,9 @@ var element = (function (mdBase) {
         if (name === 'css') {
             return this.wzLoadToChildColl(child, _md.css, this.elements);
         }
+        if (name === 'del') {
+            return this.wzLoadToChildColl(child, _md.del, this.elements);
+        }
         if (name === 'img') {
             return this.wzLoadToChildColl(child, _md.img, this.elements);
         }
@@ -337,6 +343,12 @@ var element = (function (mdBase) {
         }
         if (name === '::html') {
             return this.wzLoadToChildColl(child, _md.htmlInclude, this.elements);
+        }
+        if (name === 'escape') {
+            return this.wzLoadToChildColl(child, _md.escape, this.elements);
+        }
+        if (name === 'codespan') {
+            return this.wzLoadToChildColl(child, _md.codespan, this.elements);
         }
         if (name === 'frontmatter') {
             return this.wzLoadToChildColl(child, _md.frontmatter, this.elements);
@@ -443,6 +455,9 @@ var md = (function (mdBase) {
         if (name === 'br') {
             return this.wzLoadToChildColl(child, _md.br, this.elements);
         }
+        if (name === 'em') {
+            return this.wzLoadToChildColl(child, _md.em, this.elements);
+        }
         if (name === 'h1') {
             return this.wzLoadToChildColl(child, _md.h1, this.elements);
         }
@@ -500,6 +515,9 @@ var md = (function (mdBase) {
         if (name === 'css') {
             return this.wzLoadToChildColl(child, _md.css, this.elements);
         }
+        if (name === 'del') {
+            return this.wzLoadToChildColl(child, _md.del, this.elements);
+        }
         if (name === 'img') {
             return this.wzLoadToChildColl(child, _md.img, this.elements);
         }
@@ -547,6 +565,12 @@ var md = (function (mdBase) {
         }
         if (name === '::html') {
             return this.wzLoadToChildColl(child, _md.htmlInclude, this.elements);
+        }
+        if (name === 'escape') {
+            return this.wzLoadToChildColl(child, _md.escape, this.elements);
+        }
+        if (name === 'codespan') {
+            return this.wzLoadToChildColl(child, _md.codespan, this.elements);
         }
         if (name === 'frontmatter') {
             return this.wzLoadToChildColl(child, _md.frontmatter, this.elements);
@@ -777,6 +801,42 @@ var b = (function (element) {
 })(element);
 
 _md.b = b;
+// element em
+var em = (function (element) {
+    _inherits(em, element);
+    function em(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(em.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, em);
+        this.wzElement = "em";
+    }
+    return em;
+})(element);
+
+_md.em = em;
+// element del
+var del = (function (element) {
+    _inherits(del, element);
+    function del(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(del.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, del);
+        this.wzElement = "del";
+    }
+    return del;
+})(element);
+
+_md.del = del;
+// element escape
+var escape = (function (element) {
+    _inherits(escape, element);
+    function escape(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(escape.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, escape);
+        this.wzElement = "escape";
+    }
+    return escape;
+})(element);
+
+_md.escape = escape;
 // element p
 var p = (function (element) {
     _inherits(p, element);
@@ -832,6 +892,29 @@ var li = (function (element) {
         _get(Object.getPrototypeOf(li.prototype), 'constructor', this).call(this, name,sourceLineInfo);
         _classCallCheck(this, li);
         this.wzElement = "li";
+        this.checked = false;
+        this.task = false;
+    }
+    li.prototype.loadChild = function(child) {
+        var ok = false, name = child.n.toLowerCase();
+        if (name === 'task') {
+            this.task = parseboolean(child.v, true, child); return true;
+        }
+        if (name === 'checked') {
+            this.checked = parseboolean(child.v, true, child); return true;
+        }
+        ok = _md.element.prototype.loadChild.call(this, child);
+        return ok;
+    }
+    li.prototype.loadFromNode = function(node) {
+        node.children.forEach((item) => {
+        
+            var loaded = this.loadChild(item);
+            if (!loaded) {
+                throw new _md.mdModelException("Tag not recognized: " + item.n, item, this);
+            }
+        }
+        )
     }
     return li;
 })(element);
@@ -847,6 +930,9 @@ var img = (function (element) {
     }
     img.prototype.loadChild = function(child) {
         var ok = false, name = child.n.toLowerCase();
+        if (name === 'alt') {
+            this.alt = child.v; return true;
+        }
         if (name === 'src') {
             this.src = child.v; return true;
         }
@@ -976,11 +1062,45 @@ var code = (function (codeBlock) {
         _get(Object.getPrototypeOf(code.prototype), 'constructor', this).call(this, name,sourceLineInfo);
         _classCallCheck(this, code);
         this.wzElement = "code";
+        this.indented = false;
+    }
+    code.prototype.loadChild = function(child) {
+        var ok = false, name = child.n.toLowerCase();
+        if (name === 'lang') {
+            this.lang = child.v; return true;
+        }
+        if (name === 'indented') {
+            this.indented = parseboolean(child.v, true, child); return true;
+        }
+        ok = _md.codeBlock.prototype.loadChild.call(this, child);
+        return ok;
+    }
+    code.prototype.loadFromNode = function(node) {
+        node.children.forEach((item) => {
+        
+            var loaded = this.loadChild(item);
+            if (!loaded) {
+                throw new _md.mdModelException("Tag not recognized: " + item.n, item, this);
+            }
+        }
+        )
     }
     return code;
 })(codeBlock);
 
 _md.code = code;
+// element codespan
+var codespan = (function (element) {
+    _inherits(codespan, element);
+    function codespan(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(codespan.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, codespan);
+        this.wzElement = "codespan";
+    }
+    return codespan;
+})(element);
+
+_md.codespan = codespan;
 // element plus
 var plus = (function (element) {
     _inherits(plus, element);
@@ -1459,6 +1579,15 @@ function parsestring(value, defaultValue, node) {
         return defaultValue;
     }
     return value;
+}
+function parseboolean(value, defaultValue, node) {
+    if (isEmpty( value )) {
+        return defaultValue;
+    }
+    if (!isBoolean(value)) {
+        throw new mdModelException('Must be a boolean value (\"true\" or \"false\"), got:' + value, node);
+    }
+    return value === 'true' ? true : false;
 }
 function isString(value) {
     return (typeof value === 'string' || value instanceof String);

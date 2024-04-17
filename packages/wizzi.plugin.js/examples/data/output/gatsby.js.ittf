@@ -1,0 +1,160 @@
+module
+    kind react
+    import React
+        @ Fragment
+        from "react"
+    import 
+        @ connect
+        from "react-redux"
+    import styled from "styled-components"
+    import 
+        @ gql
+        from "apollo-boost"
+    import 
+        @ Query
+        from "react-apollo"
+    import injectSheet from "react-jss"
+    const styles
+        { 
+            { listItem
+                @ cursor
+                    `lit 
+                        + pointer
+                @ fontSize
+                    `lit 
+                        + 1.5em
+                @ color
+                    `lit 
+                        + blue
+                @ textDecoration
+                    `lit 
+                        + underline
+    const Counter
+        _` styled.p
+            + &lf;
+            + &nbsp; color: palevioletred;&lf;
+            + 
+    const GET_POSTS
+        _` gql
+            + &lf;
+            + &nbsp; query {&lf;
+            + &nbsp;   blogPosts {&lf;
+            + &nbsp;     id&lf;
+            + &nbsp;     title&lf;
+            + &nbsp;   }&lf;
+            + &nbsp; }&lf;
+            + 
+    const GET_POST
+        _` gql
+            + &lf;
+            + &nbsp; query($id: ID) {&lf;
+            + &nbsp;   blogPost(where: { id: $id }) {&lf;
+            + &nbsp;     title&lf;
+            + &nbsp;     post&lf;
+            + &nbsp;   }&lf;
+            + &nbsp; }&lf;
+            + 
+    class IndexPage
+        super React.Component
+        m render
+            return 
+                div 
+                    h1 
+                        + Multiple provider-example
+                    h2 
+                        + Redux component:
+                    < Counter 
+                        + ReduxState:
+                        pre 
+                            + {JSON.stringify(this.props.reduxState)}
+                    h2 
+                        + Apollo
+                    h3 
+                        + List (click on something)
+                    < Query 
+                        @ query {GET_POSTS}
+                        { 
+                            => 
+                                { 
+                                    @ loading
+                                    @ error
+                                    @ data
+                                if loading
+                                    return 
+                                        div 
+                                            + Loading...
+                                if error
+                                    return 
+                                        div 
+                                            + Error :(
+                                return 
+                                    ul 
+                                        { 
+                                            _ data.blogPosts.map
+                                                => 
+                                                    param data
+                                                    const 
+                                                        { 
+                                                            @ id
+                                                            @ title
+                                                        = data
+                                                    return 
+                                                        li 
+                                                            @ className {this.props.classes.listItem}
+                                                            @ onClick
+                                                                => 
+                                                                    _ this.props.setBlogPost(data)
+                                                            @ key {id}
+                                                            + {title}
+                    { 
+                        && 
+                            + this.props.reduxState.id
+                            < Query 
+                                @ query {GET_POST}
+                                @ variables
+                                    { 
+                                        @ id this.props.reduxState.id
+                                { 
+                                    => 
+                                        { 
+                                            @ loading
+                                            @ error
+                                            @ data
+                                        if loading
+                                            return 
+                                                div 
+                                                    + Loading...
+                                        if error
+                                            return 
+                                                div 
+                                                    + Error :(
+                                        return 
+                                            < Fragment 
+                                                h3 
+                                                    + Details
+                                                    + {data.blogPost.title}
+                                                div 
+                                                    + {data.blogPost.post}
+                                                + ` `
+    const mapStateToProps
+        => 
+            param state
+            return 
+                { 
+                    @ reduxState state
+    const mapDispatchToProps
+        => 
+            param dispatch
+            return 
+                { 
+                    @ setBlogPost
+                        => 
+                            param blogPost
+                            _ dispatch
+                                { 
+                                    @ type
+                                        `lit 
+                                            + SET_BLOG_POST
+                                    @ payload blogPost
+    const ReduxConnectedIndexPage = connect(mapStateToProps, mapDispatchToProps)(IndexPage)
+    export-default injectSheet(styles)(ReduxConnectedIndexPage)

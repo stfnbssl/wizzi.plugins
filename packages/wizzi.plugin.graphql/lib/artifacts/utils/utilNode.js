@@ -1,12 +1,12 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.graphql\.wizzi\lib\artifacts\utils\utilNode.js.ittf
-    utc time: Sat, 08 Apr 2023 04:30:08 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.graphql\.wizzi-override\lib\artifacts\utils\utilNode.js.ittf
+    utc time: Sat, 13 Apr 2024 11:30:36 GMT
 */
 'use strict';
 
-var verify = require('wizzi-utils').verify;
+var verify = require('@wizzi/utils').verify;
 
 var work = {};
 work.lineSep = "__LS__";

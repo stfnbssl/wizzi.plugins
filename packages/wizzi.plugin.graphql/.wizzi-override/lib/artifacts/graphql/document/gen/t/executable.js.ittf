@@ -15,40 +15,47 @@
 				@ callback
 
 	async-md( query )
-		var vars = []
-		foreach item in model.variables
-			_ vars.push
-				_ getVariableDeclaration
-					@ item
-		var varsDeclare = vars.length > 0 ? '(' + vars.join(', ') + ')' : ''
-		_ ctx.write( 'query' + (model.wzName.length > 0 ? ' ' + model.wzName : '') + varsDeclare + ' ')
-		if model.selectionSet
-			_ md.selectionSet
-				@ model.selectionSet
-				@ ctx
-				@ callback
-		else
-			r_cb()
+		_ getVariableDeclarations
+			@ model
+			@ ctx
+			a_cb( vars )
+				var varsDeclare = vars.length > 0 ? '(' + vars.join(', ') + ')' : ''
+				_ ctx.write( 'query' + (model.wzName.length > 0 ? ' ' + model.wzName : '') + varsDeclare + ' ')
+				if model.directives.length > 0
+					_ ctx.w
+					_ ctx.indent
+				_ writeDirectives
+					@ model.directives
+					@ ctx
+					a_cb()
+						if model.directives.length > 0
+							_ ctx.deindent
+						if model.selectionSet
+							_ md.selectionSet
+								@ model.selectionSet
+								@ ctx
+								@ callback
+						else
+							r_cb()
 
 	async-md( mutation )
-		var vars = []
-		foreach item in model.variables
-			_ vars.push
-				_ getVariableDeclaration
-					@ item
-		var varsDeclare = vars.length > 0 ? '(' + vars.join(', ') + ')' : ''
-		_ ctx.write( 'mutation' + (model.wzName.length > 0 ? ' ' + model.wzName : '') + varsDeclare + ' ' )
-		if model.selectionSet
-			_ md.selectionSet
-				@ model.selectionSet
-				@ ctx
-				@ callback
-		else
-			r_cb()
+		_ getVariableDeclarations
+			@ model
+			@ ctx
+			a_cb( vars )
+				var varsDeclare = vars.length > 0 ? '(' + vars.join(', ') + ')' : ''
+				_ ctx.write( 'mutation' + (model.wzName.length > 0 ? ' ' + model.wzName : '') + varsDeclare + ' ' )
+				if model.selectionSet
+					_ md.selectionSet
+						@ model.selectionSet
+						@ ctx
+						@ callback
+				else
+					r_cb()
 
 	async-md( selectionSet )
 		
-		log 'selectionSet', model.selections.length
+		# loog 'selectionSet', model.selections.length
 		if model.wzName.length > 0
 			_ ctx.write( model.wzName)
 			_ writeArguments
@@ -70,7 +77,7 @@
         param model
         param ctx
         param callback
-        log 'selectionSet_step_2'
+        # loog 'selectionSet_step_2'
 		_ ctx.w( '{' )
 		_ ctx.indent
 		_ async.mapSeries
@@ -83,7 +90,7 @@
 				r_cb()
 
 	async-md-ctx( selection )
-        log 'selection'
+        # loog 'selection'
 		# loog 'calling selection', model.wzElement
 		var method = md[model.wzElement]
 		_ method
@@ -92,7 +99,22 @@
 			@ callback
 
 	async-md( field )
-        log 'field'
+        # loog 'field'
+		if model.alias && model.alias.length > 0 
+			_ ctx.write( model.alias + ': ' )
+		_ ctx.write( model.wzName )
+		if model.selectionSet
+			_ ctx.write( ' ' )
+			_ md.selectionSet
+				@ model.selectionSet
+				@ ctx
+				@ callback
+		else
+			_ ctx.w
+            r_cb()
+
+	async-md( functionField )
+        # loog 'field'
 		if model.alias && model.alias.length > 0 
 			_ ctx.write( model.alias + ': ' )
 		_ ctx.write( model.wzName )
@@ -100,7 +122,7 @@
 			@ model.xarguments || []
 			@ ctx
             a_cb()
-                log 'field.model.selectionSet', model.selectionSet
+                # loog 'field.model.selectionSet', model.selectionSet
                 if model.selectionSet
                     _ ctx.write( ' ' )
                     _ md.selectionSet

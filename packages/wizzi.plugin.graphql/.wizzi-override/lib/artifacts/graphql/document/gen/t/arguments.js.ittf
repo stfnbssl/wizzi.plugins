@@ -2,10 +2,12 @@
 
     async-md( genericArgument )
         if model.defaultValue
+			log 'genericArgument,model.defaultValue', model.defaultValue
             _ ctx.write( model.wzName + ': ' + model.defaultValue)
             r_cb()
         elif model.value
             _ ctx.write( model.wzName + ': ')
+			log 'genericArgument,model.value.wzElement', model.value.wzElement
             _ md[model.value.wzElement]
                 @ model.value
                 @ ctx
@@ -40,6 +42,7 @@
         repeater( 1, args )
             if index_1 > 0
                 _ ctx.write(', ')
+			log 'writeArguments,item_1.wzElement', item_1.wzElement
             _ md[item_1.wzElement]
                 @ item_1
                 @ ctx

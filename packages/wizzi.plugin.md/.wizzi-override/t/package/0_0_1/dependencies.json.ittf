@@ -27,6 +27,7 @@ $group
         var use_babel_plugin_proposal_decorators = wzCtx.Build.useBabelParser;
         var use_babel_plugin_transform_object_assign = wzCtx.Build.useBabel;
         var use_babel_plugin_transform_runtime = wzCtx.Build.useBabel;
+
     $if use_babel_cli
         @babel/cli "^7.2.0"
     $if use_babel_core
@@ -93,16 +94,16 @@ $group
         @uiw/react-markdown-preview "latest"
     
     $if wzCtx.Build.isWizziPlugin
-        @wizzi/mtree "^0.8.17"
-        @wizzi/utils "^0.8.17"
+        @wizzi/mtree "^0.8.21"
+        @wizzi/utils "^0.8.20"
         $foreach schema in wzCtx.Schemas
             $foreach include in schema.includes
                 @wizzi/plugin.${include.name} "${include.version}"
     $elif wzCtx.Build.isWizziMeta
         @wizzi/plugin.ittf "latest"
     $elif wzCtx.Build.useWizzi
-        @wizzi/factory "^0.8.27"
-        @wizzi/utils "^0.8.17"
+        @wizzi/factory "^0.8.33"
+        @wizzi/utils "^0.8.20"
         $foreach item in wzCtx.Build.wizzi.plugins
             $if item[0] != '.'
                 @wizzi/plugin.${item} "latest"

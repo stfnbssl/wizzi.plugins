@@ -4,6 +4,9 @@ module
     kind es6
     basewizzifier()
         $append imports
+            var helpers = require("@wizzi/utils").helpers
+            var textIndentParser = helpers.textIndentParser
+            var preserveSpaces = helpers.lineParser.preserveSpaces
             var matter = require('gray-matter')
             var md_parser = require('marked')
             var md_Lexer = require('marked').Lexer
@@ -40,6 +43,7 @@ module
             set options.input = tobeWizzified
             set options.stack = []
             set options.formatTextNodes = []
+            set options.wizziIncludes = []
             set options.verbose = true
             $$ loog '################## called wizzify'
             _ parseInternal
@@ -64,16 +68,45 @@ module
                                 @ syntax.__frontMatter
                                 @ options
                             *$
-                            foreach item in syntax
+                            foreach item in preprocessSyntax(syntax)
                                 _ format(root, item, options)
-                            r_cb( root )
+                            _ async.map
+                                @ options.wizziIncludes
+                                function
+                                    param item
+                                    param callback
+                                    if item.kind === 'css'
+                                        _ options.wf.getWizziTreeFromText
+                                            @ item.literal
+                                            @ "css"
+                                            a_cb_no_throw( ittf )
+                                                if err
+                                                    error err
+                                                log 'getWizzifierIncludes.css.item.ittf', ittf
+                                                _ item.node.children.push
+                                                    @ ittf
+                                                r_cb()
+                                    else
+                                        _ options.wf.getWizziTreeFromText
+                                            @ item.literal
+                                            @ "html"
+                                            a_cb_no_throw( ittf )
+                                                if err
+                                                    error err
+                                                log 'getWizzifierIncludes.html.item.ittf', ittf
+                                                _ item.node.children.push
+                                                    @ ittf
+                                                r_cb()
+                                a_cb()
+                                    r_cb( root )
         +
         function processFrontMatter
             param syntax
             param options
             param root
             param callback
-            if syntax.__frontMatter
+            log 'processFrontMatter', syntax.__frontMatter
+            if syntax.__frontMatter && Object.keys(syntax.__frontMatter).length > 0
                 $$ loog 'processFrontMatter.syntax.__frontMatter', JSON.stringify(syntax.__frontMatter)
                 _ options.wf.getWizziTreeFromText
                     @ JSON.stringify(syntax.__frontMatter)
@@ -94,6 +127,28 @@ module
             else
                 r_cb( root )
         +
+        function preprocessSyntax
+            param syntax
+            var ret = []
+            var html = null
+            foreach item in syntax
+                if item.type == 'html'
+                    if html == null
+                        set html = item
+                    else
+                        set html.raw += item.raw
+                        set html.text += item.text
+                else
+                    if html
+                        _ ret.push
+                            @ html
+                        set html = null
+                    _ ret.push
+                        @ item
+            if html
+                _ ret.push
+                    @ html
+            return ret
         function appendIttf
             param node
             param ittf
@@ -198,9 +253,7 @@ module
         *$
 
         f( blockquote, quote )
-            # "tokens": [
-            foreach item in node.tokens
-                _ format(ret, item, options)
+            f_a_check_depth( tokens )
         
         f( code )
             if verify.isNotEmpty(node.codeBlockStyle)
@@ -215,26 +268,30 @@ module
                     {
                         @ text node.lang
                     @ options
+            _ textIndentParser.nodify
+                @ node.text
+                @ ret
+                {
+                    @ name 'tag'
+                    @ value 'name'
+            $*
             _ format.text
                 @ ret
                 {
-                    @ text node.text
+                    @ text node.raw || node.text
                     @ tokens node.tokens
                 @ options
+            *$
         
-        f( codespan, code )
+        f( codespan )
             # "text": ""
             set ret.name = node.text
         
         f( del )
-            # "tokens": [
-            foreach item in node.tokens
-                _ format(ret, item, options)
+            f_a_check_depth( tokens )
         
         f( em )
-            # "tokens": [
-            foreach item in node.tokens
-                _ format(ret, item, options)
+            f_a_check_depth( tokens )
         
         f( escape )
         
@@ -242,22 +299,51 @@ module
             # "depth": 1
             # "tokens": [
             set ret.tag = 'h' + node.depth
-            foreach item in node.tokens
-                _ format(ret, item, options)
+            f_a_check_depth( tokens )
+            # loog 'heading', node.raw.endsWith("\n\n")
+            if node.raw.endsWith("\n\n")
+                set ret.postAdd
+                    {
+                        @ tag 'br'
+                        @ name ''
+                        @ isText false
+                        [ children
+        
         f( hr )
+        
         f( html )
-            set ret.name = node.text
+            # set ret.name = node.text
+            _ options.wizziIncludes.push
+                {
+                    @ kind 'html'
+                    @ node ret
+                    @ literal node.raw || node.text
+            if node.raw.endsWith("\n\n")
+                set ret.postAdd
+                    {
+                        @ tag 'br'
+                        @ name ''
+                        @ isText false
+                        [ children
         f( image, img )
             _ format.src
                 @ ret
                 {
                     @ text node.href
                 @ options
-            _ format.title
-                @ ret
-                {
-                    @ text node.title
-                @ options
+            if verify.isNotEmpty(node.title)
+                _ format.title
+                    @ ret
+                    {
+                        @ text node.title
+                    @ options
+            if verify.isNotEmpty(node.text)
+                _ format.alt
+                    @ ret
+                    {
+                        @ text preserveSpaces(node.raw || node.text)
+                    @ options
+        
         f( link, a )
             # "href": ""
             # "title": null
@@ -267,23 +353,26 @@ module
                 {
                     @ text node.href
                 @ options
-            _ format.title
-                @ ret
-                {
-                    @ text node.title
-                @ options
-            foreach item in node.tokens
-                _ format(ret, item, options)
+            if verify.isNotEmpty(node.title)
+                _ format.title
+                    @ ret
+                    {
+                        @ text node.title
+                    @ options
+            f_a_check_depth( tokens )
         f( list, ul )
             # "ordered": false
             # "start": ""
             # "loose": false
             # "items": [
             if node.ordered
+                set ret.tag = 'ol'
+                $*
                 _ format.ordered
                     @ ret
                     {
                     @ options
+                *$
             if node.loose
                 _ format.loose
                     @ ret
@@ -312,19 +401,44 @@ module
                     @ ret
                     {
                     @ options
-            foreach item in node.tokens
-                _ format(ret, item, options)
+            if node.checked
+                _ format.checked
+                    @ ret
+                    {
+                    @ options
+            if node.task
+                _ format.task
+                    @ ret
+                    {
+                    @ options
+            if node.loose
+                _ format.loose
+                    @ ret
+                    {
+                    @ options
+            f_a_check_depth( tokens )
         f( paragraph, p )
             # tokens [
             # text ""
-            foreach item in node.tokens
-                _ format(ret, item, options)
+            f_a_check_depth( tokens )            
         f( space, br )
         f( strong, b )
-            # tokens [
-            foreach item in node.tokens
-                _ format(ret, item, options)
+            f_a_check_depth( tokens )                
         f( table )
+            _ format
+                @ ret
+                {
+                    @ type "thead"
+                    @ header node.header
+                @ options
+            _ format
+                @ ret
+                {
+                    @ type "tbody"
+                    @ rows node.rows
+                @ options
+
+        f( thead )
             foreach item in node.header
                 _ format
                     @ ret
@@ -332,6 +446,7 @@ module
                         @ type "th"
                         @ item item
                     @ options
+        f( tbody )
             foreach item in node.rows
                 _ format
                     @ ret
@@ -351,10 +466,16 @@ module
             # loog 'td.node.item', node.item
             set node.item.type = node.item.type || 'text'
             _ format(ret, node.item, options)
+            if ret.children.length == 1 && ret.children[0].children.length == 0
+                set ret.name = ret.children[0].name
+                set ret.children.length = 0            
         f( th )
             # loog 'th.node.item', node.item
             set node.item.type = node.item.type || 'text'
             _ format(ret, node.item, options)
+            if ret.children.length == 1 && ret.children[0].children.length == 0
+                set ret.name = ret.children[0].name
+                set ret.children.length = 0            
         f( text, +;ret-is-array )
             if node.tokens
                 foreach item in node.tokens
@@ -364,25 +485,31 @@ module
                 var retcontainer
                     {
                         [ children
-                var ss = node.text.split('\n')
+                log 'node.raw || node.text', '|' + (node.raw || node.text) + '|'
+                var ss = preserveSpaces(node.raw || node.text).split('\n')
                 set ret.name = ss[0]
+                log ret.name, '|' + ss[0] + '|', ss.length
                 set retcontainer.children.push(ret)
                 if ss.length > 1
                     for var i=1; i<ss.length; i++
                         _ format.text
                             @ retcontainer
                             {
-                                @ text ss[i]
+                                @ text preserveSpaces(ss[i])
                             @ options
                 set ret = retcontainer.children
         f( href )
             set ret.name = node.text
         f( src )
             set ret.name = node.text
+        f( alt )
+            set ret.name = node.text
         f( lang )
             set ret.name = node.text
         f( loose )
         f( ordered )
+        f( checked )
+        f( task )
         f( start )
             set ret.name = node.text
         f( style )

@@ -1,0 +1,8 @@
+$group
+    $params astKind
+    f_p_temp( name 
+    if isTextualNode(p_name)
+        set ret.name = getNodeText(p_name)
+    else
+        new Error('${astKind}. Expected textual name: ' + JSON.stringify(node, null, 2))
+

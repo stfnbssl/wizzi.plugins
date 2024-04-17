@@ -1,0 +1,295 @@
+{
+  "kind": "Document",
+  "definitions": [
+    {
+      "kind": "OperationDefinition",
+      "operation": "query",
+      "name": {
+        "kind": "Name",
+        "value": "noFragments"
+      },
+      "variableDefinitions": [
+        {
+          "kind": "VariableDefinition",
+          "variable": {
+            "kind": "Variable",
+            "name": {
+              "kind": "Name",
+              "value": "id"
+            }
+          },
+          "type": {
+            "kind": "NamedType",
+            "name": {
+              "kind": "Name",
+              "value": "Int"
+            }
+          },
+          "defaultValue": {
+            "kind": "IntValue",
+            "value": "3"
+          },
+          "directives": [
+            {
+              "kind": "Directive",
+              "name": {
+                "kind": "Name",
+                "value": "a"
+              },
+              "arguments": [
+                {
+                  "kind": "Argument",
+                  "name": {
+                    "kind": "Name",
+                    "value": "k"
+                  },
+                  "value": {
+                    "kind": "IntValue",
+                    "value": "1"
+                  }
+                },
+                {
+                  "kind": "Argument",
+                  "name": {
+                    "kind": "Name",
+                    "value": "j"
+                  },
+                  "value": {
+                    "kind": "IntValue",
+                    "value": "0"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "Directive",
+              "name": {
+                "kind": "Name",
+                "value": "b"
+              },
+              "arguments": [
+                {
+                  "kind": "Argument",
+                  "name": {
+                    "kind": "Name",
+                    "value": "z"
+                  },
+                  "value": {
+                    "kind": "IntValue",
+                    "value": "99"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "VariableDefinition",
+          "variable": {
+            "kind": "Variable",
+            "name": {
+              "kind": "Name",
+              "value": "val"
+            }
+          },
+          "type": {
+            "kind": "NamedType",
+            "name": {
+              "kind": "Name",
+              "value": "String"
+            }
+          },
+          "defaultValue": {
+            "kind": "StringValue",
+            "value": "bibi",
+            "block": false
+          },
+          "directives": []
+        }
+      ],
+      "directives": [
+        {
+          "kind": "Directive",
+          "name": {
+            "kind": "Name",
+            "value": "alert"
+          },
+          "arguments": [
+            {
+              "kind": "Argument",
+              "name": {
+                "kind": "Name",
+                "value": "a"
+              },
+              "value": {
+                "kind": "IntValue",
+                "value": "1"
+              }
+            }
+          ]
+        }
+      ],
+      "selectionSet": {
+        "kind": "SelectionSet",
+        "selections": [
+          {
+            "kind": "Field",
+            "name": {
+              "kind": "Name",
+              "value": "user"
+            },
+            "arguments": [
+              {
+                "kind": "Argument",
+                "name": {
+                  "kind": "Name",
+                  "value": "id"
+                },
+                "value": {
+                  "kind": "IntValue",
+                  "value": "4"
+                }
+              }
+            ],
+            "directives": [],
+            "selectionSet": {
+              "kind": "SelectionSet",
+              "selections": [
+                {
+                  "kind": "Field",
+                  "name": {
+                    "kind": "Name",
+                    "value": "friends"
+                  },
+                  "arguments": [
+                    {
+                      "kind": "Argument",
+                      "name": {
+                        "kind": "Name",
+                        "value": "first"
+                      },
+                      "value": {
+                        "kind": "IntValue",
+                        "value": "10"
+                      }
+                    }
+                  ],
+                  "directives": [],
+                  "selectionSet": {
+                    "kind": "SelectionSet",
+                    "selections": [
+                      {
+                        "kind": "Field",
+                        "name": {
+                          "kind": "Name",
+                          "value": "id"
+                        },
+                        "arguments": [],
+                        "directives": []
+                      },
+                      {
+                        "kind": "Field",
+                        "name": {
+                          "kind": "Name",
+                          "value": "name"
+                        },
+                        "arguments": [],
+                        "directives": []
+                      },
+                      {
+                        "kind": "Field",
+                        "name": {
+                          "kind": "Name",
+                          "value": "profilePic"
+                        },
+                        "arguments": [
+                          {
+                            "kind": "Argument",
+                            "name": {
+                              "kind": "Name",
+                              "value": "size"
+                            },
+                            "value": {
+                              "kind": "IntValue",
+                              "value": "50"
+                            }
+                          }
+                        ],
+                        "directives": []
+                      }
+                    ]
+                  }
+                },
+                {
+                  "kind": "Field",
+                  "name": {
+                    "kind": "Name",
+                    "value": "mutualFriends"
+                  },
+                  "arguments": [
+                    {
+                      "kind": "Argument",
+                      "name": {
+                        "kind": "Name",
+                        "value": "first"
+                      },
+                      "value": {
+                        "kind": "IntValue",
+                        "value": "10"
+                      }
+                    }
+                  ],
+                  "directives": [],
+                  "selectionSet": {
+                    "kind": "SelectionSet",
+                    "selections": [
+                      {
+                        "kind": "Field",
+                        "name": {
+                          "kind": "Name",
+                          "value": "id"
+                        },
+                        "arguments": [],
+                        "directives": []
+                      },
+                      {
+                        "kind": "Field",
+                        "name": {
+                          "kind": "Name",
+                          "value": "name"
+                        },
+                        "arguments": [],
+                        "directives": []
+                      },
+                      {
+                        "kind": "Field",
+                        "name": {
+                          "kind": "Name",
+                          "value": "profilePic"
+                        },
+                        "arguments": [
+                          {
+                            "kind": "Argument",
+                            "name": {
+                              "kind": "Name",
+                              "value": "size"
+                            },
+                            "value": {
+                              "kind": "IntValue",
+                              "value": "50"
+                            }
+                          }
+                        ],
+                        "directives": []
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

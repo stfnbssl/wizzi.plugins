@@ -1,0 +1,16 @@
+subscription sub {
+  newMessage {
+    body
+    sender
+  }
+}
+subscription sub {
+  ...newMessageFields
+}
+
+fragment newMessageFields on Subscription {
+  newMessage {
+    body
+    sender
+  }
+}

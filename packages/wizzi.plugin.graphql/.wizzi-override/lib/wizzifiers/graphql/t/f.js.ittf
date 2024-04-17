@@ -25,13 +25,13 @@ $group
                     set options.mustBeText = true
                 $if couldBeText
                     set options.couldBeText = true
-                info 'node : ${name} ----------------------------------------- parent ittf tag : ', parent.tag
+                # loog 'node : ${name} ----------------------------------------- parent ittf tag : ', parent.tag
                 foreach item in Object.keys(node)
                     if ['kind', 'start', 'end', 'loc'].indexOf(item) < 0
                         if verify.isNotEmpty(node[item])
-                            info 'property', item, node[item], verify.isArray(node[item]) ? 'array' : ''
+                            # loog 'property', item, node[item], verify.isArray(node[item]) ? 'array' : ''
                         else
-                            info 'property', item, verify.isArray(node[item]) ? 'array' : ''
+                            # loog 'property', item, verify.isArray(node[item]) ? 'array' : ''
                 $if skip
                     var ret = parent
                 $else

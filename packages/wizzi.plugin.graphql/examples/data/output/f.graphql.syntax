@@ -1,0 +1,168 @@
+{
+  "kind": "Document",
+  "definitions": [
+    {
+      "kind": "OperationDefinition",
+      "operation": "query",
+      "name": {
+        "kind": "Name",
+        "value": "FragmentTyping"
+      },
+      "variableDefinitions": [],
+      "directives": [],
+      "selectionSet": {
+        "kind": "SelectionSet",
+        "selections": [
+          {
+            "kind": "Field",
+            "name": {
+              "kind": "Name",
+              "value": "profiles"
+            },
+            "arguments": [
+              {
+                "kind": "Argument",
+                "name": {
+                  "kind": "Name",
+                  "value": "handles"
+                },
+                "value": {
+                  "kind": "ListValue",
+                  "values": [
+                    {
+                      "kind": "StringValue",
+                      "value": "zuck",
+                      "block": false
+                    },
+                    {
+                      "kind": "StringValue",
+                      "value": "coca-cola",
+                      "block": false
+                    }
+                  ]
+                }
+              }
+            ],
+            "directives": [],
+            "selectionSet": {
+              "kind": "SelectionSet",
+              "selections": [
+                {
+                  "kind": "Field",
+                  "name": {
+                    "kind": "Name",
+                    "value": "handle"
+                  },
+                  "arguments": [],
+                  "directives": []
+                },
+                {
+                  "kind": "FragmentSpread",
+                  "name": {
+                    "kind": "Name",
+                    "value": "userFragment"
+                  },
+                  "directives": []
+                },
+                {
+                  "kind": "FragmentSpread",
+                  "name": {
+                    "kind": "Name",
+                    "value": "pageFragment"
+                  },
+                  "directives": []
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "kind": "FragmentDefinition",
+      "name": {
+        "kind": "Name",
+        "value": "userFragment"
+      },
+      "typeCondition": {
+        "kind": "NamedType",
+        "name": {
+          "kind": "Name",
+          "value": "User"
+        }
+      },
+      "directives": [],
+      "selectionSet": {
+        "kind": "SelectionSet",
+        "selections": [
+          {
+            "kind": "Field",
+            "name": {
+              "kind": "Name",
+              "value": "friends"
+            },
+            "arguments": [],
+            "directives": [],
+            "selectionSet": {
+              "kind": "SelectionSet",
+              "selections": [
+                {
+                  "kind": "Field",
+                  "name": {
+                    "kind": "Name",
+                    "value": "count"
+                  },
+                  "arguments": [],
+                  "directives": []
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "kind": "FragmentDefinition",
+      "name": {
+        "kind": "Name",
+        "value": "pageFragment"
+      },
+      "typeCondition": {
+        "kind": "NamedType",
+        "name": {
+          "kind": "Name",
+          "value": "Page"
+        }
+      },
+      "directives": [],
+      "selectionSet": {
+        "kind": "SelectionSet",
+        "selections": [
+          {
+            "kind": "Field",
+            "name": {
+              "kind": "Name",
+              "value": "likers"
+            },
+            "arguments": [],
+            "directives": [],
+            "selectionSet": {
+              "kind": "SelectionSet",
+              "selections": [
+                {
+                  "kind": "Field",
+                  "name": {
+                    "kind": "Name",
+                    "value": "count"
+                  },
+                  "arguments": [],
+                  "directives": []
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

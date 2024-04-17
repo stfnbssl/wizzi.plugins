@@ -141,6 +141,7 @@ module wizzi.plugin.html@${wzCtx.version}.lib.artifacts.html.document.gen.main
                         return
                             _ callback
 
+        $*
         async-md( html )
             _ ctx.w('<html>')
             _ md.myGenItems
@@ -151,6 +152,8 @@ module wizzi.plugin.html@${wzCtx.version}.lib.artifacts.html.document.gen.main
                 a_cb()
                     _ ctx.w('</html>')
                     r_cb()
+        *$
+        
         async-md( standardElement )
             $$ loogmyname, 'standardElement', 'model.wzTag', model.wzTag
             _ preprocess(model, ctx)
@@ -243,11 +246,13 @@ module wizzi.plugin.html@${wzCtx.version}.lib.artifacts.html.document.gen.main
                     _ callback
 
         async-md( html )
-            if !!ctx.values.forVueTemplate == false
+            log 'html.ctx.values', ctx.values
+            if !!ctx.values.noDocType == false
                 if model.doctype
                     _ ctx.w('<!doctype ' + model.doctype + '>')
                 else
                     _ ctx.w('<!doctype html>')
+            if !!ctx.values.noHtmlRoot == false
                 _ ctx.write('<html')
                 foreach a in getAttrs(model)
                     if a.name != 'doctype'
@@ -262,8 +267,8 @@ module wizzi.plugin.html@${wzCtx.version}.lib.artifacts.html.document.gen.main
                 _ md.myGetGenItem
                     @ ctx
                 a_cb( notUsed )
-                    _ ctx.w()
-                    if !!ctx.values.forVueTemplate == false
+                    if !!ctx.values.noHtmlRoot == false
+                        _ ctx.w()
                         _ ctx.w('</html>')
                     r_cb(true)
         
