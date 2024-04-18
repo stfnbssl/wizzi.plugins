@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.md\.wizzi-override\lib\artifacts\md\document\gen\main.js.ittf
-    utc time: Wed, 17 Apr 2024 14:40:21 GMT
+    utc time: Thu, 18 Apr 2024 16:31:10 GMT
 */
 'use strict';
 
@@ -202,7 +202,7 @@ md.a = function(model, ctx, callback) {
         if (verify.isString(model.title)) {
             ctx.write(' "' + model.title + '"');
         }
-        ctx.w(')');
+        ctx.write(')');
         ctx.nolf = false;
         return callback(null);
     }
@@ -236,7 +236,17 @@ md.ul = function(model, ctx, callback) {
 }
 ;
 md.li = function(model, ctx, callback) {
-    if (model.wzParent.nextListOrderCount) {
+    if (model.task) {
+        ctx.write('- [');
+        if (model.checked) {
+            ctx.write('x');
+        }
+        else {
+            ctx.write(' ');
+        }
+        ctx.write('] ');
+    }
+    else if (model.wzParent.nextListOrderCount) {
         ctx.write(model.wzParent.nextListOrderCount++ + '. ');
     }
     else {
@@ -587,8 +597,26 @@ md.plus = function(model, ctx, callback) {
     if (/*model.wzParent.wzElement == 'li' &&*/ model.wzName.startsWith('⋅⋅')) {
         ctx.w();
     }
-    ctx.write(model.wzName);
-    return callback(null);
+    if (ctx.isCode) {
+        ctx.w(model.wzName);
+        ctx.indent();
+        md.genItems(model.elements, ctx, {
+            indent: false, 
+            from: 0
+         }, (err, notUsed) => {
+        
+            if (err) {
+                return callback(err);
+            }
+            ctx.deindent();
+            return callback(null);
+        }
+        )
+    }
+    else {
+        ctx.write(model.wzName);
+        return callback(null);
+    }
 }
 ;
 md.js = function(model, ctx, callback) {
@@ -695,7 +723,7 @@ md.sh = function(model, ctx, callback) {
 }
 ;
 md.code = function(model, ctx, callback) {
-    ctx.w("```" + model.wzName);
+    ctx.w("```" + model.lang);
     ctx.isCode = true;
     md.genItems(model.elements, ctx, {
         indent: false, 

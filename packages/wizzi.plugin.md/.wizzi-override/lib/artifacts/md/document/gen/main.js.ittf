@@ -132,7 +132,7 @@ module wizzi.plugin.md@${wzCtx.version}.lib.artifacts.md.document.gen.main
                 _ ctx.write('(' + model.href)
                 if verify.isString(model.title)
                     _ ctx.write(' "' + model.title + '"')
-                _ ctx.w(')')
+                _ ctx.write(')')
                 set ctx.nolf = false
                 r_cb()
            
@@ -159,7 +159,14 @@ module wizzi.plugin.md@${wzCtx.version}.lib.artifacts.md.document.gen.main
                         r_cb()
 
         async-md( li )
-            if model.wzParent.nextListOrderCount
+            if model.task
+                _ ctx.write('- [')
+                if model.checked
+                    _ ctx.write('x')
+                else
+                    _ ctx.write(' ')
+                _ ctx.write('] ')
+            elif model.wzParent.nextListOrderCount
                 _ ctx.write(model.wzParent.nextListOrderCount++ + '. ')
             else
                 _ ctx.write('* ')
@@ -357,23 +364,19 @@ module wizzi.plugin.md@${wzCtx.version}.lib.artifacts.md.document.gen.main
             _ ctx.write(' ' + model.wzName)
             _md_gen_items( elements )
                 r_cb()
-    
         
         async-md( plus )
             if /*model.wzParent.wzElement == 'li' &&*/ model.wzName.startsWith('⋅⋅')
                 _ ctx.w()
-            _ ctx.write(model.wzName)
-            r_cb()
-            $*
             if ctx.isCode
                 _ ctx.w(model.wzName)
+                _ ctx.indent
+                _md_gen_items( elements )
+                    _ ctx.deindent
+                    r_cb()
             else
-                _ ctx.w("`" + model.wzName + "`")
-            _ ctx.indent
-            _md_gen_items( elements )
-                _ ctx.deindent
+                _ ctx.write(model.wzName)
                 r_cb()
-            *$
 
         async-md( js )
             _ ctx.w("```javascript")
@@ -424,7 +427,7 @@ module wizzi.plugin.md@${wzCtx.version}.lib.artifacts.md.document.gen.main
                 r_cb()
 
         async-md( code )
-            _ ctx.w("```" + model.wzName)
+            _ ctx.w("```" + model.lang)
             set ctx.isCode = true
             _md_gen_items( elements )
                 set ctx.isCode = false

@@ -1,0 +1,144 @@
+$group
+
+	element links
+		tag 
+		ast 
+		category 
+	
+		item
+			title Links
+			ittf
+                md
+                    h1 Links
+                    br 
+                    p 
+                        a I&#39;m an inline-style link
+                            href https://www.google.com
+                    br 
+                    p 
+                        a I&#39;m an inline-style link with title
+                            href https://www.google.com
+                            title Google&#39;s Homepage
+                    br 
+                    p 
+                        a I&#39;m a reference-style link
+                            href https://www.mozilla.org
+                    br 
+                    p 
+                        a I&#39;m a relative reference to a repository file
+                            href ../blob/master/LICENSE
+                    br 
+                    p 
+                        a You can use numbers for reference-style link definitions
+                            href http://slashdot.org
+                    br 
+                    p 
+                        + Or leave it empty and use the
+                        a link text itself
+                            href http://www.reddit.com
+                        + .
+                    br 
+                    p 
+                        + URLs and URLs in angle brackets will automatically get turned into links.
+                        + 
+                        a http://www.example.com
+                            href http://www.example.com
+                        + or
+                        a http://www.example.com
+                            href http://www.example.com
+                        + and sometimes
+                        + example.com (but not on Github, for example).
+                    br 
+                    p Some text to show that the reference links can follow later.
+
+		item
+			title Images
+			ittf
+                md
+                    h1 Images
+                    br 
+                    p Here&#39;s our logo (hover to see the title text):
+                    br 
+                    p 
+                        + Inline-style:
+                        + 
+                        img 
+                            src https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png
+                            title Logo Title Text 1
+                            alt alt text
+                    br 
+                    p 
+                        + Reference-style:
+                        + 
+                        img 
+                            src https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png
+                            title Logo Title Text 2
+                            alt alt text
+                    br 
+                    p 
+                        img 
+                            src https://octodex.github.com/images/minion.png
+                            alt Minion
+                        + 
+                        + 
+                        img 
+                            src https://octodex.github.com/images/stormtroopocat.jpg
+                            title The Stormtroopocat
+                            alt Stormtroopocat
+                    br 
+                    p Like links, Images also have a footnote style syntax
+                    br 
+                    p 
+                        img 
+                            src https://octodex.github.com/images/dojocat.jpg
+                            title The Dojocat
+                            alt Alt text
+                    br 
+                    p With a reference later in the document defining the URL location:
+
+		item
+			title Videos
+			ittf
+                md
+                    h1 YouTube Videos
+                    br 
+                    html 
+                        a 
+                            href http://www.youtube.com/watch?feature=player_embedded&v=YOUTUBE_VIDEO_ID_HERE
+                            target _blank
+                            img 
+                                src http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg
+                                alt IMAGE ALT TEXT HERE
+                                width 240
+                                height 180
+                    br 
+                    p 
+                        a 
+                            href https://www.youtube.com/watch?v=ciawICBvQoE
+                            img 
+                                src https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/YouTube_logo_2015.svg/1200px-YouTube_logo_2015.svg.png
+                                alt IMAGE ALT TEXT HERE                
+
+		item
+			title Footnotes
+			ittf
+                md
+                    h1 
+                        a Footnotes
+                            href https://github.com/markdown-it/markdown-it-footnote
+                    br 
+                    p Footnote 1 link[^first].
+                    br 
+                    p Footnote 2 link[^second].
+                    br 
+                    p Inline footnote^[Text of inline footnote] definition.
+                    br 
+                    p Duplicated footnote reference[^second].
+                    br 
+                    p [^first]: Footnote
+                        b can have markup
+                    br 
+                    code 
+                        indented 
+                        + and multiple paragraphs.
+                    p [^second]: Footnote text.                            

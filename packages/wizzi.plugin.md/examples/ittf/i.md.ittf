@@ -2,11 +2,11 @@ md
     h1 Code and Syntax Highlighting
     br 
     p 
-        + Inline
-        code code
-        + has
-        code back-ticks around
-        + it.
+        + Inline \b
+        codespan code
+        + \b has \b
+        codespan back-ticks around
+        + \b it.
     br 
     code 
         lang c#
@@ -16,49 +16,49 @@ md
         + 
         + namespace MyApplication
         + {
-        + [Obsolete("...")]
-        + class Program : IInterface
-        + {
-        + public static List<int> JustDoIt(int count)
-        + {
-        + Console.WriteLine($"Hello {Name}!");
-        + return new List<int>(new int[] { 1, 2, 3 })
-        + }
-        + }
+            + [Obsolete("...")]
+            + class Program : IInterface
+            + {
+                + public static List<int> JustDoIt(int count)
+                + {
+                    + Console.WriteLine($"Hello {Name}!");
+                    + return new List<int>(new int[] { 1, 2, 3 })
+                + }
+            + }
         + }
     br 
     code 
         lang css
         + @font-face {
-        + font-family: Chunkfive; src: url('Chunkfive.otf');
+            + font-family: Chunkfive; src: url('Chunkfive.otf');
         + }
         + 
         + body, .usertext {
-        + color: #F0F0F0; background: #600;
-        + font-family: Chunkfive, sans;
+            + color: #F0F0F0; background: #600;
+            + font-family: Chunkfive, sans;
         + }
         + 
         + @import url(print.css);
         + @media print {
-        + a[href^=http]::after {
-        + content: attr(href)
-        + }
+            + a[href^=http]::after {
+                + content: attr(href)
+            + }
         + }
     br 
     code 
         lang javascript
         + function $initHighlight(block, cls) {
-        + try {
-        + if (cls.search(/\bno\-highlight\b/) != -1)
-        + return process(block, true, 0x0F) +
-        + ` class="${cls}"`;
-        + } catch (e) {
-        + /* handle exception */
-        + }
-        + for (var i = 0 / 2; i < classes.length; i++) {
-        + if (checkCondition(classes[i]) === undefined)
-        + console.log('undefined');
-        + }
+            + try {
+                + if (cls.search(/\bno\-highlight\b/) != -1)
+                    + return process(block, true, 0x0F) +
+                        + ` class="${cls}"`;
+            + } catch (e) {
+                + /* handle exception */
+            + }
+            + for (var i = 0 / 2; i < classes.length; i++) {
+                + if (checkCondition(classes[i]) === undefined)
+                    + console.log('undefined');
+            + }
         + }
         + 
         + export  $initHighlight;
@@ -71,43 +71,43 @@ md
         + 
         + interface Factory
         + {
-        + static function _factory();
+            + static function _factory();
         + }
         + 
         + abstract class URI extends BaseURI implements Factory
         + {
-        + abstract function test();
+            + abstract function test();
         + 
-        + public static $st1 = 1;
-        + const ME = "Yo";
-        + var $list = NULL;
-        + private $var;
+            + public static $st1 = 1;
+            + const ME = "Yo";
+            + var $list = NULL;
+            + private $var;
         + 
-        + /**
-        + * Returns a URI
-        + *
-        + * @return URI
-        + */
-        + static public function _factory($stats = array(), $uri = 'http')
-        + {
-        + echo __METHOD__;
-        + $uri = explode(':', $uri, 0b10);
-        + $schemeSpecific = isset($uri[1]) ? $uri[1] : '';
-        + $desc = 'Multi
+            + /**
+                + * Returns a URI
+                + *
+                + * @return URI
+                + */
+            + static public function _factory($stats = array(), $uri = 'http')
+            + {
+                + echo __METHOD__;
+                + $uri = explode(':', $uri, 0b10);
+                + $schemeSpecific = isset($uri[1]) ? $uri[1] : '';
+                + $desc = 'Multi
         + line description';
         + 
-        + // Security check
-        + if (!ctype_alnum($scheme)) {
-        + throw new Zend_Uri_Exception('Illegal scheme');
-        + }
+            + // Security check
+            + if (!ctype_alnum($scheme)) {
+                + throw new Zend_Uri_Exception('Illegal scheme');
+            + }
         + 
-        + $this->var = 0 - self::$st;
-        + $this->list = list(Array("1"=> 2, 2=>self::ME, 3 => \Location\Web\URI::class));
+            + $this->var = 0 - self::$st;
+            + $this->list = list(Array("1"=> 2, 2=>self::ME, 3 => \Location\Web\URI::class));
         + 
-        + return [
-        + 'uri'   => $uri,
-        + 'value' => null,
-        + ];
+            + return [
+                + 'uri'   => $uri,
+                + 'value' => null,
+            + ];
         + }
         + }
         + 
