@@ -1,0 +1,27 @@
+$group
+
+	#
+	# Big module support
+	#
+	# Sections are isolated using IIFE blocks.
+	#
+	# Vars, consts, functions and classes prefixed with
+	# wz- are exported from the module.
+	#
+	# Sections may require objects exported by other sections
+	# using the wz-require element.
+	#
+
+	e_tag( wzIife, wz-iife, iife )
+
+	e_tag( wzRequire, wz-require, statement )
+		a from
+
+	e_tag( wzVar, wz-var, var )
+
+	e_tag( wzConst, wz-const, const )
+
+	e_tag( wzFunction, wz-function, function )
+
+	e_tag( wzClass, wz-class, class )
+

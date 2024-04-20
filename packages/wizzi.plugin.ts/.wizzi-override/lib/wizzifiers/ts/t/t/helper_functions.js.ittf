@@ -442,7 +442,7 @@
 				set temp = verify.replaceAll(verify.replaceAll(item.name, '\\n', '\n'), '\\b', ' ')
 				_ sb.push(temp)
 			if item.tag === '@'
-				_ sb.push('${ __dollar}{' + item.name + '}')
+				_ sb.push('${"$"}{' + item.name + '}')
 		return sb.join('')
 
 	function isFlowPrimitiveTag

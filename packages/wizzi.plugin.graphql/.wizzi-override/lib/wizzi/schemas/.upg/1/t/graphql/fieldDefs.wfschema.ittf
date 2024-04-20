@@ -1,0 +1,78 @@
+$group
+
+
+
+    $*
+
+	e genericArgument : argument
+        tag @
+		a_tag( defaultValue, =
+
+    e_tag( ifArgument, if, argument        
+
+	e  fieldDef : basenode
+        is-abstract
+		a type
+		a_flag( isList )
+        a_flag( isRequired )
+		a_flag( isDeprecated )
+		a_flag( skip )
+		a_flag( include )
+		r argument/s
+
+		m wzInitialize
+			foreach item in this.directives
+				if item.wzElement === 'isList'
+					set this.isList = true
+				elif item.wzElement === 'isRequired'
+					set this.isRequired = true
+				elif item.wzElement === 'isDeprecated'
+					set this.isDeprecated = true
+				elif item.wzElement === 'skip'
+					set this.skip = true
+				elif item.wzElement === 'include'
+					set this.include = true
+
+    e itemType : commentable
+        tag item-type
+
+	e_tag( arrayType, [, fieldDef
+		r itemType
+			one-to-one
+		m wzInitialize
+			set this.type = 'array'
+
+	e_tag( enumType, enum, fieldDef
+		m wzInitialize
+			set this.type = 'enum'
+
+	e_tag( nullType, null, fieldDef
+		m wzInitialize
+			set this.type = 'null'
+
+	e_tag( stringType, string, fieldDef
+		m wzInitialize
+			set this.type = 'String'
+
+	e_tag( intType, int, fieldDef
+		m wzInitialize
+			set this.type = 'Int'
+
+	e_tag( floatType, float, fieldDef
+		m wzInitialize
+			set this.type = 'Float'
+
+	e_tag( booleanType, boolean, fieldDef
+		m wzInitialize
+			set this.type = 'Boolean'
+	
+	e_tag( IDType, ID, fieldDef
+		m wzInitialize
+			set this.type = 'ID'
+
+	e_tag( method, m, fieldDef
+		r fieldDef/s
+		r selectionSet
+			one-to-one
+
+    *$

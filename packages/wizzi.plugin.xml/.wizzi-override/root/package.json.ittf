@@ -19,12 +19,18 @@
         $if wzCtx.type
             type "${wzCtx.type}"
     { scripts
-        $include package/0_0_1/scripts
     { dependencies
-        $include package/0_0_1/dependencies
+        @wizzi/mtree "^0.8.23"
+        @wizzi/utils "^0.8.21"
+        async "^3.2.4"
+        i "^0.3.7"
+        iconv-lite "^0.6.3"
+        js-yaml "^4.1.0"
+        json-stringify-safe "^5.0.1"
+        object-inspect "^1.12.3"
+        xml2js "^0.4.23"
     { devDependencies
-        $include package/0_0_1/devDependencies
-    $include package/0_0_1/tools
-    $include package/0_0_1/browser
-    $$ see https://classic.yarnpkg.com/en/docs/selective-version-resolutions/
-    $include package/0_0_1/resolutions
+        @wizzi/factory "^0.8.35"
+        del "^7.0.0"
+        expect.js "^0.3.1"
+        mocha "^10.1.0"

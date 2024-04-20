@@ -1,0 +1,131 @@
+$group
+
+	e jsObject : statement
+		
+		tag {
+
+		# Declares an object structure.
+		# ittf:
+		#   var user
+		#     {
+		#       @ name 'stefi'
+		#       @ birth 1957
+		#
+		# It can be used everywhere an object can be used
+		# ittf
+		#    var user
+		#      _ db.getUser
+		#        {
+		#           @ name 'arthur'
+		# 
+
+		m wzinitialize
+			# a Dsl that uses this could be 'graphql'
+			set this.isDslCall = false
+			foreach item in this.statements
+				if item.wzElement === 'namedCallParam'
+					set this.isDslCall = true
+	
+
+	e jsArray : statement
+		
+		tag [
+
+		# Declares an array structure.
+		# ittf:
+		#   var users
+		#     [
+		#       {
+		#         @ name 'stefi'
+		#         @ birth 1957
+		#       {
+		#         @ name 'arthur'
+		#         @ birth 1955
+		#
+
+	e jsPropertyOrValue : statement
+		tag @
+
+		# used by import/export specifiers
+		a_tag( xas, as
+		
+		# This element is used in many contexts with a different semantic.
+		#
+		# As children of a 'jsObject' element it is an object property.
+		# ittf
+		#   var user
+		#     {
+		#       @ name 'annie'
+		#
+		# As children of a 'call', 'memberCall', 'decoratorCall', 'callOnValue' element
+		# is a function call argument.
+		# ittf
+		#   var user
+		#     _ db.getUser
+		#       @ name 'annie'
+		#
+		# As a children of an element derived from the 'htmlelement' element
+		# is an html element attribute.
+		# ittf
+		#   m render
+		#     return
+		#       div
+		#         button Press me
+		#           @ onClick { this.handleClick() }
+		#
+		# As a children of a 'import' element
+		# ittf
+		#   import
+		#     @ functionX
+		#     from 'module-a'
+		#
+
+
+		m wzinitialize
+			# a Dsl that uses this could be 'graphql'
+			set this.isDslCall = false
+			foreach item in this.statements
+				if item.wzElement === 'namedCallParam'
+					set this.isDslCall = true
+
+	e jsPropertyOrValueComputed : statement
+		tag @[
+		
+        m wzinitialize
+			# a Dsl that uses this could be 'graphql'
+			set this.isDslCall = false
+			foreach item in this.statements
+				if item.wzElement === 'namedCallParam'
+					set this.isDslCall = true
+	
+    e jsRest : statement
+		tag ...
+
+	e namedCallParam : statement
+		tag :
+
+        # graphql-query
+        #     { allMarkdownRemark
+        #         : sort
+        #             { 
+        #                 @ order DESC
+        #                 @ fields
+        #                     [
+        #                         @ frontmatter___date 
+        #         : limit 1000
+
+
+	e jsonStatementTree : statement
+		tag jst
+		
+		# Contains the stringified tree structure of a statement element.
+		# Normally this element is generated and is usefull when the 'js' ittf document 
+		# is itself a generated artifact.
+		#
+		# The artifact generator will JSON.parse the wzName property
+		# of this element and will obtain a 'statement' element to process.
+		
+		
+		
+
+

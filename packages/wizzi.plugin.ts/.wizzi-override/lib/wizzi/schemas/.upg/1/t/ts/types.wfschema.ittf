@@ -1,0 +1,72 @@
+$group
+
+	e_tag( typeDeclare, :declare, statement
+
+	e_tag( typeModule, :module, statement
+
+	e_tag( typeTypeAlias, :type, statement
+		
+		r typeParameterDecl/s
+
+	e_tag( typeFunctionDeclare, :function, statement
+		
+		r typeParameterDecl/s
+		
+		r param/s
+		
+		r typeReturn
+			one-to-one
+
+	e_tag( typeInterface, :interface, statement
+		
+		r typeParameterDecl/s
+		
+		m wzinitialize
+			set this.extends = []
+			var temp = []
+			# loog 'typeInterface.statements', this.statements
+			foreach s in this.statements
+				# loog 'typeInterface.s.wzElement', s.wzElement
+				if s.wzElement === 'typeExtends'
+                    _ s.wzInitialize
+					_ this.extends.push
+						@ s
+				else
+					_ temp.push
+						@ s
+			set this.statements = temp
+
+	e_tag( typeExtends, :extends, statement
+		m wzInitialize
+            var tpi = []
+            var ss = []
+            # loog 'typeExtends.wzInitialize', this.statements.length
+            foreach s in this.statements
+                # loog 'wzInitialize.s', s.wzElement
+                if s.wzElement == 'typeParameterInst'
+                    _ tpi.push(s)
+                else
+                    _ ss.push(s)
+            if tpi.length > 0
+                set this.typeParameterInsts = tpi
+                set this.statements = ss
+                # loog 'typeExtends.typeParameterInsts', this.typeParameterInsts
+
+	
+	e_tag( typeProperty, :p, statement
+		a_flag( typeOptional, :optional )
+	
+	e_tag( typeMethod, :m, function
+		a_flag( typeAbstract, :abstract )
+		a_flag( typePrivate, :private )
+		a_flag( typePublic, :public )
+		a_flag( typeProtected, :protected )
+		r typeReturn
+			one-to-one
+
+	e_tag( typeMapped, :mapped, statement
+		a_flag( typeOptional, :optional )
+
+	e_tag( typeConditional, :conditional, statement
+
+	

@@ -1,0 +1,148 @@
+module
+    kind es6
+    const path = require("path")
+    const vfile = require("@wizzi/utils").fSystem.vfile
+    const verify = require("@wizzi/utils").verify
+    var fsfile =vfile()
+
+    const spawnUtils = require("../services/spawn")
+    +
+    const pluginsFolder = "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
+    +
+    $include plugins
+    +
+    function doRename
+        param ndx
+        var pluginName = pluginList[ndx]
+        # loog "pluginList", pluginList, ndx, pluginName
+        if !pluginName
+            success "All plugin upgrades done"
+            return
+        $*
+        _ deleteFolders
+            @ pluginName
+            a_cb()
+        *$
+        _ saveFiles
+            @ pluginName
+            a_cb()
+                _ renameFiles
+                    @ pluginName
+                    a_cb()
+                        success "*** Rename of plugin folders of  " + pluginName + " DONE ***"
+                        _ doRename
+                            @ ndx + 1
+    _ doRename
+        @ 0
+
+    function deleteFolders
+        param pluginName
+        param callback
+        # loog 'saveFiles', pluginName
+        const schemasFolder 
+            _ path.join
+                @ pluginsFolder
+                @ "wizzi.plugin." + pluginName
+                @ ".wizzi-override"
+                @ "lib"
+                @ "wizzi"
+                @ "schemas"
+                @ "upg"
+        # loog 'schemasFolder', schemasFolder
+        _ fsfile.deleteFolder
+            @ schemasFolder
+            @ callback
+
+    function saveFiles
+        param pluginName
+        param callback
+        # loog 'saveFiles', pluginName
+        const schemasFolder 
+            _ path.join
+                @ pluginsFolder
+                @ "wizzi.plugin." + pluginName
+                @ ".wizzi-override"
+                @ "lib"
+                @ "wizzi"
+                @ "schemas"
+        # loog 'schemasFolder', schemasFolder
+        _ fsfile.getFiles
+            @ schemasFolder
+            {
+            a_cb( files )
+                # loog 'schemas files', result
+                function doExec
+                    param ndx
+                    var f = files[ndx]
+                    if !f
+                        r_cb()
+                    if f.fullPath.indexOf('upg') < 0
+                        var toFile
+                            _ path.join
+                                @ schemasFolder
+                                @ '.upg'
+                                @ '1'
+                                @ f.relPath
+                        # loog 'toFile', toFile
+                        _ fsfile.copyFile
+                            @ f.fullPath
+                            @ toFile
+                            a_cb()
+                                info 'copied file from', f.fullPath, 'to', toFile
+                                _ doExec
+                                    @ ndx + 1
+                    else
+                        _ doExec
+                            @ ndx + 1
+                _ doExec
+                    @ 0
+
+    function renameFiles
+        param pluginName
+        param callback
+        # loog 'renameFiles', pluginName
+        const schemasFolder 
+            _ path.join
+                @ pluginsFolder
+                @ "wizzi.plugin." + pluginName
+                @ ".wizzi-override"
+                @ "lib"
+                @ "wizzi"
+                @ "schemas"
+        # loog 'schemasFolder', schemasFolder
+        _ fsfile.getFiles
+            @ schemasFolder
+            {
+            a_cb( files )
+                # loog 'schemas files', result
+                function doExec
+                    param ndx
+                    var f = files[ndx]
+                    if !f
+                        r_cb()
+                    if f.fullPath.indexOf('upg') < 0
+                        var toFile
+                            _ verify.replaceAll
+                                @ f.fullPath
+                                @ 'wfschema.ittf'
+                                @ 'wzschema.ittf'
+                        
+                        $*
+                        info 'rename toFile', toFile
+                        return 
+                            _ doExec
+                                @ ndx + 1
+                        *$
+                        _ fsfile.rename
+                            @ f.fullPath
+                            @ toFile
+                            a_cb()
+                                info 'file renamed from', f.fullPath, 'to', toFile
+                                _ doExec
+                                    @ ndx + 1
+                    else
+                        _ doExec
+                            @ ndx + 1
+                _ doExec
+                    @ 0
+    set module.exports = doRename        

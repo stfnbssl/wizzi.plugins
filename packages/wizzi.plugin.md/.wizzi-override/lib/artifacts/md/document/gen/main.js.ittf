@@ -461,7 +461,7 @@ module wizzi.plugin.md@${wzCtx.version}.lib.artifacts.md.document.gen.main
                 var columns
                     {
                 foreach item in table.elements
-                    log 'analizeTable', item.wzElement, item.wzName
+                    # loog 'analizeTable', item.wzElement, item.wzName
                     if item.wzElement == 'thead'
                         foreach th in item.elements
                             var prevTHL = columns[item.elements.indexOf(th)] || 0

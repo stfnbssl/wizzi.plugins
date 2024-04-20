@@ -1,0 +1,43 @@
+$group
+
+	$include common/html_tags_attrs_events
+
+	e htmlevent : statement
+		tag event
+
+	e htmlelement : statement
+		a autoCapitalize
+		a autoCorrect
+		a property
+		a itemProp
+		a itemScope
+		a itemType
+		a itemRef
+		a itemID
+		a unselectable
+		a results
+		a autoSave
+		a class
+		a aria-*
+		a data-*
+		$foreach item in html_supported_attrs
+			$if item
+				a ${item}
+		$foreach item in svg_supported_attrs
+			$if item
+				a ${item}
+		tag <
+
+	e doctype : htmlelement
+
+	$* see classes.wfschema.ittf
+	e p : htmlelement
+		a_flag( static )
+	*$
+
+	e htmlevent : htmlelement
+		a isEvent
+			type boolean
+			default true
+
+    $include common/html

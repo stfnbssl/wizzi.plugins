@@ -1,0 +1,64 @@
+$group
+
+	e style : comment
+		r rule/s
+
+	e rule : comment
+		
+		r propert-y/ies
+
+        m getProperties
+			var retval = []
+			foreach prop in this.properties
+				if prop.wzElement === 'property'
+					# generic property ( @ name value )
+					var p = verify.parseNameValue(prop.wzName, prop)
+					if prop.properties.length > 0
+						# Nested properties
+						if p.hasValue()
+							_ retval.push({ name: p.name(), value: p.value() })
+						foreach nestedprop in prop.properties
+							var p_nested = lineParser.parseNameValueRaw(nestedprop.wzName, nestedprop)
+							_ retval.push({ name: p.name() + '-' + p_nested.name(), value: p_nested.value() })
+					else
+						if p.hasValue()
+							_ retval.push({ name: p.name(), value: p.value() })
+				else
+					if verify.isNotEmpty(prop.wzName)
+						_ retval.push({ name: prop.wzTag, value: prop.wzName })
+			return retval
+
+	e_tag( cueRule, ::, rule
+		
+		# ittf
+		#   style
+		#       ::
+		#           color papayawhip
+		
+		# vtt
+		#   STYLE
+		#   ::cue {
+		#     color: papayawhip;
+		#   }
+
+	e property
+		# A generic rule property.
+		# You should find a proper schema element that extends this one for every valid css3 property. 
+		# In any case this element is not abstract and can fit for missing properties.
+		# In this case must contain a name-value pair separated by a blank: name is
+		# the property name and value the property value.
+		# ittf
+		# . wrapper
+		#     @ webkit-super-exotic quark  
+		# css
+		# .wrapper {
+		#   webkit-super-exotic: quark;
+		# }
+
+		tag @
+
+		r propert-y/ies
+			# Nested property
+
+	$include css/spec-properties
+

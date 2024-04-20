@@ -1,0 +1,73 @@
+$group
+
+	e log : statement
+		
+		# ittf:
+		#     info 'xxx', yyy, ...
+		# js:
+		#     console.log( 'xxx', yyy, ..., __filename );
+		#
+
+	e info : statement
+		
+		# ittf:
+		#     info 'xxx', yyy, ...
+		# js:
+		#     console.log( 'xxx', yyy, ... );
+		#
+
+	e inspect : statement
+		
+		tag log?	
+		
+		# TODO ensure require('util') 
+		# ittf:
+		#     log? xxx
+		# js:
+		#     console.log('xxx', util.inspect(xxx, { depth: null } );
+		#
+		# ittf:
+		#     log? label xxx
+		# js:
+		#     console.log('label', util.inspect(xxx, { depth: null } );
+		#
+	
+	e success : statement
+		
+		# ittf:
+		#     warn 'xxx', yyy, ...
+		# js:
+		#     console.log( ...
+		#
+
+	e warn : statement
+		
+		# ittf:
+		#     warn 'xxx', yyy, ...
+		# js:
+		#     console.warn( 'xxx', yyy, ... );
+		#
+	
+	e error : statement
+		
+		# ittf:
+		#     error 'xxx', yyy, ...
+		# js:
+		#     console.error( 'xxx', yyy, ... );
+		#
+
+	$* NO VIA 28/1/24, waiting for damage
+	e chalk : statement
+		
+		# TODO ensure require('chalk') 
+		# ittf:
+		#     chalk green 'xxx'
+		#     chalk green 'obj', red obj.name
+		# js:
+		#     console.log(chalk.green('xxx');
+		#     console.log(chalk.green('obj'), chalk.red(obj.name));
+		#
+	*$
+
+
+

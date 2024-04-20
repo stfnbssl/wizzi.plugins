@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\artifacts\ts\module\gen\main.js.ittf
-    utc time: Tue, 02 Apr 2024 18:13:56 GMT
+    utc time: Sat, 20 Apr 2024 03:37:17 GMT
 */
 'use strict';
 
@@ -125,7 +125,7 @@ function main_init(model, ctx) {
     if ((!!ctx.values.noGeneratorComments) == false) {
         ctx.w('/*');
         ctx.w('    artifact generator: ' + __filename);
-        ctx.w('    package: wizzi.plugin.ts@');
+        ctx.w('    package: @wizzi/plugin.ts@');
         ctx.w('    primary source IttfDocument: ' + model.wzSourceFilepath('f1'));
         ctx.w('    utc time: ' + new Date().toUTCString());
         ctx.w('*/');

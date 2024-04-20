@@ -1,0 +1,148 @@
+$group
+
+	e param
+		a_flag( isOptional, optional )
+		r restrict
+			one-to-one
+		r facet/s
+		r comment/s
+
+		m wzinitialize
+			if this.wzElement !== 'param' && !this.paramObjectPattern && !this.paramArrayPattern
+				set this.isRequired = true
+				if isDescendentOf(this, 'prop') == false
+					var r = this.wzRoot()
+					if r.hasFeature('argument-check') === false
+						_ r.addFeature('argument-check', this.wzSourceLineInfo)
+			else
+				set this.isRequired = false
+			if this.isOptional
+				set this.isRequired = false
+
+		#
+		# The 'param' element defines a simple, not typed and not restricted
+		# function parameter.
+		# A function with 'params' parameters has no argument checking
+		# ittf
+		#   function Foo
+		#     param group
+		#     param options
+		#
+
+		# A function with typed parameters or 'params' with constraints facets
+		# has argument checking.
+		# ittf
+		#   function Foo
+		#     string group
+		#       required
+		#     { options
+		#       number level
+		#         required
+		#         range 0 - 3
+		#       string size
+		#         required
+		#         one-of small, medium, large
+		#
+
+    e stringParam : param
+		tag string
+	
+	e booleanParam : param
+		tag boolean
+	
+	e numberParam : param
+		tag number
+	
+	e dateParam : param
+		tag date
+
+	e functionParam : param
+		tag func
+	
+	e symbolParam : param
+		tag symbol
+		
+		# react param
+	
+	e nodeParam : param
+		tag node
+		
+		# react param
+	
+	e elementParam : param
+		tag element
+		
+		# react param
+	
+	e exactParam : param
+		tag exact
+	
+	e anyParam : param
+		tag any
+	
+	e callbackParam : param
+		tag callback
+		r param/s
+
+	e optionsCallbackParam : param
+		tag options-callback
+		r param/s
+
+	e arrayParam : param
+		tag [
+		r param/s
+		r jsPropertyOrValue/s
+		m wzinitialize
+			# loog 'wizzi-js.parameters.wfschema.objectParam', this.params, this.jsPropertyOrValues
+			if this.params.length == 0 && this.jsPropertyOrValues.length > 0
+				set this.paramArrayPattern = true
+				var acc = []
+				foreach item in this.jsPropertyOrValues
+					_ acc.push(item.wzName)
+				set this.textified = '[' + acc.join(', ') + ']'
+	
+	e arrayOrObjectParam : param
+		tag [{
+		r param/s
+
+    e objectParam : param
+		tag {
+		r param/s
+		r jsPropertyOrValue/s
+
+		m wzinitialize
+			# loog 'wizzi-js.parameters.wfschema.objectParam', this.params, this.jsPropertyOrValues
+			if this.params.length == 0 && this.jsPropertyOrValues.length > 0
+				set this.paramObjectPattern = true
+				var acc = []
+				foreach item in this.jsPropertyOrValues
+					var ss = item.wzName.split(' ')
+					if ss.length > 1
+						if ss.length == 2 && ss[0] === ss[1]
+							_ acc.push(ss[0])
+						elif ss[1] === '='
+							_ acc.push(item.wzName)
+						else
+							_ acc.push
+								@ ss[0] + ': ' + ss.slice(1, ss.lenght).join(' ')
+					else
+						_ acc.push(ss[0])
+				set this.textified = '{' + acc.join(', ') + '}'
+
+    e oneOfParam : param
+		tag one-of
+		r jsPropertyOrValue/s
+
+    e oneOfTypeParam : param
+		tag one-of-type
+		r param/s
+
+    e instanceOfParam : param
+		tag instance-of
+
+	e reactStyleParam : param
+		tag react-style
+
+	e shapeParam : param
+		tag shape
+		r prop/s

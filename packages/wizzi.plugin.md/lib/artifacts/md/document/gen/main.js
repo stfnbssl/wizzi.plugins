@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.md\.wizzi-override\lib\artifacts\md\document\gen\main.js.ittf
-    utc time: Thu, 18 Apr 2024 16:31:10 GMT
+    utc time: Sat, 20 Apr 2024 04:47:45 GMT
 */
 'use strict';
 
@@ -770,7 +770,7 @@ md.analizeTable = function(table) {
     var i, i_items=table.elements, i_len=table.elements.length, item;
     for (i=0; i<i_len; i++) {
         item = table.elements[i];
-        console.log('analizeTable', item.wzElement, item.wzName, __filename);
+        // loog 'analizeTable', item.wzElement, item.wzName
         if (item.wzElement == 'thead') {
             var j, j_items=item.elements, j_len=item.elements.length, th;
             for (j=0; j<j_len; j++) {

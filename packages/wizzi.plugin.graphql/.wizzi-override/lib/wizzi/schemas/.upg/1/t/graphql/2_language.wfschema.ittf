@@ -1,0 +1,89 @@
+$group
+	
+    # https://spec.graphql.org/draft/#sec-Language.Operations
+    #  OperationDefinition
+    #    OperationType Name(opt) VariablesDefinition(opt) Directives(opt) SelectionSet
+    #    SelectionSet
+    #  OperationType one-of
+    #    query mutation subscription
+    
+    e operation : basenode
+        is-abstract
+        # OperationType: one of query, mutation, subscription
+        # wzName is name: optional
+		r variable/s
+		r selectionSet
+			one-to-one
+	
+    e query : operation
+    e mutation : operation
+    e subscription : operation
+	
+    #  https://spec.graphql.org/draft/#sec-Selection-Sets
+    #  SelectionSet
+    #    {Selectionlist}
+    #  Selection
+    #    Field
+    #    FragmentSpread
+    #    InlineFragment    
+    e_tag( selectionSet, {, basenode
+        r argument/s
+		r selection/s
+        r selectionSet
+            one-to-one
+
+	e argument : basenode
+        is-abstract
+		r value
+			one-to-one
+
+	e genericArgument : argument
+        tag @
+		a_tag( defaultValue, =
+
+    e_tag( ifArgument, if, argument            
+   
+    e selection : basenode
+        is-abstract
+        # r field | fragmentSpread |InlineFragment
+   
+    # https://spec.graphql.org/draft/#sec-Language.Fields
+    #  Field
+    #    Alias(opt) Name Arguments(opt) Directives(opt) SelectionSet(opt)
+    e_tag( field, ., selection
+		a_tag( alias, as
+        # wzName is name
+		r selectionSet
+			one-to-one
+
+    e_tag( functionField, _, selection
+		a_tag( alias, as
+        # wzName is name
+		r argument/s
+		r selectionSet
+			one-to-one
+
+	e_tag( fragmentSpread, ..., selection
+		r selectionSet
+			one-to-one
+
+	e_tag( inlineFragment, ...on, selection
+		r selectionSet
+			one-to-one
+
+    #  https://spec.graphql.org/draft/#sec-Language.Fragments
+    #  FragmentSpread
+    #    ...FragmentName Directives(opt)
+    #  FragmentDefinition
+    #    fragment FragmentName TypeCondition Directives(opt) SelectionSet
+    #  FragmentName
+    #    Name but not on
+    
+    e fragment : basenode
+		# wzName is name
+        # TODO implement restriction wzName NotInList(['on'])
+        a_tag( typeCondition, on )
+		r selectionSet
+			one-to-one
+
+

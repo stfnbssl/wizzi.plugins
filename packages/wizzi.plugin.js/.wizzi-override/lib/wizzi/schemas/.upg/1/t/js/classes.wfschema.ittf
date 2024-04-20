@@ -1,0 +1,140 @@
+$group
+
+	e class : statement
+		# A javascript class
+		a super
+		a extends
+
+		m findCtor
+			return _.find(this.statements, function(item) { return item.wzElement === 'ctor' })
+
+		m wzInitialize
+			set ctx.modelState = ctx.modelState || {}
+			# loog 'wizzi-js.model.class.modelState', ctx.modelState
+			set ctx.modelState.hasClasses = true
+			if this.extends && this.extends.length > 0
+				set this.super = this.extends
+			else
+				var tokens = this.wzName.split(':')
+				if tokens.length == 2
+					set this.wzName = tokens[0]
+					set this.super = tokens[1]
+
+		#
+		# ittf
+		#   class Horse
+		#	  super Animal
+		#     ctor
+		#       string name
+		#         required
+		#       { options
+		#       boolean canSpeakLikeAHuman
+		#         required
+		#       set this.name = name
+		#       set this.options = options
+		#     m sayHello
+		#       if this.options.canSpeakLikeAHuman
+		#         success 'Hello i am ' + this.name
+		#       else
+		#         success 'Hii i am ' + this.name
+		#
+
+	e ctor : function
+		r base/s
+
+		m getBaseArgs
+			var ret = []
+			foreach item in this.bases
+				_ ret.push(item.wzName)
+			return ret
+
+		#
+		# ittf
+		#   class Horse
+		#	  super Animal
+		#     ctor
+		#       string name
+		#       base name
+		#
+
+	e base : statement
+
+		#
+		# ittf
+		#   see 'ctor' elementg example
+
+	e method : function
+		tag m
+		a_flag( static )
+		a_flag( async )
+
+		# ittf
+		#   class Foo
+		#     m sayHello
+		#       string name
+		#       success 'Hello ' + name
+
+	e property : function
+		a_flag( static )
+
+		# ittf
+		#   class Foo
+		#     property options
+
+	e get : statement
+		tag get
+        a_flag( static )
+
+		# es6 - Defines a getter on a new object in the object initializer
+		# reference https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Functions/get
+		#
+		# ittf
+		#   var obj
+		#     {
+		#       @ log ['test']
+		#       get latest
+		#         if this.log.length == 0
+		#           return undefined
+		#         return this.log[this.log.length - 1]
+		#
+		
+	e setter : function
+		tag setter
+
+        r param/s
+
+        # es6 - Defines a setter on a new object in the object initializer
+        # reference https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Functions/get
+        #
+        # the js-mtree-preprocessor translates from this ittf:
+        # set
+        #     param value
+        #
+        # to this one:
+        # setter
+        #     param value
+        #
+
+	e new : statement
+		# ittf:
+		#     var h
+		#         new Hello
+		#     var j
+		#         new Hello
+		#             function
+		#                 param p
+		#                 + ...
+		# js:
+		#     var h = new Hello();
+		#     var j = new Hello(function(p) { ... });
+	
+	e type : statement
+		# used by the 'new' element
+		# see wizzi-codegen.js.statements.var
+		# TODO example
+		# FIXME Cannot find examples and the reason for this element
+		#
+	
+	
+
+

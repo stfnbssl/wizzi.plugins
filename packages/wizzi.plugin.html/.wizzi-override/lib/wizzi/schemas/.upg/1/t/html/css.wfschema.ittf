@@ -1,0 +1,116 @@
+$group
+
+	e rule
+		# The base abstract rule.
+		# It has a child relation (one-to-many) with itself so one
+		# can declare a tree with unlimited deep.
+
+		is-abstract
+
+		r otherRuleSelector/s
+		r propert-y/ies
+		r rule/s
+
+		m wzInitialize
+			set this.ruleParts = this.getAscendingRuleParts()
+			set this.canHaveContent = ['idRule', 'classRule', 'elementRule', 'gtRule', 'ampersand', 'placeholder'].indexOf(this.wzElement) > -1
+		
+		m getAscendingRuleParts
+			if typeof this.wzName === 'string' && this.wzName.length > 0
+				var ruleParts = this.wzName.trim().split(',')
+				if ruleParts.length > 0 
+					if this.wzElement === 'idRule'
+						set ruleParts[0] = '#' + ruleParts[0]
+					elif this.wzElement === 'classRule'
+						set ruleParts[0] = '.' + ruleParts[0]
+				if this.wzParent && this.wzParent.getAscendingRuleParts
+					var parentRuleParts = this.wzParent.getAscendingRuleParts()
+					var ret = []
+					foreach prp in parentRuleParts
+						foreach rp in ruleParts
+							_ ret.push(prp + ' ' + rp)
+					return ret
+				else
+					return ruleParts
+			else
+				return []
+
+		m findRuleBySelector
+			param name
+			if this.canHaveContent && this.getSelector() === name
+				return this
+			var ret = null
+			foreach item in this.rules
+				set ret = item.findRuleBySelector(name)
+				if ret
+					return ret
+			return ret
+		
+		m hasContent
+			foreach item in this.rules
+				if item.canHaveContent
+					return true
+			return this.getProperties().length > 0
+
+		m getSelector
+			param final
+			if final && this.wzElement === 'placeholder'
+				return this.parentRuleParts.slice(1).join(', ')
+			else
+				return this.parentRuleParts.join(', ')
+		
+		m getProperties
+			var retval = []
+			foreach prop in this.properties
+				if prop.wzElement === 'property'
+					# generic property ( @ name value )
+					var p = verify.parseNameValue(prop.wzName, prop)
+					if prop.properties.length > 0
+						# Nested properties
+						if p.hasValue()
+							_ retval.push({ name: p.name(), value: p.value() })
+						foreach nestedprop in prop.properties
+							var p_nested = lineParser.parseNameValueRaw(nestedprop.wzName, nestedprop)
+							_ retval.push({ name: p.name() + '-' + p_nested.name(), value: p_nested.value() })
+					else
+						if p.hasValue()
+							_ retval.push({ name: p.name(), value: p.value() })
+			return retval
+
+	e elementRule : rule
+		# The element rule
+		# The wzName contain the selector(s)
+		tag <
+
+	e classRule : rule
+		# The class rule
+		# The wzName contain the selector(s)
+		tag .
+
+	e idRule : rule
+		# The id rule
+		# The wzName contain the selector(s)
+		tag #
+
+	e otherRuleSelector
+		# The wzName contains other selector(s) to add to those of the parent rule
+		# In case of a rule with many selectors allow the declaration on many nodes
+		# Example
+		# < td
+		#	+ span
+		#   + li
+		#   + ...
+		# for: td, span, li, ...
+		tag +
+
+	e property
+		# A generic rule property.
+		# You should find a proper schema element that extends this one for every valid css3 property. 
+		# In any case this element is not abstract and can be used for eventual missing properties.
+		# In this case must contain a name-value pair separated by a blank: name is
+		# the property name and value is the property value.
+
+		tag @
+
+		r propert-y/ies
+			# Nested property

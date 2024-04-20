@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: json:/___template/wizzi.js.ittf
-    utc time: Tue, 02 Apr 2024 09:34:51 GMT
+    utc time: Fri, 19 Apr 2024 20:50:44 GMT
 */
 'use strict';
 const path = require('path');
@@ -107,7 +107,7 @@ function generateSchemas(schemasToGen, wfJobFolder, destPath, packageName, plugi
             configOptions: options, 
             wfschema: {
                 name: schemaName, 
-                ittfDocumentUri: path.join(wfJobFolder, 'lib', 'wizzi', 'schemas', schemaName + '.wfschema.ittf'), 
+                ittfDocumentUri: path.join(wfJobFolder, 'lib', 'wizzi', 'schemas', schemaName + '.wzschema.ittf'), 
                 outputPackageFolder: destPath
              }
          }, function(err, result) {

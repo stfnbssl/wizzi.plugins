@@ -1,0 +1,116 @@
+wzschema md
+	
+	# A schema modeling a markdown document
+	# using an html-like sinthax
+
+	mtree-is-preprocessed
+
+	e attribute
+		tag @
+
+	e comment
+		tag #
+	
+    e element
+		tag <
+		r attribute/s
+		r element/s
+
+	e md
+        is-root
+		# The root element of the markdown schema.
+        r element/s
+		# Comments allowed at root level only
+        r comment/s
+	
+    e frontmatter : element
+		r attribute/s
+
+	e h1 : element
+	e h2 : element
+	e h3 : element
+	e h4 : element
+	e h5 : element
+	e h6 : element
+
+	e a : element
+		a href
+		a title
+	
+	e i : element
+	e b : element
+	e em : element
+	e del : element
+	e escape : element
+	e p : element
+	
+    e span : element
+
+	e ul : element
+	e ol : element
+	e li : element
+		a_flag( checked )
+		a_flag( task )
+
+	e img : element
+		a src
+		a title
+		a alt
+
+	e codeBlock : element
+		is-abstract
+	e js : codeBlock
+	e html : codeBlock
+	e css : codeBlock
+	e bash : codeBlock
+	e sh : codeBlock
+	e py : codeBlock
+	e code : codeBlock
+		a_flag( indented )
+		a lang
+
+	e codespan : element
+	e plus : element
+		tag +
+
+	e table : element
+    e thead : element
+	e tbody : element
+    e th : element
+	e tr : element
+	e td : element
+
+	e quote : element
+	e hr : element
+
+	e br : element
+
+	e video : element
+		a id
+		a alt
+
+	e aRef : element
+		tag r-a
+		a alt
+
+	e imgRef : element
+		tag r-img
+		a alt
+
+	e ref : element
+		a href
+		a title
+
+    e htmlInclude : element
+        tag ::html
+        include html
+
+    e cssInclude : element
+        tag ::css
+        include css css
+
+    e jsonInclude : element
+        tag ---
+        include json {
+
+

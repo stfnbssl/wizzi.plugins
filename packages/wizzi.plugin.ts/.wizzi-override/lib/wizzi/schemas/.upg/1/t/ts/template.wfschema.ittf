@@ -1,0 +1,32 @@
+$group
+
+	e_tag( template, template|`lit, statement
+		m wzinitialize
+			foreach item in this.statements
+				set item.__templateChild = true
+
+	e_tag( taggedTemplate, `tag, statement
+		m wzinitialize
+			foreach item in this.statements
+				set item.__templateChild = true
+
+	e tagFunctionCall : statement
+		
+		tag _`
+		
+		# ittf:
+		#     _` fname
+		#         + bla bla
+		#         + bla bla
+		# js:
+		#     fname`
+		# bla bla    
+		# bla bla    
+		# `;
+
+		m wzinitialize
+			foreach item in this.statements
+				set item.__templateChild = true
+
+	e_tag( macroExpr, macro, statement
+	

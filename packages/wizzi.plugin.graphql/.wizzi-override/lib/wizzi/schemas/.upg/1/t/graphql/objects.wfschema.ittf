@@ -1,0 +1,28 @@
+$group
+
+    e implement : commentable
+        tag &
+
+    e_tag( objectTypeDef, type, typeDef)
+        r fieldDef/s
+
+	e inputValueDef : typeDef
+        tag @
+        a_tag( defaultValue, =
+		r nameType
+			one-to-one
+        # https://spec.graphql.org/draft/#InputValueDefinition
+        # Description(opt) Name(opt) Type DefaultValue(opt) Directives(opt)
+	
+    e fieldDef : typeDef
+        tag .
+        r nameType
+            one-to-one
+		r inputValueDef/s
+        # https://spec.graphql.org/draft/#FieldDefinition
+        # Description(opt) Name ArgumentsDefinition(opt) Type Directives(opt)
+
+    e_tag( objectTypeExt, extend-type, basenode)
+        r implement/s
+        # https://spec.graphql.org/draft/#ObjectTypeExtension
+        # extend type Name ImplementsInterfaces(opt) Directives(opt) FieldsDefinition
