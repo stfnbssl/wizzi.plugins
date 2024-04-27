@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: @wizzi/plugin.js@0.8.9
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.text\.wizzi-override\lib\wizzifiers\utils\ittfWriter.js.ittf
-    utc time: Sat, 20 Apr 2024 02:52:30 GMT
+    utc time: Thu, 25 Apr 2024 11:41:21 GMT
 */
 'use strict';
 var chalk = require('chalk');

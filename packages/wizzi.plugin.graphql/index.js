@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: @wizzi/plugin.js@0.8.9
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.graphql\.wizzi-override\root\index.js.ittf
-    utc time: Sat, 20 Apr 2024 04:16:39 GMT
+    utc time: Thu, 25 Apr 2024 11:40:59 GMT
 */
 'use strict';
 
@@ -141,7 +141,8 @@ class FactoryPlugin {
     }
     
     /**
-         Map a file extension to Retrieve a Wizzifier by its name
+         Map a file extension to a schema
+         Useful for retrieving a Wizzifier by a file extension
     */
     mapExtensionToSchema(extension) {
         if (extension == 'graphql') {
@@ -150,7 +151,7 @@ class FactoryPlugin {
         return null;
     }
     /**
-         Retrieve a Wizzifier by its name
+         Retrieve a Wizzifier by its name (a schema name)
          Wizzifiers are searched in this package
          No search up in "node_modules" folders.
     */

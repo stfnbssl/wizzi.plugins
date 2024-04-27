@@ -2,29 +2,60 @@
 
 Svg document
 
+
 ## Features
 ### Implemented Wizzi models
-|Schema|Descriptionn|Builtin|Model transformers|Artifacts|
-|<a href https://github.com//wizzi.plugin.svg/tree/master/.wizzi/ittf/lib/wizzi/schemas/svg.wfschema.ittf>svg</a>|svg wizzi schema|no|
-|\|document|
 
-|
+<table>
+<tr>
+<th>Schema<th>Descriptionn<th>Builtin<th>Model transformers<th>Artifacts</tr>
+<tr>
+<td>
+<a href https://github.com//wizzi.plugin.svg/tree/master/.wizzi/ittf/lib/wizzi/schemas/svg.wfschema.ittf>svg</a><td>svg wizzi schema</td>
+<td>
+no<td>
+
+<table>
+</table>
+
+<td>
+
+<table>
+<tr>
+<td>document</td>
+</tr>
+</table>
+
+</tr>
+</table>
 
 
-Wizzi plugins are documented[here](https://stfnbssl.github.io/wizzi/docs/wizziplugins.html).
 
-You can find a few samples in the /examples folder, but you can find more in the[demo package](https://github.com/wizzifactory/wizzi/tree/master/packages/wizzi-demo/.wizzi/ittf/examples/advanced/plugins).
+<p>Wizzi plugins are documented<a href="https://stfnbssl.github.io/wizzi/docs/wizziplugins.html">here</a>.</p>
+
+
+
+<p>You can find a few samples in the /examples folder, but you can find more in the<a href="https://github.com/wizzifactory/wizzi/tree/master/packages/wizzi-demo/.wizzi/ittf/examples/advanced/plugins">demo package</a>.</p>
+
 ## Source and generation
 wizzi.plugin.svg is generated using Wizzi.
+
 
 ## Wizzi
 
 One machinery many productions.
 
-[Project page](https://stfnbssl.github.io/wizzi)
+
+
+<p><a href="https://stfnbssl.github.io/wizzi">Project page</a></p>
+
 ## Built With
-* [Nodejs](https://nodejs.org)
-* [Wizzi](https://github.com/stfnbssl/wizzi)
+    * [Nodejs](https://nodejs.org)
+    
+    * [Wizzi](https://github.com/stfnbssl/wizzi)
+    
 
 ## License
-This project is licensed under the MIT License - see the[license.txt](license.txt)for details.
+
+<p>This project is licensed under the MIT License - see the<a href="license.txt">license.txt</a>for details.</p>
+

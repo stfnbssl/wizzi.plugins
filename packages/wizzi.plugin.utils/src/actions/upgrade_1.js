@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.utils\.wizzi-override\src\actions\upgrade_1.js.ittf
-    utc time: Fri, 19 Apr 2024 16:29:59 GMT
+    utc time: Thu, 25 Apr 2024 11:39:00 GMT
 */
 'use strict';
 const path = require("path");
@@ -63,20 +63,8 @@ function updateFiles(pluginName, callback) {
     //
     //
     const files = [
-        "root/package.json", 
-        "t/package/0_0_1/browser.json", 
-        "t/package/0_0_1/dependencies.json", 
-        "t/package/0_0_1/devDependencies.json", 
-        "t/package/0_0_1/resolutions.json", 
-        "t/package/0_0_1/scripts.json", 
-        "t/package/0_0_1/tools.json", 
         "models/wzctx.json", 
-        "lib/artifacts/t/trans.js", 
-        "lib/artifacts/t/gen.js", 
-        "lib/artifacts/utils/utilNode.js", 
-        "lib/artifacts/utils/lineParser.js", 
-        "lib/artifacts/t/statements-writer.js", 
-        "examples/t/example_step.js"
+        "root/t/wizzification.js"
     ];
     var i, i_items=files, i_len=files.length, item;
     for (i=0; i<i_len; i++) {
