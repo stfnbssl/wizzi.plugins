@@ -1,0 +1,64 @@
+module
+    kind es6
+    $
+        var md = {
+            name: 'toml',
+        };
+    wizziplugin/examples/plugin( &md )
+        $append plugins
+            [ items
+                @ './wizzi.plugin.toml/index.js'
+            @ pluginsBaseFolder
+                _ path.resolve
+                    @ __dirname
+                    @ '..'
+                    @ '..'
+        $append imports
+            var tomlwizzifier = require('../lib/wizzifiers/toml/wizzifier')
+        +
+        let arg = process.argv[2]
+        const moduleName = arg && arg.length > 0 ? arg : 'first'
+        _ async.map
+            [
+                @ moduleName
+            @ wizzify
+            a_cb_no_throw( result )
+                info ''
+                info 'Terminated. result: ', result
+        function wizzify
+            param name
+            param callback
+            +
+            var source
+                _ path.join
+                    @ __dirname
+                    @ 'data'
+                    @ name + '.toml'
+            +
+            _ createWizziFactory
+                {
+                a_cb_no_throw( wf )
+                    _ tomlwizzifier.getWizziIttf
+                        _ file.read
+                            @ source
+                        {
+                            @ wf wf
+                            @ syntaxOutFile
+                                _ path.join
+                                    @ __dirname
+                                    @ 'data'
+                                    @ 'output'
+                                    @ name + '.toml.syntax'
+                        a_cb_no_throw( ittf )
+                            if err
+                                error 'error wizzifying: ' + source
+                                error 'err', err
+                                return callback(null, 'error ' + source)
+                            _ file.write
+                                _ path.join
+                                    @ __dirname
+                                    @ 'data'
+                                    @ 'output'
+                                    @ name + '.toml.ittf'
+                                @ ittf
+                            return callback(null, 'success ' + source)

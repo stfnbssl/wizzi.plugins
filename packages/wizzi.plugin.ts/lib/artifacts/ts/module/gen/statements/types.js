@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\artifacts\ts\module\gen\statements\types.js.ittf
-    utc time: Thu, 25 Apr 2024 11:41:26 GMT
+    utc time: Thu, 16 May 2024 04:18:27 GMT
 */
 'use strict';
 var util = require('util');
@@ -129,6 +129,18 @@ md.load = function(cnt) {
         return callback(null);
     }
     ;
+    cnt.stm.typeBigInt = function(model, ctx, kind, callback) {
+        if (typeof callback === 'undefined') {
+            callback = kind;
+            kind = null;
+        }
+        if (typeof callback !== 'function') {
+            throw new Error('The callback parameter must be a function. In ' + myname + '.typeBigInt. Got: ' + callback);
+        }
+        ctx.write('bigint');
+        return callback(null);
+    }
+    ;
     cnt.stm.typeString = function(model, ctx, kind, callback) {
         if (typeof callback === 'undefined') {
             callback = kind;
@@ -238,9 +250,9 @@ md.load = function(cnt) {
                 if (err) {
                     return callback(err);
                 }
-                process.nextTick(function() {
-                    repeater_1(index_1 + 1);
-                })
+                return process.nextTick(function() {
+                        repeater_1(index_1 + 1);
+                    });
             }
             )
         }
@@ -333,7 +345,7 @@ md.load = function(cnt) {
         if (typeof callback !== 'function') {
             throw new Error('The callback parameter must be a function. In ' + myname + '.typeReference. Got: ' + callback);
         }
-        // loog 'typeReference.model', model
+        // loog 'typeReference.model', model.wzElement, model.wzTag, model.wzName, model.statements.length, model.statements[0] && model.statements[0].wzElement
         var model = writeComments(model, ctx);
         if (model.statements.length == 1) {
             ctx.write('<' + model.wzName + '>');
@@ -348,7 +360,12 @@ md.load = function(cnt) {
             return callback(null);
         }
         else {
-            ctx.write(model.wzName);
+            if (ctx.isInsideTemplate) {
+                ctx.write('$' + "{" + model.wzName + '}');
+            }
+            else {
+                ctx.write(model.wzName);
+            }
             if (model.typeParameterInsts.length > 0) {
                 var graphs = false;
                 var i, i_items=model.typeParameterInsts, i_len=model.typeParameterInsts.length, item;
@@ -376,9 +393,9 @@ md.load = function(cnt) {
                         if (err) {
                             return callback(err);
                         }
-                        process.nextTick(function() {
-                            repeater_1(index_1 + 1);
-                        })
+                        return process.nextTick(function() {
+                                repeater_1(index_1 + 1);
+                            });
                     }
                     )
                 }
@@ -541,9 +558,9 @@ md.load = function(cnt) {
                 if (err) {
                     return callback(err);
                 }
-                process.nextTick(function() {
-                    repeater_1(index_1 + 1);
-                })
+                return process.nextTick(function() {
+                        repeater_1(index_1 + 1);
+                    });
             }
             )
         }
@@ -580,9 +597,9 @@ md.load = function(cnt) {
                 if (err) {
                     return callback(err);
                 }
-                process.nextTick(function() {
-                    repeater_1(index_1 + 1);
-                })
+                return process.nextTick(function() {
+                        repeater_1(index_1 + 1);
+                    });
             }
             )
         }
@@ -666,9 +683,9 @@ md.load = function(cnt) {
                 if (err) {
                     return callback(err);
                 }
-                process.nextTick(function() {
-                    repeater_1(index_1 + 1);
-                })
+                return process.nextTick(function() {
+                        repeater_1(index_1 + 1);
+                    });
             }
             )
         }
@@ -729,9 +746,9 @@ md.load = function(cnt) {
                 if (err) {
                     return callback(err);
                 }
-                process.nextTick(function() {
-                    repeater_1(index_1 + 1);
-                })
+                return process.nextTick(function() {
+                        repeater_1(index_1 + 1);
+                    });
             }
             )
         }
@@ -764,9 +781,9 @@ md.load = function(cnt) {
                 if (err) {
                     return callback(err);
                 }
-                process.nextTick(function() {
-                    repeater_1(index_1 + 1);
-                })
+                return process.nextTick(function() {
+                        repeater_1(index_1 + 1);
+                    });
             }
             )
         }
@@ -1088,7 +1105,12 @@ md.load = function(cnt) {
                 if (i > 0) {
                     ctx.write(', ');
                 }
-                ctx.write(item.wzName);
+                if (item.wzElement == 'typeTypeAlias') {
+                    ctx.write('type ' + item.wzName);
+                }
+                else {
+                    ctx.write(item.wzName);
+                }
                 if (item.xas) {
                     ctx.write(' as ' + item.xas);
                 }
@@ -1261,9 +1283,9 @@ md.load = function(cnt) {
                 if (err) {
                     return callback(err);
                 }
-                process.nextTick(function() {
-                    repeater_1(index_1 + 1);
-                })
+                return process.nextTick(function() {
+                        repeater_1(index_1 + 1);
+                    });
             }
             )
         }

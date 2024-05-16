@@ -124,6 +124,8 @@ module
                                                 @ contentType "${art.contentType}"
                                                 @ isDefault ${art.isDefault ? 'true' : 'false'}
                                     @ defaultArtifact '${schema.defaultArtifact}'
+                                    $if schema.isForBinaryFile
+                                        @ isForBinaryFile true
                                     [ dependency
                                         $foreach include in schema.includes
                                             @ "${include.name}"
@@ -163,3 +165,4 @@ module
                                 _ callback
                                     @ null
                                     @ plugin
+

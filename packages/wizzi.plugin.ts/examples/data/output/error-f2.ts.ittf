@@ -1,0 +1,35 @@
+module
+    export 
+        function useIsPending
+            { 
+                @ formAction
+                @ formMethod
+                    = 'POST'
+                @ state
+                    = 'non-idle'
+                :{ 
+                    :p formAction
+                        :optional 
+                        :string 
+                    :p formMethod
+                        :optional 
+                        :union 
+                            :literal 'POST'
+                            :literal 'GET'
+                            :literal 'PUT'
+                            :literal 'PATCH'
+                            :literal 'DELETE'
+                    :p state
+                        :optional 
+                        :union 
+                            :literal 'submitting'
+                            :literal 'loading'
+                            :literal 'non-idle'
+                = 
+            const contextualFormAction = useFormAction()
+            const navigation = useNavigation()
+            const isPendingState
+                iif state === 'non-idle'
+                    then navigation.state !== 'idle'
+                    else navigation.state === state
+            return (isPendingState && navigation.formAction === (formAction ?? contextualFormAction) && navigation.formMethod === formMethod)

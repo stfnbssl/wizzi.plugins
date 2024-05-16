@@ -48,6 +48,8 @@
 			r_cb()
 
         if countStatements(model) == 2 && (model.statements[1].wzElement === 'typeInitValue' || model.statements[1].wzElement === 'initValue')
+			if model.statements[1].wzElement === 'typeInitValue'
+				_ ctx.write(': ')
 			_ cnt.genItem
 				@ model.statements[0]
 				@ ctx

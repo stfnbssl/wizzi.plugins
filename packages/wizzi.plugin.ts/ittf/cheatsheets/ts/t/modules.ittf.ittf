@@ -221,7 +221,7 @@ element modules
 					=> 
 						param s
 						_ console.log
-							`lit 
+							template 
 								+ "
 								@ s
 								+ "\b
@@ -295,7 +295,7 @@ element modules
 					=> 
 						param s
 						_ console.log
-							`lit 
+							template 
 								+ "
 								@ s
 								+ " -\b
@@ -523,7 +523,7 @@ element modules
 						param s
 						for let name in validators
 							_ console.log
-								`lit 
+								template 
 									+ "
 									@ s
 									+ " -\b
@@ -1051,7 +1051,7 @@ element modules
 										return 
 							throw 
 								new Error
-									`lit 
+									template 
 										+ Unsupported input: '
 										@ char
 										+ '
@@ -1067,7 +1067,7 @@ element modules
 						for let i = 0; i < input.length; i++
 							_ c.handleChar(input[i])
 						_ console.log
-							`lit 
+							template 
 								+ result of '
 								@ input
 								+ ' is '
@@ -1119,7 +1119,7 @@ element modules
 						if base <= 0 || base > maxBase
 							throw 
 								new Error
-									`lit 
+									template 
 										+ base has to be within 0 to\b
 										@ maxBase
 										+ \binclusive.

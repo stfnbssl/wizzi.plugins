@@ -1,0 +1,8 @@
+module
+    iif isRouteErrorResponse(error)
+        then
+            _ (statusHandlers?[error.status] ?? defaultStatusHandler)
+                {
+                    @ error
+                    @ params
+        else unexpectedErrorHandler(error)

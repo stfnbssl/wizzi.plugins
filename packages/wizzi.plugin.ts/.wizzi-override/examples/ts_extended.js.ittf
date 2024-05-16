@@ -30,7 +30,7 @@ module
                 =>
                     param module
                     param callback
-                    log 'ts.example.executeGenerateModules.module: ' + module
+                    info 'ts.example.executeGenerateModules.module: ' + module
                     var ittfDocumentUri
                         _ path.join
                             @ __dirname
@@ -50,7 +50,7 @@ module
                         @ ittfDocumentUri
                         {
                         a_cb( model )
-                            log 'ts.example.executeGenerateModules.outputLoadedPath: ' + outputLoadedPath
+                            info 'ts.example.executeGenerateModules.outputLoadedPath: ' + outputLoadedPath
                             _ file.write
                                 @ outputLoadedPath
                                 _ stringify
@@ -62,7 +62,7 @@ module
                                 {
                                 @ "ts/extended"
                                 a_cb( model )
-                                    log 'ts.example.executeGenerateModules.outputExtendedPath: ' + outputExtendedPath
+                                    info 'ts.example.executeGenerateModules.outputExtendedPath: ' + outputExtendedPath
                                     _ file.write
                                         @ outputExtendedPath
                                         _ stringify

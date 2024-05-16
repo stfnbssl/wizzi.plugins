@@ -1,0 +1,24 @@
+/*
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
+    package: @wizzi/plugin.ts@
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\examples\ittf\quick.ts.ittf
+    utc time: Fri, 03 May 2024 05:17:23 GMT
+*/
+/// <reference types="vitest" />
+/// <reference types="vite/client" />
+import react from "@vitejs/plugin-react";
+import tsconfigPaths from "vite-tsconfig-paths";
+import {defineConfig} from "vitest/config";
+export default defineConfig({
+        plugins: [
+            react(), 
+            tsconfigPaths()
+        ], 
+        test: {
+            globals: true, 
+            environment: "happy-dom", 
+            setupFiles: [
+                "./test/setup-test-env.ts"
+            ]
+         }
+     })

@@ -1,0 +1,262 @@
+wzschema prisma
+    
+    export-to json
+    
+    e comment
+        tag #
+        r comment/s
+
+    e docComment : comment
+        tag ###
+
+    e commentable
+        r comment/s
+    
+    e prisma : commentable
+        is-root
+        r datasource/s
+        r generator/s
+        r model/s
+    
+    e fieldType
+        is-abstract
+        m getTypeString
+            if this.wzElement == 'stringType'
+                return 'String'
+            $foreach item in ['boolean','int','bigInt','float','decimal','dateTime','json','bytes','unsupported']
+                elif this.wzElement == '${item}Type'
+                    return '${item[0].toUpperCase() + item.substr(1)}'
+            elif this.wzElement == 'refType'
+                return this.wzName
+            elif this.wzElement == 'listType'
+                if this.fieldType
+                    return this.fieldType.getTypeString() + '[]'
+                else
+                    return 'String[]'
+
+    $foreach item in ['string','boolean','int','bigInt','float','decimal','dateTime','json','bytes','unsupported','ref']
+        e ${item}Type : fieldType
+            tag :${item}
+
+    e listType : fieldType
+        tag :[
+        r fieldType
+            one-to-one
+
+    e valueAssign
+        is-abstract
+        r valueAssign/s
+
+    e scalarAssign : valueAssign
+        tag =
+        m getValueString
+            return this.wzName
+
+    e pathAssign : valueAssign
+        tag =[
+        m getValueString
+            return this.wzName
+
+    e scalarValue : valueAssign
+        tag @
+        m getValueString
+            return this.wzName
+
+    e param
+        is-abstract
+    
+    e scalaraParam : param
+        tag @
+        m getValueString
+            return this.wzName
+
+    e functionCallAssign : valueAssign
+        tag _
+        r param/s
+        m getValueString
+            var ret = [this.wzName + '(']
+            var seen = false
+            foreach p in this.params
+                if seen
+                    _ ret.push(', ')
+                _ ret.push
+                    _ p.getValueString()
+                set seen = true
+            _ ret.push(')')
+            return ret.join('')
+
+    e array : valueAssign
+        tag [
+        r valueAssign/s
+        m getValueString
+            var ret = [this.wzName + '[']
+            var seen = false
+            foreach p in this.valueAssigns
+                if seen
+                    _ ret.push(', ')
+                _ ret.push
+                    _ p.getValueString()
+                set seen = true
+            _ ret.push(']')
+            return ret.join('')
+
+    e config : commentable
+        r valueAssign
+            one-to-one
+
+    e datasource : commentable
+        r config/s
+    
+    e generator : commentable
+        r config/s
+    
+    e model : commentable
+        r field/s
+        r blockAttribute/s
+
+    e field : commentable
+        a_tag_flag( optional, :optional )
+        r fieldType
+            one-to-one
+        r fieldAttribute/s
+        m getTypeString
+            var opt = this.optional ? '?' : ''
+            # loog 'field.getTypeString', this.wzName, this.fieldType, opt 
+            if this.fieldType
+                return this.fieldType.getTypeString() + opt
+            else
+                return 'String' + opt
+
+    e fieldAttribute : commentable
+        tag @
+        r valueAssign/s
+
+    e blockAttribute : commentable
+        tag @@
+        a name
+        r valueAssign/s
+
+    e fields : valueAssign
+        r array
+            one-to-one
+        m getValueString
+            return 'fields: ' + (this.array && this.array.getValueString())
+    e references : valueAssign
+        r array
+            one-to-one
+        m getValueString
+            return 'references: ' + (this.array && this.array.getValueString())
+    e strategy : valueAssign
+        m getValueString
+            return 'strategy: ' + this.wzName
+    e onDelete : valueAssign
+        m getValueString
+            return 'onDelete: ' + this.wzName
+    e onUpdate : valueAssign
+        m getValueString
+            return 'onUpdate: ' + this.wzName
+
+  
+    $*
+        
+        f( xname, name )
+            name( value )
+            # set ret.name = node.value
+
+        f( schema, skip )
+            f_a( declarations )
+
+        f( datasource, datasource )
+            f_p_temp( name )
+            set ret.name = p_name.name
+            f_a( members )
+
+        f( config, config )
+            f_p_temp( name )
+            set ret.name = p_name.name
+            f_p( value )
+
+        f( literal, literal )
+            var value = verify.isString(node.value) ? '"' + node.value + '"' : node.value
+            if parent.tag == '@'
+                set parent.name += ' ' + value
+                set skip = true
+            elif parent.tag == '_'
+                set ret.tag = '@'
+                set ret.name = value
+            elif parent.tag == 'config'
+                set ret.tag = '='
+                set ret.name = value
+            else
+                set ret.name = value
+
+        f( path, path )
+            if parent.tag == '_'
+                set parent.name = node.value.join('.')
+                set skip = true
+            elif ['onDelete','onUpdate'].indexOf(parent.tag) > -1
+                set parent.name = node.value.join(',')
+                set skip = true
+            elif parent.tag == '['
+                set ret.tag = '@'
+                set ret.name = node.value.join(',')
+            else
+                set ret.name = node.value.join(',')
+
+        f( functionCall, _ )
+            f_p( path )
+            f_a( args )
+
+        f( generator, generator )
+            f_p_temp( name )
+            set ret.name = p_name.name
+            $$ f_p( name )
+            f_a( members )
+
+        f( model, model )
+            f_p_temp( name )
+            set ret.name = p_name.name
+            $$ f_p( name )
+            f_a( members )
+
+        f( field, field )
+            f_p_temp( name )
+            set ret.name = p_name.name
+            f_p( type )
+            f_a( attributes )
+
+        f( typeId, type )
+            f_p_temp( name )
+            if scalarTypes.indexOf(p_name.name) > -1
+                set ret.tag = ':' + p_name.name[0].toLowerCase() + p_name.name.substring(1)
+            else
+                set ret.tag = ':ref'
+                set ret.name = p_name.name
+
+        f( fieldAttribute, @ )
+            f_p_temp( path )
+            set ret.name = p_path.name
+            f_a( args )
+
+        f( blockAttribute, blockAttribute )
+            f_p_temp( path )
+            set ret.name = p_path.name
+            f_a( args )
+
+        f( optional, :optional )
+            f_p_temp( type )
+            _ parent.children.push
+                @ p_type
+
+        f( list, :[ )
+            f_p( type )
+
+        f( array, [ )
+            f_a( items )
+
+        f( namedArgument, namedArgument )
+            f_p_temp( name )
+            set ret.tag = p_name.name
+            f_p( expression )
+
+    *$

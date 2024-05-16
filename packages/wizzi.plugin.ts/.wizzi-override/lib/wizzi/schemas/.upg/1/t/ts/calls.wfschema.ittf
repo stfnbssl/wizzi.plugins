@@ -29,7 +29,7 @@ $group
 		#     set value
 		#         _ init
 		#             ._calc
-		# js:
+		# ts:
 		#    value = init().calc()
 	
 	e decoratorCall : statement
@@ -43,7 +43,7 @@ $group
 		#         @ 200
 		#         function
 		#           return 'a';  
-		# js:
+		# ts:
 		#    @alpha(200, function() { return 'a'; })
 
 	e callOnValue : statement
@@ -54,7 +54,7 @@ $group
 		#     _ getFunction()
 		#         (
 		#             @ 'stefi'
-		# js:
+		# ts:
 		#     getFunction()('stefi')
 	
 	e memberAccess : statement
@@ -64,7 +64,7 @@ $group
 		# ittf:
 		#     set name = obj
 		#         . name 
-		# js:
+		# ts:
 		#     name = obj.name
 	
 	e memberAccessComputed : statement
@@ -74,7 +74,7 @@ $group
 		# ittf:
 		#     set name = obj
 		#         .[ name 
-		# js:
+		# ts:
 		#     name = obj[name]
 
 

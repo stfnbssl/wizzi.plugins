@@ -1,0 +1,21 @@
+prisma
+    model Product
+        field id
+            :string 
+            @ id
+            @ default
+                _ auto
+            @ map "_id"
+            @ db,ObjectId
+        field name
+            :string 
+        field photos
+            :[ 
+                :ref Photo
+    type Photo
+        field height
+            :int 
+        field width
+            :int 
+        field url
+            :string 

@@ -1,12 +1,12 @@
-# $wizzi.meta.js
+# wizzi.meta.js
 
-$Wizzi meta plugin for creating wizzi js packages
+Wizzi meta plugin for creating wizzi js packages
 
 ## Features
 
 You can find a few samples in the /examples folder, but you can find more in the[demo package](https://github.com/wizzifactory/wizzi/tree/master/packages/wizzi-demo/.wizzi/ittf/examples/advanced/plugins).
 ## Source and generation
-$wizzi.meta.js is generated using Wizzi.
+wizzi.meta.js is generated using Wizzi.
 
 ## Wizzi
 

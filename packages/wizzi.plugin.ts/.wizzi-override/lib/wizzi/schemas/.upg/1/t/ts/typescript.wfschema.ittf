@@ -4,6 +4,7 @@ $group
 		is-abstract
 	
 	e_tag( typeNumber, :number, typeSimple
+	e_tag( typeBigInt, :bigint, typeSimple
 	e_tag( typeString, :string, typeSimple
 	e_tag( typeBoolean, :boolean, typeSimple
 	e_tag( typeAny, :any, typeSimple
@@ -86,7 +87,7 @@ $group
 			set this.specifiers = []
 			var temp = []
 			foreach item in this.statements
-				if item.wzElement === 'jsPropertyOrValue'
+				if item.wzElement === 'jsPropertyOrValue' || item.wzElement === 'typeTypeAlias'
 					_ this.specifiers.push(item)
 				else
 					_ temp.push(item)
@@ -104,7 +105,7 @@ $group
 			set this.specifiers = []
 			var temp = []
 			foreach item in this.statements
-				if item.wzElement === 'jsPropertyOrValue'
+				if item.wzElement === 'jsPropertyOrValue' || item.wzElement === 'typeTypeAlias'
 					_ this.specifiers.push(item)
 				else
 					_ temp.push(item)

@@ -38,8 +38,7 @@ module
                     else
                         _ showstack(options)
                         throw new Error('parent is null.' + util.inspect(ast, 4))
-                if options.verbose
-                    info 'ast.kind', ast.kind
+                # loog 'ast.kind', ast.kind
                 var kind = ast.kind === 'arguments' ? 'xarguments' : ast.kind
                 var formatter = format[kind]
                 if formatter

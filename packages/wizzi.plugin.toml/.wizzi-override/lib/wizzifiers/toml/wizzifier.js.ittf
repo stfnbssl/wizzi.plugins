@@ -1,0 +1,123 @@
+module
+    $
+        var schemaName = 'toml';
+    kind es6
+    basewizzifier()
+        $append imports
+            const TOML = require('@iarna/toml')
+            +
+            function parseInternal
+                param tobeWizzified
+                param options
+                param callback
+                var syntax
+                try
+                    set syntax
+                        _ TOML.parse
+                            @ tobeWizzified
+                    return
+                        _ callback
+                            @ null
+                            @ syntax
+                catch ex
+                    return
+                        _ callback
+                            @ ex
+        +
+        function wizzify
+            param tobeWizzified
+            param options
+            param callback
+            set options = options || {};
+            set options.input = tobeWizzified
+            set options.stack = []
+            set options.formatTextNodes = []
+            set options.verbose = true
+            _ parseInternal
+                @ tobeWizzified
+                @ options
+                a_cb( syntax )
+                    var root
+                    if verify.isObject(syntax)
+                        set root
+                            {
+                                @ tag '{'
+                                [ children
+                        _ parseObject
+                            @ syntax
+                            @ root
+                    else
+                        set root
+                            {
+                                @ tag '['
+                                [ children
+                        _ parseArray
+                            @ syntax
+                            @ root
+                    # loog "ittf\n", JSON.stringify(root, null, 4)
+                    r_cb(root)
+
+        function parseObject
+            param obj
+            param parent
+            for var k in obj
+                var ittf
+                if verify.isObject(obj[k])
+                    set ittf
+                        {
+                            @ tag '{' 
+                            @ name k
+                            [ children
+                    _ parseObject
+                        @ obj[k]
+                        @ ittf
+                elif verify.isArray(obj[k])
+                    set ittf
+                        {
+                            @ tag '[' 
+                            @ name k
+                            [ children
+                    _ parseArray
+                        @ obj[k]
+                        @ ittf
+                else
+                    set ittf
+                        {
+                            @ tag k 
+                            @ name JSON.stringify(obj[k])
+                            [ children
+                _ parent.children.push
+                    @ ittf
+
+        function parseArray
+            param arr
+            param parent
+            foreach item in arr
+                var ittf
+                if verify.isObject(item)
+                    set ittf
+                        {
+                            @ tag '{' 
+                            @ name ''
+                            [ children
+                    _ parseObject
+                        @ item
+                        @ ittf
+                elif verify.isArray(item)
+                    set ittf
+                        {
+                            @ tag '[' 
+                            @ name ''
+                            [ children
+                    _ parseArray
+                        @ item
+                        @ ittf
+                else
+                    set ittf
+                        {
+                            @ tag JSON.stringify(item)
+                            @ name ''
+                            [ children
+                _ parent.children.push
+                    @ ittf
+

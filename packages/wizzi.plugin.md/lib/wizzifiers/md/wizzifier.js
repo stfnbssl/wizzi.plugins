@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.md\.wizzi-override\lib\wizzifiers\md\wizzifier.js.ittf
-    utc time: Thu, 25 Apr 2024 11:41:16 GMT
+    utc time: Mon, 06 May 2024 14:32:29 GMT
 */
 'use strict';
 var util = require('util');
@@ -137,7 +137,7 @@ function wizzify(tobeWizzified, options, callback) {
                         if (err) {
                             console.log("[31m%s[0m", err);
                         }
-                        console.log('getWizzifierIncludes.css.item.ittf', ittf, __filename);
+                        // loog 'getWizzifierIncludes.css.item.ittf', ittf
                         item.node.children.push(ittf)
                         return callback(null);
                     }
@@ -149,7 +149,7 @@ function wizzify(tobeWizzified, options, callback) {
                         if (err) {
                             console.log("[31m%s[0m", err);
                         }
-                        console.log('getWizzifierIncludes.html.item.ittf', ittf, __filename);
+                        // loog 'getWizzifierIncludes.html.item.ittf', ittf
                         item.node.children.push(ittf)
                         return callback(null);
                     }
@@ -170,7 +170,7 @@ function wizzify(tobeWizzified, options, callback) {
 }
 
 function processFrontMatter(syntax, options, root, callback) {
-    console.log('processFrontMatter', syntax.__frontMatter, __filename);
+    // loog 'processFrontMatter', syntax.__frontMatter
     if (syntax.__frontMatter && Object.keys(syntax.__frontMatter).length > 0) {
         options.wf.getWizziTreeFromText(JSON.stringify(syntax.__frontMatter), "json", (err, ittf) => {
         
@@ -1389,16 +1389,16 @@ format.text = function(parent, node, options) {
         }
         ret = ret.children;
     }
+    // loog 'node.raw || node.text', '|' + (node.raw || node.text) + '|'
+    // loog ret.name, '|' + ss[0] + '|', ss.length
     else {
         var retcontainer = {
             children: [
                 
             ]
          };
-        console.log('node.raw || node.text', '|' + (node.raw || node.text) + '|', __filename);
         var ss = preserveSpaces(node.raw || node.text).split('\n');
         ret.name = ss[0];
-        console.log(ret.name, '|' + ss[0] + '|', ss.length, __filename);
         retcontainer.children.push(ret);
         if (ss.length > 1) {
             for (var i=1; i<ss.length; i++) {

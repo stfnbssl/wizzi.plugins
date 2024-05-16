@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzifiers\svg\wizzifier.js.ittf
-    utc time: Thu, 25 Apr 2024 11:41:18 GMT
+    utc time: Fri, 10 May 2024 18:13:22 GMT
 */
 'use strict';
 var util = require('util');
@@ -18,14 +18,14 @@ var svg_parser = new xml2js.Parser();
 var cleanAST = require('./cleanAST');
 
 function parseInternal(tobeWizzified, options, callback) {
-    console.log('tobeWizzified', tobeWizzified, __filename);
+    // loog 'tobeWizzified', tobeWizzified
     try {
         svg_parser.parseString(tobeWizzified, (err, syntax) => {
         
             if (err) {
                 return callback(err);
             }
-            console.log("syntax", syntax, __filename);
+            // loog "syntax", syntax
             return callback(null, syntax);
         }
         )
@@ -145,7 +145,7 @@ function appendChilds(name, nodeArray, parent) {
             for (j=0; j<j_len; j++) {
                 childnode = ac.c[j];
                 if (verify.isArray(childnode.value) === false) {
-                    console.log("Error: value is not an array: " + childnode.name + ',' + childnode.value, __filename);
+                    console.log("[31m%s[0m", "Error: value is not an array: " + childnode.name + ',' + childnode.value);
                 }
                 else {
                     appendChilds(childnode.name, childnode.value, tag)
@@ -160,7 +160,7 @@ function getAttribsAndChilds(node) {
     for (var prop in node) {
         if (node.hasOwnProperty(prop)) {
             
-            // log('getAttribsAndChilds.$', attribsObj, true)
+            // loog('getAttribsAndChilds.$', attribsObj, true)
             if (prop === '$') {
                 var attribsObj = node[prop];
                 for (var k in attribsObj) {
@@ -221,7 +221,7 @@ function wizzify(tobeWizzified, options, callback) {
                 for (var j = 0; j < ac.c.length; j++) {
                     var childnode = ac.c[j];
                     if (verify.isArray(childnode.value) === false) {
-                        console.log("Error: value is not an array: " + childnode.name + ',' + childnode.value, __filename);
+                        console.log("[31m%s[0m", "Error: value is not an array: " + childnode.name + ',' + childnode.value);
                     }
                     else {
                         appendChilds(childnode.name, childnode.value, wizziTree)

@@ -147,12 +147,34 @@ module
                                 param name
                                 param value
                                 # loog  "onProp", name, value
+                                var lines = []
+                                if value.split
+                                    set lines = value.split(/\r?\n/)
                                 var n
-                                    { 
-                                        @ tag wizzifyIttfNodeName(name)
-                                        @ name value
-                                        @ children
-                                            [ 
+                                if lines.length > 1
+                                    set n
+                                        { 
+                                            @ tag wizzifyIttfNodeName(name)
+                                            @ name ''
+                                            [ children
+                                                {
+                                                    @ tag '|'
+                                                    @ name ''
+                                                    [ children
+                                    var toappend = n.children[0].children
+                                    foreach line in lines
+                                        set line = line[0] == ' ' ? '\\b' + line.substring(1) : line
+                                        _ toappend.push
+                                            {
+                                                @ tag '+'
+                                                @ name ittfMacro.escape(line)
+                                                [ children
+                                else
+                                    set n
+                                        { 
+                                            @ tag wizzifyIttfNodeName(ittfMacro.escape(name))
+                                            @ name ittfMacro.escape(value)
+                                            [ children
                                 set n.parentIttfNode = wizziTree
                                 _ wizziTree.children.push(n)
                         $*
@@ -194,7 +216,7 @@ module
                                 # loog  "onArrayValue", value
                                 var n
                                     { 
-                                        @ tag wizzifyIttfNodeName(value)
+                                        @ tag wizzifyIttfNodeName(ittfMacro.escape(value))
                                         @ name ''
                                         @ children
                                             [ 

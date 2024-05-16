@@ -92,7 +92,7 @@ module wizzi.ts.artifacts.module.gen.codegen.statement
 				if stm
 					_ stm(model, ctx, callback)
 				else 
-					log myname + '. Unknown statement tag/element: ' + model.wzTag + '/' + model.wzElement, model
+					error myname + '. Unknown statement tag/element: ' + model.wzTag + '/' + model.wzElement, model
 					throw ctx.error(myname + '. Unknown statement tag/element: ' + model.wzTag + '/' + model.wzElement, model)
 	
 	set md.genItemAs

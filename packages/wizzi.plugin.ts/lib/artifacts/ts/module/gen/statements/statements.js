@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\artifacts\ts\module\gen\statements\statements.js.ittf
-    utc time: Thu, 25 Apr 2024 11:41:26 GMT
+    utc time: Thu, 16 May 2024 04:18:27 GMT
 */
 'use strict';
 var util = require('util');
@@ -118,6 +118,17 @@ function __writeDecorator(model, ctx) {
     }
 }
 md.load = function(cnt) {
+    cnt.stm.literal = function(model, ctx, callback) {
+        if (typeof callback === 'undefined') {
+            throw new Error('Missing callback parameter in cnt.stm: ' + myname + '.literal');
+        }
+        if (typeof callback !== 'function') {
+            throw new Error('The callback parameter must be a function. In ' + myname + '.literal. Got: ' + callback);
+        }
+        ctx.write(model.wzName)
+        return callback(null);
+    }
+    ;
     cnt.stm.statement = function(model, ctx, callback) {
         if (typeof callback === 'undefined') {
             throw new Error('Missing callback parameter in cnt.stm: ' + myname + '.statement');
@@ -125,6 +136,7 @@ md.load = function(cnt) {
         if (typeof callback !== 'function') {
             throw new Error('The callback parameter must be a function. In ' + myname + '.statement. Got: ' + callback);
         }
+        u.writeComments(model, ctx);
         // loog 'wizzi-js.module.statements.statement', model.wzParent.wzElement, u.isTopStatement(model, ctx), model.wzName, model.__templateChild
         var text = model.wzName;
         if (model.__templateChild || ctx.__inside_html) {
@@ -134,11 +146,6 @@ md.load = function(cnt) {
         if (model.__templateChild) {
             ctx.write(text)
             return callback(null);
-        }
-        else if (ctx.__inside_html == true && ctx.__jskind !== 'react') {
-            var text = text.trim();
-            var ip = lineParser.parseInterpolation(text, model, ctx.__inside_handlebar, ctx.__inside_ng);
-            ctx.w("__html.push(" + ip.join() + ");");
         }
         else {
             
@@ -185,6 +192,7 @@ md.load = function(cnt) {
         if (typeof callback !== 'function') {
             throw new Error('The callback parameter must be a function. In ' + myname + '.require. Got: ' + callback);
         }
+        u.writeComments(model, ctx);
         var items = model.wzName.split(' ');
         var seenwizzi = false;
         var i, i_items=items, i_len=items.length, item;
@@ -216,54 +224,51 @@ md.load = function(cnt) {
         if (typeof callback !== 'function') {
             throw new Error('The callback parameter must be a function. In ' + myname + '.ximport. Got: ' + callback);
         }
-        if (ctx.__ecma === 'es5') {
-            var nv = lineParser.parseNameValueRaw(model.wzName, model);
-            if (nv.value()) {
-                var nv2 = lineParser.parseNameValueRaw(nv.value());
-                ctx.w("var " + nv.name() + " = require(" + nv2.value() + ");");
+        u.writeComments(model, ctx);
+        // loog 'ximport.model.statements.length', model.statements.length, model.statements[0] && model.statements[0].wzElement
+        var ptype = u.extractTSSimpleType(model);
+        // loog 'ximport.ptype', ptype
+        var name = model.wzName || '';
+        if (model.xas) {
+            if (name.length > 0) {
+                name += ', ';
             }
-            else {
-                ctx.w("var " + nv.name() + " = require('" + nv.name() + "');");
-            }
+            name += '* as ' + model.xas;
         }
-        else {
-            var name = model.wzName || '';
-            if (model.xas) {
-                if (name.length > 0) {
-                    name += ', ';
-                }
-                name += '* as ' + model.xas;
+        ctx.write("import " + name);
+        if (model.specifiers.length > 0) {
+            if (name.length > 0) {
+                ctx.write(', ');
             }
-            ctx.write("import " + name);
-            if (model.specifiers.length > 0) {
-                if (name.length > 0) {
+            ctx.write('{');
+            var i, i_items=model.specifiers, i_len=model.specifiers.length, item;
+            for (i=0; i<i_len; i++) {
+                item = model.specifiers[i];
+                if (i > 0) {
                     ctx.write(', ');
                 }
-                ctx.write('{');
-                var i, i_items=model.specifiers, i_len=model.specifiers.length, item;
-                for (i=0; i<i_len; i++) {
-                    item = model.specifiers[i];
-                    if (i > 0) {
-                        ctx.write(', ');
-                    }
+                if (item.wzElement == 'typeTypeAlias') {
+                    ctx.write('type ' + item.wzName);
+                }
+                else {
                     ctx.write(item.wzName);
-                    if (item.xas) {
-                        ctx.write(' as ' + item.xas);
-                    }
                 }
-                ctx.write('}');
-                ctx.write(' from ' + model.from);
-            }
-            else {
-                if (model.from && model.from.length > 0) {
-                    if (name.trim().length > 0) {
-                        ctx.write(' from');
-                    }
-                    ctx.write(' ' + model.from);
+                if (item.xas) {
+                    ctx.write(' as ' + item.xas);
                 }
             }
-            ctx.w(u.semicolon(name));
+            ctx.write('}');
+            ctx.write(' from ' + model.from);
         }
+        else {
+            if (model.from && model.from.length > 0) {
+                if (name.trim().length > 0) {
+                    ctx.write(' from');
+                }
+                ctx.write(' ' + model.from);
+            }
+        }
+        ctx.w(u.semicolon(name));
         return callback(null);
     }
     ;
@@ -274,6 +279,7 @@ md.load = function(cnt) {
         if (typeof callback !== 'function') {
             throw new Error('The callback parameter must be a function. In ' + myname + '.typeRequire. Got: ' + callback);
         }
+        u.writeComments(model, ctx);
         ctx.write('require ' + model.wzName);
         cnt.genItems(model.statements, ctx, callback)
     }
@@ -285,12 +291,7 @@ md.load = function(cnt) {
         if (typeof callback !== 'function') {
             throw new Error('The callback parameter must be a function. In ' + myname + '.exportDefault. Got: ' + callback);
         }
-        
-        // loog 'wizzi-codegen.js2.statements.ecma,jskind', ctx.__ecma, ctx.__jskind
-        if (ctx.__ecma === 'es5') {
-            ctx.artifactGenerationError('export statement invalid in ecma 5', 'js/module', model);
-            return callback(null);
-        }
+        u.writeComments(model, ctx);
         if (hasStatements(model) == false) {
             ctx.w("export default " + model.wzName + u.semicolon(model.wzName));
             return callback(null);
@@ -308,6 +309,42 @@ md.load = function(cnt) {
         return callback(null);
     }
     ;
+    cnt.stm.satisfies = function(model, ctx, callback) {
+        if (typeof callback === 'undefined') {
+            throw new Error('Missing callback parameter in cnt.stm: ' + myname + '.satisfies');
+        }
+        if (typeof callback !== 'function') {
+            throw new Error('The callback parameter must be a function. In ' + myname + '.satisfies. Got: ' + callback);
+        }
+        var ptype = u.extractTSSimpleType(model);
+        cnt.genItems(model.statements, ctx, {
+            indent: true
+         }, (err, notUsed) => {
+        
+            if (err) {
+                return callback(err);
+            }
+            ctx.write(' satisfies');
+            
+            // loog 'property', ptype.wzElement
+            if (ptype) {
+                ctx.write(' ');
+                cnt.stm[ptype.wzElement](ptype, ctx, (err, notUsed) => {
+                
+                    if (err) {
+                        return callback(err);
+                    }
+                    return callback(null);
+                }
+                )
+            }
+            else {
+                return callback(null);
+            }
+        }
+        )
+    }
+    ;
     cnt.stm.xexport = function(model, ctx, callback) {
         if (typeof callback === 'undefined') {
             throw new Error('Missing callback parameter in cnt.stm: ' + myname + '.xexport');
@@ -315,13 +352,9 @@ md.load = function(cnt) {
         if (typeof callback !== 'function') {
             throw new Error('The callback parameter must be a function. In ' + myname + '.xexport. Got: ' + callback);
         }
+        u.writeComments(model, ctx);
         var typekey = model.__isType ? 'type ' : '';
-        
-        // loog 'wizzi-codegen.js2.statements.ecma,jskind', ctx.__ecma, ctx.__jskind
-        if (ctx.__ecma === 'es5') {
-            ctx.artifactGenerationError('export statement invalid in ecma 5', 'js/module', model);
-            return callback(null);
-        }
+        // loog 'js.module.xexport', hasStatements(model), model.from, model.specifiers.length
         if (hasStatements(model) == false && !!model.from == false && model.specifiers.length == 0) {
             ctx.w("export " + typekey + model.wzName + u.semicolon(model.wzName));
             return callback(null);
@@ -334,6 +367,8 @@ md.load = function(cnt) {
         ctx.write('export ' + typekey + name);
         // loog 'js.module.xexport', 'model.__isType', model.__isType, name, model.from, model.statements.length, model.specifiers.length
         if (model.from) {
+            
+            // loog 'model.statements[0]', model.statements[0]
             if (model.statements.length == 1) {
                 if (model.statements[0].wzElement == 'typeTypeAlias') {
                     ctx.write('type ');
@@ -342,12 +377,20 @@ md.load = function(cnt) {
                     throw new Error('js.module.xexport. from clause and statements not managed');
                 }
             }
-            exportSpecifiers(model, ctx, name)
-            ctx.write(' from ' + model.from);
-            ctx.w(u.semicolon(name));
-            return callback(null);
+            exportSpecifiers(model, ctx, name, (err, notUsed) => {
+            
+                if (err) {
+                    return callback(err);
+                }
+                ctx.write(' from ' + model.from);
+                ctx.w(u.semicolon(name));
+                return callback(null);
+            }
+            )
         }
         else {
+            
+            // loog 'model.statements[0]', model.statements[0]
             if (model.statements.length > 0) {
                 ctx.write(name.length > 0 ? ' ' : '');
                 var indented = false;
@@ -383,9 +426,9 @@ md.load = function(cnt) {
                             if (err) {
                                 return callback(err);
                             }
-                            process.nextTick(function() {
-                                repeater_1(index_1 + 1);
-                            })
+                            return process.nextTick(function() {
+                                    repeater_1(index_1 + 1);
+                                });
                         }
                         )
                     }
@@ -404,31 +447,98 @@ md.load = function(cnt) {
                 )
             }
             else {
-                exportSpecifiers(model, ctx, name)
-                ctx.w(u.semicolon(name));
-                return callback(null);
+                exportSpecifiers(model, ctx, name, (err, notUsed) => {
+                
+                    if (err) {
+                        return callback(err);
+                    }
+                    ctx.w(u.semicolon(name));
+                    return callback(null);
+                }
+                )
             }
         }
     }
     ;
-    function exportSpecifiers(model, ctx, name) {
-        if (model.specifiers.length > 0) {
+    function exportSpecifiers(model, ctx, name, callback) {
+        u.writeComments(model, ctx);
+        // loog '---------------->  model.specifiers.length', model.specifiers.length, model.specifiers.length == 1 && model.specifiers[0].wzElement
+        
+        // loog 'exportSpecifiers.11'
+        if (model.specifiers.length == 1 && model.specifiers[0].wzElement == 'typeTypeAlias') {
+            var item = model.specifiers[0];
+            cnt.genItem(item, ctx, (err, notUsed) => {
+            
+                if (err) {
+                    return callback(err);
+                }
+                if (item.xas) {
+                    ctx.write(' as ' + item.xas);
+                }
+                return callback(null);
+            }
+            )
+        }
+        
+        // loog 'exportSpecifiers.12'
+        else if (model.specifiers.length > 0) {
             if (name.length > 0) {
                 ctx.write(', ');
             }
             ctx.write('{');
-            var i, i_items=model.specifiers, i_len=model.specifiers.length, item;
-            for (i=0; i<i_len; i++) {
-                item = model.specifiers[i];
-                if (i > 0) {
+            var len_1 = model.specifiers.length;
+            function repeater_1(index_1) {
+                if (index_1 === len_1) {
+                    return next_1();
+                }
+                var item_1 = model.specifiers[index_1];
+                // loog 'item_1.wzName', item_1.wzName
+                if (index_1 > 0) {
                     ctx.write(', ');
                 }
-                ctx.write(item.wzName);
-                if (item.xas) {
-                    ctx.write(' as ' + item.xas);
+                
+                // loog 15, item_1.wzName
+                if (item_1.wzElement == 'typeTypeAlias') {
+                    ctx.write('type ' + item_1.wzName);
+                    if (item_1.statements.length > 0) {
+                        return cnt.genItem(item_1.statements[0], ctx, (err, notUsed) => {
+                            
+                                if (err) {
+                                    return callback(err);
+                                }
+                                if (item_1.xas) {
+                                    ctx.write(' as ' + item_1.xas);
+                                }
+                                return process.nextTick(function() {
+                                        repeater_1(index_1 + 1);
+                                    });
+                            }
+                            );
+                    }
+                    else {
+                        return process.nextTick(function() {
+                                repeater_1(index_1 + 1);
+                            });
+                    }
                 }
+                else {
+                    ctx.write(item_1.wzName);
+                }
+                if (item_1.xas) {
+                    ctx.write(' as ' + item_1.xas);
+                }
+                return process.nextTick(function() {
+                        repeater_1(index_1 + 1);
+                    });
             }
-            ctx.write('}');
+            repeater_1(0);
+            function next_1() {
+                ctx.write('}');
+                return callback(null);
+            }
+        }
+        else {
+            return callback(null);
         }
     }
     cnt.stm.typeExport = function(model, ctx, callback) {
@@ -449,6 +559,7 @@ md.load = function(cnt) {
         if (typeof callback !== 'function') {
             throw new Error('The callback parameter must be a function. In ' + myname + '.typeExportNamespace. Got: ' + callback);
         }
+        u.writeComments(model, ctx);
         ctx.w('export as namespace ');
         ctx.w(u.semicolon(model.wzName));
         return callback(null);
@@ -530,6 +641,45 @@ md.load = function(cnt) {
         )
     }
     ;
+    cnt.stm.commentForReference = function(model, ctx, callback) {
+        if (typeof callback === 'undefined') {
+            throw new Error('Missing callback parameter in cnt.stm: ' + myname + '.commentForReference');
+        }
+        if (typeof callback !== 'function') {
+            throw new Error('The callback parameter must be a function. In ' + myname + '.commentForReference. Got: ' + callback);
+        }
+        ctx.w('/// ' + model.wzName);
+        return callback(null);
+    }
+    ;
+    cnt.stm.inlineMultilineComment = function(model, ctx, callback) {
+        if (typeof callback === 'undefined') {
+            throw new Error('Missing callback parameter in cnt.stm: ' + myname + '.inlineMultilineComment');
+        }
+        if (typeof callback !== 'function') {
+            throw new Error('The callback parameter must be a function. In ' + myname + '.inlineMultilineComment. Got: ' + callback);
+        }
+        ctx.w('/** ' + model.wzName + ' */');
+        return callback(null);
+    }
+    ;
+    cnt.stm.jsDocComment = function(model, ctx, callback) {
+        if (typeof callback === 'undefined') {
+            throw new Error('Missing callback parameter in cnt.stm: ' + myname + '.jsDocComment');
+        }
+        if (typeof callback !== 'function') {
+            throw new Error('The callback parameter must be a function. In ' + myname + '.jsDocComment. Got: ' + callback);
+        }
+        ctx.w('/**');
+        var i, i_items=model.statements, i_len=model.statements.length, item;
+        for (i=0; i<i_len; i++) {
+            item = model.statements[i];
+            ctx.w(' * ' + item.wzName);
+        }
+        ctx.w(' */');
+        return callback(null);
+    }
+    ;
     cnt.stm.xdelete = function(model, ctx, callback) {
         if (typeof callback === 'undefined') {
             throw new Error('Missing callback parameter in cnt.stm: ' + myname + '.xdelete');
@@ -537,6 +687,7 @@ md.load = function(cnt) {
         if (typeof callback !== 'function') {
             throw new Error('The callback parameter must be a function. In ' + myname + '.xdelete. Got: ' + callback);
         }
+        u.writeComments(model, ctx);
         ctx.w('delete ' + model.wzName);
         return callback(null);
     }

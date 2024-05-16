@@ -1,0 +1,17 @@
+module
+    const a
+        < Button 
+            @ size "sm"
+            @ variant "secondary"
+            ... alpha
+            ... 
+                _ dc.getButtonProps
+                    { 
+                        @ type 'submit'
+            { 
+                iif fetcher.state === 'idle'
+                    then
+                        iif dc.doubleCheck
+                            then 'You sure?'
+                            else 'Delete'
+                    else 'Deleting...'

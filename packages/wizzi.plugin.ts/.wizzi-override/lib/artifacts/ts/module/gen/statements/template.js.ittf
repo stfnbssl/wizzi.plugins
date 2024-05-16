@@ -3,7 +3,9 @@
     stm( template
         var indented
             _ u.writeComments_template(model, ctx, true, true)
+        # loog 'template.model.statements.length', model.statements.length
         _ ctx.write('`')
+        set ctx.isInsideTemplate = true
         _ cnt.genItems
             @ model.statements
             @ ctx
@@ -12,6 +14,7 @@
 			a_cb()
 				# w -> write 1/3/19
 				_ ctx.write('`')
+                set ctx.isInsideTemplate = false
                 if indented
                     _ ctx.deindent
 				r_cb()

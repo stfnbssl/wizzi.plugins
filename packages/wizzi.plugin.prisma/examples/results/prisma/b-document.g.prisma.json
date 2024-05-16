@@ -1,0 +1,1500 @@
+{
+    "wzElement": "prisma",
+    "wzName": "",
+    "comments": [],
+    "datasources": [],
+    "generators": [],
+    "models": [
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "albums",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "AlbumId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "intType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "ArtistId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "artists"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation \"albums_ArtistId_artists\"",
+                            "comments": [],
+                            "valueAssigns": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "Title",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "trackses",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "listType",
+                        "wzName": "",
+                        "fieldType": {
+                            "wzElement": "refType",
+                            "wzName": "tracks"
+                        }
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation \"albums_tracks_AlbumId\"",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "references",
+                                    "wzTag": "references",
+                                    "wzName": "",
+                                    "comments": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "AlbumId",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "blockAttributes": []
+        },
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "artists",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "ArtistId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "intType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "Name",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "albumses",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "listType",
+                        "wzName": "",
+                        "fieldType": {
+                            "wzElement": "refType",
+                            "wzName": "albums"
+                        }
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation \"albums_ArtistId_artists\"",
+                            "comments": [],
+                            "valueAssigns": []
+                        }
+                    ]
+                }
+            ],
+            "blockAttributes": []
+        },
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "customers",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "Address",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "City",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "Company",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "Country",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "CustomerId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "intType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "Email",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "Fax",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "FirstName",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "LastName",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "Phone",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "PostalCode",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "State",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "SupportRepId",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "employees"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation \"customers_SupportRepId_employees\"",
+                            "comments": [],
+                            "valueAssigns": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "invoiceses",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "listType",
+                        "wzName": "",
+                        "fieldType": {
+                            "wzElement": "refType",
+                            "wzName": "invoices"
+                        }
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation \"customers_invoices_CustomerId\"",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "references",
+                                    "wzTag": "references",
+                                    "wzName": "",
+                                    "comments": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "CustomerId",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "blockAttributes": []
+        },
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "employees",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "Address",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "BirthDate",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "dateTimeType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "City",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "Country",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "Email",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "EmployeeId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "intType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "Fax",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "FirstName",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "HireDate",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "dateTimeType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "LastName",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "Phone",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "PostalCode",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "ReportsTo",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "employees"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation \"employees_employees_ReportsTo\"",
+                            "comments": [],
+                            "valueAssigns": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "State",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "Title",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "customerses",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "listType",
+                        "wzName": "",
+                        "fieldType": {
+                            "wzElement": "refType",
+                            "wzName": "customers"
+                        }
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation \"customers_SupportRepId_employees\"",
+                            "comments": [],
+                            "valueAssigns": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "employeeses",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "listType",
+                        "wzName": "",
+                        "fieldType": {
+                            "wzElement": "refType",
+                            "wzName": "employees"
+                        }
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation \"employees_employees_ReportsTo\"",
+                            "comments": [],
+                            "valueAssigns": []
+                        }
+                    ]
+                }
+            ],
+            "blockAttributes": []
+        },
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "genres",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "GenreId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "intType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "Name",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "trackses",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "listType",
+                        "wzName": "",
+                        "fieldType": {
+                            "wzElement": "refType",
+                            "wzName": "tracks"
+                        }
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation \"genres_tracks_GenreId\"",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "references",
+                                    "wzTag": "references",
+                                    "wzName": "",
+                                    "comments": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "GenreId",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "blockAttributes": []
+        },
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "invoices",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "BillingAddress",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "BillingCity",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "BillingCountry",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "BillingPostalCode",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "BillingState",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "CustomerId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "customers"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation \"customers_invoices_CustomerId\"",
+                            "comments": [],
+                            "valueAssigns": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "InvoiceDate",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "dateTimeType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "InvoiceId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "intType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "Total",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "floatType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "invoice_itemses",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "listType",
+                        "wzName": "",
+                        "fieldType": {
+                            "wzElement": "refType",
+                            "wzName": "invoice_items"
+                        }
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation \"invoice_items_InvoiceId_invoices\"",
+                            "comments": [],
+                            "valueAssigns": []
+                        }
+                    ]
+                }
+            ],
+            "blockAttributes": []
+        },
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "invoice_items",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "InvoiceId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "invoices"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation \"invoice_items_InvoiceId_invoices\"",
+                            "comments": [],
+                            "valueAssigns": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "InvoiceLineId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "intType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "Quantity",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "intType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "TrackId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "tracks"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation \"invoice_items_TrackId_tracks\"",
+                            "comments": [],
+                            "valueAssigns": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "UnitPrice",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "floatType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                }
+            ],
+            "blockAttributes": []
+        },
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "media_types",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "MediaTypeId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "intType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "Name",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "trackses",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "listType",
+                        "wzName": "",
+                        "fieldType": {
+                            "wzElement": "refType",
+                            "wzName": "tracks"
+                        }
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation \"media_types_tracks_MediaTypeId\"",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "references",
+                                    "wzTag": "references",
+                                    "wzName": "",
+                                    "comments": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "MediaTypeId",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "blockAttributes": []
+        },
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "playlists",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "Name",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "PlaylistId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "intType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "playlist_tracks",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "listType",
+                        "wzName": "",
+                        "fieldType": {
+                            "wzElement": "refType",
+                            "wzName": "playlist_track"
+                        }
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation \"playlist_track_PlaylistId_playlists\"",
+                            "comments": [],
+                            "valueAssigns": []
+                        }
+                    ]
+                }
+            ],
+            "blockAttributes": []
+        },
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "playlist_track",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "PlaylistId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "playlists"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "strategy",
+                                    "wzTag": "strategy",
+                                    "wzName": "",
+                                    "valueAssigns": [
+                                        {
+                                            "wzElement": "pathAssign",
+                                            "wzTag": "=[",
+                                            "wzName": "NONE",
+                                            "valueAssigns": []
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation \"playlist_track_PlaylistId_playlists\"",
+                            "comments": [],
+                            "valueAssigns": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "TrackId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "tracks"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "strategy",
+                                    "wzTag": "strategy",
+                                    "wzName": "",
+                                    "valueAssigns": [
+                                        {
+                                            "wzElement": "pathAssign",
+                                            "wzTag": "=[",
+                                            "wzName": "NONE",
+                                            "valueAssigns": []
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation \"playlist_track_TrackId_tracks\"",
+                            "comments": [],
+                            "valueAssigns": []
+                        }
+                    ]
+                }
+            ],
+            "blockAttributes": [
+                {
+                    "wzElement": "blockAttribute",
+                    "wzTag": "@@",
+                    "wzName": "unique",
+                    "name": "\"sqlite_autoindex_playlist_track_1\"",
+                    "comments": [],
+                    "valueAssigns": [
+                        {
+                            "wzElement": "array",
+                            "wzTag": "[",
+                            "wzName": "",
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "scalarValue",
+                                    "wzTag": "@",
+                                    "wzName": "PlaylistId",
+                                    "valueAssigns": []
+                                },
+                                {
+                                    "wzElement": "scalarValue",
+                                    "wzTag": "@",
+                                    "wzName": "TrackId",
+                                    "valueAssigns": []
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "tracks",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "AlbumId",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "albums"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation \"albums_tracks_AlbumId\"",
+                            "comments": [],
+                            "valueAssigns": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "Bytes",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "intType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "Composer",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "GenreId",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "genres"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation \"genres_tracks_GenreId\"",
+                            "comments": [],
+                            "valueAssigns": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "MediaTypeId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "media_types"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation \"media_types_tracks_MediaTypeId\"",
+                            "comments": [],
+                            "valueAssigns": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "Milliseconds",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "intType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "Name",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "TrackId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "intType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "UnitPrice",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "floatType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "invoice_itemses",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "listType",
+                        "wzName": "",
+                        "fieldType": {
+                            "wzElement": "refType",
+                            "wzName": "invoice_items"
+                        }
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation \"invoice_items_TrackId_tracks\"",
+                            "comments": [],
+                            "valueAssigns": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "playlist_tracks",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "listType",
+                        "wzName": "",
+                        "fieldType": {
+                            "wzElement": "refType",
+                            "wzName": "playlist_track"
+                        }
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation \"playlist_track_TrackId_tracks\"",
+                            "comments": [],
+                            "valueAssigns": []
+                        }
+                    ]
+                }
+            ],
+            "blockAttributes": []
+        },
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "sqlite_stat1",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "idx",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "stat",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "tbl",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                }
+            ],
+            "blockAttributes": []
+        }
+    ]
+}

@@ -143,6 +143,14 @@
                             @ name name
                             @ value value.trim()
 							@ statements statements
+                elif item_1.wzElement === 'jsRest'
+					set statements = item_1.statements && item_1.statements.length > 0 ? item_1.statements : null
+                    _ attrs.push
+                        { 
+                            @ name '...'
+                            @ value item_1.wzName
+							@ statements statements
+
                 elif ['comment','commentmultiline'].indexOf(item_1.wzElement) > -1
                     $*
                     _ comments.push

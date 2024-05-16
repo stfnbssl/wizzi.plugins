@@ -1,0 +1,1 @@
+export const twoFAVerificationType = '2fa' satisfies VerificationTypes

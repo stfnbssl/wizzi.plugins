@@ -25,6 +25,10 @@ module
                         _ callback
                             @ ex
         +
+        set md.isForBinaryFile
+            function
+                return false
+        +
         function wizzify
             param tobeWizzified
             param options
@@ -47,3 +51,4 @@ module
         function getTypeName
             param type
             return isKnownType(type) ? type.toLowerCase() : type
+

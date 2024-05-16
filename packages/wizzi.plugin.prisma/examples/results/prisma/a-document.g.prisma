@@ -1,0 +1,32 @@
+datasource db {
+    provider = "sqlite"
+    url = env("DATABASE_URL", 3)
+}
+generator client {
+    provider = "prisma-client-js"
+    output = "node_modules/.prisma/client"
+    engineType = "library"
+    binaryTargets = ["native"]
+}
+model User {
+    id String @id @default
+    email String @unique
+    createdAt DateTime @default
+    updatedAt DateTime @updatedAt
+    password Password?
+    notes Note[]
+}
+model Password {
+    hash String
+    user User @relation
+    userId String @unique
+}
+model Note {
+    id String @id @default
+    title String
+    body String
+    createdAt DateTime @default
+    updatedAt DateTime @updatedAt
+    user User @relation
+    userId String
+}

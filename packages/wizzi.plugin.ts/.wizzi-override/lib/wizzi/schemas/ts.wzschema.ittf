@@ -15,6 +15,15 @@ wzschema ts
 	e comment : statement
 		tag #
 
+	e commentForReference : statement
+		tag ###
+
+	e inlineMultilineComment : statement
+		tag ##
+
+	e jsDocComment : statement
+		tag #doc
+
 	e_tag( xmodule, module, statement )
 		# The root element of the ts schema.
 		is-root

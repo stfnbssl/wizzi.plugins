@@ -12,12 +12,12 @@ module
                 param tobeWizzified
                 param options
                 param callback
-                log 'tobeWizzified', tobeWizzified
+                # loog 'tobeWizzified', tobeWizzified
                 try
                     _ svg_parser.parseString
                          @ tobeWizzified
                          a_cb( syntax )
-                            log "syntax", syntax
+                            # loog "syntax", syntax
                             r_cb( syntax )
                 catch ex
                     return
@@ -60,12 +60,13 @@ module
                         _ tag.children.push
                             { 
                                 @ tag cleanName(aName)
-                                @ name cleanAttr(aObj[aName])
+                                @ name aObj[aName] ? cleanAttr(aObj[aName]) : ''
                                 @ children
                                     [ 
                     foreach childnode in ac.c
                         if verify.isArray(childnode.value) === false
-                            log "Error: value is not an array: " + childnode.name + ',' + childnode.value
+                            error 'ac', ac
+                            error "Error: value is not an array: " + childnode.name + ',' + childnode.value
                         else 
                             _ appendChilds
                                 @ childnode.name
@@ -82,7 +83,7 @@ module
                 if node.hasOwnProperty(prop)
                     if prop === '$'
                         var attribsObj = node[prop]
-                        # log('getAttribsAndChilds.$', attribsObj, true)
+                        # loog('getAttribsAndChilds.$', attribsObj, true)
                         for var k in attribsObj
                             set attribs[k] = attribsObj[k]
                     else 
@@ -137,13 +138,14 @@ module
                                 _ wizziTree.children.push
                                     { 
                                         @ tag cleanName(aName)
-                                        @ name cleanAttr(aObj[aName])
+                                        @ name aObj[aName] ? cleanAttr(aObj[aName]) : ''
                                         @ children
                                             [ 
                             for var j = 0; j < ac.c.length; j++
                                 var childnode = ac.c[j]
                                 if verify.isArray(childnode.value) === false
-                                    log "Error: value is not an array: " + childnode.name + ',' + childnode.value
+                                    error 'ac', ac
+                                    error "Error: value is not an array: " + childnode.name + ',' + childnode.value
                                 else 
                                     _ appendChilds
                                         @ childnode.name

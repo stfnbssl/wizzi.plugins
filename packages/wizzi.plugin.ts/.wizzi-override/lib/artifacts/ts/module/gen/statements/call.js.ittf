@@ -143,7 +143,7 @@
             # loog 'doCallChildStatements_two 1', model.wzElement
 			
 			# VIA 20/2/19 if name.length > 0
-            # restored 19/3/21 for call template (`lit), waiting for damage
+            # restored 19/3/21 for call template (template), waiting for damage
             if name.length > 0 || model.wzElement == 'callOnValue'
                 _ ctx.write('(')
 
@@ -190,8 +190,8 @@
 	$include doCallChildStatements_call
     
 	stm( memberAccess
-        if ctx.__inside_html || (model.wzParent.wzElement === 'xreturn' && ctx.__jskind === 'react')
-            var classTag = ctx.__jskind === 'react' ? 'className' : 'class'
+        if ctx.__inside_html || (model.wzParent.wzElement === 'xreturn')
+            var classTag = 'className'
             _ model.statements.unshift
                 { 
                     @ wzElement 'jsPropertyOrValue'

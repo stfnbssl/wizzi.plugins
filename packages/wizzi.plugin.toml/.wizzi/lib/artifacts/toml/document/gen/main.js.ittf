@@ -1,0 +1,35 @@
+module
+    kind es6
+    $
+        var md = {
+            plugin: 'wizzi.plugin.toml',
+            name: 'document',
+            schema: 'toml',
+            rootElement: '',
+            rootTag: '{|[',
+            checkSchema: true,
+            isAsync: true,
+        };
+    gen( &md )
+        $append imports
+        $append main
+            _ md.toml
+                @ model
+                @ ctx
+                a_cb( )
+                    if ctx.artifactGenerationErrors.length > 0
+                        r_cb_err( ctx.artifactGenerationErrors )
+                    else
+                        # generation OK
+                        r_cb( ctx )
+        async-md( toml )
+            _ ctx.w('<toml>')
+            _ md.genItems
+                @ model.items
+                @ ctx
+                {
+                    @ indent true
+                a_cb()
+                    _ ctx.w('</toml>')
+                    r_cb()
+

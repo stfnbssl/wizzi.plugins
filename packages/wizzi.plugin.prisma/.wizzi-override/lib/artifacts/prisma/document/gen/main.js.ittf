@@ -1,0 +1,131 @@
+module
+    kind es6
+    $
+        var md = {
+            plugin: 'wizzi.plugin.prisma',
+            name: 'document',
+            schema: 'prisma',
+            rootElement: '',
+            rootTag: 'prisma',
+            checkSchema: true,
+            isAsync: true,
+        };
+
+    gen( &md )
+        $append imports
+            var functionAttributes = ['default', 'relation']
+        $append main
+            _ md.prisma
+                @ model
+                @ ctx
+                a_cb( )
+                    if ctx.artifactGenerationErrors.length > 0
+                        r_cb_err( ctx.artifactGenerationErrors )
+                    else
+                        # generation OK
+                        r_cb( ctx )
+        async-md( prisma )
+            _md_gen_items( datasources
+                _md_gen_items( generators
+                    _md_gen_items( models
+                        r_cb()
+
+
+        async-md( datasource )
+            _ ctx.w('datasource ' + model.wzName + ' {')
+            _md_gen_items( configs, indent
+                _ ctx.w('}')
+                r_cb()
+
+        async-md( generator )
+            _ ctx.w('generator ' + model.wzName + ' {')
+            _md_gen_items( configs, indent
+                _ ctx.w('}')
+                r_cb()
+
+        async-md( model )
+            _ ctx.w('model ' + model.wzName + ' {')
+            _md_gen_items( fields, indent
+                _md_gen_items( blockAttributes, indent
+                    _ ctx.w('}')
+                    r_cb()
+
+        async-md( config )
+            _ ctx.write(model.wzName + ' = ')
+            if model.valueAssign
+                _ ctx.write
+                    _ model.valueAssign.getValueString
+            _ ctx.w()
+            r_cb()
+
+        async-md( field )
+            _ ctx.write(model.wzName)
+            _ ctx.write(' ' + model.getTypeString())
+            _md_gen_items( fieldAttributes
+                _ ctx.w()
+                r_cb()
+        
+        async-md( fieldAttribute )
+        	var nv 
+                _ lineParser.parseNameValueRaw
+                    @ model.wzName
+                    @ model
+            var name = nv.name()
+            var value = nv.value()
+            _ ctx.write(' @' + name)
+            if functionAttributes.indexOf(name) > - 1
+                _ ctx.write('(')
+            if model.valueAssigns.length > 0
+                var seen = false
+                foreach item in model.valueAssigns
+                    if functionAttributes.indexOf(name) < 0
+                        _ ctx.write
+                            @ ' '
+                    elif seen
+                        _ ctx.write
+                            @ ', '
+                    _ ctx.write
+                        _ item.getValueString
+                    set seen = true
+            else
+                _ ctx.write
+                    @ value
+            if functionAttributes.indexOf(name) > - 1
+                _ ctx.write(')')
+            r_cb()
+
+        async-md( blockAttribute )
+            _ ctx.write('@@' + model.wzName + '(')
+            foreach item in model.valueAssigns
+                $$ _ ctx.write
+                $$     @ ' '
+                _ ctx.write
+                    _ item.getValueString
+            _ ctx.w(')')
+            r_cb()
+
+
+$*
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL", 3)
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  output        = "node_modules/.prisma/client"
+  engineType    = "library"
+  binaryTargets = ["native"]
+}
+
+model User {
+  id    String @id @default(cuid())
+  email String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  password Password?
+  notes    Note[]
+}
+*$

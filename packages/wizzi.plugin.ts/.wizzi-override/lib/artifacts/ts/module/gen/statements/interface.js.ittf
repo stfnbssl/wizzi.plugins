@@ -69,6 +69,7 @@
                     _ ctx.w(';')
                     r_cb()
         else
+			error 'typeProperty.model', model
             _ callback
                 _ ctx.error(':type typeProperty must have one children. found: ' + model.statements.length, model)
 

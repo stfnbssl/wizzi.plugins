@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.css\.wizzi-override\lib\artifacts\css\document\gen\rule.js.ittf
-    utc time: Thu, 25 Apr 2024 11:40:57 GMT
+    utc time: Sun, 12 May 2024 15:10:32 GMT
 */
 'use strict';
 var util = require('util');
@@ -239,6 +239,25 @@ mymd.load = function(md) {
     md.ximport = function(model, ctx, callback) {
         ctx.w('@import ' + model.wzName + ';');
         return callback(null);
+    }
+    ;
+    md.layer = function(model, ctx, callback) {
+        ctx.w('@layer ' + model.wzName + ' {');
+        md.genItems(model.rules, ctx, {
+            indent: true
+         }, (err, notUsed) => {
+        
+            if (err) {
+                return callback(err);
+            }
+            ctx.w('}');
+            return callback(null);
+        }
+        )
+    }
+    ;
+    md.tailwind = function(model, ctx, callback) {
+        ctx.w('@tailwind ' + model.wzName + ';');
     }
     ;
     md.comment = function(model, ctx, callback) {

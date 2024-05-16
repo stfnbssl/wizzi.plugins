@@ -1,0 +1,272 @@
+prisma
+    model albums
+        field AlbumId
+            :int 
+            @ id
+        field ArtistId
+            :ref artists
+            @ relation "albums_ArtistId_artists"
+        field Title
+            :string 
+        field trackses
+            :[ 
+                :ref tracks
+            @ relation "albums_tracks_AlbumId"
+                references 
+                    [ 
+                        @ AlbumId
+    model artists
+        field ArtistId
+            :int 
+            @ id
+        field Name
+            :string 
+            :optional 
+        field albumses
+            :[ 
+                :ref albums
+            @ relation "albums_ArtistId_artists"
+    model customers
+        field Address
+            :string 
+            :optional 
+        field City
+            :string 
+            :optional 
+        field Company
+            :string 
+            :optional 
+        field Country
+            :string 
+            :optional 
+        field CustomerId
+            :int 
+            @ id
+        field Email
+            :string 
+        field Fax
+            :string 
+            :optional 
+        field FirstName
+            :string 
+        field LastName
+            :string 
+        field Phone
+            :string 
+            :optional 
+        field PostalCode
+            :string 
+            :optional 
+        field State
+            :string 
+            :optional 
+        field SupportRepId
+            :ref employees
+            :optional 
+            @ relation "customers_SupportRepId_employees"
+        field invoiceses
+            :[ 
+                :ref invoices
+            @ relation "customers_invoices_CustomerId"
+                references 
+                    [ 
+                        @ CustomerId
+    model employees
+        field Address
+            :string 
+            :optional 
+        field BirthDate
+            :dateTime 
+            :optional 
+        field City
+            :string 
+            :optional 
+        field Country
+            :string 
+            :optional 
+        field Email
+            :string 
+            :optional 
+        field EmployeeId
+            :int 
+            @ id
+        field Fax
+            :string 
+            :optional 
+        field FirstName
+            :string 
+        field HireDate
+            :dateTime 
+            :optional 
+        field LastName
+            :string 
+        field Phone
+            :string 
+            :optional 
+        field PostalCode
+            :string 
+            :optional 
+        field ReportsTo
+            :ref employees
+            :optional 
+            @ relation "employees_employees_ReportsTo"
+        field State
+            :string 
+            :optional 
+        field Title
+            :string 
+            :optional 
+        field customerses
+            :[ 
+                :ref customers
+            @ relation "customers_SupportRepId_employees"
+        field employeeses
+            :[ 
+                :ref employees
+            @ relation "employees_employees_ReportsTo"
+    model genres
+        field GenreId
+            :int 
+            @ id
+        field Name
+            :string 
+            :optional 
+        field trackses
+            :[ 
+                :ref tracks
+            @ relation "genres_tracks_GenreId"
+                references 
+                    [ 
+                        @ GenreId
+    model invoices
+        field BillingAddress
+            :string 
+            :optional 
+        field BillingCity
+            :string 
+            :optional 
+        field BillingCountry
+            :string 
+            :optional 
+        field BillingPostalCode
+            :string 
+            :optional 
+        field BillingState
+            :string 
+            :optional 
+        field CustomerId
+            :ref customers
+            @ relation "customers_invoices_CustomerId"
+        field InvoiceDate
+            :dateTime 
+        field InvoiceId
+            :int 
+            @ id
+        field Total
+            :float 
+        field invoice_itemses
+            :[ 
+                :ref invoice_items
+            @ relation "invoice_items_InvoiceId_invoices"
+    model invoice_items
+        field InvoiceId
+            :ref invoices
+            @ relation "invoice_items_InvoiceId_invoices"
+        field InvoiceLineId
+            :int 
+            @ id
+        field Quantity
+            :int 
+        field TrackId
+            :ref tracks
+            @ relation "invoice_items_TrackId_tracks"
+        field UnitPrice
+            :float 
+    model media_types
+        field MediaTypeId
+            :int 
+            @ id
+        field Name
+            :string 
+            :optional 
+        field trackses
+            :[ 
+                :ref tracks
+            @ relation "media_types_tracks_MediaTypeId"
+                references 
+                    [ 
+                        @ MediaTypeId
+    model playlists
+        field Name
+            :string 
+            :optional 
+        field PlaylistId
+            :int 
+            @ id
+        field playlist_tracks
+            :[ 
+                :ref playlist_track
+            @ relation "playlist_track_PlaylistId_playlists"
+    model playlist_track
+        field PlaylistId
+            :ref playlists
+            @ id
+                strategy 
+                    =[ NONE
+            @ relation "playlist_track_PlaylistId_playlists"
+        field TrackId
+            :ref tracks
+            @ id
+                strategy 
+                    =[ NONE
+            @ relation "playlist_track_TrackId_tracks"
+        @@ unique
+            [ 
+                @ PlaylistId
+                @ TrackId
+            name "sqlite_autoindex_playlist_track_1"
+    model tracks
+        field AlbumId
+            :ref albums
+            :optional 
+            @ relation "albums_tracks_AlbumId"
+        field Bytes
+            :int 
+            :optional 
+        field Composer
+            :string 
+            :optional 
+        field GenreId
+            :ref genres
+            :optional 
+            @ relation "genres_tracks_GenreId"
+        field MediaTypeId
+            :ref media_types
+            @ relation "media_types_tracks_MediaTypeId"
+        field Milliseconds
+            :int 
+        field Name
+            :string 
+        field TrackId
+            :int 
+            @ id
+        field UnitPrice
+            :float 
+        field invoice_itemses
+            :[ 
+                :ref invoice_items
+            @ relation "invoice_items_TrackId_tracks"
+        field playlist_tracks
+            :[ 
+                :ref playlist_track
+            @ relation "playlist_track_TrackId_tracks"
+    model sqlite_stat1
+        field idx
+            :string 
+            :optional 
+        field stat
+            :string 
+            :optional 
+        field tbl
+            :string 
+            :optional 

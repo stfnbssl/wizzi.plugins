@@ -86,7 +86,7 @@
 			set this.specifiers = []
 			var temp = []
 			foreach item in this.statements
-				if item.wzElement === 'jsPropertyOrValue'
+				if item.wzElement === 'jsPropertyOrValue' || item.wzElement === 'typeTypeAlias'
 					_ this.specifiers.push(item)
 				else
 					_ temp.push(item)
@@ -104,7 +104,7 @@
 			set this.specifiers = []
 			var temp = []
 			foreach item in this.statements
-				if item.wzElement === 'jsPropertyOrValue'
+				if item.wzElement === 'jsPropertyOrValue' || item.wzElement === 'typeTypeAlias'
 					_ this.specifiers.push(item)
 				else
 					_ temp.push(item)

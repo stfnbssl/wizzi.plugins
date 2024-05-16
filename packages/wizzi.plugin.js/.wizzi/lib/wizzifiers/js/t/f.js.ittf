@@ -25,7 +25,7 @@ $group
                     set options.mustBeText = true
                 $if couldBeText
                     set options.couldBeText = true
-                info 'node : ${name} ----------------------------------------- parent ittf tag : ', parent.tag
+                # loog 'node : ${name} ----------------------------------------- parent ittf tag : ', parent.tag
                 foreach item in Object.keys(node)
                     if ['kind', 'start', 'end', 'loc'].indexOf(item) < 0
                         if verify.isNotEmpty(node[item])
@@ -35,6 +35,7 @@ $group
                 $if skip
                     var ret = parent
                 $else
+                    var skip = false
                     var ret
                         {
                             $if tagIsVar
@@ -53,12 +54,14 @@ $group
                     set parent.name = ret.name
                 $elif skip == false
                     # loog '### add ', ret.tag , 'to', parent.tag
-                    $if retIsArray
-                        foreach item in ret
-                            _ parent.children.push(item)
-                    $else
-                        _ parent.children.push(ret)
+                    if skip == false
+                        $if retIsArray
+                            foreach item in ret
+                                _ parent.children.push(item)
+                        $else
+                            _ parent.children.push(ret)
                 $if mustBeText
                     set options.mustBeText = false
                 $if couldBeText
                     set options.couldBeText = false
+

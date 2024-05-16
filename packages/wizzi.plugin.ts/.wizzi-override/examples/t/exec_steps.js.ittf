@@ -28,11 +28,11 @@ $group
                 param err
                 param results
                 var msg = '${name} - Level ${level}'
-                log msg
+                info msg
                 if err
                     error msg + ' error.', err
                     throw err
-                log msg + ' done.'
+                info msg + ' done.'
                 if callback
                     return
                         _ callback

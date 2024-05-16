@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.json\.wizzi-override\root\index.js.ittf
-    utc time: Thu, 25 Apr 2024 11:41:12 GMT
+    utc time: Mon, 06 May 2024 14:25:32 GMT
 */
 'use strict';
 
@@ -148,6 +148,9 @@ class FactoryPlugin {
         if (extension == 'json') {
             return 'json';
         }
+        if (extension == 'code-snippets') {
+            return 'json';
+        }
         return null;
     }
     /**
@@ -286,7 +289,8 @@ module.exports = {
                 name: 'json', 
                 rootTag: '{|[', 
                 fileExtensions: [
-                    "json"
+                    "json", 
+                    "code-snippets"
                 ], 
                 artifactsGenerators: [
                     {

@@ -185,6 +185,20 @@
 				_ ctx.w('@import ' + model.wzName + ';')
 				r_cb()
 
+			async-md( layer )
+				_ ctx.w('@layer ' + model.wzName + ' {')
+				_ md.genItems
+					@ model.rules
+					@ ctx
+					{
+						@ indent true
+			        a_cb()
+						_ ctx.w('}')
+						r_cb()
+
+			async-md( tailwind )
+				_ ctx.w('@tailwind ' + model.wzName + ';')
+
 			async-md( comment )
 				if model.rules && model.rules.length > 0
 					if ctx.__comment_level === 0

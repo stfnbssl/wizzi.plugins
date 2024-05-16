@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.html\lib\artifacts\html\document\gen\main.js
     package: @wizzi/plugin.html@0.8.10
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\lib\artifacts\wzschema\html_docs\gen\ittf\wfschema-docs.html.ittf
-    utc time: Sat, 20 Apr 2024 03:37:18 GMT
+    utc time: Thu, 16 May 2024 04:18:28 GMT
 -->
 <!doctype html>
 <html>
@@ -47,6 +47,12 @@
                 <li><a href="#element_statement">statement</a>
                 </li>
                 <li><a href="#element_comment">comment</a>
+                </li>
+                <li><a href="#element_commentForReference">commentForReference</a>
+                </li>
+                <li><a href="#element_inlineMultilineComment">inlineMultilineComment</a>
+                </li>
+                <li><a href="#element_jsDocComment">jsDocComment</a>
                 </li>
                 <li><a href="#element_xmodule">xmodule</a>
                 </li>
@@ -134,6 +140,8 @@
                 </li>
                 <li><a href="#element_xrequire">xrequire</a>
                 </li>
+                <li><a href="#element_literal">literal</a>
+                </li>
                 <li><a href="#element_set">set</a>
                 </li>
                 <li><a href="#element_ximport">ximport</a>
@@ -141,6 +149,8 @@
                 <li><a href="#element_xexport">xexport</a>
                 </li>
                 <li><a href="#element_exportDefault">exportDefault</a>
+                </li>
+                <li><a href="#element_satisfies">satisfies</a>
                 </li>
                 <li><a href="#element_xif">xif</a>
                 </li>
@@ -563,6 +573,141 @@
                     </tbody>
                 </table>
             </small>
+            <table id="element_commentForReference" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>commentForReference</b>
+                        </td>
+                        <td>###</td>
+                        <td>statement</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>statement</td>
+                            <td>statements</td>
+                            <td>one-to-many</td>
+                            <td>statement</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_inlineMultilineComment" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>inlineMultilineComment</b>
+                        </td>
+                        <td>##</td>
+                        <td>statement</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>statement</td>
+                            <td>statements</td>
+                            <td>one-to-many</td>
+                            <td>statement</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_jsDocComment" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>jsDocComment</b>
+                        </td>
+                        <td>#doc</td>
+                        <td>statement</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>statement</td>
+                            <td>statements</td>
+                            <td>one-to-many</td>
+                            <td>statement</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
             <table id="element_xmodule" class="pretty-table">
                 <thead>
                     <tr>
@@ -749,7 +894,7 @@
                 <span>var obj_beta &nbsp;</span>
                 <span>{                | &nbsp;</span>
                 <span>@ name stefi &nbsp;</span>
-                <span>js: &nbsp;</span>
+                <span>ts: &nbsp;</span>
                 <span>var i; &nbsp;</span>
                 <span>var i = 0; &nbsp;</span>
                 <span>var alpha = function(p) { &nbsp;</span>
@@ -809,7 +954,7 @@
                 <span>decl x = 0 &nbsp;</span>
                 <span>decl a &nbsp;</span>
                 <span>{ &nbsp;</span>
-                <span>js: &nbsp;</span>
+                <span>ts: &nbsp;</span>
                 <span>var i, x = 0, a = {}; &nbsp;</span>
             </div>
             <h5>Relations</h5>
@@ -1098,7 +1243,7 @@
                 <span>iif a === b &nbsp;</span>
                 <span>then 0 &nbsp;</span>
                 <span>else 1 &nbsp;</span>
-                <span>js: &nbsp;</span>
+                <span>ts: &nbsp;</span>
                 <span>( a === b ) ? 0 : 1 &nbsp;</span>
             </div>
             <h5>Relations</h5>
@@ -2608,6 +2753,51 @@
                     </tbody>
                 </table>
             </small>
+            <table id="element_literal" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>literal</b>
+                        </td>
+                        <td>literal</td>
+                        <td>statement</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>statement</td>
+                            <td>statements</td>
+                            <td>one-to-many</td>
+                            <td>statement</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
             <table id="element_set" class="pretty-table">
                 <thead>
                     <tr>
@@ -2632,7 +2822,7 @@
             <div>
                 <span> &nbsp;</span>
                 <span>The set element do not relate to any javascript synthax element but is &nbsp;</span>
-                <span>fundamental in the 'js' language schema. &nbsp;</span>
+                <span>fundamental in the 'ts' language schema. &nbsp;</span>
                 <span>A wizzi schema cannot have free node names (tags). User names &nbsp;</span>
                 <span>cannot be node names but always must be node values. &nbsp;</span>
                 <span>Whenever javascript has a left hand side item that is an user name &nbsp;</span>
@@ -2640,7 +2830,7 @@
                 <span> &nbsp;</span>
                 <span>ittf &nbsp;</span>
                 <span>set user.name = 'stefi' &nbsp;</span>
-                <span>js &nbsp;</span>
+                <span>ts &nbsp;</span>
                 <span>user.name = 'stefi'; &nbsp;</span>
                 <span> &nbsp;</span>
                 <span>In a 'set' element the wzName is written as is. If it is a top statement &nbsp;</span>
@@ -2943,6 +3133,51 @@
                     </tbody>
                 </table>
             </small>
+            <table id="element_satisfies" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>satisfies</b>
+                        </td>
+                        <td>satisfies</td>
+                        <td>statement</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>statement</td>
+                            <td>statements</td>
+                            <td>one-to-many</td>
+                            <td>statement</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
             <table id="element_xif" class="pretty-table">
                 <thead>
                     <tr>
@@ -2970,7 +3205,7 @@
                 <span>if a === b &nbsp;</span>
                 <span>elif a === c &nbsp;</span>
                 <span>else &nbsp;</span>
-                <span>js: &nbsp;</span>
+                <span>ts: &nbsp;</span>
                 <span>if ( a === b ) { &nbsp;</span>
                 <span>} &nbsp;</span>
                 <span>else if ( a === c ) { &nbsp;</span>
@@ -3317,7 +3552,7 @@
                 <span>foreach item in arr5 &nbsp;</span>
                 <span>info 'item ', i, item &nbsp;</span>
                 <span> &nbsp;</span>
-                <span>js &nbsp;</span>
+                <span>ts &nbsp;</span>
                 <span>var i, i_len=arr5.length, item; &nbsp;</span>
                 <span>for (i=0; i<i_len; i++) { &nbsp;</span>
                 <span>item = arr5[i]; &nbsp;</span>
@@ -3375,7 +3610,7 @@
                 <span>ittf &nbsp;</span>
                 <span>backeach item in arr5 &nbsp;</span>
                 <span>info 'item ', i, item &nbsp;</span>
-                <span>js &nbsp;</span>
+                <span>ts &nbsp;</span>
                 <span>var i, i_len=arr5.length, item; &nbsp;</span>
                 <span>for (i= (i_len-1); i>-1; i--) { &nbsp;</span>
                 <span>item = arr5[i]; &nbsp;</span>
@@ -3433,7 +3668,7 @@
                 <span>ittf &nbsp;</span>
                 <span>each item in arr5 [this] &nbsp;</span>
                 <span>info 'item ', i, item &nbsp;</span>
-                <span>js &nbsp;</span>
+                <span>ts &nbsp;</span>
                 <span>arr5.forEach(function(item, i, array) { &nbsp;</span>
                 <span>console.log('item ', i, item); &nbsp;</span>
                 <span>}, this); &nbsp;</span>
@@ -3489,7 +3724,7 @@
                 <span>ittf &nbsp;</span>
                 <span>filter item in arr5 [this] &nbsp;</span>
                 <span>return item > 20 &nbsp;</span>
-                <span>js &nbsp;</span>
+                <span>ts &nbsp;</span>
                 <span>arr5.filter(function(item, i, array) { &nbsp;</span>
                 <span>return item > 20 &nbsp;</span>
                 <span>}, this); &nbsp;</span>
@@ -3545,7 +3780,7 @@
                 <span>ittf &nbsp;</span>
                 <span>find item in arr5 [this] &nbsp;</span>
                 <span>return item == 20 &nbsp;</span>
-                <span>js &nbsp;</span>
+                <span>ts &nbsp;</span>
                 <span>arr5.item(function(item, i, array) { &nbsp;</span>
                 <span>return item == 20 &nbsp;</span>
                 <span>}, this); &nbsp;</span>
@@ -3601,7 +3836,7 @@
                 <span>ittf &nbsp;</span>
                 <span>reduce item in arr5 0 &nbsp;</span>
                 <span>return item_acc + item &nbsp;</span>
-                <span>js &nbsp;</span>
+                <span>ts &nbsp;</span>
                 <span>arr5.reduce(function(acc, item, item_index, array) { &nbsp;</span>
                 <span>return item_acc + item &nbsp;</span>
                 <span>}, 0); &nbsp;</span>
@@ -3660,7 +3895,7 @@
                 <span>[ &nbsp;</span>
                 <span>@ 'item2' &nbsp;</span>
                 <span>@ 'item3' &nbsp;</span>
-                <span>js &nbsp;</span>
+                <span>ts &nbsp;</span>
                 <span>arr5.concat('item1', ['item2', 'item3']); &nbsp;</span>
                 <span> &nbsp;</span>
             </div>
@@ -3938,7 +4173,7 @@
                 <span>set i += 1 &nbsp;</span>
                 <span>set result += i + ' ' &nbsp;</span>
                 <span> &nbsp;</span>
-                <span>js &nbsp;</span>
+                <span>ts &nbsp;</span>
                 <span>var result = ''; &nbsp;</span>
                 <span>var i = 0; &nbsp;</span>
                 <span>do { &nbsp;</span>
@@ -4568,7 +4803,7 @@
                 <span>set value &nbsp;</span>
                 <span>_ init &nbsp;</span>
                 <span>._calc &nbsp;</span>
-                <span>js: &nbsp;</span>
+                <span>ts: &nbsp;</span>
                 <span>value = init().calc() &nbsp;</span>
             </div>
             <h5>Relations</h5>
@@ -4631,7 +4866,7 @@
                 <span>@ 200 &nbsp;</span>
                 <span>function &nbsp;</span>
                 <span>return 'a'; &nbsp;</span>
-                <span>js: &nbsp;</span>
+                <span>ts: &nbsp;</span>
                 <span>@alpha(200, function() { return 'a'; }) &nbsp;</span>
             </div>
             <h5>Relations</h5>
@@ -4693,7 +4928,7 @@
                 <span>_ getFunction() &nbsp;</span>
                 <span>( &nbsp;</span>
                 <span>@ 'stefi' &nbsp;</span>
-                <span>js: &nbsp;</span>
+                <span>ts: &nbsp;</span>
                 <span>getFunction()('stefi') &nbsp;</span>
             </div>
             <h5>Relations</h5>
@@ -4746,7 +4981,7 @@
                 <span>ittf: &nbsp;</span>
                 <span>set name = obj &nbsp;</span>
                 <span>. name &nbsp;</span>
-                <span>js: &nbsp;</span>
+                <span>ts: &nbsp;</span>
                 <span>name = obj.name &nbsp;</span>
             </div>
             <h5>Relations</h5>
@@ -4799,7 +5034,7 @@
                 <span>ittf: &nbsp;</span>
                 <span>set name = obj &nbsp;</span>
                 <span>.[ name &nbsp;</span>
-                <span>js: &nbsp;</span>
+                <span>ts: &nbsp;</span>
                 <span>name = obj[name] &nbsp;</span>
             </div>
             <h5>Relations</h5>
@@ -5670,7 +5905,7 @@
                 <span>( &nbsp;</span>
                 <span>@ key &nbsp;</span>
                 <span>@ id &nbsp;</span>
-                <span>js &nbsp;</span>
+                <span>ts &nbsp;</span>
                 <span>;(function(x, y) { &nbsp;</span>
                 <span>return alpha = x + ': ' + y; &nbsp;</span>
                 <span>})(key, id) &nbsp;</span>
@@ -6586,6 +6821,33 @@
                     </tr>
                 </tbody>
             </table>
+            <h5>Attributes</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Tag</th>
+                            <th>Type</th>
+                            <th>Default</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>xas</td>
+                            <td>as</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
             <h5>Relations</h5>
             <small>
                 <table class="table table-condensed table-bordered" style="width:100%;">
@@ -42922,7 +43184,7 @@
                         <td>
                             <b>template</b>
                         </td>
-                        <td>template|`lit</td>
+                        <td>template</td>
                         <td>statement</td>
                         <td></td>
                     </tr>
@@ -43066,7 +43328,7 @@
                 <span>_` fname &nbsp;</span>
                 <span>+ bla bla &nbsp;</span>
                 <span>+ bla bla &nbsp;</span>
-                <span>js: &nbsp;</span>
+                <span>ts: &nbsp;</span>
                 <span>fname` &nbsp;</span>
                 <span>bla bla &nbsp;</span>
                 <span>bla bla &nbsp;</span>
@@ -43187,7 +43449,7 @@
             <div>
                 <span>ittf: &nbsp;</span>
                 <span>info 'xxx', yyy, ... &nbsp;</span>
-                <span>js: &nbsp;</span>
+                <span>ts: &nbsp;</span>
                 <span>console.log( 'xxx', yyy, ..., __filename ); &nbsp;</span>
                 <span> &nbsp;</span>
             </div>
@@ -43240,7 +43502,7 @@
             <div>
                 <span>ittf: &nbsp;</span>
                 <span>info 'xxx', yyy, ... &nbsp;</span>
-                <span>js: &nbsp;</span>
+                <span>ts: &nbsp;</span>
                 <span>console.log( 'xxx', yyy, ... ); &nbsp;</span>
                 <span> &nbsp;</span>
             </div>
@@ -43294,12 +43556,12 @@
                 <span>TODO ensure require('util') &nbsp;</span>
                 <span>ittf: &nbsp;</span>
                 <span>log? xxx &nbsp;</span>
-                <span>js: &nbsp;</span>
+                <span>ts: &nbsp;</span>
                 <span>console.log('xxx', util.inspect(xxx, { depth: null } ); &nbsp;</span>
                 <span> &nbsp;</span>
                 <span>ittf: &nbsp;</span>
                 <span>log? label xxx &nbsp;</span>
-                <span>js: &nbsp;</span>
+                <span>ts: &nbsp;</span>
                 <span>console.log('label', util.inspect(xxx, { depth: null } ); &nbsp;</span>
                 <span> &nbsp;</span>
             </div>
@@ -43352,7 +43614,7 @@
             <div>
                 <span>ittf: &nbsp;</span>
                 <span>warn 'xxx', yyy, ... &nbsp;</span>
-                <span>js: &nbsp;</span>
+                <span>ts: &nbsp;</span>
                 <span>console.log( ... &nbsp;</span>
                 <span> &nbsp;</span>
             </div>
@@ -43405,7 +43667,7 @@
             <div>
                 <span>ittf: &nbsp;</span>
                 <span>warn 'xxx', yyy, ... &nbsp;</span>
-                <span>js: &nbsp;</span>
+                <span>ts: &nbsp;</span>
                 <span>console.warn( 'xxx', yyy, ... ); &nbsp;</span>
                 <span> &nbsp;</span>
             </div>
@@ -43458,7 +43720,7 @@
             <div>
                 <span>ittf: &nbsp;</span>
                 <span>error 'xxx', yyy, ... &nbsp;</span>
-                <span>js: &nbsp;</span>
+                <span>ts: &nbsp;</span>
                 <span>console.error( 'xxx', yyy, ... ); &nbsp;</span>
                 <span> &nbsp;</span>
             </div>
@@ -43513,7 +43775,7 @@
                 <span>ittf: &nbsp;</span>
                 <span>chalk green 'xxx' &nbsp;</span>
                 <span>chalk green 'obj', red obj.name &nbsp;</span>
-                <span>js: &nbsp;</span>
+                <span>ts: &nbsp;</span>
                 <span>console.log(chalk.green('xxx'); &nbsp;</span>
                 <span>console.log(chalk.green('obj'), chalk.red(obj.name)); &nbsp;</span>
                 <span> &nbsp;</span>

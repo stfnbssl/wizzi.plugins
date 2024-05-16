@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\examples\ts_extended.js.ittf
-    utc time: Thu, 25 Apr 2024 11:41:22 GMT
+    utc time: Thu, 16 May 2024 04:18:23 GMT
 */
 'use strict';
 var path = require('path');
@@ -35,7 +35,7 @@ function executeExample() {
     function executeGenerateModules(modules, callback) {
         async.mapSeries(modules, (module, callback) => {
         
-            console.log('ts.example.executeGenerateModules.module: ' + module, __filename);
+            console.log('ts.example.executeGenerateModules.module: ' + module);
             var ittfDocumentUri = path.join(__dirname, 'ittf', module + '.ts.ittf');
             var outputLoadedPath = path.join(__dirname, 'results', module + '.ts.json');
             var outputExtendedPath = path.join(__dirname, 'results', module + '.ts.extended.json');
@@ -44,14 +44,14 @@ function executeExample() {
                 if (err) {
                     return callback(err);
                 }
-                console.log('ts.example.executeGenerateModules.outputLoadedPath: ' + outputLoadedPath, __filename);
+                console.log('ts.example.executeGenerateModules.outputLoadedPath: ' + outputLoadedPath);
                 file.write(outputLoadedPath, stringify(model.toJson(), null, 4))
                 loadModelAndTransform(ittfDocumentUri, {}, "ts/extended", (err, model) => {
                 
                     if (err) {
                         return callback(err);
                     }
-                    console.log('ts.example.executeGenerateModules.outputExtendedPath: ' + outputExtendedPath, __filename);
+                    console.log('ts.example.executeGenerateModules.outputExtendedPath: ' + outputExtendedPath);
                     file.write(outputExtendedPath, stringify(model, null, 4))
                     return callback(null);
                 }

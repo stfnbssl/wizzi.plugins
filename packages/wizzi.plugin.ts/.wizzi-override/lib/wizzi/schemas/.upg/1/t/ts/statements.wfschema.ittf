@@ -14,7 +14,7 @@ $group
 		#
 		# ittf
 		#  set user.name = 'stefi'
-		# js
+		# ts
 		#  user.name = 'stefi';
 		#
 		# In a 'set' element the wzName is written as is. If it is a top statement
@@ -30,7 +30,7 @@ $group
 			set this.specifiers = []
 			var temp = []
 			foreach item in this.statements
-				if item.wzElement === 'jsPropertyOrValue'
+				if item.wzElement === 'jsPropertyOrValue' || item.wzElement === 'typeTypeAlias'
 					_ this.specifiers.push(item)
 				else
 					_ temp.push(item)
@@ -44,7 +44,7 @@ $group
 			set this.specifiers = []
 			var temp = []
 			foreach item in this.statements
-				if item.wzElement === 'jsPropertyOrValue'
+				if item.wzElement === 'jsPropertyOrValue' || item.wzElement === 'typeTypeAlias'
 					_ this.specifiers.push(item)
 				else
 					_ temp.push(item)
@@ -76,7 +76,7 @@ $group
 		#   if a === b
 		#   elif a === c
 		#   else
-		# js:
+		# ts:
 		#   if ( a === b ) {
 		#   }
 		#   else if ( a === c ) {
@@ -114,7 +114,7 @@ $group
 		#   foreach item in arr5
 		#     info 'item ', i, item
 		#
-		# js
+		# ts
 		#   var i, i_len=arr5.length, item;
 		#   for (i=0; i<i_len; i++) {
 		#     item = arr5[i];
@@ -127,7 +127,7 @@ $group
 		# ittf
 		#   backeach item in arr5
 		#     info 'item ', i, item
-		# js
+		# ts
 		#   var i, i_len=arr5.length, item;
 		#   for (i= (i_len-1); i>-1; i--) {
 		#     item = arr5[i];
@@ -140,7 +140,7 @@ $group
 		# ittf
 		#   each item in arr5 [this]
 		#     info 'item ', i, item
-		# js
+		# ts
 		#   arr5.forEach(function(item, i, array) {
 		#     console.log('item ', i, item);
 		#   }, this);
@@ -151,7 +151,7 @@ $group
 		# ittf
 		#   filter item in arr5 [this]
 		#     return item > 20
-		# js
+		# ts
 		#   arr5.filter(function(item, i, array) {
 		#     return item > 20
 		#   }, this);
@@ -162,7 +162,7 @@ $group
 		# ittf
 		#   find item in arr5 [this]
 		#     return item == 20
-		# js
+		# ts
 		#   arr5.item(function(item, i, array) {
 		#     return item == 20
 		#   }, this);
@@ -173,7 +173,7 @@ $group
 		# ittf
 		#   reduce item in arr5 0
 		#     return item_acc + item
-		# js
+		# ts
 		#   arr5.reduce(function(acc, item, item_index, array) {
 		#     return item_acc + item
 		#   }, 0);
@@ -187,7 +187,7 @@ $group
 		#     [
 		#        @ 'item2' 
 		#        @ 'item3' 
-		# js
+		# ts
 		#   arr5.concat('item1', ['item2', 'item3']);
 		#
 
@@ -240,7 +240,7 @@ $group
 		#     set i += 1
 		#     set result += i + ' '
 		#
-		# js
+		# ts
 		#   var result = '';
 		#   var i = 0;
 		#   do {

@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.graphql\.wizzi-override\lib\wizzifiers\graphql\wizzifier.js.ittf
-    utc time: Thu, 25 Apr 2024 11:41:00 GMT
+    utc time: Mon, 06 May 2024 14:25:17 GMT
 */
 'use strict';
 var util = require('util');
@@ -115,10 +115,7 @@ var format = function(parent, ast, options) {
             throw new Error('parent is null.' + util.inspect(ast, 4));
         }
     }
-    
-    // info 'ast.kind', ast.kind
-    if (options.verbose) {
-    }
+    // loog 'ast.kind', ast.kind
     var kind = ast.kind === 'arguments' ? 'xarguments' : ast.kind;
     var formatter = format[kind];
     if (formatter) {
@@ -413,7 +410,7 @@ function getTypeName(type) {
 }
 // process AST node Name
 format.Name = function(parent, node, options) {
-    // loog 'node : Name ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : Name ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -454,7 +451,7 @@ format.Name = function(parent, node, options) {
 ;
 // process AST node NonNullType
 format.NonNullType = function(parent, node, options) {
-    // loog 'node : NonNullType ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : NonNullType ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -531,7 +528,7 @@ format.NonNullType = function(parent, node, options) {
 ;
 // process AST node NamedType
 format.NamedType = function(parent, node, options) {
-    // loog 'node : NamedType ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : NamedType ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -601,7 +598,7 @@ format.NamedType = function(parent, node, options) {
 ;
 // process AST node Document
 format.Document = function(parent, node, options) {
-    // loog 'node : Document ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : Document ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -638,7 +635,7 @@ format.Document = function(parent, node, options) {
 ;
 // process AST node SchemaDefinition
 format.SchemaDefinition = function(parent, node, options) {
-    // loog 'node : SchemaDefinition ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : SchemaDefinition ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -704,7 +701,7 @@ format.SchemaDefinition = function(parent, node, options) {
 ;
 // process AST node SchemaExtension
 format.SchemaExtension = function(parent, node, options) {
-    // loog 'node : SchemaExtension ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : SchemaExtension ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -770,7 +767,7 @@ format.SchemaExtension = function(parent, node, options) {
 ;
 // process AST node OperationTypeDefinition
 format.OperationTypeDefinition = function(parent, node, options) {
-    // loog 'node : OperationTypeDefinition ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : OperationTypeDefinition ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -843,7 +840,7 @@ format.OperationTypeDefinition = function(parent, node, options) {
 ;
 // process AST node ObjectTypeDefinition
 format.ObjectTypeDefinition = function(parent, node, options) {
-    // loog 'node : ObjectTypeDefinition ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : ObjectTypeDefinition ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -978,7 +975,7 @@ format.ObjectTypeDefinition = function(parent, node, options) {
 ;
 // process AST node FieldDefinition
 format.FieldDefinition = function(parent, node, options) {
-    // loog 'node : FieldDefinition ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : FieldDefinition ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -1126,7 +1123,7 @@ format.FieldDefinition = function(parent, node, options) {
 ;
 // process AST node ObjectTypeExtension
 format.ObjectTypeExtension = function(parent, node, options) {
-    // loog 'node : ObjectTypeExtension ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : ObjectTypeExtension ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -1261,7 +1258,7 @@ format.ObjectTypeExtension = function(parent, node, options) {
 ;
 // process AST node InterfaceTypeDefinition
 format.InterfaceTypeDefinition = function(parent, node, options) {
-    // loog 'node : InterfaceTypeDefinition ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : InterfaceTypeDefinition ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -1396,7 +1393,7 @@ format.InterfaceTypeDefinition = function(parent, node, options) {
 ;
 // process AST node InterfaceTypeExtension
 format.InterfaceTypeExtension = function(parent, node, options) {
-    // loog 'node : InterfaceTypeExtension ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : InterfaceTypeExtension ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -1500,7 +1497,7 @@ format.InterfaceTypeExtension = function(parent, node, options) {
 ;
 // process AST node UnionTypeDefinition
 format.UnionTypeDefinition = function(parent, node, options) {
-    // loog 'node : UnionTypeDefinition ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : UnionTypeDefinition ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -1611,7 +1608,7 @@ format.UnionTypeDefinition = function(parent, node, options) {
 ;
 // process AST node UnionTypeExtension
 format.UnionTypeExtension = function(parent, node, options) {
-    // loog 'node : UnionTypeExtension ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : UnionTypeExtension ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -1722,7 +1719,7 @@ format.UnionTypeExtension = function(parent, node, options) {
 ;
 // process AST node ListType
 format.ListType = function(parent, node, options) {
-    // loog 'node : ListType ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : ListType ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -1772,7 +1769,7 @@ format.ListType = function(parent, node, options) {
 ;
 // process AST node ScalarTypeDefinition
 format.ScalarTypeDefinition = function(parent, node, options) {
-    // loog 'node : ScalarTypeDefinition ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : ScalarTypeDefinition ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -1865,7 +1862,7 @@ format.ScalarTypeDefinition = function(parent, node, options) {
 ;
 // process AST node ScalarTypeExtension
 format.ScalarTypeExtension = function(parent, node, options) {
-    // loog 'node : ScalarTypeExtension ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : ScalarTypeExtension ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -1958,7 +1955,7 @@ format.ScalarTypeExtension = function(parent, node, options) {
 ;
 // process AST node EnumTypeDefinition
 format.EnumTypeDefinition = function(parent, node, options) {
-    // loog 'node : EnumTypeDefinition ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : EnumTypeDefinition ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -2062,7 +2059,7 @@ format.EnumTypeDefinition = function(parent, node, options) {
 ;
 // process AST node EnumTypeExtension
 format.EnumTypeExtension = function(parent, node, options) {
-    // loog 'node : EnumTypeExtension ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : EnumTypeExtension ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -2166,7 +2163,7 @@ format.EnumTypeExtension = function(parent, node, options) {
 ;
 // process AST node EnumValueDefinition
 format.EnumValueDefinition = function(parent, node, options) {
-    // loog 'node : EnumValueDefinition ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : EnumValueDefinition ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -2314,7 +2311,7 @@ format.OperationDefinition = function(parent, node, options) {
 ;
 // process AST node SelectionSet
 format.SelectionSet = function(parent, node, options) {
-    // loog 'node : SelectionSet ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : SelectionSet ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -2362,7 +2359,7 @@ format.SelectionSet = function(parent, node, options) {
 ;
 // process AST node InputValueDefinition
 format.InputValueDefinition = function(parent, node, options) {
-    // loog 'node : InputValueDefinition ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : InputValueDefinition ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -2527,7 +2524,7 @@ format.InputValueDefinition = function(parent, node, options) {
 ;
 // process AST node InputObjectTypeDefinition
 format.InputObjectTypeDefinition = function(parent, node, options) {
-    // loog 'node : InputObjectTypeDefinition ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : InputObjectTypeDefinition ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -2638,7 +2635,7 @@ format.InputObjectTypeDefinition = function(parent, node, options) {
 ;
 // process AST node Field
 format.Field = function(parent, node, options) {
-    // loog 'node : Field ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : Field ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -2753,7 +2750,7 @@ format.Field = function(parent, node, options) {
 ;
 // process AST node Argument
 format.Argument = function(parent, node, options) {
-    // loog 'node : Argument ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : Argument ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -2847,7 +2844,7 @@ format.Argument = function(parent, node, options) {
 ;
 // process AST node IntValue
 format.IntValue = function(parent, node, options) {
-    // loog 'node : IntValue ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : IntValue ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -2883,7 +2880,7 @@ format.IntValue = function(parent, node, options) {
 ;
 // process AST node FloatValue
 format.FloatValue = function(parent, node, options) {
-    // loog 'node : FloatValue ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : FloatValue ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -2919,7 +2916,7 @@ format.FloatValue = function(parent, node, options) {
 ;
 // process AST node BooleanValue
 format.BooleanValue = function(parent, node, options) {
-    // loog 'node : BooleanValue ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : BooleanValue ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -2955,7 +2952,7 @@ format.BooleanValue = function(parent, node, options) {
 ;
 // process AST node NullValue
 format.NullValue = function(parent, node, options) {
-    // loog 'node : NullValue ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : NullValue ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -2991,7 +2988,7 @@ format.NullValue = function(parent, node, options) {
 ;
 // process AST node StringValue
 format.StringValue = function(parent, node, options) {
-    // loog 'node : StringValue ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : StringValue ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -3080,7 +3077,7 @@ format.StringValue = function(parent, node, options) {
 ;
 // process AST node ListValue
 format.ListValue = function(parent, node, options) {
-    // loog 'node : ListValue ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : ListValue ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -3128,7 +3125,7 @@ format.ListValue = function(parent, node, options) {
 ;
 // process AST node ObjectValue
 format.ObjectValue = function(parent, node, options) {
-    // loog 'node : ObjectValue ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : ObjectValue ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -3176,7 +3173,7 @@ format.ObjectValue = function(parent, node, options) {
 ;
 // process AST node ObjectField
 format.ObjectField = function(parent, node, options) {
-    // loog 'node : ObjectField ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : ObjectField ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -3260,7 +3257,7 @@ format.ObjectField = function(parent, node, options) {
 ;
 // process AST node FragmentDefinition
 format.FragmentDefinition = function(parent, node, options) {
-    // loog 'node : FragmentDefinition ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : FragmentDefinition ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -3397,7 +3394,7 @@ format.FragmentDefinition = function(parent, node, options) {
 ;
 // process AST node FragmentSpread
 format.FragmentSpread = function(parent, node, options) {
-    // loog 'node : FragmentSpread ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : FragmentSpread ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -3483,7 +3480,7 @@ format.FragmentSpread = function(parent, node, options) {
 ;
 // process AST node InlineFragment
 format.InlineFragment = function(parent, node, options) {
-    // loog 'node : InlineFragment ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : InlineFragment ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -3576,7 +3573,7 @@ format.InlineFragment = function(parent, node, options) {
 ;
 // process AST node VariableDefinition
 format.VariableDefinition = function(parent, node, options) {
-    // loog 'node : VariableDefinition ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : VariableDefinition ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -3705,7 +3702,7 @@ format.VariableDefinition = function(parent, node, options) {
 ;
 // process AST node Variable
 format.Variable = function(parent, node, options) {
-    // loog 'node : Variable ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : Variable ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -3774,7 +3771,7 @@ format.Variable = function(parent, node, options) {
 ;
 // process AST node DirectiveDefinition
 format.DirectiveDefinition = function(parent, node, options) {
-    // loog 'node : DirectiveDefinition ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : DirectiveDefinition ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
@@ -3890,7 +3887,7 @@ format.DirectiveDefinition = function(parent, node, options) {
 ;
 // process AST node Directive
 format.Directive = function(parent, node, options) {
-    // loog 'node : Directive ----------------------------------------- parent ittf tag : ', parent.tag
+    // loog 'node : Directive ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];

@@ -32,7 +32,7 @@ module
                 =>
                     param module
                     param callback
-                    log 'ts.example.executeGenerateModules.module: ' + module
+                    info 'ts.example.executeGenerateModules.module: ' + module
                     var ittfDocumentUri
                         _ path.join
                             @ __dirname
@@ -42,7 +42,7 @@ module
                         _ path.join
                             @ __dirname
                             @ 'results'
-                            @ module + '.ts.document.html'
+                            @ module + '.ts'
                     _ loadWizziModel
                         @ ittfDocumentUri
                         {
@@ -59,7 +59,7 @@ module
                                 {
                                 @ 'ts/module'
                                 a_cb( artifactText )
-                                    log 'ts.example.executeGenerateModules.outputPath: ' + outputPath
+                                    info 'ts.example.executeGenerateModules.outputPath: ' + outputPath
                                     _ file.write
                                         @ outputPath
                                         @ artifactText

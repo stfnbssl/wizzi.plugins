@@ -1,0 +1,2084 @@
+{
+  "kind": "schema",
+  "declarations": [
+    {
+      "kind": "datasource",
+      "name": {
+        "kind": "name",
+        "value": "db",
+        "location": {
+          "start": {
+            "offset": 12,
+            "line": 2,
+            "column": 12
+          },
+          "end": {
+            "offset": 14,
+            "line": 2,
+            "column": 14
+          }
+        }
+      },
+      "members": [
+        {
+          "kind": "config",
+          "name": {
+            "kind": "name",
+            "value": "provider",
+            "location": {
+              "start": {
+                "offset": 19,
+                "line": 3,
+                "column": 3
+              },
+              "end": {
+                "offset": 27,
+                "line": 3,
+                "column": 11
+              }
+            }
+          },
+          "value": {
+            "kind": "literal",
+            "value": "sqlite"
+          },
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 19,
+              "line": 3,
+              "column": 3
+            },
+            "end": {
+              "offset": 38,
+              "line": 3,
+              "column": 22
+            }
+          }
+        },
+        {
+          "kind": "config",
+          "name": {
+            "kind": "name",
+            "value": "url",
+            "location": {
+              "start": {
+                "offset": 41,
+                "line": 4,
+                "column": 3
+              },
+              "end": {
+                "offset": 44,
+                "line": 4,
+                "column": 6
+              }
+            }
+          },
+          "value": {
+            "kind": "functionCall",
+            "path": {
+              "kind": "path",
+              "value": [
+                "env"
+              ],
+              "location": {
+                "start": {
+                  "offset": 52,
+                  "line": 4,
+                  "column": 14
+                },
+                "end": {
+                  "offset": 55,
+                  "line": 4,
+                  "column": 17
+                }
+              }
+            },
+            "args": [
+              {
+                "kind": "literal",
+                "value": "DATABASE_URL"
+              },
+              {
+                "kind": "literal",
+                "value": 3
+              }
+            ]
+          },
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 41,
+              "line": 4,
+              "column": 3
+            },
+            "end": {
+              "offset": 74,
+              "line": 4,
+              "column": 36
+            }
+          }
+        }
+      ],
+      "location": {
+        "start": {
+          "offset": 1,
+          "line": 2,
+          "column": 1
+        },
+        "end": {
+          "offset": 76,
+          "line": 5,
+          "column": 2
+        }
+      }
+    },
+    {
+      "kind": "generator",
+      "name": {
+        "kind": "name",
+        "value": "client",
+        "location": {
+          "start": {
+            "offset": 88,
+            "line": 7,
+            "column": 11
+          },
+          "end": {
+            "offset": 94,
+            "line": 7,
+            "column": 17
+          }
+        }
+      },
+      "members": [
+        {
+          "kind": "config",
+          "name": {
+            "kind": "name",
+            "value": "provider",
+            "location": {
+              "start": {
+                "offset": 99,
+                "line": 8,
+                "column": 3
+              },
+              "end": {
+                "offset": 107,
+                "line": 8,
+                "column": 11
+              }
+            }
+          },
+          "value": {
+            "kind": "literal",
+            "value": "prisma-client-js"
+          },
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 99,
+              "line": 8,
+              "column": 3
+            },
+            "end": {
+              "offset": 133,
+              "line": 8,
+              "column": 37
+            }
+          }
+        },
+        {
+          "kind": "config",
+          "name": {
+            "kind": "name",
+            "value": "output",
+            "location": {
+              "start": {
+                "offset": 136,
+                "line": 9,
+                "column": 3
+              },
+              "end": {
+                "offset": 142,
+                "line": 9,
+                "column": 9
+              }
+            }
+          },
+          "value": {
+            "kind": "literal",
+            "value": "node_modules/.prisma/client"
+          },
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 136,
+              "line": 9,
+              "column": 3
+            },
+            "end": {
+              "offset": 181,
+              "line": 9,
+              "column": 48
+            }
+          }
+        },
+        {
+          "kind": "config",
+          "name": {
+            "kind": "name",
+            "value": "engineType",
+            "location": {
+              "start": {
+                "offset": 184,
+                "line": 10,
+                "column": 3
+              },
+              "end": {
+                "offset": 194,
+                "line": 10,
+                "column": 13
+              }
+            }
+          },
+          "value": {
+            "kind": "literal",
+            "value": "library"
+          },
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 184,
+              "line": 10,
+              "column": 3
+            },
+            "end": {
+              "offset": 209,
+              "line": 10,
+              "column": 28
+            }
+          }
+        },
+        {
+          "kind": "config",
+          "name": {
+            "kind": "name",
+            "value": "binaryTargets",
+            "location": {
+              "start": {
+                "offset": 212,
+                "line": 11,
+                "column": 3
+              },
+              "end": {
+                "offset": 225,
+                "line": 11,
+                "column": 16
+              }
+            }
+          },
+          "value": {
+            "kind": "array",
+            "items": [
+              {
+                "kind": "literal",
+                "value": "native"
+              }
+            ]
+          },
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 212,
+              "line": 11,
+              "column": 3
+            },
+            "end": {
+              "offset": 238,
+              "line": 11,
+              "column": 29
+            }
+          }
+        }
+      ],
+      "location": {
+        "start": {
+          "offset": 78,
+          "line": 7,
+          "column": 1
+        },
+        "end": {
+          "offset": 240,
+          "line": 12,
+          "column": 2
+        }
+      }
+    },
+    {
+      "kind": "model",
+      "name": {
+        "kind": "name",
+        "value": "User",
+        "location": {
+          "start": {
+            "offset": 248,
+            "line": 14,
+            "column": 7
+          },
+          "end": {
+            "offset": 252,
+            "line": 14,
+            "column": 11
+          }
+        }
+      },
+      "members": [
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "id",
+            "location": {
+              "start": {
+                "offset": 257,
+                "line": 15,
+                "column": 3
+              },
+              "end": {
+                "offset": 259,
+                "line": 15,
+                "column": 5
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "String",
+              "location": {
+                "start": {
+                  "offset": 263,
+                  "line": 15,
+                  "column": 9
+                },
+                "end": {
+                  "offset": 269,
+                  "line": 15,
+                  "column": 15
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "id"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 271,
+                    "line": 15,
+                    "column": 17
+                  },
+                  "end": {
+                    "offset": 274,
+                    "line": 15,
+                    "column": 20
+                  }
+                }
+              },
+              "args": [],
+              "location": {
+                "start": {
+                  "offset": 270,
+                  "line": 15,
+                  "column": 16
+                },
+                "end": {
+                  "offset": 274,
+                  "line": 15,
+                  "column": 20
+                }
+              }
+            },
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "default"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 275,
+                    "line": 15,
+                    "column": 21
+                  },
+                  "end": {
+                    "offset": 282,
+                    "line": 15,
+                    "column": 28
+                  }
+                }
+              },
+              "args": [
+                {
+                  "kind": "functionCall",
+                  "path": {
+                    "kind": "path",
+                    "value": [
+                      "cuid"
+                    ],
+                    "location": {
+                      "start": {
+                        "offset": 283,
+                        "line": 15,
+                        "column": 29
+                      },
+                      "end": {
+                        "offset": 287,
+                        "line": 15,
+                        "column": 33
+                      }
+                    }
+                  },
+                  "args": []
+                }
+              ],
+              "location": {
+                "start": {
+                  "offset": 274,
+                  "line": 15,
+                  "column": 20
+                },
+                "end": {
+                  "offset": 290,
+                  "line": 15,
+                  "column": 36
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 257,
+              "line": 15,
+              "column": 3
+            },
+            "end": {
+              "offset": 290,
+              "line": 15,
+              "column": 36
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "email",
+            "location": {
+              "start": {
+                "offset": 293,
+                "line": 16,
+                "column": 3
+              },
+              "end": {
+                "offset": 298,
+                "line": 16,
+                "column": 8
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "String",
+              "location": {
+                "start": {
+                  "offset": 299,
+                  "line": 16,
+                  "column": 9
+                },
+                "end": {
+                  "offset": 305,
+                  "line": 16,
+                  "column": 15
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "unique"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 307,
+                    "line": 16,
+                    "column": 17
+                  },
+                  "end": {
+                    "offset": 313,
+                    "line": 16,
+                    "column": 23
+                  }
+                }
+              },
+              "args": [],
+              "location": {
+                "start": {
+                  "offset": 306,
+                  "line": 16,
+                  "column": 16
+                },
+                "end": {
+                  "offset": 313,
+                  "line": 16,
+                  "column": 23
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 293,
+              "line": 16,
+              "column": 3
+            },
+            "end": {
+              "offset": 313,
+              "line": 16,
+              "column": 23
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "createdAt",
+            "location": {
+              "start": {
+                "offset": 317,
+                "line": 18,
+                "column": 3
+              },
+              "end": {
+                "offset": 326,
+                "line": 18,
+                "column": 12
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "DateTime",
+              "location": {
+                "start": {
+                  "offset": 327,
+                  "line": 18,
+                  "column": 13
+                },
+                "end": {
+                  "offset": 335,
+                  "line": 18,
+                  "column": 21
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "default"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 337,
+                    "line": 18,
+                    "column": 23
+                  },
+                  "end": {
+                    "offset": 344,
+                    "line": 18,
+                    "column": 30
+                  }
+                }
+              },
+              "args": [
+                {
+                  "kind": "functionCall",
+                  "path": {
+                    "kind": "path",
+                    "value": [
+                      "now"
+                    ],
+                    "location": {
+                      "start": {
+                        "offset": 345,
+                        "line": 18,
+                        "column": 31
+                      },
+                      "end": {
+                        "offset": 348,
+                        "line": 18,
+                        "column": 34
+                      }
+                    }
+                  },
+                  "args": []
+                }
+              ],
+              "location": {
+                "start": {
+                  "offset": 336,
+                  "line": 18,
+                  "column": 22
+                },
+                "end": {
+                  "offset": 351,
+                  "line": 18,
+                  "column": 37
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 317,
+              "line": 18,
+              "column": 3
+            },
+            "end": {
+              "offset": 351,
+              "line": 18,
+              "column": 37
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "updatedAt",
+            "location": {
+              "start": {
+                "offset": 354,
+                "line": 19,
+                "column": 3
+              },
+              "end": {
+                "offset": 363,
+                "line": 19,
+                "column": 12
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "DateTime",
+              "location": {
+                "start": {
+                  "offset": 364,
+                  "line": 19,
+                  "column": 13
+                },
+                "end": {
+                  "offset": 372,
+                  "line": 19,
+                  "column": 21
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "updatedAt"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 374,
+                    "line": 19,
+                    "column": 23
+                  },
+                  "end": {
+                    "offset": 383,
+                    "line": 19,
+                    "column": 32
+                  }
+                }
+              },
+              "args": [],
+              "location": {
+                "start": {
+                  "offset": 373,
+                  "line": 19,
+                  "column": 22
+                },
+                "end": {
+                  "offset": 383,
+                  "line": 19,
+                  "column": 32
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 354,
+              "line": 19,
+              "column": 3
+            },
+            "end": {
+              "offset": 383,
+              "line": 19,
+              "column": 32
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "password",
+            "location": {
+              "start": {
+                "offset": 387,
+                "line": 21,
+                "column": 3
+              },
+              "end": {
+                "offset": 395,
+                "line": 21,
+                "column": 11
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "Password",
+                "location": {
+                  "start": {
+                    "offset": 396,
+                    "line": 21,
+                    "column": 12
+                  },
+                  "end": {
+                    "offset": 404,
+                    "line": 21,
+                    "column": 20
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 387,
+              "line": 21,
+              "column": 3
+            },
+            "end": {
+              "offset": 405,
+              "line": 21,
+              "column": 21
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "notes",
+            "location": {
+              "start": {
+                "offset": 408,
+                "line": 22,
+                "column": 3
+              },
+              "end": {
+                "offset": 413,
+                "line": 22,
+                "column": 8
+              }
+            }
+          },
+          "type": {
+            "kind": "list",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "Note",
+                "location": {
+                  "start": {
+                    "offset": 417,
+                    "line": 22,
+                    "column": 12
+                  },
+                  "end": {
+                    "offset": 421,
+                    "line": 22,
+                    "column": 16
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 408,
+              "line": 22,
+              "column": 3
+            },
+            "end": {
+              "offset": 423,
+              "line": 22,
+              "column": 18
+            }
+          }
+        }
+      ],
+      "location": {
+        "start": {
+          "offset": 242,
+          "line": 14,
+          "column": 1
+        },
+        "end": {
+          "offset": 425,
+          "line": 23,
+          "column": 2
+        }
+      }
+    },
+    {
+      "kind": "model",
+      "name": {
+        "kind": "name",
+        "value": "Password",
+        "location": {
+          "start": {
+            "offset": 433,
+            "line": 25,
+            "column": 7
+          },
+          "end": {
+            "offset": 441,
+            "line": 25,
+            "column": 15
+          }
+        }
+      },
+      "members": [
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "hash",
+            "location": {
+              "start": {
+                "offset": 446,
+                "line": 26,
+                "column": 3
+              },
+              "end": {
+                "offset": 450,
+                "line": 26,
+                "column": 7
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "String",
+              "location": {
+                "start": {
+                  "offset": 451,
+                  "line": 26,
+                  "column": 8
+                },
+                "end": {
+                  "offset": 457,
+                  "line": 26,
+                  "column": 14
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 446,
+              "line": 26,
+              "column": 3
+            },
+            "end": {
+              "offset": 457,
+              "line": 26,
+              "column": 14
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "user",
+            "location": {
+              "start": {
+                "offset": 461,
+                "line": 28,
+                "column": 3
+              },
+              "end": {
+                "offset": 465,
+                "line": 28,
+                "column": 7
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "User",
+              "location": {
+                "start": {
+                  "offset": 468,
+                  "line": 28,
+                  "column": 10
+                },
+                "end": {
+                  "offset": 472,
+                  "line": 28,
+                  "column": 14
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "relation"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 476,
+                    "line": 28,
+                    "column": 18
+                  },
+                  "end": {
+                    "offset": 484,
+                    "line": 28,
+                    "column": 26
+                  }
+                }
+              },
+              "args": [
+                {
+                  "kind": "namedArgument",
+                  "name": {
+                    "kind": "name",
+                    "value": "fields",
+                    "location": {
+                      "start": {
+                        "offset": 485,
+                        "line": 28,
+                        "column": 27
+                      },
+                      "end": {
+                        "offset": 491,
+                        "line": 28,
+                        "column": 33
+                      }
+                    }
+                  },
+                  "expression": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "path",
+                        "value": [
+                          "userId"
+                        ],
+                        "location": {
+                          "start": {
+                            "offset": 494,
+                            "line": 28,
+                            "column": 36
+                          },
+                          "end": {
+                            "offset": 500,
+                            "line": 28,
+                            "column": 42
+                          }
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "kind": "namedArgument",
+                  "name": {
+                    "kind": "name",
+                    "value": "references",
+                    "location": {
+                      "start": {
+                        "offset": 503,
+                        "line": 28,
+                        "column": 45
+                      },
+                      "end": {
+                        "offset": 513,
+                        "line": 28,
+                        "column": 55
+                      }
+                    }
+                  },
+                  "expression": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "path",
+                        "value": [
+                          "id"
+                        ],
+                        "location": {
+                          "start": {
+                            "offset": 516,
+                            "line": 28,
+                            "column": 58
+                          },
+                          "end": {
+                            "offset": 518,
+                            "line": 28,
+                            "column": 60
+                          }
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "kind": "namedArgument",
+                  "name": {
+                    "kind": "name",
+                    "value": "onDelete",
+                    "location": {
+                      "start": {
+                        "offset": 521,
+                        "line": 28,
+                        "column": 63
+                      },
+                      "end": {
+                        "offset": 529,
+                        "line": 28,
+                        "column": 71
+                      }
+                    }
+                  },
+                  "expression": {
+                    "kind": "path",
+                    "value": [
+                      "Cascade"
+                    ],
+                    "location": {
+                      "start": {
+                        "offset": 531,
+                        "line": 28,
+                        "column": 73
+                      },
+                      "end": {
+                        "offset": 538,
+                        "line": 28,
+                        "column": 80
+                      }
+                    }
+                  }
+                },
+                {
+                  "kind": "namedArgument",
+                  "name": {
+                    "kind": "name",
+                    "value": "onUpdate",
+                    "location": {
+                      "start": {
+                        "offset": 540,
+                        "line": 28,
+                        "column": 82
+                      },
+                      "end": {
+                        "offset": 548,
+                        "line": 28,
+                        "column": 90
+                      }
+                    }
+                  },
+                  "expression": {
+                    "kind": "path",
+                    "value": [
+                      "Cascade"
+                    ],
+                    "location": {
+                      "start": {
+                        "offset": 550,
+                        "line": 28,
+                        "column": 92
+                      },
+                      "end": {
+                        "offset": 557,
+                        "line": 28,
+                        "column": 99
+                      }
+                    }
+                  }
+                }
+              ],
+              "location": {
+                "start": {
+                  "offset": 475,
+                  "line": 28,
+                  "column": 17
+                },
+                "end": {
+                  "offset": 558,
+                  "line": 28,
+                  "column": 100
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 461,
+              "line": 28,
+              "column": 3
+            },
+            "end": {
+              "offset": 558,
+              "line": 28,
+              "column": 100
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "userId",
+            "location": {
+              "start": {
+                "offset": 561,
+                "line": 29,
+                "column": 3
+              },
+              "end": {
+                "offset": 567,
+                "line": 29,
+                "column": 9
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "String",
+              "location": {
+                "start": {
+                  "offset": 568,
+                  "line": 29,
+                  "column": 10
+                },
+                "end": {
+                  "offset": 574,
+                  "line": 29,
+                  "column": 16
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "unique"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 576,
+                    "line": 29,
+                    "column": 18
+                  },
+                  "end": {
+                    "offset": 582,
+                    "line": 29,
+                    "column": 24
+                  }
+                }
+              },
+              "args": [],
+              "location": {
+                "start": {
+                  "offset": 575,
+                  "line": 29,
+                  "column": 17
+                },
+                "end": {
+                  "offset": 582,
+                  "line": 29,
+                  "column": 24
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 561,
+              "line": 29,
+              "column": 3
+            },
+            "end": {
+              "offset": 582,
+              "line": 29,
+              "column": 24
+            }
+          }
+        }
+      ],
+      "location": {
+        "start": {
+          "offset": 427,
+          "line": 25,
+          "column": 1
+        },
+        "end": {
+          "offset": 584,
+          "line": 30,
+          "column": 2
+        }
+      }
+    },
+    {
+      "kind": "model",
+      "name": {
+        "kind": "name",
+        "value": "Note",
+        "location": {
+          "start": {
+            "offset": 592,
+            "line": 32,
+            "column": 7
+          },
+          "end": {
+            "offset": 596,
+            "line": 32,
+            "column": 11
+          }
+        }
+      },
+      "members": [
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "id",
+            "location": {
+              "start": {
+                "offset": 601,
+                "line": 33,
+                "column": 3
+              },
+              "end": {
+                "offset": 603,
+                "line": 33,
+                "column": 5
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "String",
+              "location": {
+                "start": {
+                  "offset": 607,
+                  "line": 33,
+                  "column": 9
+                },
+                "end": {
+                  "offset": 613,
+                  "line": 33,
+                  "column": 15
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "id"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 615,
+                    "line": 33,
+                    "column": 17
+                  },
+                  "end": {
+                    "offset": 618,
+                    "line": 33,
+                    "column": 20
+                  }
+                }
+              },
+              "args": [],
+              "location": {
+                "start": {
+                  "offset": 614,
+                  "line": 33,
+                  "column": 16
+                },
+                "end": {
+                  "offset": 618,
+                  "line": 33,
+                  "column": 20
+                }
+              }
+            },
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "default"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 619,
+                    "line": 33,
+                    "column": 21
+                  },
+                  "end": {
+                    "offset": 626,
+                    "line": 33,
+                    "column": 28
+                  }
+                }
+              },
+              "args": [
+                {
+                  "kind": "functionCall",
+                  "path": {
+                    "kind": "path",
+                    "value": [
+                      "cuid"
+                    ],
+                    "location": {
+                      "start": {
+                        "offset": 627,
+                        "line": 33,
+                        "column": 29
+                      },
+                      "end": {
+                        "offset": 631,
+                        "line": 33,
+                        "column": 33
+                      }
+                    }
+                  },
+                  "args": []
+                }
+              ],
+              "location": {
+                "start": {
+                  "offset": 618,
+                  "line": 33,
+                  "column": 20
+                },
+                "end": {
+                  "offset": 634,
+                  "line": 33,
+                  "column": 36
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 601,
+              "line": 33,
+              "column": 3
+            },
+            "end": {
+              "offset": 634,
+              "line": 33,
+              "column": 36
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "title",
+            "location": {
+              "start": {
+                "offset": 637,
+                "line": 34,
+                "column": 3
+              },
+              "end": {
+                "offset": 642,
+                "line": 34,
+                "column": 8
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "String",
+              "location": {
+                "start": {
+                  "offset": 643,
+                  "line": 34,
+                  "column": 9
+                },
+                "end": {
+                  "offset": 649,
+                  "line": 34,
+                  "column": 15
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 637,
+              "line": 34,
+              "column": 3
+            },
+            "end": {
+              "offset": 649,
+              "line": 34,
+              "column": 15
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "body",
+            "location": {
+              "start": {
+                "offset": 652,
+                "line": 35,
+                "column": 3
+              },
+              "end": {
+                "offset": 656,
+                "line": 35,
+                "column": 7
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "String",
+              "location": {
+                "start": {
+                  "offset": 658,
+                  "line": 35,
+                  "column": 9
+                },
+                "end": {
+                  "offset": 664,
+                  "line": 35,
+                  "column": 15
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 652,
+              "line": 35,
+              "column": 3
+            },
+            "end": {
+              "offset": 664,
+              "line": 35,
+              "column": 15
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "createdAt",
+            "location": {
+              "start": {
+                "offset": 668,
+                "line": 37,
+                "column": 3
+              },
+              "end": {
+                "offset": 677,
+                "line": 37,
+                "column": 12
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "DateTime",
+              "location": {
+                "start": {
+                  "offset": 678,
+                  "line": 37,
+                  "column": 13
+                },
+                "end": {
+                  "offset": 686,
+                  "line": 37,
+                  "column": 21
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "default"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 688,
+                    "line": 37,
+                    "column": 23
+                  },
+                  "end": {
+                    "offset": 695,
+                    "line": 37,
+                    "column": 30
+                  }
+                }
+              },
+              "args": [
+                {
+                  "kind": "functionCall",
+                  "path": {
+                    "kind": "path",
+                    "value": [
+                      "now"
+                    ],
+                    "location": {
+                      "start": {
+                        "offset": 696,
+                        "line": 37,
+                        "column": 31
+                      },
+                      "end": {
+                        "offset": 699,
+                        "line": 37,
+                        "column": 34
+                      }
+                    }
+                  },
+                  "args": []
+                }
+              ],
+              "location": {
+                "start": {
+                  "offset": 687,
+                  "line": 37,
+                  "column": 22
+                },
+                "end": {
+                  "offset": 702,
+                  "line": 37,
+                  "column": 37
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 668,
+              "line": 37,
+              "column": 3
+            },
+            "end": {
+              "offset": 702,
+              "line": 37,
+              "column": 37
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "updatedAt",
+            "location": {
+              "start": {
+                "offset": 705,
+                "line": 38,
+                "column": 3
+              },
+              "end": {
+                "offset": 714,
+                "line": 38,
+                "column": 12
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "DateTime",
+              "location": {
+                "start": {
+                  "offset": 715,
+                  "line": 38,
+                  "column": 13
+                },
+                "end": {
+                  "offset": 723,
+                  "line": 38,
+                  "column": 21
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "updatedAt"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 725,
+                    "line": 38,
+                    "column": 23
+                  },
+                  "end": {
+                    "offset": 734,
+                    "line": 38,
+                    "column": 32
+                  }
+                }
+              },
+              "args": [],
+              "location": {
+                "start": {
+                  "offset": 724,
+                  "line": 38,
+                  "column": 22
+                },
+                "end": {
+                  "offset": 734,
+                  "line": 38,
+                  "column": 32
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 705,
+              "line": 38,
+              "column": 3
+            },
+            "end": {
+              "offset": 734,
+              "line": 38,
+              "column": 32
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "user",
+            "location": {
+              "start": {
+                "offset": 738,
+                "line": 40,
+                "column": 3
+              },
+              "end": {
+                "offset": 742,
+                "line": 40,
+                "column": 7
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "User",
+              "location": {
+                "start": {
+                  "offset": 745,
+                  "line": 40,
+                  "column": 10
+                },
+                "end": {
+                  "offset": 749,
+                  "line": 40,
+                  "column": 14
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "relation"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 753,
+                    "line": 40,
+                    "column": 18
+                  },
+                  "end": {
+                    "offset": 761,
+                    "line": 40,
+                    "column": 26
+                  }
+                }
+              },
+              "args": [
+                {
+                  "kind": "namedArgument",
+                  "name": {
+                    "kind": "name",
+                    "value": "fields",
+                    "location": {
+                      "start": {
+                        "offset": 762,
+                        "line": 40,
+                        "column": 27
+                      },
+                      "end": {
+                        "offset": 768,
+                        "line": 40,
+                        "column": 33
+                      }
+                    }
+                  },
+                  "expression": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "path",
+                        "value": [
+                          "userId"
+                        ],
+                        "location": {
+                          "start": {
+                            "offset": 771,
+                            "line": 40,
+                            "column": 36
+                          },
+                          "end": {
+                            "offset": 777,
+                            "line": 40,
+                            "column": 42
+                          }
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "kind": "namedArgument",
+                  "name": {
+                    "kind": "name",
+                    "value": "references",
+                    "location": {
+                      "start": {
+                        "offset": 780,
+                        "line": 40,
+                        "column": 45
+                      },
+                      "end": {
+                        "offset": 790,
+                        "line": 40,
+                        "column": 55
+                      }
+                    }
+                  },
+                  "expression": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "path",
+                        "value": [
+                          "id"
+                        ],
+                        "location": {
+                          "start": {
+                            "offset": 793,
+                            "line": 40,
+                            "column": 58
+                          },
+                          "end": {
+                            "offset": 795,
+                            "line": 40,
+                            "column": 60
+                          }
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "kind": "namedArgument",
+                  "name": {
+                    "kind": "name",
+                    "value": "onDelete",
+                    "location": {
+                      "start": {
+                        "offset": 798,
+                        "line": 40,
+                        "column": 63
+                      },
+                      "end": {
+                        "offset": 806,
+                        "line": 40,
+                        "column": 71
+                      }
+                    }
+                  },
+                  "expression": {
+                    "kind": "path",
+                    "value": [
+                      "Cascade"
+                    ],
+                    "location": {
+                      "start": {
+                        "offset": 808,
+                        "line": 40,
+                        "column": 73
+                      },
+                      "end": {
+                        "offset": 815,
+                        "line": 40,
+                        "column": 80
+                      }
+                    }
+                  }
+                },
+                {
+                  "kind": "namedArgument",
+                  "name": {
+                    "kind": "name",
+                    "value": "onUpdate",
+                    "location": {
+                      "start": {
+                        "offset": 817,
+                        "line": 40,
+                        "column": 82
+                      },
+                      "end": {
+                        "offset": 825,
+                        "line": 40,
+                        "column": 90
+                      }
+                    }
+                  },
+                  "expression": {
+                    "kind": "path",
+                    "value": [
+                      "Cascade"
+                    ],
+                    "location": {
+                      "start": {
+                        "offset": 827,
+                        "line": 40,
+                        "column": 92
+                      },
+                      "end": {
+                        "offset": 834,
+                        "line": 40,
+                        "column": 99
+                      }
+                    }
+                  }
+                }
+              ],
+              "location": {
+                "start": {
+                  "offset": 752,
+                  "line": 40,
+                  "column": 17
+                },
+                "end": {
+                  "offset": 835,
+                  "line": 40,
+                  "column": 100
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 738,
+              "line": 40,
+              "column": 3
+            },
+            "end": {
+              "offset": 835,
+              "line": 40,
+              "column": 100
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "userId",
+            "location": {
+              "start": {
+                "offset": 838,
+                "line": 41,
+                "column": 3
+              },
+              "end": {
+                "offset": 844,
+                "line": 41,
+                "column": 9
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "String",
+              "location": {
+                "start": {
+                  "offset": 845,
+                  "line": 41,
+                  "column": 10
+                },
+                "end": {
+                  "offset": 851,
+                  "line": 41,
+                  "column": 16
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 838,
+              "line": 41,
+              "column": 3
+            },
+            "end": {
+              "offset": 851,
+              "line": 41,
+              "column": 16
+            }
+          }
+        }
+      ],
+      "location": {
+        "start": {
+          "offset": 586,
+          "line": 32,
+          "column": 1
+        },
+        "end": {
+          "offset": 853,
+          "line": 42,
+          "column": 2
+        }
+      }
+    }
+  ]
+}

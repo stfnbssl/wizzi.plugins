@@ -3,7 +3,13 @@
 	$append requires
 		var lineParser = require('../utils/lineParser')
 
-    stm( statement
+    stm( literal
+		_ ctx.write
+			@ model.wzName
+		r_cb()
+	
+	stm( statement
+		_ u.writeComments(model, ctx)		
 		# loog 'wizzi-js.module.statements.statement', model.wzParent.wzElement, u.isTopStatement(model, ctx), model.wzName, model.__templateChild
         var text = model.wzName
 		if model.__templateChild || ctx.__inside_html
@@ -19,15 +25,6 @@
             _ ctx.write
                 @ text
 			r_cb()
-        elif ctx.__inside_html == true && ctx.__jskind !== 'react'
-            var text = text.trim()
-            var ip
-                _ lineParser.parseInterpolation
-                    @ text
-                    @ model
-                    @ ctx.__inside_handlebar
-                    @ ctx.__inside_ng
-            _ ctx.w("__html.push(" + ip.join() + ");")
         else
 			if u.isTopStatement(model, ctx) || ctx.__inside_html == true
 				# 4/2/19 _ ctx.write(model.wzName)
@@ -64,6 +61,7 @@
 			@ callback
     
 	stm( require
+		_ u.writeComments(model, ctx)		
         var items = model.wzName.split(' ')
         var seenwizzi = false
         foreach item in items
@@ -80,46 +78,43 @@
 		r_cb()
     
 	stm( ximport
-        if ctx.__ecma === 'es5'
-            var nv
-                _ lineParser.parseNameValueRaw
-                    @ model.wzName
-                    @ model
-            if nv.value()
-                var nv2
-                    _ lineParser.parseNameValueRaw
-                        _ nv.value()
-                _ ctx.w("var " + nv.name() + " = require(" + nv2.value() + ");")
-            else 
-                _ ctx.w("var " + nv.name() + " = require('" + nv.name() + "');")
-        else 
-			var name = model.wzName || ''
-			if model.xas
-				if name.length > 0
-					set name += ', '
-				set name += '* as ' + model.xas
-			_ ctx.write("import " + name)
-			if model.specifiers.length > 0
-				if name.length > 0
+		_ u.writeComments(model, ctx)		
+		# loog 'ximport.model.statements.length', model.statements.length, model.statements[0] && model.statements[0].wzElement
+		var ptype 
+			_ u.extractTSSimpleType
+				@ model
+		# loog 'ximport.ptype', ptype
+		var name = model.wzName || ''
+		if model.xas
+			if name.length > 0
+				set name += ', '
+			set name += '* as ' + model.xas
+		_ ctx.write("import " + name)
+		if model.specifiers.length > 0
+			if name.length > 0
+				_ ctx.write(', ')
+			_ ctx.write('{')
+			foreach item in model.specifiers
+				if i > 0
 					_ ctx.write(', ')
-				_ ctx.write('{')
-				foreach item in model.specifiers
-					if i > 0
-						_ ctx.write(', ')
+				if item.wzElement == 'typeTypeAlias'
+					_ ctx.write('type ' + item.wzName)
+				else
 					_ ctx.write(item.wzName)
-					if item.xas
-						_ ctx.write(' as ' + item.xas)
-				_ ctx.write('}')
-				_ ctx.write(' from ' + model.from)
-			else
-				if model.from && model.from.length > 0
-					if name.trim().length > 0
-						_ ctx.write(' from')
-					_ ctx.write(' ' + model.from)
-			_ ctx.w(u.semicolon(name))
+				if item.xas
+					_ ctx.write(' as ' + item.xas)
+			_ ctx.write('}')
+			_ ctx.write(' from ' + model.from)
+		else
+			if model.from && model.from.length > 0
+				if name.trim().length > 0
+					_ ctx.write(' from')
+				_ ctx.write(' ' + model.from)
+		_ ctx.w(u.semicolon(name))
 		r_cb()
     
 	stm( typeRequire
+		_ u.writeComments(model, ctx)		
 		_ ctx.write('require ' + model.wzName)
 		_ cnt.genItems
 			@ model.statements
@@ -127,10 +122,7 @@
 			@ callback
 
 	stm( exportDefault
-        if ctx.__ecma === 'es5'
-			# loog 'wizzi-codegen.js2.statements.ecma,jskind', ctx.__ecma, ctx.__jskind
-            _ ctx.artifactGenerationError('export statement invalid in ecma 5', 'js/module', model)
-			r_cb()
+		_ u.writeComments(model, ctx)		
 
 		if hasStatements(model) == false
 			_ ctx.w("export default " + model.wzName + u.semicolon(model.wzName))
@@ -151,20 +143,40 @@
 		
 		r_cb()
 
+	stm( satisfies
+		var ptype 
+			_ u.extractTSSimpleType
+				@ model
+		_ cnt.genItems
+			@ model.statements
+			@ ctx
+			{ 
+				@ indent true
+			a_cb()
+				_ ctx.write(' satisfies')
+				if ptype
+					# loog 'property', ptype.wzElement
+					_ ctx.write(' ')
+					_ cnt.stm[ptype.wzElement]
+						@ ptype
+						@ ctx
+						a_cb()
+							r_cb()
+				else
+					r_cb()
+
 	stm( xexport
+		_ u.writeComments(model, ctx)	
 
         var typekey = model.__isType ? 'type ' : ''
 		
-        if ctx.__ecma === 'es5'
-			# loog 'wizzi-codegen.js2.statements.ecma,jskind', ctx.__ecma, ctx.__jskind
-            _ ctx.artifactGenerationError('export statement invalid in ecma 5', 'js/module', model)
-			r_cb()
+		# loog 'js.module.xexport', hasStatements(model), model.from, model.specifiers.length
 
 		if hasStatements(model) == false && !!model.from == false && model.specifiers.length == 0
 			_ ctx.w("export " + typekey + model.wzName + u.semicolon(model.wzName))
 			r_cb()
         
-        if model.__function
+		if model.__function
 			_ cnt.stm.exportfunction(model, ctx, callback)
 			r_cb()
 
@@ -175,6 +187,7 @@
 		
 		if model.from
             if model.statements.length == 1
+				# loog 'model.statements[0]', model.statements[0]
                 if model.statements[0].wzElement == 'typeTypeAlias'
                     _ ctx.write('type ')
                 else
@@ -183,11 +196,13 @@
 				@ model
 				@ ctx
 				@ name
-			_ ctx.write(' from ' + model.from)
-			_ ctx.w(u.semicolon(name))
-			r_cb()
+				a_cb()
+					_ ctx.write(' from ' + model.from)
+					_ ctx.w(u.semicolon(name))
+					r_cb()
 		else
 			if model.statements.length > 0
+				# loog 'model.statements[0]', model.statements[0]
 				_ ctx.write(name.length > 0 ? ' ' : '')
 				var indented = false
 				set ctx.__inside_expr = true
@@ -228,24 +243,60 @@
 					@ model
 					@ ctx
 					@ name
-				_ ctx.w(u.semicolon(name))
-				r_cb()
+					a_cb()
+						_ ctx.w(u.semicolon(name))
+						r_cb()
 
 	function exportSpecifiers
 		param model
 		param ctx
 		param name
-		if model.specifiers.length > 0
+		param callback
+		_ u.writeComments(model, ctx)	
+		# loog '---------------->  model.specifiers.length', model.specifiers.length, model.specifiers.length == 1 && model.specifiers[0].wzElement
+		if model.specifiers.length == 1 && model.specifiers[0].wzElement == 'typeTypeAlias'
+			# loog 'exportSpecifiers.11'
+			var item = model.specifiers[0]
+			_ cnt.genItem
+				@ item
+				@ ctx
+				a_cb()
+					if item.xas
+						_ ctx.write(' as ' + item.xas)
+					r_cb()
+		elif model.specifiers.length > 0
+			# loog 'exportSpecifiers.12'
 			if name.length > 0
 				_ ctx.write(', ')
 			_ ctx.write('{')
-			foreach item in model.specifiers
-				if i > 0
+			repeater( 1, model.specifiers, 0 )
+				# loog 'item_1.wzName', item_1.wzName
+				if index_1 > 0
 					_ ctx.write(', ')
-				_ ctx.write(item.wzName)
-				if item.xas
-					_ ctx.write(' as ' + item.xas)
-			_ ctx.write('}')
+				if item_1.wzElement == 'typeTypeAlias'
+					# loog 15, item_1.wzName
+					_ ctx.write('type ' + item_1.wzName)
+					if item_1.statements.length > 0
+						return
+							_ cnt.genItem
+								@ item_1.statements[0]
+								@ ctx
+								a_cb()
+									if item_1.xas
+										_ ctx.write(' as ' + item_1.xas)
+									repeater_increment(1)
+					else
+						repeater_increment(1)
+				else
+					_ ctx.write(item_1.wzName)
+				if item_1.xas
+					_ ctx.write(' as ' + item_1.xas)
+				repeater_increment(1)
+				$append next
+					_ ctx.write('}')
+					r_cb()
+		else
+			r_cb()
 
 	stm( typeExport
         set model.__isType = true
@@ -255,6 +306,7 @@
             @ callback
 
 	stm( typeExportNamespace
+		_ u.writeComments(model, ctx)	
 		_ ctx.w('export as namespace ')
 		_ ctx.w(u.semicolon(model.wzName))
 		r_cb()
@@ -308,7 +360,23 @@
                 set ctx.__inside_comment = false
 		        r_cb()
     
+	stm( commentForReference
+		_ ctx.w('/// ' + model.wzName)
+		r_cb()
+
+	stm( inlineMultilineComment
+		_ ctx.w('/** ' + model.wzName + ' */')
+		r_cb()
+
+	stm( jsDocComment
+		_ ctx.w('/**')
+		foreach item in model.statements
+			_ ctx.w(' * ' + item.wzName)
+		_ ctx.w(' */')
+		r_cb()
+	
 	stm( xdelete
+		_ u.writeComments(model, ctx)	
         _ ctx.w('delete ' + model.wzName)
 		r_cb()
     

@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\artifacts\ts\module\gen\statements\objects.js.ittf
-    utc time: Thu, 25 Apr 2024 11:41:26 GMT
+    utc time: Thu, 16 May 2024 04:18:27 GMT
 */
 'use strict';
 var util = require('util');
@@ -265,7 +265,7 @@ md.load = function(cnt) {
                  }, callback)
             }
         }
-        else if (ctx.__ecma === 'es6') {
+        else {
             u.writeComments(model, ctx);
             ctx.w('@' + model.wzName + '(');
             cnt.genItems(model.statements, ctx, {
@@ -279,9 +279,6 @@ md.load = function(cnt) {
                 return callback(null);
             }
             )
-        }
-        else {
-            return callback(ctx.error(myname + '. Invalid jsPropertyOrValue: ' + model.wzName, model));
         }
     }
     function jsPropertyOrValue_no_stm_children(model, ctx, callback) {
@@ -315,13 +312,7 @@ md.load = function(cnt) {
                 ctx.write(p.value())
             }
             else {
-                if (ctx.__ecma === 'es5') {
-                    console.log(ctx.error(myname + '. Invalid object property: ' + model.wzName, model))
-                    return callback(ctx.error(myname + '. Invalid object property: ' + model.wzName, model));
-                }
-                else {
-                    ctx.write(p.name())
-                }
+                ctx.write(p.name())
             }
             cnt.genItems(model.statements, ctx, {
                 indent: false
@@ -332,15 +323,7 @@ md.load = function(cnt) {
         }
         else {
             u.writeComments(model, ctx);
-            if (ctx.__ecma === 'es6') {
-                ctx.w('@' + model.wzName);
-            }
-            else if (ctx.__artifact === 'xittf/document') {
-                ctx.write(model.wzName)
-            }
-            else {
-                return callback(ctx.error(myname + '. Invalid jsPropertyOrValue: ' + model.wzName, model));
-            }
+            ctx.w('@' + model.wzName);
             return callback(null);
         }
     }
@@ -376,7 +359,6 @@ md.load = function(cnt) {
             }
             )
         }
-        // loog '++++ start', ctx.__ecma
         else {
             
             // is an object property
@@ -397,18 +379,10 @@ md.load = function(cnt) {
                 }
             }
             ctx.indent();
-            if (ctx.__ecma === 'es6') {
-                ctx.__is_react_class = true;
-            }
             jsObject_close(model, ctx, (err, notUsed) => {
             
                 if (err) {
                     return callback(err);
-                }
-                
-                // loog '++++ end', ctx.__ecma
-                if (ctx.__ecma === 'es6') {
-                    ctx.__is_react_class = save__is_react_class;
                 }
                 u.checkInlineExit(model, ctx);
                 return callback(null);
@@ -441,16 +415,16 @@ md.load = function(cnt) {
                     if (err) {
                         return callback(err);
                     }
-                    process.nextTick(function() {
-                        repeater_1(index_1 + 1);
-                    })
+                    return process.nextTick(function() {
+                            repeater_1(index_1 + 1);
+                        });
                 }
                 )
             }
             else {
-                process.nextTick(function() {
-                    repeater_1(index_1 + 1);
-                })
+                return process.nextTick(function() {
+                        repeater_1(index_1 + 1);
+                    });
             }
         }
         repeater_1(0);
@@ -481,9 +455,9 @@ md.load = function(cnt) {
             
             // loog 'jsObject_close 2'
             if (model.isDslCall && item_1.wzElement == 'namedCallParam') {
-                process.nextTick(function() {
-                    repeater_1(index_1 + 1);
-                })
+                return process.nextTick(function() {
+                        repeater_1(index_1 + 1);
+                    });
             }
             // loog 'js.module.gen.jsObject_close.item_1', item_1.wzElement, u.isMemberAccessOrCall(item_1)
             else {
@@ -514,9 +488,9 @@ md.load = function(cnt) {
                                 if (err) {
                                     return callback(err);
                                 }
-                                process.nextTick(function() {
-                                    repeater_2(index_2 + 1);
-                                })
+                                return process.nextTick(function() {
+                                        repeater_2(index_2 + 1);
+                                    });
                             }
                             )
                         }
@@ -559,9 +533,9 @@ md.load = function(cnt) {
                         }
                         // loog 'js.module.gen.jsObject_close.after.genItem'
                         comma = ['comment', 'handlebar'].indexOf(item_1.wzElement) < 0;
-                        process.nextTick(function() {
-                            repeater_1(index_1 + 1);
-                        })
+                        return process.nextTick(function() {
+                                repeater_1(index_1 + 1);
+                            });
                     }
                     )
                 }
@@ -654,9 +628,9 @@ md.load = function(cnt) {
                                 if (err) {
                                     return callback(err);
                                 }
-                                process.nextTick(function() {
-                                    repeater_2(index_2 + 1);
-                                })
+                                return process.nextTick(function() {
+                                        repeater_2(index_2 + 1);
+                                    });
                             }
                             )
                         }
@@ -687,9 +661,9 @@ md.load = function(cnt) {
                 if (!u.isComment(item_1)) {
                     needs_comma = true;
                 }
-                process.nextTick(function() {
-                    repeater_1(index_1 + 1);
-                })
+                return process.nextTick(function() {
+                        repeater_1(index_1 + 1);
+                    });
             }
             )
         }

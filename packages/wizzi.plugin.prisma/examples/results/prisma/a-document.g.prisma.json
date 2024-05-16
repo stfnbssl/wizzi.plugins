@@ -1,0 +1,559 @@
+{
+    "wzElement": "prisma",
+    "wzName": "first",
+    "comments": [],
+    "datasources": [
+        {
+            "wzElement": "datasource",
+            "wzTag": "datasource",
+            "wzName": "db",
+            "comments": [],
+            "configs": [
+                {
+                    "wzElement": "config",
+                    "wzTag": "config",
+                    "wzName": "provider",
+                    "comments": [],
+                    "valueAssign": {
+                        "wzElement": "scalarAssign",
+                        "wzName": "\"sqlite\"",
+                        "valueAssigns": []
+                    }
+                },
+                {
+                    "wzElement": "config",
+                    "wzTag": "config",
+                    "wzName": "url",
+                    "comments": [],
+                    "valueAssign": {
+                        "wzElement": "functionCallAssign",
+                        "wzName": "env",
+                        "valueAssigns": [],
+                        "params": [
+                            {
+                                "wzElement": "scalaraParam",
+                                "wzTag": "@",
+                                "wzName": "\"DATABASE_URL\""
+                            },
+                            {
+                                "wzElement": "scalaraParam",
+                                "wzTag": "@",
+                                "wzName": "3"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ],
+    "generators": [
+        {
+            "wzElement": "generator",
+            "wzTag": "generator",
+            "wzName": "client",
+            "comments": [],
+            "configs": [
+                {
+                    "wzElement": "config",
+                    "wzTag": "config",
+                    "wzName": "provider",
+                    "comments": [],
+                    "valueAssign": {
+                        "wzElement": "scalarAssign",
+                        "wzName": "\"prisma-client-js\"",
+                        "valueAssigns": []
+                    }
+                },
+                {
+                    "wzElement": "config",
+                    "wzTag": "config",
+                    "wzName": "output",
+                    "comments": [],
+                    "valueAssign": {
+                        "wzElement": "scalarAssign",
+                        "wzName": "\"node_modules/.prisma/client\"",
+                        "valueAssigns": []
+                    }
+                },
+                {
+                    "wzElement": "config",
+                    "wzTag": "config",
+                    "wzName": "engineType",
+                    "comments": [],
+                    "valueAssign": {
+                        "wzElement": "scalarAssign",
+                        "wzName": "\"library\"",
+                        "valueAssigns": []
+                    }
+                },
+                {
+                    "wzElement": "config",
+                    "wzTag": "config",
+                    "wzName": "binaryTargets",
+                    "comments": [],
+                    "valueAssign": {
+                        "wzElement": "array",
+                        "wzName": "",
+                        "valueAssigns": [
+                            {
+                                "wzElement": "scalarValue",
+                                "wzTag": "@",
+                                "wzName": "\"native\"",
+                                "valueAssigns": []
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ],
+    "models": [
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "User",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "id",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": []
+                        },
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "default",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "functionCallAssign",
+                                    "wzTag": "_",
+                                    "wzName": "cuid",
+                                    "valueAssigns": [],
+                                    "params": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "email",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "unique",
+                            "comments": [],
+                            "valueAssigns": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "createdAt",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "dateTimeType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "default",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "functionCallAssign",
+                                    "wzTag": "_",
+                                    "wzName": "now",
+                                    "valueAssigns": [],
+                                    "params": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "updatedAt",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "dateTimeType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "updatedAt",
+                            "comments": [],
+                            "valueAssigns": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "password",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "Password"
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "notes",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "listType",
+                        "wzName": "",
+                        "fieldType": {
+                            "wzElement": "refType",
+                            "wzName": "Note"
+                        }
+                    },
+                    "fieldAttributes": []
+                }
+            ],
+            "blockAttributes": []
+        },
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "Password",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "hash",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "user",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "User"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "fields",
+                                    "wzTag": "fields",
+                                    "wzName": "",
+                                    "comments": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "userId",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "references",
+                                    "wzTag": "references",
+                                    "wzName": "",
+                                    "comments": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "id",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "onDelete",
+                                    "wzTag": "onDelete",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                },
+                                {
+                                    "wzElement": "onUpdate",
+                                    "wzTag": "onUpdate",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "userId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "unique",
+                            "comments": [],
+                            "valueAssigns": []
+                        }
+                    ]
+                }
+            ],
+            "blockAttributes": []
+        },
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "Note",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "id",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": []
+                        },
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "default",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "functionCallAssign",
+                                    "wzTag": "_",
+                                    "wzName": "cuid",
+                                    "valueAssigns": [],
+                                    "params": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "title",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "body",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "createdAt",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "dateTimeType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "default",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "functionCallAssign",
+                                    "wzTag": "_",
+                                    "wzName": "now",
+                                    "valueAssigns": [],
+                                    "params": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "updatedAt",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "dateTimeType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "updatedAt",
+                            "comments": [],
+                            "valueAssigns": []
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "user",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "User"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "fields",
+                                    "wzTag": "fields",
+                                    "wzName": "",
+                                    "comments": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "userId",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "references",
+                                    "wzTag": "references",
+                                    "wzName": "",
+                                    "comments": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "id",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "onDelete",
+                                    "wzTag": "onDelete",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                },
+                                {
+                                    "wzElement": "onUpdate",
+                                    "wzTag": "onUpdate",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "userId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                }
+            ],
+            "blockAttributes": []
+        }
+    ]
+}

@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\artifacts\ts\module\gen\statements\react.js.ittf
-    utc time: Thu, 25 Apr 2024 11:41:26 GMT
+    utc time: Thu, 16 May 2024 04:18:27 GMT
 */
 'use strict';
 var util = require('util');
@@ -151,9 +151,9 @@ md.load = function(cnt) {
                     if (err) {
                         return callback(err);
                     }
-                    process.nextTick(function() {
-                        repeater_1(index_1 + 1);
-                    })
+                    return process.nextTick(function() {
+                            repeater_1(index_1 + 1);
+                        });
                 }
                 )
             }
@@ -409,9 +409,9 @@ md.load = function(cnt) {
             
             // already done
             if (item_1.wzElement == 'prop') {
-                process.nextTick(function() {
-                    repeater_1(index_1 + 1);
-                })
+                return process.nextTick(function() {
+                        repeater_1(index_1 + 1);
+                    });
             }
             else {
                 cnt.genItem(item_1, ctx, (err, notUsed) => {
@@ -419,9 +419,9 @@ md.load = function(cnt) {
                     if (err) {
                         return callback(err);
                     }
-                    process.nextTick(function() {
-                        repeater_1(index_1 + 1);
-                    })
+                    return process.nextTick(function() {
+                            repeater_1(index_1 + 1);
+                        });
                 }
                 )
             }
@@ -463,9 +463,9 @@ md.load = function(cnt) {
             
             // done in writeMethodProps
             if (item_1.wzElement == 'prop') {
-                process.nextTick(function() {
-                    repeater_1(index_1 + 1);
-                })
+                return process.nextTick(function() {
+                        repeater_1(index_1 + 1);
+                    });
             }
             else {
                 cnt.genItem(item_1, ctx, (err, notUsed) => {
@@ -473,9 +473,9 @@ md.load = function(cnt) {
                     if (err) {
                         return callback(err);
                     }
-                    process.nextTick(function() {
-                        repeater_1(index_1 + 1);
-                    })
+                    return process.nextTick(function() {
+                            repeater_1(index_1 + 1);
+                        });
                 }
                 )
             }

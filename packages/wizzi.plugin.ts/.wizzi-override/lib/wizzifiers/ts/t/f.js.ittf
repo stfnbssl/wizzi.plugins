@@ -63,7 +63,7 @@
 					set options.couldBeText = true
 
 				$*
-                # loog 'node : ${name} ----------------------------------------- parent ittf tag : ', parent.tag
+                # loog 'node : ${name} ----------------------------------------- parent  ittf tag : ', parent.tag
 				foreach item in Object.keys(node)
 					if ['type', 'start', 'end', 'loc'].indexOf(item) < 0
 						if verify.isNotEmpty(node[item])
@@ -114,6 +114,7 @@
 							$if retIsArray
                                 $$ TODO a comment could be lost here?
                                 $$ _ assertNoComments(node)
+								_ processLeadingComments(node, parent, options)
 								foreach item in ret
 									_ parent.children.push(item)
 							$else
@@ -121,10 +122,15 @@
                                 if node.type == 'VariableDeclaration'
                                     # loog 'node.leadingComments', node.leadingComments
                                 *$
+								# loog 'node.innerComments.${name}', node.innerComments
                                 _ processLeadingComments(node, ret, options)
-                                _ processTrailingComments(node, ret, options)
+                                # _ processTrailingComments(node, ret, options)
+								_ processInnerComments(node, ret, options)
 								_ parent.children.push(ret)
                             $$ 29/3/21 end replacement
+					$else
+						# loog 'node.innerComments.${name}', node.innerComments
+						_ processInnerComments(node, ret, options)
 
 				$if mustBeText
 					set options.mustBeText = false

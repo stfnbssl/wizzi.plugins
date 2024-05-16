@@ -1,0 +1,27 @@
+module
+    export 
+        :type Timings
+            :ref Record
+                :param string
+                :param 
+                    :ref Array
+                        :param 
+                            :intersect 
+                                :{ 
+                                    :p desc
+                                        :optional 
+                                        :string 
+                                :paren 
+                                    :union 
+                                        :{ 
+                                            :p time
+                                                :number 
+                                            :p start
+                                                :optional 
+                                                :never 
+                                        :{ 
+                                            :p time
+                                                :optional 
+                                                :never 
+                                            :p start
+                                                :number 

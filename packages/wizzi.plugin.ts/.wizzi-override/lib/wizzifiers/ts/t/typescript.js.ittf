@@ -16,6 +16,9 @@
 	# set format.TSTupleType = format.TupleTypeAnnotation 
 
 	f( TSObjectKeyword, :object
+	f( TSBigIntKeyword, :bigint
+	f( TSNeverKeyword, :never
+	f( TSUnknownKeyword, :unknown
 
 	f( TSInterfaceDeclaration, :interface
 		f_p_name( id, Node, # Literal | Identifier
@@ -61,6 +64,7 @@
         if node.computed
 			set ret.name = '[' + ret.name + ']'
 
+		# loog 'TSPropertySignature.node.optional', node.optional
 		if node.optional
 			_ ret.children.push
 				{
@@ -134,6 +138,7 @@
 		_ processParams(ret)
 
 	f( TSTypeAnnotation, skip
+		# loog 'TSTypeAnnotation', node.typeAnnotation
 		f_p(typeAnnotation
 		f_p(typeParameters, false, ?TSTypeParameterInstantiation
 
@@ -272,7 +277,7 @@
             if p_initializer.children.length == 0
 				set ret.name += ' ' + getNodeText(p_initializer)
 
-	f( TSNeverKeyword, :never
+	
 
 	f( TSTypePredicate, :predicate
 		f_p_name( parameterName
@@ -303,6 +308,11 @@
 	f( TSLiteralType, :literal
 		f_p_temp( literal
 		set ret.name = p_literal.name
+		# loog 'TSLiteralType', p_literal.children.length, p_literal.children[0] && p_literal.children[0].tag
+		if p_literal.children.length > 0
+			set ret.tag = 'template'
+			set ret.name = ''
+			set ret.children = p_literal.children
 
 	f( TSConditionalType, :iif
 		f_p_temp( checkType, true )
@@ -450,4 +460,4 @@
 			_ ret.children.push
 				@ p_expression
 
-    f( TSUnknownKeyword, :unknown
+    

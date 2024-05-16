@@ -24,7 +24,6 @@ module wizzi.ts.artifacts.module.gen.codegen.es6.htmlReact
                 \b 'u.isArgumentOfCall(model)', u.isArgumentOfCall(model),
                 \b 'u.isGraphEnclosed(tag)', u.isGraphEnclosed(tag),
                 \b 'attrs.length', attrs.length
-
 			
 			if u.isGraphEnclosed(tag)
                 _ u.writeComments(model, ctx)
@@ -143,7 +142,10 @@ module wizzi.ts.artifacts.module.gen.codegen.es6.htmlReact
             _ u.writeComments(a, ctx, true)
 
 		if a.statements && a.statements.length > 0
-			_ ctx.write(aindent + a.name + '={')
+            if a.name == '...'
+                _ ctx.write(aindent + '{...')
+            else
+			    _ ctx.write(aindent + a.name + '={')
 			_ cnt.genItems
 				@ a.statements
 				@ ctx
@@ -153,11 +155,14 @@ module wizzi.ts.artifacts.module.gen.codegen.es6.htmlReact
 					_ ctx[writer]('}')
 					r_cb()
 		elif a.value.length || a.value.length == 0
-			if a.value.length == 0
-				_ ctx[writer](aindent + a.name)
-			else
-				var quote = a.value.indexOf('{') >= 0 || u.isQuoted(a.value) ? '' : '"'
-				_ ctx[writer](aindent + a.name + '=' + quote + a.value + quote)
+            if a.name == '...'
+                _ ctx[writer](aindent + '{...' + a.value + '}')
+            else
+                if a.value.length == 0
+                    _ ctx[writer](aindent + a.name)
+                else
+                    var quote = a.value.indexOf('{') >= 0 || u.isQuoted(a.value) ? '' : '"'
+                    _ ctx[writer](aindent + a.name + '=' + quote + a.value + quote)
 			r_cb()
 		else
 			_ ctx[writer](aindent + a.name + '="' + a.value + '"')

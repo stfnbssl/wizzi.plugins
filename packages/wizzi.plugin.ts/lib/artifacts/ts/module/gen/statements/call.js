@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\artifacts\ts\module\gen\statements\call.js.ittf
-    utc time: Thu, 25 Apr 2024 11:41:26 GMT
+    utc time: Thu, 16 May 2024 04:18:27 GMT
 */
 'use strict';
 var util = require('util');
@@ -275,9 +275,9 @@ md.load = function(cnt) {
                 }
                 if (item_1.statements.length == 0) {
                     ctx.write(item_1.wzName);
-                    process.nextTick(function() {
-                        repeater_1(index_1 + 1);
-                    })
+                    return process.nextTick(function() {
+                            repeater_1(index_1 + 1);
+                        });
                 }
                 else if (item_1.statements.length == 1) {
                     cnt.genItem(item_1.statements[0], ctx, (err, notUsed) => {
@@ -285,17 +285,17 @@ md.load = function(cnt) {
                         if (err) {
                             return callback(err);
                         }
-                        process.nextTick(function() {
-                            repeater_1(index_1 + 1);
-                        })
+                        return process.nextTick(function() {
+                                repeater_1(index_1 + 1);
+                            });
                     }
                     )
                 }
                 else {
                     ctx.write('*** js.module.statements.call.doCallChildStatements_two not managed ***');
-                    process.nextTick(function() {
-                        repeater_1(index_1 + 1);
-                    })
+                    return process.nextTick(function() {
+                            repeater_1(index_1 + 1);
+                        });
                 }
             }
             repeater_1(0);
@@ -315,7 +315,7 @@ md.load = function(cnt) {
         
         // VIA 20/2/19 if name.length > 0
         
-        // restored 19/3/21 for call template (`lit), waiting for damage
+        // restored 19/3/21 for call template (template), waiting for damage
         if (hasParens === false) {
             if (name.length > 0 || model.wzElement == 'callOnValue') {
                 ctx.write('(');
@@ -358,9 +358,9 @@ md.load = function(cnt) {
                 if (item_1.wzElement != 'comment') {
                     first = false;
                 }
-                process.nextTick(function() {
-                    repeater_1(index_1 + 1);
-                })
+                return process.nextTick(function() {
+                        repeater_1(index_1 + 1);
+                    });
             }
             )
         }
@@ -400,9 +400,9 @@ md.load = function(cnt) {
                     if (err) {
                         return callback(err);
                     }
-                    process.nextTick(function() {
-                        repeater_1(index_1 + 1);
-                    })
+                    return process.nextTick(function() {
+                            repeater_1(index_1 + 1);
+                        });
                 }
                 )
             }
@@ -431,8 +431,8 @@ md.load = function(cnt) {
         if (typeof callback !== 'function') {
             throw new Error('The callback parameter must be a function. In ' + myname + '.memberAccess. Got: ' + callback);
         }
-        if (ctx.__inside_html || (model.wzParent.wzElement === 'xreturn' && ctx.__jskind === 'react')) {
-            var classTag = ctx.__jskind === 'react' ? 'className' : 'class';
+        if (ctx.__inside_html || (model.wzParent.wzElement === 'xreturn')) {
+            var classTag = 'className';
             model.statements.unshift({
                 wzElement: 'jsPropertyOrValue', 
                 wzName: classTag + ' ' + model.wzName, 
@@ -491,9 +491,9 @@ md.load = function(cnt) {
                         return callback(err);
                     }
                     ctx.first = false;
-                    process.nextTick(function() {
-                        repeater_1(index_1 + 1);
-                    })
+                    return process.nextTick(function() {
+                            repeater_1(index_1 + 1);
+                        });
                 }
                 )
             }

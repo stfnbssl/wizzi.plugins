@@ -1,0 +1,223 @@
+module
+    $
+        var schemaName = 'prisma';
+    kind es6
+    basewizzifier()
+        $append imports
+            var prisma_parser = require('@loancrate/prisma-schema-parser')
+            # { formatAst, parsePrismaSchema } from '@loancrate/prisma-schema-parser')
+            var cleanAST = require('./cleanAST')
+            +
+            function parseInternal
+                param tobeWizzified
+                param options
+                param callback
+                var syntax
+                try
+                    set syntax
+                        _ prisma_parser.parsePrismaSchema
+                        	@ tobeWizzified
+                    _ cleanAST(syntax)
+                    return
+                        _ callback
+                            @ null
+                            @ syntax
+                catch ex
+                    return
+                        _ callback
+                            @ ex
+        +
+        var scalarTypes
+            [
+                @ "String"
+                @ "Boolean"
+                @ "Int"
+                @ "BigInt"
+                @ "Float"
+                @ "Decimal"
+                @ "DateTime"
+                @ "Json"
+                @ "Bytes"
+                @ "Unsupported"
+        +
+        var format
+            function
+                param parent
+                param ast
+                param options
+                if !ast
+                    throw new Error('missing ast. parent is: ' + util.inspect(parent, { depth: 2 }))
+                if parent === null
+                    if options.starter
+                        set options.starter = false
+                    elif options.returnText
+                        # ok
+                    else
+                        _ showstack(options)
+                        throw new Error('parent is null.' + util.inspect(ast, 4))
+                # loog 'ast.kind', ast.kind
+                var kind = ast.kind === 'arguments' ? 'xarguments' : ast.kind
+                set kind = ast.kind === 'name' ? 'xname' : ast.kind
+                var formatter = format[kind]
+                if formatter
+                    _ options.stack.push(ast)
+                    var result = formatter(parent, ast, options)
+                    _ options.stack.pop()
+                    return result
+                else
+                    throw new Error('no formatter for kind: ' + ast.kind)
+        +
+        function wizzify
+            param tobeWizzified
+            param options
+            param callback
+            set options = options || {};
+            set options.input = tobeWizzified
+            set options.stack = []
+            set options.formatTextNodes = []
+            set options.verbose = true
+            _ parseInternal
+                @ tobeWizzified
+                @ options
+                a_cb( syntax )
+                    var root
+                        {
+                            @ tag '${schemaName}'
+                            [ children
+                    _ format(root, syntax, options)
+                    return
+                        _ callback
+                            @ null
+                            @ root
+        $include helper_functions
+        +
+        function isKnownType
+            param type
+            return ['Int', 'Float', 'Boolean', 'String'].indexOf(type) > -1
+        +
+        function getTypeName
+            param type
+            return isKnownType(type) ? type.toLowerCase() : type
+        
+        f( xname, name )
+            name( value )
+            # set ret.name = node.value
+
+        f( commentBlock, skip )
+            f_a( comments )
+
+        f( comment, # )
+            set ret.name = node.text
+
+        f( docComment, ### )
+            set ret.name = node.text
+
+        f( schema, skip )
+            f_a( declarations )
+
+        f( datasource, datasource )
+            f_p_temp( name )
+            set ret.name = p_name.name
+            f_a( members )
+
+        f( config, config )
+            f_p_temp( name )
+            set ret.name = p_name.name
+            f_p( value )
+
+        f( literal, literal )
+            var value = verify.isString(node.value) ? '"' + node.value + '"' : node.value
+            if ['@','name'].indexOf(parent.tag) > -1
+                set parent.name += ' ' + value
+                set skip = true
+            elif ['_','['].indexOf(parent.tag) > -1
+                set ret.tag = '@'
+                set ret.name = value
+            elif parent.tag == 'config'
+                set ret.tag = '='
+                set ret.name = value
+            else
+                set ret.name = value
+
+        f( path, path )
+            if parent.tag == '_'
+                set parent.name = node.value.join('.')
+                set skip = true
+            elif ['onDelete','onUpdate'].indexOf(parent.tag) > -1
+                set parent.name = node.value.join(',')
+                set skip = true
+            elif parent.tag == '['
+                set ret.tag = '@'
+                set ret.name = node.value.join(',')
+            else
+                set ret.tag = '=['
+                set ret.name = node.value.join(',')
+            $*
+            foreach value in node.value
+                _ ret.children.push
+                    {
+                        @ tag '+'
+                        @ name value
+                        [ children
+            *$
+
+        f( functionCall, _ )
+            f_p( path )
+            f_a( args )
+
+        f( generator, generator )
+            f_p_temp( name )
+            set ret.name = p_name.name
+            $$ f_p( name )
+            f_a( members )
+
+        f( model, model )
+            f_p_temp( name )
+            set ret.name = p_name.name
+            f_a( members )
+
+        f( field, field )
+            f_p_temp( name )
+            set ret.name = p_name.name
+            f_p( type )
+            f_a( attributes )
+
+        f( typeId, type )
+            f_p_temp( name )
+            if scalarTypes.indexOf(p_name.name) > -1
+                set ret.tag = ':' + p_name.name[0].toLowerCase() + p_name.name.substring(1)
+            else
+                set ret.tag = ':ref'
+                set ret.name = p_name.name
+
+        f( fieldAttribute, @ )
+            f_p_temp( path )
+            set ret.name = p_path.name
+            f_a( args )
+
+        f( blockAttribute, @@ )
+            f_p_temp( path )
+            set ret.name = p_path.name
+            f_a( args )
+
+        f( optional, :optional )
+            f_p_temp( type )
+            _ parent.children.push
+                @ p_type
+
+        f( list, :[ )
+            f_p( type )
+
+        f( array, [ )
+            f_a( items )
+
+        f( namedArgument, namedArgument )
+            f_p_temp( name )
+            set ret.tag = p_name.name
+            f_p( expression )
+
+        f( type, type )
+            f_p_temp( name )
+            set ret.name = p_name.name
+            f_a( members )
+

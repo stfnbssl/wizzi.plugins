@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.yaml\.wizzi-override\lib\wizzifiers\yaml\wizzifier.js.ittf
-    utc time: Thu, 25 Apr 2024 11:41:33 GMT
+    utc time: Wed, 15 May 2024 03:37:06 GMT
 */
 'use strict';
 var util = require('util');
@@ -13,6 +13,7 @@ var lineParser = require('../utils/lineParser');
 var file = require('@wizzi/utils').file;
 var cloner = require('../utils/cloner');
 var ittfWriter = require("../utils/ittfWriter");
+var ittfMacro = require('@wizzi/utils').helpers.ittfMacro;
 var yaml_parser = require('js-yaml');
 var cleanAST = require('./cleanAST');
 
@@ -194,18 +195,55 @@ var format = function(parentIttfNode, ast, options) {
         }, 
         onProp: function(name, value) {
             // loog  "onProp", name, value
-            var n = {
-                tag: wizzifyIttfNodeName(name), 
-                name: value, 
-                children: []
-             };
+            var lines = [];
+            if (value.split) {
+                lines = value.split(/\r?\n/);
+            }
+            var n;
+            if (lines.length > 1) {
+                n = {
+                    tag: wizzifyIttfNodeName(name), 
+                    name: '', 
+                    children: [
+                        {
+                            tag: '|', 
+                            name: '', 
+                            children: [
+                                
+                            ]
+                         }
+                    ]
+                 };
+                var toappend = n.children[0].children;
+                var i, i_items=lines, i_len=lines.length, line;
+                for (i=0; i<i_len; i++) {
+                    line = lines[i];
+                    line = line[0] == ' ' ? '\\b' + line.substring(1) : line;
+                    toappend.push({
+                        tag: '+', 
+                        name: ittfMacro.escape(line), 
+                        children: [
+                            
+                        ]
+                     })
+                }
+            }
+            else {
+                n = {
+                    tag: wizzifyIttfNodeName(ittfMacro.escape(name)), 
+                    name: ittfMacro.escape(value), 
+                    children: [
+                        
+                    ]
+                 };
+            }
             n.parentIttfNode = wizziTree;
             wizziTree.children.push(n);
         }, 
         onArrayValue: function(value) {
             // loog  "onArrayValue", value
             var n = {
-                tag: wizzifyIttfNodeName(value), 
+                tag: wizzifyIttfNodeName(ittfMacro.escape(value)), 
                 name: '', 
                 children: []
              };
@@ -513,16 +551,17 @@ function wizzifyIttfNodeName(name) {
 
 // process AST node Name
 format.Name = function(parent, node, options) {
-    console.log('node : Name ----------------------------------------- parent ittf tag : ', parent.tag);
+    // loog 'node : Name ----------------------------------------- parent  ittf tag : ', parent.tag
     var i, i_items=Object.keys(node), i_len=Object.keys(node).length, item;
     for (i=0; i<i_len; i++) {
         item = Object.keys(node)[i];
         if (['kind', 'start', 'end', 'loc'].indexOf(item) < 0) {
+            
+            // loog 'property', item, node[item], verify.isArray(node[item]) ? 'array' : ''
             if (verify.isNotEmpty(node[item])) {
-                console.log('property', item, node[item], verify.isArray(node[item]) ? 'array' : '');
             }
+            // loog 'property', item, verify.isArray(node[item]) ? 'array' : ''
             else {
-                console.log('property', item, verify.isArray(node[item]) ? 'array' : '');
             }
         }
     }

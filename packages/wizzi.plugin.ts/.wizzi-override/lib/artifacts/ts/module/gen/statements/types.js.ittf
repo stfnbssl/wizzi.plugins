@@ -4,6 +4,10 @@
 		_ ctx.write('number')
 		r_cb()
 	
+	stm( typeBigInt, kind
+		_ ctx.write('bigint')
+		r_cb()
+
 	stm( typeString, kind
 		_ ctx.write('string')
 		r_cb()
@@ -91,7 +95,7 @@
         # loog 'model.statements.length', model.statements.length
         # loog 'model.typeParameterInsts.length', model.statements.length
         *$
-        # loog 'typeReference.model', model
+        # loog 'typeReference.model', model.wzElement, model.wzTag, model.wzName, model.statements.length, model.statements[0] && model.statements[0].wzElement
         var model = writeComments(model, ctx)
 		if model.statements.length == 1
 			_ ctx.write('<' + model.wzName + '>')
@@ -106,7 +110,10 @@
 			_ ctx.write(' extends ' + model.wzName)
 			r_cb()
 		else
-			_ ctx.write(model.wzName)
+			if ctx.isInsideTemplate
+				_ ctx.write('$' + "{" + model.wzName + '}')
+			else
+				_ ctx.write(model.wzName)
 			if model.typeParameterInsts.length > 0
                 var graphs = false
                 foreach item in model.typeParameterInsts
@@ -559,7 +566,10 @@
             foreach item in model.specifiers
                 if i > 0
                     _ ctx.write(', ')
-                _ ctx.write(item.wzName)
+				if item.wzElement == 'typeTypeAlias'
+					_ ctx.write('type ' + item.wzName)
+				else
+					_ ctx.write(item.wzName)
                 if item.xas
                     _ ctx.write(' as ' + item.xas)
             _ ctx.write('}')

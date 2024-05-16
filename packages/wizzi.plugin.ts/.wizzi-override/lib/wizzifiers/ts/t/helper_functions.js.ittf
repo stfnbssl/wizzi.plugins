@@ -33,27 +33,41 @@ $group
             error 'Node should have no comments', node
             throw new Error('Node should have no comments')
     
+    function processInnerComments
+		param node
+		param ittfNode
+		param options
+		if node.innerComments
+			_ processComments
+				@ node.innerComments
+				@ node
+				@ ittfNode
+				@ options
+				@ true
+
     function processLeadingComments
 		param node
 		param ittfNode
 		param options
-		_ processComments
-			@ node.leadingComments
-			@ node
-			@ ittfNode
-			@ options
-			@ true
+		if node.leadingComments
+			_ processComments
+				@ node.leadingComments
+				@ node
+				@ ittfNode
+				@ options
+				@ true
 
 	function processTrailingComments
 		param node
 		param ittfNode
 		param options
-		_ processComments
-			@ node.trailingComments
-			@ node
-			@ ittfNode
-			@ options
-			@ false
+		if node.trailingComments
+			_ processComments
+				@ node.trailingComments
+				@ node
+				@ ittfNode
+				@ options
+				@ false
 
 	function processComments
 		param comments
@@ -70,10 +84,15 @@ $group
 						if options.commentManager.checkWritten(item) == true
 							_ options.commentManager.removeWritten(item)
 						# loog 'processComments. calling, codeReplacer.restoreInside', item.value
-                        var value = codeReplacer.restoreInside('""' + item.value, options.replaceds)
+                        var tag = '#'
+						var value = codeReplacer.restoreInside('""' + item.value, options.replaceds)
+						# loog 'tag,value', tag, value
+						if value.startsWith('/ ')
+							set tag = '###'
+							set value = value.substring(2)
 						set hb
 							{
-								@ tag '#'
+								@ tag tag
 								@ name value
 								[ children
 						_ ittfNode.children.push
@@ -83,10 +102,15 @@ $group
 						if options.commentManager.checkWritten(item) == true
 							_ options.commentManager.removeWritten(item)
                         *$
+						var tag = '#'
+						var value = item.value
+						if value.startsWith('/ ')
+							set tag = '###'
+							set value = value.substring(2)
 						set hb
 							{
-								@ tag '#'
-								@ name item.value
+								@ tag tag
+								@ name value
 								[ children
 						_ ittfNode.children.push
 							@ hb
@@ -118,53 +142,109 @@ $group
 						if options.commentManager.checkWritten(item) == true
 							_ options.commentManager.removeWritten(item)
                         *$
-						var ss = item.value.split(/\r\n|\r|\n/)
-						set hb
-							{
-								@ tag '#'
-								[ children
-						foreach s in ss
-							_ hb.children.push
+						# loog item.loc.start.line == item.loc.end.line, item.value.startsWith('* ')
+						if item.loc.start.line == item.loc.end.line && item.value.startsWith('* ')
+							_ ittfNode.children.push
+								{
+									@ tag '##'
+									@ name item.value.substring(2)
+									[ children
+						else
+							var ss = item.value.split(/\r\n|\r|\n/)
+							set hb
 								{
 									@ tag '#'
-									@ name s
 									[ children
-						_ ittfNode.children.push(hb)
+							if isJsDocCommentBlock(ss)
+								# loog 'isJsDocCommentBlock', item.value
+								set hb.tag = '#doc'
+								_ writeJsDocCommentBlock
+									@ hb
+									@ ss
+							else
+								foreach s in ss
+									# loog 'CommentBlock.s', s
+									set s = s.startsWith('* ') ? s.substring(2) : s
+									set s = s.startsWith(' *') ? s.substring(2) : s
+									set s = s.startsWith(' * ') ? s.substring(3) : s
+									_ hb.children.push
+										{
+											@ tag '#'
+											@ name s
+											[ children
+							_ ittfNode.children.push(hb)
 					_ options.commentManager.addWritten(item, ittfNode.children, hb)
 	
-    function processParams2
+    function isJsDocCommentBlock
+		param lines
+		if lines.length < 3
+			return false
+		for var i=1; i<lines.length; i++
+			if lines[i].startsWith(' *') == false
+				return false
+		return true
+
+    function writeJsDocCommentBlock
+		param ret
+		param lines
+		for var i=1; i<lines.length-1; i++
+			var cl
+				{
+					@ tag '#'
+					@ name lines[i].substring(3)
+					[ children
+			_ ret.children.push
+				@ cl
+
+	function processParams2
         param ret
         param p_params
 		if p_params != null
-			foreach item in p_params.children
-                # loog 'TSFunctionType', 'p_params.item', item
-                if item.tag == '@id'
-				    set item.tag = 'param'
-				    _ ret.children.push(item)
-                elif item.tag == '='
-                    if item.children.length == 2
-                        var assignItem = item.children[1]
-                        set item.tag = 'param'
-                        set item.name = item.children[0].name || item.children[0].textified
-                        set item.children = item.children[0].children
-                        if assignItem.children.length == 0
-                            set assignItem.tag = '='
-                            _ item.children.push
-                                @ assignItem
+			foreach p in p_params.children
+                # loog 'TSFunctionType', 'parent.tag', ret.tag, 'p.tag', p.tag
+                if p.tag == '@id'
+				    set p.tag = 'param'
+				    _ ret.children.push(p)
+                elif p.tag == '='
+                    if p.children.length == 2
+						# loog 13, p.children[0].tag, p.children[1].tag
+                        var assignValue = p.children[1]
+						# loog 'TSFunctionType', 'p_params.assignValue', assignValue.wzElement, assignValue.tag
+						if ['{','['].indexOf(assignValue.tag) < 0
+                        	set p.tag = 'param'
+						else
+							set p.tag = assignValue.tag
+                        set p.name = p.children[0].name || p.children[0].textified
+                        set p.children = p.children[0].children
+                        if assignValue.children.length == 0
+							if ['{','['].indexOf(assignValue.tag) < 0
+                            	set assignValue.tag = '='
+								_ p.children.push
+									@ assignValue
+							else
+								_ p.children.push
+									{
+										@ tag '='
+										@ children [assignValue]
                         else
-                            _ item.children.push
+                            _ p.children.push
                                 {
                                     @ tag '='
-                                    @ children [assignItem]
-                        _ ret.children.push(item)
-                    else
-                        throw new Error('processParams2 - state not managed')
-                elif item.tag == '...'
-				    set item.tag = 'param'
-                    set item.name = '...' + item.name
-				    _ ret.children.push(item)
-                elif item.tag == '{'
-                    _ ret.children.push(item)
+                                    @ children [assignValue]
+                        _ ret.children.push(p)
+                    elif p.children.length == 0
+						set p.tag = 'param'
+						_ ret.children.push(p)
+					else
+						error 'p', p
+                        throw new Error('processParams2 - state not managed: ' + p.tag + 
+							\b ' should have 2 children, has ' + p.children.length)
+                elif p.tag == '...'
+				    set p.tag = 'param'
+                    set p.name = '...' + p.name
+				    _ ret.children.push(p)
+                elif p.tag == '{'
+                    _ ret.children.push(p)
                 else
                     throw new Error('processParams2 - state not managed')
 

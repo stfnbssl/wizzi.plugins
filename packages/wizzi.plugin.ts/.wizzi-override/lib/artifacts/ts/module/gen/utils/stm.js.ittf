@@ -83,7 +83,7 @@
                         _ ctx.w
                     *$
                     $$ TODO implement ctx.lf_w(..) (line feed + w)
-                    _ ctx.w
+                    $$ 7/5/24 _ ctx.w
                     _ __writeComments
                         @ item
                         @ ctx
@@ -94,6 +94,10 @@
                         set ctx.__inlineNext = true
                     else
                         set ctx.__inlineNext = false
+                elif item.wzElement == 'commentForReference'
+                    _ ctx.w('/// ' + item.wzName)
+                elif item.wzElement == 'inlineMultilineComment'
+		            _ ctx.w('/** ' + item.wzName + ' */')
                 else
                     _ temp.push(item)
             set model.statements = temp
@@ -177,6 +181,20 @@
             if model.jsPropertyOrValues
                 foreach item in model.jsPropertyOrValues
                     if md.isComment(item) == false
+                        _ ret.push(item)
+            return ret
+
+	set md.commentStatements
+        function
+            param model
+            var ret = []
+            if model.statements
+                foreach item in model.statements
+                    if md.isComment(item) == true
+                        _ ret.push(item)
+            if model.jsPropertyOrValues
+                foreach item in model.jsPropertyOrValues
+                    if md.isComment(item) == true
                         _ ret.push(item)
             return ret
 
@@ -275,6 +293,14 @@
         function 
             param model
             var ss = md.nonCommentStatements(model)
+            if ss.length > 0
+                return true
+			return false
+
+    set md.hasCommentChildren
+        function 
+            param model
+            var ss = md.commentStatements(model)
             if ss.length > 0
                 return true
 			return false
@@ -649,6 +675,7 @@
 	set md.isTSSimpleType
         function 
             param model
+            # loog 'isTSSimpleType', model.wzElement
 			return
 				[
 					@ 'typeNumber'
@@ -670,6 +697,8 @@
 					@ 'typeUnion'
 					@ 'typeIntersect'
 					@ 'typeKeyOf'
+                    @ 'typeTypeAlias' $$ addded 10/5/24 (satisfies keyword) waiting for damage
+                    @ 'typeIndexedAccess' $$ addded 13/5/24 (satisfies keyword) waiting for damage
 					. indexOf(model.wzElement) > -1
 
 	set md.extractTSSimpleType
@@ -684,6 +713,25 @@
 					param index
                     # loog 'extractTSSimpleType', item.wzElement
 					if md.isTSSimpleType(item)
+						set ret = item
+						set retIndex = index
+						return true
+			if ret
+				_ model.statements.splice(retIndex, 1)
+			return ret
+
+	set md.extractInitValue
+        function 
+            param model
+			if !model.statements || model.statements.length == 0
+				return
+			var ret, retIndex
+			_ model.statements.some
+				=>
+					param item
+					param index
+                    # loog 'extractInitValue', item.wzElement
+					if item.wzElement == 'initValue'
 						set ret = item
 						set retIndex = index
 						return true
@@ -728,80 +776,7 @@
 				_ model.statements.splice(retIndex, 1)
 			return ret
 
-	set md.genParams
-        function 
-            param model
-			param ctx
-			param cnt
-			param callback
-			if !!(model.params && model.params.length > 0) == false
-				r_cb()
-			# loog 'genParams enter', model.wzElement
-			repeater(1, model.params)
-				var p = item_1
-				# loog 'genParams p', p
-				if index_1 > 0
-					_ ctx.write(', ')
-				# loog 'genParams', index_1, (p.statements && p.statements.length) || (p.jsPropertyOrValues && p.jsPropertyOrValues.length)
-				if (!p.statements || p.statements.length == 0) && (!p.jsPropertyOrValues || p.jsPropertyOrValues.length == 0)
-					_ ctx.write(p.wzName)
-					repeater_increment(1)
-				elif p.wzElement === 'objectParam' || p.wzElement === 'jsObject'
-					set p.wzElement = 'jsObject'
-					_ cnt.stm[p.wzElement]
-						@ p
-						@ ctx
-						a_cb()
-							set p.wzElement = 'objectParam'
-							repeater_increment(1)
-				elif p.statements.length > 0 && p.statements.length < 3
-					_ ctx.write(p.wzName)
-					var s0 = p.statements[0]
-					# loog 'genParams.s0.wzElement', s0.wzElement
-					# if s0.wzElement === 'typeInitValue' || s0.wzElement === 'typeCTor' || s0.wzElement === 'typeNever'
-					# loog 'genParams.s0.statements.length', s0.statements.length
-                    _ genParams_close
-                        @ s0
-                        @ ctx
-                        @ cnt
-                        a_cb()
-                            repeater_increment(1)
-				else
-					# loog 'jswizzifier.genParams.p', p, 'statements', p.statements
-					_ callback
-						_ ctx.error(myname + '.genParams.statements.length should be 0 or 1.found: ' + p.statements.length, model)
-				$append next
-					# loog 'genParams.exit'
-					r_cb()
-
-	function genParams_close
-		param s0
-		param ctx
-		param cnt
-		param callback
-		if s0.statements.length == 2
-			var item = s0.statements[0]
-			# loog 'genParams_close 1 item.wzElement', item.wzElement
-			_ cnt.stm[item.wzElement]
-				@ item
-				@ ctx
-				a_cb()
-					_ ctx.write(' = ')
-					var item = s0.statements[1]
-					# loog 'genParams_close 2 item.wzElement', item.wzElement
-					_ cnt.stm[item.wzElement]
-						@ item
-						@ ctx
-						@ callback
-		else
-			_ ctx.write(' = ')
-			# loog 'genParams_close 3 item.wzElement', s0.wzElement
-			_ cnt.stm[s0.wzElement]
-				@ s0
-				@ ctx
-				@ callback
-
-	set md.genTSParams
+    set md.genTSParams
         function 
             param model
 			param ctx
@@ -810,59 +785,117 @@
 			if !!(model.params && model.params.length > 0) == false
 				r_cb()
 			# loog 'genTSParams enter', model.wzElement
+            var paramHasComment = false
+            foreach p in model.params
+                if md.hasCommentChildren(p)
+                    set paramHasComment = true
+            if model.params.length > 3 || paramHasComment
+                _ ctx.indent
 			repeater(1, model.params)
 				var p = item_1
+                var p_isObjectOrArray = ['jsObject', 'objectParam', 'jsArray'].indexOf(p.wzElement) > -1
 				# loog 'genTSParams p', p
 				if index_1 > 0
-					_ ctx.write(', ')
-				var ptype 
+                    if model.params.length > 3 || paramHasComment
+                        _ ctx.w(', ')
+                    else
+					    _ ctx.write(', ')
+                else
+                    if model.params.length > 3 || paramHasComment
+                        _ ctx.w()
+                _ md.writeComments
+                    @ p
+                    @ ctx
+                # loog 'genTSParams.p', p.wzName, p.statements.length, p.statements[0] && p.statements[0].wzElement
+                if verify.isEmpty(p.wzName) && p.statements.length > 0 && (p.statements[0].wzElement == 'jsObject' || p.statements[0].wzElement == 'jsArray') 
+                    return
+                        _ genTSParam_object_or_array
+                            @ p
+                            @ ctx
+                            @ cnt
+                            a_cb()
+                                repeater_increment(1)
+                var pType 
 					_ md.extractTSSimpleType
+						@ p
+                var pInitValue
+					_ md.extractInitValue
 						@ p
 				_ md.genAccessorsAndExtra
 					@ p
 					@ ctx
-				# loog 'genTSParams', index_1, p.statements.length, ptype && ptype.wzElement
-				if p.statements.length == 0
+				var p_statements
+                    _ md.nonCommentStatements
+                        @ p
+                # loog 'genTSParams', p.wzElement, p_statements.length, pType && pType.wzElement
+				if p_statements.length == 0
 					_ ctx.write(p.wzName)
 					if p.typeOptional
 						_ ctx.write('?')
-					if ptype
+					if pType
 						_ ctx.write(': ')
-						_ cnt.stm[ptype.wzElement]
-							@ ptype
+						_ cnt.stm[pType.wzElement]
+							@ pType
 							@ ctx
 							a_cb()
-								repeater_increment(1)
+                                if pInitValue
+                                    _ ctx.write(' = ')
+                                    
+                                    _ cnt.stm[pInitValue.wzElement]
+                                        @ pType
+                                        @ ctx
+                                        a_cb()
+                                            repeater_increment(1)
+                                else
+								    repeater_increment(1)
 					else
 						repeater_increment(1)
 				elif p.wzElement === 'objectParam' || p.wzElement === 'jsObject'
 					set p.wzElement = 'jsObject'
+                    # loog 'genTSParams', p.wzElement
 					_ cnt.stm[p.wzElement]
 						@ p
 						@ ctx
 						a_cb()
 							set p.wzElement = 'objectParam'
-							if ptype
+							if pType
 								_ ctx.write(': ')
-								_ cnt.stm[ptype.wzElement]
-									@ ptype
+								_ cnt.stm[pType.wzElement]
+									@ pType
 									@ ctx
 									a_cb()
-										repeater_increment(1)
+                                        if pInitValue
+                                            _ ctx.write(' = ')
+                                            # loog 'pInitValue', pInitValue
+                                            _ cnt.stm[pInitValue.wzElement]
+                                                @ pInitValue
+                                                @ ctx
+                                                a_cb()
+                                                    repeater_increment(1)
+                                        else
+										    repeater_increment(1)
 							else
-								repeater_increment(1)
-				elif p.statements.length > 0 && p.statements.length < 3
+                                if pInitValue
+                                    _ ctx.write(' = ')
+                                    _ cnt.stm[pInitValue.wzElement]
+                                        @ pType
+                                        @ ctx
+                                        a_cb()
+                                            repeater_increment(1)
+                                else
+								    repeater_increment(1)
+				elif p_statements.length > 0 && p_statements.length < 3
 					_ ctx.write(p.wzName)
 					if p.typeOptional
 						_ ctx.write('?')
-					var s0 = p.statements[0]
+					var s0 = p_statements[0]
 					# loog 'genTSParams.s0.wzElement', s0.wzElement
 					# if s0.wzElement === 'typeInitValue' || s0.wzElement === 'typeCTor' || s0.wzElement === 'typeNever'
 					# loog 'genTSParams.s0.statements.length', s0.statements.length
-					if ptype
+					if pType
 						_ ctx.write(': ')
-						_ cnt.stm[ptype.wzElement]
-							@ ptype
+						_ cnt.stm[pType.wzElement]
+							@ pType
 							@ ctx
 							a_cb()
 								_ genTSParams_close
@@ -881,14 +914,54 @@
 					# else
 					#	throw new Error('jswizzifier.genTSParams.statements[0].wzElement should be "typeInitValue or typeCTor".found: ' + s0.wzElement)
 				else
-					# loog 'jswizzifier.genTSParams.p', p, 'statements', p.statements
+					# loog 'jswizzifier.genTSParams.p', p, 'statements', p_statements
 					_ callback
-						_ ctx.error(myname + '.genTSParams.statements.length should be 0 or 1.found: ' + p.statements.length, model)
+						_ ctx.error(myname + '.genTSParams.statements.length should be 0 or 1.found: ' + p_statements.length, model)
 				$append next
 					# loog 'genTSParams.exit'
+                    if model.params.length > 3 || paramHasComment
+                        _ ctx.deindent
 					r_cb()
 
-	function genTSParams_close
+	function genTSParam_object_or_array
+        param p
+        param ctx
+        param cnt
+        param callback
+        var initValue = p.statements[1]
+        var pType 
+            _ md.extractTSSimpleType
+                @ p.statements[0]
+        # loog 'genTSParam_object', pType && pType.wzElement
+        _ cnt.stm[p.statements[0].wzElement]
+            @ p.statements[0]
+            @ ctx
+            a_cb()
+                if pType
+                    _ ctx.write(': ')
+                    _ cnt.stm[pType.wzElement]
+                        @ pType
+                        @ ctx
+                        a_cb()
+                            if initValue
+                                _ ctx.write(' = ')
+                                _ cnt.stm[initValue.wzElement]
+                                    @ initValue
+                                    @ ctx
+                                    @ callback
+                            else
+                                r_cb()
+                else
+                    if initValue
+                        _ ctx.write(' = ')
+                        _ cnt.stm[initValue.wzElement]
+                            @ initValue
+                            @ ctx
+                            @ callback
+                    else
+                        r_cb()
+
+    function genTSParams_close
 		param s0
 		param ctx
 		param cnt
@@ -936,7 +1009,7 @@
 			param ctx
 			param cnt
 			param callback
-            # loog 'model.statements.length', model.statements.length, 'Object.keys(model)', Object.keys(model)
+            # loog 'genTSTypeParameters.model.statements.length', model.statements.length, 'Object.keys(model)', Object.keys(model)
 			_ genTSTypeParameters_partial
 				@ model
 				@ ctx
@@ -973,6 +1046,7 @@
         param ctx
         param cnt
         param callback
+        # loog 'genTSTypeParameters_partial.model', model
         if model.typeParameterDecls && model.typeParameterDecls.length > 0
             _ ctx.write('<')
             repeater( 1, model.typeParameterDecls
@@ -986,6 +1060,14 @@
                 $append next
                     _ ctx.write('>')
                     r_cb()
+        $* 15/5/24 NO NO NO we are inside parameters. Added when? Sleeping?
+        elif model.statements.length == 1
+            # loog 'genTSTypeParameters.model.statements[0].wzElement', model.statements[0].wzElement
+            _ cnt.stm[model.statements[0].wzElement]
+                @ model.statements[0]
+                @ ctx
+                @ callback
+        *$
         else
             r_cb()
 

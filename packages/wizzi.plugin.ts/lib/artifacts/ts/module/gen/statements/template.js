@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\artifacts\ts\module\gen\statements\template.js.ittf
-    utc time: Thu, 25 Apr 2024 11:41:26 GMT
+    utc time: Thu, 16 May 2024 04:18:27 GMT
 */
 'use strict';
 var util = require('util');
@@ -125,7 +125,9 @@ md.load = function(cnt) {
             throw new Error('The callback parameter must be a function. In ' + myname + '.template. Got: ' + callback);
         }
         var indented = u.writeComments_template(model, ctx, true, true);
+        // loog 'template.model.statements.length', model.statements.length
         ctx.write('`');
+        ctx.isInsideTemplate = true;
         cnt.genItems(model.statements, ctx, {
             indent: false
          }, (err, notUsed) => {
@@ -135,6 +137,7 @@ md.load = function(cnt) {
             }
             // w -> write 1/3/19
             ctx.write('`');
+            ctx.isInsideTemplate = false;
             if (indented) {
                 ctx.deindent();
             }

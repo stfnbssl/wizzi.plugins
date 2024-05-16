@@ -1,0 +1,1448 @@
+{
+  "name": "prisma",
+  "preserveTags": true,
+  "requires": [],
+  "exportTos": [
+    "json"
+  ],
+  "elements": [
+    {
+      "name": "comment",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "#"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        }
+      ],
+      "derived": [
+        {
+          "name": "docComment",
+          "tags": [
+            "###"
+          ]
+        }
+      ],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "docComment",
+      "super": "comment",
+      "isRoot": false,
+      "tags": [
+        "###"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "comment",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "commentable",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "commentable"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        }
+      ],
+      "derived": [
+        {
+          "name": "prisma",
+          "tags": [
+            "prisma"
+          ]
+        },
+        {
+          "name": "config",
+          "tags": [
+            "config"
+          ]
+        },
+        {
+          "name": "datasource",
+          "tags": [
+            "datasource"
+          ]
+        },
+        {
+          "name": "generator",
+          "tags": [
+            "generator"
+          ]
+        },
+        {
+          "name": "model",
+          "tags": [
+            "model"
+          ]
+        },
+        {
+          "name": "field",
+          "tags": [
+            "field"
+          ]
+        },
+        {
+          "name": "fieldAttribute",
+          "tags": [
+            "@"
+          ]
+        },
+        {
+          "name": "blockAttribute",
+          "tags": [
+            "@@"
+          ]
+        }
+      ],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "prisma",
+      "super": "commentable",
+      "isRoot": true,
+      "tags": [
+        "prisma"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "datasource",
+          "role": "datasources",
+          "tags": [
+            "datasource"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "generator",
+          "role": "generators",
+          "tags": [
+            "generator"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "model",
+          "role": "models",
+          "tags": [
+            "model"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "fieldType",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "fieldType"
+      ],
+      "flags": "is-abstract ",
+      "attributes": [],
+      "relations": [],
+      "derived": [
+        {
+          "name": "stringType",
+          "tags": [
+            ":string"
+          ]
+        },
+        {
+          "name": "booleanType",
+          "tags": [
+            ":boolean"
+          ]
+        },
+        {
+          "name": "intType",
+          "tags": [
+            ":int"
+          ]
+        },
+        {
+          "name": "bigIntType",
+          "tags": [
+            ":bigInt"
+          ]
+        },
+        {
+          "name": "floatType",
+          "tags": [
+            ":float"
+          ]
+        },
+        {
+          "name": "decimalType",
+          "tags": [
+            ":decimal"
+          ]
+        },
+        {
+          "name": "dateTimeType",
+          "tags": [
+            ":dateTime"
+          ]
+        },
+        {
+          "name": "jsonType",
+          "tags": [
+            ":json"
+          ]
+        },
+        {
+          "name": "bytesType",
+          "tags": [
+            ":bytes"
+          ]
+        },
+        {
+          "name": "unsupportedType",
+          "tags": [
+            ":unsupported"
+          ]
+        },
+        {
+          "name": "refType",
+          "tags": [
+            ":ref"
+          ]
+        },
+        {
+          "name": "listType",
+          "tags": [
+            ":["
+          ]
+        }
+      ],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "getTypeString",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": []
+    },
+    {
+      "name": "stringType",
+      "super": "fieldType",
+      "isRoot": false,
+      "tags": [
+        ":string"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "booleanType",
+      "super": "fieldType",
+      "isRoot": false,
+      "tags": [
+        ":boolean"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "intType",
+      "super": "fieldType",
+      "isRoot": false,
+      "tags": [
+        ":int"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "bigIntType",
+      "super": "fieldType",
+      "isRoot": false,
+      "tags": [
+        ":bigInt"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "floatType",
+      "super": "fieldType",
+      "isRoot": false,
+      "tags": [
+        ":float"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "decimalType",
+      "super": "fieldType",
+      "isRoot": false,
+      "tags": [
+        ":decimal"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "dateTimeType",
+      "super": "fieldType",
+      "isRoot": false,
+      "tags": [
+        ":dateTime"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "jsonType",
+      "super": "fieldType",
+      "isRoot": false,
+      "tags": [
+        ":json"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "bytesType",
+      "super": "fieldType",
+      "isRoot": false,
+      "tags": [
+        ":bytes"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "unsupportedType",
+      "super": "fieldType",
+      "isRoot": false,
+      "tags": [
+        ":unsupported"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "refType",
+      "super": "fieldType",
+      "isRoot": false,
+      "tags": [
+        ":ref"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "listType",
+      "super": "fieldType",
+      "isRoot": false,
+      "tags": [
+        ":["
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "fieldType",
+          "role": null,
+          "tags": [
+            "fieldType"
+          ],
+          "cardinality": "one-to-one",
+          "flags": "is-one-to-one ",
+          "inheritedFrom": null,
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "valueAssign",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "valueAssign"
+      ],
+      "flags": "is-abstract ",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "valueAssign",
+          "role": "valueAssigns",
+          "tags": [
+            "valueAssign"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        }
+      ],
+      "derived": [
+        {
+          "name": "scalarAssign",
+          "tags": [
+            "="
+          ]
+        },
+        {
+          "name": "pathAssign",
+          "tags": [
+            "=["
+          ]
+        },
+        {
+          "name": "scalarValue",
+          "tags": [
+            "@"
+          ]
+        },
+        {
+          "name": "functionCallAssign",
+          "tags": [
+            "_"
+          ]
+        },
+        {
+          "name": "array",
+          "tags": [
+            "["
+          ]
+        },
+        {
+          "name": "fields",
+          "tags": [
+            "fields"
+          ]
+        },
+        {
+          "name": "references",
+          "tags": [
+            "references"
+          ]
+        },
+        {
+          "name": "strategy",
+          "tags": [
+            "strategy"
+          ]
+        },
+        {
+          "name": "onDelete",
+          "tags": [
+            "onDelete"
+          ]
+        },
+        {
+          "name": "onUpdate",
+          "tags": [
+            "onUpdate"
+          ]
+        }
+      ],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "scalarAssign",
+      "super": "valueAssign",
+      "isRoot": false,
+      "tags": [
+        "="
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "valueAssign",
+          "role": "valueAssigns",
+          "tags": [
+            "valueAssign"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "valueAssign",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "getValueString",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": []
+    },
+    {
+      "name": "pathAssign",
+      "super": "valueAssign",
+      "isRoot": false,
+      "tags": [
+        "=["
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "valueAssign",
+          "role": "valueAssigns",
+          "tags": [
+            "valueAssign"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "valueAssign",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "getValueString",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": []
+    },
+    {
+      "name": "scalarValue",
+      "super": "valueAssign",
+      "isRoot": false,
+      "tags": [
+        "@"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "valueAssign",
+          "role": "valueAssigns",
+          "tags": [
+            "valueAssign"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "valueAssign",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "getValueString",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": []
+    },
+    {
+      "name": "param",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "param"
+      ],
+      "flags": "is-abstract ",
+      "attributes": [],
+      "relations": [],
+      "derived": [
+        {
+          "name": "scalaraParam",
+          "tags": [
+            "@"
+          ]
+        }
+      ],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "scalaraParam",
+      "super": "param",
+      "isRoot": false,
+      "tags": [
+        "@"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "getValueString",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": []
+    },
+    {
+      "name": "functionCallAssign",
+      "super": "valueAssign",
+      "isRoot": false,
+      "tags": [
+        "_"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "param",
+          "role": "params",
+          "tags": [
+            "param"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "valueAssign",
+          "role": "valueAssigns",
+          "tags": [
+            "valueAssign"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "valueAssign",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "getValueString",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": []
+    },
+    {
+      "name": "array",
+      "super": "valueAssign",
+      "isRoot": false,
+      "tags": [
+        "["
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "valueAssign",
+          "role": "valueAssigns",
+          "tags": [
+            "valueAssign"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "valueAssign",
+          "role": "valueAssigns",
+          "tags": [
+            "valueAssign"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "valueAssign",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "getValueString",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": []
+    },
+    {
+      "name": "config",
+      "super": "commentable",
+      "isRoot": false,
+      "tags": [
+        "config"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "valueAssign",
+          "role": null,
+          "tags": [
+            "valueAssign"
+          ],
+          "cardinality": "one-to-one",
+          "flags": "is-one-to-one ",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "datasource",
+      "super": "commentable",
+      "isRoot": false,
+      "tags": [
+        "datasource"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "config",
+          "role": "configs",
+          "tags": [
+            "config"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "generator",
+      "super": "commentable",
+      "isRoot": false,
+      "tags": [
+        "generator"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "config",
+          "role": "configs",
+          "tags": [
+            "config"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "model",
+      "super": "commentable",
+      "isRoot": false,
+      "tags": [
+        "model"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "field",
+          "role": "fields",
+          "tags": [
+            "field"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "blockAttribute",
+          "role": "blockAttributes",
+          "tags": [
+            "@@"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "field",
+      "super": "commentable",
+      "isRoot": false,
+      "tags": [
+        "field"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "optional",
+          "type": "boolean",
+          "tags": [
+            ":optional"
+          ],
+          "default": "false",
+          "defaultWhenDeclared": "true",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "fieldType",
+          "role": null,
+          "tags": [
+            "fieldType"
+          ],
+          "cardinality": "one-to-one",
+          "flags": "is-one-to-one ",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "fieldAttribute",
+          "role": "fieldAttributes",
+          "tags": [
+            "@"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "getTypeString",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": []
+    },
+    {
+      "name": "fieldAttribute",
+      "super": "commentable",
+      "isRoot": false,
+      "tags": [
+        "@"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "valueAssign",
+          "role": "valueAssigns",
+          "tags": [
+            "valueAssign"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "blockAttribute",
+      "super": "commentable",
+      "isRoot": false,
+      "tags": [
+        "@@"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "name",
+          "type": "string",
+          "tags": [
+            "name"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "valueAssign",
+          "role": "valueAssigns",
+          "tags": [
+            "valueAssign"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "fields",
+      "super": "valueAssign",
+      "isRoot": false,
+      "tags": [
+        "fields"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "array",
+          "role": null,
+          "tags": [
+            "["
+          ],
+          "cardinality": "one-to-one",
+          "flags": "is-one-to-one ",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "valueAssign",
+          "role": "valueAssigns",
+          "tags": [
+            "valueAssign"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "valueAssign",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "getValueString",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": []
+    },
+    {
+      "name": "references",
+      "super": "valueAssign",
+      "isRoot": false,
+      "tags": [
+        "references"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "array",
+          "role": null,
+          "tags": [
+            "["
+          ],
+          "cardinality": "one-to-one",
+          "flags": "is-one-to-one ",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "valueAssign",
+          "role": "valueAssigns",
+          "tags": [
+            "valueAssign"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "valueAssign",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "getValueString",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": []
+    },
+    {
+      "name": "strategy",
+      "super": "valueAssign",
+      "isRoot": false,
+      "tags": [
+        "strategy"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "valueAssign",
+          "role": "valueAssigns",
+          "tags": [
+            "valueAssign"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "valueAssign",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "getValueString",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": []
+    },
+    {
+      "name": "onDelete",
+      "super": "valueAssign",
+      "isRoot": false,
+      "tags": [
+        "onDelete"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "valueAssign",
+          "role": "valueAssigns",
+          "tags": [
+            "valueAssign"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "valueAssign",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "getValueString",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": []
+    },
+    {
+      "name": "onUpdate",
+      "super": "valueAssign",
+      "isRoot": false,
+      "tags": [
+        "onUpdate"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "valueAssign",
+          "role": "valueAssigns",
+          "tags": [
+            "valueAssign"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "valueAssign",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "getValueString",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": []
+    }
+  ]
+}

@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\artifacts\ts\module\gen\es6\class.js.ittf
-    utc time: Thu, 25 Apr 2024 11:41:26 GMT
+    utc time: Thu, 16 May 2024 04:18:27 GMT
 */
 'use strict';
 var u = require('../utils/stm');
@@ -99,16 +99,16 @@ function classDecorators(model, ctx, callback) {
                     return callback(err);
                 }
                 ctx.w();
-                process.nextTick(function() {
-                    repeater_1(index_1 + 1);
-                })
+                return process.nextTick(function() {
+                        repeater_1(index_1 + 1);
+                    });
             }
             )
         }
         else {
-            process.nextTick(function() {
-                repeater_1(index_1 + 1);
-            })
+            return process.nextTick(function() {
+                    repeater_1(index_1 + 1);
+                });
         }
     }
     repeater_1(0);
@@ -134,9 +134,9 @@ function classImplements(model, ctx, callback) {
             ctx.write(', ');
         }
         ctx.write( item_1.wzName );
-        process.nextTick(function() {
-            repeater_1(index_1 + 1);
-        })
+        return process.nextTick(function() {
+                repeater_1(index_1 + 1);
+            });
     }
     repeater_1(0);
     function next_1() {
@@ -164,9 +164,9 @@ function classSuper(model, ctx, callback) {
                 }
                 if (item_1.statements.length == 0) {
                     ctx.write(item_1.wzName);
-                    process.nextTick(function() {
-                        repeater_1(index_1 + 1);
-                    })
+                    return process.nextTick(function() {
+                            repeater_1(index_1 + 1);
+                        });
                 }
                 else if (item_1.statements.length == 1) {
                     statement.genItem(item_1.statements[0], ctx, (err, notUsed) => {
@@ -174,17 +174,17 @@ function classSuper(model, ctx, callback) {
                         if (err) {
                             return callback(err);
                         }
-                        process.nextTick(function() {
-                            repeater_1(index_1 + 1);
-                        })
+                        return process.nextTick(function() {
+                                repeater_1(index_1 + 1);
+                            });
                     }
                     )
                 }
                 else {
                     ctx.write('x');
-                    process.nextTick(function() {
-                        repeater_1(index_1 + 1);
-                    })
+                    return process.nextTick(function() {
+                            repeater_1(index_1 + 1);
+                        });
                 }
             }
             repeater_1(0);
@@ -315,9 +315,9 @@ function classMembers(model, ctx, callback) {
                 if (err) {
                     return callback(err);
                 }
-                process.nextTick(function() {
-                    repeater_1(index_1 + 1);
-                })
+                return process.nextTick(function() {
+                        repeater_1(index_1 + 1);
+                    });
             }
             )
         }
@@ -328,16 +328,16 @@ function classMembers(model, ctx, callback) {
                     if (err) {
                         return callback(err);
                     }
-                    process.nextTick(function() {
-                        repeater_1(index_1 + 1);
-                    })
+                    return process.nextTick(function() {
+                            repeater_1(index_1 + 1);
+                        });
                 }
                 )
             }
             else {
-                process.nextTick(function() {
-                    repeater_1(index_1 + 1);
-                })
+                return process.nextTick(function() {
+                        repeater_1(index_1 + 1);
+                    });
             }
         }
     }

@@ -1,0 +1,6243 @@
+{
+  "kind": "schema",
+  "declarations": [
+    {
+      "kind": "model",
+      "name": {
+        "kind": "name",
+        "value": "albums",
+        "location": {
+          "start": {
+            "offset": 6,
+            "line": 1,
+            "column": 7
+          },
+          "end": {
+            "offset": 12,
+            "line": 1,
+            "column": 13
+          }
+        }
+      },
+      "members": [
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "AlbumId",
+            "location": {
+              "start": {
+                "offset": 18,
+                "line": 2,
+                "column": 3
+              },
+              "end": {
+                "offset": 25,
+                "line": 2,
+                "column": 10
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "Int",
+              "location": {
+                "start": {
+                  "offset": 27,
+                  "line": 2,
+                  "column": 12
+                },
+                "end": {
+                  "offset": 30,
+                  "line": 2,
+                  "column": 15
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "id"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 37,
+                    "line": 2,
+                    "column": 22
+                  },
+                  "end": {
+                    "offset": 39,
+                    "line": 2,
+                    "column": 24
+                  }
+                }
+              },
+              "args": [],
+              "location": {
+                "start": {
+                  "offset": 36,
+                  "line": 2,
+                  "column": 21
+                },
+                "end": {
+                  "offset": 39,
+                  "line": 2,
+                  "column": 24
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 18,
+              "line": 2,
+              "column": 3
+            },
+            "end": {
+              "offset": 39,
+              "line": 2,
+              "column": 24
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "ArtistId",
+            "location": {
+              "start": {
+                "offset": 43,
+                "line": 3,
+                "column": 3
+              },
+              "end": {
+                "offset": 51,
+                "line": 3,
+                "column": 11
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "artists",
+              "location": {
+                "start": {
+                  "offset": 52,
+                  "line": 3,
+                  "column": 12
+                },
+                "end": {
+                  "offset": 59,
+                  "line": 3,
+                  "column": 19
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "relation"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 62,
+                    "line": 3,
+                    "column": 22
+                  },
+                  "end": {
+                    "offset": 70,
+                    "line": 3,
+                    "column": 30
+                  }
+                }
+              },
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "albums_ArtistId_artists"
+                }
+              ],
+              "location": {
+                "start": {
+                  "offset": 61,
+                  "line": 3,
+                  "column": 21
+                },
+                "end": {
+                  "offset": 97,
+                  "line": 3,
+                  "column": 57
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 43,
+              "line": 3,
+              "column": 3
+            },
+            "end": {
+              "offset": 97,
+              "line": 3,
+              "column": 57
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "Title",
+            "location": {
+              "start": {
+                "offset": 101,
+                "line": 4,
+                "column": 3
+              },
+              "end": {
+                "offset": 106,
+                "line": 4,
+                "column": 8
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "String",
+              "location": {
+                "start": {
+                  "offset": 110,
+                  "line": 4,
+                  "column": 12
+                },
+                "end": {
+                  "offset": 116,
+                  "line": 4,
+                  "column": 18
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 101,
+              "line": 4,
+              "column": 3
+            },
+            "end": {
+              "offset": 116,
+              "line": 4,
+              "column": 18
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "trackses",
+            "location": {
+              "start": {
+                "offset": 120,
+                "line": 5,
+                "column": 3
+              },
+              "end": {
+                "offset": 128,
+                "line": 5,
+                "column": 11
+              }
+            }
+          },
+          "type": {
+            "kind": "list",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "tracks",
+                "location": {
+                  "start": {
+                    "offset": 129,
+                    "line": 5,
+                    "column": 12
+                  },
+                  "end": {
+                    "offset": 135,
+                    "line": 5,
+                    "column": 18
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "relation"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 139,
+                    "line": 5,
+                    "column": 22
+                  },
+                  "end": {
+                    "offset": 147,
+                    "line": 5,
+                    "column": 30
+                  }
+                }
+              },
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "albums_tracks_AlbumId"
+                },
+                {
+                  "kind": "namedArgument",
+                  "name": {
+                    "kind": "name",
+                    "value": "references",
+                    "location": {
+                      "start": {
+                        "offset": 173,
+                        "line": 5,
+                        "column": 56
+                      },
+                      "end": {
+                        "offset": 183,
+                        "line": 5,
+                        "column": 66
+                      }
+                    }
+                  },
+                  "expression": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "path",
+                        "value": [
+                          "AlbumId"
+                        ],
+                        "location": {
+                          "start": {
+                            "offset": 186,
+                            "line": 5,
+                            "column": 69
+                          },
+                          "end": {
+                            "offset": 193,
+                            "line": 5,
+                            "column": 76
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              ],
+              "location": {
+                "start": {
+                  "offset": 138,
+                  "line": 5,
+                  "column": 21
+                },
+                "end": {
+                  "offset": 195,
+                  "line": 5,
+                  "column": 78
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 120,
+              "line": 5,
+              "column": 3
+            },
+            "end": {
+              "offset": 195,
+              "line": 5,
+              "column": 78
+            }
+          }
+        }
+      ],
+      "location": {
+        "start": {
+          "offset": 0,
+          "line": 1,
+          "column": 1
+        },
+        "end": {
+          "offset": 198,
+          "line": 6,
+          "column": 2
+        }
+      }
+    },
+    {
+      "kind": "model",
+      "name": {
+        "kind": "name",
+        "value": "artists",
+        "location": {
+          "start": {
+            "offset": 208,
+            "line": 8,
+            "column": 7
+          },
+          "end": {
+            "offset": 215,
+            "line": 8,
+            "column": 14
+          }
+        }
+      },
+      "members": [
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "ArtistId",
+            "location": {
+              "start": {
+                "offset": 221,
+                "line": 9,
+                "column": 3
+              },
+              "end": {
+                "offset": 229,
+                "line": 9,
+                "column": 11
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "Int",
+              "location": {
+                "start": {
+                  "offset": 230,
+                  "line": 9,
+                  "column": 12
+                },
+                "end": {
+                  "offset": 233,
+                  "line": 9,
+                  "column": 15
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "id"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 240,
+                    "line": 9,
+                    "column": 22
+                  },
+                  "end": {
+                    "offset": 242,
+                    "line": 9,
+                    "column": 24
+                  }
+                }
+              },
+              "args": [],
+              "location": {
+                "start": {
+                  "offset": 239,
+                  "line": 9,
+                  "column": 21
+                },
+                "end": {
+                  "offset": 242,
+                  "line": 9,
+                  "column": 24
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 221,
+              "line": 9,
+              "column": 3
+            },
+            "end": {
+              "offset": 242,
+              "line": 9,
+              "column": 24
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "Name",
+            "location": {
+              "start": {
+                "offset": 246,
+                "line": 10,
+                "column": 3
+              },
+              "end": {
+                "offset": 250,
+                "line": 10,
+                "column": 7
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "String",
+                "location": {
+                  "start": {
+                    "offset": 255,
+                    "line": 10,
+                    "column": 12
+                  },
+                  "end": {
+                    "offset": 261,
+                    "line": 10,
+                    "column": 18
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 246,
+              "line": 10,
+              "column": 3
+            },
+            "end": {
+              "offset": 262,
+              "line": 10,
+              "column": 19
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "albumses",
+            "location": {
+              "start": {
+                "offset": 266,
+                "line": 11,
+                "column": 3
+              },
+              "end": {
+                "offset": 274,
+                "line": 11,
+                "column": 11
+              }
+            }
+          },
+          "type": {
+            "kind": "list",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "albums",
+                "location": {
+                  "start": {
+                    "offset": 275,
+                    "line": 11,
+                    "column": 12
+                  },
+                  "end": {
+                    "offset": 281,
+                    "line": 11,
+                    "column": 18
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "relation"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 285,
+                    "line": 11,
+                    "column": 22
+                  },
+                  "end": {
+                    "offset": 293,
+                    "line": 11,
+                    "column": 30
+                  }
+                }
+              },
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "albums_ArtistId_artists"
+                }
+              ],
+              "location": {
+                "start": {
+                  "offset": 284,
+                  "line": 11,
+                  "column": 21
+                },
+                "end": {
+                  "offset": 320,
+                  "line": 11,
+                  "column": 57
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 266,
+              "line": 11,
+              "column": 3
+            },
+            "end": {
+              "offset": 320,
+              "line": 11,
+              "column": 57
+            }
+          }
+        }
+      ],
+      "location": {
+        "start": {
+          "offset": 202,
+          "line": 8,
+          "column": 1
+        },
+        "end": {
+          "offset": 323,
+          "line": 12,
+          "column": 2
+        }
+      }
+    },
+    {
+      "kind": "model",
+      "name": {
+        "kind": "name",
+        "value": "customers",
+        "location": {
+          "start": {
+            "offset": 333,
+            "line": 14,
+            "column": 7
+          },
+          "end": {
+            "offset": 342,
+            "line": 14,
+            "column": 16
+          }
+        }
+      },
+      "members": [
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "Address",
+            "location": {
+              "start": {
+                "offset": 348,
+                "line": 15,
+                "column": 3
+              },
+              "end": {
+                "offset": 355,
+                "line": 15,
+                "column": 10
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "String",
+                "location": {
+                  "start": {
+                    "offset": 361,
+                    "line": 15,
+                    "column": 16
+                  },
+                  "end": {
+                    "offset": 367,
+                    "line": 15,
+                    "column": 22
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 348,
+              "line": 15,
+              "column": 3
+            },
+            "end": {
+              "offset": 368,
+              "line": 15,
+              "column": 23
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "City",
+            "location": {
+              "start": {
+                "offset": 372,
+                "line": 16,
+                "column": 3
+              },
+              "end": {
+                "offset": 376,
+                "line": 16,
+                "column": 7
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "String",
+                "location": {
+                  "start": {
+                    "offset": 385,
+                    "line": 16,
+                    "column": 16
+                  },
+                  "end": {
+                    "offset": 391,
+                    "line": 16,
+                    "column": 22
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 372,
+              "line": 16,
+              "column": 3
+            },
+            "end": {
+              "offset": 392,
+              "line": 16,
+              "column": 23
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "Company",
+            "location": {
+              "start": {
+                "offset": 396,
+                "line": 17,
+                "column": 3
+              },
+              "end": {
+                "offset": 403,
+                "line": 17,
+                "column": 10
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "String",
+                "location": {
+                  "start": {
+                    "offset": 409,
+                    "line": 17,
+                    "column": 16
+                  },
+                  "end": {
+                    "offset": 415,
+                    "line": 17,
+                    "column": 22
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 396,
+              "line": 17,
+              "column": 3
+            },
+            "end": {
+              "offset": 416,
+              "line": 17,
+              "column": 23
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "Country",
+            "location": {
+              "start": {
+                "offset": 420,
+                "line": 18,
+                "column": 3
+              },
+              "end": {
+                "offset": 427,
+                "line": 18,
+                "column": 10
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "String",
+                "location": {
+                  "start": {
+                    "offset": 433,
+                    "line": 18,
+                    "column": 16
+                  },
+                  "end": {
+                    "offset": 439,
+                    "line": 18,
+                    "column": 22
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 420,
+              "line": 18,
+              "column": 3
+            },
+            "end": {
+              "offset": 440,
+              "line": 18,
+              "column": 23
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "CustomerId",
+            "location": {
+              "start": {
+                "offset": 444,
+                "line": 19,
+                "column": 3
+              },
+              "end": {
+                "offset": 454,
+                "line": 19,
+                "column": 13
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "Int",
+              "location": {
+                "start": {
+                  "offset": 457,
+                  "line": 19,
+                  "column": 16
+                },
+                "end": {
+                  "offset": 460,
+                  "line": 19,
+                  "column": 19
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "id"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 469,
+                    "line": 19,
+                    "column": 28
+                  },
+                  "end": {
+                    "offset": 471,
+                    "line": 19,
+                    "column": 30
+                  }
+                }
+              },
+              "args": [],
+              "location": {
+                "start": {
+                  "offset": 468,
+                  "line": 19,
+                  "column": 27
+                },
+                "end": {
+                  "offset": 471,
+                  "line": 19,
+                  "column": 30
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 444,
+              "line": 19,
+              "column": 3
+            },
+            "end": {
+              "offset": 471,
+              "line": 19,
+              "column": 30
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "Email",
+            "location": {
+              "start": {
+                "offset": 475,
+                "line": 20,
+                "column": 3
+              },
+              "end": {
+                "offset": 480,
+                "line": 20,
+                "column": 8
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "String",
+              "location": {
+                "start": {
+                  "offset": 488,
+                  "line": 20,
+                  "column": 16
+                },
+                "end": {
+                  "offset": 494,
+                  "line": 20,
+                  "column": 22
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 475,
+              "line": 20,
+              "column": 3
+            },
+            "end": {
+              "offset": 494,
+              "line": 20,
+              "column": 22
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "Fax",
+            "location": {
+              "start": {
+                "offset": 498,
+                "line": 21,
+                "column": 3
+              },
+              "end": {
+                "offset": 501,
+                "line": 21,
+                "column": 6
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "String",
+                "location": {
+                  "start": {
+                    "offset": 511,
+                    "line": 21,
+                    "column": 16
+                  },
+                  "end": {
+                    "offset": 517,
+                    "line": 21,
+                    "column": 22
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 498,
+              "line": 21,
+              "column": 3
+            },
+            "end": {
+              "offset": 518,
+              "line": 21,
+              "column": 23
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "FirstName",
+            "location": {
+              "start": {
+                "offset": 522,
+                "line": 22,
+                "column": 3
+              },
+              "end": {
+                "offset": 531,
+                "line": 22,
+                "column": 12
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "String",
+              "location": {
+                "start": {
+                  "offset": 535,
+                  "line": 22,
+                  "column": 16
+                },
+                "end": {
+                  "offset": 541,
+                  "line": 22,
+                  "column": 22
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 522,
+              "line": 22,
+              "column": 3
+            },
+            "end": {
+              "offset": 541,
+              "line": 22,
+              "column": 22
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "LastName",
+            "location": {
+              "start": {
+                "offset": 545,
+                "line": 23,
+                "column": 3
+              },
+              "end": {
+                "offset": 553,
+                "line": 23,
+                "column": 11
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "String",
+              "location": {
+                "start": {
+                  "offset": 558,
+                  "line": 23,
+                  "column": 16
+                },
+                "end": {
+                  "offset": 564,
+                  "line": 23,
+                  "column": 22
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 545,
+              "line": 23,
+              "column": 3
+            },
+            "end": {
+              "offset": 564,
+              "line": 23,
+              "column": 22
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "Phone",
+            "location": {
+              "start": {
+                "offset": 568,
+                "line": 24,
+                "column": 3
+              },
+              "end": {
+                "offset": 573,
+                "line": 24,
+                "column": 8
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "String",
+                "location": {
+                  "start": {
+                    "offset": 581,
+                    "line": 24,
+                    "column": 16
+                  },
+                  "end": {
+                    "offset": 587,
+                    "line": 24,
+                    "column": 22
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 568,
+              "line": 24,
+              "column": 3
+            },
+            "end": {
+              "offset": 588,
+              "line": 24,
+              "column": 23
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "PostalCode",
+            "location": {
+              "start": {
+                "offset": 592,
+                "line": 25,
+                "column": 3
+              },
+              "end": {
+                "offset": 602,
+                "line": 25,
+                "column": 13
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "String",
+                "location": {
+                  "start": {
+                    "offset": 605,
+                    "line": 25,
+                    "column": 16
+                  },
+                  "end": {
+                    "offset": 611,
+                    "line": 25,
+                    "column": 22
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 592,
+              "line": 25,
+              "column": 3
+            },
+            "end": {
+              "offset": 612,
+              "line": 25,
+              "column": 23
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "State",
+            "location": {
+              "start": {
+                "offset": 616,
+                "line": 26,
+                "column": 3
+              },
+              "end": {
+                "offset": 621,
+                "line": 26,
+                "column": 8
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "String",
+                "location": {
+                  "start": {
+                    "offset": 629,
+                    "line": 26,
+                    "column": 16
+                  },
+                  "end": {
+                    "offset": 635,
+                    "line": 26,
+                    "column": 22
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 616,
+              "line": 26,
+              "column": 3
+            },
+            "end": {
+              "offset": 636,
+              "line": 26,
+              "column": 23
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "SupportRepId",
+            "location": {
+              "start": {
+                "offset": 640,
+                "line": 27,
+                "column": 3
+              },
+              "end": {
+                "offset": 652,
+                "line": 27,
+                "column": 15
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "employees",
+                "location": {
+                  "start": {
+                    "offset": 653,
+                    "line": 27,
+                    "column": 16
+                  },
+                  "end": {
+                    "offset": 662,
+                    "line": 27,
+                    "column": 25
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "relation"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 665,
+                    "line": 27,
+                    "column": 28
+                  },
+                  "end": {
+                    "offset": 673,
+                    "line": 27,
+                    "column": 36
+                  }
+                }
+              },
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "customers_SupportRepId_employees"
+                }
+              ],
+              "location": {
+                "start": {
+                  "offset": 664,
+                  "line": 27,
+                  "column": 27
+                },
+                "end": {
+                  "offset": 709,
+                  "line": 27,
+                  "column": 72
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 640,
+              "line": 27,
+              "column": 3
+            },
+            "end": {
+              "offset": 709,
+              "line": 27,
+              "column": 72
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "invoiceses",
+            "location": {
+              "start": {
+                "offset": 713,
+                "line": 28,
+                "column": 3
+              },
+              "end": {
+                "offset": 723,
+                "line": 28,
+                "column": 13
+              }
+            }
+          },
+          "type": {
+            "kind": "list",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "invoices",
+                "location": {
+                  "start": {
+                    "offset": 726,
+                    "line": 28,
+                    "column": 16
+                  },
+                  "end": {
+                    "offset": 734,
+                    "line": 28,
+                    "column": 24
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "relation"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 738,
+                    "line": 28,
+                    "column": 28
+                  },
+                  "end": {
+                    "offset": 746,
+                    "line": 28,
+                    "column": 36
+                  }
+                }
+              },
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "customers_invoices_CustomerId"
+                },
+                {
+                  "kind": "namedArgument",
+                  "name": {
+                    "kind": "name",
+                    "value": "references",
+                    "location": {
+                      "start": {
+                        "offset": 780,
+                        "line": 28,
+                        "column": 70
+                      },
+                      "end": {
+                        "offset": 790,
+                        "line": 28,
+                        "column": 80
+                      }
+                    }
+                  },
+                  "expression": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "path",
+                        "value": [
+                          "CustomerId"
+                        ],
+                        "location": {
+                          "start": {
+                            "offset": 793,
+                            "line": 28,
+                            "column": 83
+                          },
+                          "end": {
+                            "offset": 803,
+                            "line": 28,
+                            "column": 93
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              ],
+              "location": {
+                "start": {
+                  "offset": 737,
+                  "line": 28,
+                  "column": 27
+                },
+                "end": {
+                  "offset": 805,
+                  "line": 28,
+                  "column": 95
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 713,
+              "line": 28,
+              "column": 3
+            },
+            "end": {
+              "offset": 805,
+              "line": 28,
+              "column": 95
+            }
+          }
+        }
+      ],
+      "location": {
+        "start": {
+          "offset": 327,
+          "line": 14,
+          "column": 1
+        },
+        "end": {
+          "offset": 808,
+          "line": 29,
+          "column": 2
+        }
+      }
+    },
+    {
+      "kind": "model",
+      "name": {
+        "kind": "name",
+        "value": "employees",
+        "location": {
+          "start": {
+            "offset": 818,
+            "line": 31,
+            "column": 7
+          },
+          "end": {
+            "offset": 827,
+            "line": 31,
+            "column": 16
+          }
+        }
+      },
+      "members": [
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "Address",
+            "location": {
+              "start": {
+                "offset": 833,
+                "line": 32,
+                "column": 3
+              },
+              "end": {
+                "offset": 840,
+                "line": 32,
+                "column": 10
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "String",
+                "location": {
+                  "start": {
+                    "offset": 845,
+                    "line": 32,
+                    "column": 15
+                  },
+                  "end": {
+                    "offset": 851,
+                    "line": 32,
+                    "column": 21
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 833,
+              "line": 32,
+              "column": 3
+            },
+            "end": {
+              "offset": 852,
+              "line": 32,
+              "column": 22
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "BirthDate",
+            "location": {
+              "start": {
+                "offset": 856,
+                "line": 33,
+                "column": 3
+              },
+              "end": {
+                "offset": 865,
+                "line": 33,
+                "column": 12
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "DateTime",
+                "location": {
+                  "start": {
+                    "offset": 868,
+                    "line": 33,
+                    "column": 15
+                  },
+                  "end": {
+                    "offset": 876,
+                    "line": 33,
+                    "column": 23
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 856,
+              "line": 33,
+              "column": 3
+            },
+            "end": {
+              "offset": 877,
+              "line": 33,
+              "column": 24
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "City",
+            "location": {
+              "start": {
+                "offset": 881,
+                "line": 34,
+                "column": 3
+              },
+              "end": {
+                "offset": 885,
+                "line": 34,
+                "column": 7
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "String",
+                "location": {
+                  "start": {
+                    "offset": 893,
+                    "line": 34,
+                    "column": 15
+                  },
+                  "end": {
+                    "offset": 899,
+                    "line": 34,
+                    "column": 21
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 881,
+              "line": 34,
+              "column": 3
+            },
+            "end": {
+              "offset": 900,
+              "line": 34,
+              "column": 22
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "Country",
+            "location": {
+              "start": {
+                "offset": 904,
+                "line": 35,
+                "column": 3
+              },
+              "end": {
+                "offset": 911,
+                "line": 35,
+                "column": 10
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "String",
+                "location": {
+                  "start": {
+                    "offset": 916,
+                    "line": 35,
+                    "column": 15
+                  },
+                  "end": {
+                    "offset": 922,
+                    "line": 35,
+                    "column": 21
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 904,
+              "line": 35,
+              "column": 3
+            },
+            "end": {
+              "offset": 923,
+              "line": 35,
+              "column": 22
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "Email",
+            "location": {
+              "start": {
+                "offset": 927,
+                "line": 36,
+                "column": 3
+              },
+              "end": {
+                "offset": 932,
+                "line": 36,
+                "column": 8
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "String",
+                "location": {
+                  "start": {
+                    "offset": 939,
+                    "line": 36,
+                    "column": 15
+                  },
+                  "end": {
+                    "offset": 945,
+                    "line": 36,
+                    "column": 21
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 927,
+              "line": 36,
+              "column": 3
+            },
+            "end": {
+              "offset": 946,
+              "line": 36,
+              "column": 22
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "EmployeeId",
+            "location": {
+              "start": {
+                "offset": 950,
+                "line": 37,
+                "column": 3
+              },
+              "end": {
+                "offset": 960,
+                "line": 37,
+                "column": 13
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "Int",
+              "location": {
+                "start": {
+                  "offset": 962,
+                  "line": 37,
+                  "column": 15
+                },
+                "end": {
+                  "offset": 965,
+                  "line": 37,
+                  "column": 18
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "id"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 975,
+                    "line": 37,
+                    "column": 28
+                  },
+                  "end": {
+                    "offset": 977,
+                    "line": 37,
+                    "column": 30
+                  }
+                }
+              },
+              "args": [],
+              "location": {
+                "start": {
+                  "offset": 974,
+                  "line": 37,
+                  "column": 27
+                },
+                "end": {
+                  "offset": 977,
+                  "line": 37,
+                  "column": 30
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 950,
+              "line": 37,
+              "column": 3
+            },
+            "end": {
+              "offset": 977,
+              "line": 37,
+              "column": 30
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "Fax",
+            "location": {
+              "start": {
+                "offset": 981,
+                "line": 38,
+                "column": 3
+              },
+              "end": {
+                "offset": 984,
+                "line": 38,
+                "column": 6
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "String",
+                "location": {
+                  "start": {
+                    "offset": 993,
+                    "line": 38,
+                    "column": 15
+                  },
+                  "end": {
+                    "offset": 999,
+                    "line": 38,
+                    "column": 21
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 981,
+              "line": 38,
+              "column": 3
+            },
+            "end": {
+              "offset": 1000,
+              "line": 38,
+              "column": 22
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "FirstName",
+            "location": {
+              "start": {
+                "offset": 1004,
+                "line": 39,
+                "column": 3
+              },
+              "end": {
+                "offset": 1013,
+                "line": 39,
+                "column": 12
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "String",
+              "location": {
+                "start": {
+                  "offset": 1016,
+                  "line": 39,
+                  "column": 15
+                },
+                "end": {
+                  "offset": 1022,
+                  "line": 39,
+                  "column": 21
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 1004,
+              "line": 39,
+              "column": 3
+            },
+            "end": {
+              "offset": 1022,
+              "line": 39,
+              "column": 21
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "HireDate",
+            "location": {
+              "start": {
+                "offset": 1026,
+                "line": 40,
+                "column": 3
+              },
+              "end": {
+                "offset": 1034,
+                "line": 40,
+                "column": 11
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "DateTime",
+                "location": {
+                  "start": {
+                    "offset": 1038,
+                    "line": 40,
+                    "column": 15
+                  },
+                  "end": {
+                    "offset": 1046,
+                    "line": 40,
+                    "column": 23
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 1026,
+              "line": 40,
+              "column": 3
+            },
+            "end": {
+              "offset": 1047,
+              "line": 40,
+              "column": 24
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "LastName",
+            "location": {
+              "start": {
+                "offset": 1051,
+                "line": 41,
+                "column": 3
+              },
+              "end": {
+                "offset": 1059,
+                "line": 41,
+                "column": 11
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "String",
+              "location": {
+                "start": {
+                  "offset": 1063,
+                  "line": 41,
+                  "column": 15
+                },
+                "end": {
+                  "offset": 1069,
+                  "line": 41,
+                  "column": 21
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 1051,
+              "line": 41,
+              "column": 3
+            },
+            "end": {
+              "offset": 1069,
+              "line": 41,
+              "column": 21
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "Phone",
+            "location": {
+              "start": {
+                "offset": 1073,
+                "line": 42,
+                "column": 3
+              },
+              "end": {
+                "offset": 1078,
+                "line": 42,
+                "column": 8
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "String",
+                "location": {
+                  "start": {
+                    "offset": 1085,
+                    "line": 42,
+                    "column": 15
+                  },
+                  "end": {
+                    "offset": 1091,
+                    "line": 42,
+                    "column": 21
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 1073,
+              "line": 42,
+              "column": 3
+            },
+            "end": {
+              "offset": 1092,
+              "line": 42,
+              "column": 22
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "PostalCode",
+            "location": {
+              "start": {
+                "offset": 1096,
+                "line": 43,
+                "column": 3
+              },
+              "end": {
+                "offset": 1106,
+                "line": 43,
+                "column": 13
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "String",
+                "location": {
+                  "start": {
+                    "offset": 1108,
+                    "line": 43,
+                    "column": 15
+                  },
+                  "end": {
+                    "offset": 1114,
+                    "line": 43,
+                    "column": 21
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 1096,
+              "line": 43,
+              "column": 3
+            },
+            "end": {
+              "offset": 1115,
+              "line": 43,
+              "column": 22
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "ReportsTo",
+            "location": {
+              "start": {
+                "offset": 1119,
+                "line": 44,
+                "column": 3
+              },
+              "end": {
+                "offset": 1128,
+                "line": 44,
+                "column": 12
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "employees",
+                "location": {
+                  "start": {
+                    "offset": 1131,
+                    "line": 44,
+                    "column": 15
+                  },
+                  "end": {
+                    "offset": 1140,
+                    "line": 44,
+                    "column": 24
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "relation"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 1144,
+                    "line": 44,
+                    "column": 28
+                  },
+                  "end": {
+                    "offset": 1152,
+                    "line": 44,
+                    "column": 36
+                  }
+                }
+              },
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "employees_employees_ReportsTo"
+                }
+              ],
+              "location": {
+                "start": {
+                  "offset": 1143,
+                  "line": 44,
+                  "column": 27
+                },
+                "end": {
+                  "offset": 1185,
+                  "line": 44,
+                  "column": 69
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 1119,
+              "line": 44,
+              "column": 3
+            },
+            "end": {
+              "offset": 1185,
+              "line": 44,
+              "column": 69
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "State",
+            "location": {
+              "start": {
+                "offset": 1189,
+                "line": 45,
+                "column": 3
+              },
+              "end": {
+                "offset": 1194,
+                "line": 45,
+                "column": 8
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "String",
+                "location": {
+                  "start": {
+                    "offset": 1201,
+                    "line": 45,
+                    "column": 15
+                  },
+                  "end": {
+                    "offset": 1207,
+                    "line": 45,
+                    "column": 21
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 1189,
+              "line": 45,
+              "column": 3
+            },
+            "end": {
+              "offset": 1208,
+              "line": 45,
+              "column": 22
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "Title",
+            "location": {
+              "start": {
+                "offset": 1212,
+                "line": 46,
+                "column": 3
+              },
+              "end": {
+                "offset": 1217,
+                "line": 46,
+                "column": 8
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "String",
+                "location": {
+                  "start": {
+                    "offset": 1224,
+                    "line": 46,
+                    "column": 15
+                  },
+                  "end": {
+                    "offset": 1230,
+                    "line": 46,
+                    "column": 21
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 1212,
+              "line": 46,
+              "column": 3
+            },
+            "end": {
+              "offset": 1231,
+              "line": 46,
+              "column": 22
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "customerses",
+            "location": {
+              "start": {
+                "offset": 1235,
+                "line": 47,
+                "column": 3
+              },
+              "end": {
+                "offset": 1246,
+                "line": 47,
+                "column": 14
+              }
+            }
+          },
+          "type": {
+            "kind": "list",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "customers",
+                "location": {
+                  "start": {
+                    "offset": 1247,
+                    "line": 47,
+                    "column": 15
+                  },
+                  "end": {
+                    "offset": 1256,
+                    "line": 47,
+                    "column": 24
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "relation"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 1260,
+                    "line": 47,
+                    "column": 28
+                  },
+                  "end": {
+                    "offset": 1268,
+                    "line": 47,
+                    "column": 36
+                  }
+                }
+              },
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "customers_SupportRepId_employees"
+                }
+              ],
+              "location": {
+                "start": {
+                  "offset": 1259,
+                  "line": 47,
+                  "column": 27
+                },
+                "end": {
+                  "offset": 1304,
+                  "line": 47,
+                  "column": 72
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 1235,
+              "line": 47,
+              "column": 3
+            },
+            "end": {
+              "offset": 1304,
+              "line": 47,
+              "column": 72
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "employeeses",
+            "location": {
+              "start": {
+                "offset": 1308,
+                "line": 48,
+                "column": 3
+              },
+              "end": {
+                "offset": 1319,
+                "line": 48,
+                "column": 14
+              }
+            }
+          },
+          "type": {
+            "kind": "list",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "employees",
+                "location": {
+                  "start": {
+                    "offset": 1320,
+                    "line": 48,
+                    "column": 15
+                  },
+                  "end": {
+                    "offset": 1329,
+                    "line": 48,
+                    "column": 24
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "relation"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 1333,
+                    "line": 48,
+                    "column": 28
+                  },
+                  "end": {
+                    "offset": 1341,
+                    "line": 48,
+                    "column": 36
+                  }
+                }
+              },
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "employees_employees_ReportsTo"
+                }
+              ],
+              "location": {
+                "start": {
+                  "offset": 1332,
+                  "line": 48,
+                  "column": 27
+                },
+                "end": {
+                  "offset": 1374,
+                  "line": 48,
+                  "column": 69
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 1308,
+              "line": 48,
+              "column": 3
+            },
+            "end": {
+              "offset": 1374,
+              "line": 48,
+              "column": 69
+            }
+          }
+        }
+      ],
+      "location": {
+        "start": {
+          "offset": 812,
+          "line": 31,
+          "column": 1
+        },
+        "end": {
+          "offset": 1377,
+          "line": 49,
+          "column": 2
+        }
+      }
+    },
+    {
+      "kind": "model",
+      "name": {
+        "kind": "name",
+        "value": "genres",
+        "location": {
+          "start": {
+            "offset": 1387,
+            "line": 51,
+            "column": 7
+          },
+          "end": {
+            "offset": 1393,
+            "line": 51,
+            "column": 13
+          }
+        }
+      },
+      "members": [
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "GenreId",
+            "location": {
+              "start": {
+                "offset": 1399,
+                "line": 52,
+                "column": 3
+              },
+              "end": {
+                "offset": 1406,
+                "line": 52,
+                "column": 10
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "Int",
+              "location": {
+                "start": {
+                  "offset": 1408,
+                  "line": 52,
+                  "column": 12
+                },
+                "end": {
+                  "offset": 1411,
+                  "line": 52,
+                  "column": 15
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "id"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 1418,
+                    "line": 52,
+                    "column": 22
+                  },
+                  "end": {
+                    "offset": 1420,
+                    "line": 52,
+                    "column": 24
+                  }
+                }
+              },
+              "args": [],
+              "location": {
+                "start": {
+                  "offset": 1417,
+                  "line": 52,
+                  "column": 21
+                },
+                "end": {
+                  "offset": 1420,
+                  "line": 52,
+                  "column": 24
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 1399,
+              "line": 52,
+              "column": 3
+            },
+            "end": {
+              "offset": 1420,
+              "line": 52,
+              "column": 24
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "Name",
+            "location": {
+              "start": {
+                "offset": 1424,
+                "line": 53,
+                "column": 3
+              },
+              "end": {
+                "offset": 1428,
+                "line": 53,
+                "column": 7
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "String",
+                "location": {
+                  "start": {
+                    "offset": 1433,
+                    "line": 53,
+                    "column": 12
+                  },
+                  "end": {
+                    "offset": 1439,
+                    "line": 53,
+                    "column": 18
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 1424,
+              "line": 53,
+              "column": 3
+            },
+            "end": {
+              "offset": 1440,
+              "line": 53,
+              "column": 19
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "trackses",
+            "location": {
+              "start": {
+                "offset": 1444,
+                "line": 54,
+                "column": 3
+              },
+              "end": {
+                "offset": 1452,
+                "line": 54,
+                "column": 11
+              }
+            }
+          },
+          "type": {
+            "kind": "list",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "tracks",
+                "location": {
+                  "start": {
+                    "offset": 1453,
+                    "line": 54,
+                    "column": 12
+                  },
+                  "end": {
+                    "offset": 1459,
+                    "line": 54,
+                    "column": 18
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "relation"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 1463,
+                    "line": 54,
+                    "column": 22
+                  },
+                  "end": {
+                    "offset": 1471,
+                    "line": 54,
+                    "column": 30
+                  }
+                }
+              },
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "genres_tracks_GenreId"
+                },
+                {
+                  "kind": "namedArgument",
+                  "name": {
+                    "kind": "name",
+                    "value": "references",
+                    "location": {
+                      "start": {
+                        "offset": 1497,
+                        "line": 54,
+                        "column": 56
+                      },
+                      "end": {
+                        "offset": 1507,
+                        "line": 54,
+                        "column": 66
+                      }
+                    }
+                  },
+                  "expression": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "path",
+                        "value": [
+                          "GenreId"
+                        ],
+                        "location": {
+                          "start": {
+                            "offset": 1510,
+                            "line": 54,
+                            "column": 69
+                          },
+                          "end": {
+                            "offset": 1517,
+                            "line": 54,
+                            "column": 76
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              ],
+              "location": {
+                "start": {
+                  "offset": 1462,
+                  "line": 54,
+                  "column": 21
+                },
+                "end": {
+                  "offset": 1519,
+                  "line": 54,
+                  "column": 78
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 1444,
+              "line": 54,
+              "column": 3
+            },
+            "end": {
+              "offset": 1519,
+              "line": 54,
+              "column": 78
+            }
+          }
+        }
+      ],
+      "location": {
+        "start": {
+          "offset": 1381,
+          "line": 51,
+          "column": 1
+        },
+        "end": {
+          "offset": 1522,
+          "line": 55,
+          "column": 2
+        }
+      }
+    },
+    {
+      "kind": "model",
+      "name": {
+        "kind": "name",
+        "value": "invoices",
+        "location": {
+          "start": {
+            "offset": 1532,
+            "line": 57,
+            "column": 7
+          },
+          "end": {
+            "offset": 1540,
+            "line": 57,
+            "column": 15
+          }
+        }
+      },
+      "members": [
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "BillingAddress",
+            "location": {
+              "start": {
+                "offset": 1546,
+                "line": 58,
+                "column": 3
+              },
+              "end": {
+                "offset": 1560,
+                "line": 58,
+                "column": 17
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "String",
+                "location": {
+                  "start": {
+                    "offset": 1564,
+                    "line": 58,
+                    "column": 21
+                  },
+                  "end": {
+                    "offset": 1570,
+                    "line": 58,
+                    "column": 27
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 1546,
+              "line": 58,
+              "column": 3
+            },
+            "end": {
+              "offset": 1571,
+              "line": 58,
+              "column": 28
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "BillingCity",
+            "location": {
+              "start": {
+                "offset": 1575,
+                "line": 59,
+                "column": 3
+              },
+              "end": {
+                "offset": 1586,
+                "line": 59,
+                "column": 14
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "String",
+                "location": {
+                  "start": {
+                    "offset": 1593,
+                    "line": 59,
+                    "column": 21
+                  },
+                  "end": {
+                    "offset": 1599,
+                    "line": 59,
+                    "column": 27
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 1575,
+              "line": 59,
+              "column": 3
+            },
+            "end": {
+              "offset": 1600,
+              "line": 59,
+              "column": 28
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "BillingCountry",
+            "location": {
+              "start": {
+                "offset": 1604,
+                "line": 60,
+                "column": 3
+              },
+              "end": {
+                "offset": 1618,
+                "line": 60,
+                "column": 17
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "String",
+                "location": {
+                  "start": {
+                    "offset": 1622,
+                    "line": 60,
+                    "column": 21
+                  },
+                  "end": {
+                    "offset": 1628,
+                    "line": 60,
+                    "column": 27
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 1604,
+              "line": 60,
+              "column": 3
+            },
+            "end": {
+              "offset": 1629,
+              "line": 60,
+              "column": 28
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "BillingPostalCode",
+            "location": {
+              "start": {
+                "offset": 1633,
+                "line": 61,
+                "column": 3
+              },
+              "end": {
+                "offset": 1650,
+                "line": 61,
+                "column": 20
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "String",
+                "location": {
+                  "start": {
+                    "offset": 1651,
+                    "line": 61,
+                    "column": 21
+                  },
+                  "end": {
+                    "offset": 1657,
+                    "line": 61,
+                    "column": 27
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 1633,
+              "line": 61,
+              "column": 3
+            },
+            "end": {
+              "offset": 1658,
+              "line": 61,
+              "column": 28
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "BillingState",
+            "location": {
+              "start": {
+                "offset": 1662,
+                "line": 62,
+                "column": 3
+              },
+              "end": {
+                "offset": 1674,
+                "line": 62,
+                "column": 15
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "String",
+                "location": {
+                  "start": {
+                    "offset": 1680,
+                    "line": 62,
+                    "column": 21
+                  },
+                  "end": {
+                    "offset": 1686,
+                    "line": 62,
+                    "column": 27
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 1662,
+              "line": 62,
+              "column": 3
+            },
+            "end": {
+              "offset": 1687,
+              "line": 62,
+              "column": 28
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "CustomerId",
+            "location": {
+              "start": {
+                "offset": 1691,
+                "line": 63,
+                "column": 3
+              },
+              "end": {
+                "offset": 1701,
+                "line": 63,
+                "column": 13
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "customers",
+              "location": {
+                "start": {
+                  "offset": 1709,
+                  "line": 63,
+                  "column": 21
+                },
+                "end": {
+                  "offset": 1718,
+                  "line": 63,
+                  "column": 30
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "relation"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 1726,
+                    "line": 63,
+                    "column": 38
+                  },
+                  "end": {
+                    "offset": 1734,
+                    "line": 63,
+                    "column": 46
+                  }
+                }
+              },
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "customers_invoices_CustomerId"
+                }
+              ],
+              "location": {
+                "start": {
+                  "offset": 1725,
+                  "line": 63,
+                  "column": 37
+                },
+                "end": {
+                  "offset": 1767,
+                  "line": 63,
+                  "column": 79
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 1691,
+              "line": 63,
+              "column": 3
+            },
+            "end": {
+              "offset": 1767,
+              "line": 63,
+              "column": 79
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "InvoiceDate",
+            "location": {
+              "start": {
+                "offset": 1771,
+                "line": 64,
+                "column": 3
+              },
+              "end": {
+                "offset": 1782,
+                "line": 64,
+                "column": 14
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "DateTime",
+              "location": {
+                "start": {
+                  "offset": 1789,
+                  "line": 64,
+                  "column": 21
+                },
+                "end": {
+                  "offset": 1797,
+                  "line": 64,
+                  "column": 29
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 1771,
+              "line": 64,
+              "column": 3
+            },
+            "end": {
+              "offset": 1797,
+              "line": 64,
+              "column": 29
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "InvoiceId",
+            "location": {
+              "start": {
+                "offset": 1801,
+                "line": 65,
+                "column": 3
+              },
+              "end": {
+                "offset": 1810,
+                "line": 65,
+                "column": 12
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "Int",
+              "location": {
+                "start": {
+                  "offset": 1819,
+                  "line": 65,
+                  "column": 21
+                },
+                "end": {
+                  "offset": 1822,
+                  "line": 65,
+                  "column": 24
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "id"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 1836,
+                    "line": 65,
+                    "column": 38
+                  },
+                  "end": {
+                    "offset": 1838,
+                    "line": 65,
+                    "column": 40
+                  }
+                }
+              },
+              "args": [],
+              "location": {
+                "start": {
+                  "offset": 1835,
+                  "line": 65,
+                  "column": 37
+                },
+                "end": {
+                  "offset": 1838,
+                  "line": 65,
+                  "column": 40
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 1801,
+              "line": 65,
+              "column": 3
+            },
+            "end": {
+              "offset": 1838,
+              "line": 65,
+              "column": 40
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "Total",
+            "location": {
+              "start": {
+                "offset": 1842,
+                "line": 66,
+                "column": 3
+              },
+              "end": {
+                "offset": 1847,
+                "line": 66,
+                "column": 8
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "Float",
+              "location": {
+                "start": {
+                  "offset": 1860,
+                  "line": 66,
+                  "column": 21
+                },
+                "end": {
+                  "offset": 1865,
+                  "line": 66,
+                  "column": 26
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 1842,
+              "line": 66,
+              "column": 3
+            },
+            "end": {
+              "offset": 1865,
+              "line": 66,
+              "column": 26
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "invoice_itemses",
+            "location": {
+              "start": {
+                "offset": 1869,
+                "line": 67,
+                "column": 3
+              },
+              "end": {
+                "offset": 1884,
+                "line": 67,
+                "column": 18
+              }
+            }
+          },
+          "type": {
+            "kind": "list",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "invoice_items",
+                "location": {
+                  "start": {
+                    "offset": 1887,
+                    "line": 67,
+                    "column": 21
+                  },
+                  "end": {
+                    "offset": 1900,
+                    "line": 67,
+                    "column": 34
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "relation"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 1904,
+                    "line": 67,
+                    "column": 38
+                  },
+                  "end": {
+                    "offset": 1912,
+                    "line": 67,
+                    "column": 46
+                  }
+                }
+              },
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "invoice_items_InvoiceId_invoices"
+                }
+              ],
+              "location": {
+                "start": {
+                  "offset": 1903,
+                  "line": 67,
+                  "column": 37
+                },
+                "end": {
+                  "offset": 1948,
+                  "line": 67,
+                  "column": 82
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 1869,
+              "line": 67,
+              "column": 3
+            },
+            "end": {
+              "offset": 1948,
+              "line": 67,
+              "column": 82
+            }
+          }
+        }
+      ],
+      "location": {
+        "start": {
+          "offset": 1526,
+          "line": 57,
+          "column": 1
+        },
+        "end": {
+          "offset": 1951,
+          "line": 68,
+          "column": 2
+        }
+      }
+    },
+    {
+      "kind": "model",
+      "name": {
+        "kind": "name",
+        "value": "invoice_items",
+        "location": {
+          "start": {
+            "offset": 1961,
+            "line": 70,
+            "column": 7
+          },
+          "end": {
+            "offset": 1974,
+            "line": 70,
+            "column": 20
+          }
+        }
+      },
+      "members": [
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "InvoiceId",
+            "location": {
+              "start": {
+                "offset": 1980,
+                "line": 71,
+                "column": 3
+              },
+              "end": {
+                "offset": 1989,
+                "line": 71,
+                "column": 12
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "invoices",
+              "location": {
+                "start": {
+                  "offset": 1994,
+                  "line": 71,
+                  "column": 17
+                },
+                "end": {
+                  "offset": 2002,
+                  "line": 71,
+                  "column": 25
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "relation"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 2004,
+                    "line": 71,
+                    "column": 27
+                  },
+                  "end": {
+                    "offset": 2012,
+                    "line": 71,
+                    "column": 35
+                  }
+                }
+              },
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "invoice_items_InvoiceId_invoices"
+                }
+              ],
+              "location": {
+                "start": {
+                  "offset": 2003,
+                  "line": 71,
+                  "column": 26
+                },
+                "end": {
+                  "offset": 2048,
+                  "line": 71,
+                  "column": 71
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 1980,
+              "line": 71,
+              "column": 3
+            },
+            "end": {
+              "offset": 2048,
+              "line": 71,
+              "column": 71
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "InvoiceLineId",
+            "location": {
+              "start": {
+                "offset": 2052,
+                "line": 72,
+                "column": 3
+              },
+              "end": {
+                "offset": 2065,
+                "line": 72,
+                "column": 16
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "Int",
+              "location": {
+                "start": {
+                  "offset": 2066,
+                  "line": 72,
+                  "column": 17
+                },
+                "end": {
+                  "offset": 2069,
+                  "line": 72,
+                  "column": 20
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "id"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 2076,
+                    "line": 72,
+                    "column": 27
+                  },
+                  "end": {
+                    "offset": 2078,
+                    "line": 72,
+                    "column": 29
+                  }
+                }
+              },
+              "args": [],
+              "location": {
+                "start": {
+                  "offset": 2075,
+                  "line": 72,
+                  "column": 26
+                },
+                "end": {
+                  "offset": 2078,
+                  "line": 72,
+                  "column": 29
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 2052,
+              "line": 72,
+              "column": 3
+            },
+            "end": {
+              "offset": 2078,
+              "line": 72,
+              "column": 29
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "Quantity",
+            "location": {
+              "start": {
+                "offset": 2082,
+                "line": 73,
+                "column": 3
+              },
+              "end": {
+                "offset": 2090,
+                "line": 73,
+                "column": 11
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "Int",
+              "location": {
+                "start": {
+                  "offset": 2096,
+                  "line": 73,
+                  "column": 17
+                },
+                "end": {
+                  "offset": 2099,
+                  "line": 73,
+                  "column": 20
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 2082,
+              "line": 73,
+              "column": 3
+            },
+            "end": {
+              "offset": 2099,
+              "line": 73,
+              "column": 20
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "TrackId",
+            "location": {
+              "start": {
+                "offset": 2103,
+                "line": 74,
+                "column": 3
+              },
+              "end": {
+                "offset": 2110,
+                "line": 74,
+                "column": 10
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "tracks",
+              "location": {
+                "start": {
+                  "offset": 2117,
+                  "line": 74,
+                  "column": 17
+                },
+                "end": {
+                  "offset": 2123,
+                  "line": 74,
+                  "column": 23
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "relation"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 2127,
+                    "line": 74,
+                    "column": 27
+                  },
+                  "end": {
+                    "offset": 2135,
+                    "line": 74,
+                    "column": 35
+                  }
+                }
+              },
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "invoice_items_TrackId_tracks"
+                }
+              ],
+              "location": {
+                "start": {
+                  "offset": 2126,
+                  "line": 74,
+                  "column": 26
+                },
+                "end": {
+                  "offset": 2167,
+                  "line": 74,
+                  "column": 67
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 2103,
+              "line": 74,
+              "column": 3
+            },
+            "end": {
+              "offset": 2167,
+              "line": 74,
+              "column": 67
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "UnitPrice",
+            "location": {
+              "start": {
+                "offset": 2171,
+                "line": 75,
+                "column": 3
+              },
+              "end": {
+                "offset": 2180,
+                "line": 75,
+                "column": 12
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "Float",
+              "location": {
+                "start": {
+                  "offset": 2185,
+                  "line": 75,
+                  "column": 17
+                },
+                "end": {
+                  "offset": 2190,
+                  "line": 75,
+                  "column": 22
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 2171,
+              "line": 75,
+              "column": 3
+            },
+            "end": {
+              "offset": 2190,
+              "line": 75,
+              "column": 22
+            }
+          }
+        }
+      ],
+      "location": {
+        "start": {
+          "offset": 1955,
+          "line": 70,
+          "column": 1
+        },
+        "end": {
+          "offset": 2193,
+          "line": 76,
+          "column": 2
+        }
+      }
+    },
+    {
+      "kind": "model",
+      "name": {
+        "kind": "name",
+        "value": "media_types",
+        "location": {
+          "start": {
+            "offset": 2203,
+            "line": 78,
+            "column": 7
+          },
+          "end": {
+            "offset": 2214,
+            "line": 78,
+            "column": 18
+          }
+        }
+      },
+      "members": [
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "MediaTypeId",
+            "location": {
+              "start": {
+                "offset": 2220,
+                "line": 79,
+                "column": 3
+              },
+              "end": {
+                "offset": 2231,
+                "line": 79,
+                "column": 14
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "Int",
+              "location": {
+                "start": {
+                  "offset": 2232,
+                  "line": 79,
+                  "column": 15
+                },
+                "end": {
+                  "offset": 2235,
+                  "line": 79,
+                  "column": 18
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "id"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 2242,
+                    "line": 79,
+                    "column": 25
+                  },
+                  "end": {
+                    "offset": 2244,
+                    "line": 79,
+                    "column": 27
+                  }
+                }
+              },
+              "args": [],
+              "location": {
+                "start": {
+                  "offset": 2241,
+                  "line": 79,
+                  "column": 24
+                },
+                "end": {
+                  "offset": 2244,
+                  "line": 79,
+                  "column": 27
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 2220,
+              "line": 79,
+              "column": 3
+            },
+            "end": {
+              "offset": 2244,
+              "line": 79,
+              "column": 27
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "Name",
+            "location": {
+              "start": {
+                "offset": 2248,
+                "line": 80,
+                "column": 3
+              },
+              "end": {
+                "offset": 2252,
+                "line": 80,
+                "column": 7
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "String",
+                "location": {
+                  "start": {
+                    "offset": 2260,
+                    "line": 80,
+                    "column": 15
+                  },
+                  "end": {
+                    "offset": 2266,
+                    "line": 80,
+                    "column": 21
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 2248,
+              "line": 80,
+              "column": 3
+            },
+            "end": {
+              "offset": 2267,
+              "line": 80,
+              "column": 22
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "trackses",
+            "location": {
+              "start": {
+                "offset": 2271,
+                "line": 81,
+                "column": 3
+              },
+              "end": {
+                "offset": 2279,
+                "line": 81,
+                "column": 11
+              }
+            }
+          },
+          "type": {
+            "kind": "list",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "tracks",
+                "location": {
+                  "start": {
+                    "offset": 2283,
+                    "line": 81,
+                    "column": 15
+                  },
+                  "end": {
+                    "offset": 2289,
+                    "line": 81,
+                    "column": 21
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "relation"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 2293,
+                    "line": 81,
+                    "column": 25
+                  },
+                  "end": {
+                    "offset": 2301,
+                    "line": 81,
+                    "column": 33
+                  }
+                }
+              },
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "media_types_tracks_MediaTypeId"
+                },
+                {
+                  "kind": "namedArgument",
+                  "name": {
+                    "kind": "name",
+                    "value": "references",
+                    "location": {
+                      "start": {
+                        "offset": 2336,
+                        "line": 81,
+                        "column": 68
+                      },
+                      "end": {
+                        "offset": 2346,
+                        "line": 81,
+                        "column": 78
+                      }
+                    }
+                  },
+                  "expression": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "path",
+                        "value": [
+                          "MediaTypeId"
+                        ],
+                        "location": {
+                          "start": {
+                            "offset": 2349,
+                            "line": 81,
+                            "column": 81
+                          },
+                          "end": {
+                            "offset": 2360,
+                            "line": 81,
+                            "column": 92
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              ],
+              "location": {
+                "start": {
+                  "offset": 2292,
+                  "line": 81,
+                  "column": 24
+                },
+                "end": {
+                  "offset": 2362,
+                  "line": 81,
+                  "column": 94
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 2271,
+              "line": 81,
+              "column": 3
+            },
+            "end": {
+              "offset": 2362,
+              "line": 81,
+              "column": 94
+            }
+          }
+        }
+      ],
+      "location": {
+        "start": {
+          "offset": 2197,
+          "line": 78,
+          "column": 1
+        },
+        "end": {
+          "offset": 2365,
+          "line": 82,
+          "column": 2
+        }
+      }
+    },
+    {
+      "kind": "model",
+      "name": {
+        "kind": "name",
+        "value": "playlists",
+        "location": {
+          "start": {
+            "offset": 2375,
+            "line": 84,
+            "column": 7
+          },
+          "end": {
+            "offset": 2384,
+            "line": 84,
+            "column": 16
+          }
+        }
+      },
+      "members": [
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "Name",
+            "location": {
+              "start": {
+                "offset": 2390,
+                "line": 85,
+                "column": 3
+              },
+              "end": {
+                "offset": 2394,
+                "line": 85,
+                "column": 7
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "String",
+                "location": {
+                  "start": {
+                    "offset": 2406,
+                    "line": 85,
+                    "column": 19
+                  },
+                  "end": {
+                    "offset": 2412,
+                    "line": 85,
+                    "column": 25
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 2390,
+              "line": 85,
+              "column": 3
+            },
+            "end": {
+              "offset": 2413,
+              "line": 85,
+              "column": 26
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "PlaylistId",
+            "location": {
+              "start": {
+                "offset": 2417,
+                "line": 86,
+                "column": 3
+              },
+              "end": {
+                "offset": 2427,
+                "line": 86,
+                "column": 13
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "Int",
+              "location": {
+                "start": {
+                  "offset": 2433,
+                  "line": 86,
+                  "column": 19
+                },
+                "end": {
+                  "offset": 2436,
+                  "line": 86,
+                  "column": 22
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "id"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 2451,
+                    "line": 86,
+                    "column": 37
+                  },
+                  "end": {
+                    "offset": 2453,
+                    "line": 86,
+                    "column": 39
+                  }
+                }
+              },
+              "args": [],
+              "location": {
+                "start": {
+                  "offset": 2450,
+                  "line": 86,
+                  "column": 36
+                },
+                "end": {
+                  "offset": 2453,
+                  "line": 86,
+                  "column": 39
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 2417,
+              "line": 86,
+              "column": 3
+            },
+            "end": {
+              "offset": 2453,
+              "line": 86,
+              "column": 39
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "playlist_tracks",
+            "location": {
+              "start": {
+                "offset": 2457,
+                "line": 87,
+                "column": 3
+              },
+              "end": {
+                "offset": 2472,
+                "line": 87,
+                "column": 18
+              }
+            }
+          },
+          "type": {
+            "kind": "list",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "playlist_track",
+                "location": {
+                  "start": {
+                    "offset": 2473,
+                    "line": 87,
+                    "column": 19
+                  },
+                  "end": {
+                    "offset": 2487,
+                    "line": 87,
+                    "column": 33
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "relation"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 2491,
+                    "line": 87,
+                    "column": 37
+                  },
+                  "end": {
+                    "offset": 2499,
+                    "line": 87,
+                    "column": 45
+                  }
+                }
+              },
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "playlist_track_PlaylistId_playlists"
+                }
+              ],
+              "location": {
+                "start": {
+                  "offset": 2490,
+                  "line": 87,
+                  "column": 36
+                },
+                "end": {
+                  "offset": 2538,
+                  "line": 87,
+                  "column": 84
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 2457,
+              "line": 87,
+              "column": 3
+            },
+            "end": {
+              "offset": 2538,
+              "line": 87,
+              "column": 84
+            }
+          }
+        }
+      ],
+      "location": {
+        "start": {
+          "offset": 2369,
+          "line": 84,
+          "column": 1
+        },
+        "end": {
+          "offset": 2541,
+          "line": 88,
+          "column": 2
+        }
+      }
+    },
+    {
+      "kind": "model",
+      "name": {
+        "kind": "name",
+        "value": "playlist_track",
+        "location": {
+          "start": {
+            "offset": 2551,
+            "line": 90,
+            "column": 7
+          },
+          "end": {
+            "offset": 2565,
+            "line": 90,
+            "column": 21
+          }
+        }
+      },
+      "members": [
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "PlaylistId",
+            "location": {
+              "start": {
+                "offset": 2571,
+                "line": 91,
+                "column": 3
+              },
+              "end": {
+                "offset": 2581,
+                "line": 91,
+                "column": 13
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "playlists",
+              "location": {
+                "start": {
+                  "offset": 2582,
+                  "line": 91,
+                  "column": 14
+                },
+                "end": {
+                  "offset": 2591,
+                  "line": 91,
+                  "column": 23
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "id"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 2593,
+                    "line": 91,
+                    "column": 25
+                  },
+                  "end": {
+                    "offset": 2595,
+                    "line": 91,
+                    "column": 27
+                  }
+                }
+              },
+              "args": [
+                {
+                  "kind": "namedArgument",
+                  "name": {
+                    "kind": "name",
+                    "value": "strategy",
+                    "location": {
+                      "start": {
+                        "offset": 2596,
+                        "line": 91,
+                        "column": 28
+                      },
+                      "end": {
+                        "offset": 2604,
+                        "line": 91,
+                        "column": 36
+                      }
+                    }
+                  },
+                  "expression": {
+                    "kind": "path",
+                    "value": [
+                      "NONE"
+                    ],
+                    "location": {
+                      "start": {
+                        "offset": 2606,
+                        "line": 91,
+                        "column": 38
+                      },
+                      "end": {
+                        "offset": 2610,
+                        "line": 91,
+                        "column": 42
+                      }
+                    }
+                  }
+                }
+              ],
+              "location": {
+                "start": {
+                  "offset": 2592,
+                  "line": 91,
+                  "column": 24
+                },
+                "end": {
+                  "offset": 2611,
+                  "line": 91,
+                  "column": 43
+                }
+              }
+            },
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "relation"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 2613,
+                    "line": 91,
+                    "column": 45
+                  },
+                  "end": {
+                    "offset": 2621,
+                    "line": 91,
+                    "column": 53
+                  }
+                }
+              },
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "playlist_track_PlaylistId_playlists"
+                }
+              ],
+              "location": {
+                "start": {
+                  "offset": 2612,
+                  "line": 91,
+                  "column": 44
+                },
+                "end": {
+                  "offset": 2660,
+                  "line": 91,
+                  "column": 92
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 2571,
+              "line": 91,
+              "column": 3
+            },
+            "end": {
+              "offset": 2660,
+              "line": 91,
+              "column": 92
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "TrackId",
+            "location": {
+              "start": {
+                "offset": 2664,
+                "line": 92,
+                "column": 3
+              },
+              "end": {
+                "offset": 2671,
+                "line": 92,
+                "column": 10
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "tracks",
+              "location": {
+                "start": {
+                  "offset": 2675,
+                  "line": 92,
+                  "column": 14
+                },
+                "end": {
+                  "offset": 2681,
+                  "line": 92,
+                  "column": 20
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "id"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 2686,
+                    "line": 92,
+                    "column": 25
+                  },
+                  "end": {
+                    "offset": 2688,
+                    "line": 92,
+                    "column": 27
+                  }
+                }
+              },
+              "args": [
+                {
+                  "kind": "namedArgument",
+                  "name": {
+                    "kind": "name",
+                    "value": "strategy",
+                    "location": {
+                      "start": {
+                        "offset": 2689,
+                        "line": 92,
+                        "column": 28
+                      },
+                      "end": {
+                        "offset": 2697,
+                        "line": 92,
+                        "column": 36
+                      }
+                    }
+                  },
+                  "expression": {
+                    "kind": "path",
+                    "value": [
+                      "NONE"
+                    ],
+                    "location": {
+                      "start": {
+                        "offset": 2699,
+                        "line": 92,
+                        "column": 38
+                      },
+                      "end": {
+                        "offset": 2703,
+                        "line": 92,
+                        "column": 42
+                      }
+                    }
+                  }
+                }
+              ],
+              "location": {
+                "start": {
+                  "offset": 2685,
+                  "line": 92,
+                  "column": 24
+                },
+                "end": {
+                  "offset": 2704,
+                  "line": 92,
+                  "column": 43
+                }
+              }
+            },
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "relation"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 2706,
+                    "line": 92,
+                    "column": 45
+                  },
+                  "end": {
+                    "offset": 2714,
+                    "line": 92,
+                    "column": 53
+                  }
+                }
+              },
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "playlist_track_TrackId_tracks"
+                }
+              ],
+              "location": {
+                "start": {
+                  "offset": 2705,
+                  "line": 92,
+                  "column": 44
+                },
+                "end": {
+                  "offset": 2747,
+                  "line": 92,
+                  "column": 86
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 2664,
+              "line": 92,
+              "column": 3
+            },
+            "end": {
+              "offset": 2747,
+              "line": 92,
+              "column": 86
+            }
+          }
+        },
+        {
+          "kind": "blockAttribute",
+          "path": {
+            "kind": "path",
+            "value": [
+              "unique"
+            ],
+            "location": {
+              "start": {
+                "offset": 2755,
+                "line": 94,
+                "column": 5
+              },
+              "end": {
+                "offset": 2761,
+                "line": 94,
+                "column": 11
+              }
+            }
+          },
+          "args": [
+            {
+              "kind": "array",
+              "items": [
+                {
+                  "kind": "path",
+                  "value": [
+                    "PlaylistId"
+                  ],
+                  "location": {
+                    "start": {
+                      "offset": 2763,
+                      "line": 94,
+                      "column": 13
+                    },
+                    "end": {
+                      "offset": 2773,
+                      "line": 94,
+                      "column": 23
+                    }
+                  }
+                },
+                {
+                  "kind": "path",
+                  "value": [
+                    "TrackId"
+                  ],
+                  "location": {
+                    "start": {
+                      "offset": 2775,
+                      "line": 94,
+                      "column": 25
+                    },
+                    "end": {
+                      "offset": 2782,
+                      "line": 94,
+                      "column": 32
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "namedArgument",
+              "name": {
+                "kind": "name",
+                "value": "name",
+                "location": {
+                  "start": {
+                    "offset": 2785,
+                    "line": 94,
+                    "column": 35
+                  },
+                  "end": {
+                    "offset": 2789,
+                    "line": 94,
+                    "column": 39
+                  }
+                }
+              },
+              "expression": {
+                "kind": "literal",
+                "value": "sqlite_autoindex_playlist_track_1"
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 2753,
+              "line": 94,
+              "column": 3
+            },
+            "end": {
+              "offset": 2827,
+              "line": 94,
+              "column": 77
+            }
+          }
+        }
+      ],
+      "location": {
+        "start": {
+          "offset": 2545,
+          "line": 90,
+          "column": 1
+        },
+        "end": {
+          "offset": 2830,
+          "line": 95,
+          "column": 2
+        }
+      }
+    },
+    {
+      "kind": "model",
+      "name": {
+        "kind": "name",
+        "value": "tracks",
+        "location": {
+          "start": {
+            "offset": 2840,
+            "line": 97,
+            "column": 7
+          },
+          "end": {
+            "offset": 2846,
+            "line": 97,
+            "column": 13
+          }
+        }
+      },
+      "members": [
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "AlbumId",
+            "location": {
+              "start": {
+                "offset": 2852,
+                "line": 98,
+                "column": 3
+              },
+              "end": {
+                "offset": 2859,
+                "line": 98,
+                "column": 10
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "albums",
+                "location": {
+                  "start": {
+                    "offset": 2868,
+                    "line": 98,
+                    "column": 19
+                  },
+                  "end": {
+                    "offset": 2874,
+                    "line": 98,
+                    "column": 25
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "relation"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 2886,
+                    "line": 98,
+                    "column": 37
+                  },
+                  "end": {
+                    "offset": 2894,
+                    "line": 98,
+                    "column": 45
+                  }
+                }
+              },
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "albums_tracks_AlbumId"
+                }
+              ],
+              "location": {
+                "start": {
+                  "offset": 2885,
+                  "line": 98,
+                  "column": 36
+                },
+                "end": {
+                  "offset": 2919,
+                  "line": 98,
+                  "column": 70
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 2852,
+              "line": 98,
+              "column": 3
+            },
+            "end": {
+              "offset": 2919,
+              "line": 98,
+              "column": 70
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "Bytes",
+            "location": {
+              "start": {
+                "offset": 2923,
+                "line": 99,
+                "column": 3
+              },
+              "end": {
+                "offset": 2928,
+                "line": 99,
+                "column": 8
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "Int",
+                "location": {
+                  "start": {
+                    "offset": 2939,
+                    "line": 99,
+                    "column": 19
+                  },
+                  "end": {
+                    "offset": 2942,
+                    "line": 99,
+                    "column": 22
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 2923,
+              "line": 99,
+              "column": 3
+            },
+            "end": {
+              "offset": 2943,
+              "line": 99,
+              "column": 23
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "Composer",
+            "location": {
+              "start": {
+                "offset": 2947,
+                "line": 100,
+                "column": 3
+              },
+              "end": {
+                "offset": 2955,
+                "line": 100,
+                "column": 11
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "String",
+                "location": {
+                  "start": {
+                    "offset": 2963,
+                    "line": 100,
+                    "column": 19
+                  },
+                  "end": {
+                    "offset": 2969,
+                    "line": 100,
+                    "column": 25
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 2947,
+              "line": 100,
+              "column": 3
+            },
+            "end": {
+              "offset": 2970,
+              "line": 100,
+              "column": 26
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "GenreId",
+            "location": {
+              "start": {
+                "offset": 2974,
+                "line": 101,
+                "column": 3
+              },
+              "end": {
+                "offset": 2981,
+                "line": 101,
+                "column": 10
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "genres",
+                "location": {
+                  "start": {
+                    "offset": 2990,
+                    "line": 101,
+                    "column": 19
+                  },
+                  "end": {
+                    "offset": 2996,
+                    "line": 101,
+                    "column": 25
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "relation"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 3008,
+                    "line": 101,
+                    "column": 37
+                  },
+                  "end": {
+                    "offset": 3016,
+                    "line": 101,
+                    "column": 45
+                  }
+                }
+              },
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "genres_tracks_GenreId"
+                }
+              ],
+              "location": {
+                "start": {
+                  "offset": 3007,
+                  "line": 101,
+                  "column": 36
+                },
+                "end": {
+                  "offset": 3041,
+                  "line": 101,
+                  "column": 70
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 2974,
+              "line": 101,
+              "column": 3
+            },
+            "end": {
+              "offset": 3041,
+              "line": 101,
+              "column": 70
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "MediaTypeId",
+            "location": {
+              "start": {
+                "offset": 3045,
+                "line": 102,
+                "column": 3
+              },
+              "end": {
+                "offset": 3056,
+                "line": 102,
+                "column": 14
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "media_types",
+              "location": {
+                "start": {
+                  "offset": 3061,
+                  "line": 102,
+                  "column": 19
+                },
+                "end": {
+                  "offset": 3072,
+                  "line": 102,
+                  "column": 30
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "relation"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 3079,
+                    "line": 102,
+                    "column": 37
+                  },
+                  "end": {
+                    "offset": 3087,
+                    "line": 102,
+                    "column": 45
+                  }
+                }
+              },
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "media_types_tracks_MediaTypeId"
+                }
+              ],
+              "location": {
+                "start": {
+                  "offset": 3078,
+                  "line": 102,
+                  "column": 36
+                },
+                "end": {
+                  "offset": 3121,
+                  "line": 102,
+                  "column": 79
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 3045,
+              "line": 102,
+              "column": 3
+            },
+            "end": {
+              "offset": 3121,
+              "line": 102,
+              "column": 79
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "Milliseconds",
+            "location": {
+              "start": {
+                "offset": 3125,
+                "line": 103,
+                "column": 3
+              },
+              "end": {
+                "offset": 3137,
+                "line": 103,
+                "column": 15
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "Int",
+              "location": {
+                "start": {
+                  "offset": 3141,
+                  "line": 103,
+                  "column": 19
+                },
+                "end": {
+                  "offset": 3144,
+                  "line": 103,
+                  "column": 22
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 3125,
+              "line": 103,
+              "column": 3
+            },
+            "end": {
+              "offset": 3144,
+              "line": 103,
+              "column": 22
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "Name",
+            "location": {
+              "start": {
+                "offset": 3148,
+                "line": 104,
+                "column": 3
+              },
+              "end": {
+                "offset": 3152,
+                "line": 104,
+                "column": 7
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "String",
+              "location": {
+                "start": {
+                  "offset": 3164,
+                  "line": 104,
+                  "column": 19
+                },
+                "end": {
+                  "offset": 3170,
+                  "line": 104,
+                  "column": 25
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 3148,
+              "line": 104,
+              "column": 3
+            },
+            "end": {
+              "offset": 3170,
+              "line": 104,
+              "column": 25
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "TrackId",
+            "location": {
+              "start": {
+                "offset": 3174,
+                "line": 105,
+                "column": 3
+              },
+              "end": {
+                "offset": 3181,
+                "line": 105,
+                "column": 10
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "Int",
+              "location": {
+                "start": {
+                  "offset": 3190,
+                  "line": 105,
+                  "column": 19
+                },
+                "end": {
+                  "offset": 3193,
+                  "line": 105,
+                  "column": 22
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "id"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 3208,
+                    "line": 105,
+                    "column": 37
+                  },
+                  "end": {
+                    "offset": 3210,
+                    "line": 105,
+                    "column": 39
+                  }
+                }
+              },
+              "args": [],
+              "location": {
+                "start": {
+                  "offset": 3207,
+                  "line": 105,
+                  "column": 36
+                },
+                "end": {
+                  "offset": 3210,
+                  "line": 105,
+                  "column": 39
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 3174,
+              "line": 105,
+              "column": 3
+            },
+            "end": {
+              "offset": 3210,
+              "line": 105,
+              "column": 39
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "UnitPrice",
+            "location": {
+              "start": {
+                "offset": 3214,
+                "line": 106,
+                "column": 3
+              },
+              "end": {
+                "offset": 3223,
+                "line": 106,
+                "column": 12
+              }
+            }
+          },
+          "type": {
+            "kind": "typeId",
+            "name": {
+              "kind": "name",
+              "value": "Float",
+              "location": {
+                "start": {
+                  "offset": 3230,
+                  "line": 106,
+                  "column": 19
+                },
+                "end": {
+                  "offset": 3235,
+                  "line": 106,
+                  "column": 24
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 3214,
+              "line": 106,
+              "column": 3
+            },
+            "end": {
+              "offset": 3235,
+              "line": 106,
+              "column": 24
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "invoice_itemses",
+            "location": {
+              "start": {
+                "offset": 3239,
+                "line": 107,
+                "column": 3
+              },
+              "end": {
+                "offset": 3254,
+                "line": 107,
+                "column": 18
+              }
+            }
+          },
+          "type": {
+            "kind": "list",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "invoice_items",
+                "location": {
+                  "start": {
+                    "offset": 3255,
+                    "line": 107,
+                    "column": 19
+                  },
+                  "end": {
+                    "offset": 3268,
+                    "line": 107,
+                    "column": 32
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "relation"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 3273,
+                    "line": 107,
+                    "column": 37
+                  },
+                  "end": {
+                    "offset": 3281,
+                    "line": 107,
+                    "column": 45
+                  }
+                }
+              },
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "invoice_items_TrackId_tracks"
+                }
+              ],
+              "location": {
+                "start": {
+                  "offset": 3272,
+                  "line": 107,
+                  "column": 36
+                },
+                "end": {
+                  "offset": 3313,
+                  "line": 107,
+                  "column": 77
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 3239,
+              "line": 107,
+              "column": 3
+            },
+            "end": {
+              "offset": 3313,
+              "line": 107,
+              "column": 77
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "playlist_tracks",
+            "location": {
+              "start": {
+                "offset": 3317,
+                "line": 108,
+                "column": 3
+              },
+              "end": {
+                "offset": 3332,
+                "line": 108,
+                "column": 18
+              }
+            }
+          },
+          "type": {
+            "kind": "list",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "playlist_track",
+                "location": {
+                  "start": {
+                    "offset": 3333,
+                    "line": 108,
+                    "column": 19
+                  },
+                  "end": {
+                    "offset": 3347,
+                    "line": 108,
+                    "column": 33
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [
+            {
+              "kind": "fieldAttribute",
+              "path": {
+                "kind": "path",
+                "value": [
+                  "relation"
+                ],
+                "location": {
+                  "start": {
+                    "offset": 3351,
+                    "line": 108,
+                    "column": 37
+                  },
+                  "end": {
+                    "offset": 3359,
+                    "line": 108,
+                    "column": 45
+                  }
+                }
+              },
+              "args": [
+                {
+                  "kind": "literal",
+                  "value": "playlist_track_TrackId_tracks"
+                }
+              ],
+              "location": {
+                "start": {
+                  "offset": 3350,
+                  "line": 108,
+                  "column": 36
+                },
+                "end": {
+                  "offset": 3392,
+                  "line": 108,
+                  "column": 78
+                }
+              }
+            }
+          ],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 3317,
+              "line": 108,
+              "column": 3
+            },
+            "end": {
+              "offset": 3392,
+              "line": 108,
+              "column": 78
+            }
+          }
+        }
+      ],
+      "location": {
+        "start": {
+          "offset": 2834,
+          "line": 97,
+          "column": 1
+        },
+        "end": {
+          "offset": 3395,
+          "line": 109,
+          "column": 2
+        }
+      }
+    },
+    {
+      "kind": "model",
+      "name": {
+        "kind": "name",
+        "value": "sqlite_stat1",
+        "location": {
+          "start": {
+            "offset": 3405,
+            "line": 111,
+            "column": 7
+          },
+          "end": {
+            "offset": 3417,
+            "line": 111,
+            "column": 19
+          }
+        }
+      },
+      "members": [
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "idx",
+            "location": {
+              "start": {
+                "offset": 3423,
+                "line": 112,
+                "column": 3
+              },
+              "end": {
+                "offset": 3426,
+                "line": 112,
+                "column": 6
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "String",
+                "location": {
+                  "start": {
+                    "offset": 3428,
+                    "line": 112,
+                    "column": 8
+                  },
+                  "end": {
+                    "offset": 3434,
+                    "line": 112,
+                    "column": 14
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 3423,
+              "line": 112,
+              "column": 3
+            },
+            "end": {
+              "offset": 3435,
+              "line": 112,
+              "column": 15
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "stat",
+            "location": {
+              "start": {
+                "offset": 3439,
+                "line": 113,
+                "column": 3
+              },
+              "end": {
+                "offset": 3443,
+                "line": 113,
+                "column": 7
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "String",
+                "location": {
+                  "start": {
+                    "offset": 3444,
+                    "line": 113,
+                    "column": 8
+                  },
+                  "end": {
+                    "offset": 3450,
+                    "line": 113,
+                    "column": 14
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 3439,
+              "line": 113,
+              "column": 3
+            },
+            "end": {
+              "offset": 3451,
+              "line": 113,
+              "column": 15
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": {
+            "kind": "name",
+            "value": "tbl",
+            "location": {
+              "start": {
+                "offset": 3455,
+                "line": 114,
+                "column": 3
+              },
+              "end": {
+                "offset": 3458,
+                "line": 114,
+                "column": 6
+              }
+            }
+          },
+          "type": {
+            "kind": "optional",
+            "type": {
+              "kind": "typeId",
+              "name": {
+                "kind": "name",
+                "value": "String",
+                "location": {
+                  "start": {
+                    "offset": 3460,
+                    "line": 114,
+                    "column": 8
+                  },
+                  "end": {
+                    "offset": 3466,
+                    "line": 114,
+                    "column": 14
+                  }
+                }
+              }
+            }
+          },
+          "attributes": [],
+          "comment": null,
+          "location": {
+            "start": {
+              "offset": 3455,
+              "line": 114,
+              "column": 3
+            },
+            "end": {
+              "offset": 3467,
+              "line": 114,
+              "column": 15
+            }
+          }
+        }
+      ],
+      "location": {
+        "start": {
+          "offset": 3399,
+          "line": 111,
+          "column": 1
+        },
+        "end": {
+          "offset": 3470,
+          "line": 115,
+          "column": 2
+        }
+      }
+    }
+  ]
+}

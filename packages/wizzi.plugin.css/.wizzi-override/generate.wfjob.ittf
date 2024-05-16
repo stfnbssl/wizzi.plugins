@@ -32,6 +32,7 @@ wfjob wizzi.plugin.css/job
         cwd-folder ${jobCtx.ittf_lib_folder}
         dest-folder ${jobCtx.dest_folder}/lib
         wfjobs(any_js, &jobCtx)
+        wfjobs(any_plain, &jobCtx, js)
         wfjobs(any_lib__copy, &jobCtx, ittf)
     
     line ittf-examples

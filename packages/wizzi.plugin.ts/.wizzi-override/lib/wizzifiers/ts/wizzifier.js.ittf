@@ -82,6 +82,7 @@ module
                         _ showstack(options)
                         throw new Error('parent is null.' + util.inspect(ast, 4))
 
+                # loog 'ast.type', ast.type
                 if options.verbose
                     # loog 'ast.type', ast.type
                 if ast.type == 'OptionalMemberExpression'
@@ -138,7 +139,7 @@ module
                             _ JSON.stringify
                                 _ cleanAST(syntax)
                                 @ null
-                                @ 2
+                                @ 4
                     set options.starter = true
                     set options.commentManager = new CommentManager()
                     var root
@@ -221,32 +222,6 @@ module
                                             @ '\t'
                             catch ex
                             r_cb( root )
-        $*
-        +
-        set md.getCodeAST
-            function
-                param input
-                param options
-                param callback
-                set options = options || {}
-                set options.input = input
-                set options.stack = []
-                set options.formatTextNodes = []
-                set options.wizziIncludes = []
-                set options.stateAST = []
-                var babelOptions = options.babel || {}
-                var syntax
-                try
-                    set syntax = md.parse(input, babelOptions)
-                catch ex
-                    return
-                        _ callback
-                            @ ex
-                _ cleanAST(syntax)
-                _ callback
-                    @ null
-                    @ syntax
-        *$
         +
         $include helper_functions
         +
@@ -261,7 +236,6 @@ module
 
         f( File, skip
             f_p( program
-            # TODO VIA f_a( comments
 
         f( Program, skip
             # s( sourceType, "script" | "module"
@@ -331,6 +305,15 @@ module
             
         f( BooleanLiteral, literal;is-text
             name( value, boolean
+            if node.__parent && node.__parent.name === 'body' && node.__parent.len == 1
+                # is the return value of an ArrowExpression
+                if node.extra && node.extra.parenthesized == true
+                    set ret.tag = '('
+                else
+                    set ret.tag = '+'
+
+        f( BigIntLiteral, literal;is-text
+            name( value, numeric
             if node.__parent && node.__parent.name === 'body' && node.__parent.len == 1
                 # is the return value of an ArrowExpression
                 if node.extra && node.extra.parenthesized == true
@@ -901,7 +884,7 @@ module
                             else
                                 # go on
                     if item.tag === '@' && item.name === 'template' 
-                        \b && item.children.length == 1 && item.children[0].tag === '`lit'
+                        \b && item.children.length == 1 && item.children[0].tag === 'template'
                         # loog 'ObjectExpression', item.tag, item.name, getLiteral(item.children[0])
                         _ options.wizziIncludes.push
                             {
@@ -1108,6 +1091,10 @@ module
 
             if ret.tag == 'opdelete'
                 set ret.tag = 'delete'
+            if ret.tag == 'opvoid'
+                set ret.tag = 'void'
+            if ret.tag == 'optypeof'
+                set ret.tag = 'typeof'
             
             f_p_temp( argument, true, true, Expression
             if isTextualNode(p_argument)
@@ -1358,15 +1345,18 @@ module
                 # loog 'MemberExpression.p_object', isTextualNode(p_object), p_object
                 # loog 'MemberExpression.p_property', isTextualNode(p_property), p_property
 
+            $$ Added the '.' in '?.' 10/5/24. Waiting for damage
             var qmark = node.optional ? '?' : ''
+            var qmarkComputed = node.optional ? '?.' : ''
 
             if isTextualNode(p_object)
                 var obj = getNodeText(p_object)
                 if isTextualNode(p_property)
                     var prop = getNodeText(p_property)
                     set ret.name = node.computed 
-                        \b ? obj + qmark + '[' + prop + ']' 
+                        \b ? obj + qmarkComputed + '[' + prop + ']'
                         \b : obj + qmark + '.' + prop
+                    # loog 'qmark,prop', qmark, prop
                     set ret.textified = ret.name
                     set ret.children = []
                     # loog 'MemberExpression.textified', ret.textified
@@ -1374,14 +1364,16 @@ module
                     set ret.name = obj + qmark
                     var link
                         {
-                            @ tag node.computed ? '.[' : '.'
+                            $$ this tag with optionals is still not implemented
+                            @ tag node.computed ? (qmarkComputed + '.[') : (qmark + '.')
                             [ children
+                    if node.optional
+                        throw new Error("Not implemented " + JSON.stribgify(link))
                     _ link.children.push
                         @ p_property
                     _ ret.children.push
                         @ link
             else
-                log 1011
                 if node.computed
                     set p_property.tag = '.['
                 else
@@ -1577,7 +1569,7 @@ module
                 if ['[', '{', 'new'].indexOf(p_callee.tag) > -1
                     set ret.tag = p_callee.tag
                 
-                if ['`lit','iif'].indexOf(p_callee.tag) < 0
+                if ['template','iif'].indexOf(p_callee.tag) < 0
                     set ret.name = p_callee.name
                     set ret.children = p_callee.children
 
@@ -1726,7 +1718,7 @@ module
         f( DoExpression, do
             f_p( body, true, BlockStatement
 
-        f( TemplateLiteral, `lit
+        f( TemplateLiteral, template
             f_a_temp( quasis, true, TemplateElement
             f_a_temp( expressions, true, Expression 
             # loog 'TemplateLiteral', model
@@ -1800,13 +1792,17 @@ module
                                     @ ret
                         set ret = temp
 
-        f( ArrayPattern
+        f( ArrayPattern, [
             f_a( elements, false, Pattern | null
-            if setTextList(ret, ', ')
-                set ret.textified = '[' + ret.textified + ']'
-                # loog '*** ArrayPattern len, textified: ', ret.children.length, ret.textified
+            # loog "node.typeAnnotation", node.typeAnnotation
+            if !node.typeAnnotation
+                if setTextList(ret, ', ')
+                    set ret.textified = '[' + ret.textified + ']'
+                    # loog '*** ArrayPattern len, textified: ', ret.children.length, ret.textified
+                else
+                    throw new Error('ArrayPattern must be textual: ' + JSON.stringify(node, null, 2))
             else
-                throw new Error('ArrayPattern must be textual: ' + JSON.stringify(node, null, 2))
+                f_p( typeAnnotation, false
 
         f( RestElement, ...$$;is-text
             f_p(argument, true , Pattern
@@ -1823,6 +1819,7 @@ module
             # loog 'AssignmentPattern.p_left', JSON.stringify(p_left, null, 2)
             # loog 'AssignmentPattern.p_right', JSON.stringify(p_right, null, 2)
             if isTextualNode(p_left)
+                # loog 'AssignmentPattern', 12
                 set ret.name = getNodeText(p_left) 
                 if isTextualNode(p_right)
                     set ret.name += ' ' + (node.operator || '=') + ' ' + getNodeText(p_right)
@@ -1832,6 +1829,7 @@ module
                             @ tag node.operator || '='
                             @ children [p_right]
             else
+                # loog 'AssignmentPattern', 13
                 _ ret.children.push
                     @ p_left
                 _ ret.children.push
@@ -2168,6 +2166,10 @@ module
             set ret.name = '*'
             f_p_tag( source, from
 
+        f( TSSatisfiesExpression, satisfies
+            f_p( expression
+            f_p( typeAnnotation, false
+
         f( CommentBlock, #
             var values = verify.replaceAll(node.value, '\r\n', '\n').split('\n')
             # loog 'options.replaceds', options.replaceds
@@ -2182,7 +2184,11 @@ module
         f( CommentLine, #
             # loog 'options.replaceds', options.replaceds
             # var v = codeReplacer.restore(node.value, options.replaceds)
-            set ret.name = node.value
+            if node.value.startsWith('/ ')
+                set ret.tag = '###'
+                set ret.name = node.value.substring(2)
+            else
+                set ret.name = node.value
 
         f( JSXAttribute, @
             _ options.stateAST.push
@@ -2235,7 +2241,7 @@ module
                     if isStyle
                         # loog 'isStyle', isStyle, item.children
                         foreach c in item.children
-                            if c.tag === '`lit'
+                            if c.tag === 'template'
                                 set ret.tag = "style-jsx"
                                 _ options.wizziIncludes.push
                                     {
@@ -2353,9 +2359,14 @@ module
                     _ ret.children.push
                         @ item
 
-        f( JSXSpreadAttribute, @
+        f( JSXSpreadAttribute, ...
             f_p( argument, true, Expression
-            get_text_from_1_children( '{...' + c1 + "}" )
+            $$ get_text_from_1_children( '{...' + c1 + "}" )
+            get_text_from_1_children( c1 )
+            $*
+            if !got_text_1
+                set ret.name = '...'
+            *$
 
         f( JSXText, +
             # if node.value.trim().length == 0 || node.value === '\n' // 11/1/19

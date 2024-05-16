@@ -1,0 +1,29 @@
+{
+  "image": {
+    "file": ".gitpod.Dockerfile"
+  },
+  "ports": [
+    {
+      "port": 3000,
+      "onOpen": "notify"
+    }
+  ],
+  "tasks": [
+    {
+      "name": "Restore .env file",
+      "command": "if [ -f .env ]; then\n  # If this workspace already has a .env, don't override it\n  # Local changes survive a workspace being opened and closed\n  # but they will not persist between separate workspaces for the same repo\n\n  echo \"Found .env in workspace\"\nelse\n  # There is no .env\n  if [ ! -n \"${ENV}\" ]; then\n    # There is no $ENV from a previous workspace\n    # Default to the example .env\n    echo \"Setting example .env\"\n\n    cp .env.example .env \n  else\n    # After making changes to .env, run this line to persist it to $ENV\n    #   eval $(gp env -e ENV=\"$(base64 .env | tr -d '\\n')\")\n    # \n    # Environment variables set this way are shared between all your workspaces for this repo\n    # The lines below will read $ENV and print a .env file\n\n    echo \"Restoring .env from Gitpod\"\n\n    echo \"${ENV}\" | base64 -d | tee .env > /dev/null\n  fi\nfi\n"
+    },
+    {
+      "init": "npm install",
+      "command": "npm run setup && npm run dev"
+    }
+  ],
+  "vscode": {
+    "extensions": [
+      "ms-azuretools.vscode-docker",
+      "esbenp.prettier-vscode",
+      "dbaeumer.vscode-eslint",
+      "bradlc.vscode-tailwindcss"
+    ]
+  }
+}

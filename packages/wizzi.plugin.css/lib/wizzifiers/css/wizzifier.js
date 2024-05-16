@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.css\.wizzi-override\lib\wizzifiers\css\wizzifier.js.ittf
-    utc time: Thu, 25 Apr 2024 11:40:57 GMT
+    utc time: Sun, 12 May 2024 15:10:32 GMT
 */
 'use strict';
 var util = require('util');
@@ -14,13 +14,15 @@ var file = require('@wizzi/utils').file;
 var cloner = require('../utils/cloner');
 var ittfWriter = require("../utils/ittfWriter");
 
-var css_parser = require('css');
+// var css_parser = require('css')
+var css_parser = require('./parse');
 var cleanAST = require('./cleanAST');
 
 function parseInternal(tobeWizzified, options, callback) {
     var syntax;
     try {
-        syntax = css_parser.parse(tobeWizzified);
+        // set syntax = css_parser.parse(tobeWizzified)
+        syntax = css_parser(tobeWizzified);
         cleanAST(syntax);
         return callback(null, cloner(syntax));
     } 
@@ -100,9 +102,7 @@ md.getWizzifierIncludes = function(options, callback) {
 ;
 var format = function(ast, options) {
     var formatter = format[ast.type];
-    if (verbose) {
-        console.log('ast.type', ast.type);
-    }
+    // loog 'ast.type', ast.type
     if (formatter) {
         return formatter(ast, options);
     }
@@ -486,6 +486,27 @@ format['media'] = function(ast) {
     ast.rules.map(function(node) {
         ret.children.push(format(node))
     })
+    return ret;
+}
+;
+format['layer'] = function(ast) {
+    var ret = {
+        tag: 'layer', 
+        name: ast.layer, 
+        children: []
+     };
+    ast.rules.map(function(node) {
+        ret.children.push(format(node))
+    })
+    return ret;
+}
+;
+format['tailwind'] = function(ast) {
+    var ret = {
+        tag: 'tailwind', 
+        name: ast.tailwind, 
+        children: []
+     };
     return ret;
 }
 ;

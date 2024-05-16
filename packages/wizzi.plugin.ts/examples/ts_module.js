@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\examples\ts_module.js.ittf
-    utc time: Thu, 25 Apr 2024 11:41:22 GMT
+    utc time: Thu, 16 May 2024 04:18:23 GMT
 */
 'use strict';
 var path = require('path');
@@ -37,7 +37,7 @@ function executeExample() {
     function executeGenerateModules(modules, callback) {
         async.mapSeries(modules, (module, callback) => {
         
-            console.log('ts/module.example.executeGenerateModules.module: ' + module, __filename);
+            console.log('ts/module.example.executeGenerateModules.module: ' + module);
             var ittfDocumentUri = path.join(__dirname, 'ittf', module + '.ts.ittf');
             var outputPath = path.join(__dirname, 'results', 'ts', module + '-module.g.ts');
             loadModelAndGenerateArtifact(ittfDocumentUri, {}, 'ts/module', (err, artifactText) => {
@@ -45,7 +45,7 @@ function executeExample() {
                 if (err) {
                     return callback(err);
                 }
-                console.log('ts/module.example.executeGenerateModules.outputPath: ' + outputPath, __filename);
+                console.log('ts/module.example.executeGenerateModules.outputPath: ' + outputPath);
                 file.write(outputPath, artifactText)
                 return callback(null, artifactText);
             }

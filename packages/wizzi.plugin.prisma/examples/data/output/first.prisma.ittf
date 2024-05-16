@@ -1,0 +1,89 @@
+prisma
+    schema 
+        datasource db
+            config provider
+                literal sqlite
+            config url
+                _ 
+                    path env
+                    literal DATABASE_URL
+        generator client
+            config provider
+                literal prisma-client-js
+        model User
+            field id
+                :string 
+                @ id
+                @ default
+                    _ 
+                        path cuid
+            field email
+                :string 
+                @ unique
+            field createdAt
+                :dateTime 
+                @ default
+                    _ 
+                        path now
+            field updatedAt
+                :dateTime 
+                @ updatedAt
+            field password
+                :optional 
+                    :ref Password
+            field notes
+                :list 
+                    :ref Note
+        model Password
+            field hash
+                :string 
+            field user
+                :ref User
+                @ relation
+                    namedArgument fields
+                        array 
+                            path userId
+                    namedArgument references
+                        array 
+                            path id
+                    namedArgument onDelete
+                        path Cascade
+                    namedArgument onUpdate
+                        path Cascade
+            field userId
+                :string 
+                @ unique
+        model Note
+            field id
+                :string 
+                @ id
+                @ default
+                    _ 
+                        path cuid
+            field title
+                :string 
+            field body
+                :string 
+            field createdAt
+                :dateTime 
+                @ default
+                    _ 
+                        path now
+            field updatedAt
+                :dateTime 
+                @ updatedAt
+            field user
+                :ref User
+                @ relation
+                    namedArgument fields
+                        array 
+                            path userId
+                    namedArgument references
+                        array 
+                            path id
+                    namedArgument onDelete
+                        path Cascade
+                    namedArgument onUpdate
+                        path Cascade
+            field userId
+                :string 

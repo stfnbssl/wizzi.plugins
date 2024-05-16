@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.yaml\.wizzi-override\lib\wizzi\models\yaml-model.g.js.ittf
-    utc time: Thu, 25 Apr 2024 11:41:33 GMT
+    utc time: Wed, 15 May 2024 03:37:06 GMT
 */
 'use strict';
 /**
@@ -102,6 +102,13 @@ function toYamlObject(mTreeNodeChilds) {
                         }
                         ret[node.n] = value;
                     }
+                    else if (node.children[0].n === '|') {
+                        var value = toYamlMultilineValue(node.children[0].children);
+                        if (value && value.__is_error) {
+                            return value;
+                        }
+                        ret[node.n] = value;
+                    }
                     else {
                         return error('A yaml property must have a value or a single child, object or array. Found: ' + node.n + ' ' + node.v + ' first child: ' + node.children[0].n + ' ' + node.children[0].v, node);
                     }
@@ -148,6 +155,18 @@ function toYamlArray(mTreeNodeChilds) {
         }
     }
     return ret;
+}
+function toYamlMultilineValue(mTreeNodeChilds) {
+    var sb = [];
+    var i, i_items=mTreeNodeChilds, i_len=mTreeNodeChilds.length, node;
+    for (i=0; i<i_len; i++) {
+        node = mTreeNodeChilds[i];
+        if (sb.length > 0) {
+            sb.push('\n');
+        }
+        sb.push(node.v);
+    }
+    return sb.join('');
 }
 function yamlValue(value, node) {
     // loog 'yamlValue 1', value

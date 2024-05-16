@@ -1,0 +1,92 @@
+prisma first
+    
+    datasource db
+        config provider
+            = "sqlite"
+        config url
+            _ env
+                @ "DATABASE_URL"
+                @ 3
+    
+    generator client
+        config provider
+            = "prisma-client-js"
+        config output
+            = "node_modules/.prisma/client"
+        config engineType
+            = "library"
+        config binaryTargets
+            [ 
+                @ "native"
+
+    model User
+        field id
+            :string 
+            @ id
+            @ default
+                _ cuid
+        field email
+            :string 
+            @ unique
+        field createdAt
+            :dateTime 
+            @ default
+                _ now
+        field updatedAt
+            :dateTime 
+            @ updatedAt
+        field password
+            :ref Password
+            :optional 
+        field notes
+            :[ 
+                :ref Note
+
+    model Password
+        field hash
+            :string 
+        field user
+            :ref User
+            @ relation
+                fields 
+                    [ 
+                        @ userId
+                references 
+                    [ 
+                        @ id
+                onDelete Cascade
+                onUpdate Cascade
+        field userId
+            :string 
+            @ unique
+
+    model Note
+        field id
+            :string 
+            @ id
+            @ default
+                _ cuid
+        field title
+            :string 
+        field body
+            :string 
+        field createdAt
+            :dateTime 
+            @ default
+                _ now
+        field updatedAt
+            :dateTime 
+            @ updatedAt
+        field user
+            :ref User
+            @ relation
+                fields 
+                    [ 
+                        @ userId
+                references 
+                    [ 
+                        @ id
+                onDelete Cascade
+                onUpdate Cascade
+        field userId
+            :string 

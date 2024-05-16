@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\artifacts\ts\module\gen\es6\htmlReact.js.ittf
-    utc time: Thu, 25 Apr 2024 11:41:26 GMT
+    utc time: Thu, 16 May 2024 04:18:27 GMT
 */
 'use strict';
 var verify = require('@wizzi/utils').verify;
@@ -93,9 +93,9 @@ function htmlelement_open(cnt, model, ctx, tag, attrs, comments, callback) {
                 if (singleline) {
                     ctx.deindent();
                 }
-                process.nextTick(function() {
-                    repeater_1(index_1 + 1);
-                })
+                return process.nextTick(function() {
+                        repeater_1(index_1 + 1);
+                    });
             }
             )
         }
@@ -135,7 +135,12 @@ function htmlelement_attribute(cnt, a, ctx, singleline, callback) {
         u.writeComments(a, ctx, true);
     }
     if (a.statements && a.statements.length > 0) {
-        ctx.write(aindent + a.name + '={');
+        if (a.name == '...') {
+            ctx.write(aindent + '{...');
+        }
+        else {
+            ctx.write(aindent + a.name + '={');
+        }
         cnt.genItems(a.statements, ctx, {
             indent: true
          }, (err, notUsed) => {
@@ -149,12 +154,17 @@ function htmlelement_attribute(cnt, a, ctx, singleline, callback) {
         )
     }
     else if (a.value.length || a.value.length == 0) {
-        if (a.value.length == 0) {
-            ctx[writer](aindent + a.name);
+        if (a.name == '...') {
+            ctx[writer](aindent + '{...' + a.value + '}');
         }
         else {
-            var quote = a.value.indexOf('{') >= 0 || u.isQuoted(a.value) ? '' : '"';
-            ctx[writer](aindent + a.name + '=' + quote + a.value + quote);
+            if (a.value.length == 0) {
+                ctx[writer](aindent + a.name);
+            }
+            else {
+                var quote = a.value.indexOf('{') >= 0 || u.isQuoted(a.value) ? '' : '"';
+                ctx[writer](aindent + a.name + '=' + quote + a.value + quote);
+            }
         }
         return callback(null);
     }

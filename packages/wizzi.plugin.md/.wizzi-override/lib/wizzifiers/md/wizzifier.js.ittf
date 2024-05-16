@@ -82,7 +82,7 @@ module
                                             a_cb_no_throw( ittf )
                                                 if err
                                                     error err
-                                                log 'getWizzifierIncludes.css.item.ittf', ittf
+                                                # loog 'getWizzifierIncludes.css.item.ittf', ittf
                                                 _ item.node.children.push
                                                     @ ittf
                                                 r_cb()
@@ -93,7 +93,7 @@ module
                                             a_cb_no_throw( ittf )
                                                 if err
                                                     error err
-                                                log 'getWizzifierIncludes.html.item.ittf', ittf
+                                                # loog 'getWizzifierIncludes.html.item.ittf', ittf
                                                 _ item.node.children.push
                                                     @ ittf
                                                 r_cb()
@@ -105,7 +105,7 @@ module
             param options
             param root
             param callback
-            log 'processFrontMatter', syntax.__frontMatter
+            # loog 'processFrontMatter', syntax.__frontMatter
             if syntax.__frontMatter && Object.keys(syntax.__frontMatter).length > 0
                 $$ loog 'processFrontMatter.syntax.__frontMatter', JSON.stringify(syntax.__frontMatter)
                 _ options.wf.getWizziTreeFromText
@@ -179,10 +179,6 @@ module
                     else
                         _ showstack(options)
                         throw new Error('parent is null.' + util.inspect(ast, 4))
-                $*
-                if options.verbose
-                    info 'ast.type', ast.type
-                *$
                 var type = ast.type === 'arguments' ? 'xarguments' : ast.type
                 var formatter = format[type]
                 if formatter
@@ -485,10 +481,10 @@ module
                 var retcontainer
                     {
                         [ children
-                log 'node.raw || node.text', '|' + (node.raw || node.text) + '|'
+                # loog 'node.raw || node.text', '|' + (node.raw || node.text) + '|'
                 var ss = preserveSpaces(node.raw || node.text).split('\n')
                 set ret.name = ss[0]
-                log ret.name, '|' + ss[0] + '|', ss.length
+                # loog ret.name, '|' + ss[0] + '|', ss.length
                 set retcontainer.children.push(ret)
                 if ss.length > 1
                     for var i=1; i<ss.length; i++

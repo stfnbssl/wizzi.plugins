@@ -117,12 +117,7 @@
 					{ 
 						@ indent false
 					@ callback
-                $*
-				return
-					_ callback
-						_ ctx.error(myname + '. Invalid jsPropertyOrValue. Ha s no name: ' + model.wzName, model)
-                *$
-        elif ctx.__ecma === 'es6'
+		else
             _ u.writeComments(model, ctx)
 			_ ctx.w('@' + model.wzName + '(')
             _ cnt.genItems
@@ -133,10 +128,6 @@
 				a_cb()
 					_ ctx.w(')')
 					r_cb()
-        else 
-			return
-				_ callback
-					_ ctx.error(myname + '. Invalid jsPropertyOrValue: ' + model.wzName, model)
 
 	fn( jsPropertyOrValue_no_stm_children
 		var colon = (ctx.isGraphql && !ctx.isNamedCallParam) ? ' ' : ': '
@@ -173,15 +164,8 @@
 				_ ctx.write
 					_ p.value()
 			else 
-				if ctx.__ecma === 'es5'
-					_ console.log
-						_ ctx.error(myname + '. Invalid object property: ' + model.wzName, model)
-					return
-						_ callback
-							_ ctx.error(myname + '. Invalid object property: ' + model.wzName, model)
-				else 
-					_ ctx.write
-						_ p.name()
+				_ ctx.write
+					_ p.name()
 			_ cnt.genItems
 				@ model.statements
 				@ ctx
@@ -192,15 +176,7 @@
 			r_cb()
         else 
             _ u.writeComments(model, ctx)
-            if ctx.__ecma === 'es6'
-                _ ctx.w('@' + model.wzName)
-			elif ctx.__artifact === 'xittf/document'
-				_ ctx.write
-					@ model.wzName
-            else 
-				return
-					_ callback
-						_ ctx.error(myname + '. Invalid jsPropertyOrValue: ' + model.wzName, model)
+			_ ctx.w('@' + model.wzName)
 			r_cb()
 
 	stm( jsObject
@@ -241,16 +217,10 @@
                 else
 				    _ ctx.w('{')
 			_ ctx.indent()
-			# loog '++++ start', ctx.__ecma
-			if ctx.__ecma === 'es6'
-				set ctx.__is_react_class = true
 			_ jsObject_close
 				@ model
 				@ ctx
 				a_cb()
-					if ctx.__ecma === 'es6'
-						# loog '++++ end', ctx.__ecma
-						set ctx.__is_react_class = save__is_react_class
                     _ u.checkInlineExit(model, ctx)
 					r_cb()
     

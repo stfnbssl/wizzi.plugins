@@ -1,0 +1,59 @@
+{
+    "name": "wizzi.plugin.toml",
+    "npmName": "@wizzi/plugin.toml",
+    "pluginBasename": "",
+    "version": "",
+    "description": "Toml document",
+    "main": "index.js",
+    "author": {
+        "name": "Stefano Bassoli",
+        "email": "stfn.bssl@gmail.com"
+    },
+    "github": {
+        "userid": "stfnbssl"
+    },
+    "license": {
+        "type": "MIT",
+        "url": "https://github.com/stfnbssl/wizzi.plugins/tree/main/packages/wizzi.plugin.toml/license.text",
+        "copy": "copy 2024"
+    },
+    "Build": {
+        "isWizziPlugin": true,
+        "useWizziV08": true,
+        "wizziV08": {},
+        "utils": {
+            "useStringifySafe": true,
+            "useObjectInspect": true
+        },
+        "useTomlParser": true
+    },
+    "Schemas": [
+        {
+            "name": "toml",
+            "title": "toml wizzi schema",
+            "rootTag": "{|[",
+            "builtin": true,
+            "hasWizzifier": true,
+            "hasCheatsheetFolder": true,
+            "modelTransformers": [],
+            "artifactGenerators": [
+                {
+                    "name": "document",
+                    "outmime": "toml",
+                    "contentType": "text/toml",
+                    "isDefault": true
+                }
+            ],
+            "defaultArtifact": "document",
+            "wizzifiers": [
+                {
+                    "name": "toml"
+                }
+            ],
+            "fileExtensions": [
+                "toml"
+            ],
+            "includes": []
+        }
+    ]
+}

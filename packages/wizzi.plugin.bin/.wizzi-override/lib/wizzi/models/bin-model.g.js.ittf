@@ -1,0 +1,58 @@
+﻿module
+	kind jsfile
+
+	#
+		# Pseudo schema text
+	var util = require('util')
+	+
+    set module.exports
+		function
+			param mTree
+			param ittfDocumentUri
+			param request
+			param callback
+
+			if !(mTree.nodes && mTree.nodes.length == 1)
+				return
+					_ callback
+						_ error
+							@ 'Malformed mTree. Must have one root node. Found mTree.nodes: ' + mTree.nodes.length
+
+			var root = mTree.nodes[0]
+			if root.n !== "bin"
+				return
+					_ callback
+						_ error
+							@ 'The root node of a bin ittf document must be : "bin". Found: ' + root.n + ' ' + root.v + ', mTree: ' + util.inspect(mTree, { depth: null } )
+
+			log root.children.length, root.children[0].n
+			if root.children.length != 1 || root.children[0].n != 'file'
+				return
+					_ callback
+						_ error
+							@ 'The root node of a bin ittf document must have a "file" node children, mTree: ' + util.inspect(mTree, { depth: null } )
+
+			var fileNode = root.children[0]
+
+			log fileNode.children.length, fileNode.children[0].n
+			if fileNode.children.length !== 1 || fileNode.children[0].n != 'data'
+				return
+					_ callback
+						_ error
+							@ 'Missing "data" node children, mTree: ' + util.inspect(mTree, { depth: null } )
+
+			var dataNode = fileNode.children[0]
+
+			return
+				_ callback
+					@ null
+					{
+						@ data dataNode.v
+
+	function error
+		param message
+		return
+			{
+				@ __is_error true
+				@ source 'wizzi.plugin.bin/lib/wizzi/models/bin-model.g'
+				@ message message

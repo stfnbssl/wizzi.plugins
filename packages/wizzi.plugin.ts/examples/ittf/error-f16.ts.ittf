@@ -1,0 +1,29 @@
+module
+    export 
+        function useIsPending
+            { 
+                @ formAction
+                @ formMethod
+                    = 'POST'
+                @ state
+                    = 'non-idle'
+                :{ 
+                    :p formAction
+                        :optional 
+                        :string 
+                    :p formMethod
+                        :optional 
+                        :union 
+                            :literal 'POST'
+                            :literal 'GET'
+                            :literal 'PUT'
+                            :literal 'PATCH'
+                            :literal 'DELETE'
+                    :p state
+                        :optional 
+                        :union 
+                            :literal 'submitting'
+                            :literal 'loading'
+                            :literal 'non-idle'
+                =
+                    { 

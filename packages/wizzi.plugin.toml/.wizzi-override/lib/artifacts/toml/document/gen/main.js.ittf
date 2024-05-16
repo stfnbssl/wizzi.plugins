@@ -1,0 +1,31 @@
+module
+    kind es6
+    $
+        var md = {
+            plugin: 'wizzi.plugin.toml',
+            name: 'document',
+            schema: 'toml',
+            rootElement: '',
+            rootTag: '{|[',
+            checkSchema: false,
+            isAsync: true,
+        };
+    gen( &md )
+        $append imports
+            const TOML = require('@iarna/toml')
+        $append main
+            _ md.toml
+                @ model
+                @ ctx
+                a_cb( )
+                    if ctx.artifactGenerationErrors.length > 0
+                        r_cb_err( ctx.artifactGenerationErrors )
+                    else
+                        # generation OK
+                        r_cb( ctx )
+        async-md( toml )
+            _ ctx.w
+                _ TOML.stringify
+                    @ model
+            r_cb()
+

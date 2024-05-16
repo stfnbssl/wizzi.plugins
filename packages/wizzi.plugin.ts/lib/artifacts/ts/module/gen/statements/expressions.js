@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.lastsafe.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\artifacts\ts\module\gen\statements\expressions.js.ittf
-    utc time: Thu, 25 Apr 2024 11:41:26 GMT
+    utc time: Thu, 16 May 2024 04:18:27 GMT
 */
 'use strict';
 var util = require('util');
@@ -126,6 +126,7 @@ md.load = function(cnt) {
         if (typeof callback !== 'function') {
             throw new Error('The callback parameter must be a function. In ' + myname + '.identifier. Got: ' + callback);
         }
+        model = writeComments(model, ctx);
         ctx.write( model.wzName );
         if (model.statements.length > 0) {
             cnt.genItems(model.statements, ctx, callback)
@@ -142,6 +143,7 @@ md.load = function(cnt) {
         if (typeof callback !== 'function') {
             throw new Error('The callback parameter must be a function. In ' + myname + '.expressionMember. Got: ' + callback);
         }
+        model = writeComments(model, ctx);
         ctx.write( model.wzName || '');
         cnt.genItems(model.statements, ctx, callback)
     }
@@ -153,6 +155,7 @@ md.load = function(cnt) {
         if (typeof callback !== 'function') {
             throw new Error('The callback parameter must be a function. In ' + myname + '.xvoid. Got: ' + callback);
         }
+        model = writeComments(model, ctx);
         ctx.write('void ');
         if (model.statements.length == 0) {
             ctx.write(model.wzName);

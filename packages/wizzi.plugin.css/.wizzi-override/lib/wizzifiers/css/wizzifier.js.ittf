@@ -5,7 +5,8 @@ module
     basewizzifier()
         $append imports
             +
-            var css_parser = require('css')
+            # var css_parser = require('css')
+            var css_parser = require('./parse')
             var cleanAST = require('./cleanAST')
             +
             function parseInternal
@@ -14,7 +15,8 @@ module
                 param callback
                 var syntax
                 try
-                    set syntax = css_parser.parse(tobeWizzified)
+                    # set syntax = css_parser.parse(tobeWizzified)
+                    set syntax = css_parser(tobeWizzified)
                     _ cleanAST(syntax)
                     r_cb( cloner(syntax) )
                 catch ex
@@ -27,8 +29,7 @@ module
                 param ast
                 param options
                 var formatter = format[ast.type]
-                if verbose
-                    info 'ast.type', ast.type
+                # loog 'ast.type', ast.type
                 if formatter
                     return formatter(ast, options)
                 throw 
@@ -167,6 +168,29 @@ module
                         _ format(node)
             return ret
         
+        f_simple( layer
+            var ret
+                { 
+                    @ tag 'layer'
+                    @ name ast.layer
+                    @ children
+                        [ 
+            _ ast.rules.map
+                function 
+                    param node
+                    _ ret.children.push
+                        _ format(node)
+            return ret
+
+        f_simple( tailwind
+            var ret
+                { 
+                    @ tag 'tailwind'
+                    @ name ast.tailwind
+                    @ children
+                        [ 
+            return ret
+
         f_simple( font-face
             var ret
                 { 

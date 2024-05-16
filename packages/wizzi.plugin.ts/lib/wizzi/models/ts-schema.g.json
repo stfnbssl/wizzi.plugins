@@ -34,6 +34,24 @@
           ]
         },
         {
+          "name": "commentForReference",
+          "tags": [
+            "###"
+          ]
+        },
+        {
+          "name": "inlineMultilineComment",
+          "tags": [
+            "##"
+          ]
+        },
+        {
+          "name": "jsDocComment",
+          "tags": [
+            "#doc"
+          ]
+        },
+        {
           "name": "xmodule",
           "tags": [
             "module"
@@ -306,6 +324,12 @@
           ]
         },
         {
+          "name": "literal",
+          "tags": [
+            "literal"
+          ]
+        },
+        {
           "name": "set",
           "tags": [
             "set"
@@ -327,6 +351,12 @@
           "name": "exportDefault",
           "tags": [
             "export-default"
+          ]
+        },
+        {
+          "name": "satisfies",
+          "tags": [
+            "satisfies"
           ]
         },
         {
@@ -944,8 +974,7 @@
         {
           "name": "template",
           "tags": [
-            "template",
-            "`lit"
+            "template"
           ]
         },
         {
@@ -1333,6 +1362,87 @@
       "comments": []
     },
     {
+      "name": "commentForReference",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "###"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "+"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "inlineMultilineComment",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "##"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "+"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "jsDocComment",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "#doc"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "+"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
       "name": "xmodule",
       "super": "statement",
       "isRoot": true,
@@ -1484,7 +1594,7 @@
         "var obj_beta",
         "{                |",
         "@ name stefi",
-        "js:",
+        "ts:",
         "var i;",
         "var i = 0;",
         "var alpha = function(p) {",
@@ -1524,7 +1634,7 @@
         "decl x = 0",
         "decl a",
         "{",
-        "js:",
+        "ts:",
         "var i, x = 0, a = {};"
       ]
     },
@@ -1699,7 +1809,7 @@
         "iif a === b",
         "then 0",
         "else 1",
-        "js:",
+        "ts:",
         "( a === b ) ? 0 : 1"
       ]
     },
@@ -2620,6 +2730,33 @@
       "comments": []
     },
     {
+      "name": "literal",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "literal"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "+"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
       "name": "set",
       "super": "statement",
       "isRoot": false,
@@ -2647,7 +2784,7 @@
       "comments": [
         "",
         "The set element do not relate to any javascript synthax element but is",
-        "fundamental in the 'js' language schema.",
+        "fundamental in the 'ts' language schema.",
         "A wizzi schema cannot have free node names (tags). User names",
         "cannot be node names but always must be node values.",
         "Whenever javascript has a left hand side item that is an user name",
@@ -2655,7 +2792,7 @@
         "",
         "ittf",
         "set user.name = 'stefi'",
-        "js",
+        "ts",
         "user.name = 'stefi';",
         "",
         "In a 'set' element the wzName is written as is. If it is a top statement",
@@ -2841,6 +2978,33 @@
       "comments": []
     },
     {
+      "name": "satisfies",
+      "super": "statement",
+      "isRoot": false,
+      "tags": [
+        "satisfies"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "statement",
+          "role": "statements",
+          "tags": [
+            "+"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "statement",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
       "name": "xif",
       "super": "statement",
       "isRoot": false,
@@ -2871,7 +3035,7 @@
         "if a === b",
         "elif a === c",
         "else",
-        "js:",
+        "ts:",
         "if ( a === b ) {",
         "}",
         "else if ( a === c ) {",
@@ -3084,7 +3248,7 @@
         "foreach item in arr5",
         "info 'item ', i, item",
         "",
-        "js",
+        "ts",
         "var i, i_len=arr5.length, item;",
         "for (i=0; i<i_len; i++) {",
         "item = arr5[i];",
@@ -3122,7 +3286,7 @@
         "ittf",
         "backeach item in arr5",
         "info 'item ', i, item",
-        "js",
+        "ts",
         "var i, i_len=arr5.length, item;",
         "for (i= (i_len-1); i>-1; i--) {",
         "item = arr5[i];",
@@ -3160,7 +3324,7 @@
         "ittf",
         "each item in arr5 [this]",
         "info 'item ', i, item",
-        "js",
+        "ts",
         "arr5.forEach(function(item, i, array) {",
         "console.log('item ', i, item);",
         "}, this);",
@@ -3196,7 +3360,7 @@
         "ittf",
         "filter item in arr5 [this]",
         "return item > 20",
-        "js",
+        "ts",
         "arr5.filter(function(item, i, array) {",
         "return item > 20",
         "}, this);",
@@ -3232,7 +3396,7 @@
         "ittf",
         "find item in arr5 [this]",
         "return item == 20",
-        "js",
+        "ts",
         "arr5.item(function(item, i, array) {",
         "return item == 20",
         "}, this);",
@@ -3268,7 +3432,7 @@
         "ittf",
         "reduce item in arr5 0",
         "return item_acc + item",
-        "js",
+        "ts",
         "arr5.reduce(function(acc, item, item_index, array) {",
         "return item_acc + item",
         "}, 0);",
@@ -3307,7 +3471,7 @@
         "[",
         "@ 'item2'",
         "@ 'item3'",
-        "js",
+        "ts",
         "arr5.concat('item1', ['item2', 'item3']);",
         ""
       ]
@@ -3485,7 +3649,7 @@
         "set i += 1",
         "set result += i + ' '",
         "",
-        "js",
+        "ts",
         "var result = '';",
         "var i = 0;",
         "do {",
@@ -3893,7 +4057,7 @@
         "set value",
         "_ init",
         "._calc",
-        "js:",
+        "ts:",
         "value = init().calc()"
       ]
     },
@@ -3939,7 +4103,7 @@
         "@ 200",
         "function",
         "return 'a';",
-        "js:",
+        "ts:",
         "@alpha(200, function() { return 'a'; })"
       ]
     },
@@ -3973,7 +4137,7 @@
         "_ getFunction()",
         "(",
         "@ 'stefi'",
-        "js:",
+        "ts:",
         "getFunction()('stefi')"
       ]
     },
@@ -4006,7 +4170,7 @@
         "ittf:",
         "set name = obj",
         ". name",
-        "js:",
+        "ts:",
         "name = obj.name"
       ]
     },
@@ -4039,7 +4203,7 @@
         "ittf:",
         "set name = obj",
         ".[ name",
-        "js:",
+        "ts:",
         "name = obj[name]"
       ]
     },
@@ -4815,7 +4979,7 @@
         "(",
         "@ key",
         "@ id",
-        "js",
+        "ts",
         ";(function(x, y) {",
         "return alpha = x + ': ' + y;",
         "})(key, id)",
@@ -5481,7 +5645,19 @@
         ":type"
       ],
       "flags": "",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "xas",
+          "type": "string",
+          "tags": [
+            "as"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "typeParameterDecl",
@@ -48306,8 +48482,7 @@
       "super": "statement",
       "isRoot": false,
       "tags": [
-        "template",
-        "`lit"
+        "template"
       ],
       "flags": "",
       "attributes": [],
@@ -48434,7 +48609,7 @@
         "_` fname",
         "+ bla bla",
         "+ bla bla",
-        "js:",
+        "ts:",
         "fname`",
         "bla bla",
         "bla bla",
@@ -48496,7 +48671,7 @@
       "comments": [
         "ittf:",
         "info 'xxx', yyy, ...",
-        "js:",
+        "ts:",
         "console.log( 'xxx', yyy, ..., __filename );",
         ""
       ]
@@ -48529,7 +48704,7 @@
       "comments": [
         "ittf:",
         "info 'xxx', yyy, ...",
-        "js:",
+        "ts:",
         "console.log( 'xxx', yyy, ... );",
         ""
       ]
@@ -48563,12 +48738,12 @@
         "TODO ensure require('util')",
         "ittf:",
         "log? xxx",
-        "js:",
+        "ts:",
         "console.log('xxx', util.inspect(xxx, { depth: null } );",
         "",
         "ittf:",
         "log? label xxx",
-        "js:",
+        "ts:",
         "console.log('label', util.inspect(xxx, { depth: null } );",
         ""
       ]
@@ -48601,7 +48776,7 @@
       "comments": [
         "ittf:",
         "warn 'xxx', yyy, ...",
-        "js:",
+        "ts:",
         "console.log( ...",
         ""
       ]
@@ -48634,7 +48809,7 @@
       "comments": [
         "ittf:",
         "warn 'xxx', yyy, ...",
-        "js:",
+        "ts:",
         "console.warn( 'xxx', yyy, ... );",
         ""
       ]
@@ -48667,7 +48842,7 @@
       "comments": [
         "ittf:",
         "error 'xxx', yyy, ...",
-        "js:",
+        "ts:",
         "console.error( 'xxx', yyy, ... );",
         ""
       ]
@@ -48702,7 +48877,7 @@
         "ittf:",
         "chalk green 'xxx'",
         "chalk green 'obj', red obj.name",
-        "js:",
+        "ts:",
         "console.log(chalk.green('xxx');",
         "console.log(chalk.green('obj'), chalk.red(obj.name));",
         ""

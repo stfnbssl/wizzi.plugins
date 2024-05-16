@@ -14,11 +14,10 @@ module wizzi.ts.artifacts.module.gen.codegen.method
 				decl clazz = model.wzParent.wzName
 				decl method = model.wzName
     
-			if ctx.__jskind == 'react' || ctx.__jskind == 'es6'
-				if model.static
-					_ ctx.write('static ')
-				if model.async
-					_ ctx.write('async ')
+			if model.static
+				_ ctx.write('static ')
+			if model.async
+				_ ctx.write('async ')
 			
 			if ctx.__is_react_class
 				_ ctx.w(method + '(' + model.paramNames.join(', ') + ') {');
