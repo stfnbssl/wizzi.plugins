@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\wizzi\models\ts-mtree-preprocessor.g.js.ittf
-    utc time: Thu, 16 May 2024 04:18:27 GMT
+    utc time: Thu, 16 May 2024 11:37:38 GMT
 */
 'use strict';
 // Those of facebook react

@@ -806,7 +806,7 @@
                 _ md.writeComments
                     @ p
                     @ ctx
-                # loog 'genTSParams.p', p.wzName, p.statements.length, p.statements[0] && p.statements[0].wzElement
+                log 'genTSParams.p', p.wzElement, p.wzName, p.statements.length, 'first child:', p.statements[0] && p.statements[0].wzElement
                 if verify.isEmpty(p.wzName) && p.statements.length > 0 && (p.statements[0].wzElement == 'jsObject' || p.statements[0].wzElement == 'jsArray') 
                     return
                         _ genTSParam_object_or_array
@@ -829,28 +829,32 @@
                         @ p
                 # loog 'genTSParams', p.wzElement, p_statements.length, pType && pType.wzElement
 				if p_statements.length == 0
+                    log 11
 					_ ctx.write(p.wzName)
 					if p.typeOptional
 						_ ctx.write('?')
 					if pType
+                        log 111
 						_ ctx.write(': ')
 						_ cnt.stm[pType.wzElement]
 							@ pType
 							@ ctx
 							a_cb()
                                 if pInitValue
+                                    log 1111
                                     _ ctx.write(' = ')
-                                    
                                     _ cnt.stm[pInitValue.wzElement]
-                                        @ pType
+                                        @ pInitValue
                                         @ ctx
                                         a_cb()
                                             repeater_increment(1)
                                 else
+                                    log 1112
 								    repeater_increment(1)
 					else
 						repeater_increment(1)
 				elif p.wzElement === 'objectParam' || p.wzElement === 'jsObject'
+                    log 12
 					set p.wzElement = 'jsObject'
                     # loog 'genTSParams', p.wzElement
 					_ cnt.stm[p.wzElement]
@@ -878,13 +882,14 @@
                                 if pInitValue
                                     _ ctx.write(' = ')
                                     _ cnt.stm[pInitValue.wzElement]
-                                        @ pType
+                                        @ pInitValue
                                         @ ctx
                                         a_cb()
                                             repeater_increment(1)
                                 else
 								    repeater_increment(1)
 				elif p_statements.length > 0 && p_statements.length < 3
+                    log 13
 					_ ctx.write(p.wzName)
 					if p.typeOptional
 						_ ctx.write('?')
@@ -968,7 +973,7 @@
 		param callback
 		if s0.statements.length == 2
 			var item = s0.statements[0]
-			# loog 'genTSParams_close 1 item.wzElement', item.wzElement
+			log 'genTSParams_close 1 item.wzElement', item.wzElement
 			_ cnt.stm[item.wzElement]
 				@ item
 				@ ctx
@@ -982,7 +987,7 @@
 						@ callback
 		else
 			_ ctx.write(' = ')
-			# loog 'genTSParams_close 3 item.wzElement', s0.wzElement
+			log 'genTSParams_close 3 item.wzElement', s0.wzElement
 			_ cnt.stm[s0.wzElement]
 				@ s0
 				@ ctx

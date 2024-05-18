@@ -1,0 +1,16 @@
+module
+    async-function requireUserId
+        param request
+            :ref Request
+        {
+            @ redirectTo
+            :{
+                :p redirectTo
+                    :optional
+                    :union
+                        :string
+                        :null
+            =
+        const userId
+            await
+                _ getUserId(request)
