@@ -198,6 +198,7 @@
 
 			async-md( tailwind )
 				_ ctx.w('@tailwind ' + model.wzName + ';')
+				r_cb()
 
 			async-md( comment )
 				if model.rules && model.rules.length > 0
@@ -294,6 +295,7 @@
 				
 				var name = prop.name
 				var value = prop.value
+				# loog 'prop', prop
                 # loog 'getWriteProperty', prop.name, prop.value, prop.wzElement, prop.wzName, prop.get_js, prop.prop && prop.prop.get_js
 				if prop.wzElement && prop.prop && prop.prop.get_svg
 					if prop.wzElement === "background_image"
@@ -342,7 +344,10 @@
 				elif name == '$'
                     _ ctx.w('$' + '{' + value + '}')
                     r_cb()
-                else
+                elif prop.name.startsWith('@')
+                    _ ctx.w(prop.name + ' ' + value + ';')
+                    r_cb()
+				else
                     if prop.styledprop
                         set value = "£{props => " + prop.styledprop + "}"
                     set value = verify.replaceAll(value, "£{", "${")

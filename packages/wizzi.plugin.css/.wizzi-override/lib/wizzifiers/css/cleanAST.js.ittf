@@ -1,21 +1,42 @@
 module
-    kind jsfile
+    kind es6
+    # usefull: https://github.com/douglascrockford/JSON-js/blob/master/cycle.js
     var verify = require('@wizzi/utils').verify
     function cleanAst
-        param ast
-        delete ast.loc
-        foreach k in Object.keys(ast)
-            if verify.isArray(ast[k])
-                # loog 'k', k
-                var temp = []
-                foreach node in ast[k]
-                    if node.type === 'space'
-                    else
-                        _ cleanAst(node)
-                        _ temp.push(node)
-                set ast[k] = temp
-            if verify.isObject(ast[k])
-                # loog 'k', k
-                _ cleanAst(ast[k])
-        return ast
-    set module.exports = cleanAst
+        param obj
+        param objects
+        param path
+        var objects = objects || new WeakMap()
+        if verify.isArray(obj)
+            delete obj.loc
+            var ret
+                [
+            foreach item in obj
+                var value
+                    _ cleanAst
+                        @ item
+                        @ objects
+                        @ path + "[" + i + "]"
+                if value !== null
+                    _ ret.push(value)
+            return ret
+        elif verify.isObject(obj)
+            var old_path = objects.get(obj)
+            if old_path !== undefined
+                return
+                    {
+                        @ $ref old_path
+            _ objects.set(obj, path)
+            var ret
+                {
+            for var prop in obj
+                if obj.hasOwnProperty(prop)
+                    set ret[prop] = cleanAst(obj[prop], objects, path + "[" + JSON.stringify(prop) + "]")
+            return ret
+        else
+            return obj
+    set module.exports
+        function
+            param ast
+            return cleanAst(ast, null, '')
+

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\wizzifiers\ts\wizzifier.js.ittf
-    utc time: Thu, 16 May 2024 11:37:38 GMT
+    utc time: Fri, 24 May 2024 16:39:28 GMT
 */
 'use strict';
 var util = require('util');
@@ -4572,8 +4572,12 @@ format.Directive = function(parent, node, options) {
             
         ]
      };
+    // loog 'node.value', node.value
     if (node.value && node.value.value === 'use strict') {
         ret = null;
+    }
+    else if (node.value && ['use client','use server'].indexOf(node.value.value) >-1) {
+        ret.name = node.value.value;
     }
     // process AST-node-property value and set it in a var
     else {
@@ -4670,6 +4674,7 @@ format.DirectiveLiteral = function(parent, node, options) {
             
         ]
      };
+    ret.name = node.value;
     if (ret != null) {
         if (__isText) {
             ret.textified = ret.name;
@@ -12898,13 +12903,33 @@ format.JSXText = function(parent, node, options) {
             
         ]
      };
-    // if node.value.trim().length == 0 || node.value === '\n' // 11/1/19
-    var nametrimmed = node.value.trim();
-    if (nametrimmed == 0) {
+    // loog 'JSXText', node.value, node.value.trim().length
+    if (node.value.trim().length == 0) {
         ret = null;
     }
     else {
-        ret.name = verify.replaceAll(nametrimmed, '\n', '&lf;');
+        var seenLFInWhitespacesBeforeText = false;
+        for (var i=0; i<node.value.length; i++) {
+            var ch = node.value[i];
+            
+            // loog 'JSXText', node.value, 'seenLFInWhitespacesBeforeText'
+            if (ch == '\n') {
+                seenLFInWhitespacesBeforeText = true;
+            }
+            
+            // loog 'JSXText', 'encountered text at char', i
+            if (/\s/.test(ch) == false) {
+                break;
+            }
+        }
+        var text = seenLFInWhitespacesBeforeText ? node.value.trimLeft() : node.value;
+        ret.name = verify.replaceAll(text, '\n', '&lf;');
+        if (ret.name[0] === ' ') {
+            ret.name = '\\b' + ret.name;
+        }
+        if (ret.name[ret.name.length-1] === ' ') {
+            ret.name = ret.name + '\\b';
+        }
     }
     if (ret != null) {
         if (__isText) {

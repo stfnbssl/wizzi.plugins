@@ -753,14 +753,18 @@ module
                     @ p_expression
 
         f( Directive, directive
+            # loog 'node.value', node.value
             if node.value && node.value.value === 'use strict'
                 set ret = null
+            elif node.value && ['use client','use server'].indexOf(node.value.value) >-1
+                set ret.name = node.value.value
             else
                 f_p_temp( value, true, true, DirectiveLiteral
                 if isTextualNode(p_value)
                     set ret.name = getNodeText(p_value)
 
         f( DirectiveLiteral
+            set ret.name = node.value
 
         f( Expression, expr
             # Any expression node. Since the left-hand side of an assignment may be any expression in general, an expression can also be a pattern.
@@ -2369,18 +2373,25 @@ module
             *$
 
         f( JSXText, +
-            # if node.value.trim().length == 0 || node.value === '\n' // 11/1/19
-            var nametrimmed = node.value.trim()
-            if nametrimmed == 0
+            # loog 'JSXText', node.value, node.value.trim().length
+            if node.value.trim().length == 0
                 set ret = null
             else
-                set ret.name = verify.replaceAll(nametrimmed, '\n', '&lf;')
-                $* 24/3/21
+                var seenLFInWhitespacesBeforeText = false
+                for var i=0; i<node.value.length; i++
+                    var ch = node.value[i]
+                    if ch == '\n'
+                        # loog 'JSXText', node.value, 'seenLFInWhitespacesBeforeText'
+                        set seenLFInWhitespacesBeforeText = true
+                    if /\s/.test(ch) == false
+                        # loog 'JSXText', 'encountered text at char', i
+                        break
+                var text = seenLFInWhitespacesBeforeText ? node.value.trimLeft() : node.value
+                set ret.name = verify.replaceAll(text, '\n', '&lf;')
                 if ret.name[0] === ' '
-                    set ret.name = '&nbsp;' + ret.name.substr(1)
+                    set ret.name = '\\b' + ret.name
                 if ret.name[ret.name.length-1] === ' '
-                    set ret.name = ret.name.substr(0, ret.name.length-1) + '&nbsp;'
-                *$
+                    set ret.name = ret.name + '\\b'
 
         f( JSXFragment, <
             # openingFragment JSXOpeningFragment

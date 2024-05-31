@@ -2,13 +2,46 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\artifacts\ts\module\gen\es6\htmlReact.js.ittf
-    utc time: Thu, 16 May 2024 11:37:38 GMT
+    utc time: Fri, 24 May 2024 16:39:28 GMT
 */
 'use strict';
 var verify = require('@wizzi/utils').verify;
 var u = require('../utils/stm');
 var md = module.exports = {};
 var myname = 'wizzi.ts.artifacts.module.gen.codegen.es6.htmlReact';
+var inlineHtmlTags = [
+    'a', 
+    'abbr', 
+    'b', 
+    'bdi', 
+    'bdo', 
+    'br', 
+    'button', 
+    'cite', 
+    'code', 
+    'data', 
+    'dfn', 
+    'em', 
+    'i', 
+    'input', 
+    'kbd', 
+    'mark', 
+    'q', 
+    'rp', 
+    'rt', 
+    'ruby', 
+    's', 
+    'samp', 
+    'small', 
+    'span', 
+    'strong', 
+    'sub', 
+    'sup', 
+    'time', 
+    'u', 
+    'var', 
+    'wbr'
+];
 md.htmlelement = function(cnt, model, tag, text, ctx, attrs, comments, callback) {
     // loog 'enter in htmlReact', 'tag', tag, 'model.wzElement', model.wzElement, 'u.parentIsHtmlElement(model)', u.parentIsHtmlElement(model), 'u.isArgumentOfCall(model)', u.isArgumentOfCall(model), 'u.isGraphEnclosed(tag)', u.isGraphEnclosed(tag), 'attrs.length', attrs.length
     if (u.isGraphEnclosed(tag)) {
@@ -68,6 +101,9 @@ function htmlelement_open(cnt, model, ctx, tag, attrs, comments, callback) {
     }
     // begin open tag and write attributes
     // loog 'htmlelement_open.tag', tag
+    if (inlineHtmlTags.indexOf(tag) < 0 && ctx.lineLength > 0) {
+        ctx.w();
+    }
     ctx.write("<" + tag);
     u.genTSTypeParameterInsts(model, ctx, cnt, (err, notUsed) => {
     
@@ -75,7 +111,6 @@ function htmlelement_open(cnt, model, ctx, tag, attrs, comments, callback) {
             return callback(err);
         }
         ctx.write(singleline ? ' ' : '');
-        u.forceInlineOff(model, ctx);
         var len_1 = attrs.length;
         function repeater_1(index_1) {
             if (index_1 === len_1) {
@@ -112,12 +147,22 @@ function htmlelement_open(cnt, model, ctx, tag, attrs, comments, callback) {
                 
                 // end of open tag
                 if (model.__hasChildElements == true) {
-                    ctx.w(">");
+                    if (inlineHtmlTags.indexOf(tag) > -1) {
+                        ctx.write(">");
+                    }
+                    else {
+                        ctx.w(">");
+                    }
                     return callback(null, false);
                 }
                 // end of tag
                 else {
-                    ctx.w(" />");
+                    if (inlineHtmlTags.indexOf(tag) > -1) {
+                        ctx.write(" />");
+                    }
+                    else {
+                        ctx.w(" />");
+                    }
                     htmlelement_tagclose(model, ctx)
                     return callback(null, true);
                 }
@@ -175,7 +220,7 @@ function htmlelement_attribute(cnt, a, ctx, singleline, callback) {
 }
 function htmlelement_end(cnt, model, ctx, tag, text, callback) {
     if (text) {
-        ctx.w(verify.replaceAll(verify.replaceAll(text, '&lf;', '\n'), '&nbsp;', ' '))
+        ctx.write(verify.replaceAll(verify.replaceAll(text, '&lf;', '\n'), '&nbsp;', ' '))
     }
     cnt.genItems(model.statements, ctx, {
         indent: true
@@ -184,7 +229,12 @@ function htmlelement_end(cnt, model, ctx, tag, text, callback) {
         if (err) {
             return callback(err);
         }
-        ctx.w("</" + tag + ">");
+        if (inlineHtmlTags.indexOf(tag) > -1) {
+            ctx.write("</" + tag + ">");
+        }
+        else {
+            ctx.w("</" + tag + ">");
+        }
         htmlelement_tagclose(model, ctx)
         return callback(null);
     }

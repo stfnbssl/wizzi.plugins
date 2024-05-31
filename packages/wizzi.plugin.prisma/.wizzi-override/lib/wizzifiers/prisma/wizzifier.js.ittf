@@ -141,17 +141,25 @@ module
 
         f( path, path )
             if parent.tag == '_'
+                log 1 , node.value
                 set parent.name = node.value.join('.')
                 set skip = true
             elif ['onDelete','onUpdate'].indexOf(parent.tag) > -1
+                log 2 , node.value
                 set parent.name = node.value.join(',')
                 set skip = true
             elif parent.tag == '['
+                log 3 , node.value
                 set ret.tag = '@'
                 set ret.name = node.value.join(',')
             else
-                set ret.tag = '=['
-                set ret.name = node.value.join(',')
+                log 4 , node.value
+                if node.value[0] == 'db'
+                    set ret.tag = '@'
+                    set ret.name = node.value.join('.')
+                else
+                    set ret.tag = '=['
+                    set ret.name = node.value.join(',')
             $*
             foreach value in node.value
                 _ ret.children.push

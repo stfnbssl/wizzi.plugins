@@ -1,3 +1,8 @@
+/*
+  credits
+  taken from https://github.com/reworkcss/css/blob/master/lib/parse/index.js
+  and modifyed
+*/
 // http://www.w3.org/TR/CSS21/grammar.html
 // https://github.com/visionmedia/css-parse/pull/49#issuecomment-30088027
 var commentre = /\/\*[^*]*\*+([^/*][^*]*\*+)*\//g
@@ -104,6 +109,14 @@ module.exports = function(css, options){
 
   function close() {
     return match(/^}/);
+  }
+
+  /**
+   * Closing semicolon.
+   */
+
+  function closesemicolon() {
+    return match(/^;/);
   }
 
   /**
@@ -489,30 +502,46 @@ module.exports = function(css, options){
     });
   }
 
-    /**
-   * Parse media.
+   /**
+   * Parse layer.
    */
-
-    function atmedia() {
+    function atlayer() {
       var pos = position();
-      var m = match(/^@media *([^{]+)/);
+      var m = match(/^@layer *([^{]+)/);
   
       if (!m) return;
-      var media = trim(m[1]);
+      var layer = trim(m[1]);
   
-      if (!open()) return error("@media missing '{'");
+      if (!open()) return error("@layer missing '{'");
   
       var style = comments().concat(rules());
   
-      if (!close()) return error("@media missing '}'");
+      if (!close()) return error("@layer missing '}'");
   
       return pos({
-        type: 'media',
-        media: media,
+        type: 'layer',
+        layer: layer,
         rules: style
       });
     }
-  
+
+   /**
+   * Parse taylwind.
+   */
+  function attailwind() {
+    var pos = position();
+    var m = match(/^@tailwind *([^;]+)/);
+
+    if (!m) return;
+    var tailwind = trim(m[1]);
+
+    if (!closesemicolon()) return error("@tailwind missing ';'");
+
+    return pos({
+      type: 'tailwind',
+      tailwind: tailwind
+    });
+  }  
  
   /**
    * Parse import
@@ -566,7 +595,9 @@ module.exports = function(css, options){
       || atdocument()
       || atpage()
       || athost()
-      || atfontface();
+      || atfontface()
+      || atlayer()
+      || attailwind();
   }
 
   /**

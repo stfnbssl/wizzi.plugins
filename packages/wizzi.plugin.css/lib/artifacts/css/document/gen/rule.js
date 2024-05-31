@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.css\.wizzi-override\lib\artifacts\css\document\gen\rule.js.ittf
-    utc time: Sun, 12 May 2024 15:10:32 GMT
+    utc time: Thu, 23 May 2024 15:07:25 GMT
 */
 'use strict';
 var util = require('util');
@@ -258,6 +258,7 @@ mymd.load = function(md) {
     ;
     md.tailwind = function(model, ctx, callback) {
         ctx.w('@tailwind ' + model.wzName + ';');
+        return callback(null);
     }
     ;
     md.comment = function(model, ctx, callback) {
@@ -360,6 +361,7 @@ function getWriteProperty(ctx) {
     return function writeProperty(prop, callback) {
             var name = prop.name;
             var value = prop.value;
+            // loog 'prop', prop
             // loog 'getWriteProperty', prop.name, prop.value, prop.wzElement, prop.wzName, prop.get_js, prop.prop && prop.prop.get_js
             if (prop.wzElement && prop.prop && prop.prop.get_svg) {
                 if (prop.wzElement === "background_image") {
@@ -421,6 +423,10 @@ function getWriteProperty(ctx) {
             }
             else if (name == '$') {
                 ctx.w('$' + '{' + value + '}');
+                return callback(null);
+            }
+            else if (prop.name.startsWith('@')) {
+                ctx.w(prop.name + ' ' + value + ';');
                 return callback(null);
             }
             else {

@@ -162,7 +162,9 @@ wzschema css
 				elif this.wzElement === 'ampersand'
 					set thisRuleParts[0] = '&' + thisRuleParts[0]
 			# loog '*** thisRuleParts 2', thisRuleParts.join(',')
-			if this.wzParent && this.wzParent.getAscendingRuleParts
+			if this.wzParent && this.wzParent.wzElement == 'layer'
+				return thisRuleParts
+			elif this.wzParent && this.wzParent.getAscendingRuleParts
 				var parentRuleParts = this.wzParent.getAscendingRuleParts()
 				# loog '*** parentRuleParts 3', parentRuleParts.join(',')
 				if parentRuleParts.length > 0
@@ -264,13 +266,18 @@ wzschema css
         tag js=>
         include js module
 
+	e apply : property
+		tag @apply
+
 	$include css/spec-properties
 
 	e media : rule
 
 	e layer : rule
+		tag @layer|layer
 
 	e tailwind : rule
+		tag @tailwind|tailwind
 
 	e keyframes : rule
 		a vendor

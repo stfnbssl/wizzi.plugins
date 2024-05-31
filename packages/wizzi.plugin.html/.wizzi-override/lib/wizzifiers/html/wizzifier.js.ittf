@@ -4,14 +4,11 @@ module
     kind es6
     basewizzifier()
         $append imports
-            $$ COPY FROM old
             +
             var html_parser = require('./parser')
 		    var cloner = require('./cloner')
 		    var csswizzifier = null
 		    var jswizzifier = null
-
-            $$ COPY FROM old
             +
             function parseInternal
                 param tobeWizzified
@@ -322,30 +319,6 @@ module
                         param item
                         param callback
                         if item.kind === 'css'
-                            $* OLD VIA
-                            if !csswizzifier
-                                set csswizzifier = require('../../cssparser/css/wizzifier')
-                            _ csswizzifier.getWizziTree
-                                @ item.literal
-                                {
-                                a_cb_no_throw( ittf )
-                                    # loog 'getWizzifierIncludes.item.ittf', ittf
-                                    if err
-                                        _ item.node.children.push
-                                            {
-                                                @ tag 'error'
-                                                @ name err.message
-                                                [ children
-                                    else
-                                        if options.isForVue
-                                            foreach ittfchild in ittf.children
-                                                _ item.node.children.push
-                                                    @ ittfchild
-                                        else
-                                            _ item.node.children.push
-                                                @ ittf
-                                    r_cb()
-                            *$
                             _ options.wf.getWizziTreeFromText
                                 @ item.literal
                                 @ "css"
@@ -368,39 +341,6 @@ module
                                     r_cb()
 
                         elif item.kind === 'ts'
-                            $* OLD VIA
-                            if !jswizzifier
-                                # loog 'jswizzifier import 1'
-                                set jswizzifier = require('../../jsparser/babel/wizzifier')
-                                # loog 'jswizzifier import 2'
-                            # loog 'jswizzifier', jswizzifier
-                            _ jswizzifier.getWizziTree
-                                @ item.literal
-                                {
-                                    @ babel
-                                        {
-                                            @ sourceType 'module'
-                                            @ ts_or_flow 'typescript'
-                                a_cb_no_throw( ittf )
-                                    # loog 'getWizzifierIncludes.item.ittf', ittf
-                                    if err
-                                        _ item.node.children.push
-                                            {
-                                                @ tag 'error'
-                                                @ name err.message
-                                                [ children
-                                    else
-                                        if options.isForVue
-                                            foreach ittfchild in ittf.children
-                                                # skip kind
-                                                if i > 0
-                                                    _ item.node.children.push
-                                                        @ ittfchild
-                                        else
-                                            _ item.node.children.push
-                                                @ ittf
-                                    r_cb()
-                            *$
                             _ options.wf.getWizziTreeFromText
                                 @ item.literal
                                 @ "ts"
@@ -424,35 +364,6 @@ module
                                                 @ ittf
                                     r_cb()
                         else
-                            $* OLD VIA
-                            if !jswizzifier
-                                # loog 'jswizzifier import 1'
-                                set jswizzifier = require('../../jsparser/babel/wizzifier')
-                                # loog 'jswizzifier import 2'
-                            # loog 'jswizzifier', jswizzifier
-                            _ jswizzifier.getWizziTree
-                                @ item.literal
-                                {
-                                a_cb_no_throw( ittf )
-                                    # loog 'getWizzifierIncludes.item.ittf', ittf
-                                    if err
-                                        _ item.node.children.push
-                                            {
-                                                @ tag 'error'
-                                                @ name err.message
-                                                [ children
-                                    else
-                                        if options.isForVue
-                                            foreach ittfchild in ittf.children
-                                                # skip kind
-                                                if i > 0
-                                                    _ item.node.children.push
-                                                        @ ittfchild
-                                        else
-                                            _ item.node.children.push
-                                                @ ittf
-                                    r_cb()
-                            *$
                             # loog 'getWizziTreeFromText.js.item.literal', item.literal
                             _ options.wf.getWizziTreeFromText
                                 @ item.literal
@@ -478,4 +389,3 @@ module
                                                 @ ittf
                                     r_cb()
                     @ callback
-

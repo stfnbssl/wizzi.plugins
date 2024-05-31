@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.prisma\.wizzi-override\lib\wizzifiers\prisma\wizzifier.js.ittf
-    utc time: Wed, 15 May 2024 12:22:05 GMT
+    utc time: Thu, 23 May 2024 06:28:37 GMT
 */
 'use strict';
 var util = require('util');
@@ -848,20 +848,30 @@ format.path = function(parent, node, options) {
         ]
      };
     if (parent.tag == '_') {
+        console.log(1 , node.value, __filename);
         parent.name = node.value.join('.');
         skip = true;
     }
     else if (['onDelete','onUpdate'].indexOf(parent.tag) > -1) {
+        console.log(2 , node.value, __filename);
         parent.name = node.value.join(',');
         skip = true;
     }
     else if (parent.tag == '[') {
+        console.log(3 , node.value, __filename);
         ret.tag = '@';
         ret.name = node.value.join(',');
     }
     else {
-        ret.tag = '=[';
-        ret.name = node.value.join(',');
+        console.log(4 , node.value, __filename);
+        if (node.value[0] == 'db') {
+            ret.tag = '@';
+            ret.name = node.value.join('.');
+        }
+        else {
+            ret.tag = '=[';
+            ret.name = node.value.join(',');
+        }
     }
     // loog '### add ', ret.tag , 'to', parent.tag
     if (skip == false) {

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzifiers\svg\wizzifier.js.ittf
-    utc time: Fri, 10 May 2024 18:13:22 GMT
+    utc time: Thu, 23 May 2024 15:31:39 GMT
 */
 'use strict';
 var util = require('util');
@@ -137,7 +137,7 @@ function appendChilds(name, nodeArray, parent) {
             for (var aName in aObj) {
                 tag.children.push({
                     tag: cleanName(aName), 
-                    name: cleanAttr(aObj[aName]), 
+                    name: aObj[aName] ? cleanAttr(aObj[aName]) : '', 
                     children: []
                  })
             }
@@ -145,6 +145,7 @@ function appendChilds(name, nodeArray, parent) {
             for (j=0; j<j_len; j++) {
                 childnode = ac.c[j];
                 if (verify.isArray(childnode.value) === false) {
+                    console.log("[31m%s[0m", 'ac', ac);
                     console.log("[31m%s[0m", "Error: value is not an array: " + childnode.name + ',' + childnode.value);
                 }
                 else {
@@ -214,13 +215,14 @@ function wizzify(tobeWizzified, options, callback) {
                 for (var aName in aObj) {
                     wizziTree.children.push({
                         tag: cleanName(aName), 
-                        name: cleanAttr(aObj[aName]), 
+                        name: aObj[aName] ? cleanAttr(aObj[aName]) : '', 
                         children: []
                      })
                 }
                 for (var j = 0; j < ac.c.length; j++) {
                     var childnode = ac.c[j];
                     if (verify.isArray(childnode.value) === false) {
+                        console.log("[31m%s[0m", 'ac', ac);
                         console.log("[31m%s[0m", "Error: value is not an array: " + childnode.name + ',' + childnode.value);
                     }
                     else {

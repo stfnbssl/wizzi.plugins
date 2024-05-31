@@ -36,8 +36,8 @@
         elif ret.tag === 'div' && ret.name.length === 0 && ret.attribs.class
             set ret.tag = '.'
             set ret.name = ret.attribs.class
-            set delete (ret.attribs.class)
-        elif ret.tag === 'script' && ret.attribs.src
+            delete (ret.attribs.class)
+        elif ret.tag === 'script' && ret.attribs.src && !ret.attribs.type
             set ret.tag = 'js'
             set ret.name = ret.attribs.src
             set ret.attribs =

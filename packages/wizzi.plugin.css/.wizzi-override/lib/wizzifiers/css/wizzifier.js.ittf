@@ -6,7 +6,8 @@ module
         $append imports
             +
             # var css_parser = require('css')
-            var css_parser = require('./parse')
+            # var css_parser = require('./parse')
+            var css_parser = require('postcss-safe-parser')
             var cleanAST = require('./cleanAST')
             +
             function parseInternal
@@ -16,9 +17,10 @@ module
                 var syntax
                 try
                     # set syntax = css_parser.parse(tobeWizzified)
+                    # set syntax = css_parser(tobeWizzified)
                     set syntax = css_parser(tobeWizzified)
                     _ cleanAST(syntax)
-                    r_cb( cloner(syntax) )
+                    r_cb( syntax )
                 catch ex
                     return
                         _ callback
@@ -80,6 +82,37 @@ module
             param type
             return isKnownType(type) ? type.toLowerCase() : type
         +
+        f_simple( root
+            var ret
+                { 
+                    @ tag 'css'
+                    @ children
+                        [ 
+            _ ast.nodes.map
+                function 
+                    param node
+                    _ ret.children.push
+                        _ format(node)
+            return ret
+        
+        f_simple( atrule
+            var at = ['keyframes','media'].indexOf(ast.name) > -1 ? '' : '@'
+            log 'ast.name', at, ast.name
+            var ret
+                { 
+                    @ tag at + ast.name
+                    @ name ast.params
+                    @ children
+                        [ 
+            if ast.nodes
+                _ ast.nodes.map
+                    function 
+                        param node
+                        _ ret.children.push
+                            _ format(node)
+
+            return ret
+        
         f_simple( stylesheet
             # loog 'stylesheet.ast', ast
             var ret
@@ -138,11 +171,21 @@ module
                             @ name ast.selectors[i]
                             @ children
                                 [ 
-            _ ast.declarations.map
-                function 
-                    param node
-                    _ ret.children.push
-                        _ format(node)
+            if ast.nodes
+                _ ast.nodes.map
+                    function 
+                        param node
+                        _ ret.children.push
+                            _ format(node)
+            return ret
+        
+        f_simple( decl
+            var ret
+                { 
+                    @ tag ast.prop
+                    @ name ast.value
+                    @ children
+                        [ 
             return ret
         
         f_simple( declaration

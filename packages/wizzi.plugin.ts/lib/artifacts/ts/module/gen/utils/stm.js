@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\artifacts\ts\module\gen\utils\stm.js.ittf
-    utc time: Thu, 16 May 2024 11:37:38 GMT
+    utc time: Fri, 24 May 2024 16:39:28 GMT
 */
 'use strict';
 // var verify = require('./verify')
@@ -860,7 +860,7 @@ md.genTSParams = function(model, ctx, cnt, callback) {
             }
         }
         md.writeComments(p, ctx)
-        console.log('genTSParams.p', p.wzElement, p.wzName, p.statements.length, 'first child:', p.statements[0] && p.statements[0].wzElement, __filename);
+        // loog 'genTSParams.p', p.wzElement, p.wzName, p.statements.length, 'first child:', p.statements[0] && p.statements[0].wzElement
         if (verify.isEmpty(p.wzName) && p.statements.length > 0 && (p.statements[0].wzElement == 'jsObject' || p.statements[0].wzElement == 'jsArray')) {
             return genTSParam_object_or_array(p, ctx, cnt, (err, notUsed) => {
                 
@@ -879,13 +879,11 @@ md.genTSParams = function(model, ctx, cnt, callback) {
         var p_statements = md.nonCommentStatements(p);
         // loog 'genTSParams', p.wzElement, p_statements.length, pType && pType.wzElement
         if (p_statements.length == 0) {
-            console.log(11, __filename);
             ctx.write(p.wzName);
             if (p.typeOptional) {
                 ctx.write('?');
             }
             if (pType) {
-                console.log(111, __filename);
                 ctx.write(': ');
                 cnt.stm[pType.wzElement](pType, ctx, (err, notUsed) => {
                 
@@ -893,7 +891,6 @@ md.genTSParams = function(model, ctx, cnt, callback) {
                         return callback(err);
                     }
                     if (pInitValue) {
-                        console.log(1111, __filename);
                         ctx.write(' = ');
                         cnt.stm[pInitValue.wzElement](pInitValue, ctx, (err, notUsed) => {
                         
@@ -907,7 +904,6 @@ md.genTSParams = function(model, ctx, cnt, callback) {
                         )
                     }
                     else {
-                        console.log(1112, __filename);
                         return process.nextTick(function() {
                                 repeater_1(index_1 + 1);
                             });
@@ -924,7 +920,6 @@ md.genTSParams = function(model, ctx, cnt, callback) {
         
         // loog 'genTSParams', p.wzElement
         else if (p.wzElement === 'objectParam' || p.wzElement === 'jsObject') {
-            console.log(12, __filename);
             p.wzElement = 'jsObject';
             cnt.stm[p.wzElement](p, ctx, (err, notUsed) => {
             
@@ -996,7 +991,6 @@ md.genTSParams = function(model, ctx, cnt, callback) {
         
         // throw new Error('jswizzifier.genTSParams.statements[0].wzElement should be "typeInitValue or typeCTor".found: ' + s0.wzElement)
         else if (p_statements.length > 0 && p_statements.length < 3) {
-            console.log(13, __filename);
             ctx.write(p.wzName);
             if (p.typeOptional) {
                 ctx.write('?');
@@ -1089,9 +1083,10 @@ function genTSParam_object_or_array(p, ctx, cnt, callback) {
     )
 }
 function genTSParams_close(s0, ctx, cnt, callback) {
+    
+    // loog 'genTSParams_close 1 item.wzElement', item.wzElement
     if (s0.statements.length == 2) {
         var item = s0.statements[0];
-        console.log('genTSParams_close 1 item.wzElement', item.wzElement, __filename);
         cnt.stm[item.wzElement](item, ctx, (err, notUsed) => {
         
             if (err) {
@@ -1104,9 +1099,9 @@ function genTSParams_close(s0, ctx, cnt, callback) {
         }
         )
     }
+    // loog 'genTSParams_close 3 item.wzElement', s0.wzElement
     else {
         ctx.write(' = ');
-        console.log('genTSParams_close 3 item.wzElement', s0.wzElement, __filename);
         cnt.stm[s0.wzElement](s0, ctx, callback)
     }
 }

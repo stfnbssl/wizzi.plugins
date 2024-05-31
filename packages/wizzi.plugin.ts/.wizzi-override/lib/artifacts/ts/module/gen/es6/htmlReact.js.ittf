@@ -6,6 +6,40 @@ module wizzi.ts.artifacts.module.gen.codegen.es6.htmlReact
 	var md = module.exports = {}
 	var myname = 'wizzi.ts.artifacts.module.gen.codegen.es6.htmlReact'
 
+    var inlineHtmlTags 
+        [ 
+            @ 'a' $$ Together with its href attribute, creates a hyperlink to web pages, files, email addresses, locations within the current page, or anything else a URL can address.
+            @ 'abbr' $$	Represents an abbreviation or acronym.
+            @ 'b' $$	Used to draw the reader's attention to the element's contents, which are not otherwise granted special importance. This was formerly known as the Boldface element, and most browsers still draw the text in boldface. However, you should not use @ 'b> for styling text or granting importance. If you wish to create boldface text, you should use the CSS font-weight property. If you wish to indicate an element is of special importance, you should use the strong element.
+            @ 'bdi' $$	Tells the browser's bidirectional algorithm to treat the text it contains in isolation from its surrounding text. It's particularly useful when a website dynamically inserts some text and doesn't know the directionality of the text being inserted.
+            @ 'bdo' $$	Overrides the current directionality of text, so that the text within is rendered in a different direction.
+            @ 'br' $$	Produces a line break in text (carriage-return). It is useful for writing a poem or an address, where the division of lines is significant.
+            @ 'button'
+            @ 'cite' $$	Used to mark up the title of a cited creative work. The reference may be in an abbreviated form according to context-appropriate conventions related to citation metadata.
+            @ 'code' $$	Displays its contents styled in a fashion intended to indicate that the text is a short fragment of computer code. By default, the content text is displayed using the user agent's default monospace font.
+            @ 'data' $$	Links a given piece of content with a machine-readable translation. If the content is time- or date-related, the<time> element must be used.
+            @ 'dfn' $$	Used to indicate the term being defined within the context of a definition phrase or sentence. The ancestor <p> element, the <dt>/<dd> pairing, or the nearest section ancestor of the <dfn> element, is considered to be the definition of the term.
+            @ 'em' $$	Marks text that has stress emphasis. The <em' $$ element can be nested, with each nesting level indicating a greater degree of emphasis.
+            @ 'i' $$	Represents a range of text that is set off from the normal text for some reason, such as idiomatic text, technical terms, and taxonomical designations, among others. Historically, these have been presented using italicized type, which is the original source of the <i> naming of this element.
+            @ 'input'
+            @ 'kbd' $$	Represents a span of inline text denoting textual user input from a keyboard, voice input, or any other text entry device. By convention, the user agent defaults to rendering the contents of a <kbd> element using its default monospace font, although this is not mandated by the HTML standard.
+            @ 'mark' $$	Represents text which is marked or highlighted for reference or notation purposes due to the marked passage's relevance in the enclosing context.
+            @ 'q' $$	Indicates that the enclosed text is a short inline quotation. Most modern browsers implement this by surrounding the text in quotation marks. This element is intended for short quotations that don't require paragraph breaks; for long quotations use the <blockquote> element.
+            @ 'rp' $$	Used to provide fall-back parentheses for browsers that do not support the display of ruby annotations using the <ruby> element. One <rp> element should enclose each of the opening and closing parentheses that wrap the <rt> element that contains the annotation's text.
+            @ 'rt' $$	Specifies the ruby text component of a ruby annotation, which is used to provide pronunciation, translation, or transliteration information for East Asian typography. The <rt> element must always be contained within a <ruby> element.
+            @ 'ruby' $$	Represents small annotations that are rendered above, below, or next to base text, usually used for showing the pronunciation of East Asian characters. It can also be used for annotating other kinds of text, but this usage is less common.
+            @ 's' $$	Renders text with a strikethrough, or a line through it. Use the <s' $$ element to represent things that are no longer relevant or no longer accurate. However, <s> is not appropriate when indicating document edits; for that, use the <del> and <ins> elements, as appropriate.
+            @ 'samp' $$	Used to enclose inline text which represents sample (or quoted) output from a computer program. Its contents are typically rendered using the browser's default monospaced font (such as Courier or Lucida Console).
+            @ 'small' $$	Represents side-comments and small print, like copyright and legal text, independent of its styled presentation. By default, it renders text within it one font size smaller, such as from small to x-small.
+            @ 'span' $$	A generic inline container for phrasing content, which does not inherently represent anything. It can be used to group elements for styling purposes (using the class or id attributes), or because they share attribute values, such as lang. It should be used only when no other semantic element is appropriate. <span> is very much like a div element, but div is a block-level element whereas a <span> is an inline-level element.
+            @ 'strong' $$	Indicates that its contents have strong importance, seriousness, or urgency. Browsers typically render the contents in bold type.
+            @ 'sub' $$	Specifies inline text which should be displayed as subscript for solely typographical reasons. Subscripts are typically rendered with a lowered baseline using smaller text.
+            @ 'sup' $$	Specifies inline text which is to be displayed as superscript for solely typographical reasons. Superscripts are usually rendered with a raised baseline using smaller text.
+            @ 'time' $$	Represents a specific period in time. It may include the datetime attribute to translate dates into machine-readable format, allowing for better search engine results or custom features such as reminders.
+            @ 'u' $$	Represents a span of inline text which should be rendered in a way that indicates that it has a non-textual annotation. This is rendered by default as a simple solid underline but may be altered using CSS.
+            @ 'var' $$	Represents the name of a variable in a mathematical expression or a programming context. It's typically presented using an italicized version of the current typeface, although that behavior is browser-dependent.
+            @ 'wbr' $$	Represents a word break opportunity—a position within text where the browser may optionally break a line, though its line-breaking rules would not otherwise create a break at that location.
+
 	set md.htmlelement
 		function
 			param cnt
@@ -87,6 +121,8 @@ module wizzi.ts.artifacts.module.gen.codegen.es6.htmlReact
 
 		# begin open tag and write attributes
         # loog 'htmlelement_open.tag', tag
+        if inlineHtmlTags.indexOf(tag) < 0 && ctx.lineLength > 0 
+            _ ctx.w
 		_ ctx.write("<" + tag)
         _ u.genTSTypeParameterInsts
             @ model
@@ -94,7 +130,7 @@ module wizzi.ts.artifacts.module.gen.codegen.es6.htmlReact
             @ cnt
             a_cb()
                 _ ctx.write(singleline ? ' ' : '')
-                _ u.forceInlineOff(model, ctx)
+                $$ 24/5/24 _ u.forceInlineOff(model, ctx)
                 repeater(1, attrs)
                     if singleline
                         _ ctx.indent
@@ -116,11 +152,17 @@ module wizzi.ts.artifacts.module.gen.codegen.es6.htmlReact
                                 @ indent false
                             a_cb()
                                 if model.__hasChildElements == true
-                                    _ ctx.w(">");
+                                    if inlineHtmlTags.indexOf(tag) > -1
+                                        _ ctx.write(">");
+                                    else
+                                        _ ctx.w(">");
                                     # end of open tag
                                     r_cb(false)
                                 else
-                                    _ ctx.w(" />");
+                                    if inlineHtmlTags.indexOf(tag) > -1
+                                        _ ctx.write(" />");
+                                    else
+                                        _ ctx.w(" />");
                                     # end of tag
                                     _ htmlelement_tagclose
                                         @ model
@@ -177,7 +219,7 @@ module wizzi.ts.artifacts.module.gen.codegen.es6.htmlReact
 		param callback
 
 		if text
-			_ ctx.w
+			_ ctx.write $$ 24/5/24 ctx.w
                 _ verify.replaceAll
                     _ verify.replaceAll
                         @ text
@@ -191,7 +233,10 @@ module wizzi.ts.artifacts.module.gen.codegen.es6.htmlReact
 			{
 				@ indent true
 			a_cb()
-				_ ctx.w("</" + tag + ">");
+                if inlineHtmlTags.indexOf(tag) > -1
+				    _ ctx.write("</" + tag + ">");
+                else
+                    _ ctx.w("</" + tag + ">");
                 _ htmlelement_tagclose
                     @ model
                     @ ctx

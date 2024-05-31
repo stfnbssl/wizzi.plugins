@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.css\.wizzi-override\lib\wizzifiers\css\wizzifier.js.ittf
-    utc time: Sun, 12 May 2024 15:10:32 GMT
+    utc time: Thu, 23 May 2024 15:07:25 GMT
 */
 'use strict';
 var util = require('util');
@@ -15,16 +15,18 @@ var cloner = require('../utils/cloner');
 var ittfWriter = require("../utils/ittfWriter");
 
 // var css_parser = require('css')
-var css_parser = require('./parse');
+// var css_parser = require('./parse')
+var css_parser = require('postcss-safe-parser');
 var cleanAST = require('./cleanAST');
 
 function parseInternal(tobeWizzified, options, callback) {
     var syntax;
     try {
         // set syntax = css_parser.parse(tobeWizzified)
+        // set syntax = css_parser(tobeWizzified)
         syntax = css_parser(tobeWizzified);
         cleanAST(syntax);
-        return callback(null, cloner(syntax));
+        return callback(null, syntax);
     } 
     catch (ex) {
         return callback(ex);
@@ -401,6 +403,33 @@ function getTypeName(type) {
     return isKnownType(type) ? type.toLowerCase() : type;
 }
 
+format['root'] = function(ast) {
+    var ret = {
+        tag: 'css', 
+        children: []
+     };
+    ast.nodes.map(function(node) {
+        ret.children.push(format(node))
+    })
+    return ret;
+}
+;
+format['atrule'] = function(ast) {
+    var at = ['keyframes','media'].indexOf(ast.name) > -1 ? '' : '@';
+    console.log('ast.name', at, ast.name, __filename);
+    var ret = {
+        tag: at + ast.name, 
+        name: ast.params, 
+        children: []
+     };
+    if (ast.nodes) {
+        ast.nodes.map(function(node) {
+            ret.children.push(format(node))
+        })
+    }
+    return ret;
+}
+;
 format['stylesheet'] = function(ast) {
     // loog 'stylesheet.ast', ast
     var ret = {
@@ -462,9 +491,20 @@ format['rule'] = function(ast) {
              })
         }
     }
-    ast.declarations.map(function(node) {
-        ret.children.push(format(node))
-    })
+    if (ast.nodes) {
+        ast.nodes.map(function(node) {
+            ret.children.push(format(node))
+        })
+    }
+    return ret;
+}
+;
+format['decl'] = function(ast) {
+    var ret = {
+        tag: ast.prop, 
+        name: ast.value, 
+        children: []
+     };
     return ret;
 }
 ;

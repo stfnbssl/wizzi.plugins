@@ -2,37 +2,47 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.css\.wizzi-override\lib\wizzifiers\css\cleanAST.js.ittf
-    utc time: Sun, 12 May 2024 15:10:32 GMT
+    utc time: Thu, 23 May 2024 15:07:25 GMT
 */
 'use strict';
+// usefull: https://github.com/douglascrockford/JSON-js/blob/master/cycle.js
 var verify = require('@wizzi/utils').verify;
-function cleanAst(ast) {
-    delete ast.loc
-    var i, i_items=Object.keys(ast), i_len=Object.keys(ast).length, k;
-    for (i=0; i<i_len; i++) {
-        k = Object.keys(ast)[i];
-        
-        // loog 'k', k
-        if (verify.isArray(ast[k])) {
-            var temp = [];
-            var j, j_items=ast[k], j_len=ast[k].length, node;
-            for (j=0; j<j_len; j++) {
-                node = ast[k][j];
-                if (node.type === 'space') {
-                }
-                else {
-                    cleanAst(node);
-                    temp.push(node);
-                }
+function cleanAst(obj, objects, path) {
+    var objects = objects || new WeakMap();
+    if (verify.isArray(obj)) {
+        delete obj.loc
+        var ret = [];
+        var i, i_items=obj, i_len=obj.length, item;
+        for (i=0; i<i_len; i++) {
+            item = obj[i];
+            var value = cleanAst(item, objects, path + "[" + i + "]");
+            if (value !== null) {
+                ret.push(value);
             }
-            ast[k] = temp;
         }
-        
-        // loog 'k', k
-        if (verify.isObject(ast[k])) {
-            cleanAst(ast[k]);
-        }
+        return ret;
     }
-    return ast;
+    else if (verify.isObject(obj)) {
+        var old_path = objects.get(obj);
+        if (old_path !== undefined) {
+            return {
+                    $ref: old_path
+                 };
+        }
+        objects.set(obj, path);
+        var ret = {};
+        for (var prop in obj) {
+            if (obj.hasOwnProperty(prop)) {
+                ret[prop] = cleanAst(obj[prop], objects, path + "[" + JSON.stringify(prop) + "]");
+            }
+        }
+        return ret;
+    }
+    else {
+        return obj;
+    }
 }
-module.exports = cleanAst;
+module.exports = function(ast) {
+    return cleanAst(ast, null, '');
+}
+;

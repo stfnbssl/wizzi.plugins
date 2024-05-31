@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.css\.wizzi-override\examples\css_document.js.ittf
-    utc time: Sun, 12 May 2024 15:10:31 GMT
+    utc time: Thu, 23 May 2024 15:07:24 GMT
 */
 'use strict';
 var path = require('path');
@@ -39,7 +39,7 @@ function executeExample() {
         
             console.log('css.example.executeGenerateModules.module: ' + module, __filename);
             var ittfDocumentUri = path.join(__dirname, 'ittf', module + '.css.ittf');
-            var outputPath = path.join(__dirname, 'results', module + '.css.document.html');
+            var outputPath = path.join(__dirname, 'results', module + '.css.document.css');
             loadWizziModel(ittfDocumentUri, {}, (err, wizziModel) => {
             
                 if (err) {

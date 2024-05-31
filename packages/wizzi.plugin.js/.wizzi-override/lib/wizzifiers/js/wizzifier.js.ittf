@@ -2321,18 +2321,11 @@ module
             get_text_from_1_children( '{...' + c1 + "}" )
 
         f( JSXText, +
-            # if node.value.trim().length == 0 || node.value === '\n' // 11/1/19
-            var nametrimmed = node.value.trim()
-            if nametrimmed == 0
-                set ret = null
-            else
-                set ret.name = verify.replaceAll(nametrimmed, '\n', '&lf;')
-                $* 24/3/21
-                if ret.name[0] === ' '
-                    set ret.name = '&nbsp;' + ret.name.substr(1)
-                if ret.name[ret.name.length-1] === ' '
-                    set ret.name = ret.name.substr(0, ret.name.length-1) + '&nbsp;'
-                *$
+            set ret.name = verify.replaceAll(node.value, '\n', '&lf;')
+            if ret.name[0] === ' '
+                set ret.name = '\\b' + ret.name
+            if ret.name[ret.name.length-1] === ' '
+                set ret.name = ret.name + '\\b'
 
         f( JSXFragment, <
             # openingFragment JSXOpeningFragment

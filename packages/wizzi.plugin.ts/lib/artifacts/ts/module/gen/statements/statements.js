@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\artifacts\ts\module\gen\statements\statements.js.ittf
-    utc time: Thu, 16 May 2024 11:37:38 GMT
+    utc time: Fri, 24 May 2024 16:39:28 GMT
 */
 'use strict';
 var util = require('util');
@@ -118,6 +118,17 @@ function __writeDecorator(model, ctx) {
     }
 }
 md.load = function(cnt) {
+    cnt.stm.directive = function(model, ctx, callback) {
+        if (typeof callback === 'undefined') {
+            throw new Error('Missing callback parameter in cnt.stm: ' + myname + '.directive');
+        }
+        if (typeof callback !== 'function') {
+            throw new Error('The callback parameter must be a function. In ' + myname + '.directive. Got: ' + callback);
+        }
+        ctx.w("'" + model.wzName + "'");
+        return callback(null);
+    }
+    ;
     cnt.stm.literal = function(model, ctx, callback) {
         if (typeof callback === 'undefined') {
             throw new Error('Missing callback parameter in cnt.stm: ' + myname + '.literal');
@@ -137,7 +148,7 @@ md.load = function(cnt) {
             throw new Error('The callback parameter must be a function. In ' + myname + '.statement. Got: ' + callback);
         }
         u.writeComments(model, ctx);
-        // loog 'wizzi-js.module.statements.statement', model.wzParent.wzElement, u.isTopStatement(model, ctx), model.wzName, model.__templateChild
+        console.log('wizzi-js.module.statements.statement', model.wzParent.wzElement, u.isTopStatement(model, ctx), "'" + model.wzName + "'", model.__templateChild, ctx.__inside_html, __filename);
         var text = model.wzName;
         if (model.__templateChild || ctx.__inside_html) {
             text = verify.replaceAll(verify.replaceAll(text, '&nbsp;', ' '), '&lf;', '\n')
@@ -152,7 +163,7 @@ md.load = function(cnt) {
             // 4/2/19 _ ctx.write(model.wzName)
             
             // 22/3/21 _ ctx.w(model.wzName)
-            if (u.isTopStatement(model, ctx) || ctx.__inside_html == true) {
+            if (u.isTopStatement(model, ctx)) {
                 ctx.w(text);
             }
             // 22/3/21 _ ctx.write(text)
