@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\artifacts\ts\module\gen\main.js.ittf
-    utc time: Fri, 24 May 2024 16:39:28 GMT
+    utc time: Wed, 19 Jun 2024 05:25:25 GMT
 */
 'use strict';
 
@@ -40,7 +40,6 @@ md.gen = function(model, ctx, callback) {
             }
             var item_1 = model.statements[index_1];
             statement.gen(item_1, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -91,7 +90,6 @@ md.genItems = function(items, ctx, options, callback) {
         goitems.push(items[i]);
     }
     async.mapSeries(goitems, md.mapItem(ctx), (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }

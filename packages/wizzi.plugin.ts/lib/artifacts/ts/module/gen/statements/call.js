@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\artifacts\ts\module\gen\statements\call.js.ittf
-    utc time: Fri, 24 May 2024 16:39:28 GMT
+    utc time: Wed, 19 Jun 2024 05:25:25 GMT
 */
 'use strict';
 var util = require('util');
@@ -102,7 +102,6 @@ function __writeDecorator(model, ctx) {
         ctx.write('(');
         u.checkInlineEnter(model, ctx);
         cnt.genItems(model.statements, ctx, {}, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -140,7 +139,6 @@ md.load = function(cnt) {
         }
         if (xmodel.statements.length > 0 || (xmodel.typeParameterInsts && xmodel.typeParameterInsts.length > 0)) {
             doCallChildStatements_one(xmodel, name, (xmodel.typeParameterInsts && xmodel.typeParameterInsts.length > 0) ? false : hasParens, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -224,7 +222,6 @@ md.load = function(cnt) {
             ctx.write('(' + (xmodel.wzName || ''));
             if (xmodel.statements.length == 1) {
                 cnt.genItem(xmodel.statements[0], ctx, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -241,7 +238,6 @@ md.load = function(cnt) {
         else if (xmodel.wzParent && xmodel.wzParent.wzElement === 'call' && xmodel.statements.length == 1) {
             ctx.write('(' + (xmodel.wzName || ''));
             cnt.genItem(xmodel.statements[0], ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -281,7 +277,6 @@ md.load = function(cnt) {
                 }
                 else if (item_1.statements.length == 1) {
                     cnt.genItem(item_1.statements[0], ctx, (err, notUsed) => {
-                    
                         if (err) {
                             return callback(err);
                         }
@@ -351,7 +346,6 @@ md.load = function(cnt) {
                 ctx.w();
             }
             cnt.genItem(item_1, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -382,7 +376,6 @@ md.load = function(cnt) {
     }
     function doCallChildStatements_call(model, ctx, remainings, callback) {
         cnt.genItem(model, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -396,7 +389,6 @@ md.load = function(cnt) {
                     ctx.write('.');
                 }
                 cnt.genItem(item_1, ctx, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -470,7 +462,6 @@ md.load = function(cnt) {
             if (u.isMemberAccess(item_1)) {
                 ctx.write(']');
                 cnt.genItem(item_1, ctx, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -486,7 +477,6 @@ md.load = function(cnt) {
                     ctx.write(', ');
                 }
                 cnt.genItem(item_1, ctx, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }

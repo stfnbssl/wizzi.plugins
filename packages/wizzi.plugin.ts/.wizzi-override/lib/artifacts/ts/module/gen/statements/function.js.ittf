@@ -74,15 +74,17 @@
 										@ model
 										@ ctx
 										@ iife
+                                        @ iifeInvoke
 										@ callback
 						else
 							_ xfunction_end
 								@ model
 								@ ctx
 								@ iife
+                                @ iifeInvoke
 								@ callback
 
-    fn( xfunction_end, iife
+    fn( xfunction_end, iife, iifeInvoke
 		_ ctx.w(' {')
         _ u.forceInlineOff(model, ctx)
 		_ ctx.indent()
@@ -242,22 +244,35 @@
 			@ model
 			@ ctx
 
-        if ctx.__is_react_class && model.wzParent.wzElement == 'reactComponent'
-            var implicitReturn = u.isImplicitReturn(model)
-            var firstChildIsTemplate = u.firstChildIs(model, ['template'])
-            _ ctx.w(model.wzName + ' = ' + async_str + ' = (')
-			_ u.genTSParams
-				@ model
-				@ ctx
-				@ cnt
-				a_cb()
-					_ ctx.w(')')
-                    if model.typeReturn
-                        _ ctx.write(': ')
-                        _ cnt.stm.typeReturn
-                            @ model.typeReturn
-                            @ ctx
-                            a_cb()
+        _ u.genTSTypeParameters
+            @ model
+            @ ctx
+            @ cnt
+            a_cb()
+                if ctx.__is_react_class && model.wzParent.wzElement == 'reactComponent'
+                    var implicitReturn = u.isImplicitReturn(model)
+                    var firstChildIsTemplate = u.firstChildIs(model, ['template'])
+                    _ ctx.w(model.wzName + ' = ' + async_str + ' = (')
+                    _ u.genTSParams
+                        @ model
+                        @ ctx
+                        @ cnt
+                        a_cb()
+                            _ ctx.w(')')
+                            if model.typeReturn
+                                _ ctx.write(': ')
+                                _ cnt.stm.typeReturn
+                                    @ model.typeReturn
+                                    @ ctx
+                                    a_cb()
+                                        _ arrowfunction_body
+                                            @ model
+                                            @ ctx
+                                            @ cnt
+                                            @ implicitReturn
+                                            @ firstChildIsTemplate
+                                            @ callback
+                            else
                                 _ arrowfunction_body
                                     @ model
                                     @ ctx
@@ -265,32 +280,32 @@
                                     @ implicitReturn
                                     @ firstChildIsTemplate
                                     @ callback
+                elif u.onlyChildIs(model, 'callOnValue') || u.onlyChildIsHtmlElement(model)
+                    if model.wzName.length > 0
+                        _ ctx.write(model.wzName + async_str + ' = (')
                     else
-                        _ arrowfunction_body
-                            @ model
-                            @ ctx
-                            @ cnt
-                            @ implicitReturn
-                            @ firstChildIsTemplate
-                            @ callback
-		elif u.onlyChildIs(model, 'callOnValue') || u.onlyChildIsHtmlElement(model)
-            if model.wzName.length > 0
-                _ ctx.write(model.wzName + async_str + ' = (')
-            else
-                _ ctx.write(async_str + '(')
-			_ u.genTSParams
-				@ model
-				@ ctx
-				@ cnt
-				a_cb()
-					_ ctx.write(')')
-					# TODO what if it needs generateParams ?
-                    if model.typeReturn
-                        _ ctx.write(': ')
-                        _ cnt.stm.typeReturn
-                            @ model.typeReturn
-                            @ ctx
-                            a_cb()
+                        _ ctx.write(async_str + '(')
+                    _ u.genTSParams
+                        @ model
+                        @ ctx
+                        @ cnt
+                        a_cb()
+                            _ ctx.write(')')
+                            # TODO what if it needs generateParams ?
+                            if model.typeReturn
+                                _ ctx.write(': ')
+                                _ cnt.stm.typeReturn
+                                    @ model.typeReturn
+                                    @ ctx
+                                    a_cb()
+                                        _ arrowfunction_body
+                                            @ model
+                                            @ ctx
+                                            @ cnt
+                                            @ true
+                                            @ false
+                                            @ callback
+                            else
                                 _ arrowfunction_body
                                     @ model
                                     @ ctx
@@ -298,31 +313,31 @@
                                     @ true
                                     @ false
                                     @ callback
+                elif u.onlyChildIs(model, 'arrowfunction')
+                    if model.wzName.length > 0
+                        _ ctx.write(model.wzName + async_str + ' = (')
                     else
-                        _ arrowfunction_body
-                            @ model
-                            @ ctx
-                            @ cnt
-                            @ true
-                            @ false
-                            @ callback
-		elif u.onlyChildIs(model, 'arrowfunction')
-            if model.wzName.length > 0
-                _ ctx.write(model.wzName + async_str + ' = (')
-            else
-                _ ctx.write(async_str + '(')
-			_ u.genTSParams
-				@ model
-				@ ctx
-				@ cnt
-				a_cb()
-					_ ctx.write(')')
-                    if model.typeReturn
-                        _ ctx.write(': ')
-                        _ cnt.stm.typeReturn
-                            @ model.typeReturn
-                            @ ctx
-                            a_cb()
+                        _ ctx.write(async_str + '(')
+                    _ u.genTSParams
+                        @ model
+                        @ ctx
+                        @ cnt
+                        a_cb()
+                            _ ctx.write(')')
+                            if model.typeReturn
+                                _ ctx.write(': ')
+                                _ cnt.stm.typeReturn
+                                    @ model.typeReturn
+                                    @ ctx
+                                    a_cb()
+                                        _ arrowfunction_body
+                                            @ model
+                                            @ ctx
+                                            @ cnt
+                                            @ false
+                                            @ false
+                                            @ callback
+                            else
                                 _ arrowfunction_body
                                     @ model
                                     @ ctx
@@ -330,36 +345,36 @@
                                     @ false
                                     @ false
                                     @ callback
+                elif u.isImplicitReturn(model)
+                    # loog 'isImplicitReturn', model.wzElement, model.wzName
+                    var isSingleParam = u.isSingleParamForArrowFunction(model)
+                    var firstChildIsTemplate = u.firstChildIs(model, ['template'])
+                    # loog 'function.isSingleParam', isSingleParam
+                    # loog 'function.firstChildIs template', firstChildIsTemplate
+                    if model.wzName.length > 0
+                        _ ctx.write(model.wzName + ' = ' + async_str + (isSingleParam ? '' : '('))
                     else
-                        _ arrowfunction_body
-                            @ model
-                            @ ctx
-                            @ cnt
-                            @ false
-                            @ false
-                            @ callback
-		elif u.isImplicitReturn(model)
-            # loog 'isImplicitReturn', model.wzElement, model.wzName
-            var isSingleParam = u.isSingleParamForArrowFunction(model)
-            var firstChildIsTemplate = u.firstChildIs(model, ['template'])
-            # loog 'function.isSingleParam', isSingleParam
-            # loog 'function.firstChildIs template', firstChildIsTemplate
-            if model.wzName.length > 0
-                _ ctx.write(model.wzName + ' = ' + async_str + (isSingleParam ? '' : '('))
-            else
-                _ ctx.write(async_str + (isSingleParam ? '' : '('))
-			_ u.genTSParams
-				@ model
-				@ ctx
-				@ cnt
-				a_cb()
-					_ ctx.write(isSingleParam ? '' : ')')
-                    if model.typeReturn
-                        _ ctx.write(': ')
-                        _ cnt.stm.typeReturn
-                            @ model.typeReturn
-                            @ ctx
-                            a_cb()
+                        _ ctx.write(async_str + (isSingleParam ? '' : '('))
+                    _ u.genTSParams
+                        @ model
+                        @ ctx
+                        @ cnt
+                        a_cb()
+                            _ ctx.write(isSingleParam ? '' : ')')
+                            if model.typeReturn
+                                _ ctx.write(': ')
+                                _ cnt.stm.typeReturn
+                                    @ model.typeReturn
+                                    @ ctx
+                                    a_cb()
+                                        _ arrowfunction_body
+                                            @ model
+                                            @ ctx
+                                            @ cnt
+                                            @ true
+                                            @ firstChildIsTemplate
+                                            @ callback
+                            else
                                 _ arrowfunction_body
                                     @ model
                                     @ ctx
@@ -367,31 +382,31 @@
                                     @ true
                                     @ firstChildIsTemplate
                                     @ callback
+                else 
+                    if model.wzName.length > 0
+                        _ ctx.write(model.wzName + ' = ' + async_str + '(')
                     else
-                        _ arrowfunction_body
-                            @ model
-                            @ ctx
-                            @ cnt
-                            @ true
-                            @ firstChildIsTemplate
-                            @ callback
-		else 
-            if model.wzName.length > 0
-                _ ctx.write(model.wzName + ' = ' + async_str + '(')
-            else
-                _ ctx.write(async_str + '(')
-			_ u.genTSParams
-				@ model
-				@ ctx
-				@ cnt
-				a_cb()
-					_ ctx.write(')')
-                    if model.typeReturn
-                        _ ctx.write(': ')
-                        _ cnt.stm.typeReturn
-                            @ model.typeReturn
-                            @ ctx
-                            a_cb()
+                        _ ctx.write(async_str + '(')
+                    _ u.genTSParams
+                        @ model
+                        @ ctx
+                        @ cnt
+                        a_cb()
+                            _ ctx.write(')')
+                            if model.typeReturn
+                                _ ctx.write(': ')
+                                _ cnt.stm.typeReturn
+                                    @ model.typeReturn
+                                    @ ctx
+                                    a_cb()
+                                        _ arrowfunction_body
+                                            @ model
+                                            @ ctx
+                                            @ cnt
+                                            @ false
+                                            @ false
+                                            @ callback
+                            else
                                 _ arrowfunction_body
                                     @ model
                                     @ ctx
@@ -399,14 +414,6 @@
                                     @ false
                                     @ false
                                     @ callback
-                    else
-                        _ arrowfunction_body
-                            @ model
-                            @ ctx
-                            @ cnt
-                            @ false
-                            @ false
-                            @ callback
 
 	function arrowfunction_body
 		param model

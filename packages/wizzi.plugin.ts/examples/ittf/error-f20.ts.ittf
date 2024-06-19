@@ -1,0 +1,22 @@
+module
+    +
+    :export-type ApiType
+        :{
+            :p name
+                :string
+            :p initialize
+                :=>
+                    :void
+                    param app
+                        :ref express.Application
+                    param initValues
+                        :ref AppInitializerType
+    :export-type MiddlewareType
+        :=>
+            :void
+            param app
+                :ref express.Application
+    :export-type AppInitializerType
+        :{
+            :p config
+                :ref ConfigType

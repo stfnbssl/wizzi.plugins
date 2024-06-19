@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\artifacts\ts\module\gen\method.js.ittf
-    utc time: Fri, 24 May 2024 16:39:28 GMT
+    utc time: Wed, 19 Jun 2024 05:25:25 GMT
 */
 'use strict';
 var statement = require('./statement');
@@ -28,12 +28,10 @@ md.gen = function(model, ctx, callback) {
     }
     ctx.indent();
     generateParams(model.wzName, model.constrainedParams, model.hasCallbackParam, model.hasOptionsCallbackParam, ctx, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
         statement.genMany(model.statements, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }

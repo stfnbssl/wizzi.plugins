@@ -781,6 +781,7 @@ module
             set ret.name = 'this'
 
         f( ArrowFunctionExpression, =>
+            f_p( typeParameters, false, ?TypeParameterInstantiation
             if verify.isArray(node.body) == false
                 set node.body = [node.body]
             f_a_in_tag( params, params
@@ -1505,6 +1506,8 @@ module
             f_p_temp( callee, true, true, | Super | Import
             f_a_temp( arguments
 
+            log 'CallExpression.typeParameters.ret', ret.children[0]
+
             var lastCallee = ret
             # loog 'CallExpression.p_callee', p_callee
 
@@ -1579,7 +1582,7 @@ module
 
                     $$ Begin 19/3/21
                     if p_callee.children.length > 0
-                        # loog 'p_callee.children.length > 0'
+                        log 'p_callee.children.length > 0'
                         set lastCallee = p_callee.children[p_callee.children.length-1]
                         if p_arguments && p_arguments.children.length > 0
                             if lastCallee.tag === '.'
@@ -1655,6 +1658,8 @@ module
                     # loog 'node.callee.type 2', node.callee.type, ret.tag
                     set ret.tag = 'iife' // 9/1/19
 
+                log 'CallExpression.typeParameters.ret after', ret.children[0]
+
             if node.extra && node.extra.parenthesized == true && !ret.textified
                 var temp
                     {
@@ -1663,7 +1668,7 @@ module
                             @ ret
                 set ret = temp
 
-            # loog 'CallExpression.exit.ret', ret
+            log 'CallExpression.exit.ret', ret
 
         f( NewExpression, new;could-be-text
             f_a_in_tag( arguments, arguments

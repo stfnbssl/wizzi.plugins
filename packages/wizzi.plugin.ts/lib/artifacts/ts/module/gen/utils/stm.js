@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\artifacts\ts\module\gen\utils\stm.js.ittf
-    utc time: Fri, 24 May 2024 16:39:28 GMT
+    utc time: Wed, 19 Jun 2024 05:25:25 GMT
 */
 'use strict';
 // var verify = require('./verify')
@@ -614,7 +614,6 @@ md.hasArguments = function(callText) {
 ;
 md.emitBlock = function(cnt, tag, model, items, count, ctx, callback) {
     emitBlock_begin(cnt, tag, model, items, count, ctx, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -674,7 +673,6 @@ function emitBlock_end(cnt, items, ctx, count, callback) {
         indent: true, 
         from: from
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -694,7 +692,6 @@ md.emitTest = function(cnt, tag, model, items, ctx, open, callback) {
     if (items.length > 0 && items[0].wzElement === 'test') {
         ctx.write(tag + ' ');
         cnt.genItem(items[0], ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -745,7 +742,6 @@ md.extractTSSimpleType = function(model) {
     }
     var ret, retIndex;
     model.statements.some((item, index) => {
-    
         // loog 'extractTSSimpleType', item.wzElement
         if (md.isTSSimpleType(item)) {
             ret = item;
@@ -766,7 +762,6 @@ md.extractInitValue = function(model) {
     }
     var ret, retIndex;
     model.statements.some((item, index) => {
-    
         // loog 'extractInitValue', item.wzElement
         if (item.wzElement == 'initValue') {
             ret = item;
@@ -787,7 +782,6 @@ md.extractTSParameterDecl = function(model) {
     }
     var ret, retIndex;
     model.statements.some((item, index) => {
-    
         if (item.wzElement == 'typeParameterDecl') {
             ret = item;
             retIndex = index;
@@ -807,7 +801,6 @@ md.extractTS = function(model, element) {
     }
     var ret, retIndex;
     model.statements.some((item, index) => {
-    
         if (item.wzElement === element) {
             ret = item;
             retIndex = index;
@@ -863,7 +856,6 @@ md.genTSParams = function(model, ctx, cnt, callback) {
         // loog 'genTSParams.p', p.wzElement, p.wzName, p.statements.length, 'first child:', p.statements[0] && p.statements[0].wzElement
         if (verify.isEmpty(p.wzName) && p.statements.length > 0 && (p.statements[0].wzElement == 'jsObject' || p.statements[0].wzElement == 'jsArray')) {
             return genTSParam_object_or_array(p, ctx, cnt, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -886,14 +878,12 @@ md.genTSParams = function(model, ctx, cnt, callback) {
             if (pType) {
                 ctx.write(': ');
                 cnt.stm[pType.wzElement](pType, ctx, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
                     if (pInitValue) {
                         ctx.write(' = ');
                         cnt.stm[pInitValue.wzElement](pInitValue, ctx, (err, notUsed) => {
-                        
                             if (err) {
                                 return callback(err);
                             }
@@ -922,7 +912,6 @@ md.genTSParams = function(model, ctx, cnt, callback) {
         else if (p.wzElement === 'objectParam' || p.wzElement === 'jsObject') {
             p.wzElement = 'jsObject';
             cnt.stm[p.wzElement](p, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -930,7 +919,6 @@ md.genTSParams = function(model, ctx, cnt, callback) {
                 if (pType) {
                     ctx.write(': ');
                     cnt.stm[pType.wzElement](pType, ctx, (err, notUsed) => {
-                    
                         if (err) {
                             return callback(err);
                         }
@@ -939,7 +927,6 @@ md.genTSParams = function(model, ctx, cnt, callback) {
                         if (pInitValue) {
                             ctx.write(' = ');
                             cnt.stm[pInitValue.wzElement](pInitValue, ctx, (err, notUsed) => {
-                            
                                 if (err) {
                                     return callback(err);
                                 }
@@ -961,7 +948,6 @@ md.genTSParams = function(model, ctx, cnt, callback) {
                     if (pInitValue) {
                         ctx.write(' = ');
                         cnt.stm[pInitValue.wzElement](pInitValue, ctx, (err, notUsed) => {
-                        
                             if (err) {
                                 return callback(err);
                             }
@@ -999,12 +985,10 @@ md.genTSParams = function(model, ctx, cnt, callback) {
             if (pType) {
                 ctx.write(': ');
                 cnt.stm[pType.wzElement](pType, ctx, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
                     genTSParams_close(s0, ctx, cnt, (err, notUsed) => {
-                    
                         if (err) {
                             return callback(err);
                         }
@@ -1018,7 +1002,6 @@ md.genTSParams = function(model, ctx, cnt, callback) {
             }
             else {
                 genTSParams_close(s0, ctx, cnt, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -1049,14 +1032,12 @@ function genTSParam_object_or_array(p, ctx, cnt, callback) {
     var pType = md.extractTSSimpleType(p.statements[0]);
     // loog 'genTSParam_object', pType && pType.wzElement
     cnt.stm[p.statements[0].wzElement](p.statements[0], ctx, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
         if (pType) {
             ctx.write(': ');
             cnt.stm[pType.wzElement](pType, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -1088,7 +1069,6 @@ function genTSParams_close(s0, ctx, cnt, callback) {
     if (s0.statements.length == 2) {
         var item = s0.statements[0];
         cnt.stm[item.wzElement](item, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -1099,10 +1079,15 @@ function genTSParams_close(s0, ctx, cnt, callback) {
         }
         )
     }
-    // loog 'genTSParams_close 3 item.wzElement', s0.wzElement
     else {
-        ctx.write(' = ');
-        cnt.stm[s0.wzElement](s0, ctx, callback)
+        if (!cnt.stm[s0.wzElement]) {
+            return callback(ctx.error(myname + '.genTSParams_close. Invalid statement: ' + s0.wzElement + '/' + s0.wzName + '.\n\nDid you mean: `:ref ' + s0.wzName + '`\n\n', s0));
+        }
+        // loog 'genTSParams_close 3 item.wzElement', s0.wzElement
+        else {
+            ctx.write(' = ');
+            cnt.stm[s0.wzElement](s0, ctx, callback)
+        }
     }
 }
 md.genAccessorsAndExtra = function(model, ctx) {
@@ -1126,7 +1111,6 @@ md.genAccessorsAndExtra = function(model, ctx) {
 md.genTSTypeParameters = function(model, ctx, cnt, callback) {
     // loog 'genTSTypeParameters.model.statements.length', model.statements.length, 'Object.keys(model)', Object.keys(model)
     genTSTypeParameters_partial(model, ctx, cnt, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -1143,7 +1127,6 @@ md.genTSTypeParameters = function(model, ctx, cnt, callback) {
                 }
                 ctx.write(item_1.wzName);
                 md.genTSTypeParameterInsts(item_1, ctx, cnt, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -1166,7 +1149,7 @@ md.genTSTypeParameters = function(model, ctx, cnt, callback) {
 }
 ;
 function genTSTypeParameters_partial(model, ctx, cnt, callback) {
-    // loog 'genTSTypeParameters_partial.model', model
+    // loog 'genTSTypeParameters_partial.model.typeParameterDecls', model.typeParameterDecls
     if (model.typeParameterDecls && model.typeParameterDecls.length > 0) {
         ctx.write('<');
         var len_1 = model.typeParameterDecls.length;
@@ -1179,7 +1162,6 @@ function genTSTypeParameters_partial(model, ctx, cnt, callback) {
                 ctx.write(', ');
             }
             cnt.stm.typeParameterDecl(item_1, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -1213,7 +1195,6 @@ md.genTSTypeParameterInsts = function(model, ctx, cnt, callback) {
                 ctx.write(', ');
             }
             cnt.stm[item_1.wzElement](item_1, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -1263,7 +1244,6 @@ md.genTSDecorators = function(model, ctx, cnt, callback) {
             }
             var item_1 = decorators[index_1];
             cnt.stm.decorator(item_1, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }

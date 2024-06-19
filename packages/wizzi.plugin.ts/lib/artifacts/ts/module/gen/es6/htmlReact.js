@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\artifacts\ts\module\gen\es6\htmlReact.js.ittf
-    utc time: Fri, 24 May 2024 16:39:28 GMT
+    utc time: Wed, 19 Jun 2024 05:25:25 GMT
 */
 'use strict';
 var verify = require('@wizzi/utils').verify;
@@ -69,7 +69,6 @@ md.htmlelement = function(cnt, model, tag, text, ctx, attrs, comments, callback)
     u.writeComments(model, ctx);
     u.checkInlineEnter(model, ctx);
     htmlelement_open(cnt, model, ctx, tag, attrs, comments, (err, done) => {
-    
         if (err) {
             return callback(err);
         }
@@ -79,7 +78,6 @@ md.htmlelement = function(cnt, model, tag, text, ctx, attrs, comments, callback)
         }
         else {
             htmlelement_end(cnt, model, ctx, tag, text, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -106,7 +104,6 @@ function htmlelement_open(cnt, model, ctx, tag, attrs, comments, callback) {
     }
     ctx.write("<" + tag);
     u.genTSTypeParameterInsts(model, ctx, cnt, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -121,7 +118,6 @@ function htmlelement_open(cnt, model, ctx, tag, attrs, comments, callback) {
                 ctx.indent();
             }
             htmlelement_attribute(cnt, item_1, ctx, singleline, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -140,7 +136,6 @@ function htmlelement_open(cnt, model, ctx, tag, attrs, comments, callback) {
             cnt.genItems(comments, ctx, {
                 indent: false
              }, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -189,7 +184,6 @@ function htmlelement_attribute(cnt, a, ctx, singleline, callback) {
         cnt.genItems(a.statements, ctx, {
             indent: true
          }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -225,7 +219,6 @@ function htmlelement_end(cnt, model, ctx, tag, text, callback) {
     cnt.genItems(model.statements, ctx, {
         indent: true
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }

@@ -8,8 +8,8 @@ module
         $append plugins
             [ items
                 @ './index.js'
-                @ '@wizzi/plugin.js'
-                @ '@wizzi/plugin.css'
+                @ '../wizzi.plugin.css/index.js'
+                @ '../wizzi.plugin.js/index.js'
             @ pluginsBaseFolder
                 _ path.resolve
                     @ __dirname
@@ -44,7 +44,7 @@ module
                         _ path.join
                             @ __dirname
                             @ 'results'
-                            @ module + '.svg.document.html'
+                            @ module + '.svg'
                     _ loadWizziModel
                         @ ittfDocumentUri
                         {

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\wizzifiers\ts\wizzifier.js.ittf
-    utc time: Fri, 24 May 2024 16:39:28 GMT
+    utc time: Wed, 19 Jun 2024 05:25:25 GMT
 */
 'use strict';
 var util = require('util');
@@ -121,13 +121,11 @@ md.getWizziTree = function(input, options, callback) {
     var startTime = Date.now();
     // loog 'startTime', startTime
     wizzify(input, options, (err, syntax) => {
-    
         if (err) {
             return callback(err);
         }
         if (options.syntaxOutFile) {
             parseInternal(input, options, (err, syntax) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -143,12 +141,10 @@ md.getWizziTree = function(input, options, callback) {
 ;
 md.getWizziIttf = function(input, options, callback) {
     md.getWizziTree(input, options, (err, result) => {
-    
         if (err) {
             return callback(err);
         }
         md.getWizzifierIncludes(options, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -230,7 +226,6 @@ function wizzify(tobeWizzified, options, callback) {
     var startTime = Date.now();
     var babelOptions = options.babel || {};
     parseInternal(tobeWizzified, babelOptions, (err, syntax) => {
-    
         if (err) {
             return callback(err);
         }
@@ -255,7 +250,6 @@ function wizzify(tobeWizzified, options, callback) {
         async.map(options.wizziIncludes, function(item, callback) {
             if (item.kind === 'css') {
                 options.wf.getWizziTreeFromText(item.literal, "css", (err, ittf) => {
-                
                     // loog 'getWizzifierIncludes.item.ittf', ittf
                     item.node.children.push(ittf)
                     return callback(null);
@@ -264,7 +258,6 @@ function wizzify(tobeWizzified, options, callback) {
             }
             else {
                 options.wf.getWizziTreeFromText(item.literal, "html", (err, ittf) => {
-                
                     // loog 'getWizzifierIncludes.item.ittf', ittf
                     item.node.children.push(ittf)
                     return callback(null);
@@ -272,7 +265,6 @@ function wizzify(tobeWizzified, options, callback) {
                 )
             }
         }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -4888,6 +4880,17 @@ format.ArrowFunctionExpression = function(parent, node, options) {
             
         ]
      };
+    // process AST-node-property typeParameters and append ittfNode to `ret`
+    f_astNode.props.push({
+        name: "typeParameters", 
+        descr: "process AST-node-property typeParameters and append ittfNode to `ret`"
+     })
+    if (node.typeParameters) {
+        if (!node.typeParameters.type) {
+            throw 'Node typeParameters has no type: ' + JSON.stringify(node, null, 2);
+        }
+        format(ret, node.typeParameters, options)
+    }
     if (verify.isArray(node.body) == false) {
         node.body = [node.body];
     }
@@ -7776,6 +7779,7 @@ format.CallExpression = function(parent, node, options) {
             format(p_arguments, item, options)
         }
     }
+    console.log('CallExpression.typeParameters.ret', ret.children[0], __filename);
     var lastCallee = ret;
     // loog 'CallExpression.p_callee', p_callee
     var qmark = node.optional ? '?.' : '';
@@ -7850,9 +7854,8 @@ format.CallExpression = function(parent, node, options) {
         if (['template','iif'].indexOf(p_callee.tag) < 0) {
             ret.name = p_callee.name;
             ret.children = p_callee.children;
-            
-            // loog 'p_callee.children.length > 0'
             if (p_callee.children.length > 0) {
+                console.log('p_callee.children.length > 0', __filename);
                 lastCallee = p_callee.children[p_callee.children.length-1];
                 if (p_arguments && p_arguments.children.length > 0) {
                     if (lastCallee.tag === '.') {
@@ -7931,6 +7934,7 @@ format.CallExpression = function(parent, node, options) {
         if (node.callee.type === 'FunctionExpression' && ret.tag === '_') {
             ret.tag = 'iife' // 9/1/19;
         }
+        console.log('CallExpression.typeParameters.ret after', ret.children[0], __filename);
     }
     if (node.extra && node.extra.parenthesized == true && !ret.textified) {
         var temp = {
@@ -7941,7 +7945,7 @@ format.CallExpression = function(parent, node, options) {
          };
         ret = temp;
     }
-    // loog 'CallExpression.exit.ret', ret
+    console.log('CallExpression.exit.ret', ret, __filename);
     if (ret != null) {
         if (__isText) {
             ret.textified = ret.name;

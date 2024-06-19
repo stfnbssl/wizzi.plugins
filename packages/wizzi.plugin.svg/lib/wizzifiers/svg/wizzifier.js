@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzifiers\svg\wizzifier.js.ittf
-    utc time: Thu, 23 May 2024 15:31:39 GMT
+    utc time: Wed, 12 Jun 2024 10:55:37 GMT
 */
 'use strict';
 var util = require('util');
@@ -21,7 +21,6 @@ function parseInternal(tobeWizzified, options, callback) {
     // loog 'tobeWizzified', tobeWizzified
     try {
         svg_parser.parseString(tobeWizzified, (err, syntax) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -61,13 +60,11 @@ md.getWizziTree = function(input, options, callback) {
     var startTime = Date.now();
     // loog 'startTime', startTime
     wizzify(input, options, (err, syntax) => {
-    
         if (err) {
             return callback(err);
         }
         if (options.syntaxOutFile) {
             parseInternal(input, options, (err, syntax) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -83,12 +80,10 @@ md.getWizziTree = function(input, options, callback) {
 ;
 md.getWizziIttf = function(input, options, callback) {
     md.getWizziTree(input, options, (err, result) => {
-    
         if (err) {
             return callback(err);
         }
         md.getWizzifierIncludes(options, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -188,7 +183,6 @@ function wizzify(tobeWizzified, options, callback) {
         children: []
      };
     parseInternal(tobeWizzified, options, (err, result) => {
-    
         if (err) {
             return callback(err);
         }

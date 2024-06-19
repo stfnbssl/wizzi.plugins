@@ -166,6 +166,17 @@
                 elif u.isTSSimpleType(item_1)
                     _ typeParameters.push
                         @ item_1
+                elif item_1.wzElement === 'memberAccess'
+                    _ item_1.statements.unshift
+                        { 
+                            @ wzElement 'jsPropertyOrValue'
+                            @ wzName 'className ' + item_1.wzName
+                            @ wzParent item_1
+                    set item_1.wzElement = 'htmlelement'
+                    set item_1.wzName = 'div'
+                    set model.__hasChildElements = true
+                    _ childStatements.push
+                        @ item_1
                 else
                     error 'Error.model', model
                     throw new errors.WizziModelDOMNodeError('In ts._htmlelement wzElement not managed: ' + item_1.wzElement, item_1)

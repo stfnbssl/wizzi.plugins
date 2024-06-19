@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\examples\svg_wizzify.js.ittf
-    utc time: Thu, 23 May 2024 15:31:38 GMT
+    utc time: Wed, 12 Jun 2024 10:55:37 GMT
 */
 'use strict';
 
@@ -19,7 +19,6 @@ const moduleName = arg && arg.length > 0 ? arg : 'first';
 async.map([
     moduleName
 ], wizzify, (err, result) => {
-
     console.log('');
     console.log('Terminated. result: ', result);
 }
@@ -31,7 +30,6 @@ function wizzify(name, callback) {
     svgwizzifier.getWizziIttf(file.read(source), {
         syntaxOutFile: path.join(__dirname, 'data', 'output', name + '.svg.sinthax')
      }, (err, ittf) => {
-    
         if (err) {
             console.log("[31m%s[0m", 'error wizzifying: ' + source);
             console.log("[31m%s[0m", 'err', err);

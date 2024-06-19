@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\artifacts\ts\module\gen\statements\types.js.ittf
-    utc time: Fri, 24 May 2024 16:39:28 GMT
+    utc time: Wed, 19 Jun 2024 05:25:25 GMT
 */
 'use strict';
 var util = require('util');
@@ -102,7 +102,6 @@ function __writeDecorator(model, ctx) {
         ctx.write('(');
         u.checkInlineEnter(model, ctx);
         cnt.genItems(model.statements, ctx, {}, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -194,7 +193,6 @@ md.load = function(cnt) {
                 console.log("[31m%s[0m", 'ts.module.gen.item.wzElement not managed', item.wzElement);
             }
             cnt.stm[item.wzElement](item, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -246,7 +244,6 @@ md.load = function(cnt) {
             }
             // loog 'typeObjectLiteral.item_1.wzElement', item_1.wzElement, item_1.wzName
             cnt.genItem(item_1, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -261,6 +258,7 @@ md.load = function(cnt) {
             ctx.deindent();
             // 21/3/2021 _ ctx.w('} ')
             ctx.write('}');
+            ctx.__needs_crlf = true;
             return callback(null);
         }
     }
@@ -389,7 +387,6 @@ md.load = function(cnt) {
                         console.log("[31m%s[0m", 'ts.module.gen.item.wzElement not managed', item_1.wzElement);
                     }
                     cnt.stm[item_1.wzElement](item_1, ctx, (err, notUsed) => {
-                    
                         if (err) {
                             return callback(err);
                         }
@@ -451,7 +448,6 @@ md.load = function(cnt) {
             console.log("[31m%s[0m", 'ts.module.gen.typeConditional.wzElement not managed', item.wzElement);
         }
         cnt.stm[item.wzElement](item, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -461,7 +457,6 @@ md.load = function(cnt) {
                 console.log("[31m%s[0m", 'ts.module.gen.typeExtends.wzElement not managed', item.wzElement);
             }
             cnt.stm[item.wzElement](item, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -471,7 +466,6 @@ md.load = function(cnt) {
                     console.log("[31m%s[0m", 'ts.module.gen.typeThen.wzElement not managed', item.wzElement);
                 }
                 cnt.stm[item.wzElement](item, ctx, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -520,7 +514,6 @@ md.load = function(cnt) {
                 console.log("[31m%s[0m", 'ts.module.gen.item.wzElement not managed', item.wzElement);
             }
             cnt.stm[item.wzElement](item, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -554,7 +547,6 @@ md.load = function(cnt) {
             }
             // loog 'typeTuple.item_1.wzElement', item_1.wzElement, item_1.wzName
             cnt.genItem(item_1, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -593,7 +585,6 @@ md.load = function(cnt) {
             }
             // loog 'typeEnum.item_1.wzElement', item_1.wzElement, item_1.wzName
             cnt.genItem(item_1, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -679,7 +670,6 @@ md.load = function(cnt) {
             }
             // loog 'typeKeyOf.item_1.wzElement', item_1.wzElement, item_1.wzName
             cnt.genItem(item_1, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -742,7 +732,6 @@ md.load = function(cnt) {
             }
             // loog 'typeUnion.item_1.wzElement', item_1.wzElement, item_1.wzName
             cnt.genItem(item_1, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -777,7 +766,6 @@ md.load = function(cnt) {
             }
             // loog 'typeIntersect.item_1.wzElement', item_1.wzElement, item_1.wzName
             cnt.genItem(item_1, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -808,7 +796,6 @@ md.load = function(cnt) {
         }
         else {
             cnt.genItems(model.statements, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -858,7 +845,6 @@ md.load = function(cnt) {
                 ctx.write('{');
             }
             cnt.stm[item.wzElement](item, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -871,7 +857,6 @@ md.load = function(cnt) {
                     console.log("[31m%s[0m", 'ts.module.gen.item.wzElement not managed', item.wzElement);
                 }
                 cnt.stm[item.wzElement](item, ctx, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -899,7 +884,6 @@ md.load = function(cnt) {
         u.genAccessorsAndExtra(model, ctx)
         ctx.write('[');
         u.genTSParams(model, ctx, cnt, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -911,7 +895,6 @@ md.load = function(cnt) {
                     console.log("[31m%s[0m", 'ts.module.gen.typeIndex.item.wzElement not managed', atype.wzElement);
                 }
                 cnt.stm[atype.wzElement](atype, ctx, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -983,7 +966,6 @@ md.load = function(cnt) {
             }
             ctx.write('[');
             cnt.stm[item.wzElement](item, ctx, 'mapped', (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -1010,16 +992,15 @@ md.load = function(cnt) {
         if (typeof callback !== 'function') {
             throw new Error('The callback parameter must be a function. In ' + myname + '.typeArrowFunction. Got: ' + callback);
         }
+        // loog 'typeArrowFunction.model.wzParent.wzElement', model.wzParent.wzElement
         var model = writeComments(model, ctx);
         var atype = u.extractTSSimpleType(model);
         u.genTSTypeParameters(model, ctx, cnt, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
             ctx.write('(');
             u.genTSParams(model, ctx, cnt, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -1027,7 +1008,6 @@ md.load = function(cnt) {
                 if (model.typeReturn) {
                     ctx.write(': ');
                     cnt.stm.typeReturn(model.typeReturn, ctx, (err, notUsed) => {
-                    
                         if (err) {
                             return callback(err);
                         }
@@ -1036,7 +1016,17 @@ md.load = function(cnt) {
                     )
                 }
                 else {
-                    typeArrowFunction_close(model, ctx, atype, callback)
+                    typeArrowFunction_close(model, ctx, atype, (err, notUsed) => {
+                        if (err) {
+                            return callback(err);
+                        }
+                        // 9/6/24
+                        if (model.wzParent.wzElement == "typeExport") {
+                            ctx.w(';');
+                        }
+                        return callback(null);
+                    }
+                    )
                 }
             }
             )
@@ -1049,12 +1039,13 @@ md.load = function(cnt) {
             throw new Error('Missing callback parameter in fn: ' + myname + '.typeArrowFunction_close');
         }
         ctx.write(' => ');
+        
+        // loog 'typeArrowFunction_close', 1, atype.wzElement
         if (atype) {
             if (!cnt.stm[atype.wzElement]) {
                 console.log("[31m%s[0m", 'ts.module.gen.typeIndex.item.wzElement not managed', atype.wzElement);
             }
             cnt.stm[atype.wzElement](atype, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -1062,6 +1053,7 @@ md.load = function(cnt) {
             }
             )
         }
+        // loog 'typeArrowFunction_close', 2, model.statements[0].wzElement
         else {
             cnt.genItems(model.statements, ctx, callback)
         }
@@ -1170,7 +1162,6 @@ md.load = function(cnt) {
         var atype = u.extractTSSimpleType(model);
         ctx.write('(');
         u.genTSParams(model, ctx, cnt, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -1181,7 +1172,6 @@ md.load = function(cnt) {
                     console.log("[31m%s[0m", 'ts.module.gen.typeIndex.item.wzElement not managed', atype.wzElement);
                 }
                 cnt.stm[atype.wzElement](atype, ctx, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -1228,19 +1218,16 @@ md.load = function(cnt) {
         }
         var item = model.typeCheck.statements[0];
         cnt.stm[item.wzElement](item, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
             typeConditional_extends(model, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
                 ctx.write(' ? ');
                 item = model.typeThen.statements[0];
                 cnt.stm[item.wzElement](item, ctx, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -1279,7 +1266,6 @@ md.load = function(cnt) {
                 ctx.write('.');
             }
             cnt.genItem(item_1, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }

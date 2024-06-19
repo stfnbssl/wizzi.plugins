@@ -980,12 +980,20 @@
 						@ ctx
 						@ callback
 		else
-			_ ctx.write(' = ')
-			# loog 'genTSParams_close 3 item.wzElement', s0.wzElement
-			_ cnt.stm[s0.wzElement]
-				@ s0
-				@ ctx
-				@ callback
+            if !cnt.stm[s0.wzElement]
+                return
+                    _ callback
+                        _ ctx.error
+                            @ myname + '.genTSParams_close. Invalid statement: ' + s0.wzElement + '/' + s0.wzName + 
+                                \b '.\n\nDid you mean: `:ref ' + s0.wzName + '`\n\n'
+                            @ s0
+            else
+                _ ctx.write(' = ')
+                # loog 'genTSParams_close 3 item.wzElement', s0.wzElement
+                _ cnt.stm[s0.wzElement]
+                    @ s0
+                    @ ctx
+                    @ callback
 
 	set md.genAccessorsAndExtra
 		function
@@ -1045,7 +1053,7 @@
         param ctx
         param cnt
         param callback
-        # loog 'genTSTypeParameters_partial.model', model
+        # loog 'genTSTypeParameters_partial.model.typeParameterDecls', model.typeParameterDecls
         if model.typeParameterDecls && model.typeParameterDecls.length > 0
             _ ctx.write('<')
             repeater( 1, model.typeParameterDecls
@@ -1059,7 +1067,7 @@
                 $append next
                     _ ctx.write('>')
                     r_cb()
-        $* 15/5/24 NO NO NO we are inside parameters. Added when? Sleeping?
+        $* 15/5/24 NO NO NO we are inside type parameters. Added when? Sleeping?
         elif model.statements.length == 1
             # loog 'genTSTypeParameters.model.statements[0].wzElement', model.statements[0].wzElement
             _ cnt.stm[model.statements[0].wzElement]

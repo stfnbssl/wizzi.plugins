@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\artifacts\ts\module\gen\statements\function.js.ittf
-    utc time: Fri, 24 May 2024 16:39:28 GMT
+    utc time: Wed, 19 Jun 2024 05:25:25 GMT
 */
 'use strict';
 var util = require('util');
@@ -103,7 +103,6 @@ function __writeDecorator(model, ctx) {
         ctx.write('(');
         u.checkInlineEnter(model, ctx);
         cnt.genItems(model.statements, ctx, {}, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -130,7 +129,6 @@ md.load = function(cnt) {
         var name = (model.__name || '');
         ctx.write('export ' + xdefault + 'function ' + name + '(');
         u.genTSParams(model, ctx, cnt, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -145,7 +143,6 @@ md.load = function(cnt) {
             cnt.genItems(model.statements, ctx, {
                 indent: false
              }, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -185,13 +182,11 @@ md.load = function(cnt) {
         }
         ctx.write(f);
         u.genTSTypeParameters(model, ctx, cnt, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
             ctx.write('(');
             u.genTSParams(model, ctx, cnt, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -199,16 +194,15 @@ md.load = function(cnt) {
                 if (model.typeReturn) {
                     ctx.write(': ');
                     cnt.stm.typeReturn(model.typeReturn, ctx, (err, notUsed) => {
-                    
                         if (err) {
                             return callback(err);
                         }
-                        xfunction_end(model, ctx, iife, callback)
+                        xfunction_end(model, ctx, iife, iifeInvoke, callback)
                     }
                     )
                 }
                 else {
-                    xfunction_end(model, ctx, iife, callback)
+                    xfunction_end(model, ctx, iife, iifeInvoke, callback)
                 }
             }
             )
@@ -216,7 +210,7 @@ md.load = function(cnt) {
         )
     }
     ;
-    function xfunction_end(model, ctx, iife, callback) {
+    function xfunction_end(model, ctx, iife, iifeInvoke, callback) {
         if (typeof callback === 'undefined') {
             throw new Error('Missing callback parameter in fn: ' + myname + '.xfunction_end');
         }
@@ -226,7 +220,6 @@ md.load = function(cnt) {
         cnt.genItems(model.statements, ctx, {
             indent: false
          }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -238,7 +231,6 @@ md.load = function(cnt) {
                     ], ctx, {
                         indent: false
                      }, (err, notUsed) => {
-                    
                         if (err) {
                             return callback(err);
                         }
@@ -276,7 +268,6 @@ md.load = function(cnt) {
         var iifeName = model.wzName.length > 0 ? ' ' + model.wzName : '';
         ctx.write('(function' + iifeName + '(');
         u.genTSParams(model, ctx, cnt, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -291,7 +282,6 @@ md.load = function(cnt) {
             cnt.genItems(model.statements, ctx, {
                 indent: false
              }, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -299,7 +289,6 @@ md.load = function(cnt) {
                 ctx.write('})');
                 if (invokeCall) {
                     cnt.genItem(invokeCall, ctx, (err, notUsed) => {
-                    
                         if (err) {
                             return callback(err);
                         }
@@ -328,7 +317,6 @@ md.load = function(cnt) {
         var model = writeComments(model, ctx);
         ctx.__aster = '*';
         cnt.stm.xfunction(model, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -348,7 +336,6 @@ md.load = function(cnt) {
         var model = writeComments(model, ctx);
         model.xasync = true;
         cnt.stm.xfunction(model, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -377,7 +364,6 @@ md.load = function(cnt) {
         }
         ctx.write('yield ');
         cnt.genItems(model.statements, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -411,7 +397,6 @@ md.load = function(cnt) {
         }
         else {
             cnt.genItems(model.statements, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -449,162 +434,158 @@ md.load = function(cnt) {
         u.checkInlineEnter(model, ctx);
         var async_str = model.xasync ? 'async ' : '';
         u.genAccessorsAndExtra(model, ctx)
-        if (ctx.__is_react_class && model.wzParent.wzElement == 'reactComponent') {
-            var implicitReturn = u.isImplicitReturn(model);
-            var firstChildIsTemplate = u.firstChildIs(model, ['template']);
-            ctx.w(model.wzName + ' = ' + async_str + ' = (');
-            u.genTSParams(model, ctx, cnt, (err, notUsed) => {
-            
-                if (err) {
-                    return callback(err);
-                }
-                ctx.w(')');
-                if (model.typeReturn) {
-                    ctx.write(': ');
-                    cnt.stm.typeReturn(model.typeReturn, ctx, (err, notUsed) => {
-                    
-                        if (err) {
-                            return callback(err);
+        u.genTSTypeParameters(model, ctx, cnt, (err, notUsed) => {
+            if (err) {
+                return callback(err);
+            }
+            if (ctx.__is_react_class && model.wzParent.wzElement == 'reactComponent') {
+                var implicitReturn = u.isImplicitReturn(model);
+                var firstChildIsTemplate = u.firstChildIs(model, ['template']);
+                ctx.w(model.wzName + ' = ' + async_str + ' = (');
+                u.genTSParams(model, ctx, cnt, (err, notUsed) => {
+                    if (err) {
+                        return callback(err);
+                    }
+                    ctx.w(')');
+                    if (model.typeReturn) {
+                        ctx.write(': ');
+                        cnt.stm.typeReturn(model.typeReturn, ctx, (err, notUsed) => {
+                            if (err) {
+                                return callback(err);
+                            }
+                            arrowfunction_body(model, ctx, cnt, implicitReturn, firstChildIsTemplate, callback)
                         }
+                        )
+                    }
+                    else {
                         arrowfunction_body(model, ctx, cnt, implicitReturn, firstChildIsTemplate, callback)
                     }
-                    )
+                }
+                )
+            }
+            else if (u.onlyChildIs(model, 'callOnValue') || u.onlyChildIsHtmlElement(model)) {
+                if (model.wzName.length > 0) {
+                    ctx.write(model.wzName + async_str + ' = (');
                 }
                 else {
-                    arrowfunction_body(model, ctx, cnt, implicitReturn, firstChildIsTemplate, callback)
+                    ctx.write(async_str + '(');
                 }
-            }
-            )
-        }
-        else if (u.onlyChildIs(model, 'callOnValue') || u.onlyChildIsHtmlElement(model)) {
-            if (model.wzName.length > 0) {
-                ctx.write(model.wzName + async_str + ' = (');
-            }
-            else {
-                ctx.write(async_str + '(');
-            }
-            u.genTSParams(model, ctx, cnt, (err, notUsed) => {
-            
-                if (err) {
-                    return callback(err);
-                }
-                ctx.write(')');
-                // TODO what if it needs generateParams ?
-                if (model.typeReturn) {
-                    ctx.write(': ');
-                    cnt.stm.typeReturn(model.typeReturn, ctx, (err, notUsed) => {
-                    
-                        if (err) {
-                            return callback(err);
+                u.genTSParams(model, ctx, cnt, (err, notUsed) => {
+                    if (err) {
+                        return callback(err);
+                    }
+                    ctx.write(')');
+                    // TODO what if it needs generateParams ?
+                    if (model.typeReturn) {
+                        ctx.write(': ');
+                        cnt.stm.typeReturn(model.typeReturn, ctx, (err, notUsed) => {
+                            if (err) {
+                                return callback(err);
+                            }
+                            arrowfunction_body(model, ctx, cnt, true, false, callback)
                         }
+                        )
+                    }
+                    else {
                         arrowfunction_body(model, ctx, cnt, true, false, callback)
                     }
-                    )
+                }
+                )
+            }
+            else if (u.onlyChildIs(model, 'arrowfunction')) {
+                if (model.wzName.length > 0) {
+                    ctx.write(model.wzName + async_str + ' = (');
                 }
                 else {
-                    arrowfunction_body(model, ctx, cnt, true, false, callback)
+                    ctx.write(async_str + '(');
                 }
-            }
-            )
-        }
-        else if (u.onlyChildIs(model, 'arrowfunction')) {
-            if (model.wzName.length > 0) {
-                ctx.write(model.wzName + async_str + ' = (');
-            }
-            else {
-                ctx.write(async_str + '(');
-            }
-            u.genTSParams(model, ctx, cnt, (err, notUsed) => {
-            
-                if (err) {
-                    return callback(err);
-                }
-                ctx.write(')');
-                if (model.typeReturn) {
-                    ctx.write(': ');
-                    cnt.stm.typeReturn(model.typeReturn, ctx, (err, notUsed) => {
-                    
-                        if (err) {
-                            return callback(err);
+                u.genTSParams(model, ctx, cnt, (err, notUsed) => {
+                    if (err) {
+                        return callback(err);
+                    }
+                    ctx.write(')');
+                    if (model.typeReturn) {
+                        ctx.write(': ');
+                        cnt.stm.typeReturn(model.typeReturn, ctx, (err, notUsed) => {
+                            if (err) {
+                                return callback(err);
+                            }
+                            arrowfunction_body(model, ctx, cnt, false, false, callback)
                         }
+                        )
+                    }
+                    else {
                         arrowfunction_body(model, ctx, cnt, false, false, callback)
                     }
-                    )
+                }
+                )
+            }
+            
+            // loog 'isImplicitReturn', model.wzElement, model.wzName
+            
+            // loog 'function.isSingleParam', isSingleParam
+            
+            // loog 'function.firstChildIs template', firstChildIsTemplate
+            else if (u.isImplicitReturn(model)) {
+                var isSingleParam = u.isSingleParamForArrowFunction(model);
+                var firstChildIsTemplate = u.firstChildIs(model, ['template']);
+                if (model.wzName.length > 0) {
+                    ctx.write(model.wzName + ' = ' + async_str + (isSingleParam ? '' : '('));
                 }
                 else {
-                    arrowfunction_body(model, ctx, cnt, false, false, callback)
+                    ctx.write(async_str + (isSingleParam ? '' : '('));
                 }
-            }
-            )
-        }
-        
-        // loog 'isImplicitReturn', model.wzElement, model.wzName
-        
-        // loog 'function.isSingleParam', isSingleParam
-        
-        // loog 'function.firstChildIs template', firstChildIsTemplate
-        else if (u.isImplicitReturn(model)) {
-            var isSingleParam = u.isSingleParamForArrowFunction(model);
-            var firstChildIsTemplate = u.firstChildIs(model, ['template']);
-            if (model.wzName.length > 0) {
-                ctx.write(model.wzName + ' = ' + async_str + (isSingleParam ? '' : '('));
-            }
-            else {
-                ctx.write(async_str + (isSingleParam ? '' : '('));
-            }
-            u.genTSParams(model, ctx, cnt, (err, notUsed) => {
-            
-                if (err) {
-                    return callback(err);
-                }
-                ctx.write(isSingleParam ? '' : ')');
-                if (model.typeReturn) {
-                    ctx.write(': ');
-                    cnt.stm.typeReturn(model.typeReturn, ctx, (err, notUsed) => {
-                    
-                        if (err) {
-                            return callback(err);
+                u.genTSParams(model, ctx, cnt, (err, notUsed) => {
+                    if (err) {
+                        return callback(err);
+                    }
+                    ctx.write(isSingleParam ? '' : ')');
+                    if (model.typeReturn) {
+                        ctx.write(': ');
+                        cnt.stm.typeReturn(model.typeReturn, ctx, (err, notUsed) => {
+                            if (err) {
+                                return callback(err);
+                            }
+                            arrowfunction_body(model, ctx, cnt, true, firstChildIsTemplate, callback)
                         }
+                        )
+                    }
+                    else {
                         arrowfunction_body(model, ctx, cnt, true, firstChildIsTemplate, callback)
                     }
-                    )
                 }
-                else {
-                    arrowfunction_body(model, ctx, cnt, true, firstChildIsTemplate, callback)
-                }
-            }
-            )
-        }
-        else {
-            if (model.wzName.length > 0) {
-                ctx.write(model.wzName + ' = ' + async_str + '(');
+                )
             }
             else {
-                ctx.write(async_str + '(');
-            }
-            u.genTSParams(model, ctx, cnt, (err, notUsed) => {
-            
-                if (err) {
-                    return callback(err);
-                }
-                ctx.write(')');
-                if (model.typeReturn) {
-                    ctx.write(': ');
-                    cnt.stm.typeReturn(model.typeReturn, ctx, (err, notUsed) => {
-                    
-                        if (err) {
-                            return callback(err);
-                        }
-                        arrowfunction_body(model, ctx, cnt, false, false, callback)
-                    }
-                    )
+                if (model.wzName.length > 0) {
+                    ctx.write(model.wzName + ' = ' + async_str + '(');
                 }
                 else {
-                    arrowfunction_body(model, ctx, cnt, false, false, callback)
+                    ctx.write(async_str + '(');
                 }
+                u.genTSParams(model, ctx, cnt, (err, notUsed) => {
+                    if (err) {
+                        return callback(err);
+                    }
+                    ctx.write(')');
+                    if (model.typeReturn) {
+                        ctx.write(': ');
+                        cnt.stm.typeReturn(model.typeReturn, ctx, (err, notUsed) => {
+                            if (err) {
+                                return callback(err);
+                            }
+                            arrowfunction_body(model, ctx, cnt, false, false, callback)
+                        }
+                        )
+                    }
+                    else {
+                        arrowfunction_body(model, ctx, cnt, false, false, callback)
+                    }
+                }
+                )
             }
-            )
         }
+        )
     }
     ;
     function arrowfunction_body(model, ctx, cnt, implicitReturn, firstChildIsTemplate, callback) {
@@ -618,7 +599,6 @@ md.load = function(cnt) {
         cnt.genItems(model.statements, ctx, {
             indent: true
          }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -646,7 +626,6 @@ md.load = function(cnt) {
         cnt.genItems(model.statements, ctx, {
             indent: true
          }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }

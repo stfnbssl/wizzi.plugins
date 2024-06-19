@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\artifacts\ts\module\gen\es6\get.js.ittf
-    utc time: Fri, 24 May 2024 16:39:28 GMT
+    utc time: Wed, 19 Jun 2024 05:25:25 GMT
 */
 'use strict';
 var u = require('../utils/stm');
@@ -19,7 +19,6 @@ md.gen = function(model, ctx, callback) {
     if (model.typeReturn) {
         ctx.write(': ');
         statement.stm.typeReturn(model.typeReturn, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -35,7 +34,6 @@ md.gen = function(model, ctx, callback) {
 function get_step_1(model, ctx, callback) {
     ctx.w(' {');
     statement.genItems(model.statements, ctx, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }

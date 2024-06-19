@@ -62,6 +62,7 @@
 				_ ctx.deindent
 				# 21/3/2021 _ ctx.w('} ')
                 _ ctx.write('}')
+				set ctx.__needs_crlf = true
 				$$ loog2
 				r_cb()
 	
@@ -493,6 +494,7 @@
 					_ ctx.error(':mapped typeMapped must have two children. found: ' + model.statements.length, model)
 
 	stm( typeArrowFunction, kind
+		# loog 'typeArrowFunction.model.wzParent.wzElement', model.wzParent.wzElement
         var model = writeComments(model, ctx)    
 		var atype
 			_ u.extractTSSimpleType
@@ -525,11 +527,17 @@
 								@ model
 								@ ctx
 								@ atype
-								@ callback
+								a_cb()
+									# 9/6/24
+									if model.wzParent.wzElement == "typeExport"
+										_ ctx.w(';')
+									r_cb()
+
 
 	fn( typeArrowFunction_close, atype
 		_ ctx.write(' => ')
 		if atype
+			# loog 'typeArrowFunction_close', 1, atype.wzElement
 			if !cnt.stm[atype.wzElement]
 				error 'ts.module.gen.typeIndex.item.wzElement not managed', atype.wzElement
 			_ cnt.stm[atype.wzElement]
@@ -541,6 +549,7 @@
 						@ ctx
 						@ callback
 		else
+			# loog 'typeArrowFunction_close', 2, model.statements[0].wzElement
 			_ cnt.genItems
 				@ model.statements
 				@ ctx

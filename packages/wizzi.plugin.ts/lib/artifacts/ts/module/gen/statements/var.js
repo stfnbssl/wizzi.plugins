@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\artifacts\ts\module\gen\statements\var.js.ittf
-    utc time: Fri, 24 May 2024 16:39:28 GMT
+    utc time: Wed, 19 Jun 2024 05:25:25 GMT
 */
 'use strict';
 var util = require('util');
@@ -102,7 +102,6 @@ function __writeDecorator(model, ctx) {
         ctx.write('(');
         u.checkInlineEnter(model, ctx);
         cnt.genItems(model.statements, ctx, {}, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -161,7 +160,6 @@ md.load = function(cnt) {
         if (vtype) {
             ctx.write(': ');
             cnt.stm[vtype.wzElement](vtype, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -192,13 +190,11 @@ md.load = function(cnt) {
                 ctx.write(': ');
             }
             cnt.genItem(model.statements[0], ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
                 ctx.write(' = ');
                 cnt.genItem(model.statements[1], ctx, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -224,7 +220,6 @@ md.load = function(cnt) {
             var indented,
                 item = model.statements[0];
             cnt.genItem(item, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -247,7 +242,6 @@ md.load = function(cnt) {
                         indented = true;
                     }
                     cnt.genItem(item_1, ctx, (err, notUsed) => {
-                    
                         if (err) {
                             return callback(err);
                         }
@@ -312,7 +306,6 @@ md.load = function(cnt) {
                 }
                 var item_1 = model.statements[index_1];
                 cnt.genItem(item_1, ctx, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -358,12 +351,10 @@ md.load = function(cnt) {
         }
         ctx.write('new ');
         xnew_type(model, ctx, (err, startArg) => {
-        
             if (err) {
                 return callback(err);
             }
             u.genTSTypeParameterInsts(model, ctx, cnt, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -388,7 +379,6 @@ md.load = function(cnt) {
                             ctx.write(')');
                         }
                         return cnt.genItem(item_1, ctx, (err, notUsed) => {
-                            
                                 if (err) {
                                     return callback(err);
                                 }
@@ -407,7 +397,6 @@ md.load = function(cnt) {
                         ctx.write(', ');
                     }
                     cnt.genItem(item_1, ctx, (err, notUsed) => {
-                    
                         if (err) {
                             return callback(err);
                         }
@@ -441,7 +430,6 @@ md.load = function(cnt) {
         if (model.statements.length > 0 && model.statements[0].wzElement === 'type') {
             ctx.write('(');
             cnt.genItem(model.statements[0], ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }

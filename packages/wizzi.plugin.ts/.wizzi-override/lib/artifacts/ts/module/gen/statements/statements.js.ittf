@@ -14,7 +14,7 @@
 	
 	stm( statement
 		_ u.writeComments(model, ctx)		
-		log 'wizzi-js.module.statements.statement', model.wzParent.wzElement, u.isTopStatement(model, ctx), "'" + model.wzName + "'", model.__templateChild, ctx.__inside_html
+		# loog 'wizzi-js.module.statements.statement', model.wzParent.wzElement, u.isTopStatement(model, ctx), "'" + model.wzName + "'", model.__templateChild, ctx.__inside_html
         var text = model.wzName
 		if model.__templateChild || ctx.__inside_html
 			set text 
@@ -206,8 +206,8 @@
 					r_cb()
 		else
 			if model.statements.length > 0
-				# loog 'model.statements[0]', model.statements[0]
-				_ ctx.write(name.length > 0 ? ' ' : '')
+				# loog 'model.statements[0]', model.statements[0].wzElement, model.statements[0].wzName
+				_ ctx.write(name.length > 0 ? (model.__isType ? ' = ' : ' ') : '')
 				var indented = false
 				set ctx.__inside_expr = true
 				_ cnt.genItem
@@ -216,10 +216,15 @@
 					a_cb()
 						$$ loog1, model.statements.length
 						if model.statements.length < 2
+							if ctx.__needs_comma
+								_ ctx.write(',')
+							if ctx.__needs_crlf
+								_ ctx.w()
+							set ctx.__needs_crlf = ctx.__needs_comma = ctx.__inside_expr = false
 							r_cb()
 						$$ loog2
 						repeater( 1, model.statements, 1 )
-							$$ loog3, item_1.wzElement
+							log 3, item_1.wzElement
 							if ctx.__needs_comma
 								_ ctx.write(',')
 								set ctx.__needs_comma = false

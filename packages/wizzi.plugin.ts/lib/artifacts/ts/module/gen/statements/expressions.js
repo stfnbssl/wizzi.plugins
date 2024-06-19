@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\artifacts\ts\module\gen\statements\expressions.js.ittf
-    utc time: Fri, 24 May 2024 16:39:28 GMT
+    utc time: Wed, 19 Jun 2024 05:25:25 GMT
 */
 'use strict';
 var util = require('util');
@@ -102,7 +102,6 @@ function __writeDecorator(model, ctx) {
         ctx.write('(');
         u.checkInlineEnter(model, ctx);
         cnt.genItems(model.statements, ctx, {}, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -186,7 +185,6 @@ md.load = function(cnt) {
             var saveParenRequired = ctx.parenRequired;
             ctx.parenRequired = true;
             cnt.genItem(model.statements[0], ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -217,7 +215,6 @@ md.load = function(cnt) {
             var saveParenRequired = ctx.parenRequired;
             ctx.parenRequired = true;
             cnt.genItem(model.statements[0], ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -258,13 +255,11 @@ md.load = function(cnt) {
         var saveParenRequired = ctx.parenRequired;
         ctx.parenRequired = true;
         cnt.genItem(model.statements[0], ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
             ctx.write(' || ');
             cnt.genItem(model.statements[1], ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -305,7 +300,6 @@ md.load = function(cnt) {
         var saveParenRequired = ctx.parenRequired;
         ctx.parenRequired = true;
         cnt.genItem(model.statements[0], ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -314,7 +308,6 @@ md.load = function(cnt) {
                 ctx.indent();
             }
             cnt.genItem(model.statements[1], ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -373,7 +366,6 @@ md.load = function(cnt) {
         function doTest(callback) {
             if (m_test) {
                 cnt.genItem(m_test, ctx, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -401,7 +393,6 @@ md.load = function(cnt) {
             // loog 'doThen', Object.keys(ctx), 'forceInLine', ctx.forceInLine, '__inside_expr', ctx.__inside_expr, '__inside_html', ctx.__inside_html
             if (m_then) {
                 cnt.genItem(m_then, ctx, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -421,7 +412,6 @@ md.load = function(cnt) {
         function doElse(callback) {
             if (m_else) {
                 cnt.genItem(m_else, ctx, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -435,17 +425,14 @@ md.load = function(cnt) {
             }
         }
         doTest((err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
             doThen((err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
                 doElse((err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -488,7 +475,6 @@ md.load = function(cnt) {
         cnt.genItems(model.statements, ctx, {
             indent: false
          }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -528,7 +514,6 @@ md.load = function(cnt) {
             cnt.genItems(xmodel.statements, ctx, {
                 indent: true
              }, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -783,7 +768,6 @@ md.load = function(cnt) {
                 ctx.write('(');
             }
             cnt.genItem(model.statements[0], ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -795,7 +779,6 @@ md.load = function(cnt) {
                     ctx.write('(');
                 }
                 cnt.genItem(model.statements[1], ctx, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -807,7 +790,6 @@ md.load = function(cnt) {
                     }
                     if (model.statements[2]) {
                         cnt.genItem(model.statements[2], ctx, (err, notUsed) => {
-                        
                             if (err) {
                                 return callback(err);
                             }

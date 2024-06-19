@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\artifacts\ts\module\gen\statements\module.js.ittf
-    utc time: Fri, 24 May 2024 16:39:28 GMT
+    utc time: Wed, 19 Jun 2024 05:25:25 GMT
 */
 'use strict';
 var util = require('util');
@@ -102,7 +102,6 @@ function __writeDecorator(model, ctx) {
         ctx.write('(');
         u.checkInlineEnter(model, ctx);
         cnt.genItems(model.statements, ctx, {}, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -133,7 +132,6 @@ md.load = function(cnt) {
             var item_1 = xmodel.statements[index_1];
             ctx.write('declare ');
             cnt.genItem(item_1, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -160,7 +158,6 @@ md.load = function(cnt) {
         ctx.write('module ' + xmodel.wzName);
         ctx.w(' {');
         cnt.genItems(xmodel.statements, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -180,14 +177,12 @@ md.load = function(cnt) {
         var xmodel = writeComments(model, ctx);
         ctx.write('type ' + xmodel.wzName);
         u.genTSTypeParameters(xmodel, ctx, cnt, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
             if (xmodel.statements.length == 1) {
                 ctx.write(' = ');
                 cnt.genItem(xmodel.statements[0], ctx, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -214,14 +209,12 @@ md.load = function(cnt) {
         ctx.write('function ' + xmodel.wzName);
         // loog 'typeFunctionDeclare enter 1'
         u.genTSTypeParameters(xmodel, ctx, cnt, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
             // loog 'typeFunctionDeclare enter 2'
             ctx.write('(');
             u.genTSParams(xmodel, ctx, cnt, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -232,7 +225,6 @@ md.load = function(cnt) {
                 if (xmodel.typeReturn) {
                     ctx.write(': ');
                     cnt.stm.typeReturn(xmodel.typeReturn, ctx, (err, notUsed) => {
-                    
                         if (err) {
                             return callback(err);
                         }

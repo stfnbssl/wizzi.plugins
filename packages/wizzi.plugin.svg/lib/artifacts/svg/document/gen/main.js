@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\artifacts\svg\document\gen\main.js.ittf
-    utc time: Thu, 23 May 2024 15:31:39 GMT
+    utc time: Wed, 12 Jun 2024 10:55:37 GMT
 */
 'use strict';
 // Language artifact that targets
@@ -45,7 +45,6 @@ md.gen = function(model, ctx, callback) {
         // allow generations from non root elements
         if (false) {
             md.myGetGenItem(ctx)(model, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -62,7 +61,6 @@ md.gen = function(model, ctx, callback) {
         // this for md.checkSchema: true
         else {
             md.svg(model, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -97,13 +95,22 @@ md.svg = function(model, ctx, callback) {
         ctx.w('<?xml version="1.0"?>');
     }
     writeBeginTag(ctx, 'svg')
-    ctx.write(" xmlns='http://www.w3.org/2000/svg'");
+    var seen_xmlns = false;
+    var i, i_items=model.getAttributes(), i_len=model.getAttributes().length, a;
+    for (i=0; i<i_len; i++) {
+        a = model.getAttributes()[i];
+        if (a.name == "xmlns") {
+            seen_xmlns = true;
+        }
+    }
+    if (!seen_xmlns) {
+        ctx.write(" xmlns='http://www.w3.org/2000/svg'");
+    }
     writeAttributes(model, ctx);
     writeCloseBegin(ctx)
     md.myGenItems(model.elements, ctx, {
         indent: true
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -113,9 +120,13 @@ md.svg = function(model, ctx, callback) {
     )
 }
 ;
+const elementTags = {
+    stopColor: 'stop-color', 
+    stopOpacity: 'stop-opacity'
+ };
 md.standardElement = function(model, ctx, callback) {
     // loog '***** standard element', model.wzElement
-    writeBeginTag(ctx, model.wzTag)
+    writeBeginTag(ctx, model.wzElement)
     writeAttributes(model, ctx);
     if (model.elements.length > 0) {
         writeCloseBegin(ctx)
@@ -125,11 +136,10 @@ md.standardElement = function(model, ctx, callback) {
         md.myGenItems(model.elements, ctx, {
             indent: true
          }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
-            writeEndTag(ctx, model.wzTag)
+            writeEndTag(ctx, model.wzElement)
             return callback();
         }
         )
@@ -155,7 +165,6 @@ md.myGenItems = function(elements, ctx, options, callback) {
         goelements.push(elements[i]);
     }
     async.mapSeries(goelements, md.myGetGenItem(ctx), (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -173,7 +182,6 @@ md.myGetGenItem = function(ctx) {
             // loog '***** known element', model.wzElement
             if (md[model.wzElement]) {
                 md[model.wzElement](model, ctx, (err, done) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -194,13 +202,17 @@ md.myGetGenItem = function(ctx) {
         };
 }
 ;
+const attributeTags = {
+    stopColor: 'stop-color', 
+    stopOpacity: 'stop-opacity'
+ };
 function writeAttributes(model, ctx) {
     var v;
     var i, i_items=model.getAttributes(), i_len=model.getAttributes().length, a;
     for (i=0; i<i_len; i++) {
         a = model.getAttributes()[i];
         v = encodeValue(ctx, a.value);
-        ctx.write(" " + a.name + "='" + v + "'")
+        ctx.write(" " + (attributeTags[a.name] || a.name) + "='" + v + "'")
     }
     if (model.attributes) {
         var i, i_items=model.attributes, i_len=model.attributes.length, a;
@@ -284,7 +296,6 @@ md.jsInclude = function(model, ctx, callback) {
     ctx.w('>');
     if (model.get_js) {
         included_writers.writeIncludeJs(ctx, model, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -314,7 +325,6 @@ md.cssInclude = function(model, ctx, callback) {
     ctx.w('>');
     if (model.get_css) {
         included_writers.writeIncludeCss(ctx, model, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }

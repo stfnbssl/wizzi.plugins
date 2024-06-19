@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\artifacts\ts\module\gen\statements\html.js.ittf
-    utc time: Fri, 24 May 2024 16:39:28 GMT
+    utc time: Wed, 19 Jun 2024 05:25:25 GMT
 */
 'use strict';
 var util = require('util');
@@ -106,7 +106,6 @@ function __writeDecorator(model, ctx) {
         ctx.write('(');
         u.checkInlineEnter(model, ctx);
         cnt.genItems(model.statements, ctx, {}, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -144,7 +143,6 @@ md.load = function(cnt) {
             text = p.value();
         // loog 'enter statements/html/htmlelement', tag, text
         md._htmlelement(cnt, model, tag, text, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -200,7 +198,6 @@ md.load = function(cnt) {
             cnt.genItems(model.statements, ctx, {
                 indent: true
              }, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -214,7 +211,6 @@ md.load = function(cnt) {
             cnt.genItems(model.statements, ctx, {
                 indent: true
              }, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -315,6 +311,17 @@ md.load = function(cnt) {
             else if (u.isTSSimpleType(item_1)) {
                 typeParameters.push(item_1)
             }
+            else if (item_1.wzElement === 'memberAccess') {
+                item_1.statements.unshift({
+                    wzElement: 'jsPropertyOrValue', 
+                    wzName: 'className ' + item_1.wzName, 
+                    wzParent: item_1
+                 })
+                item_1.wzElement = 'htmlelement';
+                item_1.wzName = 'div';
+                model.__hasChildElements = true;
+                childStatements.push(item_1)
+            }
             else {
                 console.log("[31m%s[0m", 'Error.model', model);
                 throw new errors.WizziModelDOMNodeError('In ts._htmlelement wzElement not managed: ' + item_1.wzElement, item_1);
@@ -328,7 +335,6 @@ md.load = function(cnt) {
             model.statements = childStatements;
             model.typeParameterInsts = typeParameters;
             _htmlelement_end(cnt, model, tag, text, ctx, attrs, comments, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -344,7 +350,6 @@ md.load = function(cnt) {
         var save___inside_html = ctx.__inside_html;
         ctx.__inside_html = true;
         htmlReact.htmlelement(cnt, model, tag, text, ctx, attrs, comments, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }

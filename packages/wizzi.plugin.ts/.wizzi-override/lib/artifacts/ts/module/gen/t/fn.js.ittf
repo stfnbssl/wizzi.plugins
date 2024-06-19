@@ -1,10 +1,12 @@
 ﻿$group
-    $params name, arg1|@@null
+    $params name, arg1|@@null, arg2|@@null
     function ${name}
         param model
         param ctx
         $if arg1 != null
             param ${arg1}
+        $if arg2 != null
+            param ${arg2}
         param callback
         if typeof callback === 'undefined'
             throw

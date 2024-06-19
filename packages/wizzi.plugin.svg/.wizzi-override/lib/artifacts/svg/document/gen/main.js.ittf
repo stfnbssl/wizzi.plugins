@@ -55,7 +55,12 @@ module wizzi.plugin.svg.lib.artifacts.svg.document.gen.main
             _ writeBeginTag
                 @ ctx
                 @ 'svg'
-            _ ctx.write(" xmlns='http://www.w3.org/2000/svg'")
+            var seen_xmlns = false
+            foreach a in model.getAttributes()
+                if a.name == "xmlns"
+                    set seen_xmlns = true
+            if !seen_xmlns
+                _ ctx.write(" xmlns='http://www.w3.org/2000/svg'")
             _ writeAttributes(model, ctx)
             _ writeCloseBegin
                 @ ctx
@@ -70,11 +75,16 @@ module wizzi.plugin.svg.lib.artifacts.svg.document.gen.main
                         @ 'svg'
                     _ callback(null, true)
         
+        const elementTags 
+            {
+                @ stopColor 'stop-color'
+                @ stopOpacity 'stop-opacity'
+        
         async-md( standardElement )
             # loog '***** standard element', model.wzElement
             _ writeBeginTag
                 @ ctx
-                @ model.wzTag
+                @ model.wzElement $$ model.wzTag
             _ writeAttributes(model, ctx)
             if model.elements.length > 0
                 _ writeCloseBegin
@@ -89,7 +99,7 @@ module wizzi.plugin.svg.lib.artifacts.svg.document.gen.main
                     a_cb( notUsed )
                         _ writeEndTag
                             @ ctx
-                            @ model.wzTag
+                            @ model.wzElement $$ model.wzTag
                         return
                             _ callback
             else
@@ -175,6 +185,11 @@ module wizzi.plugin.svg.lib.artifacts.svg.document.gen.main
                                     @ ctx
                                     @ callback
 
+        const attributeTags 
+            {
+                @ stopColor 'stop-color'
+                @ stopOpacity 'stop-opacity'
+        
         function writeAttributes
             param model
             param ctx
@@ -182,7 +197,7 @@ module wizzi.plugin.svg.lib.artifacts.svg.document.gen.main
             foreach a in model.getAttributes()
                 set v = encodeValue(ctx, a.value)
                 _ ctx.write
-                    @ " " + a.name + "='" + v + "'"
+                    @ " " + (attributeTags[a.name] || a.name) + "='" + v + "'"
 
             if model.attributes
                 foreach a in model.attributes

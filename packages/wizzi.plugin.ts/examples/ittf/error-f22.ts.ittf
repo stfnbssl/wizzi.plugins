@@ -1,0 +1,14 @@
+module
+    const request
+        { 
+            @ get
+                => 
+                    :< T
+                    param url
+                        :string 
+                    _ axios.get
+                        :param 
+                            :ref T
+                        @ url
+                        ._ then
+                            @ responseBody

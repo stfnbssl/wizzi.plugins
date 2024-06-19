@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\artifacts\ts\module\gen\es6\class.js.ittf
-    utc time: Fri, 24 May 2024 16:39:28 GMT
+    utc time: Wed, 19 Jun 2024 05:25:25 GMT
 */
 'use strict';
 var u = require('../utils/stm');
@@ -20,41 +20,34 @@ md.gen = function(model, ctx, callback) {
     // loog 'ts.es6.class', model
     u.writeComments(model, ctx);
     u.genTSDecorators(model, ctx, statement, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
         classDecorators(model, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
             u.genAccessorsAndExtra(model, ctx)
             ctx.write('class ' + zclass);
             u.genTSTypeParameters(model, ctx, statement, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
                 classSuper(model, ctx, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
                     classImplements(model, ctx, (err, notUsed) => {
-                    
                         if (err) {
                             return callback(err);
                         }
                         ctx.w(' {');
                         ctx.indent();
                         classCTor(model, ctx, (err, notUsed) => {
-                        
                             if (err) {
                                 return callback(err);
                             }
                             classMembers(model, ctx, (err, notUsed) => {
-                            
                                 if (err) {
                                     return callback(err);
                                 }
@@ -94,7 +87,6 @@ function classDecorators(model, ctx, callback) {
             }
             count++;
             statement.genItem(item_1, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -170,7 +162,6 @@ function classSuper(model, ctx, callback) {
                 }
                 else if (item_1.statements.length == 1) {
                     statement.genItem(item_1.statements[0], ctx, (err, notUsed) => {
-                    
                         if (err) {
                             return callback(err);
                         }
@@ -212,13 +203,11 @@ function classCTor(model, ctx, callback) {
         u.genAccessorsAndExtra(ctor, ctx)
         ctx.write('constructor');
         u.genTSTypeParameters(ctor, ctx, statement, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
             ctx.write('(');
             u.genTSParams(ctor, ctx, statement, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -248,7 +237,6 @@ function classCTor_end(model, ctx, callback) {
     }
     if (ctor) {
         statement.genMany(ctor.statements, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -311,7 +299,6 @@ function classMembers(model, ctx, callback) {
         }
         if (generator) {
             generator.gen(item_1, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -324,7 +311,6 @@ function classMembers(model, ctx, callback) {
         else {
             if (done == false) {
                 statement.genItem(item_1, ctx, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
