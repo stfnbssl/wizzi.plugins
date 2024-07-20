@@ -1,0 +1,25 @@
+module
+    const responseBody
+        => 
+            :< T
+            param response
+                :ref AxiosResponse
+                    :param 
+                        :ref T
+            +
+                @expr response.data
+    const request
+        { 
+            @ get
+                async=> 
+                    :< T
+                    param url
+                        :string 
+                    set axios.defaults.baseURL = BASE_URL
+                    return 
+                        _ axios.get
+                            :param 
+                                :ref T
+                            @ url
+                            ._ then
+                                @ responseBody

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\artifacts\ts\module\gen\statements\function.js.ittf
-    utc time: Wed, 19 Jun 2024 05:25:25 GMT
+    utc time: Fri, 21 Jun 2024 05:35:32 GMT
 */
 'use strict';
 var util = require('util');
@@ -434,14 +434,21 @@ md.load = function(cnt) {
         u.checkInlineEnter(model, ctx);
         var async_str = model.xasync ? 'async ' : '';
         u.genAccessorsAndExtra(model, ctx)
+        if (model.wzName.length > 0) {
+            ctx.write(model.wzName + async_str);
+        }
+        else {
+            ctx.write(async_str);
+        }
         u.genTSTypeParameters(model, ctx, cnt, (err, notUsed) => {
             if (err) {
                 return callback(err);
             }
             if (ctx.__is_react_class && model.wzParent.wzElement == 'reactComponent') {
+                console.log(11, __filename);
                 var implicitReturn = u.isImplicitReturn(model);
                 var firstChildIsTemplate = u.firstChildIs(model, ['template']);
-                ctx.w(model.wzName + ' = ' + async_str + ' = (');
+                ctx.w(' = (');
                 u.genTSParams(model, ctx, cnt, (err, notUsed) => {
                     if (err) {
                         return callback(err);
@@ -464,11 +471,12 @@ md.load = function(cnt) {
                 )
             }
             else if (u.onlyChildIs(model, 'callOnValue') || u.onlyChildIsHtmlElement(model)) {
+                console.log(12, __filename);
                 if (model.wzName.length > 0) {
-                    ctx.write(model.wzName + async_str + ' = (');
+                    ctx.write(' = (');
                 }
                 else {
-                    ctx.write(async_str + '(');
+                    ctx.write('(');
                 }
                 u.genTSParams(model, ctx, cnt, (err, notUsed) => {
                     if (err) {
@@ -493,11 +501,12 @@ md.load = function(cnt) {
                 )
             }
             else if (u.onlyChildIs(model, 'arrowfunction')) {
+                console.log(13, __filename);
                 if (model.wzName.length > 0) {
-                    ctx.write(model.wzName + async_str + ' = (');
+                    ctx.write(' = (');
                 }
                 else {
-                    ctx.write(async_str + '(');
+                    ctx.write('(');
                 }
                 u.genTSParams(model, ctx, cnt, (err, notUsed) => {
                     if (err) {
@@ -527,13 +536,14 @@ md.load = function(cnt) {
             
             // loog 'function.firstChildIs template', firstChildIsTemplate
             else if (u.isImplicitReturn(model)) {
+                console.log(14, __filename);
                 var isSingleParam = u.isSingleParamForArrowFunction(model);
                 var firstChildIsTemplate = u.firstChildIs(model, ['template']);
                 if (model.wzName.length > 0) {
-                    ctx.write(model.wzName + ' = ' + async_str + (isSingleParam ? '' : '('));
+                    ctx.write(isSingleParam ? '' : '(');
                 }
                 else {
-                    ctx.write(async_str + (isSingleParam ? '' : '('));
+                    ctx.write(isSingleParam ? '' : '(');
                 }
                 u.genTSParams(model, ctx, cnt, (err, notUsed) => {
                     if (err) {
@@ -557,11 +567,12 @@ md.load = function(cnt) {
                 )
             }
             else {
+                console.log(15, model.wzName, __filename);
                 if (model.wzName.length > 0) {
-                    ctx.write(model.wzName + ' = ' + async_str + '(');
+                    ctx.write('(');
                 }
                 else {
-                    ctx.write(async_str + '(');
+                    ctx.write('(');
                 }
                 u.genTSParams(model, ctx, cnt, (err, notUsed) => {
                     if (err) {
