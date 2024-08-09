@@ -1,0 +1,101 @@
+<lbot>
+    <ai-call>
+        <name></name>
+        <description>Conditional insertion of json fragment</description>
+        <ai-prompt> Using jsonata, given an array of books { isbn, title, author } and an array of loans { isbn, userName } i need a join resulting in { isbn, title, author, userName}</ai-prompt>
+        <ai-info>
+            Returned cached response
+        </ai-info>
+        <ai-response>
+            To achieve a join between the `books` and `loans` arrays using JSONata, you can use the `map` function along with a combination of filtering and transformation functions to combine the relevant fields.
+
+Here's an example JSONata expression to achieve the desired join:
+
+```jsonata
+$map(books, function($book) {
+  $loan := $filter(loans, function($l) { $l.isbn = $book.isbn });
+  $map($loan, function($l) {
+    {
+      "isbn": $book.isbn,
+      "title": $book.title,
+      "author": $book.author,
+      "userName": $l.userName
+    }
+  })
+})
+```
+
+This expression follows these steps:
+1. Use the `$map` function to iterate over each book in the `books` array.
+2. For each book, filter the `loans` array to find the corresponding loans by matching the `isbn`.
+3. Map over the filtered loans to create a new array of objects that combine the `isbn`, `title`, `author`, and `userName` fields.
+4. The resulting array contains objects with the structure `{ isbn, title, author, userName }`.
+
+Here's an example input and output:
+
+### Input:
+
+```json
+{
+  "books": [
+    { "isbn": "123", "title": "Book 1", "author": "Author A" },
+    { "isbn": "456", "title": "Book 2", "author": "Author B" },
+    { "isbn": "789", "title": "Book 3", "author": "Author C" }
+  ],
+  "loans": [
+    { "isbn": "123", "userName": "User X" },
+    { "isbn": "123", "userName": "User Y" },
+    { "isbn": "456", "userName": "User Z" }
+  ]
+}
+```
+
+### Output:
+
+```json
+[
+  [
+    { "isbn": "123", "title": "Book 1", "author": "Author A", "userName": "User X" },
+    { "isbn": "123", "title": "Book 1", "author": "Author A", "userName": "User Y" }
+  ],
+  [
+    { "isbn": "456", "title": "Book 2", "author": "Author B", "userName": "User Z" }
+  ],
+  []
+]
+```
+
+Note that the output is a nested array where each sub-array corresponds to the loans for a particular book. If you prefer a flat array, you can use the `$reduce` function to flatten the result.
+
+Here's the JSONata expression to produce a flat array:
+
+```jsonata
+$reduce(
+  $map(books, function($book) {
+    $loan := $filter(loans, function($l) { $l.isbn = $book.isbn });
+    $map($loan, function($l) {
+      {
+        "isbn": $book.isbn,
+        "title": $book.title,
+        "author": $book.author,
+        "userName": $l.userName
+      }
+    })
+  }),
+  $append
+)
+```
+
+### Flat Output:
+
+```json
+[
+  { "isbn": "123", "title": "Book 1", "author": "Author A", "userName": "User X" },
+  { "isbn": "123", "title": "Book 1", "author": "Author A", "userName": "User Y" },
+  { "isbn": "456", "title": "Book 2", "author": "Author B", "userName": "User Z" }
+]
+```
+
+This should give you the desired join result in a flat structure.
+        </ai-call>
+    </lbot>

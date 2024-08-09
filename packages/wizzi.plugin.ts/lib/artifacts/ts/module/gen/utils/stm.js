@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\artifacts\ts\module\gen\utils\stm.js.ittf
-    utc time: Fri, 21 Jun 2024 05:35:32 GMT
+    utc time: Tue, 06 Aug 2024 14:55:17 GMT
 */
-'use strict';
 // var verify = require('./verify')
 var verify = require('@wizzi/utils').helpers.verify;
 var myname = 'wizzi-js.artifacts.js.module.codegen.util.stm';
@@ -141,7 +140,8 @@ md.writeComments = function(model, ctx, newline) {
             
             // loog '§§§ stm.writeComments', model.wzName
             if (item.wzName.indexOf('@ts-ignore') > -1) {
-                ctx.__inlineNext = true;
+                ctx.w();
+                ctx.__inlineNext = false;
             }
             else {
                 ctx.__inlineNext = false;
@@ -282,7 +282,7 @@ md.commentStatements = function(model) {
 }
 ;
 md.isBlockStatement = function(model) {
-    return ['xif','xfor','foreach','xwhile','backeach','xtry','xthrow','xswitch', 'xyield','xawait','xdo','xlabel','xfunction','xdelete', 'xvar','xconst','xlet','decl','log'].indexOf(model.wzElement) > -1;
+    return ['xif','xfor','foreach','xwhile','backeach','xtry','xthrow','xswitch', 'xyield','xawait','xdo','xlabel','xfunction','xdelete', 'xvar','xconst','xlet','decl','log','info','error'].indexOf(model.wzElement) > -1;
 }
 ;
 md.isMemberAccess = function(model) {

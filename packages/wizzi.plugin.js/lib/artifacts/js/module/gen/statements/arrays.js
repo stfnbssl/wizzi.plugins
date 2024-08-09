@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\artifacts\js\module\gen\statements\arrays.js.ittf
-    utc time: Mon, 06 May 2024 15:21:28 GMT
+    utc time: Sat, 03 Aug 2024 03:24:07 GMT
 */
-'use strict';
 var util = require('util');
 var verify = require('@wizzi/utils').verify;
 var node = require('@wizzi/utils').node;
@@ -127,7 +126,6 @@ md.load = function(cnt) {
                 indent: false, 
                 sep: ', '
              }, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -191,7 +189,6 @@ md.load = function(cnt) {
         cnt.genItems(model.statements, ctx, {
             indent: true
          }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -214,7 +211,6 @@ md.load = function(cnt) {
         cnt.genItems(model.statements, ctx, {
             indent: true
          }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }

@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\artifacts\js\module\gen\statements\html.js.ittf
-    utc time: Mon, 06 May 2024 15:21:28 GMT
+    utc time: Sat, 03 Aug 2024 03:24:07 GMT
 */
-'use strict';
 var util = require('util');
 var verify = require('@wizzi/utils').verify;
 var node = require('@wizzi/utils').node;
@@ -119,7 +118,6 @@ md.load = function(cnt) {
         item = fb_html_supported_tags[i];
         cnt.stm[item] = function(model, ctx, callback) {
             md._htmlelement(cnt, model, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -145,7 +143,6 @@ md.load = function(cnt) {
         // loog 'enter htmlelement $$$$$$$$$$$$$$$$$$$', tag
         // loog 'statements/html/htmlelement', tag, text
         md._htmlelement(cnt, model, tag, text, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -202,7 +199,6 @@ md.load = function(cnt) {
             cnt.genItems(model.statements, ctx, {
                 indent: true
              }, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -216,7 +212,6 @@ md.load = function(cnt) {
             cnt.genItems(model.statements, ctx, {
                 indent: true
              }, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -262,7 +257,6 @@ md.load = function(cnt) {
         cnt.genItems(model.statements, ctx, {
             indent: false
          }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -289,7 +283,6 @@ md.load = function(cnt) {
         cnt.genItems(model.statements, ctx, {
             indent: false
          }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -317,7 +310,6 @@ md.load = function(cnt) {
         cnt.genItems(model.statements, ctx, {
             indent: false
          }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -412,7 +404,6 @@ md.load = function(cnt) {
         repeater_1(0);
         function next_1() {
             _htmlelement_end(cnt, model, tag, text, ctx, attrs, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -429,7 +420,6 @@ md.load = function(cnt) {
             var save___inside_html = ctx.__inside_html;
             ctx.__inside_html = true;
             html_react.htmlelement(cnt, model, tag, text, ctx, attrs, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -467,7 +457,6 @@ md.load = function(cnt) {
             cnt.genItems(model.statements, ctx, {
                 indent: false
              }, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }

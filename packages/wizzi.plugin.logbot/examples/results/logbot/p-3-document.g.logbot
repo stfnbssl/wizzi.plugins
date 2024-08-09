@@ -1,0 +1,248 @@
+<!--
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.html\lib\artifacts\html\document\gen\main.js
+    package: @wizzi/plugin.html@0.8.10
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.logbot\lib\artifacts\logbot\document\gen\ittf\document.html.ittf
+    utc time: Fri, 09 Aug 2024 16:30:56 GMT
+-->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Accordion List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .accordion {
+            background-color: #eee;
+            color: #444;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+            -webkit-transition: 0.4s;
+            -moz-transition: 0.4s;
+            -o-transition: 0.4s;
+            transition: 0.4s;
+        }
+        .active, .accordion:hover {
+            background-color: #ccc;
+        }
+        .accordion:after {
+            content: '\002B';
+            color: #777;
+            font-weight: bold;
+            float: right;
+            margin-left: 5px;
+        }
+        .active:after {
+            content: "\2212";
+        }
+        .panel {
+            padding: 0 18px;
+            display: none;
+            background-color: white;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            -webkit-border-radius: 5px;
+            -khtml-border-radius: 5px;
+            -moz-border-radius: 5px;
+            -o-border-radius: 5px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h2>chatGPT API calls</h2>
+    <button class="accordion">Join-1</button>
+    <div class="panel">
+        <p>Description: Join of two arrays</p>
+        <p>Info billing: "Returned cached response"</p>
+        <p>Usage </p>
+        <p>Finish reason </p>
+        <p>To achieve the join operation using <code>jsonata</code>, you can perform a mapping and filtering operation. Assuming you have the following structure for your data:</p>
+<pre><code class="language-json">{
+  &quot;books&quot;: [
+    { &quot;isbn&quot;: &quot;111&quot;, &quot;title&quot;: &quot;Book One&quot;, &quot;author&quot;: &quot;Author A&quot; },
+    { &quot;isbn&quot;: &quot;222&quot;, &quot;title&quot;: &quot;Book Two&quot;, &quot;author&quot;: &quot;Author B&quot; },
+    { &quot;isbn&quot;: &quot;333&quot;, &quot;title&quot;: &quot;Book Three&quot;, &quot;author&quot;: &quot;Author C&quot; }
+  ],
+  &quot;loans&quot;: [
+    { &quot;isbn&quot;: &quot;111&quot;, &quot;userName&quot;: &quot;User1&quot; },
+    { &quot;isbn&quot;: &quot;222&quot;, &quot;userName&quot;: &quot;User2&quot; }
+  ]
+}
+</code></pre>
+<p>You can use the following <code>jsonata</code> expression to join the books and loans arrays to get the required output:</p>
+<pre><code class="language-jsonata">books.{
+  &quot;isbn&quot;: isbn,
+  &quot;title&quot;: title,
+  &quot;author&quot;: author,
+  &quot;userName&quot;: loans[userName][isbn = $.isbn].userName
+}
+</code></pre>
+<p>Explanation of the expression:</p>
+<ol>
+<li><code>books.{}</code>: Iterate over each book in the books array.</li>
+<li><code>&quot;isbn&quot;: isbn, &quot;title&quot;: title, &quot;author&quot;: author</code>: Extract the <code>isbn</code>, <code>title</code>, and <code>author</code> fields from each book.</li>
+<li><code>&quot;userName&quot;: loans[userName][isbn = $.isbn].userName</code>: Find the corresponding loan entry where the <code>isbn</code> matches the book&#39;s <code>isbn</code> and extract the <code>userName</code>.</li>
+</ol>
+<p>When you apply the above <code>jsonata</code> expression to the given data, the result will be:</p>
+<pre><code class="language-json">[
+  {
+    &quot;isbn&quot;: &quot;111&quot;,
+    &quot;title&quot;: &quot;Book One&quot;,
+    &quot;author&quot;: &quot;Author A&quot;,
+    &quot;userName&quot;: &quot;User1&quot;
+  },
+  {
+    &quot;isbn&quot;: &quot;222&quot;,
+    &quot;title&quot;: &quot;Book Two&quot;,
+    &quot;author&quot;: &quot;Author B&quot;,
+    &quot;userName&quot;: &quot;User2&quot;
+  },
+  {
+    &quot;isbn&quot;: &quot;333&quot;,
+    &quot;title&quot;: &quot;Book Three&quot;,
+    &quot;author&quot;: &quot;Author C&quot;,
+    &quot;userName&quot;: null
+  }
+]
+</code></pre>
+<p>In this example, the book with <code>isbn</code> &quot;333&quot; does not have a corresponding loan, so its <code>userName</code> is <code>null</code>.</p>
+</div>
+    <button class="accordion">Accordion</button>
+    <div class="panel">
+        <p>Description: Accordion example</p>
+        <p>Info billing: "Returned cached response"</p>
+        <p>Usage </p>
+        <p>Finish reason </p>
+        <p>Certainly! You can create an accordion using HTML and the Alpine.js framework. Alpine.js is great for this task because it allows you to handle interactivity with minimal JavaScript. Below is an example of how you can build this:</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;Accordion with Alpine.js&lt;/title&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/alpinejs@3.x/dist/cdn.min.js&quot; defer&gt;&lt;/script&gt;
+    &lt;style&gt;
+        .accordion {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .accordion-header {
+            padding: 10px;
+            background-color: #f1f1f1;
+            cursor: pointer;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .accordion-content {
+            display: none;
+            padding: 10px;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div x-data=&quot;accordionList&quot;&gt;
+    &lt;template x-for=&quot;(item, index) in items&quot; :key=&quot;index&quot;&gt;
+        &lt;div class=&quot;accordion&quot;&gt;
+            &lt;div class=&quot;accordion-header&quot; @click=&quot;toggle(index)&quot;&gt;
+                &lt;span x-text=&quot;item.title&quot;&gt;&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;accordion-content&quot; x-show=&quot;isOpen(index)&quot;&gt;
+                &lt;p x-text=&quot;item.description&quot;&gt;&lt;/p&gt;
+                &lt;pre&gt;&lt;code x-text=&quot;item.code&quot;&gt;&lt;/code&gt;&lt;/pre&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/template&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    function accordionList() {
+        return {
+            items: [
+                {
+                    title: &quot;Title 1&quot;,
+                    description: &quot;Description for item 1.&quot;,
+                    code: &quot;console.log(&#39;Code for item 1&#39;);&quot;
+                },
+                {
+                    title: &quot;Title 2&quot;,
+                    description: &quot;Description for item 2.&quot;,
+                    code: &quot;console.log(&#39;Code for item 2&#39;);&quot;
+                },
+                // Add more items as needed
+            ],
+            openIndex: null,
+            toggle(index) {
+                this.openIndex = this.openIndex === index ? null : index;
+            },
+            isOpen(index) {
+                return this.openIndex === index;
+            }
+        };
+    }
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h3>Explanation:</h3>
+<ol>
+<li><p><strong>HTML Structure:</strong></p>
+<ul>
+<li>An outer <code>&lt;div&gt;</code> element initializes Alpine.js data with <code>x-data=&quot;accordionList&quot;</code>.</li>
+<li>A <code>&lt;template&gt;</code> element with <code>x-for</code> directive is used to loop through the list of items.</li>
+<li>Each item consists of a header and content. The header has an <code>@click</code> event to toggle the visibility of the content.</li>
+<li>The content is conditionally displayed using <code>x-show</code>.</li>
+</ul>
+</li>
+<li><p><strong>JavaScript (Alpine.js):</strong></p>
+<ul>
+<li>The <code>accordionList</code> function returns an object containing the list of items and methods to handle accordion functionality.</li>
+<li><code>items</code> is the array of accordion items.</li>
+<li><code>openIndex</code> keeps track of the currently open accordion.</li>
+<li><code>toggle</code> method toggles the open state of the clicked accordion.</li>
+<li><code>isOpen</code> method checks if an accordion is open.</li>
+</ul>
+</li>
+<li><p><strong>Styles:</strong></p>
+<ul>
+<li>Basic styles for the accordion, header, and content to make it look presentable.</li>
+</ul>
+</li>
+</ol>
+<p>This template can be expanded by adding more items to the <code>items</code> array or customizing the styles and behavior as needed.</p>
+</div>
+    <script>
+        // JavaScript to toggle the accordion panels
+        const accordions = document.querySelectorAll('.accordion');
+        accordions.forEach(accordion => 
+            accordion.addEventListener('click', function() {
+                this.classList.toggle('active');
+                const panel = this.nextElementSibling;
+                if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                }
+                else {
+                    panel.style.display = "block";
+                }
+            })
+        )
+    </script>
+</body>
+
+</html>

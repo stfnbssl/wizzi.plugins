@@ -1,0 +1,72 @@
+logbot transform lab
+
+    transformation merge_fragment_1
+        kind jsonata
+        description Conditional insertion of json fragment
+        input data-1
+            [ 
+                { 
+                    name "task1"
+                    type "done"
+                { 
+                    name "task2"
+                    type "in progress"
+                { 
+                    name "task3"
+                    type "done"        
+        ai-prompt 
+            \b Using the package jsonata,
+            \b can i transform a json array of objects with properties "name" and "type"  
+            \b into an array that, when the type is equal to "done",
+            \b has a new property "completed" with the current date value
+        ai-result chatgpt-r1
+            jsonata
+                module
+                    kind es6
+                    _ $map
+                            @ $
+                            function 
+                                param $v
+                                _ $merge
+                                    [ 
+                                        @ $v
+                                        set $v.type =
+                                            iif "done"
+                                                then
+                                                    { 
+                                                        @ "completed" $now()
+                                                else
+                                                    {         
+        apply chatgpt-r1
+            to data-1
+
+    transformation join_arrays_1
+        kind jsonata
+        description Join 2 arrays of objects
+        input data-1
+          {
+              [ books
+                  { 
+                      isbn "123456789"
+                      title "Book1"
+                      author "Author1"
+                  { 
+                      isbn "987654321"
+                      title "Book2"
+                      author "Author2"
+              [ loans
+                  { 
+                      isbn "123456789"
+                      userName "User1"
+                  { 
+                      isbn "987654321"
+                      userName "User2"        
+        ai-prompt 
+            \b Using jsonata,
+            \b given an array of books { isbn, title, author } 
+            \b and an array of loans { isbn, userName }
+            \b i need a join resulting in { isbn, title, author, userName}
+        ai-result chatgpt-r1
+            jsonata books.[isbn, title, author, loans[${'$'}${'$'}item.isbn = isbn].userName]
+        apply chatgpt-r1
+            to data-1                        

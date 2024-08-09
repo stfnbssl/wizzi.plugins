@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.html\.wizzi-override\lib\wizzifiers\html\wizzifier.js.ittf
-    utc time: Fri, 24 May 2024 10:49:45 GMT
+    utc time: Tue, 06 Aug 2024 15:03:57 GMT
 */
-'use strict';
 var util = require('util');
 var async = require('async');
 var stringify = require('json-stringify-safe');
@@ -309,13 +308,11 @@ md.getWizziTree = function(input, options, callback) {
     var startTime = Date.now();
     // loog 'startTime', startTime
     wizzify(input, options, (err, syntax) => {
-    
         if (err) {
             return callback(err);
         }
         if (options.syntaxOutFile) {
             parseInternal(input, options, (err, syntax) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -331,12 +328,10 @@ md.getWizziTree = function(input, options, callback) {
 ;
 md.getWizziIttf = function(input, options, callback) {
     md.getWizziTree(input, options, (err, result) => {
-    
         if (err) {
             return callback(err);
         }
         md.getWizzifierIncludes(options, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -361,7 +356,6 @@ function wizzify(tobeWizzified, options, callback) {
     options.formatTextNodes = [];
     options.verbose = true;
     parseInternal(tobeWizzified, options, (err, syntax) => {
-    
         if (err) {
             return callback(err);
         }
@@ -636,7 +630,6 @@ md.getWizzifierIncludes = function(options, callback) {
     async.map(options.wizziIncludes, function(item, callback) {
         if (item.kind === 'css') {
             options.wf.getWizziTreeFromText(item.literal, "css", (err, ittf) => {
-            
                 // loog 'getWizzifierIncludes.item.ittf', ittf
                 if (err) {
                     item.node.children.push({
@@ -665,7 +658,6 @@ md.getWizzifierIncludes = function(options, callback) {
         }
         else if (item.kind === 'ts') {
             options.wf.getWizziTreeFromText(item.literal, "ts", (err, ittf) => {
-            
                 // loog 'getWizzifierIncludes.item.ittf', ittf
                 if (err) {
                     item.node.children.push({
@@ -698,7 +690,6 @@ md.getWizzifierIncludes = function(options, callback) {
         // loog 'getWizziTreeFromText.js.item.literal', item.literal
         else {
             options.wf.getWizziTreeFromText(item.literal, "js", (err, ittf) => {
-            
                 // loog 'getWizziTreeFromText.js.err', err
                 // loog 'getWizziTreeFromText.js.ittf', ittf
                 if (err) {

@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\artifacts\ts\module\gen\statements\var.js.ittf
-    utc time: Fri, 21 Jun 2024 05:35:32 GMT
+    utc time: Tue, 06 Aug 2024 14:55:17 GMT
 */
-'use strict';
 var util = require('util');
 var verify = require('@wizzi/utils').verify;
 var node = require('@wizzi/utils').node;
@@ -263,6 +262,7 @@ md.load = function(cnt) {
                         ctx.deindent();
                     }
                     // 3/1/19 set ctx.__needs_crlf = ctx.__needs_comma =
+                    ctx.__needs_comma = false;
                     ctx.__inside_expr = false;
                     u.checkInlineExit(model, ctx);
                     return callback(null);

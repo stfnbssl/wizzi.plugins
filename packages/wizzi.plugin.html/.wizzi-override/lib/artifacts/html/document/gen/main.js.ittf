@@ -246,7 +246,7 @@ module wizzi.plugin.html@${wzCtx.version}.lib.artifacts.html.document.gen.main
                     _ callback
 
         async-md( html )
-            log 'html.ctx.values', ctx.values
+            $$ to many objects log 'html.ctx.values', ctx.values
             if !!ctx.values.noDocType == false
                 if model.doctype
                     _ ctx.w('<!doctype ' + model.doctype + '>')
@@ -261,7 +261,6 @@ module wizzi.plugin.html@${wzCtx.version}.lib.artifacts.html.document.gen.main
                         else
                             _ ctx.write(' ' + a.name)
                 _ ctx.w('>')
-
             _ async.mapSeries
                 @ model.elements
                 _ md.myGetGenItem

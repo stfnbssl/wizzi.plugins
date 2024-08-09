@@ -91,7 +91,8 @@
                     set written = true
                     if item.wzName.indexOf('@ts-ignore') > -1 
                         # loog '§§§ stm.writeComments', model.wzName
-                        set ctx.__inlineNext = true
+                        _ ctx.w $$ added 6/8/24
+                        set ctx.__inlineNext = false $$ changed from true to false 6/8/24
                     else
                         set ctx.__inlineNext = false
                 elif item.wzElement == 'commentForReference'
@@ -203,7 +204,7 @@
             param model
             return ['xif','xfor','foreach','xwhile','backeach','xtry','xthrow','xswitch',
                 \b 'xyield','xawait','xdo','xlabel','xfunction','xdelete',
-                \b 'xvar','xconst','xlet','decl','log'].indexOf(model.wzElement) > -1
+                \b 'xvar','xconst','xlet','decl','log','info','error'].indexOf(model.wzElement) > -1
 
 	set md.isMemberAccess
         function 

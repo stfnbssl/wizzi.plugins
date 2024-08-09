@@ -176,8 +176,10 @@
 
 	e path : element
 		a d
+		a fillOpacity
+			tag fill-opacity
 
-		svg/getAttrs( d, element )
+		svg/getAttrs( d;fillOpacity, element )
 
 	e text : element
 		a x
@@ -366,6 +368,8 @@
 					var nameAttr = name
 					if name == 'xlink_href'
 						set nameAttr = 'xlink:href'
+					elif name == 'fillOpacity'
+						set nameAttr = 'fill-opacity'
 					_ attrs.push
 						{
 							@ name nameAttr

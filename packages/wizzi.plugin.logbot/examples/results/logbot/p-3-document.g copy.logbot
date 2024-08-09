@@ -1,0 +1,39 @@
+{
+    "lbot": {
+        "aiCalls": [
+            {
+                "name": "Join-1",
+                "description": "Join of two arrays",
+                "aiMessages": [
+                    {
+                        "role": "system",
+                        "content": "undefined You are an expert of JSON and of the `jsonata` package"
+                    },
+                    {
+                        "role": "user",
+                        "content": "Using jsonata, given an array of books { isbn, title, author } and an array of loans { isbn, userName } i need a join resulting in { isbn, title, author, userName}"
+                    }
+                ],
+                "info": "Returned cached response",
+                "aiResponse": "To achieve the join operation using `jsonata`, you can perform a mapping and filtering operation. Assuming you have the following structure for your data:\n\n```json\n{\n  \"books\": [\n    { \"isbn\": \"111\", \"title\": \"Book One\", \"author\": \"Author A\" },\n    { \"isbn\": \"222\", \"title\": \"Book Two\", \"author\": \"Author B\" },\n    { \"isbn\": \"333\", \"title\": \"Book Three\", \"author\": \"Author C\" }\n  ],\n  \"loans\": [\n    { \"isbn\": \"111\", \"userName\": \"User1\" },\n    { \"isbn\": \"222\", \"userName\": \"User2\" }\n  ]\n}\n```\n\nYou can use the following `jsonata` expression to join the books and loans arrays to get the required output:\n\n```jsonata\nbooks.{\n  \"isbn\": isbn,\n  \"title\": title,\n  \"author\": author,\n  \"userName\": loans[userName][isbn = $.isbn].userName\n}\n```\n\nExplanation of the expression:\n1. `books.{}`: Iterate over each book in the books array.\n2. `\"isbn\": isbn, \"title\": title, \"author\": author`: Extract the `isbn`, `title`, and `author` fields from each book.\n3. `\"userName\": loans[userName][isbn = $.isbn].userName`: Find the corresponding loan entry where the `isbn` matches the book's `isbn` and extract the `userName`.\n\nWhen you apply the above `jsonata` expression to the given data, the result will be:\n\n```json\n[\n  {\n    \"isbn\": \"111\",\n    \"title\": \"Book One\",\n    \"author\": \"Author A\",\n    \"userName\": \"User1\"\n  },\n  {\n    \"isbn\": \"222\",\n    \"title\": \"Book Two\",\n    \"author\": \"Author B\",\n    \"userName\": \"User2\"\n  },\n  {\n    \"isbn\": \"333\",\n    \"title\": \"Book Three\",\n    \"author\": \"Author C\",\n    \"userName\": null\n  }\n]\n```\n\nIn this example, the book with `isbn` \"333\" does not have a corresponding loan, so its `userName` is `null`."
+            },
+            {
+                "name": "Accordion",
+                "description": "Join of two arrays",
+                "aiMessages": [
+                    {
+                        "role": "system",
+                        "content": "undefined You are an expert of HTML and of the minimal js framework `alpine`"
+                    },
+                    {
+                        "role": "user",
+                        "content": "I have a list of result, each result contains a title, a longer description, and javascript code. I need an HTML page to show the items of the list as `accordion` controls. So i have a list of titles and, when a title is clicked, the description and the code are shown."
+                    }
+                ],
+                "info": "Returned response of ChatGPT API call",
+                "aiResponse": "Certainly! You can create an accordion using HTML and the Alpine.js framework. Alpine.js is great for this task because it allows you to handle interactivity with minimal JavaScript. Below is an example of how you can build this:\n\n```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Accordion with Alpine.js</title>\n    <script src=\"https://cdn.jsdelivr.net/npm/alpinejs@3.x/dist/cdn.min.js\" defer></script>\n    <style>\n        .accordion {\n            border: 1px solid #ddd;\n            border-radius: 4px;\n            margin-bottom: 10px;\n        }\n\n        .accordion-header {\n            padding: 10px;\n            background-color: #f1f1f1;\n            cursor: pointer;\n            border-bottom: 1px solid #ddd;\n        }\n\n        .accordion-content {\n            display: none;\n            padding: 10px;\n        }\n    </style>\n</head>\n<body>\n\n<div x-data=\"accordionList\">\n    <template x-for=\"(item, index) in items\" :key=\"index\">\n        <div class=\"accordion\">\n            <div class=\"accordion-header\" @click=\"toggle(index)\">\n                <span x-text=\"item.title\"></span>\n            </div>\n            <div class=\"accordion-content\" x-show=\"isOpen(index)\">\n                <p x-text=\"item.description\"></p>\n                <pre><code x-text=\"item.code\"></code></pre>\n            </div>\n        </div>\n    </template>\n</div>\n\n<script>\n    function accordionList() {\n        return {\n            items: [\n                {\n                    title: \"Title 1\",\n                    description: \"Description for item 1.\",\n                    code: \"console.log('Code for item 1');\"\n                },\n                {\n                    title: \"Title 2\",\n                    description: \"Description for item 2.\",\n                    code: \"console.log('Code for item 2');\"\n                },\n                // Add more items as needed\n            ],\n            openIndex: null,\n            toggle(index) {\n                this.openIndex = this.openIndex === index ? null : index;\n            },\n            isOpen(index) {\n                return this.openIndex === index;\n            }\n        };\n    }\n</script>\n\n</body>\n</html>\n```\n\n### Explanation:\n\n1. **HTML Structure:**\n   - An outer `<div>` element initializes Alpine.js data with `x-data=\"accordionList\"`.\n   - A `<template>` element with `x-for` directive is used to loop through the list of items.\n   - Each item consists of a header and content. The header has an `@click` event to toggle the visibility of the content.\n   - The content is conditionally displayed using `x-show`.\n\n2. **JavaScript (Alpine.js):**\n   - The `accordionList` function returns an object containing the list of items and methods to handle accordion functionality.\n   - `items` is the array of accordion items.\n   - `openIndex` keeps track of the currently open accordion.\n   - `toggle` method toggles the open state of the clicked accordion.\n   - `isOpen` method checks if an accordion is open.\n\n3. **Styles:**\n   - Basic styles for the accordion, header, and content to make it look presentable.\n\nThis template can be expanded by adding more items to the `items` array or customizing the styles and behavior as needed."
+            }
+        ],
+        "transformations": []
+    }
+}

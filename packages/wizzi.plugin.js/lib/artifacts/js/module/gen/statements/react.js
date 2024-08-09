@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\artifacts\js\module\gen\statements\react.js.ittf
-    utc time: Mon, 06 May 2024 15:21:28 GMT
+    utc time: Sat, 03 Aug 2024 03:24:07 GMT
 */
-'use strict';
 var util = require('util');
 var verify = require('@wizzi/utils').verify;
 var node = require('@wizzi/utils').node;
@@ -106,7 +105,6 @@ md.load = function(cnt) {
         }
         var childrenInfo = extractReactChildren(model);
         reactComponent_style(model, ctx, childrenInfo, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -125,7 +123,6 @@ md.load = function(cnt) {
                 }
                 var item_1 = model.statements[index_1];
                 reactComponent_member(item_1, ctx, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -154,7 +151,6 @@ md.load = function(cnt) {
             ctx.indent();
             childrenInfo.style.wzElement = 'jsObject';
             cnt.genItem(childrenInfo.style, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -179,7 +175,6 @@ md.load = function(cnt) {
             ctx.write('state = ');
             model.wzElement = 'jsObject';
             cnt.genItem(model, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -196,7 +191,6 @@ md.load = function(cnt) {
             writeMethodProps(model, ctx)
             ctx.deindent();
             writeIndented(model.statements, ctx, cnt, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -226,7 +220,6 @@ md.load = function(cnt) {
             writeMethodProps(model, ctx)
             ctx.deindent();
             writeIndented(model.statements, ctx, cnt, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -241,7 +234,6 @@ md.load = function(cnt) {
             writeMethodProps(model, ctx)
             ctx.deindent();
             writeIndented(model.statements, ctx, cnt, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -261,7 +253,6 @@ md.load = function(cnt) {
             }
             ctx.__is_react_class = true;
             new method.gen(model, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -286,14 +277,12 @@ md.load = function(cnt) {
             }
             ctx.indent();
             generateParamConstraints(model.wzName, model.constrainedParams, model.hasCallbackParam, model.hasOptionsCallbackParam, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
                 writeMethodProps(model, ctx)
                 ctx.deindent();
                 writeIndented(model.statements, ctx, cnt, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -407,7 +396,6 @@ md.load = function(cnt) {
             }
             else {
                 cnt.genItem(item_1, ctx, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -434,7 +422,6 @@ md.load = function(cnt) {
         writeMethodProps(model, ctx)
         ctx.deindent();
         writeIndented(model.statements, ctx, cnt, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -461,7 +448,6 @@ md.load = function(cnt) {
             }
             else {
                 cnt.genItem(item_1, ctx, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -581,7 +567,6 @@ md.load = function(cnt) {
         }
     }
     var genReactPropType = (function() {
-    
         var lc = {};
         lc.oneOfParam = function(model, ctx, cnt) {
             ctx.w(model.wzName + ': PropTypes.oneOf([');

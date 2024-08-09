@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\artifacts\js\module\gen\react\html.js.ittf
-    utc time: Mon, 06 May 2024 15:21:28 GMT
+    utc time: Sat, 03 Aug 2024 03:24:07 GMT
 */
-'use strict';
 var u = require('../utils/stm');
 var md = module.exports = {};
 var myname = 'wizzi.js.artifacts.module.gen.react.html';
@@ -35,7 +34,6 @@ md.htmlelement = function(cnt, model, tag, text, ctx, attrs, callback) {
         }
     }
     htmlelement_open(cnt, model, ctx, tag, text, attrs, (err, done) => {
-    
         if (err) {
             return callback(err);
         }
@@ -51,7 +49,6 @@ md.htmlelement = function(cnt, model, tag, text, ctx, attrs, callback) {
         // loog 'react.html.htmlelement', 6  , tag
         else {
             htmlelement_end(cnt, model, ctx, tag, text, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -76,7 +73,6 @@ function htmlelement_open(cnt, model, ctx, tag, text, attrs, callback) {
         }
         var item_1 = attrs[index_1];
         htmlelement_attribute(cnt, item_1, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -123,7 +119,6 @@ function htmlelement_attribute(cnt, a, ctx, callback) {
         cnt.genItems(a.statements, ctx, {
             indent: false
          }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -153,7 +148,6 @@ function htmlelement_end(cnt, model, ctx, tag, text, callback) {
     cnt.genItems(model.statements, ctx, {
         indent: false
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }

@@ -1,0 +1,27 @@
+logbot ai lab
+
+    api-url http://localhost:3000
+
+    ai-call Join-1
+        description Join of two arrays
+        ai-message
+            role system
+            content
+                \b You are an expert of JSON and of the `jsonata` package
+        ai-message
+            role user
+            content Using jsonata,
+                \b given an array of books { isbn, title, author } and an array of loans { isbn, userName }
+                \b i need a join resulting in { isbn, title, author, userName}
+
+    ai-call Accordion
+        description Accordion example
+        ai-message
+            role system
+            content
+                \b You are an expert of HTML and of the minimal js framework `alpine`
+        ai-message
+            role user
+            content I have a list of result, each result contains a title, a longer description, and javascript code.
+                \b I need an HTML page to show the items of the list as `accordion` controls.
+                \b So i have a list of titles and, when a title is clicked, the description and the code are shown.

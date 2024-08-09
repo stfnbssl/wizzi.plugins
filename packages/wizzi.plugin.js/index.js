@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\root\index.js.ittf
-    utc time: Mon, 06 May 2024 15:21:24 GMT
+    utc time: Sat, 03 Aug 2024 03:24:03 GMT
 */
-'use strict';
 
 var util = require('util');
 var path = require('path');
@@ -226,7 +225,6 @@ class FactoryPlugin {
             if (this.file.exists(cheatsheetFolderUri)) {
                 try {
                     createPackifilesFromFs(cheatsheetFolderUri, (err, result) => {
-                    
                         if (err) {
                             return callback(err);
                         }
@@ -258,7 +256,6 @@ function createPackifilesFromFs(folderPath, callback) {
         deep: true, 
         documentContent: true
      }, (err, files) => {
-    
         if (err) {
             return callback(err);
         }
@@ -329,7 +326,6 @@ module.exports = {
     createFactoryPlugin: function(wizziPackage, options, callback) {
         var plugin = new FactoryPlugin(wizziPackage, this.provides);
         plugin.initialize(options, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }

@@ -1,0 +1,41 @@
+$group
+    #
+        # Map a file extension to a schema
+        # Useful for retrieving a Wizzifier by a file extension
+    m mapExtensionToSchema
+        param extension
+        $foreach schema in wzCtx.Schemas
+            $foreach ext in schema.fileExtensions
+                if extension == '${ext}'
+                    return '${schema.name}'
+        return null
+    #
+        # Retrieve a Wizzifier by its name (a schema name)
+        # Wizzifiers are searched in this package
+        # No search up in "node_modules" folders.
+    m getWizzifier
+        param wizzifierName
+        +
+        set wizzifierName = this.mapExtensionToSchema(wizzifierName)
+        +
+        var wizzifier = this.wizzifiers[wizzifierName] || null
+        if wizzifier == null
+            if typeof window !== 'undefined'
+                set wizzifier = window_wizzifiers[wizzifierName]
+            else
+                var modulePath
+                    _ path.resolve
+                        @ __dirname
+                        @ './lib/wizzifiers/' + wizzifierName + '/wizzifier.js'
+                if this.file.exists(modulePath)
+                    try
+                        set wizzifier = require('./lib/wizzifiers/' + wizzifierName + '/wizzifier')
+                    catch ex
+                        return
+                            _ error
+                                @ 'WizziPluginError'
+                                @ 'getWizzifier'
+                                @ 'Error loading wizzifier: ' + modulePath + ', in plugin: ' + this.getFilename()
+                                @ ex
+            set this.wizzifiers[wizzifierName] = wizzifier
+        return wizzifier

@@ -1,0 +1,133 @@
+<lbot>
+    <transformation>
+        <name>merge_fragment_1</name>
+        <description>Conditional insertion of json fragment</description>
+        <aiprompt> Using the package jsonata, can i transform a json array of objects with properties "name" and "type" into an array that, when the type is equal to "done", has a new property "completed" with the current date value</aiprompt>
+        <input>
+            <name>data-1</name>
+            <script>
+                [
+                    {
+                        "name": "task1",
+                        "type": "done"
+                    },
+                    {
+                        "name": "task2",
+                        "type": "in progress"
+                    },
+                    {
+                        "name": "task3",
+                        "type": "done"
+                    }
+                ]
+            </script>
+        </input>
+        <aiResult>
+            <name>chatgpt-r1</name>
+            <jsonata>
+                <script>
+                    /*
+                        artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+                        package: @wizzi/plugin.js@0.8.9
+                        primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.logbot\examples\ittf\p-1.logbot.ittf
+                        utc time: Mon, 05 Aug 2024 15:40:31 GMT
+                    */
+                    $map($, function($v) {
+                        $merge([
+                            $v, 
+                            $v.type = "done" ? {
+                                    "completed": $now()
+                                 } : {}
+                        ])
+                    })
+                </script>
+            </jsonata>
+        </aiResult>
+        <apply>
+            <name>chatgpt-r1</name>
+            <to>
+                <name>data-1</name>
+                <result>
+                    [
+                      {
+                        "name": "task1",
+                        "type": "done",
+                        "completed": "2024-08-05T15:40:31.311Z"
+                      },
+                      {
+                        "name": "task2",
+                        "type": "in progress"
+                      },
+                      {
+                        "name": "task3",
+                        "type": "done",
+                        "completed": "2024-08-05T15:40:31.311Z"
+                      }
+                    ]
+                </result>
+            </to>
+        </apply>
+    </transformation>
+    <transformation>
+        <name>join_arrays_1</name>
+        <description>Join 2 arrays of objects</description>
+        <aiprompt> Using jsonata, given an array of books { isbn, title, author } and an array of loans { isbn, userName } i need a join resulting in { isbn, title, author, userName}</aiprompt>
+        <input>
+            <name>data-1</name>
+            <script>
+                {
+                    "books": [
+                        {
+                            "isbn": "123456789",
+                            "title": "Book1",
+                            "author": "Author1"
+                        },
+                        {
+                            "isbn": "987654321",
+                            "title": "Book2",
+                            "author": "Author2"
+                        }
+                    ],
+                    "loans": [
+                        {
+                            "isbn": "123456789",
+                            "userName": "User1"
+                        },
+                        {
+                            "isbn": "987654321",
+                            "userName": "User2"
+                        }
+                    ]
+                }
+            </script>
+        </input>
+        <aiResult>
+            <name>chatgpt-r1</name>
+            <jsonata>
+            <script>
+                books.[isbn, title, author, loans[$$item.isbn = isbn].userName]
+            </script>
+            </jsonata>
+        </aiResult>
+        <apply>
+            <name>chatgpt-r1</name>
+            <to>
+                <name>data-1</name>
+                <result>
+                    [
+                      [
+                        "123456789",
+                        "Book1",
+                        "Author1"
+                      ],
+                      [
+                        "987654321",
+                        "Book2",
+                        "Author2"
+                      ]
+                    ]
+                </result>
+            </to>
+        </apply>
+    </transformation>
+</lbot>

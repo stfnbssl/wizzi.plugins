@@ -1,0 +1,729 @@
+{
+  "name": "logbot",
+  "preserveTags": true,
+  "requires": [],
+  "exportTos": [],
+  "elements": [
+    {
+      "name": "node",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "node"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        }
+      ],
+      "derived": [
+        {
+          "name": "logbot",
+          "tags": [
+            "logbot"
+          ]
+        },
+        {
+          "name": "jsInclude",
+          "tags": [
+            "::js"
+          ]
+        },
+        {
+          "name": "jsonObjectInclude",
+          "tags": [
+            "::json-object"
+          ]
+        },
+        {
+          "name": "jsonArrayInclude",
+          "tags": [
+            "::json-array"
+          ]
+        },
+        {
+          "name": "aiCall",
+          "tags": [
+            "ai-call"
+          ]
+        },
+        {
+          "name": "aiMessage",
+          "tags": [
+            "ai-message"
+          ]
+        },
+        {
+          "name": "transformation",
+          "tags": [
+            "transformation"
+          ]
+        },
+        {
+          "name": "input",
+          "tags": [
+            "input"
+          ]
+        },
+        {
+          "name": "aiResult",
+          "tags": [
+            "ai-result"
+          ]
+        },
+        {
+          "name": "jsonata",
+          "tags": [
+            "jsonata"
+          ]
+        },
+        {
+          "name": "to",
+          "tags": [
+            "to"
+          ]
+        },
+        {
+          "name": "apply",
+          "tags": [
+            "apply"
+          ]
+        }
+      ],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "logbot",
+      "super": "node",
+      "isRoot": true,
+      "tags": [
+        "logbot"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "apiUrl",
+          "type": "string",
+          "tags": [
+            "api-url"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "jsInclude",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "::js"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "jsonObjectInclude",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "::json-object"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "jsonArrayInclude",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "::json-array"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "aiCall",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "ai-call"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "kind",
+          "type": "string",
+          "tags": [
+            "kind"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "aiPrompt",
+          "type": "string",
+          "tags": [
+            "ai-prompt"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "max_tokens",
+          "type": "string",
+          "tags": [
+            "max_tokens"
+          ],
+          "default": "1500",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "temperature",
+          "type": "string",
+          "tags": [
+            "temperature"
+          ],
+          "default": "0.7",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "top_p",
+          "type": "string",
+          "tags": [
+            "top_p"
+          ],
+          "default": "1",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "frequency_penalty",
+          "type": "string",
+          "tags": [
+            "frequency_penalty"
+          ],
+          "default": "0",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "presence_penalty",
+          "type": "string",
+          "tags": [
+            "presence_penalty"
+          ],
+          "default": "0",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "aiMessage",
+          "role": "aiMessages",
+          "tags": [
+            "ai-message"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "aiMessage",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "ai-message"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "role",
+          "type": "string",
+          "tags": [
+            "role"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "tags": [
+            "content"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "transformation",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "transformation"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "kind",
+          "type": "string",
+          "tags": [
+            "kind"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "aiPrompt",
+          "type": "string",
+          "tags": [
+            "ai-prompt"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "input",
+          "role": "inputs",
+          "tags": [
+            "input"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "aiResult",
+          "role": "aiResults",
+          "tags": [
+            "ai-result"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "apply",
+          "role": "applies",
+          "tags": [
+            "apply"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "getInputByName",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "name"
+          ],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "getAiResultByName",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "name"
+          ],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": []
+    },
+    {
+      "name": "input",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "input"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "jsonObjectInclude",
+          "role": null,
+          "tags": [
+            "::json-object"
+          ],
+          "cardinality": "one-to-one",
+          "flags": "is-one-to-one ",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "jsonArrayInclude",
+          "role": null,
+          "tags": [
+            "::json-array"
+          ],
+          "cardinality": "one-to-one",
+          "flags": "is-one-to-one ",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "aiResult",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "ai-result"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "jsonata",
+          "role": null,
+          "tags": [
+            "jsonata"
+          ],
+          "cardinality": "one-to-one",
+          "flags": "is-one-to-one ",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "jsonata",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "jsonata"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "jsInclude",
+          "role": null,
+          "tags": [
+            "::js"
+          ],
+          "cardinality": "one-to-one",
+          "flags": "is-one-to-one ",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "to",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "to"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "apply",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "apply"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "to",
+          "role": "tos",
+          "tags": [
+            "to"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    }
+  ]
+}

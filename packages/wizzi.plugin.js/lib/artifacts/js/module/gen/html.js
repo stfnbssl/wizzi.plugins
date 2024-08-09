@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\artifacts\js\module\gen\html.js.ittf
-    utc time: Mon, 06 May 2024 15:21:28 GMT
+    utc time: Sat, 03 Aug 2024 03:24:07 GMT
 */
-'use strict';
 var statement = require('./statement');
 var md = module.exports = {};
 var myname = 'wizzi.js.artifacts.module.gen.html';
@@ -16,7 +15,6 @@ md.gen = function(model, ctx, callback) {
     ctx.w('var __html = [];');
     ctx.__inside_html = true;
     statement.genMany(model.statements, ctx, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }

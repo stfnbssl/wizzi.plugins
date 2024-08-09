@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\artifacts\js\module\gen\wziife.js.ittf
-    utc time: Mon, 06 May 2024 15:21:28 GMT
+    utc time: Sat, 03 Aug 2024 03:24:07 GMT
 */
-'use strict';
 var _ = require('lodash');
 var statement = require('./statement');
 var md = module.exports = {};
@@ -23,7 +22,6 @@ md.gen = function(model, ctx, callback) {
     ctx.indent();
     // sync function
     generateParamConstraints('iife ' + model.wzName, model.constrainedParams, model.hasCallbackParam, model.hasOptionsCallbackParam, ctx, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -35,7 +33,6 @@ md.gen = function(model, ctx, callback) {
             var item_1 = model.statements[index_1];
             // loog 'wizzi-js.wziife', item_1.wzElement, item_1.wzName
             statement.gen(item_1, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -95,7 +92,6 @@ md.gen = function(model, ctx, callback) {
             ctx.w('})');
             if (invokeCall) {
                 statement.gen(invokeCall, ctx, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }

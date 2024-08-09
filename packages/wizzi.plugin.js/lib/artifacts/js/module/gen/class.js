@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\artifacts\js\module\gen\class.js.ittf
-    utc time: Mon, 06 May 2024 15:21:28 GMT
+    utc time: Sat, 03 Aug 2024 03:24:07 GMT
 */
-'use strict';
 var verify = require('@wizzi/utils').verify;
 var statement = require('./statement');
 var method = require('./method');
@@ -32,14 +31,12 @@ md.gen = function(model, ctx, callback) {
     }
     ctx.w('_classCallCheck(this, ' + zclass + ');');
     md.genCTor(ctor, ctx, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
         ctx.deindent();
         ctx.w('}');
         md.genMembers(model, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -57,7 +54,6 @@ md.gen = function(model, ctx, callback) {
 md.genCTor = function(ctor, ctx, callback) {
     if (ctor) {
         generateParamConstraints('ctor', ctor.constrainedParams, ctor.hasCallbackParam, ctor.hasOptionsCallbackParam, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -94,7 +90,6 @@ md.genMembers = function(model, ctx, callback) {
         }
         if (generator) {
             generator.gen(item_1, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }

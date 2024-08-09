@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\wizzifiers\js\wizzifier.js.ittf
-    utc time: Mon, 06 May 2024 15:21:28 GMT
+    utc time: Sat, 03 Aug 2024 03:24:07 GMT
 */
-'use strict';
 var util = require('util');
 var async = require('async');
 var stringify = require('json-stringify-safe');
@@ -128,13 +127,11 @@ md.getWizziTree = function(input, options, callback) {
     var startTime = Date.now();
     // loog 'startTime', startTime
     wizzify(input, options, (err, syntax) => {
-    
         if (err) {
             return callback(err);
         }
         if (options.syntaxOutFile) {
             parseInternal(input, options, (err, syntax) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -150,12 +147,10 @@ md.getWizziTree = function(input, options, callback) {
 ;
 md.getWizziIttf = function(input, options, callback) {
     md.getWizziTree(input, options, (err, result) => {
-    
         if (err) {
             return callback(err);
         }
         md.getWizzifierIncludes(options, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -236,7 +231,6 @@ function wizzify(tobeWizzified, options, callback) {
     var startTime = Date.now();
     var babelOptions = options.babel || {};
     parseInternal(tobeWizzified, babelOptions, (err, syntax) => {
-    
         if (err) {
             return callback(err);
         }
@@ -270,7 +264,6 @@ function wizzify(tobeWizzified, options, callback) {
         async.map(options.wizziIncludes, function(item, callback) {
             if (item.kind === 'css') {
                 options.wf.getWizziTreeFromText(item.literal, "css", (err, ittf) => {
-                
                     // loog 'getWizzifierIncludes.css.item.ittf', ittf
                     item.node.children.push(ittf)
                     return callback(null);
@@ -279,7 +272,6 @@ function wizzify(tobeWizzified, options, callback) {
             }
             else {
                 options.wf.getWizziTreeFromText(item.literal, "html", (err, ittf) => {
-                
                     // loog 'getWizzifierIncludes.html.item.ittf', ittf
                     item.node.children.push(ittf)
                     return callback(null);
@@ -287,7 +279,6 @@ function wizzify(tobeWizzified, options, callback) {
                 )
             }
         }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -12269,13 +12260,12 @@ format.JSXText = function(parent, node, options) {
             
         ]
      };
-    // if node.value.trim().length == 0 || node.value === '\n' // 11/1/19
-    var nametrimmed = node.value.trim();
-    if (nametrimmed == 0) {
-        ret = null;
+    ret.name = verify.replaceAll(node.value, '\n', '&lf;');
+    if (ret.name[0] === ' ') {
+        ret.name = '\\b' + ret.name;
     }
-    else {
-        ret.name = verify.replaceAll(nametrimmed, '\n', '&lf;');
+    if (ret.name[ret.name.length-1] === ' ') {
+        ret.name = ret.name + '\\b';
     }
     if (ret != null) {
         if (__isText) {

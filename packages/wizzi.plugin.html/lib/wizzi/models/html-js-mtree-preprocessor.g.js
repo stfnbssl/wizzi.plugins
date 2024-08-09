@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.html\.wizzi-override\lib\wizzi\models\html-js-mtree-preprocessor.g.js.ittf
-    utc time: Fri, 24 May 2024 10:49:45 GMT
+    utc time: Tue, 06 Aug 2024 15:03:57 GMT
 */
-'use strict';
 // Those of facebook react
 // The 'p' tag works both as a html tag and a class property
 // TODO the 'param' tag/element (children of object element) has been suspended for

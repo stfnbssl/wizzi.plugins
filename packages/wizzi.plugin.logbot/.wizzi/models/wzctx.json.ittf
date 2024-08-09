@@ -1,0 +1,54 @@
+{
+    $include versions
+    name "wizzi.plugin.logbot"
+    npmName "@wizzi/plugin.logbot"
+    pluginBasename ""
+    version '${versions['@wizzi/plugin.logbot@next']}'
+    version_wizzi_factory '${versions['@wizzi/factory']}'
+    version_wizzi_mtree '${versions['@wizzi/mtree']}'
+    version_wizzi_utils '${versions['@wizzi/utils']}'
+    description "Logbot lab"
+    main "index.js"
+    { author
+        name "Stefano Bassoli"
+        email "stfn.bssl@gmail.com"
+    { github
+        userid "stfnbssl"
+    { license
+        type "MIT"
+        url "https://github.com/stfnbssl/wizzi.plugins/tree/main/packages/wizzi.plugin.logbot/license.text"
+        copy "copy 2024"
+    { Build
+        isWizziPlugin true
+        useWizziV08 true
+        { wizziV08
+        { utils
+            useStringifySafe true
+            useObjectInspect true
+    [ Schemas
+        {
+            name "logbot"
+            title "logbot wizzi schema"
+            builtin false
+            [ modelTransformers
+            [ artifactGenerators
+                {
+                    name "document"
+                    outmime "logbot"
+                    contentType "text/logbot"
+                    isDefault true
+            defaultArtifact "document"
+            [ wizzifiers
+            [ fileExtensions
+                "logbot"
+            [ includes
+                {
+                    Name "Js"
+                    name "js"
+                    version "0.8.6"
+                    [ options
+                {
+                    Name "Json"
+                    name "json"
+                    version "0.8.7"
+                    [ options

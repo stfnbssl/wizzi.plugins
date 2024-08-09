@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\artifacts\js\module\gen\statement.js.ittf
-    utc time: Mon, 06 May 2024 15:21:28 GMT
+    utc time: Sat, 03 Aug 2024 03:24:07 GMT
 */
-'use strict';
 
 var myname = 'wizzi.js.artifacts.module.gen.statement';
 
@@ -73,7 +72,6 @@ md.genMany = function(models, ctx, callback) {
         }
         var item_1 = models[index_1];
         md.genItem(item_1, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -99,7 +97,6 @@ md.genItem = function(model, ctx, callback) {
         }
         ctx.w(">{`");
         include_writers.writeIncludeCss(ctx, model, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -120,14 +117,12 @@ md.genItem = function(model, ctx, callback) {
             }
             ctx.indent();
             md.genItem(model.statements[0], ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
                 ctx.deindent();
                 ctx.w(")`");
                 include_writers.writeIncludeCss(ctx, model, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -146,7 +141,6 @@ md.genItem = function(model, ctx, callback) {
                 ctx.w("return css`");
             }
             include_writers.writeIncludeCss(ctx, model, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -166,7 +160,6 @@ md.genItem = function(model, ctx, callback) {
             ctx.w("keyframes`");
         }
         include_writers.writeIncludeCss(ctx, model, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -184,7 +177,6 @@ md.genItem = function(model, ctx, callback) {
             ctx.w("css`");
         }
         include_writers.writeIncludeCss(ctx, model, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -218,7 +210,6 @@ md.genItemAs = function(model, asWzElement, ctx, callback) {
     var save = model.wzElement;
     model.wzElement = asWzElement;
     md.genItem(model, ctx, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -250,7 +241,6 @@ md.genItems = function(statements, ctx, options, callback) {
             ctx.write(options.sep);
         }
         md.genItem(item_1, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }

@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\artifacts\js\module\gen\statements\statements.js.ittf
-    utc time: Mon, 06 May 2024 15:21:28 GMT
+    utc time: Sat, 03 Aug 2024 03:24:07 GMT
 */
-'use strict';
 var util = require('util');
 var verify = require('@wizzi/utils').verify;
 var node = require('@wizzi/utils').node;
@@ -331,7 +330,6 @@ md.load = function(cnt) {
                 var indented = false;
                 ctx.__inside_expr = true;
                 cnt.genItem(model.statements[0], ctx, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -357,7 +355,6 @@ md.load = function(cnt) {
                             indented = true;
                         }
                         cnt.genItem(item_1, ctx, (err, notUsed) => {
-                        
                             if (err) {
                                 return callback(err);
                             }
@@ -468,7 +465,6 @@ md.load = function(cnt) {
         cnt.genItems(model.statements, ctx, {
             indent: false
          }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -498,7 +494,6 @@ md.load = function(cnt) {
         cnt.genItems(model.statements, ctx, {
             indent: true
          }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -562,7 +557,6 @@ md.load = function(cnt) {
             if (model.statements[0].wzElement == 'comment') {
                 ctx.w(model.wzName + ' ')
                 cnt.genItems(model.statements, ctx, {}, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -576,13 +570,11 @@ md.load = function(cnt) {
             }
             else {
                 cnt.genItem(model.statements[0], ctx, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
                     ctx.write(' ' + model.wzName + ' ')
                     cnt.genItem(model.statements[1], ctx, (err, notUsed) => {
-                    
                         if (err) {
                             return callback(err);
                         }
@@ -602,7 +594,6 @@ md.load = function(cnt) {
             cnt.genItems(model.statements, ctx, {
                 indent: false
              }, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }

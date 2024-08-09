@@ -1,0 +1,76 @@
+html 
+    lang en
+    head 
+        meta 
+            charset UTF-8
+        meta 
+            name viewport
+            content width=device-width, initial-scale=1.0
+        @title Accordion List
+        @style 
+            css 
+                < body
+                    font-family Arial, sans-serif
+                    margin 20px
+                . accordion
+                    background-color #eee
+                    color #444
+                    cursor pointer
+                    padding 18px
+                    width 100%
+                    border none
+                    text-align left
+                    outline none
+                    font-size 15px
+                    transition 0.4s
+                . active
+                    + .accordion:hover
+                    background-color #ccc
+                . accordion:after
+                    content '\002B'
+                    # 
+                    color #777
+                    font-weight bold
+                    float right
+                    margin-left 5px
+                . active:after
+                    content "\2212"
+                    # 
+                . panel
+                    padding 0 18px
+                    display none
+                    background-color white
+                    overflow hidden
+                    margin-bottom 10px
+                < pre
+                    background-color #f4f4f4
+                    padding 10px
+                    border-radius 5px
+    body 
+        h2 chatGPT API calls
+		$foreach aicall in schema.lbot.aiCalls
+			button ${aicall.name}
+				class accordion
+			. panel
+				p Description: ${aicall.description}
+				p Info billing: ${JSON.stringify(aicall.info)}
+				p Usage ${JSON.stringify(aicall.usage)}
+				p Finish reason ${aicall.finish_reason}
+				+ ${aicall.aiResponseHTML}
+        script 
+            module 
+                kind es6
+                const accordions = document.querySelectorAll('.accordion')
+                    # JavaScript to toggle the accordion panels
+                _ accordions.forEach
+                    => 
+                        param accordion
+                        _ accordion.addEventListener
+                            @ 'click'
+                            function 
+                                _ this.classList.toggle('active')
+                                const panel = this.nextElementSibling
+                                if panel.style.display === "block"
+                                    set panel.style.display = "none"
+                                else 
+                                    set panel.style.display = "block"

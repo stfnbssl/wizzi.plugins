@@ -21,6 +21,7 @@ module wizzi.plugin.js@${wzCtx.version}.lib.artifacts.js.module.gen.main
             var preprocess = require('./preprocess')
         
         $append main
+            set model.kind == verify.isEmpty(model.kind) ? 'react' : model.kind
             _ preprocess.exec(model, ctx)
             
             set ctx.__jskind = model.kind
@@ -49,6 +50,8 @@ module wizzi.plugin.js@${wzCtx.version}.lib.artifacts.js.module.gen.main
         function main_init
             param model
             param ctx
+
+            
             
             if model.kind === 'nodejs.bin'
                 _ ctx.w('#!/usr/bin/env node')
@@ -67,8 +70,9 @@ module wizzi.plugin.js@${wzCtx.version}.lib.artifacts.js.module.gen.main
                 @ model.resources
                 @ ctx
 
-            if !model.no_strict && (!!ctx.values.noUseStrict) == false
-                _ ctx.w("'use strict';")
+            $if TODO $$ Stop this
+                if !model.no_strict && (!!ctx.values.noUseStrict) == false
+                    _ ctx.w("'use strict';")
 
             _ main_es6_module
                 @ model

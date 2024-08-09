@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\artifacts\js\module\gen\statements\var.js.ittf
-    utc time: Mon, 06 May 2024 15:21:28 GMT
+    utc time: Sat, 03 Aug 2024 03:24:07 GMT
 */
-'use strict';
 var util = require('util');
 var verify = require('@wizzi/utils').verify;
 var node = require('@wizzi/utils').node;
@@ -150,7 +149,6 @@ md.load = function(cnt) {
         var indented,
             item = xmodel.statements[0];
         cnt.genItem(item, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -173,7 +171,6 @@ md.load = function(cnt) {
                     indented = true;
                 }
                 cnt.genItem(item_1, ctx, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -219,7 +216,6 @@ md.load = function(cnt) {
                 }
                 var item_1 = xmodel.statements[index_1];
                 cnt.genItem(item_1, ctx, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -283,7 +279,6 @@ md.load = function(cnt) {
         }
         ctx.write('new ');
         xnew_type(xmodel, ctx, (err, startArg) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -299,7 +294,6 @@ md.load = function(cnt) {
                         ctx.write(')');
                     }
                     return cnt.genItem(item_1, ctx, (err, notUsed) => {
-                        
                             if (err) {
                                 return callback(err);
                             }
@@ -318,7 +312,6 @@ md.load = function(cnt) {
                     ctx.write(', ');
                 }
                 cnt.genItem(item_1, ctx, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -350,7 +343,6 @@ md.load = function(cnt) {
         if (xmodel.statements[0].wzElement === 'type') {
             ctx.write('(');
             cnt.genItem(xmodel.statements[0], ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }

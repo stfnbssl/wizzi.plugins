@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\artifacts\js\module\gen\main.js.ittf
-    utc time: Mon, 06 May 2024 15:21:28 GMT
+    utc time: Sat, 03 Aug 2024 03:24:07 GMT
 */
-'use strict';
 
 
 var util = require('util');
@@ -34,6 +33,7 @@ md.gen = function(model, ctx, callback) {
         return callback(error('InvalidArgument', 'gen', 'Invalid model schema. Expected root element "xmodule". Received: ' + model.wzElement, model));
     }
     try {
+        model.kind == verify.isEmpty(model.kind) ? 'react' : model.kind;
         preprocess.exec(model, ctx);
         ctx.__jskind = model.kind;
         ctx.__ecma = model.ecma;
@@ -45,7 +45,6 @@ md.gen = function(model, ctx, callback) {
             }
             var item_1 = model.statements[index_1];
             statement.gen(item_1, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -97,7 +96,6 @@ md.genItems = function(items, ctx, options, callback) {
         goitems.push(items[i]);
     }
     async.mapSeries(goitems, md.mapItem(ctx), (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -138,9 +136,6 @@ function main_init(model, ctx) {
         ctx.w('*/');
     }
     emitResources(model.resources, ctx)
-    if (!model.no_strict && (!!ctx.values.noUseStrict) == false) {
-        ctx.w("'use strict';");
-    }
     main_es6_module(model, ctx)
     if (model.hasFeature('argument-check')) {
         if ((!!ctx.values.isLegacy) == false) {

@@ -1,0 +1,377 @@
+module
+    kind es6
+    $
+        var md = {
+            plugin: 'wizzi.plugin.lbot',
+            name: 'document',
+            schema: 'logbot',
+            rootElement: 'logbot',
+            rootTag: 'lbot',
+            checkSchema: true,
+            isAsync: true,
+        };
+
+    gen( &md )
+        $append imports
+            var included_writers = require('./included_writers')
+            var jsonata = require('jsonata')
+            var axios = require('axios')
+            var marked = require('marked')
+            var api = null
+
+        $append main
+            set ctx.__json
+                {
+                    { lbot
+                        [ aiCalls
+                        [ transformations
+            _ md.lbot
+                @ model
+                @ ctx
+                a_cb( )
+                    if ctx.artifactGenerationErrors.length > 0
+                        r_cb_err( ctx.artifactGenerationErrors )
+                    else
+                        # generation OK
+                        $if false
+                            _ ctx.write
+                                _ JSON.stringify
+                                    @ ctx.__json
+                                    @ null
+                                    @ 4
+                            r_cb( ctx )
+                        $else
+                            _ ctx.wizziFactory.createFsFactory
+                                {
+                                    @ reuse true
+                                a_cb( fsWf )
+                                    _ fsWf.loadModelAndGenerateArtifact
+                                        _ path.join
+                                            @ __dirname
+                                            @ 'ittf'
+                                            @ 'document.html.ittf'                            
+                                        {
+                                            { modelRequestContext
+                                                @ schema ctx.__json
+                                            @ artifactRequestContext {}
+                                        @ 'html/document'
+                                        a_cb( artifactText )
+                                            # loog 'logbot-document', artifactText
+                                            _ ctx.w(artifactText)
+                                            r_cb( ctx )
+        
+        async-md( lbot )
+            if verify.isNotEmpty(model.apiUrl)
+                set api
+                    _ axios.create
+                        {
+                            @ baseURL model.apiUrl
+                            { headers
+                                @ ['Content-Type'] "application/json"
+            _ md.genItems
+                @ model.nodes
+                @ ctx
+                {
+                    @ indent true
+                a_cb()
+                    r_cb()
+        
+        async-md( aiCall )
+            set ctx.__current = {}
+            _ ctx.__json.lbot.aiCalls.push
+                @ ctx.__current
+            set ctx.__current.name = model.wzName
+            set ctx.__current.description = model.description
+            set ctx.__current.aiPrompt = model.aiPrompt
+            if model.aiMessages.length > 0
+                set ctx.__current.aiMessages = []
+                foreach message in model.aiMessages
+                    _ ctx.__current.aiMessages.push
+                        {
+                            @ role message.role
+                            @ content message.content
+            log 'aiCall, model.messages', ctx.__current.aiMessages
+            if api && ctx.__current.aiMessages && ctx.__current.aiMessages.length > 0
+                try
+                    _ api.post
+                        @ 'aiapicall'
+                        { 
+                            @ model model.model
+                            @ max_tokens parseInt(model.max_tokens)
+                            @ temperature parseFloat(model.temperature)
+                            @ frequency_penalty parseInt(model.frequency_penalty)
+                            @ presence_penalty parseInt(model.presence_penalty)
+                            @ messages ctx.__current.aiMessages
+                            @ prompt ctx.__current.aiPrompt
+                        a_then( response ) 
+                            log model.aiPrompt, ' -> ', response.data
+                            set ctx.__current.info = response.data.info
+                            set ctx.__current.aiResponse = response.data.result
+                            set ctx.__current.usage = response.usage
+                            set ctx.__current.finish_reason = response.finish_reason
+                            set ctx.__current.aiResponseHTML
+                                _ marked.parse
+                                    @ response.data.result
+                            r_cb()
+                        catch( err ) 
+                            error 'Error:', err.message
+                            set ctx.__current.err
+                                {
+                                    @ message err.message
+                            if err.response
+                                set ctx.__current.err.data = err.response.data
+                                set ctx.__current.err.status = err.response.status
+                            r_cb()
+                catch ex
+                    error 'Exception.message:', ex.message
+                    error 'Exception:', ex
+                    set ctx.__current.ex
+                        {
+                            @ message ex.message
+                    r_cb()
+            else
+                r_cb()
+
+        async-md( transformation )
+            set ctx.__current
+                {
+                    [ inputs
+                    [ aiResults
+                    [ applies
+            _ ctx.__json.lbot.transformations.push
+                @ ctx.__current
+            set ctx.__current.name = model.wzName
+            set ctx.__current.description = model.description
+            set ctx.__current.aiPrompt = model.aiPrompt
+            $if TODO
+                log 'model.inputs.length', model.inputs.length
+                log 'model.aiResults.length', model.aiResults.length
+                log 'model.applies.length', model.applies.length
+            _ md.genItems
+                @ model.inputs
+                @ ctx
+                {
+                    @ indent false
+                a_cb()
+                    _ md.genItems
+                        @ model.aiResults
+                        @ ctx
+                        {
+                            @ indent false
+                        a_cb()
+                            _ md.genItems
+                                @ model.applies
+                                @ ctx
+                                {
+                                    @ indent false
+                                a_cb()
+                                    r_cb()
+        async-md( input )
+            const inputEl
+                {
+                    @ name model.wzName
+            _ ctx.__current.inputs.push
+                @ inputEl
+            let jsonModel = model.jsonObjectInclude
+            if !jsonModel
+                set jsonModel = model.jsonArrayInclude
+            if jsonModel
+                if jsonModel.get_json
+                    _ included_writers.getIncludeJsonArtifact
+                        @ ctx
+                        @ jsonModel
+                        a_cb( artifactText )
+                            set inputEl.jsonText = artifactText
+                            r_cb()
+                else
+                    set inputEl.err
+                        {
+                            @ message "something went wrong processing json"
+                    r_cb()
+            else
+                set inputEl.err
+                    {
+                        @ message "no data"
+                r_cb()
+        
+        async-md( aiResult )
+            const aiResult
+                {
+                    @ name model.wzName
+            _ ctx.__current.aiResults.push
+                @ aiResult
+            set ctx.__aiResult = aiResult 
+            if model.jsonata
+                _ md.jsonata
+                    @ model.jsonata
+                    @ ctx
+                    a_cb( )
+                        r_cb()
+        
+        async-md( jsonata )
+            if model.jsInclude
+                if model.jsInclude.get_js
+                    _ included_writers.getIncludeJsArtifact
+                        @ ctx
+                        @ model.jsInclude
+                        a_cb( artifactText )
+                            set ctx.__aiResult.jsText = artifactText
+                            r_cb()
+                else
+                    set ctx.__aiResult.err
+                        {
+                            @ message "something went wrong processing json"
+                    r_cb()
+            elif verify.isNotEmpty(model.wzName)
+                set ctx.__aiResult.jsText = model.wzName
+                r_cb()
+            else
+                set ctx.__aiResult.err
+                    {
+                        @ message "Could not retrieve a jsonata expression"
+                r_cb()
+        
+        async-md( apply )
+            const apply
+                {
+                    @ name model.wzName
+            _ ctx.__current.applies.push
+                @ apply
+            set ctx.__apply = apply 
+            _ md.genItems
+                @ model.tos
+                @ ctx
+                {
+                    @ indent false
+                a_cb()
+                    r_cb()
+        
+        async-md( to )
+            set ctx.__apply.to
+                {
+                    @ name model.wzName
+            $if TODO
+                log "model.wzParent.wzName", model.wzParent.wzElement, model.wzParent.wzName
+                log "model.wzParent.wzParent.wzName", model.wzParent.wzParent.wzElement, model.wzParent.wzParent.wzName
+                log "model.wzParent.wzParent.wzParent.wzName", model.wzParent.wzParent.wzParent.wzElement, model.wzParent.wzParent.wzParent.wzName
+            const inputEl
+                _ model.wzParent.wzParent.getInputByName
+                    @ model.wzName
+            $if TODO
+                log "inputEl.jsonObjectInclude", inputEl.jsonObjectInclude
+                log "inputEl.jsonArrayInclude", inputEl.jsonArrayInclude
+            const aiResultEl
+                _ model.wzParent.wzParent.getAiResultByName
+                    @ model.wzParent.wzName
+            $if TODO                    
+                log "aiResultEl.jsonata", aiResultEl.jsonata
+            if aiResultEl
+                _ getJsonataExpression
+                    @ aiResultEl
+                    @ ctx
+                    a_cb( jsonataExpression )
+                        if jsonataExpression
+                            log "aiResultEl.jsonataExpression", jsonataExpression
+                            if inputEl
+                                let jsonModel = inputEl.jsonObjectInclude
+                                if !jsonModel
+                                    set jsonModel = inputEl.jsonArrayInclude
+                                if jsonModel
+                                    _ included_writers.getIncludeJsonArtifact
+                                        @ ctx
+                                        @ jsonModel
+                                        a_cb( jsonInput )
+                                            const jsonInputParsed = JSON.parse(jsonInput)
+                                            log "inputEl.jsonInputParsed", jsonInputParsed
+                                            try
+                                                _ jsonata
+                                                    @ jsonataExpression
+                                                    ._ evaluate
+                                                        @ jsonInputParsed
+                                                        ._ then
+                                                            =>
+                                                                param result
+                                                                log "jsonata.result", result
+                                                                set ctx.__apply.result = result
+                                                                r_cb()
+                                            catch ex
+                                                error ex
+                                                set ctx.__apply.err
+                                                    {
+                                                        @ message 'Error calling jsonata: ' + ex.message
+                                                r_cb()
+                                else
+                                    set ctx.__apply.err
+                                        {
+                                            @ message 'Cannot retrieve json from input data: ' + model.wzName
+                                    r_cb()
+                            else
+                                set ctx.__apply.err
+                                    {
+                                        @ message 'Missing input data: ' + model.wzName
+
+                                r_cb()
+                        else
+                            set ctx.__apply.err
+                                {
+                                    @ message 'Could not retrieve a jsonata expression in: ' + model.wzParent.wzName
+                            r_cb()
+            else
+                set ctx.__apply.err
+                    {
+                        @ message 'Missing ai result: ' + model.wzParent.wzName
+                r_cb()
+
+        function getJsonataExpression
+            param aiResultEl
+            param ctx
+            param callback
+            if aiResultEl && aiResultEl.jsonata && aiResultEl.jsonata.jsInclude
+                _ included_writers.getIncludeJsArtifact
+                    @ ctx
+                    @ aiResultEl.jsonata.jsInclude
+                    a_cb( jsonataExpression )
+                        r_cb( jsonataExpression )
+            elif aiResultEl && aiResultEl.jsonata && verify.isNotEmpty(aiResultEl.jsonata.wzName)
+                r_cb( aiResultEl.jsonata.wzName )
+            else
+                r_cb(null)
+
+        var noattrs
+            [
+                @ 'wzTag'
+                @ 'wzName'
+                @ 'wzElement'
+                @ 'wzParent'
+                @ 'wzSourceLineInfo'
+                @ '___exportName'
+        
+        function isAttrValue
+            param a
+            param v
+            if noattrs.indexOf(a) > -1
+                return false
+            if v == null || verify.isArray(v) || verify.isObject(v) || verify.isFunction(v)
+                return false
+            return true
+        
+        function getAttrs
+            param e
+            var retval = []
+            for var a in e
+                if isAttrValue(a, e[a])
+                    _ retval.push({ name: verify.replaceAll(a, '_', '-'), value: e[a] })
+                elif a.substr(0, 3) === 'ng-'
+                    _ retval.push({ name: a, value: e[a] })
+                elif a.substr(0, 5) === 'data-'
+                    _ retval.push({ name: a, value: e[a] })
+                elif a.substr(0, 5) === 'aria-'
+                    _ retval.push({ name: a, value: e[a] })
+            if e.attributes
+                foreach a in e.attributes
+                    var p = lineParser.parseNameValueRaw(a.wzName, a)
+                    if p.hasValue()
+                        _ retval.push({ name: p.name(), value: p.value() })
+                    else
+                        _ retval.push({ name: p.name() })
+            return retval

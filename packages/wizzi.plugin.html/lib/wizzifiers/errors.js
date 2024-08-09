@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.html\.wizzi-override\lib\wizzifiers\errors.js.ittf
-    utc time: Fri, 24 May 2024 10:49:45 GMT
+    utc time: Tue, 06 Aug 2024 15:03:57 GMT
 */
-'use strict';
 var util = require('util');
 
 var md = module.exports = {};
@@ -57,4 +56,3 @@ NodeError.prototype.toString = function() {
 NodeError.prototype = Object.create(Error.prototype);
 NodeError.prototype.constructor = NodeError;
 md.NodeError = NodeError;
-

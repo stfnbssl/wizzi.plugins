@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\artifacts\js\module\gen\es6\class.js.ittf
-    utc time: Mon, 06 May 2024 15:21:28 GMT
+    utc time: Sat, 03 Aug 2024 03:24:07 GMT
 */
-'use strict';
 var statement = require('../statement');
 var method = require('./method');
 var setter = require('./setter');
@@ -24,12 +23,10 @@ md.gen = function(model, ctx, callback) {
     }
     ctx.indent();
     classCTor(model, ctx, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
         classMembers(model, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -59,12 +56,10 @@ function classCTor(model, ctx, callback) {
     }
     if (ctor) {
         generateParamConstraints('ctor', ctor.constrainedParams, ctor.hasCallbackParam, ctor.hasOptionsCallbackParam, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
             statement.genMany(ctor.statements, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -120,7 +115,6 @@ function classMembers(model, ctx, callback) {
         }
         if (generator) {
             generator.gen(item_1, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -132,7 +126,6 @@ function classMembers(model, ctx, callback) {
         }
         else {
             statement.genItem(item_1, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }

@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\artifacts\js\module\gen\statements\function.js.ittf
-    utc time: Mon, 06 May 2024 15:21:28 GMT
+    utc time: Sat, 03 Aug 2024 03:24:07 GMT
 */
-'use strict';
 var util = require('util');
 var verify = require('@wizzi/utils').verify;
 var node = require('@wizzi/utils').node;
@@ -108,14 +107,12 @@ md.load = function(cnt) {
         ctx.w('export ' + xdefault + 'function ' + name + '(' + model.paramNames.join(', ') + ') {');
         ctx.indent();
         generateParamConstraints(name, model.constrainedParams, model.hasCallbackParam, model.hasOptionsCallbackParam, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
             cnt.genItems(model.statements, ctx, {
                 indent: false
              }, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -155,13 +152,11 @@ md.load = function(cnt) {
         }
         ctx.write(f);
         u.genTSTypeParameters(model, ctx, cnt, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
             ctx.write('(');
             u.genTSParams(model, ctx, cnt, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -169,7 +164,6 @@ md.load = function(cnt) {
                 if (model.typeReturn) {
                     ctx.write(': ');
                     cnt.stm.typeReturn(model.typeReturn, ctx, (err, notUsed) => {
-                    
                         if (err) {
                             return callback(err);
                         }
@@ -196,7 +190,6 @@ md.load = function(cnt) {
         cnt.genItems(model.statements, ctx, {
             indent: false
          }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -208,7 +201,6 @@ md.load = function(cnt) {
                     ], ctx, {
                         indent: false
                      }, (err, notUsed) => {
-                    
                         if (err) {
                             return callback(err);
                         }
@@ -246,7 +238,6 @@ md.load = function(cnt) {
         var iifeName = model.wzName.length > 0 ? ' ' + model.wzName : '';
         ctx.write('(function' + iifeName + '(');
         u.genTSParams(model, ctx, cnt, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -261,7 +252,6 @@ md.load = function(cnt) {
             cnt.genItems(model.statements, ctx, {
                 indent: false
              }, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -269,7 +259,6 @@ md.load = function(cnt) {
                 ctx.write('})');
                 if (invokeCall) {
                     cnt.genItem(invokeCall, ctx, (err, notUsed) => {
-                    
                         if (err) {
                             return callback(err);
                         }
@@ -298,7 +287,6 @@ md.load = function(cnt) {
         var model = writeComments(model, ctx);
         ctx.__aster = '*';
         cnt.stm.xfunction(model, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -318,7 +306,6 @@ md.load = function(cnt) {
         var model = writeComments(model, ctx);
         model.xasync = true;
         cnt.stm.xfunction(model, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -347,7 +334,6 @@ md.load = function(cnt) {
         }
         ctx.write('yield ');
         cnt.genItems(model.statements, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -381,7 +367,6 @@ md.load = function(cnt) {
         }
         else {
             cnt.genItems(model.statements, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -424,7 +409,6 @@ md.load = function(cnt) {
             var firstChildIsTemplate = u.firstChildIs(model, ['template']);
             ctx.w(async_str + model.wzName + ' = (');
             u.genTSParams(model, ctx, cnt, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -432,7 +416,6 @@ md.load = function(cnt) {
                 if (model.typeReturn) {
                     ctx.write(': ');
                     cnt.stm.typeReturn(model.typeReturn, ctx, (err, notUsed) => {
-                    
                         if (err) {
                             return callback(err);
                         }
@@ -449,7 +432,6 @@ md.load = function(cnt) {
         else if (u.onlyChildIs(model, 'callOnValue') || u.onlyChildIsHtmlElement(model)) {
             ctx.write(async_str + '(');
             u.genTSParams(model, ctx, cnt, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -458,7 +440,6 @@ md.load = function(cnt) {
                 if (model.typeReturn) {
                     ctx.write(': ');
                     cnt.stm.typeReturn(model.typeReturn, ctx, (err, notUsed) => {
-                    
                         if (err) {
                             return callback(err);
                         }
@@ -475,7 +456,6 @@ md.load = function(cnt) {
         else if (u.onlyChildIs(model, 'arrowfunction')) {
             ctx.write(async_str + '(');
             u.genTSParams(model, ctx, cnt, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -483,7 +463,6 @@ md.load = function(cnt) {
                 if (model.typeReturn) {
                     ctx.write(': ');
                     cnt.stm.typeReturn(model.typeReturn, ctx, (err, notUsed) => {
-                    
                         if (err) {
                             return callback(err);
                         }
@@ -508,7 +487,6 @@ md.load = function(cnt) {
             var firstChildIsTemplate = u.firstChildIs(model, ['template']);
             ctx.write(async_str + (isSingleParam ? '' : '('));
             u.genTSParams(model, ctx, cnt, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -516,7 +494,6 @@ md.load = function(cnt) {
                 if (model.typeReturn) {
                     ctx.write(': ');
                     cnt.stm.typeReturn(model.typeReturn, ctx, (err, notUsed) => {
-                    
                         if (err) {
                             return callback(err);
                         }
@@ -533,7 +510,6 @@ md.load = function(cnt) {
         else {
             ctx.write(async_str + '(');
             u.genTSParams(model, ctx, cnt, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -541,7 +517,6 @@ md.load = function(cnt) {
                 if (model.typeReturn) {
                     ctx.write(': ');
                     cnt.stm.typeReturn(model.typeReturn, ctx, (err, notUsed) => {
-                    
                         if (err) {
                             return callback(err);
                         }
@@ -568,7 +543,6 @@ md.load = function(cnt) {
         cnt.genItems(model.statements, ctx, {
             indent: true
          }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -631,14 +605,12 @@ md.load = function(cnt) {
         // constraints
         ctx.indent();
         generateParamConstraints(iife ? 'iife' : aster + name, model.constrainedParams, model.hasCallbackParam, model.hasOptionsCallbackParam, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
             cnt.genItems(model.statements, ctx, {
                 indent: false
              }, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -650,7 +622,6 @@ md.load = function(cnt) {
                         ], ctx, {
                             indent: false
                          }, (err, notUsed) => {
-                        
                             if (err) {
                                 return callback(err);
                             }
@@ -681,7 +652,6 @@ md.load = function(cnt) {
         }
         ctx.__aster = '*';
         cnt.stm.xfunction(model, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -700,7 +670,6 @@ md.load = function(cnt) {
         }
         model.xasync = true;
         cnt.stm.xfunction(model, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -724,7 +693,6 @@ md.load = function(cnt) {
         }
         ctx.write('yield ');
         cnt.genItems(model.statements, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -752,7 +720,6 @@ md.load = function(cnt) {
         }
         else {
             cnt.genItems(model.statements, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -798,14 +765,12 @@ md.load = function(cnt) {
             ctx.w(model.wzName + ' = ' + async_str + '(' + model.paramNames.join(', ') + ') =>' + (implicitReturn ? '' : '{'));
             ctx.indent();
             generateParamConstraints(name, model.constrainedParams, model.hasCallbackParam, model.hasOptionsCallbackParam, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
                 cnt.genItems(model.statements, ctx, {
                     indent: false
                  }, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -842,7 +807,6 @@ md.load = function(cnt) {
             var firstChildIsTemplate = u.firstChildIs(model, ['template']);
             ctx.write(async_str + (isSingleParam ? '' : '('));
             u.genParams(model, ctx, cnt, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -868,7 +832,6 @@ md.load = function(cnt) {
         cnt.genItems(model.statements, ctx, {
             indent: true
          }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -896,7 +859,6 @@ md.load = function(cnt) {
         cnt.genItems(model.statements, ctx, {
             indent: true
          }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }

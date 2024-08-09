@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.html\.wizzi-override\lib\artifacts\html\document\gen\main.js.ittf
-    utc time: Fri, 24 May 2024 10:49:45 GMT
+    utc time: Tue, 06 Aug 2024 15:03:57 GMT
 */
-'use strict';
 
 
 var util = require('util');
@@ -40,7 +39,6 @@ md.gen = function(model, ctx, callback) {
         main_init(model, ctx)
         if (true) {
             md.myGetGenItem(ctx)(model, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -56,7 +54,6 @@ md.gen = function(model, ctx, callback) {
         }
         else {
             md.html(model, ctx, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -102,7 +99,6 @@ md.genItems = function(items, ctx, options, callback) {
         goitems.push(items[i]);
     }
     async.mapSeries(goitems, md.mapItem(ctx), (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -164,7 +160,6 @@ md.myGetGenItem = function(ctx) {
             }
             else if (md[model.wzElement]) {
                 md[model.wzElement](model, ctx, (err, done) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -175,7 +170,6 @@ md.myGetGenItem = function(ctx) {
                     }
                     else {
                         return process.nextTick(() => 
-                            
                                 md.standardElement(model, ctx, callback)
                             );
                     }
@@ -184,7 +178,6 @@ md.myGetGenItem = function(ctx) {
             }
             else {
                 return process.nextTick(() => 
-                    
                         md.standardElement(model, ctx, callback)
                     );
             }
@@ -204,7 +197,6 @@ md.myGenItems = function(items, ctx, options, callback) {
     }
     myGenItemsStackCount++;
     async.mapSeries(goitems, md.myGetGenItem(ctx), (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -289,7 +281,6 @@ md.standardElement = function(model, ctx, callback) {
             md.myGenItems(model.elements, ctx, {
                 indent: false
              }, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -309,7 +300,6 @@ md.standardElement = function(model, ctx, callback) {
             md.myGenItems(model.elements, ctx, {
                 indent: noinline
              }, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -328,7 +318,6 @@ md.standardElement = function(model, ctx, callback) {
 }
 ;
 md.html = function(model, ctx, callback) {
-    console.log('html.ctx.values', ctx.values, __filename);
     if (!!ctx.values.noDocType == false) {
         if (model.doctype) {
             ctx.w('<!doctype ' + model.doctype + '>');
@@ -354,7 +343,6 @@ md.html = function(model, ctx, callback) {
         ctx.w('>');
     }
     async.mapSeries(model.elements, md.myGetGenItem(ctx), (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -435,7 +423,6 @@ md.ittfPanel = function(model, ctx, callback) {
     }
     ctx.w("<pre class='prettyprint'><code>");
     prettifyIttf(model.wzMTreeData, (err, result) => {
-    
         if (err) {
             return callback(err);
         }
@@ -452,7 +439,6 @@ md.jsPanel = function(model, ctx, callback) {
         ctx.w("<div class='js-panel-title'>" + model.wzMTreeData.title + "</div>");
     }
     prettifyJs(model.wzMTreeData, (err, result) => {
-    
         if (err) {
             return callback(err);
         }
@@ -469,7 +455,6 @@ md.bashPanel = function(model, ctx, callback) {
         ctx.w("<div class='bash-panel-title'>" + model.wzMTreeData.title + "</div>");
     }
     prettifyBash(model.wzMTreeData, (err, result) => {
-    
         if (err) {
             return callback(err);
         }
@@ -507,7 +492,6 @@ md.comment = function(model, ctx, callback) {
     md.myGenItems(model.elements, ctx, {
         indent: false
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -538,7 +522,6 @@ md.cssInclude = function(model, ctx, callback) {
     ctx.w('>');
     if (model.get_css) {
         included_writers.writeIncludeCss(ctx, model, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -568,7 +551,6 @@ md.script = function(model, ctx, callback) {
     ctx.w('>');
     if (model.get_js) {
         included_writers.writeIncludeJs(ctx, model, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -581,7 +563,6 @@ md.script = function(model, ctx, callback) {
         md.genItems(model.elements, ctx, {
             indent: true
          }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -607,7 +588,6 @@ md.jsInclude = function(model, ctx, callback) {
     ctx.w('>');
     if (model.get_js) {
         included_writers.writeIncludeJs(ctx, model, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -639,7 +619,6 @@ md.readyInclude = function(model, ctx, callback) {
         if (model.kind === 'jquery') {
             ctx.w('$(function() {');
             ctx.indent().included_writers.writeIncludeJs(ctx, model, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -654,7 +633,6 @@ md.readyInclude = function(model, ctx, callback) {
             ctx.w('window.onload = function() {');
             ctx.indent();
             included_writers.writeIncludeJs(ctx, model, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -678,7 +656,6 @@ md.img = function(model, ctx, callback) {
     // has no specific handler (is standard element)
     if (model.get_svg) {
         return included_writers.writeIncludeSvg(ctx, model, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -695,7 +672,6 @@ md.svgInclude = function(model, ctx, callback) {
     // loog '***** known element', model.wzElement, model.get_svg
     if (model.get_svg) {
         return included_writers.writeIncludeSvg(ctx, model, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -713,7 +689,6 @@ md.jsonObjectInclude = function(model, ctx, callback) {
     if (model.get_json) {
         ctx.w('<script type="application/json" id="' + model.wzName + '" >');
         included_writers.writeIncludeJson(ctx, model, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -732,7 +707,6 @@ md.jsonArrayInclude = function(model, ctx, callback) {
     if (model.get_json) {
         ctx.w('<script type="application/json" id="' + model.wzName + '" >');
         included_writers.writeIncludeJson(ctx, model, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -796,7 +770,6 @@ function prettifyIttf(mTreeData, callback) {
         itemResult[item.n + 'Wrapped'] = mTree.toIttf(ittfNode);
     }
     pretty.prettifyIttfHtmlFromString(itemResult.ittf, (err, pretty) => {
-    
         if (err) {
             return callback(err);
         }

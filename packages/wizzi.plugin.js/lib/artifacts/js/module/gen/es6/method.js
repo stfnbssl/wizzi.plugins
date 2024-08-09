@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\.wizzi-override\lib\artifacts\js\module\gen\es6\method.js.ittf
-    utc time: Mon, 06 May 2024 15:21:28 GMT
+    utc time: Sat, 03 Aug 2024 03:24:07 GMT
 */
-'use strict';
 var statement = require('../statement');
 var md = module.exports = {};
 var myname = 'wizzi.js.artifacts.module.gen.es6.method';
@@ -19,12 +18,10 @@ md.gen = function(model, ctx, callback) {
     ctx.w(method + '(' + model.paramNames.join(', ') + ') {');
     ctx.indent();
     generateParamConstraints(model.wzName, model.constrainedParams, model.hasCallbackParam, model.hasOptionsCallbackParam, ctx, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
         statement.genMany(model.statements, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
