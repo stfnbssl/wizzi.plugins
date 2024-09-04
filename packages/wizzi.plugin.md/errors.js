@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.md\.wizzi-override\root\errors.js.ittf
-    utc time: Mon, 06 May 2024 14:32:28 GMT
+    utc time: Wed, 04 Sep 2024 13:16:42 GMT
 */
-'use strict';
 
 var util = require('util');
 var stringify = require('json-stringify-safe');

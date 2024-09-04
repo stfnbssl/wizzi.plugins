@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.md\.wizzi-override\lib\wizzifiers\md\wizzifier.js.ittf
-    utc time: Mon, 06 May 2024 14:32:29 GMT
+    utc time: Wed, 04 Sep 2024 13:16:43 GMT
 */
-'use strict';
 var util = require('util');
 var async = require('async');
 var stringify = require('json-stringify-safe');
@@ -60,13 +59,11 @@ md.getWizziTree = function(input, options, callback) {
     var startTime = Date.now();
     // loog 'startTime', startTime
     wizzify(input, options, (err, syntax) => {
-    
         if (err) {
             return callback(err);
         }
         if (options.syntaxOutFile) {
             parseInternal(input, options, (err, syntax) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -82,12 +79,10 @@ md.getWizziTree = function(input, options, callback) {
 ;
 md.getWizziIttf = function(input, options, callback) {
     md.getWizziTree(input, options, (err, result) => {
-    
         if (err) {
             return callback(err);
         }
         md.getWizzifierIncludes(options, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -113,7 +108,6 @@ function wizzify(tobeWizzified, options, callback) {
     options.wizziIncludes = [];
     options.verbose = true;
     parseInternal(tobeWizzified, options, (err, syntax) => {
-    
         if (err) {
             return callback(err);
         }
@@ -124,7 +118,6 @@ function wizzify(tobeWizzified, options, callback) {
             ]
          };
         processFrontMatter(syntax, options, root, (err, root) => {
-        
             var i, i_items=preprocessSyntax(syntax), i_len=preprocessSyntax(syntax).length, item;
             for (i=0; i<i_len; i++) {
                 item = preprocessSyntax(syntax)[i];
@@ -133,7 +126,6 @@ function wizzify(tobeWizzified, options, callback) {
             async.map(options.wizziIncludes, function(item, callback) {
                 if (item.kind === 'css') {
                     options.wf.getWizziTreeFromText(item.literal, "css", (err, ittf) => {
-                    
                         if (err) {
                             console.log("[31m%s[0m", err);
                         }
@@ -145,7 +137,6 @@ function wizzify(tobeWizzified, options, callback) {
                 }
                 else {
                     options.wf.getWizziTreeFromText(item.literal, "html", (err, ittf) => {
-                    
                         if (err) {
                             console.log("[31m%s[0m", err);
                         }
@@ -156,7 +147,6 @@ function wizzify(tobeWizzified, options, callback) {
                     )
                 }
             }, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -173,7 +163,6 @@ function processFrontMatter(syntax, options, root, callback) {
     // loog 'processFrontMatter', syntax.__frontMatter
     if (syntax.__frontMatter && Object.keys(syntax.__frontMatter).length > 0) {
         options.wf.getWizziTreeFromText(JSON.stringify(syntax.__frontMatter), "json", (err, ittf) => {
-        
             var fmIttf = {
                 tag: '---', 
                 children: [

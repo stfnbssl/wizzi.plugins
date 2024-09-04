@@ -28,17 +28,17 @@ module
         param node
         param state
 
-        log '-> preprocessNode', node.n
+        # loog '-> preprocessNode', node.n
         
         if inferJsonArrayInclude(node)
-            log '@@@@@@@@@@ inferJsonArrayInclude'
+            # loog '@@@@@@@@@@ inferJsonArrayInclude'
             _ wrapChilds
                 @ node
                 {
                     @ n '::json-array'
                     @ v ''
         elif inferJsonObjectInclude(node)
-            log '@@@@@@@@@@ inferJsonObjectInclude'
+            # loog '@@@@@@@@@@ inferJsonObjectInclude'
             _ wrapChilds
                 @ node
                 {
@@ -63,7 +63,7 @@ module
     function inferJsonObjectInclude
         param node
         if node.n === 'input'
-            log '------------>', node.children[0]
+            # loog '------------>', node.children[0]
             if childNameIsOneOf(node, ['{']) == true
                 return true
         return false

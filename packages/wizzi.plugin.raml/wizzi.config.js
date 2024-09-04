@@ -6,8 +6,8 @@
 'use strict';
 const path = require('path');
 module.exports = {
-    wfjobName: "wizzi.plugin.raml/job", 
-    wfjobPath: path.join(__dirname, '.wizzi', 'generate.wfjob.ittf'), 
+    wzjobName: "wizzi.plugin.raml/job", 
+    wzjobPath: path.join(__dirname, '.wizzi', 'generate.wzjob.ittf'), 
     destPath: __dirname, 
     plugins: [
         './wizzi-core/index.js', 

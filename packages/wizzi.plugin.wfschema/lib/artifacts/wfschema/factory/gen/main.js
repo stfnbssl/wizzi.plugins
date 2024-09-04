@@ -63,7 +63,7 @@ function isWizziPackageSchema(name) {
         'nools', 
         'npmpackage', 
         'wftest', 
-        'wfjob', 
+        'wzjob', 
         'wfpackage', 
         'wfschema'
     ].indexOf(name);

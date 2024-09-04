@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.md\.wizzi-override\examples\md_getCodeAST.js.ittf
-    utc time: Mon, 06 May 2024 14:32:29 GMT
+    utc time: Wed, 04 Sep 2024 13:16:42 GMT
 */
-'use strict';
 
 
 var async = require('async');
@@ -20,7 +19,6 @@ const moduleName = arg && arg.length > 0 ? arg : 'first';
 async.map([
     moduleName
 ], getCodeAST, (err, result) => {
-
     console.log('');
     console.log('Terminated. result: ', result);
 }
@@ -32,7 +30,6 @@ function getCodeAST(name, callback) {
     mdwizzifier.getCodeAST(file.read(source), {
         syntaxOutFile: path.join(__dirname, 'data', 'output', name + '.md.syntax')
      }, (err, syntax) => {
-    
         if (err) {
             console.log("[31m%s[0m", 'error gettting code AST: ' + source);
             console.log("[31m%s[0m", 'err', err);

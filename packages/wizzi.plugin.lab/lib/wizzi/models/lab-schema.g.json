@@ -1,0 +1,305 @@
+{
+  "name": "lab",
+  "preserveTags": true,
+  "requires": [],
+  "exportTos": [],
+  "elements": [
+    {
+      "name": "node",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "node"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        }
+      ],
+      "derived": [
+        {
+          "name": "comment",
+          "tags": [
+            "comment"
+          ]
+        },
+        {
+          "name": "lab",
+          "tags": [
+            "lab"
+          ]
+        },
+        {
+          "name": "mdInclude",
+          "tags": [
+            "::md"
+          ]
+        }
+      ],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "comment",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "comment"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "lab",
+      "super": "node",
+      "isRoot": true,
+      "tags": [
+        "lab"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "child",
+          "role": "childs",
+          "tags": [
+            "child"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "child",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "child"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "desc",
+          "type": "string",
+          "tags": [
+            "desc"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "mdInclude",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "::md"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "modelCollection",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "model-coll"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "itemName",
+          "type": "string",
+          "tags": [
+            "item-name"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "The export name of a collection item when acting as a context property."
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "name": "pathTemplateValue",
+          "role": "pathTemplateValues",
+          "tags": [
+            "path-template-value"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "comment"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "Single items of a collection contained in a \"model\" may act as data contexts",
+        "of artifacts where each collection item generates a separate artifact.",
+        "This element, contained in a \"modelRef\" element, specifies:",
+        ". the collection name: the IttfNodeValue of this element",
+        ". the export name of the collection item when acting as a context property: the \"item-name\" attribute",
+        ". the property names of the collection item that will be used to build the destination path",
+        "of the artifact: the \"pathTemplateValues\" child elements"
+      ]
+    },
+    {
+      "name": "pathTemplateValue",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "path-template-value"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "attribute",
+          "type": "string",
+          "tags": [
+            "attribute"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "The property of the context object (a collection item) containing the value which will replace",
+            "the \"token\" value in the generated artifact path template.",
+            "Is alternative to \"function\""
+          ]
+        },
+        {
+          "name": "function",
+          "type": "string",
+          "tags": [
+            "function"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "The function of the context object (a collection item) that returns the value which will replace",
+            "the \"token\" value in the generated artifact path template.",
+            "Is alternative to \"attribute\""
+          ]
+        },
+        {
+          "name": "token",
+          "type": "string",
+          "tags": [
+            "token"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "The token that will be replaced by the value returned accessing \"attribute\" or calling \"function\"",
+            "on a context object."
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "comment"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    }
+  ]
+}

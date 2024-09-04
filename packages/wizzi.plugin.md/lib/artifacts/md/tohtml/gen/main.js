@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.md\.wizzi-override\lib\artifacts\md\tohtml\gen\main.js.ittf
-    utc time: Mon, 06 May 2024 14:32:29 GMT
+    utc time: Wed, 04 Sep 2024 13:16:43 GMT
 */
-'use strict';
 
 
 var util = require('util');
@@ -36,13 +35,11 @@ md.gen = function(model, ctx, callback) {
     try {
         console.log('=====================> generateCssDocument', __filename);
         generateCssDocument(model, (err, cssArtifactText) => {
-        
             if (err) {
                 return callback(err);
             }
             console.log('=====================> generateMdDocument', __filename);
             generateMdDocument(model, (err, mdArtifactText) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -92,7 +89,6 @@ md.genItems = function(items, ctx, options, callback) {
         goitems.push(items[i]);
     }
     async.mapSeries(goitems, md.mapItem(ctx), (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -171,12 +167,10 @@ function createWizziFactory(callback) {
 function generateMdDocument(model, callback) {
     var artifactRequestContext = {};
     createWizziFactory((err, wf) => {
-    
         if (err) {
             return callback(err);
         }
         wf.generateArtifact(model, 'from artifact md/tohtml', 'md/document', artifactRequestContext, (err, artifactText) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -190,12 +184,10 @@ function generateMdDocument(model, callback) {
 function generateCssDocument(model, callback) {
     var artifactRequestContext = {};
     createWizziFactory((err, wf) => {
-    
         if (err) {
             return callback(err);
         }
         wf.generateArtifact(model, 'from artifact md/tohtml', 'md/tocss', artifactRequestContext, (err, artifactText) => {
-        
             if (err) {
                 return callback(err);
             }

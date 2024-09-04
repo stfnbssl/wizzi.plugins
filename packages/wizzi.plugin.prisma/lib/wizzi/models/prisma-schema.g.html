@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.html\lib\artifacts\html\document\gen\main.js
     package: @wizzi/plugin.html@0.8.10
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\lib\artifacts\wzschema\html_docs\gen\ittf\wfschema-docs.html.ittf
-    utc time: Thu, 23 May 2024 06:28:38 GMT
+    utc time: Wed, 04 Sep 2024 13:19:53 GMT
 -->
 <!doctype html>
 <html>
@@ -49,6 +49,8 @@
                 <li><a href="#element_docComment">docComment</a>
                 </li>
                 <li><a href="#element_commentable">commentable</a>
+                </li>
+                <li><a href="#element_extension">extension</a>
                 </li>
                 <li><a href="#element_prisma">prisma</a>
                 </li>
@@ -106,7 +108,43 @@
                 </li>
                 <li><a href="#element_fieldAttribute">fieldAttribute</a>
                 </li>
+                <li><a href="#element_fieldConstraint">fieldConstraint</a>
+                </li>
+                <li><a href="#element_defaultValue">defaultValue</a>
+                </li>
+                <li><a href="#element_min">min</a>
+                </li>
+                <li><a href="#element_max">max</a>
+                </li>
+                <li><a href="#element_minLength">minLength</a>
+                </li>
+                <li><a href="#element_maxLength">maxLength</a>
+                </li>
+                <li><a href="#element_regExp">regExp</a>
+                </li>
+                <li><a href="#element_xenum">xenum</a>
+                </li>
+                <li><a href="#element_enumValue">enumValue</a>
+                </li>
+                <li><a href="#element_dbColumn">dbColumn</a>
+                </li>
+                <li><a href="#element_dbColumnDefaultTo">dbColumnDefaultTo</a>
+                </li>
+                <li><a href="#element_dbColumnName">dbColumnName</a>
+                </li>
+                <li><a href="#element_dbColumnNotNullable">dbColumnNotNullable</a>
+                </li>
+                <li><a href="#element_dbColumnUnsigned">dbColumnUnsigned</a>
+                </li>
+                <li><a href="#element_dbColumnUnique">dbColumnUnique</a>
+                </li>
+                <li><a href="#element_dbColumnType">dbColumnType</a>
+                </li>
+                <li><a href="#element_dbColumnArgs">dbColumnArgs</a>
+                </li>
                 <li><a href="#element_blockAttribute">blockAttribute</a>
+                </li>
+                <li><a href="#element_attributeName">attributeName</a>
                 </li>
                 <li><a href="#element_fields">fields</a>
                 </li>
@@ -121,8 +159,6 @@
             </ul>
         </div>
         <div class="main-center">
-            <h5>Exports</h5>
-            <div></div>
             <table id="element_comment" class="pretty-table">
                 <thead>
                     <tr>
@@ -258,6 +294,51 @@
                     </tbody>
                 </table>
             </small>
+            <table id="element_extension" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>extension</b>
+                        </td>
+                        <td>ext</td>
+                        <td>commentable</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>comment</td>
+                            <td>comments</td>
+                            <td>one-to-many</td>
+                            <td>commentable</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
             <table id="element_prisma" class="pretty-table">
                 <thead>
                     <tr>
@@ -347,6 +428,31 @@
                     </tr>
                 </tbody>
             </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>extension</td>
+                            <td>extensions</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
             <h5>Methods</h5>
             <small>
                 <table class="table table-condensed table-bordered" style="width:100%;">
@@ -382,12 +488,37 @@
                         <td>
                             <b>stringType</b>
                         </td>
-                        <td>:string</td>
+                        <td>string</td>
                         <td>fieldType</td>
                         <td></td>
                     </tr>
                 </tbody>
             </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>extension</td>
+                            <td>extensions</td>
+                            <td>one-to-many</td>
+                            <td>fieldType</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
             <table id="element_booleanType" class="pretty-table">
                 <thead>
                     <tr>
@@ -402,12 +533,37 @@
                         <td>
                             <b>booleanType</b>
                         </td>
-                        <td>:boolean</td>
+                        <td>boolean</td>
                         <td>fieldType</td>
                         <td></td>
                     </tr>
                 </tbody>
             </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>extension</td>
+                            <td>extensions</td>
+                            <td>one-to-many</td>
+                            <td>fieldType</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
             <table id="element_intType" class="pretty-table">
                 <thead>
                     <tr>
@@ -422,12 +578,37 @@
                         <td>
                             <b>intType</b>
                         </td>
-                        <td>:int</td>
+                        <td>int</td>
                         <td>fieldType</td>
                         <td></td>
                     </tr>
                 </tbody>
             </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>extension</td>
+                            <td>extensions</td>
+                            <td>one-to-many</td>
+                            <td>fieldType</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
             <table id="element_bigIntType" class="pretty-table">
                 <thead>
                     <tr>
@@ -442,12 +623,37 @@
                         <td>
                             <b>bigIntType</b>
                         </td>
-                        <td>:bigInt</td>
+                        <td>bigInt</td>
                         <td>fieldType</td>
                         <td></td>
                     </tr>
                 </tbody>
             </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>extension</td>
+                            <td>extensions</td>
+                            <td>one-to-many</td>
+                            <td>fieldType</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
             <table id="element_floatType" class="pretty-table">
                 <thead>
                     <tr>
@@ -462,12 +668,37 @@
                         <td>
                             <b>floatType</b>
                         </td>
-                        <td>:float</td>
+                        <td>float</td>
                         <td>fieldType</td>
                         <td></td>
                     </tr>
                 </tbody>
             </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>extension</td>
+                            <td>extensions</td>
+                            <td>one-to-many</td>
+                            <td>fieldType</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
             <table id="element_decimalType" class="pretty-table">
                 <thead>
                     <tr>
@@ -482,12 +713,37 @@
                         <td>
                             <b>decimalType</b>
                         </td>
-                        <td>:decimal</td>
+                        <td>decimal</td>
                         <td>fieldType</td>
                         <td></td>
                     </tr>
                 </tbody>
             </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>extension</td>
+                            <td>extensions</td>
+                            <td>one-to-many</td>
+                            <td>fieldType</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
             <table id="element_dateTimeType" class="pretty-table">
                 <thead>
                     <tr>
@@ -502,12 +758,37 @@
                         <td>
                             <b>dateTimeType</b>
                         </td>
-                        <td>:dateTime</td>
+                        <td>dateTime</td>
                         <td>fieldType</td>
                         <td></td>
                     </tr>
                 </tbody>
             </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>extension</td>
+                            <td>extensions</td>
+                            <td>one-to-many</td>
+                            <td>fieldType</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
             <table id="element_jsonType" class="pretty-table">
                 <thead>
                     <tr>
@@ -522,12 +803,37 @@
                         <td>
                             <b>jsonType</b>
                         </td>
-                        <td>:json</td>
+                        <td>json</td>
                         <td>fieldType</td>
                         <td></td>
                     </tr>
                 </tbody>
             </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>extension</td>
+                            <td>extensions</td>
+                            <td>one-to-many</td>
+                            <td>fieldType</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
             <table id="element_bytesType" class="pretty-table">
                 <thead>
                     <tr>
@@ -542,12 +848,37 @@
                         <td>
                             <b>bytesType</b>
                         </td>
-                        <td>:bytes</td>
+                        <td>bytes</td>
                         <td>fieldType</td>
                         <td></td>
                     </tr>
                 </tbody>
             </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>extension</td>
+                            <td>extensions</td>
+                            <td>one-to-many</td>
+                            <td>fieldType</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
             <table id="element_unsupportedType" class="pretty-table">
                 <thead>
                     <tr>
@@ -562,12 +893,37 @@
                         <td>
                             <b>unsupportedType</b>
                         </td>
-                        <td>:unsupported</td>
+                        <td>unsupported</td>
                         <td>fieldType</td>
                         <td></td>
                     </tr>
                 </tbody>
             </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>extension</td>
+                            <td>extensions</td>
+                            <td>one-to-many</td>
+                            <td>fieldType</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
             <table id="element_refType" class="pretty-table">
                 <thead>
                     <tr>
@@ -582,12 +938,37 @@
                         <td>
                             <b>refType</b>
                         </td>
-                        <td>:ref</td>
+                        <td>ref</td>
                         <td>fieldType</td>
                         <td></td>
                     </tr>
                 </tbody>
             </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>extension</td>
+                            <td>extensions</td>
+                            <td>one-to-many</td>
+                            <td>fieldType</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
             <table id="element_listType" class="pretty-table">
                 <thead>
                     <tr>
@@ -602,7 +983,7 @@
                         <td>
                             <b>listType</b>
                         </td>
-                        <td>:[</td>
+                        <td>[</td>
                         <td>fieldType</td>
                         <td></td>
                     </tr>
@@ -628,6 +1009,14 @@
                             <td>one-to-one</td>
                             <td></td>
                             <td>is-one-to-one </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>extension</td>
+                            <td>extensions</td>
+                            <td>one-to-many</td>
+                            <td>fieldType</td>
+                            <td></td>
                             <td></td>
                         </tr>
                     </tbody>
@@ -1008,6 +1397,14 @@
                                 <div>+ ;</div>
                             </td>
                         </tr>
+                        <tr>
+                            <td>
+                                <div>setJSON</div>
+                            </td>
+                            <td>
+                                <div>+ ;</div>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </small>
@@ -1077,6 +1474,14 @@
                         <tr>
                             <td>
                                 <div>getValueString</div>
+                            </td>
+                            <td>
+                                <div>+ ;</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>setJSON</div>
                             </td>
                             <td>
                                 <div>+ ;</div>
@@ -1264,6 +1669,33 @@
                     </tr>
                 </tbody>
             </table>
+            <h5>Attributes</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Tag</th>
+                            <th>Type</th>
+                            <th>Default</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>extNoUpload</td>
+                            <td>noUpload</td>
+                            <td>boolean</td>
+                            <td>false</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
             <h5>Relations</h5>
             <small>
                 <table class="table table-condensed table-bordered" style="width:100%;">
@@ -1342,9 +1774,54 @@
                     <tbody>
                         <tr>
                             <td>optional</td>
-                            <td>:optional</td>
+                            <td>optional</td>
                             <td>boolean</td>
                             <td>false</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>extIdRelated</td>
+                            <td>idRelated</td>
+                            <td>boolean</td>
+                            <td>false</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>relation</td>
+                            <td>relation</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>relationTarget</td>
+                            <td>relation-target</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>relatedModel</td>
+                            <td>related-model</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>relationName</td>
+                            <td>relation-name</td>
+                            <td>string</td>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -1383,6 +1860,14 @@
                             <td></td>
                         </tr>
                         <tr>
+                            <td>fieldConstraint</td>
+                            <td>fieldConstraints</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
                             <td>comment</td>
                             <td>comments</td>
                             <td>one-to-many</td>
@@ -1405,7 +1890,31 @@
                     <tbody>
                         <tr>
                             <td>
+                                <div>wzInitialize</div>
+                            </td>
+                            <td>
+                                <div>+ ;</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
                                 <div>getTypeString</div>
+                            </td>
+                            <td>
+                                <div>+ ;</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>getType</div>
+                            </td>
+                            <td>
+                                <div>+ ;</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>getTypeExtensions</div>
                             </td>
                             <td>
                                 <div>+ ;</div>
@@ -1456,6 +1965,909 @@
                             <td></td>
                             <td></td>
                         </tr>
+                        <tr>
+                            <td>comment</td>
+                            <td>comments</td>
+                            <td>one-to-many</td>
+                            <td>commentable</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_fieldConstraint" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>fieldConstraint</b>
+                        </td>
+                        <td>fieldConstraint</td>
+                        <td>commentable</td>
+                        <td>is-abstract </td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>comment</td>
+                            <td>comments</td>
+                            <td>one-to-many</td>
+                            <td>commentable</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_defaultValue" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>defaultValue</b>
+                        </td>
+                        <td>default</td>
+                        <td>fieldConstraint</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>comment</td>
+                            <td>comments</td>
+                            <td>one-to-many</td>
+                            <td>commentable</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <h5>Methods</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Signature</th>
+                            <th>Statements</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div>setField</div>
+                            </td>
+                            <td>
+                                <div>+ ;</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_min" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>min</b>
+                        </td>
+                        <td>min</td>
+                        <td>fieldConstraint</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>comment</td>
+                            <td>comments</td>
+                            <td>one-to-many</td>
+                            <td>commentable</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <h5>Methods</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Signature</th>
+                            <th>Statements</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div>setField</div>
+                            </td>
+                            <td>
+                                <div>+ ;</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_max" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>max</b>
+                        </td>
+                        <td>max</td>
+                        <td>fieldConstraint</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>comment</td>
+                            <td>comments</td>
+                            <td>one-to-many</td>
+                            <td>commentable</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <h5>Methods</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Signature</th>
+                            <th>Statements</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div>setField</div>
+                            </td>
+                            <td>
+                                <div>+ ;</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_minLength" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>minLength</b>
+                        </td>
+                        <td>min-length</td>
+                        <td>fieldConstraint</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>comment</td>
+                            <td>comments</td>
+                            <td>one-to-many</td>
+                            <td>commentable</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <h5>Methods</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Signature</th>
+                            <th>Statements</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div>setField</div>
+                            </td>
+                            <td>
+                                <div>+ ;</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_maxLength" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>maxLength</b>
+                        </td>
+                        <td>max-length</td>
+                        <td>fieldConstraint</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>comment</td>
+                            <td>comments</td>
+                            <td>one-to-many</td>
+                            <td>commentable</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <h5>Methods</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Signature</th>
+                            <th>Statements</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div>setField</div>
+                            </td>
+                            <td>
+                                <div>+ ;</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_regExp" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>regExp</b>
+                        </td>
+                        <td>reg-exp</td>
+                        <td>fieldConstraint</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>comment</td>
+                            <td>comments</td>
+                            <td>one-to-many</td>
+                            <td>commentable</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <h5>Methods</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Signature</th>
+                            <th>Statements</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div>setField</div>
+                            </td>
+                            <td>
+                                <div>+ ;</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_xenum" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>xenum</b>
+                        </td>
+                        <td>enum</td>
+                        <td>fieldConstraint</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>enumValue</td>
+                            <td>enumValues</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>comment</td>
+                            <td>comments</td>
+                            <td>one-to-many</td>
+                            <td>commentable</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <h5>Methods</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Signature</th>
+                            <th>Statements</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div>wzInitialize</div>
+                            </td>
+                            <td>
+                                <div>+ ;</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>setField</div>
+                            </td>
+                            <td>
+                                <div>+ ;</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_enumValue" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>enumValue</b>
+                        </td>
+                        <td>value</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <table id="element_dbColumn" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>dbColumn</b>
+                        </td>
+                        <td>dbColumn</td>
+                        <td>commentable</td>
+                        <td>is-abstract </td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>comment</td>
+                            <td>comments</td>
+                            <td>one-to-many</td>
+                            <td>commentable</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_dbColumnDefaultTo" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>dbColumnDefaultTo</b>
+                        </td>
+                        <td>db-default-to</td>
+                        <td>dbColumn</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>comment</td>
+                            <td>comments</td>
+                            <td>one-to-many</td>
+                            <td>commentable</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_dbColumnName" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>dbColumnName</b>
+                        </td>
+                        <td>db-name</td>
+                        <td>dbColumn</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>comment</td>
+                            <td>comments</td>
+                            <td>one-to-many</td>
+                            <td>commentable</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_dbColumnNotNullable" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>dbColumnNotNullable</b>
+                        </td>
+                        <td>db-not-nullable</td>
+                        <td>dbColumn</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>comment</td>
+                            <td>comments</td>
+                            <td>one-to-many</td>
+                            <td>commentable</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_dbColumnUnsigned" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>dbColumnUnsigned</b>
+                        </td>
+                        <td>db-unsigned</td>
+                        <td>dbColumn</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>comment</td>
+                            <td>comments</td>
+                            <td>one-to-many</td>
+                            <td>commentable</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_dbColumnUnique" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>dbColumnUnique</b>
+                        </td>
+                        <td>db-unique</td>
+                        <td>dbColumn</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>comment</td>
+                            <td>comments</td>
+                            <td>one-to-many</td>
+                            <td>commentable</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_dbColumnType" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>dbColumnType</b>
+                        </td>
+                        <td>db-type</td>
+                        <td>dbColumn</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>comment</td>
+                            <td>comments</td>
+                            <td>one-to-many</td>
+                            <td>commentable</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_dbColumnArgs" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>dbColumnArgs</b>
+                        </td>
+                        <td>db-args</td>
+                        <td>dbColumn</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         <tr>
                             <td>comment</td>
                             <td>comments</td>
@@ -1547,6 +2959,101 @@
                     </tbody>
                 </table>
             </small>
+            <h5>Methods</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Signature</th>
+                            <th>Statements</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div>setJSON</div>
+                            </td>
+                            <td>
+                                <div>+ ;</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_attributeName" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>attributeName</b>
+                        </td>
+                        <td>name</td>
+                        <td>valueAssign</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>valueAssign</td>
+                            <td>valueAssigns</td>
+                            <td>one-to-many</td>
+                            <td>valueAssign</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <h5>Methods</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Signature</th>
+                            <th>Statements</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div>getValueString</div>
+                            </td>
+                            <td>
+                                <div>+ ;</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>setJSON</div>
+                            </td>
+                            <td>
+                                <div>+ ;</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
             <table id="element_fields" class="pretty-table">
                 <thead>
                     <tr>
@@ -1613,6 +3120,14 @@
                         <tr>
                             <td>
                                 <div>getValueString</div>
+                            </td>
+                            <td>
+                                <div>+ ;</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>setJSON</div>
                             </td>
                             <td>
                                 <div>+ ;</div>
@@ -1692,6 +3207,14 @@
                                 <div>+ ;</div>
                             </td>
                         </tr>
+                        <tr>
+                            <td>
+                                <div>setJSON</div>
+                            </td>
+                            <td>
+                                <div>+ ;</div>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </small>
@@ -1753,6 +3276,14 @@
                         <tr>
                             <td>
                                 <div>getValueString</div>
+                            </td>
+                            <td>
+                                <div>+ ;</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>setJSON</div>
                             </td>
                             <td>
                                 <div>+ ;</div>
@@ -1824,6 +3355,14 @@
                                 <div>+ ;</div>
                             </td>
                         </tr>
+                        <tr>
+                            <td>
+                                <div>setJSON</div>
+                            </td>
+                            <td>
+                                <div>+ ;</div>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </small>
@@ -1890,6 +3429,14 @@
                                 <div>+ ;</div>
                             </td>
                         </tr>
+                        <tr>
+                            <td>
+                                <div>setJSON</div>
+                            </td>
+                            <td>
+                                <div>+ ;</div>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </small>
@@ -1898,4 +3445,3 @@
 </body>
 
 </html>
-

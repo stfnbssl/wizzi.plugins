@@ -2,7 +2,7 @@ module
     kind es6
     $
         var md = {
-            name: 'wfjob',
+            name: 'wzjob',
         };
     v08/examples/plugin( &md )
         $append plugins
@@ -17,10 +17,10 @@ module
                 @ 'first'
             a_cb_no_throw( result )
                 if err
-                    error 'wfjob.examples.executeGenerateModules.err', err
-                    error 'wfjob.examples.executeGenerateModules.err.toString()', err.toString()
+                    error 'wzjob.examples.executeGenerateModules.err', err
+                    error 'wzjob.examples.executeGenerateModules.err.toString()', err.toString()
                     if err.inner
-                        error 'wfjob.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
+                        error 'wzjob.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
                 else
         function executeGenerateModules
             param modules
@@ -30,27 +30,27 @@ module
                 =>
                     param module
                     param callback
-                    log 'wfjob.example.executeGenerateModules.module: ' + module
+                    log 'wzjob.example.executeGenerateModules.module: ' + module
                     var ittfDocumentUri
                         _ path.join
                             @ __dirname
                             @ 'ittf'
-                            @ module + '.wfjob.ittf'
+                            @ module + '.wzjob.ittf'
                     var outputLoadedPath
                         _ path.join
                             @ __dirname
                             @ 'results'
-                            @ module + '.wfjob.json'
+                            @ module + '.wzjob.json'
                     var outputExtendedPath
                         _ path.join
                             @ __dirname
                             @ 'results'
-                            @ module + '.wfjob.extended.json'
+                            @ module + '.wzjob.extended.json'
                     _ loadWizziModel
                         @ ittfDocumentUri
                         {
                         a_cb( model )
-                            log 'wfjob.example.executeGenerateModules.outputLoadedPath: ' + outputLoadedPath
+                            log 'wzjob.example.executeGenerateModules.outputLoadedPath: ' + outputLoadedPath
                             _ file.write
                                 @ outputLoadedPath
                                 _ stringify
@@ -60,9 +60,9 @@ module
                             _ loadModelAndTransform
                                 @ ittfDocumentUri
                                 {
-                                @ "wfjob/extended"
+                                @ "wzjob/extended"
                                 a_cb( model )
-                                    log 'wfjob.example.executeGenerateModules.outputExtendedPath: ' + outputExtendedPath
+                                    log 'wzjob.example.executeGenerateModules.outputExtendedPath: ' + outputExtendedPath
                                     _ file.write
                                         @ outputExtendedPath
                                         _ stringify

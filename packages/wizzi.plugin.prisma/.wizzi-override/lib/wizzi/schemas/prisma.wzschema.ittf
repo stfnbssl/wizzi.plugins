@@ -1,6 +1,6 @@
 wzschema prisma
     
-    export-to json
+    $$ export-to json
     
     e comment
         tag #
@@ -12,6 +12,9 @@ wzschema prisma
     e commentable
         r comment/s
     
+    e extension : commentable
+        tag ext
+
     e prisma : commentable
         is-root
         r datasource/s
@@ -20,6 +23,7 @@ wzschema prisma
     
     e fieldType
         is-abstract
+        r extension/s
         m getTypeString
             if this.wzElement == 'stringType'
                 return 'String'
@@ -36,10 +40,10 @@ wzschema prisma
 
     $foreach item in ['string','boolean','int','bigInt','float','decimal','dateTime','json','bytes','unsupported','ref']
         e ${item}Type : fieldType
-            tag :${item}
+            tag ${item}
 
     e listType : fieldType
-        tag :[
+        tag [
         r fieldType
             one-to-one
 
@@ -84,6 +88,23 @@ wzschema prisma
                 set seen = true
             _ ret.push(')')
             return ret.join('')
+        m setJSON
+            param parent
+            var value
+                {
+                    @ functionName this.wzName
+                    [ args
+            foreach p in this.params
+                if p.setJSON
+                    var value = {}
+                    _ p.setJSON
+                        @ value
+                    _ value.args.push
+                        @ arg
+                else
+                    _ value.args.push
+                        _ p.getValueString()
+            set parent.function = value
 
     e array : valueAssign
         tag [
@@ -99,6 +120,18 @@ wzschema prisma
                 set seen = true
             _ ret.push(']')
             return ret.join('')
+        m setJSON
+            param parentArray
+            foreach p in this.valueAssigns
+                if p.setJSON
+                    var value = {}
+                    _ p.setJSON
+                        @ value
+                    _ parentArray.push
+                        @ arg
+                else
+                    _ parentArray.push
+                        _ p.getValueString()
 
     e config : commentable
         r valueAssign
@@ -111,14 +144,28 @@ wzschema prisma
         r config/s
     
     e model : commentable
+        a_tag_flag( extNoUpload, noUpload )
         r field/s
         r blockAttribute/s
 
     e field : commentable
-        a_tag_flag( optional, :optional )
+        a_tag_flag( optional, optional )
+        a_tag_flag( extIdRelated, idRelated )
+        a relation
+        a relationTarget
+            tag relation-target
+        a relatedModel
+            tag related-model
+        a relationName 
+            tag relation-name 
         r fieldType
             one-to-one
         r fieldAttribute/s
+        r fieldConstraint/s
+        m wzInitialize        
+            foreach c in this.fieldConstraints
+                _ c.setField
+                    @ this
         m getTypeString
             var opt = this.optional ? '?' : ''
             # loog 'field.getTypeString', this.wzName, this.fieldType, opt 
@@ -126,137 +173,150 @@ wzschema prisma
                 return this.fieldType.getTypeString() + opt
             else
                 return 'String' + opt
+        m getType
+            if this.fieldType
+                return this.fieldType.getTypeString()
+            else
+                return 'String'
+        m getTypeExtensions
+            var items = []
+            if this.fieldType
+                foreach te in this.fieldType.extensions
+                    var nv = verify.parseNameValue(te.wzName, te)
+                    _ items.push
+                        {
+                            @ name nv.name()
+                            @ value nv.value()
+            return items
 
     e fieldAttribute : commentable
         tag @
         r valueAssign/s
 
+    e fieldConstraint : commentable
+        is-abstract
+    e defaultValue : fieldConstraint
+        tag default
+        m setField
+            param field
+            set field.default = this.wzName
+    e min : fieldConstraint
+        m setField
+            param field
+            set field.min = parseInt(this.wzName)
+    e max : fieldConstraint 
+        m setField
+            param field
+            set field.max = parseInt(this.wzName)
+    e minLength : fieldConstraint
+        tag min-length
+        m setField
+            param field
+            set field.minLength = this.wzName
+    e maxLength : fieldConstraint 
+        tag max-length
+        m setField
+            param field
+            set field.maxLength = this.wzName
+    e regExp : fieldConstraint 
+        tag reg-exp
+        m setField
+            param field
+            set field.regExp = this.wzName
+    e enum : fieldConstraint 
+        r enumValue/s
+        m wzInitialize        
+            set this.values = []
+            foreach v in this.enumValues
+                _ this.values.push
+                    @ v.wzName
+        m setField
+            param field
+            set field.enum = this.values
+    e enumValue
+        tag value
+
+    e dbColumn : commentable
+        is-abstract
+    e dbColumnDefaultTo : dbColumn
+        tag db-default-to
+    e dbColumnName : dbColumn
+        tag db-name
+    e dbColumnNotNullable : dbColumn
+        tag db-not-nullable
+    e dbColumnUnsigned : dbColumn
+        tag db-unsigned
+    e dbColumnUnique : dbColumn
+        tag db-unique
+    e dbColumnType : dbColumn
+        tag db-type
+    e dbColumnArgs : dbColumn
+        tag db-args
+
     e blockAttribute : commentable
         tag @@
         a name
         r valueAssign/s
+        m setJSON
+            param parent
+            var values = []
+            if this.array
+                _ this.array.setJSON
+                    @ values
+            set parent.values = values
+
+    e attributeName : valueAssign
+        tag name
+        m getValueString
+            return 'name: "' + this.wzName + '"'
+        m setJSON
+            param parent
+            set parent.name = this.wzName
 
     e fields : valueAssign
         r array
             one-to-one
         m getValueString
             return 'fields: ' + (this.array && this.array.getValueString())
+        m setJSON
+            param parent
+            var values = []
+            if this.array
+                _ this.array.setJSON
+                    @ values
+            set parent.fields = values
+
     e references : valueAssign
         r array
             one-to-one
         m getValueString
             return 'references: ' + (this.array && this.array.getValueString())
+        m setJSON
+            param parent
+            var values = []
+            if this.array
+                _ this.array.setJSON
+                    @ values
+            set parent.references = values
+
     e strategy : valueAssign
         m getValueString
             return 'strategy: ' + this.wzName
+        m setJSON
+            param parent
+            set parent.strategy = this.wzName
+    
     e onDelete : valueAssign
         m getValueString
             return 'onDelete: ' + this.wzName
+        m setJSON
+            param parent
+            set parent.onDelete = this.wzName
+    
     e onUpdate : valueAssign
         m getValueString
             return 'onUpdate: ' + this.wzName
-
+        m setJSON
+            param parent
+            set parent.onUpdate = this.wzName
   
-    $*
-        
-        f( xname, name )
-            name( value )
-            # set ret.name = node.value
-
-        f( schema, skip )
-            f_a( declarations )
-
-        f( datasource, datasource )
-            f_p_temp( name )
-            set ret.name = p_name.name
-            f_a( members )
-
-        f( config, config )
-            f_p_temp( name )
-            set ret.name = p_name.name
-            f_p( value )
-
-        f( literal, literal )
-            var value = verify.isString(node.value) ? '"' + node.value + '"' : node.value
-            if parent.tag == '@'
-                set parent.name += ' ' + value
-                set skip = true
-            elif parent.tag == '_'
-                set ret.tag = '@'
-                set ret.name = value
-            elif parent.tag == 'config'
-                set ret.tag = '='
-                set ret.name = value
-            else
-                set ret.name = value
-
-        f( path, path )
-            if parent.tag == '_'
-                set parent.name = node.value.join('.')
-                set skip = true
-            elif ['onDelete','onUpdate'].indexOf(parent.tag) > -1
-                set parent.name = node.value.join(',')
-                set skip = true
-            elif parent.tag == '['
-                set ret.tag = '@'
-                set ret.name = node.value.join(',')
-            else
-                set ret.name = node.value.join(',')
-
-        f( functionCall, _ )
-            f_p( path )
-            f_a( args )
-
-        f( generator, generator )
-            f_p_temp( name )
-            set ret.name = p_name.name
-            $$ f_p( name )
-            f_a( members )
-
-        f( model, model )
-            f_p_temp( name )
-            set ret.name = p_name.name
-            $$ f_p( name )
-            f_a( members )
-
-        f( field, field )
-            f_p_temp( name )
-            set ret.name = p_name.name
-            f_p( type )
-            f_a( attributes )
-
-        f( typeId, type )
-            f_p_temp( name )
-            if scalarTypes.indexOf(p_name.name) > -1
-                set ret.tag = ':' + p_name.name[0].toLowerCase() + p_name.name.substring(1)
-            else
-                set ret.tag = ':ref'
-                set ret.name = p_name.name
-
-        f( fieldAttribute, @ )
-            f_p_temp( path )
-            set ret.name = p_path.name
-            f_a( args )
-
-        f( blockAttribute, blockAttribute )
-            f_p_temp( path )
-            set ret.name = p_path.name
-            f_a( args )
-
-        f( optional, :optional )
-            f_p_temp( type )
-            _ parent.children.push
-                @ p_type
-
-        f( list, :[ )
-            f_p( type )
-
-        f( array, [ )
-            f_a( items )
-
-        f( namedArgument, namedArgument )
-            f_p_temp( name )
-            set ret.tag = p_name.name
-            f_p( expression )
-
-    *$

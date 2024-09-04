@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.md\.wizzi-override\lib\artifacts\md\document\gen\main.js.ittf
-    utc time: Mon, 06 May 2024 14:32:29 GMT
+    utc time: Wed, 04 Sep 2024 13:16:43 GMT
 */
-'use strict';
 
 
 var util = require('util');
@@ -32,7 +31,6 @@ md.gen = function(model, ctx, callback) {
     }
     try {
         md.md(model, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -77,7 +75,6 @@ md.genItems = function(items, ctx, options, callback) {
         goitems.push(items[i]);
     }
     async.mapSeries(goitems, md.mapItem(ctx), (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -110,7 +107,6 @@ md.md = function(model, ctx, callback) {
         indent: false, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -131,7 +127,6 @@ md.frontmatter = function(model, ctx, callback) {
         indent: false, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -193,7 +188,6 @@ md.a = function(model, ctx, callback) {
         indent: false, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -224,7 +218,6 @@ md.ul = function(model, ctx, callback) {
         md.genItems(model.elements, ctx, {
             indent: false
          }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -260,7 +253,6 @@ md.li = function(model, ctx, callback) {
         indent: false, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -290,7 +282,6 @@ md.ol = function(model, ctx, callback) {
         md.genItems(model.elements, ctx, {
             indent: false
          }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -311,7 +302,6 @@ md.img = function(model, ctx, callback) {
         indent: false, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -336,7 +326,6 @@ md.table = function(model, ctx, callback) {
         indent: false, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -351,7 +340,6 @@ md.thead = function(model, ctx, callback) {
         indent: false, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -374,7 +362,6 @@ md.tbody = function(model, ctx, callback) {
         indent: false, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -388,7 +375,6 @@ md.tr = function(model, ctx, callback) {
         indent: false, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -409,7 +395,6 @@ md.td = function(model, ctx, callback) {
             indent: false, 
             from: 0
          }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -435,7 +420,6 @@ md.th = function(model, ctx, callback) {
             indent: false, 
             from: 0
          }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -457,7 +441,6 @@ md.quote = function(model, ctx, callback) {
         indent: false, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -479,7 +462,6 @@ md.p = function(model, ctx, callback) {
         indent: false, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -495,7 +477,6 @@ md.span = function(model, ctx, callback) {
         indent: false, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -515,7 +496,6 @@ md.i = function(model, ctx, callback) {
         indent: false, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -531,7 +511,6 @@ md.b = function(model, ctx, callback) {
         indent: false, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -547,7 +526,6 @@ md.em = function(model, ctx, callback) {
         indent: false, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -563,7 +541,6 @@ md.del = function(model, ctx, callback) {
         indent: false, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -584,7 +561,6 @@ md.blank = function(model, ctx, callback) {
         indent: false, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -604,7 +580,6 @@ md.plus = function(model, ctx, callback) {
             indent: false, 
             from: 0
          }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -626,7 +601,6 @@ md.js = function(model, ctx, callback) {
         indent: false, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -640,7 +614,6 @@ md.js = function(model, ctx, callback) {
 md.html = function(model, ctx, callback) {
     if (model.get_html) {
         included_writers.writeIncludeHtml(ctx, model, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -657,7 +630,6 @@ md.html = function(model, ctx, callback) {
         indent: false, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -675,7 +647,6 @@ md.css = function(model, ctx, callback) {
         indent: false, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -693,7 +664,6 @@ md.bash = function(model, ctx, callback) {
         indent: false, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -711,7 +681,6 @@ md.sh = function(model, ctx, callback) {
         indent: false, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -729,7 +698,6 @@ md.code = function(model, ctx, callback) {
         indent: false, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -777,7 +745,7 @@ md.analizeTable = function(table) {
                 th = item.elements[j];
                 var prevTHL = columns[item.elements.indexOf(th)] || 0;
                 columns[item.elements.indexOf(th)] = Math.max(prevTHL, th.wzName.length);
-                console.log(item.elements.indexOf(th), prevTHL, th.wzName.length, th.wzName, __filename);
+                // loog item.elements.indexOf(th), prevTHL, th.wzName.length, th.wzName
             }
         }
         else if (item.wzElement == 'tbody') {
@@ -789,7 +757,7 @@ md.analizeTable = function(table) {
                     td = tr.elements[k];
                     var prevTDL = columns[tr.elements.indexOf(td)] || 0;
                     columns[tr.elements.indexOf(td)] = Math.max(prevTDL, td.wzName.length);
-                    console.log(tr.elements.indexOf(td), prevTDL, td.wzName.length, td.wzName, __filename);
+                    // loog tr.elements.indexOf(td), prevTDL, td.wzName.length, td.wzName
                 }
             }
         }
@@ -802,7 +770,7 @@ md.analizeTable = function(table) {
             for (j=0; j<j_len; j++) {
                 th = item.elements[j];
                 th.maxLength = columns[item.elements.indexOf(th)];
-                console.log(item.elements.indexOf(th), th.maxLength, th.wzName, __filename);
+                // loog item.elements.indexOf(th), th.maxLength, th.wzName
             }
         }
         else if (item.wzElement == 'tbody') {
@@ -813,7 +781,7 @@ md.analizeTable = function(table) {
                 for (k=0; k<k_len; k++) {
                     td = tr.elements[k];
                     td.maxLength = columns[tr.elements.indexOf(td)];
-                    console.log(tr.elements.indexOf(td), td.maxLength, td.wzName, __filename);
+                    // loog tr.elements.indexOf(td), td.maxLength, td.wzName
                 }
             }
         }
@@ -857,7 +825,6 @@ md.writeHtml = function(tag, model, ctx, callback) {
         indent: false, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -907,7 +874,6 @@ function getAttributes(model) {
 md.htmlInclude = function(model, ctx, callback) {
     if (model.get_html) {
         included_writers.writeIncludeHtml(ctx, model, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -928,7 +894,6 @@ md.cssInclude = function(model, ctx, callback) {
 md.jsonInclude = function(model, ctx, callback) {
     if (model.get_json) {
         included_writers.writeIncludeJson(ctx, model, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }

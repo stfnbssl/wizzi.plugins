@@ -1,0 +1,358 @@
+{
+    [ dynamicTagProperties
+        {
+            name "tag_id"
+            type "string"
+            required true
+            pattern "^[a-zA-Z0-9_-]{3,10}$"
+            description "id of the tag"
+            $$ $ref "#/definitions/_tag_key"
+        {
+            name "default_value"
+            type "string"
+            required true
+            pattern "^[a-zA-Z0-9_.-]{1,10}$"
+            description "default value of the tag (will be used in case of failed fetching or not allowed value)"
+            $$ $ref "#/definitions/_tag_value"
+        {
+            name "description"
+            type "string"
+            [ constraints
+                {
+                    name "maxLength"
+                    value 80
+        {
+            name "ref_plc_id"
+            type "string"
+            required true
+            pattern "^[a-zA-Z0-9_.-]{3,32}$"
+            description "id of the reference plc"
+
+        {
+            name "ref_metric_name"
+            type "string"
+            required true
+            pattern "^[a-zA-Z0-9_.-]{3,32}$"
+            description "name of the reference metric inside the plc"
+            
+        $*
+        {
+            name "allowed_values"
+
+                { allowed_values
+                    type "array"
+                    { items
+                        $ref "#/definitions/_tag_value"
+                    maxItems 10
+                { regex_allowed_values
+                    type "array"
+                    { items
+                        type "string"
+                        format "regex"
+                    maxItems 10
+                    description "(optional) allowed values as regular expressions"
+
+        [ dynamicTagPropertiesAllowedValues
+        [ dynamicTagPropertiesRegexAllowedValues
+        *$
+
+    [ protocols
+        {
+            name "s7"
+            iot/connectionProperties()
+                {
+                    name "slot"
+                    type "number"
+                    required true
+                    [ constraints
+                        {
+                            name "minimum"
+                            value 0
+                {
+                    name "rack"
+                    type "number"
+                    required true
+                    [ constraints
+                        {
+                            name "minimum"
+                            value 0
+
+            iot/metricProperties()
+                {
+                    name "dataType"
+                    type "string"
+                    required true
+                    [ enum
+                        "BIT" 
+                        "BYTE" 
+                        "WORD" 
+                        "DWORD" 
+                        "INT" 
+                        "DINT" 
+                        "LINT" 
+                        "REAL" 
+                        "LREAL" 
+                        "CHAR" 
+                        "STRING" 
+                        "DATE_TIME" 
+                        "DATE_TIME_L" 
+                        "DATE_TIME_UTC" 
+                        "DATE_TIME_UTC_L" 
+                {
+                    name "memoryArea"
+                    type "string"
+                    required true
+                    [ enum
+                        "INPUT" 
+                        "OUTPUT" 
+                        "MEMORY" 
+                        "DATA_BLOCK" 
+                { 
+                    name "memoryAddress"
+                    type "number"
+                    required true
+                    [ constraints
+                        {
+                            name "minimum"
+                            value 0
+                { 
+                    name "dataBlockAddress"
+                    type "number"
+                    [ constraints
+                        {
+                            name "minimum"
+                            value 0
+                { 
+                    name "stringLength"
+                    type "number"
+                    [ constraints
+                        {
+                            name "minimum"
+                            value 0
+                { 
+                    name "bitOffset"
+                    type "number"
+                    [ constraints
+                        {
+                            name "minimum"
+                            value 0
+
+            [ metricImplications
+                {
+                    { fact
+                        name "memoryArea"
+                        value "DATA_BLOCK"
+                    [ implications
+                        {
+                            type "require"
+                            name "dataBlockAddress"
+                {
+                    { fact
+                        name "dataType"
+                        value "STRING"
+                    [ implications
+                        {
+                            type "require"
+                            name "stringLength"
+                {
+                    { fact
+                        name "dataType"
+                        value "BIT"
+                    [ implications
+                        {
+                            type "require"
+                            name "bitOffset"
+            
+        {
+            name "modbustcp"
+            iot/connectionProperties()
+                {
+                    name "unitId"
+                    type "integer"
+                    [ constraints
+                        {
+                            name "minimum"
+                            value 0
+                        {
+                            name "maximum"
+                            value 255
+
+            iot/metricProperties()
+                {
+                    name "dataType"
+                    type "string"
+                    required true
+                    [ enum
+                        "BOOL" 
+                        "INT16" 
+                        "UINT16" 
+                        "INT32" 
+                        "UINT32" 
+                        "FLOAT" 
+                        "DOUBLE" 
+                {
+                    name "memoryArea"
+                    type "string"
+                    required true
+                    [ enum
+                        "COIL"
+                        "DISCRETE_INPUT"
+                        "HOLDING_REGISTER" 
+                        "INPUT_REGISTER" 
+                { 
+                    name "memoryAddress"
+                    type "number"
+                    required true
+                    [ constraints
+                        {
+                            name "minimum"
+                            value 0
+                {
+                    name "byteOrder"
+                    type "string"
+                    [ enum
+                        "BIG_ENDIAN" 
+                        "LITTLE_ENDIAN" 
+
+            [ metricImplications
+                {
+                    { fact
+                        name "memoryArea"
+                        [ enum
+                            "COIL"
+                            "DISCRETE_INPUT"
+                    [ implications
+                        {
+                            type "require"
+                            name "dataType"
+                            value "BOOL"
+                {
+                    { fact
+                        name "memoryArea"
+                        [ enum
+                            "HOLDING_REGISTER" 
+                            "INPUT_REGISTER" 
+                    [ implications
+                        {
+                            type "require"
+                            name "dataType"
+                            [ enum
+                                "INT16"
+                                "UINT16"
+                                "INT32"
+                                "UINT32"
+                                "FLOAT"
+                                "DOUBLE"
+                        {
+                            type "require"
+                            name "byteOrder"
+                            [ enum
+                                "BIG_ENDIAN"
+                                "LITTLE_ENDIAN"
+        {
+            name "opcua"
+            iot/connectionProperties()
+                {
+                    name "path"
+                    type "string"
+                    [ comments
+                        "Giusto che `path`sia opzionale?"
+
+            iot/metricProperties()
+                {
+                    name "dataType"
+                    type "string"
+                    required true
+                    [ enum
+                        "BOOL" 
+                        "SBYTE" 
+                        "BYTE" 
+                        "INT16" 
+                        "UINT16" 
+                        "INT32" 
+                        "UINT32" 
+                        "INT64" 
+                        "UINT64" 
+                        "FLOAT" 
+                        "DOUBLE" 
+                        "STRING" 
+                        "DATETIME" 
+                { 
+                    name "namespaceIndex"
+                    type "integer"
+                    required true
+                    [ constraints
+                        {
+                            name "minimum"
+                            value 0
+                { 
+                    name "identifierType"
+                    type "string"
+                    required true
+                    [ enum
+                        "s" 
+                        "i" 
+                        "g" 
+                        "b" 
+                { 
+                    name "identifier"
+                    type "string"
+                    required true
+                    { format
+                        [ enum
+                            "string"
+                            "integer"
+            
+            [ metricImplications
+
+        {
+            name "modbusrtu"
+            iot/connectionProperties(false)
+                {
+                    name "serialPort"
+                    type "string"
+                    default "/dev/tnt1"
+                {
+                    name "baudRate"
+                    type "number"
+                    default 115200
+                {
+                    name "parity"
+                    type "string"
+                    [ enum
+                        "none" 
+                        "even" 
+                        "odd" 
+                        "space" 
+                        "mark" 
+                    default "none"
+                {
+                    name "dataBits"
+                    type "number"
+                    default 8
+                    [ enum
+                        5 
+                        6 
+                        7 
+                        8 
+                {
+                    name "stopBits"
+                    type "number"
+                    default 1
+                    [ enum
+                        1 
+                        1.5 
+                        2 
+
+            iot/metricProperties()
+                iot/modbustcp_metricProperties()
+                { 
+                    name "slaveAddress"
+                    type "integer"
+                    required true
+                    [ constraints
+                        {
+                            name "minimum"
+                            value 0
+            [ metricImplications
+                iot/modbustcp_metricImplications()

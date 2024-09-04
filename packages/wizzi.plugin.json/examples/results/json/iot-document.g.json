@@ -1,0 +1,904 @@
+{
+    "dynamicTagProperties": [
+        {
+            "name": "tag_id",
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_-]{3,10}$",
+            "description": "id of the tag",
+            "required": true
+        },
+        {
+            "name": "default_value",
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_.-]{1,10}$",
+            "description": "default value of the tag (will be used in case of failed fetching or not allowed value)",
+            "required": true
+        },
+        {
+            "name": "description",
+            "type": "string"
+        },
+        {
+            "name": "ref_plc_id",
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_.-]{3,32}$",
+            "description": "id of the reference plc",
+            "required": true
+        },
+        {
+            "name": "ref_metric_name",
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_.-]{3,32}$",
+            "description": "name of the reference metric inside the plc",
+            "required": true
+        }
+    ],
+    "hostEnum": [
+        "ipv4",
+        "hostname"
+    ],
+    "dataTypeEnum": [
+        "BIT",
+        "BYTE",
+        "WORD",
+        "DWORD",
+        "INT",
+        "DINT",
+        "LINT",
+        "REAL",
+        "LREAL",
+        "CHAR",
+        "STRING",
+        "DATE_TIME",
+        "DATE_TIME_L",
+        "DATE_TIME_UTC",
+        "DATE_TIME_UTC_L",
+        "BOOL",
+        "INT16",
+        "UINT16",
+        "INT32",
+        "UINT32",
+        "FLOAT",
+        "DOUBLE",
+        "SBYTE",
+        "INT64",
+        "UINT64",
+        "DATETIME"
+    ],
+    "memoryAreaEnum": [
+        "INPUT",
+        "OUTPUT",
+        "MEMORY",
+        "DATA_BLOCK",
+        "COIL",
+        "DISCRETE_INPUT",
+        "HOLDING_REGISTER",
+        "INPUT_REGISTER"
+    ],
+    "byteOrderEnum": [
+        "BIG_ENDIAN",
+        "LITTLE_ENDIAN"
+    ],
+    "identifierTypeEnum": [
+        "s",
+        "i",
+        "g",
+        "b"
+    ],
+    "propertyFormatEnum": [
+        "string",
+        "integer"
+    ],
+    "parityEnum": [
+        "none",
+        "even",
+        "odd",
+        "space",
+        "mark"
+    ],
+    "dataBitsEnum": [
+        "5",
+        "6",
+        "7",
+        "8"
+    ],
+    "stopBitsEnum": [
+        "1",
+        "2",
+        "1.5"
+    ],
+    "constraints": [
+        "maxLength",
+        "minimum",
+        "maximum"
+    ],
+    "protocols": [
+        "s7",
+        "modbustcp",
+        "opcua",
+        "modbusrtu"
+    ],
+    "connectionProperties": [
+        {
+            "name": "host",
+            "type": "string",
+            "protocol": "s7",
+            "required": true
+        },
+        {
+            "name": "port",
+            "type": "number",
+            "protocol": "s7",
+            "required": true
+        },
+        {
+            "name": "slot",
+            "type": "number",
+            "protocol": "s7",
+            "required": true
+        },
+        {
+            "name": "rack",
+            "type": "number",
+            "protocol": "s7",
+            "required": true
+        },
+        {
+            "name": "host",
+            "type": "string",
+            "protocol": "modbustcp",
+            "required": true
+        },
+        {
+            "name": "port",
+            "type": "number",
+            "protocol": "modbustcp",
+            "required": true
+        },
+        {
+            "name": "unitId",
+            "type": "integer",
+            "protocol": "modbustcp"
+        },
+        {
+            "name": "host",
+            "type": "string",
+            "protocol": "opcua",
+            "required": true
+        },
+        {
+            "name": "port",
+            "type": "number",
+            "protocol": "opcua",
+            "required": true
+        },
+        {
+            "name": "path",
+            "type": "string",
+            "protocol": "opcua"
+        },
+        {
+            "name": "serialPort",
+            "type": "string",
+            "protocol": "modbusrtu",
+            "default": "/dev/tnt1"
+        },
+        {
+            "name": "baudRate",
+            "type": "number",
+            "protocol": "modbusrtu",
+            "default": 115200
+        },
+        {
+            "name": "parity",
+            "type": "string",
+            "protocol": "modbusrtu",
+            "default": "none"
+        },
+        {
+            "name": "dataBits",
+            "type": "number",
+            "protocol": "modbusrtu",
+            "default": 8
+        },
+        {
+            "name": "stopBits",
+            "type": "number",
+            "protocol": "modbusrtu",
+            "default": 1
+        }
+    ],
+    "r_connectionProperties_constraints": [
+        {
+            "protocol": "s7",
+            "metricProperty": "port",
+            "constraint": "minimum",
+            "value": 0
+        },
+        {
+            "protocol": "s7",
+            "metricProperty": "port",
+            "constraint": "maximum",
+            "value": 65535
+        },
+        {
+            "protocol": "s7",
+            "metricProperty": "slot",
+            "constraint": "minimum",
+            "value": 0
+        },
+        {
+            "protocol": "s7",
+            "metricProperty": "rack",
+            "constraint": "minimum",
+            "value": 0
+        },
+        {
+            "protocol": "modbustcp",
+            "metricProperty": "port",
+            "constraint": "minimum",
+            "value": 0
+        },
+        {
+            "protocol": "modbustcp",
+            "metricProperty": "port",
+            "constraint": "maximum",
+            "value": 65535
+        },
+        {
+            "protocol": "modbustcp",
+            "metricProperty": "unitId",
+            "constraint": "minimum",
+            "value": 0
+        },
+        {
+            "protocol": "modbustcp",
+            "metricProperty": "unitId",
+            "constraint": "maximum",
+            "value": 255
+        },
+        {
+            "protocol": "opcua",
+            "metricProperty": "port",
+            "constraint": "minimum",
+            "value": 0
+        },
+        {
+            "protocol": "opcua",
+            "metricProperty": "port",
+            "constraint": "maximum",
+            "value": 65535
+        }
+    ],
+    "metricProperties": [
+        {
+            "name": "name",
+            "type": "number",
+            "protocol": "s7",
+            "pattern": "^[a-zA-Z0-9_.-]{3,32}$",
+            "description": "metric name",
+            "required": true
+        },
+        {
+            "name": "interval",
+            "type": "number",
+            "protocol": "s7",
+            "description": "interval in ms",
+            "required": true
+        },
+        {
+            "name": "description",
+            "type": "number",
+            "protocol": "s7",
+            "description": "optional description for metric"
+        },
+        {
+            "name": "dataType",
+            "type": "number",
+            "protocol": "s7",
+            "required": true
+        },
+        {
+            "name": "memoryArea",
+            "type": "number",
+            "protocol": "s7",
+            "required": true
+        },
+        {
+            "name": "memoryAddress",
+            "type": "number",
+            "protocol": "s7",
+            "required": true
+        },
+        {
+            "name": "dataBlockAddress",
+            "type": "number",
+            "protocol": "s7"
+        },
+        {
+            "name": "stringLength",
+            "type": "number",
+            "protocol": "s7"
+        },
+        {
+            "name": "bitOffset",
+            "type": "number",
+            "protocol": "s7"
+        },
+        {
+            "name": "name",
+            "type": "number",
+            "protocol": "modbustcp",
+            "pattern": "^[a-zA-Z0-9_.-]{3,32}$",
+            "description": "metric name",
+            "required": true
+        },
+        {
+            "name": "interval",
+            "type": "number",
+            "protocol": "modbustcp",
+            "description": "interval in ms",
+            "required": true
+        },
+        {
+            "name": "description",
+            "type": "number",
+            "protocol": "modbustcp",
+            "description": "optional description for metric"
+        },
+        {
+            "name": "dataType",
+            "type": "number",
+            "protocol": "modbustcp",
+            "required": true
+        },
+        {
+            "name": "memoryArea",
+            "type": "number",
+            "protocol": "modbustcp",
+            "required": true
+        },
+        {
+            "name": "memoryAddress",
+            "type": "number",
+            "protocol": "modbustcp",
+            "required": true
+        },
+        {
+            "name": "byteOrder",
+            "type": "number",
+            "protocol": "modbustcp"
+        },
+        {
+            "name": "name",
+            "type": "number",
+            "protocol": "opcua",
+            "pattern": "^[a-zA-Z0-9_.-]{3,32}$",
+            "description": "metric name",
+            "required": true
+        },
+        {
+            "name": "interval",
+            "type": "number",
+            "protocol": "opcua",
+            "description": "interval in ms",
+            "required": true
+        },
+        {
+            "name": "description",
+            "type": "number",
+            "protocol": "opcua",
+            "description": "optional description for metric"
+        },
+        {
+            "name": "dataType",
+            "type": "number",
+            "protocol": "opcua",
+            "required": true
+        },
+        {
+            "name": "namespaceIndex",
+            "type": "number",
+            "protocol": "opcua",
+            "required": true
+        },
+        {
+            "name": "identifierType",
+            "type": "number",
+            "protocol": "opcua",
+            "required": true
+        },
+        {
+            "name": "identifier",
+            "type": "number",
+            "protocol": "opcua",
+            "required": true
+        },
+        {
+            "name": "name",
+            "type": "number",
+            "protocol": "modbusrtu",
+            "pattern": "^[a-zA-Z0-9_.-]{3,32}$",
+            "description": "metric name",
+            "required": true
+        },
+        {
+            "name": "interval",
+            "type": "number",
+            "protocol": "modbusrtu",
+            "description": "interval in ms",
+            "required": true
+        },
+        {
+            "name": "description",
+            "type": "number",
+            "protocol": "modbusrtu",
+            "description": "optional description for metric"
+        },
+        {
+            "name": "dataType",
+            "type": "number",
+            "protocol": "modbusrtu",
+            "required": true
+        },
+        {
+            "name": "memoryArea",
+            "type": "number",
+            "protocol": "modbusrtu",
+            "required": true
+        },
+        {
+            "name": "memoryAddress",
+            "type": "number",
+            "protocol": "modbusrtu",
+            "required": true
+        },
+        {
+            "name": "byteOrder",
+            "type": "number",
+            "protocol": "modbusrtu"
+        },
+        {
+            "name": "slaveAddress",
+            "type": "number",
+            "protocol": "modbusrtu",
+            "required": true
+        }
+    ],
+    "r_metricProperties_constraints": [
+        {
+            "protocol": "s7",
+            "metricProperty": "interval",
+            "constraint": "minimum",
+            "value": 10000
+        },
+        {
+            "protocol": "s7",
+            "metricProperty": "interval",
+            "constraint": "maximum",
+            "value": 10000000000
+        },
+        {
+            "protocol": "s7",
+            "metricProperty": "description",
+            "constraint": "maxLength",
+            "value": 89
+        },
+        {
+            "protocol": "s7",
+            "metricProperty": "memoryAddress",
+            "constraint": "minimum",
+            "value": 0
+        },
+        {
+            "protocol": "s7",
+            "metricProperty": "dataBlockAddress",
+            "constraint": "minimum",
+            "value": 0
+        },
+        {
+            "protocol": "s7",
+            "metricProperty": "stringLength",
+            "constraint": "minimum",
+            "value": 0
+        },
+        {
+            "protocol": "s7",
+            "metricProperty": "bitOffset",
+            "constraint": "minimum",
+            "value": 0
+        },
+        {
+            "protocol": "modbustcp",
+            "metricProperty": "interval",
+            "constraint": "minimum",
+            "value": 10000
+        },
+        {
+            "protocol": "modbustcp",
+            "metricProperty": "interval",
+            "constraint": "maximum",
+            "value": 10000000000
+        },
+        {
+            "protocol": "modbustcp",
+            "metricProperty": "description",
+            "constraint": "maxLength",
+            "value": 89
+        },
+        {
+            "protocol": "modbustcp",
+            "metricProperty": "memoryAddress",
+            "constraint": "minimum",
+            "value": 0
+        },
+        {
+            "protocol": "opcua",
+            "metricProperty": "interval",
+            "constraint": "minimum",
+            "value": 10000
+        },
+        {
+            "protocol": "opcua",
+            "metricProperty": "interval",
+            "constraint": "maximum",
+            "value": 10000000000
+        },
+        {
+            "protocol": "opcua",
+            "metricProperty": "description",
+            "constraint": "maxLength",
+            "value": 89
+        },
+        {
+            "protocol": "opcua",
+            "metricProperty": "namespaceIndex",
+            "constraint": "minimum",
+            "value": 0
+        },
+        {
+            "protocol": "modbusrtu",
+            "metricProperty": "interval",
+            "constraint": "minimum",
+            "value": 10000
+        },
+        {
+            "protocol": "modbusrtu",
+            "metricProperty": "interval",
+            "constraint": "maximum",
+            "value": 10000000000
+        },
+        {
+            "protocol": "modbusrtu",
+            "metricProperty": "description",
+            "constraint": "maxLength",
+            "value": 89
+        },
+        {
+            "protocol": "modbusrtu",
+            "metricProperty": "memoryAddress",
+            "constraint": "minimum",
+            "value": 0
+        },
+        {
+            "protocol": "modbusrtu",
+            "metricProperty": "slaveAddress",
+            "constraint": "minimum",
+            "value": 0
+        }
+    ],
+    "r_metricProperties_implications": [
+        {
+            "protocol": "s7",
+            "metricProperty": "memoryArea",
+            "value": "DATA_BLOCK",
+            "implicationType": "require",
+            "onMetricProperty": "dataBlockAddress",
+            "onValue": null
+        },
+        {
+            "protocol": "s7",
+            "metricProperty": "dataType",
+            "value": "STRING",
+            "implicationType": "require",
+            "onMetricProperty": "stringLength",
+            "onValue": null
+        },
+        {
+            "protocol": "s7",
+            "metricProperty": "dataType",
+            "value": "BIT",
+            "implicationType": "require",
+            "onMetricProperty": "bitOffset",
+            "onValue": null
+        },
+        {
+            "protocol": "modbustcp",
+            "metricProperty": "memoryArea",
+            "value": "COIL",
+            "implicationType": "require",
+            "onMetricProperty": "dataType",
+            "onValue": "BOOL"
+        },
+        {
+            "protocol": "modbustcp",
+            "metricProperty": "memoryArea",
+            "value": "DISCRETE_INPUT",
+            "implicationType": "require",
+            "onMetricProperty": "dataType",
+            "onValue": "BOOL"
+        },
+        {
+            "protocol": "modbustcp",
+            "metricProperty": "memoryArea",
+            "value": "HOLDING_REGISTER",
+            "implicationType": "require",
+            "onMetricProperty": "dataType",
+            "onValue": "INT16"
+        },
+        {
+            "protocol": "modbustcp",
+            "metricProperty": "memoryArea",
+            "value": "HOLDING_REGISTER",
+            "implicationType": "require",
+            "onMetricProperty": "dataType",
+            "onValue": "UINT16"
+        },
+        {
+            "protocol": "modbustcp",
+            "metricProperty": "memoryArea",
+            "value": "HOLDING_REGISTER",
+            "implicationType": "require",
+            "onMetricProperty": "dataType",
+            "onValue": "INT32"
+        },
+        {
+            "protocol": "modbustcp",
+            "metricProperty": "memoryArea",
+            "value": "HOLDING_REGISTER",
+            "implicationType": "require",
+            "onMetricProperty": "dataType",
+            "onValue": "UINT32"
+        },
+        {
+            "protocol": "modbustcp",
+            "metricProperty": "memoryArea",
+            "value": "HOLDING_REGISTER",
+            "implicationType": "require",
+            "onMetricProperty": "dataType",
+            "onValue": "FLOAT"
+        },
+        {
+            "protocol": "modbustcp",
+            "metricProperty": "memoryArea",
+            "value": "HOLDING_REGISTER",
+            "implicationType": "require",
+            "onMetricProperty": "dataType",
+            "onValue": "DOUBLE"
+        },
+        {
+            "protocol": "modbustcp",
+            "metricProperty": "memoryArea",
+            "value": "HOLDING_REGISTER",
+            "implicationType": "require",
+            "onMetricProperty": "byteOrder",
+            "onValue": "BIG_ENDIAN"
+        },
+        {
+            "protocol": "modbustcp",
+            "metricProperty": "memoryArea",
+            "value": "HOLDING_REGISTER",
+            "implicationType": "require",
+            "onMetricProperty": "byteOrder",
+            "onValue": "LITTLE_ENDIAN"
+        },
+        {
+            "protocol": "modbustcp",
+            "metricProperty": "memoryArea",
+            "value": "INPUT_REGISTER",
+            "implicationType": "require",
+            "onMetricProperty": "dataType",
+            "onValue": "INT16"
+        },
+        {
+            "protocol": "modbustcp",
+            "metricProperty": "memoryArea",
+            "value": "INPUT_REGISTER",
+            "implicationType": "require",
+            "onMetricProperty": "dataType",
+            "onValue": "UINT16"
+        },
+        {
+            "protocol": "modbustcp",
+            "metricProperty": "memoryArea",
+            "value": "INPUT_REGISTER",
+            "implicationType": "require",
+            "onMetricProperty": "dataType",
+            "onValue": "INT32"
+        },
+        {
+            "protocol": "modbustcp",
+            "metricProperty": "memoryArea",
+            "value": "INPUT_REGISTER",
+            "implicationType": "require",
+            "onMetricProperty": "dataType",
+            "onValue": "UINT32"
+        },
+        {
+            "protocol": "modbustcp",
+            "metricProperty": "memoryArea",
+            "value": "INPUT_REGISTER",
+            "implicationType": "require",
+            "onMetricProperty": "dataType",
+            "onValue": "FLOAT"
+        },
+        {
+            "protocol": "modbustcp",
+            "metricProperty": "memoryArea",
+            "value": "INPUT_REGISTER",
+            "implicationType": "require",
+            "onMetricProperty": "dataType",
+            "onValue": "DOUBLE"
+        },
+        {
+            "protocol": "modbustcp",
+            "metricProperty": "memoryArea",
+            "value": "INPUT_REGISTER",
+            "implicationType": "require",
+            "onMetricProperty": "byteOrder",
+            "onValue": "BIG_ENDIAN"
+        },
+        {
+            "protocol": "modbustcp",
+            "metricProperty": "memoryArea",
+            "value": "INPUT_REGISTER",
+            "implicationType": "require",
+            "onMetricProperty": "byteOrder",
+            "onValue": "LITTLE_ENDIAN"
+        },
+        {
+            "protocol": "modbusrtu",
+            "metricProperty": "memoryArea",
+            "value": "COIL",
+            "implicationType": "require",
+            "onMetricProperty": "dataType",
+            "onValue": "BOOL"
+        },
+        {
+            "protocol": "modbusrtu",
+            "metricProperty": "memoryArea",
+            "value": "DISCRETE_INPUT",
+            "implicationType": "require",
+            "onMetricProperty": "dataType",
+            "onValue": "BOOL"
+        },
+        {
+            "protocol": "modbusrtu",
+            "metricProperty": "memoryArea",
+            "value": "HOLDING_REGISTER",
+            "implicationType": "require",
+            "onMetricProperty": "dataType",
+            "onValue": "INT16"
+        },
+        {
+            "protocol": "modbusrtu",
+            "metricProperty": "memoryArea",
+            "value": "HOLDING_REGISTER",
+            "implicationType": "require",
+            "onMetricProperty": "dataType",
+            "onValue": "UINT16"
+        },
+        {
+            "protocol": "modbusrtu",
+            "metricProperty": "memoryArea",
+            "value": "HOLDING_REGISTER",
+            "implicationType": "require",
+            "onMetricProperty": "dataType",
+            "onValue": "INT32"
+        },
+        {
+            "protocol": "modbusrtu",
+            "metricProperty": "memoryArea",
+            "value": "HOLDING_REGISTER",
+            "implicationType": "require",
+            "onMetricProperty": "dataType",
+            "onValue": "UINT32"
+        },
+        {
+            "protocol": "modbusrtu",
+            "metricProperty": "memoryArea",
+            "value": "HOLDING_REGISTER",
+            "implicationType": "require",
+            "onMetricProperty": "dataType",
+            "onValue": "FLOAT"
+        },
+        {
+            "protocol": "modbusrtu",
+            "metricProperty": "memoryArea",
+            "value": "HOLDING_REGISTER",
+            "implicationType": "require",
+            "onMetricProperty": "dataType",
+            "onValue": "DOUBLE"
+        },
+        {
+            "protocol": "modbusrtu",
+            "metricProperty": "memoryArea",
+            "value": "HOLDING_REGISTER",
+            "implicationType": "require",
+            "onMetricProperty": "byteOrder",
+            "onValue": "BIG_ENDIAN"
+        },
+        {
+            "protocol": "modbusrtu",
+            "metricProperty": "memoryArea",
+            "value": "HOLDING_REGISTER",
+            "implicationType": "require",
+            "onMetricProperty": "byteOrder",
+            "onValue": "LITTLE_ENDIAN"
+        },
+        {
+            "protocol": "modbusrtu",
+            "metricProperty": "memoryArea",
+            "value": "INPUT_REGISTER",
+            "implicationType": "require",
+            "onMetricProperty": "dataType",
+            "onValue": "INT16"
+        },
+        {
+            "protocol": "modbusrtu",
+            "metricProperty": "memoryArea",
+            "value": "INPUT_REGISTER",
+            "implicationType": "require",
+            "onMetricProperty": "dataType",
+            "onValue": "UINT16"
+        },
+        {
+            "protocol": "modbusrtu",
+            "metricProperty": "memoryArea",
+            "value": "INPUT_REGISTER",
+            "implicationType": "require",
+            "onMetricProperty": "dataType",
+            "onValue": "INT32"
+        },
+        {
+            "protocol": "modbusrtu",
+            "metricProperty": "memoryArea",
+            "value": "INPUT_REGISTER",
+            "implicationType": "require",
+            "onMetricProperty": "dataType",
+            "onValue": "UINT32"
+        },
+        {
+            "protocol": "modbusrtu",
+            "metricProperty": "memoryArea",
+            "value": "INPUT_REGISTER",
+            "implicationType": "require",
+            "onMetricProperty": "dataType",
+            "onValue": "FLOAT"
+        },
+        {
+            "protocol": "modbusrtu",
+            "metricProperty": "memoryArea",
+            "value": "INPUT_REGISTER",
+            "implicationType": "require",
+            "onMetricProperty": "dataType",
+            "onValue": "DOUBLE"
+        },
+        {
+            "protocol": "modbusrtu",
+            "metricProperty": "memoryArea",
+            "value": "INPUT_REGISTER",
+            "implicationType": "require",
+            "onMetricProperty": "byteOrder",
+            "onValue": "BIG_ENDIAN"
+        },
+        {
+            "protocol": "modbusrtu",
+            "metricProperty": "memoryArea",
+            "value": "INPUT_REGISTER",
+            "implicationType": "require",
+            "onMetricProperty": "byteOrder",
+            "onValue": "LITTLE_ENDIAN"
+        }
+    ]
+}

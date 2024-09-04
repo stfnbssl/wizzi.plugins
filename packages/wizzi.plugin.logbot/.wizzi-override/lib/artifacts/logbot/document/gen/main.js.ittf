@@ -2,11 +2,11 @@ module
     kind es6
     $
         var md = {
-            plugin: 'wizzi.plugin.lbot',
+            plugin: 'wizzi.plugin.logbot',
             name: 'document',
             schema: 'logbot',
             rootElement: 'logbot',
-            rootTag: 'lbot',
+            rootTag: 'logbot',
             checkSchema: true,
             isAsync: true,
         };
@@ -115,6 +115,7 @@ module
                             r_cb()
                         catch( err ) 
                             error 'Error:', err.message
+                            error 'Error:', err
                             set ctx.__current.err
                                 {
                                     @ message err.message
@@ -295,7 +296,8 @@ module
                                                                 set ctx.__apply.result = result
                                                                 r_cb()
                                             catch ex
-                                                error ex
+                                                error 'Exception.message:', ex.message
+                                                error 'Exception:', ex
                                                 set ctx.__apply.err
                                                     {
                                                         @ message 'Error calling jsonata: ' + ex.message

@@ -5,8 +5,8 @@ module
         var opt = {
             level: 0,
             step: 1,
-            name: 'wfJob_step_1',
-            title: 'wfJob step 1 - execute',
+            name: 'wzJob_step_1',
+            title: 'wzJob step 1 - execute',
             folderLevel: 2
         }
 
@@ -30,23 +30,23 @@ module
             _ path.join
                 @ __dirname
                 @ 'ittf'
-                @ 'basic.wfjob.ittf'
+                @ 'basic.wzjob.ittf'
             {
             a_cb_test( jobResult )
                 _ printEvaluatedNodes
                     @ jobResult
-                    @ 'basic.wfjob'
+                    @ 'basic.wzjob'
 
 $*
 
     _ executeLoadFolderModels
-        @ 'wfjobs'
-        @ 'wfjob'
+        @ 'wzjobs'
+        @ 'wzjob'
         {
         a_cb()
             _ executeFolderJobs
-                @ 'wfjobs'
-                @ 'wfjob'
+                @ 'wzjobs'
+                @ 'wzjob'
                 {
                 a_cb()
 

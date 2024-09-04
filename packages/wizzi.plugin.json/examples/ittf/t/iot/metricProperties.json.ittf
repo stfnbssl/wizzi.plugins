@@ -1,0 +1,57 @@
+$group
+
+    [ metricProperties
+        {
+            name "name"
+            type "string"
+            required true
+            pattern "^[a-zA-Z0-9_.-]{3,32}$"
+            description "metric name"
+        
+        {
+            name "interval"
+            type "integer"
+            required true
+            [ constraints
+                {
+                    name "minimum"
+                    value 10000
+                {
+                    name "maximum"
+                    value 10000000000
+            description "interval in ms"
+        {
+            name "description"
+            type "string"
+            [ constraints
+                {
+                    name "maxLength"
+                    value 89
+            description "optional description for metric"
+        {
+            name "topic"
+            type "string"
+            [ enum
+                "mdm"
+                "mdm-index-overload"
+            description "topic to publish to"
+        {
+            name "ret_policy"
+            type "string"
+            [ enum
+                "agg10y"
+                "noagg6m"
+                "noagg6h"
+                "noagg3m"
+            description "retain policy tag"
+        {
+            name "script"
+            type "string"
+            pattern "^[a-zA-Z0-9_-]{3,20}$"
+            description "name of a reference to a defined script"
+        {
+            name "script_value"
+            type "string"
+            description "value of a script, alternative to `script`"
+
+        $hook

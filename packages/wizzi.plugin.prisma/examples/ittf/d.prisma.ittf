@@ -1,6 +1,6 @@
 prisma
     # This is your Prisma schema file,
-    # learn more about it in the docs: https://pris.ly/d/prisma-schema
+    # learn more about it in the docs https//pris.ly/d/prisma-schema
     generator client
         config provider
             = "prisma-client-js"
@@ -12,63 +12,63 @@ prisma
                 @ "DATABASE_URL"
     model User
         field id
-            :string 
+            string 
             @ id
             @ default
                 _ cuid
         field email
-            :string 
+            string 
             @ unique
         field username
-            :string 
+            string 
             @ unique
         field name
-            :string 
-            :optional 
+            string 
+            optional 
         field createdAt
-            :dateTime 
+            dateTime 
             @ default
                 _ now
         field updatedAt
-            :dateTime 
+            dateTime 
             @ updatedAt
         field image
-            :ref UserImage
-            :optional 
+            ref UserImage
+            optional 
         field password
-            :ref Password
-            :optional 
+            ref Password
+            optional 
         field notes
-            :[ 
-                :ref Note
+            [ 
+                ref Note
         field roles
-            :[ 
-                :ref Role
+            [ 
+                ref Role
         field sessions
-            :[ 
-                :ref Session
+            [ 
+                ref Session
         field connections
-            :[ 
-                :ref Connection
+            [ 
+                ref Connection
     model Note
         field id
-            :string 
+            string 
             @ id
             @ default
                 _ cuid
         field title
-            :string 
+            string 
         field content
-            :string 
+            string 
         field createdAt
-            :dateTime 
+            dateTime 
             @ default
                 _ now
         field updatedAt
-            :dateTime 
+            dateTime 
             @ updatedAt
         field owner
-            :ref User
+            ref User
             @ relation
                 fields 
                     [ 
@@ -79,10 +79,10 @@ prisma
                 onDelete Cascade
                 onUpdate Cascade
         field ownerId
-            :string 
+            string 
         field images
-            :[ 
-                :ref NoteImage
+            [ 
+                ref NoteImage
         # non-unique foreign key
         @@ index
             [ 
@@ -94,26 +94,26 @@ prisma
                 @ updatedAt
     model NoteImage
         field id
-            :string 
+            string 
             @ id
             @ default
                 _ cuid
         field altText
-            :string 
-            :optional 
+            string 
+            optional 
         field contentType
-            :string 
+            string 
         field blob
-            :bytes 
+            bytes 
         field createdAt
-            :dateTime 
+            dateTime 
             @ default
                 _ now
         field updatedAt
-            :dateTime 
+            dateTime 
             @ updatedAt
         field note
-            :ref Note
+            ref Note
             @ relation
                 fields 
                     [ 
@@ -124,33 +124,33 @@ prisma
                 onDelete Cascade
                 onUpdate Cascade
         field noteId
-            :string 
+            string 
         # non-unique foreign key
         @@ index
             [ 
                 @ noteId
     model UserImage
         field id
-            :string 
+            string 
             @ id
             @ default
                 _ cuid
         field altText
-            :string 
-            :optional 
+            string 
+            optional 
         field contentType
-            :string 
+            string 
         field blob
-            :bytes 
+            bytes 
         field createdAt
-            :dateTime 
+            dateTime 
             @ default
                 _ now
         field updatedAt
-            :dateTime 
+            dateTime 
             @ updatedAt
         field user
-            :ref User
+            ref User
             @ relation
                 fields 
                     [ 
@@ -161,13 +161,13 @@ prisma
                 onDelete Cascade
                 onUpdate Cascade
         field userId
-            :string 
+            string 
             @ unique
     model Password
         field hash
-            :string 
+            string 
         field user
-            :ref User
+            ref User
             @ relation
                 fields 
                     [ 
@@ -178,25 +178,25 @@ prisma
                 onDelete Cascade
                 onUpdate Cascade
         field userId
-            :string 
+            string 
             @ unique
     model Session
         field id
-            :string 
+            string 
             @ id
             @ default
                 _ cuid
         field expirationDate
-            :dateTime 
+            dateTime 
         field createdAt
-            :dateTime 
+            dateTime 
             @ default
                 _ now
         field updatedAt
-            :dateTime 
+            dateTime 
             @ updatedAt
         field user
-            :ref User
+            ref User
             @ relation
                 fields 
                     [ 
@@ -207,36 +207,36 @@ prisma
                 onDelete Cascade
                 onUpdate Cascade
         field userId
-            :string 
+            string 
         # non-unique foreign key
         @@ index
             [ 
                 @ userId
     model Permission
         field id
-            :string 
+            string 
             @ id
             @ default
                 _ cuid
         field action
-            :string 
+            string 
         field entity
-            :string 
+            string 
         field access
-            :string 
+            string 
         field description
-            :string 
+            string 
             @ default ""
         field createdAt
-            :dateTime 
+            dateTime 
             @ default
                 _ now
         field updatedAt
-            :dateTime 
+            dateTime 
             @ updatedAt
         field roles
-            :[ 
-                :ref Role
+            [ 
+                ref Role
         @@ unique
             [ 
                 @ action
@@ -244,87 +244,87 @@ prisma
                 @ access
     model Role
         field id
-            :string 
+            string 
             @ id
             @ default
                 _ cuid
         field name
-            :string 
+            string 
             @ unique
         field description
-            :string 
+            string 
             @ default ""
         field createdAt
-            :dateTime 
+            dateTime 
             @ default
                 _ now
         field updatedAt
-            :dateTime 
+            dateTime 
             @ updatedAt
         field users
-            :[ 
-                :ref User
+            [ 
+                ref User
         field permissions
-            :[ 
-                :ref Permission
+            [ 
+                ref Permission
     model Verification
         field id
-            :string 
+            string 
             @ id
             @ default
                 _ cuid
         field createdAt
-            :dateTime 
+            dateTime 
             @ default
                 _ now
         ### The type of verification, e.g. "email" or "phone"
         field type
-            :string 
+            string 
         ### The thing we're trying to verify, e.g. a user's email or phone number
         field target
-            :string 
+            string 
         ### The secret key used to generate the otp
         field secret
-            :string 
+            string 
         ### The algorithm used to generate the otp
         field algorithm
-            :string 
+            string 
         ### The number of digits in the otp
         field digits
-            :int 
+            int 
         ### The number of seconds the otp is valid for
         field period
-            :int 
+            int 
         ### The valid characters for the otp
         field charSet
-            :string 
+            string 
         ### When it's safe to delete this verification
         field expiresAt
-            :dateTime 
-            :optional 
+            dateTime 
+            optional 
         @@ unique
             [ 
                 @ target
                 @ type
     model Connection
         field id
-            :string 
+            string 
             @ id
             @ default
                 _ cuid
         field providerName
-            :string 
+            string 
         field providerId
-            :string 
+            string 
         field createdAt
-            :dateTime 
+            dateTime 
             @ default
                 _ now
         field updatedAt
-            :dateTime 
+            dateTime 
             @ updatedAt
         field user
-            :ref User
+            ref User
             @ relation
                 fields 
                     [ 
@@ -335,7 +335,7 @@ prisma
                 onDelete Cascade
                 onUpdate Cascade
         field userId
-            :string 
+            string 
         @@ unique
             [ 
                 @ providerName

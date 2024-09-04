@@ -15,6 +15,7 @@ module
                     @ '..'
         let arg = process.argv[2]
         const moduleName = arg && arg.length > 0 ? arg : 'first'
+        log arg, moduleName
         _ executeGenerateModules
             [
                 @ moduleName
@@ -25,6 +26,7 @@ module
                     if err.inner
                         error 'json/document.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
                 else
+
         function executeGenerateModules
             param modules
             param callback
@@ -45,14 +47,38 @@ module
                             @ 'results'
                             @ 'json'
                             @ module + '-document.g.json'
+                    log 'outputPath: ' + outputPath
                     _ loadModelAndGenerateArtifact
                         @ ittfDocumentUri
                         {
                         @ 'json/document'
                         a_cb( artifactText )
+                            log 'artifactText: ' + artifactText
                             log 'json/document.example.executeGenerateModules.outputPath: ' + outputPath
                             _ file.write
                                 @ outputPath
                                 @ artifactText
-                            r_cb( artifactText )
+                            if moduleName == "iot-data"
+                                set ittfDocumentUri
+                                    _ path.join
+                                        @ __dirname
+                                        @ 'ittf'
+                                        @ 'iot.json.ittf'
+                                set outputPath
+                                    _ path.join
+                                        @ __dirname
+                                        @ 'results'
+                                        @ 'json'
+                                        @ 'iot-document.g.json'
+                                _ loadModelAndGenerateArtifact
+                                    @ ittfDocumentUri
+                                    {
+                                        @ data JSON.parse(artifactText)
+                                    @ 'json/document'
+                                    a_cb( artifactText )
+                                        _ file.write
+                                            @ outputPath
+                                            @ artifactText
+                            else
+                                r_cb( artifactText )
                 @ callback

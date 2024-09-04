@@ -1,23 +1,38 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.13
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\lib\artifacts\wfschema\factory\gen\ittf\wfschema-factory.js.ittf
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: @wizzi/plugin.js@0.8.9
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\lib\artifacts\wzschema\factory\gen\ittf\wfschema-factory.js.ittf
+    utc time: Fri, 30 Aug 2024 07:29:12 GMT
 */
-'use strict';
-//
+/**
+     wzjob WizziModelFactory
+*/
 var path = require('path');
 var util = require('util');
 var _ = require('lodash');
 
 var stringify = require('json-stringify-safe');
 
-var wfjobschema = require('./wfjob-model.g');
+var wzjobschema = require('./wzjob-model.g');
 
 var md = module.exports = {};
 
 //
 // called from the wizzi.wizziFactory.getLoadModel method
-// params
+/**
+    params
+        { wizziObject
+            func loadMTree
+             api-ref wizzi-mtree.loader.loadMTree
+            { file
+             api-ref wizzi-utils.file
+            { verify
+             api-ref wizzi-utils.verify
+            { errors
+             type WizziModelLoadError
+            { wizziFactory
+             api-ref wizzi.wizziFactory
+*/
 md.createLoadModel = function(wizziObject) {
     var options = wizziObject.options || {};
     var loadMTree = wizziObject.loadMTree;
@@ -28,34 +43,34 @@ md.createLoadModel = function(wizziObject) {
     function loadModelFromMTree(mTree, ittfDocumentUri, wizziModelRequest, options, callback) {
         
         var start = Date.now(),
-            wfjobmodel;
+            wzjobmodel;
         if (mTree.nodes.length == 0) {
-            var wfjobmodel = new wfjobmodelType('EmptyIttfDocument');
+            var wzjobmodel = new wzjobmodelType('EmptyIttfDocument');
         }
         // Get the model type of the root node of the ittf model.
         // Load the WizziModel from the root node of the mTree
         else {
             var rootNode = mTree.nodes[0];
-            var wfjobmodelType = wfjobschema[rootNode.n];
-            if (!wfjobmodelType) {
-                var maptag = wfjobschema.__tagElementMapping[rootNode.n];
+            var wzjobmodelType = wzjobschema[rootNode.n];
+            if (!wzjobmodelType) {
+                var maptag = wzjobschema.__tagElementMapping[rootNode.n];
                 if (typeof maptag === 'string') {
-                    wfjobmodelType = wfjobschema[maptag];
+                    wzjobmodelType = wzjobschema[maptag];
                 }
-                if (!wfjobmodelType) {
-                    var error = new errors.WizziModelLoadError('In wfjob Factory. Cannot map root node: ' + rootNode.n + ', to any entity of schema: wfjob', ittfDocumentUri);
+                if (!wzjobmodelType) {
+                    var error = new errors.WizziModelLoadError('In wzjob Factory. Cannot map root node: ' + rootNode.n + ', to any entity of schema: wzjob', ittfDocumentUri);
                     return callback(error);
                 }
             }
-            wfjobmodel = new wfjobmodelType(rootNode.v);
-            wfjobmodel.loadHistory = mTree.loadHistory;
-            wfjobmodel.wzFactory = options.wizziFactory;
+            wzjobmodel = new wzjobmodelType(rootNode.v);
+            wzjobmodel.loadHistory = mTree.loadHistory;
+            wzjobmodel.wzFactory = options.wizziFactory;
             try {
                 // this is a sync call
-                wfjobmodel.loadFromNode(rootNode);
+                wzjobmodel.loadFromNode(rootNode);
             } 
             catch (ex) {
-                var error = new errors.WizziModelLoadError(ex.message + '\nIn wfjob Factory, calling loadFromNode.', ittfDocumentUri, ex);
+                var error = new errors.WizziModelLoadError(ex.message + '\nIn wzjob Factory, calling loadFromNode.', ittfDocumentUri, ex);
                 // TODO review errors.WizziModelLoadError
                 error.stack = ex.stack;
                 return callback(error);
@@ -65,39 +80,39 @@ md.createLoadModel = function(wizziObject) {
         // _ log.info('Loaded ittfDocument ' + ittfDocumentUri + ' in ' + (Date.now() - start) + ' ms')
         // TODO Implement an initialize strategy to be declared in the wizzischema
         // Initialize and verify the loaded model
-        var ctx = new wfjobschema.wfjobContext();
-        wfjobmodel.wzInitialize(ctx);
-        wfjobmodel.wzVerify(ctx);
+        var ctx = new wzjobschema.wzjobContext();
+        wzjobmodel.wzInitialize(ctx);
+        wzjobmodel.wzVerify(ctx);
         if (ctx.schemaIsValid() === false) {
             var errorsMessage = ctx.validationErrors.join('\n');
-            var error = new errors.WizziModelLoadError('In wfjob Factory.\nWizziModel has validation errors: \n' + errorsMessage, ittfDocumentUri);
+            var error = new errors.WizziModelLoadError('In wzjob Factory.\nWizziModel has validation errors: \n' + errorsMessage, ittfDocumentUri);
             callback(error);
         }
         // TODO implement a stats object inside the wizziModelRequest object
         // _ log.info('Initialized wmt model ' + ittfDocumentUri + ' in ' + (Date.now() - start) + ' ms')
         
         // dump for debug
-        if ((wizziModelRequest.dumpAll || wizziModelRequest.dumpModel) && wfjobmodel.toJson && file.isFilePath(ittfDocumentUri)) {
+        if ((wizziModelRequest.dumpAll || wizziModelRequest.dumpModel) && wzjobmodel.toJson && file.isFilePath(ittfDocumentUri)) {
             var mTreeDump = path.join(path.dirname(ittfDocumentUri), '_debug', path.basename(ittfDocumentUri) + '.dump.json');
-            file.write(mTreeDump, stringify(wfjobmodel.toJson(), null, 2));
+            file.write(mTreeDump, stringify(wzjobmodel.toJson(), null, 2));
         }
         // TODO Generate this wzInitializeAsync call only if wizziModelRequested by the wizzischema
-        wfjobmodel.wzInitializeAsync(ctx, function(err, result) {
+        wzjobmodel.wzInitializeAsync(ctx, function(err, result) {
             if (err) {
                 return callback(err, null);
             }
             
             // dump for debug
-            if ((wizziModelRequest.dumpAll || wizziModelRequest.dumpModelAfterInitializeAsync) && wfjobmodel.toJson && file.isFilePath(ittfDocumentUri)) {
+            if ((wizziModelRequest.dumpAll || wizziModelRequest.dumpModelAfterInitializeAsync) && wzjobmodel.toJson && file.isFilePath(ittfDocumentUri)) {
                 var mTreeDump = path.join(path.dirname(ittfDocumentUri), '_debug', path.basename(ittfDocumentUri) + '.dump.after.initializeasync.json');
-                file.write(mTreeDump, stringify(wfjobmodel.toJson(), null, 2));
+                file.write(mTreeDump, stringify(wzjobmodel.toJson(), null, 2));
             }
-            callback(null, wfjobmodel);
+            callback(null, wzjobmodel);
         })
     }
     
     /**
-        * Load a WizziModel of type 'wfjob' from an mTree
+        * Load a WizziModel of type 'wzjob' from an mTree
     */
     if (options.loadFromMTree) {
         return function(mTree, wizziModelRequest, callback) {
@@ -117,7 +132,7 @@ md.createLoadModel = function(wizziObject) {
             };
     }
     /**
-        // Load a WizziModel of type 'wfjob' from an IttfDocument uri
+        // Load a WizziModel of type 'wzjob' from an IttfDocument uri
         // params
             // string ittfDocumentUri
             // { loadContext
@@ -160,7 +175,7 @@ md.createLoadModel = function(wizziObject) {
                         return callback(err);
                     }
                     // TODO implement a stats object inside the wizziModelRequest object
-                    // _ log.info('Loaded Wizzi model instance of schema wfjob from Ittf document ' + ittfDocumentUri + ' in ' + (Date.now() - start) + ' ms')
+                    // _ log.info('Loaded Wizzi model instance of schema wzjob from Ittf document ' + ittfDocumentUri + ' in ' + (Date.now() - start) + ' ms')
                     if ((wizziModelRequest.dumpAll || wizziModelRequest.dumpIttfModel) && file.isFilePath(ittfDocumentUri)) {
                         var ittfDumpPath = path.join(path.dirname(ittfDocumentUri), '_debug', path.basename(ittfDocumentUri) + '.ittf.json');
                         file.write(ittfDumpPath, stringify(mTree, null, 2))
@@ -182,4 +197,3 @@ function error(code, method, message) {
             source: __filename
          };
 }
-

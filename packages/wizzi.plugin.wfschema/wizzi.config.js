@@ -7,8 +7,8 @@
 'use strict';
 const path = require('path');
 module.exports = {
-    wfjobName: "wizzi.plugin.wfschema/job", 
-    wfjobPath: path.join(__dirname, '.wizzi', 'generate.wfjob.ittf'), 
+    wzjobName: "wizzi.plugin.wfschema/job", 
+    wzjobPath: path.join(__dirname, '.wizzi', 'generate.wzjob.ittf'), 
     destPath: __dirname, 
     plugins: [
         "./wizzi.plugin.css/index.js", 

@@ -1,0 +1,277 @@
+{
+  "oems": [
+    {
+      "name": "acme1",
+      "nameKey": "acme1"
+    }
+  ],
+  "users": [],
+  "plants": [
+    {
+      "name": "101",
+      "nameKey": "acme1+101",
+      "oem": "acme1",
+      "plant_id": "xf345"
+    },
+    {
+      "name": "102",
+      "nameKey": "acme1+102",
+      "oem": "acme1",
+      "plant_id": "xf348"
+    }
+  ],
+  "gateways": [
+    {
+      "name": "1001",
+      "nameKey": "acme1+101+1001",
+      "plant": "acme1+101",
+      "iot_id": "GTWMC001"
+    },
+    {
+      "name": "1002",
+      "nameKey": "acme1+101+1002",
+      "plant": "acme1+101",
+      "iot_id": "GTWMC002"
+    },
+    {
+      "name": "1003",
+      "nameKey": "acme1+102+1003",
+      "plant": "acme1+102",
+      "iot_id": "GTWSMC001"
+    }
+  ],
+  "dynamicTags": [
+    {
+      "nameKey": "acme1+101+1001+dt1",
+      "gateway": "acme1+101+1001",
+      "tag_id": "dt1",
+      "default_value": "122.2",
+      "ref_plc_id": "plc1",
+      "ref_metric_name": "met1"
+    },
+    {
+      "nameKey": "acme1+101+1001+dt2",
+      "gateway": "acme1+101+1001",
+      "tag_id": "dt2",
+      "default_value": "123",
+      "description": "some description",
+      "ref_plc_id": "plc1",
+      "ref_metric_name": "met2"
+    },
+    {
+      "nameKey": "acme1+101+1001+dt3",
+      "gateway": "acme1+101+1001",
+      "tag_id": "dt3",
+      "default_value": "124",
+      "ref_plc_id": "plc1",
+      "ref_metric_name": "met3"
+    }
+  ],
+  "dynamicTagAllowedValues": [
+    {
+      "nameKey": "acme1+101+1001+dt2+1",
+      "dynamicTag": "acme1+101+1001+dt2",
+      "tag_value": "1",
+      "is_regex": false
+    },
+    {
+      "nameKey": "acme1+101+1001+dt2+2",
+      "dynamicTag": "acme1+101+1001+dt2",
+      "tag_value": "2",
+      "is_regex": false
+    },
+    {
+      "nameKey": "acme1+101+1001+dt2+3",
+      "dynamicTag": "acme1+101+1001+dt2",
+      "tag_value": "3",
+      "is_regex": false
+    },
+    {
+      "nameKey": "acme1+101+1001+dt3+111",
+      "dynamicTag": "acme1+101+1001+dt3",
+      "tag_value": "111",
+      "is_regex": false
+    },
+    {
+      "nameKey": "acme1+101+1001+dt3+.*111.*",
+      "dynamicTag": "acme1+101+1001+dt3",
+      "tag_value": ".*111.*",
+      "is_regex": true
+    }
+  ],
+  "scripts": [
+    {
+      "nameKey": "acme1+101+1001+unique",
+      "gateway": "acme1+101+1001",
+      "script_id": "unique",
+      "script_type": "pre_publish",
+      "script_description": "Sends a value only if it differs from the last sent one",
+      "script_timeout": 1000,
+      "script_content": "\"({\\\"currentSent\\\": currentRead, \\\"fire\\\": currentRead !== lastSent , \\\"error\\\": false})\""
+    }
+  ],
+  "plcs": [
+    {
+      "name": "2001",
+      "nameKey": "acme1+101+1001+2001",
+      "gateway": "acme1+101+1001",
+      "protocol": "modbustcp",
+      "plc_id": "PLCCT001"
+    },
+    {
+      "name": "2002",
+      "nameKey": "acme1+101+1001+2002",
+      "gateway": "acme1+101+1001",
+      "protocol": "s7",
+      "plc_id": "PLCSC001"
+    },
+    {
+      "name": "2003",
+      "nameKey": "acme1+101+1002+2003",
+      "gateway": "acme1+101+1002",
+      "protocol": "modbusrtu",
+      "plc_id": "PLCBT002"
+    },
+    {
+      "name": "2004",
+      "nameKey": "acme1+102+1003+2004",
+      "gateway": "acme1+102+1003",
+      "protocol": "modbustcp",
+      "plc_id": "PLCF001"
+    }
+  ],
+  "connectionValues": [
+    {
+      "connectionProperty": "host-modbustcp",
+      "nameKey": "acme1+101+1001+2001+host",
+      "plc": "acme1+101+1001+2001",
+      "value": "89.0.142.86"
+    },
+    {
+      "connectionProperty": "port-modbustcp",
+      "nameKey": "acme1+101+1001+2001+port",
+      "plc": "acme1+101+1001+2001",
+      "value": "502"
+    },
+    {
+      "connectionProperty": "unitId-modbustcp",
+      "nameKey": "acme1+101+1001+2001+unitId",
+      "plc": "acme1+101+1001+2001",
+      "value": "1"
+    },
+    {
+      "connectionProperty": "host-modbustcp",
+      "nameKey": "acme1+102+1003+2004+host",
+      "plc": "acme1+102+1003+2004",
+      "value": "89.0.142.86"
+    },
+    {
+      "connectionProperty": "port-modbustcp",
+      "nameKey": "acme1+102+1003+2004+port",
+      "plc": "acme1+102+1003+2004",
+      "value": "504"
+    },
+    {
+      "connectionProperty": "unitId-modbustcp",
+      "nameKey": "acme1+102+1003+2004+unitId",
+      "plc": "acme1+102+1003+2004",
+      "value": "1"
+    }
+  ],
+  "metrics": [
+    {
+      "name": "3001",
+      "nameKey": "acme1+101+1001+2001+3001",
+      "plc": "acme1+101+1001+2001",
+      "script": "acme1+101+1001+unique",
+      "interval": 1000,
+      "description": "Temperatura Magazzino - Sensore temperatura interna"
+    },
+    {
+      "name": "3002",
+      "nameKey": "acme1+101+1001+2001+3002",
+      "plc": "acme1+101+1001+2001",
+      "script": null,
+      "interval": 1000,
+      "description": "Umidità Magazzino - Sensore umidità interna"
+    },
+    {
+      "name": "3003",
+      "nameKey": "acme1+101+1001+2002+3003",
+      "plc": "acme1+101+1001+2002",
+      "script": null,
+      "interval": 1000,
+      "description": "Stato Allarme - Controllo stato allarme sicurezza"
+    },
+    {
+      "name": "3004",
+      "nameKey": "acme1+101+1002+2003+3004",
+      "plc": "acme1+101+1002+2003",
+      "script": null,
+      "interval": 1000,
+      "description": "Backup Temperatura Magazzino - Sensore backup temperatura interna"
+    },
+    {
+      "name": "3005",
+      "nameKey": "acme1+102+1003+2004+3005",
+      "plc": "acme1+102+1003+2004",
+      "script": null,
+      "interval": 1000,
+      "description": "Temperatura Frigorifero - Sensore temperatura frigorifero"
+    }
+  ],
+  "metricValues": [
+    {
+      "metricProperty": "memoryAddress-modbustcp",
+      "nameKey": "acme1+101+1001+2001+3001+memoryAddress",
+      "metric": "acme1+101+1001+2001+3001",
+      "value": "200"
+    },
+    {
+      "metricProperty": "memoryAddress-modbustcp",
+      "nameKey": "acme1+101+1001+2001+3002+memoryAddress",
+      "metric": "acme1+101+1001+2001+3002",
+      "value": "300"
+    },
+    {
+      "metricProperty": "memoryAddress-s7",
+      "nameKey": "acme1+101+1001+2002+3003+memoryAddress",
+      "metric": "acme1+101+1001+2002+3003",
+      "value": "200"
+    },
+    {
+      "metricProperty": "memoryAddress-modbusrtu",
+      "nameKey": "acme1+101+1002+2003+3004+memoryAddress",
+      "metric": "acme1+101+1002+2003+3004",
+      "value": "200"
+    },
+    {
+      "metricProperty": "memoryAddress-modbustcp",
+      "nameKey": "acme1+102+1003+2004+3005+memoryAddress",
+      "metric": "acme1+102+1003+2004+3005",
+      "value": "200"
+    }
+  ],
+  "staticTags": [
+    {
+      "nameKey": "acme1+101+1001+2001+3001+geohash",
+      "metric": "acme1+101+1001+2001+3001",
+      "key": "geohash",
+      "value": "1234"
+    }
+  ],
+  "dynamicTagRefs": [
+    {
+      "key": "dyn1",
+      "nameKey": "acme1+101+1001+2001+3001+dyn1",
+      "metric": "acme1+101+1001+2001+3001",
+      "dynamicTag": "acme1+101+1001+dt1"
+    },
+    {
+      "key": "dyn2",
+      "nameKey": "acme1+101+1001+2001+3001+dyn2",
+      "metric": "acme1+101+1001+2001+3001",
+      "dynamicTag": "acme1+101+1001+dt2"
+    }
+  ]
+}

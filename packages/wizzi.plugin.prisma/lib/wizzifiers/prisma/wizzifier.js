@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.prisma\.wizzi-override\lib\wizzifiers\prisma\wizzifier.js.ittf
-    utc time: Thu, 23 May 2024 06:28:37 GMT
+    utc time: Wed, 04 Sep 2024 13:19:52 GMT
 */
-'use strict';
 var util = require('util');
 var async = require('async');
 var stringify = require('json-stringify-safe');
@@ -58,13 +57,11 @@ md.getWizziTree = function(input, options, callback) {
     var startTime = Date.now();
     // loog 'startTime', startTime
     wizzify(input, options, (err, syntax) => {
-    
         if (err) {
             return callback(err);
         }
         if (options.syntaxOutFile) {
             parseInternal(input, options, (err, syntax) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -80,12 +77,10 @@ md.getWizziTree = function(input, options, callback) {
 ;
 md.getWizziIttf = function(input, options, callback) {
     md.getWizziTree(input, options, (err, result) => {
-    
         if (err) {
             return callback(err);
         }
         md.getWizzifierIncludes(options, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -155,7 +150,6 @@ function wizzify(tobeWizzified, options, callback) {
     options.formatTextNodes = [];
     options.verbose = true;
     parseInternal(tobeWizzified, options, (err, syntax) => {
-    
         if (err) {
             return callback(err);
         }

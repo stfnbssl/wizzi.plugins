@@ -1,0 +1,27 @@
+$group
+    $params props:boolean|true
+
+    [ connectionProperties
+        
+        $if props
+            {
+                name "host"
+                type "string"
+                required true
+                [ enum
+                    "ipv4"
+                    "hostname"
+            
+            {
+                name "port"
+                type "number"
+                required true
+                [ constraints
+                    {
+                        name "minimum"
+                        value 0
+                    {
+                        name "maximum"
+                        value 65535
+        
+        $hook

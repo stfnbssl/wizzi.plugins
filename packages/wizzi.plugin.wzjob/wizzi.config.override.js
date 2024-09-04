@@ -6,29 +6,23 @@
 'use strict';
 const path = require('path');
 module.exports = {
-    wfjobName: "wizzi.plugin.wzjob-override/job", 
-    wfjobPath: path.join(__dirname, '.wizzi-override', 'generate.wfjob.ittf'), 
+    wzjobName: "wizzi.plugin.wzjob-override/job", 
+    wzjobPath: path.join(__dirname, '.wizzi-override', 'generate.wzjob.ittf'), 
     destPath: __dirname, 
     plugins: [
-        "./wizzi.plugin.css/index.js", 
-        "./wizzi.plugin.graphql/index.js", 
-        "./wizzi.plugin.html/index.js", 
-        "./wizzi.plugin.ittf/index.js", 
-        "./wizzi.plugin.js/index.js", 
-        "./wizzi.plugin.ts/index.js", 
-        "./wizzi.plugin.json/index.js", 
-        "./wizzi.plugin.md/index.js", 
-        "./wizzi.plugin.text/index.js", 
-        "./wizzi.plugin.text/index.js", 
-        "./wizzi.plugin.svg/index.js", 
-        "./wizzi.plugin.wzjob/index.js", 
-        "./wizzi.plugin.wfschema/index.js", 
-        "./wizzi.plugin.xml/index.js", 
-        "./wizzi.plugin.yaml/index.js"
+        "@wizzi/plugin.css", 
+        "@wizzi/plugin.html", 
+        "@wizzi/plugin.ittf", 
+        "@wizzi/plugin.js", 
+        "@wizzi/plugin.json", 
+        "@wizzi/plugin.md", 
+        "@wizzi/plugin.text", 
+        "@wizzi/plugin.wzjob", 
+        "@wizzi/plugin.wzschema", 
     ], 
-    pluginsBaseFolder: "C:/My/wizzi/stfnbssl/wizzi.plugins/packages", 
+    // pluginsBaseFolder: "C:/My/wizzi/stfnbssl/wizzi.plugins/packages", 
     schemas: [
-        'wfjob'
+        'wzjob'
     ], 
     globalContext: {
         wzConfigIsDevelopment: true, 

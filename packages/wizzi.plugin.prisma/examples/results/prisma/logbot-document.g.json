@@ -1,0 +1,3466 @@
+{
+  "name": "logbot",
+  "datasources": [
+    {
+      "name": "db",
+      "configs": [
+        {
+          "name": "provider",
+          "value": "sqlite"
+        },
+        {
+          "name": "url",
+          "value": "env(\"DATABASE_URL\", 3)"
+        }
+      ]
+    }
+  ],
+  "generators": [
+    {
+      "name": "client",
+      "configs": [
+        {
+          "name": "provider",
+          "value": "prisma-client-js"
+        },
+        {
+          "name": "output",
+          "value": "node_modules/.prisma/client"
+        },
+        {
+          "name": "engineType",
+          "value": "library"
+        },
+        {
+          "name": "binaryTargets",
+          "value": "[\"native\"]"
+        }
+      ]
+    }
+  ],
+  "enums": [],
+  "models": [
+    {
+      "Name": "Protocol",
+      "NamePlural": "Protocols",
+      "name": "protocol",
+      "namePlural": "protocols",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@",
+              "name": "id",
+              "value": null,
+              "args": []
+            },
+            {
+              "type": "@function",
+              "name": "default",
+              "value": null,
+              "args": [
+                {
+                  "function": {
+                    "functionName": "cuid",
+                    "args": []
+                  }
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isId": true,
+          "isUnique": true
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "connectionProperties",
+          "type": "ConnectionProperty[]",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "metricProperties",
+          "type": "MetricProperty[]",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "connectionPropertyConstraints",
+          "type": "ConnectionPropertyConstraint[]",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "metricPropertyConstraints",
+          "type": "MetricPropertyConstraint[]",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "metricPropertyImplications",
+          "type": "MetricPropertyImplication[]",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "plcs",
+          "type": "Plc[]",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        }
+      ],
+      "relations": [
+        {
+          "model": "Protocol",
+          "toModel": {
+            "Name": "ConnectionProperty",
+            "name": "connectionProperty",
+            "namePlural": "connectionProperties"
+          },
+          "relation": {
+            "model": "Protocol",
+            "fields": [
+              "protocolId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "model": "Protocol",
+          "toModel": {
+            "Name": "ConnectionPropertyConstraint",
+            "name": "connectionPropertyConstraint",
+            "namePlural": "connectionPropertyConstraints"
+          },
+          "relation": {
+            "model": "Protocol",
+            "fields": [
+              "protocolId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "model": "Protocol",
+          "toModel": {
+            "Name": "MetricProperty",
+            "name": "metricProperty",
+            "namePlural": "metricProperties"
+          },
+          "relation": {
+            "model": "Protocol",
+            "fields": [
+              "protocolId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "model": "Protocol",
+          "toModel": {
+            "Name": "MetricPropertyConstraint",
+            "name": "metricPropertyConstraint",
+            "namePlural": "metricPropertyConstraints"
+          },
+          "relation": {
+            "model": "Protocol",
+            "fields": [
+              "protocolId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "model": "Protocol",
+          "toModel": {
+            "Name": "MetricPropertyImplication",
+            "name": "metricPropertyImplication",
+            "namePlural": "metricPropertyImplications"
+          },
+          "relation": {
+            "model": "Protocol",
+            "fields": [
+              "protocolId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "model": "Protocol",
+          "toModel": {
+            "Name": "Plc",
+            "name": "plc",
+            "namePlural": "plcs"
+          },
+          "relation": {
+            "model": "Protocol",
+            "fields": [
+              "protocolId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        }
+      ],
+      "attributes": [],
+      "indexes": []
+    },
+    {
+      "Name": "Constraint",
+      "NamePlural": "Constraints",
+      "name": "constraint",
+      "namePlural": "constraints",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@",
+              "name": "id",
+              "value": null,
+              "args": []
+            },
+            {
+              "type": "@function",
+              "name": "default",
+              "value": null,
+              "args": [
+                {
+                  "function": {
+                    "functionName": "cuid",
+                    "args": []
+                  }
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isId": true,
+          "isUnique": true
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "connectionPropertyConstraints",
+          "type": "ConnectionPropertyConstraint[]",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "metricPropertyConstraints",
+          "type": "MetricPropertyConstraint[]",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        }
+      ],
+      "relations": [
+        {
+          "model": "Constraint",
+          "toModel": {
+            "Name": "ConnectionPropertyConstraint",
+            "name": "connectionPropertyConstraint",
+            "namePlural": "connectionPropertyConstraints"
+          },
+          "relation": {
+            "model": "Constraint",
+            "fields": [
+              "constraintId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "model": "Constraint",
+          "toModel": {
+            "Name": "MetricPropertyConstraint",
+            "name": "metricPropertyConstraint",
+            "namePlural": "metricPropertyConstraints"
+          },
+          "relation": {
+            "model": "Constraint",
+            "fields": [
+              "constraintId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        }
+      ],
+      "attributes": [],
+      "indexes": []
+    },
+    {
+      "Name": "Implication",
+      "NamePlural": "Implications",
+      "name": "implication",
+      "namePlural": "implications",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@",
+              "name": "id",
+              "value": null,
+              "args": []
+            },
+            {
+              "type": "@function",
+              "name": "default",
+              "value": null,
+              "args": [
+                {
+                  "function": {
+                    "functionName": "cuid",
+                    "args": []
+                  }
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isId": true,
+          "isUnique": true
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "metricPropertyImplications",
+          "type": "MetricPropertyImplication[]",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        }
+      ],
+      "relations": [
+        {
+          "model": "Implication",
+          "toModel": {
+            "Name": "MetricPropertyImplication",
+            "name": "metricPropertyImplication",
+            "namePlural": "metricPropertyImplications"
+          },
+          "relation": {
+            "model": "Implication",
+            "fields": [
+              "implicationId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        }
+      ],
+      "attributes": [],
+      "indexes": []
+    },
+    {
+      "Name": "ConnectionProperty",
+      "NamePlural": "ConnectionProperties",
+      "name": "connectionProperty",
+      "namePlural": "connectionProperties",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@",
+              "name": "id",
+              "value": null,
+              "args": []
+            },
+            {
+              "type": "@function",
+              "name": "default",
+              "value": null,
+              "args": [
+                {
+                  "function": {
+                    "functionName": "cuid",
+                    "args": []
+                  }
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isId": true,
+          "isUnique": true
+        },
+        {
+          "name": "protocol",
+          "type": "Protocol",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@function",
+              "name": "relation",
+              "value": null,
+              "args": [
+                {
+                  "fields": [
+                    "protocolId"
+                  ]
+                },
+                {
+                  "references": [
+                    "id"
+                  ]
+                },
+                {
+                  "onDelete": "Cascade"
+                },
+                {
+                  "onUpdate": "Cascade"
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isRelation": true,
+          "relation": {
+            "model": "Protocol",
+            "fields": [
+              "protocolId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "name": "protocolId",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [],
+          "extIdRelated": true
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "description",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "pattern",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "default",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "required",
+          "type": "Boolean",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "connectionPropertyConstraints",
+          "type": "ConnectionPropertyConstraint[]",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "connectionValues",
+          "type": "ConnectionValue[]",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        }
+      ],
+      "relations": [
+        {
+          "model": "ConnectionProperty",
+          "toModel": {
+            "Name": "ConnectionPropertyConstraint",
+            "name": "connectionPropertyConstraint",
+            "namePlural": "connectionPropertyConstraints"
+          },
+          "relation": {
+            "model": "ConnectionProperty",
+            "fields": [
+              "connectionPropertyId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "model": "ConnectionProperty",
+          "toModel": {
+            "Name": "ConnectionValue",
+            "name": "connectionValue",
+            "namePlural": "connectionValues"
+          },
+          "relation": {
+            "model": "ConnectionProperty",
+            "fields": [
+              "connectionPropertyId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        }
+      ],
+      "attributes": [],
+      "indexes": []
+    },
+    {
+      "Name": "ConnectionPropertyConstraint",
+      "NamePlural": "ConnectionPropertyConstraints",
+      "name": "connectionPropertyConstraint",
+      "namePlural": "connectionPropertyConstraints",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@",
+              "name": "id",
+              "value": null,
+              "args": []
+            },
+            {
+              "type": "@function",
+              "name": "default",
+              "value": null,
+              "args": [
+                {
+                  "function": {
+                    "functionName": "cuid",
+                    "args": []
+                  }
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isId": true,
+          "isUnique": true
+        },
+        {
+          "name": "protocol",
+          "type": "Protocol",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@function",
+              "name": "relation",
+              "value": null,
+              "args": [
+                {
+                  "fields": [
+                    "protocolId"
+                  ]
+                },
+                {
+                  "references": [
+                    "id"
+                  ]
+                },
+                {
+                  "onDelete": "Cascade"
+                },
+                {
+                  "onUpdate": "Cascade"
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isRelation": true,
+          "relation": {
+            "model": "Protocol",
+            "fields": [
+              "protocolId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "name": "protocolId",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [],
+          "extIdRelated": true
+        },
+        {
+          "name": "connectionProperty",
+          "type": "ConnectionProperty",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@function",
+              "name": "relation",
+              "value": null,
+              "args": [
+                {
+                  "fields": [
+                    "connectionPropertyId"
+                  ]
+                },
+                {
+                  "references": [
+                    "id"
+                  ]
+                },
+                {
+                  "onDelete": "Cascade"
+                },
+                {
+                  "onUpdate": "Cascade"
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isRelation": true,
+          "relation": {
+            "model": "ConnectionProperty",
+            "fields": [
+              "connectionPropertyId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "name": "connectionPropertyId",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [],
+          "extIdRelated": true
+        },
+        {
+          "name": "constraint",
+          "type": "Constraint",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@function",
+              "name": "relation",
+              "value": null,
+              "args": [
+                {
+                  "fields": [
+                    "constraintId"
+                  ]
+                },
+                {
+                  "references": [
+                    "id"
+                  ]
+                },
+                {
+                  "onDelete": "Cascade"
+                },
+                {
+                  "onUpdate": "Cascade"
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isRelation": true,
+          "relation": {
+            "model": "Constraint",
+            "fields": [
+              "constraintId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "name": "constraintId",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [],
+          "extIdRelated": true
+        },
+        {
+          "name": "value",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        }
+      ],
+      "relations": [],
+      "attributes": [],
+      "indexes": []
+    },
+    {
+      "Name": "MetricProperty",
+      "NamePlural": "MetricProperties",
+      "name": "metricProperty",
+      "namePlural": "metricProperties",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@",
+              "name": "id",
+              "value": null,
+              "args": []
+            },
+            {
+              "type": "@function",
+              "name": "default",
+              "value": null,
+              "args": [
+                {
+                  "function": {
+                    "functionName": "cuid",
+                    "args": []
+                  }
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isId": true,
+          "isUnique": true
+        },
+        {
+          "name": "protocol",
+          "type": "Protocol",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@function",
+              "name": "relation",
+              "value": null,
+              "args": [
+                {
+                  "fields": [
+                    "protocolId"
+                  ]
+                },
+                {
+                  "references": [
+                    "id"
+                  ]
+                },
+                {
+                  "onDelete": "Cascade"
+                },
+                {
+                  "onUpdate": "Cascade"
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isRelation": true,
+          "relation": {
+            "model": "Protocol",
+            "fields": [
+              "protocolId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "name": "protocolId",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [],
+          "extIdRelated": true
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [
+            {
+              "type": "regExp",
+              "regExp": "^[a-zA-Z0-9_.-]{3,32}$"
+            }
+          ],
+          "regExp": "^[a-zA-Z0-9_.-]{3,32}$"
+        },
+        {
+          "name": "description",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "pattern",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [
+            {
+              "type": "xenum",
+              "enum": [
+                "super",
+                "minus"
+              ]
+            }
+          ],
+          "enum": [
+            "super",
+            "minus"
+          ]
+        },
+        {
+          "name": "default",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "required",
+          "type": "Boolean",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "metricPropertyConstraints",
+          "type": "MetricPropertyConstraint[]",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "metricPropertyImplications",
+          "type": "MetricPropertyImplication[]",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@function",
+              "name": "relation",
+              "value": null,
+              "args": [
+                {
+                  "name": "r_metricProperty"
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isRelation": true,
+          "relation": {
+            "model": "MetricPropertyImplication[]",
+            "name": "r_metricProperty"
+          }
+        },
+        {
+          "name": "onMetricPropertyImplications",
+          "type": "MetricPropertyImplication[]",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@function",
+              "name": "relation",
+              "value": null,
+              "args": [
+                {
+                  "name": "r_on_metricProperty"
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isRelation": true,
+          "relation": {
+            "model": "MetricPropertyImplication[]",
+            "name": "r_on_metricProperty"
+          }
+        },
+        {
+          "name": "metricValues",
+          "type": "MetricValue[]",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        }
+      ],
+      "relations": [
+        {
+          "model": "MetricProperty",
+          "toModel": {
+            "Name": "MetricPropertyConstraint",
+            "name": "metricPropertyConstraint",
+            "namePlural": "metricPropertyConstraints"
+          },
+          "relation": {
+            "model": "MetricProperty",
+            "fields": [
+              "metricPropertyId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "model": "MetricProperty",
+          "toModel": {
+            "Name": "MetricPropertyImplication",
+            "name": "metricPropertyImplication",
+            "namePlural": "metricPropertyImplications"
+          },
+          "relation": {
+            "model": "MetricProperty",
+            "name": "r_metricProperty",
+            "fields": [
+              "metricPropertyId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "model": "MetricProperty",
+          "toModel": {
+            "Name": "MetricPropertyImplication",
+            "name": "metricPropertyImplication",
+            "namePlural": "metricPropertyImplications"
+          },
+          "relation": {
+            "model": "MetricProperty",
+            "name": "r_on_metricProperty",
+            "fields": [
+              "onMetricPropertyId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "model": "MetricProperty",
+          "toModel": {
+            "Name": "MetricValue",
+            "name": "metricValue",
+            "namePlural": "metricValues"
+          },
+          "relation": {
+            "model": "MetricProperty",
+            "fields": [
+              "metricPropertyId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        }
+      ],
+      "attributes": [],
+      "indexes": []
+    },
+    {
+      "Name": "MetricPropertyConstraint",
+      "NamePlural": "MetricPropertyConstraints",
+      "name": "metricPropertyConstraint",
+      "namePlural": "metricPropertyConstraints",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@",
+              "name": "id",
+              "value": null,
+              "args": []
+            },
+            {
+              "type": "@function",
+              "name": "default",
+              "value": null,
+              "args": [
+                {
+                  "function": {
+                    "functionName": "cuid",
+                    "args": []
+                  }
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isId": true,
+          "isUnique": true
+        },
+        {
+          "name": "protocol",
+          "type": "Protocol",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@function",
+              "name": "relation",
+              "value": null,
+              "args": [
+                {
+                  "fields": [
+                    "protocolId"
+                  ]
+                },
+                {
+                  "references": [
+                    "id"
+                  ]
+                },
+                {
+                  "onDelete": "Cascade"
+                },
+                {
+                  "onUpdate": "Cascade"
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isRelation": true,
+          "relation": {
+            "model": "Protocol",
+            "fields": [
+              "protocolId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "name": "protocolId",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [],
+          "extIdRelated": true
+        },
+        {
+          "name": "metricProperty",
+          "type": "MetricProperty",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@function",
+              "name": "relation",
+              "value": null,
+              "args": [
+                {
+                  "fields": [
+                    "metricPropertyId"
+                  ]
+                },
+                {
+                  "references": [
+                    "id"
+                  ]
+                },
+                {
+                  "onDelete": "Cascade"
+                },
+                {
+                  "onUpdate": "Cascade"
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isRelation": true,
+          "relation": {
+            "model": "MetricProperty",
+            "fields": [
+              "metricPropertyId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "name": "metricPropertyId",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [],
+          "extIdRelated": true
+        },
+        {
+          "name": "constraint",
+          "type": "Constraint",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@function",
+              "name": "relation",
+              "value": null,
+              "args": [
+                {
+                  "fields": [
+                    "constraintId"
+                  ]
+                },
+                {
+                  "references": [
+                    "id"
+                  ]
+                },
+                {
+                  "onDelete": "Cascade"
+                },
+                {
+                  "onUpdate": "Cascade"
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isRelation": true,
+          "relation": {
+            "model": "Constraint",
+            "fields": [
+              "constraintId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "name": "constraintId",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [],
+          "extIdRelated": true
+        },
+        {
+          "name": "value",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        }
+      ],
+      "relations": [],
+      "attributes": [],
+      "indexes": []
+    },
+    {
+      "Name": "MetricPropertyImplication",
+      "NamePlural": "MetricPropertyImplications",
+      "name": "metricPropertyImplication",
+      "namePlural": "metricPropertyImplications",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@",
+              "name": "id",
+              "value": null,
+              "args": []
+            },
+            {
+              "type": "@function",
+              "name": "default",
+              "value": null,
+              "args": [
+                {
+                  "function": {
+                    "functionName": "cuid",
+                    "args": []
+                  }
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isId": true,
+          "isUnique": true
+        },
+        {
+          "name": "protocol",
+          "type": "Protocol",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@function",
+              "name": "relation",
+              "value": null,
+              "args": [
+                {
+                  "fields": [
+                    "protocolId"
+                  ]
+                },
+                {
+                  "references": [
+                    "id"
+                  ]
+                },
+                {
+                  "onDelete": "Cascade"
+                },
+                {
+                  "onUpdate": "Cascade"
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isRelation": true,
+          "relation": {
+            "model": "Protocol",
+            "fields": [
+              "protocolId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "name": "protocolId",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [],
+          "extIdRelated": true
+        },
+        {
+          "name": "metricProperty",
+          "type": "MetricProperty",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@function",
+              "name": "relation",
+              "value": null,
+              "args": [
+                {
+                  "name": "r_metricProperty"
+                },
+                {
+                  "fields": [
+                    "metricPropertyId"
+                  ]
+                },
+                {
+                  "references": [
+                    "id"
+                  ]
+                },
+                {
+                  "onDelete": "Cascade"
+                },
+                {
+                  "onUpdate": "Cascade"
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isRelation": true,
+          "relation": {
+            "model": "MetricProperty",
+            "name": "r_metricProperty",
+            "fields": [
+              "metricPropertyId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "name": "metricPropertyId",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [],
+          "extIdRelated": true
+        },
+        {
+          "name": "value",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "implication",
+          "type": "Implication",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@function",
+              "name": "relation",
+              "value": null,
+              "args": [
+                {
+                  "fields": [
+                    "implicationId"
+                  ]
+                },
+                {
+                  "references": [
+                    "id"
+                  ]
+                },
+                {
+                  "onDelete": "Cascade"
+                },
+                {
+                  "onUpdate": "Cascade"
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isRelation": true,
+          "relation": {
+            "model": "Implication",
+            "fields": [
+              "implicationId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "name": "implicationId",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [],
+          "extIdRelated": true
+        },
+        {
+          "name": "onMetricProperty",
+          "type": "MetricProperty",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@function",
+              "name": "relation",
+              "value": null,
+              "args": [
+                {
+                  "name": "r_on_metricProperty"
+                },
+                {
+                  "fields": [
+                    "onMetricPropertyId"
+                  ]
+                },
+                {
+                  "references": [
+                    "id"
+                  ]
+                },
+                {
+                  "onDelete": "Cascade"
+                },
+                {
+                  "onUpdate": "Cascade"
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isRelation": true,
+          "relation": {
+            "model": "MetricProperty",
+            "name": "r_on_metricProperty",
+            "fields": [
+              "onMetricPropertyId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "name": "onMetricPropertyId",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [],
+          "extIdRelated": true
+        },
+        {
+          "name": "onValue",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        }
+      ],
+      "relations": [],
+      "attributes": [],
+      "indexes": []
+    },
+    {
+      "Name": "Organization",
+      "NamePlural": "Organizations",
+      "name": "organization",
+      "namePlural": "organizations",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@",
+              "name": "id",
+              "value": null,
+              "args": []
+            },
+            {
+              "type": "@function",
+              "name": "default",
+              "value": null,
+              "args": [
+                {
+                  "function": {
+                    "functionName": "cuid",
+                    "args": []
+                  }
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isId": true,
+          "isUnique": true
+        },
+        {
+          "name": "users",
+          "type": "User[]",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "plants",
+          "type": "Plant[]",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        }
+      ],
+      "relations": [
+        {
+          "model": "Organization",
+          "toModel": {
+            "Name": "User",
+            "name": "user",
+            "namePlural": "users"
+          },
+          "relation": {
+            "model": "Organization",
+            "fields": [
+              "organizationId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "model": "Organization",
+          "toModel": {
+            "Name": "Plant",
+            "name": "plant",
+            "namePlural": "plants"
+          },
+          "relation": {
+            "model": "Organization",
+            "fields": [
+              "organizationId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        }
+      ],
+      "attributes": [],
+      "indexes": []
+    },
+    {
+      "Name": "User",
+      "NamePlural": "Users",
+      "name": "user",
+      "namePlural": "users",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@",
+              "name": "id",
+              "value": null,
+              "args": []
+            },
+            {
+              "type": "@function",
+              "name": "default",
+              "value": null,
+              "args": [
+                {
+                  "function": {
+                    "functionName": "cuid",
+                    "args": []
+                  }
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isId": true,
+          "isUnique": true
+        },
+        {
+          "name": "organization",
+          "type": "Organization",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@function",
+              "name": "relation",
+              "value": null,
+              "args": [
+                {
+                  "fields": [
+                    "organizationId"
+                  ]
+                },
+                {
+                  "references": [
+                    "id"
+                  ]
+                },
+                {
+                  "onDelete": "Cascade"
+                },
+                {
+                  "onUpdate": "Cascade"
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isRelation": true,
+          "relation": {
+            "model": "Organization",
+            "fields": [
+              "organizationId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "name": "organizationId",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [],
+          "extIdRelated": true
+        }
+      ],
+      "relations": [],
+      "attributes": [],
+      "indexes": []
+    },
+    {
+      "Name": "Plant",
+      "NamePlural": "Plants",
+      "name": "plant",
+      "namePlural": "plants",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@",
+              "name": "id",
+              "value": null,
+              "args": []
+            },
+            {
+              "type": "@function",
+              "name": "default",
+              "value": null,
+              "args": [
+                {
+                  "function": {
+                    "functionName": "cuid",
+                    "args": []
+                  }
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isId": true,
+          "isUnique": true
+        },
+        {
+          "name": "organization",
+          "type": "Organization",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@function",
+              "name": "relation",
+              "value": null,
+              "args": [
+                {
+                  "fields": [
+                    "organizationId"
+                  ]
+                },
+                {
+                  "references": [
+                    "id"
+                  ]
+                },
+                {
+                  "onDelete": "Cascade"
+                },
+                {
+                  "onUpdate": "Cascade"
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isRelation": true,
+          "relation": {
+            "model": "Organization",
+            "fields": [
+              "organizationId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "name": "organizationId",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [],
+          "extIdRelated": true
+        },
+        {
+          "name": "plant_id",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "gateways",
+          "type": "Gateway[]",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        }
+      ],
+      "relations": [
+        {
+          "model": "Plant",
+          "toModel": {
+            "Name": "Gateway",
+            "name": "gateway",
+            "namePlural": "gateways"
+          },
+          "relation": {
+            "model": "Plant",
+            "fields": [
+              "plantId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        }
+      ],
+      "attributes": [],
+      "indexes": []
+    },
+    {
+      "Name": "Gateway",
+      "NamePlural": "Gateways",
+      "name": "gateway",
+      "namePlural": "gateways",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@",
+              "name": "id",
+              "value": null,
+              "args": []
+            },
+            {
+              "type": "@function",
+              "name": "default",
+              "value": null,
+              "args": [
+                {
+                  "function": {
+                    "functionName": "cuid",
+                    "args": []
+                  }
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isId": true,
+          "isUnique": true
+        },
+        {
+          "name": "plant",
+          "type": "Plant",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@function",
+              "name": "relation",
+              "value": null,
+              "args": [
+                {
+                  "fields": [
+                    "plantId"
+                  ]
+                },
+                {
+                  "references": [
+                    "id"
+                  ]
+                },
+                {
+                  "onDelete": "Cascade"
+                },
+                {
+                  "onUpdate": "Cascade"
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isRelation": true,
+          "relation": {
+            "model": "Plant",
+            "fields": [
+              "plantId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "name": "plantId",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [],
+          "extIdRelated": true
+        },
+        {
+          "name": "iot_id",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "batching_maxSize",
+          "type": "Int",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "batching_period",
+          "type": "Int",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [
+            {
+              "type": "min",
+              "min": 0
+            }
+          ],
+          "min": 0
+        },
+        {
+          "name": "iot_config",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [
+            {
+              "name": "prisma",
+              "value": "Memo"
+            }
+          ],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "plcs",
+          "type": "Plc[]",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "scripts",
+          "type": "Script[]",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        }
+      ],
+      "relations": [
+        {
+          "model": "Gateway",
+          "toModel": {
+            "Name": "Plc",
+            "name": "plc",
+            "namePlural": "plcs"
+          },
+          "relation": {
+            "model": "Gateway",
+            "fields": [
+              "gatewayId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "model": "Gateway",
+          "toModel": {
+            "Name": "Script",
+            "name": "script",
+            "namePlural": "scripts"
+          },
+          "relation": {
+            "model": "Gateway",
+            "fields": [
+              "gatewayId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        }
+      ],
+      "attributes": [],
+      "indexes": []
+    },
+    {
+      "Name": "Plc",
+      "NamePlural": "Plcs",
+      "name": "plc",
+      "namePlural": "plcs",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@",
+              "name": "id",
+              "value": null,
+              "args": []
+            },
+            {
+              "type": "@function",
+              "name": "default",
+              "value": null,
+              "args": [
+                {
+                  "function": {
+                    "functionName": "cuid",
+                    "args": []
+                  }
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isId": true,
+          "isUnique": true
+        },
+        {
+          "name": "gateway",
+          "type": "Gateway",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@function",
+              "name": "relation",
+              "value": null,
+              "args": [
+                {
+                  "fields": [
+                    "gatewayId"
+                  ]
+                },
+                {
+                  "references": [
+                    "id"
+                  ]
+                },
+                {
+                  "onDelete": "Cascade"
+                },
+                {
+                  "onUpdate": "Cascade"
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isRelation": true,
+          "relation": {
+            "model": "Gateway",
+            "fields": [
+              "gatewayId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "name": "gatewayId",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [],
+          "extIdRelated": true
+        },
+        {
+          "name": "protocol",
+          "type": "Protocol",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@function",
+              "name": "relation",
+              "value": null,
+              "args": [
+                {
+                  "fields": [
+                    "protocolId"
+                  ]
+                },
+                {
+                  "references": [
+                    "id"
+                  ]
+                },
+                {
+                  "onDelete": "Cascade"
+                },
+                {
+                  "onUpdate": "Cascade"
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isRelation": true,
+          "relation": {
+            "model": "Protocol",
+            "fields": [
+              "protocolId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "name": "protocolId",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [],
+          "extIdRelated": true
+        },
+        {
+          "name": "plc_id",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "connectionValues",
+          "type": "ConnectionValue[]",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "metrics",
+          "type": "Metric[]",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        }
+      ],
+      "relations": [
+        {
+          "model": "Plc",
+          "toModel": {
+            "Name": "ConnectionValue",
+            "name": "connectionValue",
+            "namePlural": "connectionValues"
+          },
+          "relation": {
+            "model": "Plc",
+            "fields": [
+              "plcId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "model": "Plc",
+          "toModel": {
+            "Name": "Metric",
+            "name": "metric",
+            "namePlural": "metrics"
+          },
+          "relation": {
+            "model": "Plc",
+            "fields": [
+              "plcId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        }
+      ],
+      "attributes": [],
+      "indexes": []
+    },
+    {
+      "Name": "ConnectionValue",
+      "NamePlural": "ConnectionValues",
+      "name": "connectionValue",
+      "namePlural": "connectionValues",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@",
+              "name": "id",
+              "value": null,
+              "args": []
+            },
+            {
+              "type": "@function",
+              "name": "default",
+              "value": null,
+              "args": [
+                {
+                  "function": {
+                    "functionName": "cuid",
+                    "args": []
+                  }
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isId": true,
+          "isUnique": true
+        },
+        {
+          "name": "plc",
+          "type": "Plc",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@function",
+              "name": "relation",
+              "value": null,
+              "args": [
+                {
+                  "fields": [
+                    "plcId"
+                  ]
+                },
+                {
+                  "references": [
+                    "id"
+                  ]
+                },
+                {
+                  "onDelete": "Cascade"
+                },
+                {
+                  "onUpdate": "Cascade"
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isRelation": true,
+          "relation": {
+            "model": "Plc",
+            "fields": [
+              "plcId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "name": "plcId",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [],
+          "extIdRelated": true
+        },
+        {
+          "name": "connectionProperty",
+          "type": "ConnectionProperty",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@function",
+              "name": "relation",
+              "value": null,
+              "args": [
+                {
+                  "fields": [
+                    "connectionPropertyId"
+                  ]
+                },
+                {
+                  "references": [
+                    "id"
+                  ]
+                },
+                {
+                  "onDelete": "Cascade"
+                },
+                {
+                  "onUpdate": "Cascade"
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isRelation": true,
+          "relation": {
+            "model": "ConnectionProperty",
+            "fields": [
+              "connectionPropertyId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "name": "connectionPropertyId",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [],
+          "extIdRelated": true
+        },
+        {
+          "name": "value",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        }
+      ],
+      "relations": [],
+      "attributes": [],
+      "indexes": []
+    },
+    {
+      "Name": "Metric",
+      "NamePlural": "Metrics",
+      "name": "metric",
+      "namePlural": "metrics",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@",
+              "name": "id",
+              "value": null,
+              "args": []
+            },
+            {
+              "type": "@function",
+              "name": "default",
+              "value": null,
+              "args": [
+                {
+                  "function": {
+                    "functionName": "cuid",
+                    "args": []
+                  }
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isId": true,
+          "isUnique": true
+        },
+        {
+          "name": "plc",
+          "type": "Plc",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@function",
+              "name": "relation",
+              "value": null,
+              "args": [
+                {
+                  "fields": [
+                    "plcId"
+                  ]
+                },
+                {
+                  "references": [
+                    "id"
+                  ]
+                },
+                {
+                  "onDelete": "Cascade"
+                },
+                {
+                  "onUpdate": "Cascade"
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isRelation": true,
+          "relation": {
+            "model": "Plc",
+            "fields": [
+              "plcId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "name": "plcId",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [],
+          "extIdRelated": true
+        },
+        {
+          "name": "",
+          "type": "Script",
+          "optional": true,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@function",
+              "name": "relation",
+              "value": null,
+              "args": [
+                {
+                  "name": ""
+                },
+                {
+                  "fields": [
+                    "Id"
+                  ]
+                },
+                {
+                  "references": [
+                    "id"
+                  ]
+                },
+                {
+                  "onDelete": "Cascade"
+                },
+                {
+                  "onUpdate": "Cascade"
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isRelation": true,
+          "relation": {
+            "model": "Script",
+            "name": "",
+            "fields": [
+              "Id"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "name": "Id",
+          "type": "String",
+          "optional": true,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [],
+          "extIdRelated": true
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "interval",
+          "type": "Int",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "description",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "topic",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "script_value",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "ret_policy",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "metricValues",
+          "type": "MetricValue[]",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "staticTags",
+          "type": "StaticTag[]",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "dynamicTags",
+          "type": "DynamicTag[]",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        }
+      ],
+      "relations": [
+        {
+          "model": "Metric",
+          "toModel": {
+            "Name": "MetricValue",
+            "name": "metricValue",
+            "namePlural": "metricValues"
+          },
+          "relation": {
+            "model": "Metric",
+            "fields": [
+              "metricId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "model": "Metric",
+          "toModel": {
+            "Name": "StaticTag",
+            "name": "staticTag",
+            "namePlural": "staticTags"
+          },
+          "relation": {
+            "model": "Metric",
+            "fields": [
+              "metricId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "model": "Metric",
+          "toModel": {
+            "Name": "DynamicTag",
+            "name": "dynamicTag",
+            "namePlural": "dynamicTags"
+          },
+          "relation": {
+            "model": "Metric",
+            "fields": [
+              "metricId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        }
+      ],
+      "attributes": [],
+      "indexes": []
+    },
+    {
+      "Name": "MetricValue",
+      "NamePlural": "MetricValues",
+      "name": "metricValue",
+      "namePlural": "metricValues",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@",
+              "name": "id",
+              "value": null,
+              "args": []
+            },
+            {
+              "type": "@function",
+              "name": "default",
+              "value": null,
+              "args": [
+                {
+                  "function": {
+                    "functionName": "cuid",
+                    "args": []
+                  }
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isId": true,
+          "isUnique": true
+        },
+        {
+          "name": "metric",
+          "type": "Metric",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@function",
+              "name": "relation",
+              "value": null,
+              "args": [
+                {
+                  "fields": [
+                    "metricId"
+                  ]
+                },
+                {
+                  "references": [
+                    "id"
+                  ]
+                },
+                {
+                  "onDelete": "Cascade"
+                },
+                {
+                  "onUpdate": "Cascade"
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isRelation": true,
+          "relation": {
+            "model": "Metric",
+            "fields": [
+              "metricId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "name": "metricId",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [],
+          "extIdRelated": true
+        },
+        {
+          "name": "metricProperty",
+          "type": "MetricProperty",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@function",
+              "name": "relation",
+              "value": null,
+              "args": [
+                {
+                  "fields": [
+                    "metricPropertyId"
+                  ]
+                },
+                {
+                  "references": [
+                    "id"
+                  ]
+                },
+                {
+                  "onDelete": "Cascade"
+                },
+                {
+                  "onUpdate": "Cascade"
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isRelation": true,
+          "relation": {
+            "model": "MetricProperty",
+            "fields": [
+              "metricPropertyId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "name": "metricPropertyId",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [],
+          "extIdRelated": true
+        },
+        {
+          "name": "value",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        }
+      ],
+      "relations": [],
+      "attributes": [],
+      "indexes": []
+    },
+    {
+      "Name": "StaticTag",
+      "NamePlural": "StaticTags",
+      "name": "staticTag",
+      "namePlural": "staticTags",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@",
+              "name": "id",
+              "value": null,
+              "args": []
+            },
+            {
+              "type": "@function",
+              "name": "default",
+              "value": null,
+              "args": [
+                {
+                  "function": {
+                    "functionName": "cuid",
+                    "args": []
+                  }
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isId": true,
+          "isUnique": true
+        },
+        {
+          "name": "metric",
+          "type": "Metric",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@function",
+              "name": "relation",
+              "value": null,
+              "args": [
+                {
+                  "fields": [
+                    "metricId"
+                  ]
+                },
+                {
+                  "references": [
+                    "id"
+                  ]
+                },
+                {
+                  "onDelete": "Cascade"
+                },
+                {
+                  "onUpdate": "Cascade"
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isRelation": true,
+          "relation": {
+            "model": "Metric",
+            "fields": [
+              "metricId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "name": "metricId",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [],
+          "extIdRelated": true
+        },
+        {
+          "name": "tag_key",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "tag_value",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        }
+      ],
+      "relations": [],
+      "attributes": [],
+      "indexes": []
+    },
+    {
+      "Name": "DynamicTag",
+      "NamePlural": "DynamicTags",
+      "name": "dynamicTag",
+      "namePlural": "dynamicTags",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@",
+              "name": "id",
+              "value": null,
+              "args": []
+            },
+            {
+              "type": "@function",
+              "name": "default",
+              "value": null,
+              "args": [
+                {
+                  "function": {
+                    "functionName": "cuid",
+                    "args": []
+                  }
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isId": true,
+          "isUnique": true
+        },
+        {
+          "name": "metric",
+          "type": "Metric",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@function",
+              "name": "relation",
+              "value": null,
+              "args": [
+                {
+                  "fields": [
+                    "metricId"
+                  ]
+                },
+                {
+                  "references": [
+                    "id"
+                  ]
+                },
+                {
+                  "onDelete": "Cascade"
+                },
+                {
+                  "onUpdate": "Cascade"
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isRelation": true,
+          "relation": {
+            "model": "Metric",
+            "fields": [
+              "metricId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "name": "metricId",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [],
+          "extIdRelated": true
+        },
+        {
+          "name": "tag_id",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "default_value",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "description",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "ref_plc_id",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "ref_metric_name",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "allowedValues",
+          "type": "DynamicTagAllowedValue[]",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        }
+      ],
+      "relations": [
+        {
+          "model": "DynamicTag",
+          "toModel": {
+            "Name": "DynamicTagAllowedValue",
+            "name": "dynamicTagAllowedValue",
+            "namePlural": "dynamicTagAllowedValues"
+          },
+          "relation": {
+            "model": "DynamicTag",
+            "fields": [
+              "dynamicTagId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        }
+      ],
+      "attributes": [],
+      "indexes": []
+    },
+    {
+      "Name": "DynamicTagAllowedValue",
+      "NamePlural": "DynamicTagAllowedValues",
+      "name": "dynamicTagAllowedValue",
+      "namePlural": "dynamicTagAllowedValues",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@",
+              "name": "id",
+              "value": null,
+              "args": []
+            },
+            {
+              "type": "@function",
+              "name": "default",
+              "value": null,
+              "args": [
+                {
+                  "function": {
+                    "functionName": "cuid",
+                    "args": []
+                  }
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isId": true,
+          "isUnique": true
+        },
+        {
+          "name": "dynamicTag",
+          "type": "DynamicTag",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@function",
+              "name": "relation",
+              "value": null,
+              "args": [
+                {
+                  "fields": [
+                    "dynamicTagId"
+                  ]
+                },
+                {
+                  "references": [
+                    "id"
+                  ]
+                },
+                {
+                  "onDelete": "Cascade"
+                },
+                {
+                  "onUpdate": "Cascade"
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isRelation": true,
+          "relation": {
+            "model": "DynamicTag",
+            "fields": [
+              "dynamicTagId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "name": "dynamicTagId",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [],
+          "extIdRelated": true
+        },
+        {
+          "name": "tag_value",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        }
+      ],
+      "relations": [],
+      "attributes": [],
+      "indexes": []
+    },
+    {
+      "Name": "Script",
+      "NamePlural": "Scripts",
+      "name": "script",
+      "namePlural": "scripts",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@",
+              "name": "id",
+              "value": null,
+              "args": []
+            },
+            {
+              "type": "@function",
+              "name": "default",
+              "value": null,
+              "args": [
+                {
+                  "function": {
+                    "functionName": "cuid",
+                    "args": []
+                  }
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isId": true,
+          "isUnique": true
+        },
+        {
+          "name": "gateway",
+          "type": "Gateway",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@function",
+              "name": "relation",
+              "value": null,
+              "args": [
+                {
+                  "fields": [
+                    "gatewayId"
+                  ]
+                },
+                {
+                  "references": [
+                    "id"
+                  ]
+                },
+                {
+                  "onDelete": "Cascade"
+                },
+                {
+                  "onUpdate": "Cascade"
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "isRelation": true,
+          "relation": {
+            "model": "Gateway",
+            "fields": [
+              "gatewayId"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        },
+        {
+          "name": "gatewayId",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [],
+          "extIdRelated": true
+        },
+        {
+          "name": "script_id",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "script_type",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "script_description",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "script_timeout",
+          "type": "Int",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "script_content",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        },
+        {
+          "name": "metrics",
+          "type": "Metric[]",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": []
+        }
+      ],
+      "relations": [
+        {
+          "model": "Script",
+          "toModel": {
+            "Name": "Metric",
+            "name": "metric",
+            "namePlural": "metrics"
+          },
+          "relation": {
+            "model": "Script",
+            "name": "",
+            "fields": [
+              "Id"
+            ],
+            "references": [
+              "id"
+            ],
+            "onDelete": "Cascade",
+            "onUpdate": "Cascade"
+          }
+        }
+      ],
+      "attributes": [],
+      "indexes": []
+    }
+  ],
+  "relations": [],
+  "indexes": []
+}

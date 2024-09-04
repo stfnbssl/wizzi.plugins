@@ -1,0 +1,38 @@
+$group
+
+    {
+        name "dataType"
+        type "string"
+        required true
+        [ enum
+            "BOOL" 
+            "INT16" 
+            "UINT16" 
+            "INT32" 
+            "UINT32" 
+            "FLOAT" 
+            "DOUBLE" 
+    {
+        name "memoryArea"
+        type "string"
+        required true
+        [ enum
+            "COIL"
+            "DISCRETE_INPUT"
+            "HOLDING_REGISTER" 
+            "INPUT_REGISTER" 
+    { 
+        name "memoryAddress"
+        type "number"
+        required true
+        [ constraints
+            {
+                name "minimum"
+                value 0
+    {
+        name "byteOrder"
+        type "string"
+        [ enum
+            "BIG_ENDIAN" 
+            "LITTLE_ENDIAN" 
+

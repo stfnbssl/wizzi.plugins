@@ -1,0 +1,56 @@
+wzschema lab
+    
+    preserve-tags true
+    mtree-is-preprocessed true
+    unknown-element-replacer text
+    
+    e node
+        r node/s
+
+    e comment : node
+    
+    e lab : node
+        is-root
+        r child/s
+    
+    e child
+        a desc
+
+    e mdInclude : node
+        tag ::md
+        include md md
+
+	e_tag( modelCollection, model-coll )
+		
+		# Single items of a collection contained in a "model" may act as data contexts
+		# of artifacts where each collection item generates a separate artifact.
+		# This element, contained in a "modelRef" element, specifies:
+		# . the collection name: the IttfNodeValue of this element
+		# . the export name of the collection item when acting as a context property: the "item-name" attribute
+		# . the property names of the collection item that will be used to build the destination path
+		#   of the artifact: the "pathTemplateValues" child elements
+		
+		a_tag( itemName, item-name )
+			# The export name of a collection item when acting as a context property.
+		
+		r pathTemplateValue/s
+
+		r comment/s
+	
+	e_tag( pathTemplateValue, path-template-value )
+		a attribute
+			# The property of the context object (a collection item) containing the value which will replace 
+			# the "token" value in the generated artifact path template.
+			# Is alternative to "function"
+		a function
+			# The function of the context object (a collection item) that returns the value which will replace 
+			# the "token" value in the generated artifact path template.
+			# Is alternative to "attribute"
+		a token
+			# The token that will be replaced by the value returned accessing "attribute" or calling "function"
+			# on a context object.
+
+		r comment/s
+	
+
+    

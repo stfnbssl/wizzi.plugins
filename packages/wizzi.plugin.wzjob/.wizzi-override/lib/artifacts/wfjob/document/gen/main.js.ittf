@@ -4,14 +4,14 @@ module
         var md = {
             plugin: 'wizzi.plugin.wzjob',
             name: 'document',
-            schema: 'wfjob',
+            schema: 'wzjob',
             checkSchema: true,
             isAsync: true,
         };
     gen( &md )
         $append imports
         $append main
-            _ md.wfjob
+            _ md.wzjob
                 @ model
                 @ ctx
                 a_cb( )
@@ -20,8 +20,8 @@ module
                     else
                         # generation OK
                         r_cb( ctx )
-        async-md( wfjob )
-            xml-dump-el-open( wfjob )
+        async-md( wzjob )
+            xml-dump-el-open( wzjob )
             xml-dump-attr( modelsBaseFolder )
             xml-dump-attr( destBaseFolder )
             xml-dump-attr( title, last )
@@ -31,7 +31,7 @@ module
                         _md_gen_items( productions, indent )
                             _md_gen_items( execFiles, indent )
                                 _md_gen_items( comments, indent )
-                                    xml-dump-el-close( wfjob )
+                                    xml-dump-el-close( wzjob )
                                     r_cb()
 
         async-md( require )
@@ -100,8 +100,8 @@ module
             xml-dump-attr( schema )
             xml-dump-attr( format )
             xml-dump-attr( isCompile )
-            xml-dump-attr( isWfJob )
-            xml-dump-attr( isWfModelType )
+            xml-dump-attr( isWzJob )
+            xml-dump-attr( isWzModelType )
             xml-dump-attr( generator )
             xml-dump-attr( destPath )
             xml-dump-attr( extension )

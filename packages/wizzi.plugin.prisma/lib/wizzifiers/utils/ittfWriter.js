@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.prisma\.wizzi-override\lib\wizzifiers\utils\ittfWriter.js.ittf
-    utc time: Thu, 23 May 2024 06:28:37 GMT
+    utc time: Wed, 04 Sep 2024 13:19:52 GMT
 */
-'use strict';
 var util = require('util');
 var file = require('@wizzi/utils').file;
 var verify = require('@wizzi/utils').verify;
@@ -14,7 +13,7 @@ function logError(label, obj, depth) {
     var message = util.inspect(obj, {
         depth: depth || null
      });
-    console.log("[31m%s[0m", '.wizzifiers.utils.ittfWriter', label, message);
+    console.log("[31m%s[0m", '@wizzi/plugin.prisma.wizzifiers.utils.ittfWriter', label, message);
 }
 
 var writer = function() {
@@ -23,7 +22,6 @@ var writer = function() {
 writer.prototype.write = function(filepath, node, callback) {
     this.indentValue = 0;
     file.openWrite(filepath, (err, stream) => {
-    
         if (err) {
             return callback(err);
         }
@@ -57,7 +55,6 @@ writer.prototype.node = function(node) {
     }
     if (node.tag === '$group') {
         node.children.forEach((item) => {
-        
             if (!item) {
                 throw new Error(logError('node has an empty child', node, 2));
             }
@@ -99,7 +96,6 @@ writer.prototype.node = function(node) {
     }
     
     node.children.forEach((item) => {
-    
         if (!item) {
             throw new Error(logError('node has an empty child', node, 2));
         }

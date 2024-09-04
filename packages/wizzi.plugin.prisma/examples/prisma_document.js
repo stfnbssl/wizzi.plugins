@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.prisma\.wizzi-override\examples\prisma_document.js.ittf
-    utc time: Thu, 23 May 2024 06:28:36 GMT
+    utc time: Wed, 04 Sep 2024 13:19:51 GMT
 */
-'use strict';
 var path = require('path');
 var fs = require('fs');
 var async = require('async');
@@ -21,7 +20,6 @@ function executeExample() {
     let arg = process.argv[2];
     const moduleName = arg && arg.length > 0 ? arg : 'first';
     getWzCtx(path.resolve(__dirname, '..', '.wizzi-override', 'models'), (err, wzCtx) => {
-    
         if (err) {
             console.log("[31m%s[0m", err);
             return ;
@@ -29,7 +27,6 @@ function executeExample() {
         executeGenerateModules([
             moduleName
         ], wzCtx, (err, result) => {
-        
             if (err) {
                 console.log("[31m%s[0m", 'prisma/document.examples.executeGenerateModules.err', err);
                 console.log("[31m%s[0m", 'prisma/document.examples.executeGenerateModules.err.toString()', err.toString());
@@ -45,13 +42,11 @@ function executeExample() {
     )
     function executeGenerateModules(modules, wzCtx, callback) {
         async.mapSeries(modules, (module, callback) => {
-        
             var ittfDocumentUri = path.join(__dirname, 'ittf', module + '.prisma.ittf');
             var outputPath = path.join(__dirname, 'results', 'prisma', module + '-document.g.prisma');
             loadWizziModel(ittfDocumentUri, {
                 wzCtx: wzCtx
              }, (err, wizziModel) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -61,7 +56,6 @@ function executeExample() {
                 loadModelAndGenerateArtifact(ittfDocumentUri, {
                     wzCtx: wzCtx
                  }, 'prisma/document', (err, artifactText) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -123,7 +117,6 @@ function loadMTree(ittfDocumentUri, context, plugins, callback) {
     }
     
     createWizziFactory({}, plugins, (err, wf) => {
-    
         if (err) {
             return callback(err);
         }
@@ -139,7 +132,6 @@ function loadMTreeBuildUpScript(ittfDocumentUri, context, plugins, callback) {
     }
     
     createWizziFactory({}, plugins, (err, wf) => {
-    
         if (err) {
             return callback(err);
         }
@@ -156,7 +148,6 @@ function loadWizziModel(ittfDocumentUri, context, plugins, callback) {
     
     var fi = fileInfoByPath(ittfDocumentUri);
     createWizziFactory({}, plugins, (err, wf) => {
-    
         if (err) {
             return callback(err);
         }
@@ -176,7 +167,6 @@ function loadWizziModelAndSaveToJson(ittfDocumentUri, context, outputFolder, plu
     
     var fi = fileInfoByPath(ittfDocumentUri);
     loadWizziModel(ittfDocumentUri, context, plugins, (err, model) => {
-    
         if (err) {
             return callback(err);
         }
@@ -194,7 +184,6 @@ function loadModelAndGenerateArtifact(ittfDocumentUri, context, artifactName, pl
     
     var fi = fileInfoByPath(ittfDocumentUri);
     createWizziFactory({}, plugins, (err, wf) => {
-    
         if (err) {
             return callback(err);
         }
@@ -213,7 +202,6 @@ function loadModelAndGenerateArtifactFromText(ittfContent, context, artifactName
     }
     
     createWizziFactory({}, plugins, (err, wf) => {
-    
         if (err) {
             return callback(err);
         }
@@ -233,12 +221,10 @@ function loadModelAndTransform(ittfDocumentUri, context, transformName, plugins,
     
     var fi = fileInfoByPath(ittfDocumentUri);
     createWizziFactory({}, plugins, (err, wf) => {
-    
         if (err) {
             return callback(err);
         }
         loadWizziModel(ittfDocumentUri, context, (err, model) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -256,7 +242,6 @@ function executeWizziJob(ittfDocumentUri, context, plugins, callback) {
     }
     
     createWizziFactory({}, options, (err, wf) => {
-    
         if (err) {
             return callback(err);
         }
@@ -282,7 +267,6 @@ function executegenerateModelDoms(wfschemaIttfDocumentUri, outputPackagePath, wf
     }
     
     createWizziFactory({}, plugins, (err, wf) => {
-    
         if (err) {
             return callback(err);
         }
@@ -292,7 +276,6 @@ function executegenerateModelDoms(wfschemaIttfDocumentUri, outputPackagePath, wf
 }
 function getIttfFilesBySchema(srcpath, schema) {
     return fs.readdirSync(srcpath).filter((file) => {
-        
             return fs.lstatSync(path.join(srcpath, file)).isFile() && verify.endsWith(file, (schema === 'ittf' ? '.ittf' : '.' + schema + '.ittf'));
         }
         )
@@ -358,7 +341,6 @@ var DEFAULT_MIME = {
 
 function getWzCtx(folderpath, callback) {
     loadWizziModel(path.join(folderpath, 'wzctx.json.ittf'), {}, (err, model) => {
-    
         if (err) {
             return callback(err);
         }

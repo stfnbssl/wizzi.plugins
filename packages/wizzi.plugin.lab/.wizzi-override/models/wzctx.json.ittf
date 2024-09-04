@@ -1,0 +1,49 @@
+{
+    $include versions
+    name "wizzi.plugin.lab"
+    npmName "@wizzi/plugin.lab"
+    pluginBasename ""
+    version '${versions['@wizzi/plugin.lab@next']}'
+    version_wizzi_factory '${versions['@wizzi/factory']}'
+    version_wizzi_mtree '${versions['@wizzi/mtree']}'
+    version_wizzi_utils '${versions['@wizzi/utils']}'
+    description "Plugins lab, new features test bed"
+    main "index.js"
+    { author
+        name "Stefano Bassoli"
+        email "stfn.bssl@gmail.com"
+    { github
+        userid "stfnbssl"
+    { license
+        type "MIT"
+        url "https://github.com/stfnbssl/wizzi.plugins/tree/main/packages/wizzi.plugin.lab/license.text"
+        copy "copy 2024"
+    { Build
+        isWizziPlugin true
+        useWizziV08 true
+        { wizziV08
+        { utils
+            useStringifySafe true
+            useObjectInspect true
+    [ Schemas
+        {
+            name "lab"
+            title "lab wizzi schema"
+            builtin false
+            [ modelTransformers
+            [ artifactGenerators
+                {
+                    name "document"
+                    outmime "lab"
+                    contentType "text/markdown"
+                    isDefault true
+            defaultArtifact "document"
+            [ wizzifiers
+            [ fileExtensions
+                "lab"
+            [ includes
+                {
+                    Name "Md"
+                    name "md"
+                    version "0.8.6"
+                    [ options

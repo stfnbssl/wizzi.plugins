@@ -1,0 +1,330 @@
+{
+
+    $
+        var enums = {};
+        var constraints = {};
+        var metricProperties = {};
+        var connectionProperties = {};
+
+    [ dynamicTagProperties
+        $foreach dtag in data.dynamicTagProperties
+            $if _.isArray(dtag.constraints)
+                $foreach c in dtag.constraints
+                    $ constraints[c.name] = true
+
+            {
+                name "${dtag.name}"
+                type "${dtag.type}"
+                $if _.isNotEmpty(dtag.pattern)
+                    pattern "${dtag.pattern}"
+                $if _.isNotEmpty(dtag.description)
+                    description "${dtag.description}"
+                $if dtag.required == true
+                    required true
+                $if dtag.default || dtag.default == 0
+                    $if _.isString(dtag.default)
+                        default "${dtag.default}"
+                    $else
+                        default ${dtag.default}
+
+    $foreach pr in data.protocols
+
+        $*
+        $foreach dt in pr.dataTypes
+            $ dataTypes[dt] = true
+        *$
+
+        $foreach mp in pr.connectionProperties
+            $ connectionProperties[mp.name] = mp
+
+            $if _.isArray(mp.enum)
+                $
+                    if (_.isObject(enums[mp.name]) == false) {
+                        enums[mp.name] = {};
+                    }
+
+                $foreach ev in mp.enum
+                    $ enums[mp.name][ev] = true
+
+            $if _.isArray(mp.constraints)
+                $foreach c in mp.constraints
+                    $ constraints[c.name] = true
+
+        $foreach mp in pr.metricProperties
+            $ metricProperties[mp.name] = mp
+
+            $if _.isArray(mp.enum)
+                $
+                    if (_.isObject(enums[mp.name]) == false) {
+                        enums[mp.name] = {};
+                    }
+
+                $foreach ev in mp.enum
+                    $ enums[mp.name][ev] = true
+
+            $if _.isArray(mp.constraints)
+                $foreach c in mp.constraints
+                    $ constraints[c.name] = true
+
+            $if _.isObject(mp.format)
+                $if _.isArray(mp.format.enum)
+                    $
+                        if (_.isObject(enums['propertyFormat']) == false) {
+                            enums['propertyFormat'] = {};
+                        }
+
+                    $foreach ev in mp.format.enum
+                        $ enums['propertyFormat'][ev] = true
+
+
+
+        $foreach mi in pr.metricImplications
+            $if _.isObject(mi.fact)
+                $if _.isArray(mi.fact.enum)
+                    $
+                        if (_.isObject(enums[mi.fact.name]) == false) {
+                            enums[mi.fact.name] = {};
+                        }
+
+                    $foreach ev in mi.fact.enum
+                        $ enums[mi.fact.name][ev] = true
+
+                $else
+                    $ enums[mi.fact.name][mi.fact.value] = true
+
+                $if _.isArray(mi.implications)
+                    $foreach impl in mi.implications
+                        $
+                            if (_.isObject(enums[impl.name]) == false) {
+                                enums[impl.name] = {};
+                            }
+
+                        $if _.isArray(impl.enum)
+                            $foreach ev in impl.enum
+                                $ enums[impl.name][ev] = true
+
+                        $elif _.isNotEmpty(impl.value)
+                            $ enums[impl.name][impl.value] = true
+
+
+
+
+    $foreach enumName in Object.keys(enums)
+        $if Object.keys(enums[enumName]).length > 0
+            [ ${enumName}Enum
+                $foreach ev in Object.keys(enums[enumName])
+                    "${ev}"
+
+    [ constraints
+        $foreach c in Object.keys(constraints)
+            "${c}"
+
+    [ protocols
+        $foreach pr in data.protocols
+            "${pr.name}"
+
+    $if false $$ Via! Replaced
+        [ connectionProperties
+            $foreach name in Object.keys(connectionProperties)
+                $ var cp = connectionProperties[name]
+
+                {
+                    name "${cp.name}"
+                    type "${cp.type}"
+                    $if _.isNotEmpty(cp.pattern)
+                        pattern "${cp.pattern}"
+                    $if _.isNotEmpty(cp.description)
+                        description "${cp.description}"
+
+    [ connectionProperties $$ replaces-> r_protocols_connectionProperties
+        $foreach pr in data.protocols
+            $foreach cp in pr.connectionProperties
+                {
+                    name "${cp.name}"
+                    type "${cp.type}"
+                    protocol "${pr.name}"
+                    $if _.isNotEmpty(cp.pattern)
+                        pattern "${cp.pattern}"
+                    $if _.isNotEmpty(cp.description)
+                        description "${cp.description}"
+                    $if cp.required == true
+                        required true
+                    $if cp.default || cp.default == 0
+                        $if _.isString(cp.default)
+                            default "${cp.default}"
+                        $else
+                            default ${cp.default}
+
+    [ r_connectionProperties_constraints
+        $foreach pr in data.protocols
+            $foreach cp in pr.connectionProperties
+                $if cp.required == true
+                    $*
+                    {
+                        protocol "${pr.name}"
+                        metricProperty "${cp.name}"
+                        constraint "required"
+                        value true
+                    *$
+                $if _.isArray(cp.constraints)
+                    $foreach constraint in cp.constraints
+                        {
+                            protocol "${pr.name}"
+                            metricProperty "${cp.name}"
+                            constraint "${constraint.name}"
+                            $if _.isString(constraint.value)
+                                value "${constraint.value}"
+                            $else
+                                value ${constraint.value}
+
+    $if false $$ Via! Replaced
+        [ metricProperties
+            $foreach name in Object.keys(metricProperties)
+                $ var mp = metricProperties[name]
+
+                {
+                    name "${mp.name}"
+                    type "${mp.type}"
+                    $if _.isNotEmpty(mp.pattern)
+                        pattern "${mp.pattern}"
+                    $if _.isNotEmpty(mp.description)
+                        description "${mp.description}"
+                    $*
+                    $if _.isArray(mp.constraints)
+                        [ constraints
+                            $foreach c in mp.constraints
+                                {
+                                    name "${c.name}"
+                                    value "${c.value}"
+                    *$
+
+    $*
+    [ r_protocols_dataTypes
+        $foreach pr in data.protocols
+            $foreach dt in pr.dataTypes
+                {
+                    protocol "${pr.name}"
+                    dataType "${dt}"
+    *$
+
+    [ metricProperties $$ replaces -> r_protocols_metricProperties
+        $foreach pr in data.protocols
+            $foreach mp in pr.metricProperties
+                {
+                    name "${mp.name}"
+                    type "${cp.type}"
+                    protocol "${pr.name}"
+                    $if _.isNotEmpty(mp.pattern)
+                        pattern "${mp.pattern}"
+                    $if _.isNotEmpty(mp.description)
+                        description "${mp.description}"
+                    $if mp.required == true
+                        required true
+                    $if mp.default || mp.default == 0
+                        $if _.isString(mp.default)
+                            default "${mp.default}"
+                        $else
+                            default ${mp.default}
+
+    $function emitImplication
+        $param prName
+        $param mpName
+        $param enumValue
+        $param metricImplication
+        $if _.isArray(metricImplication.implications)
+            $foreach impl in metricImplication.implications
+                $if _.isArray(impl.enum)
+                    $foreach ev in impl.enum
+                        $$ $ enums[impl.name][ev] = true
+                        {
+                            protocol "${prName}"
+                            metricProperty "${mpName}"
+                            value "${enumValue}"
+                            implicationType "${impl.type}"
+                            onMetricProperty "${impl.name}"
+                            onValue "${ev}"
+
+
+                $elif _.isNotEmpty(impl.value)
+                    $$ $ enums[impl.name][impl.value] = true
+                    {
+                        protocol "${prName}"
+                        metricProperty "${mpName}"
+                        value "${enumValue}"
+                        implicationType "${impl.type}"
+                        onMetricProperty "${impl.name}"
+                        onValue "${impl.value}"
+                $else
+                    {
+                        protocol "${prName}"
+                        metricProperty "${mpName}"
+                        value "${enumValue}"
+                        implicationType "${impl.type}"
+                        onMetricProperty "${impl.name}"
+                        onValue null
+
+
+    [ r_metricProperties_constraints
+        $foreach pr in data.protocols
+            $foreach mp in pr.metricProperties
+                $if mp.required == true
+                    $*
+                    {
+                        protocol "${pr.name}"
+                        metricProperty "${mp.name}"
+                        constraint "required"
+                        value true
+                    *$
+                $if _.isArray(mp.constraints)
+                    $foreach constraint in mp.constraints
+                        {
+                            protocol "${pr.name}"
+                            metricProperty "${mp.name}"
+                            constraint "${constraint.name}"
+                            $if _.isString(constraint.value)
+                                value "${constraint.value}"
+                            $else
+                                value ${constraint.value}
+
+    [ r_metricProperties_implications
+        $foreach pr in data.protocols
+            $foreach mi in pr.metricImplications
+                $if _.isObject(mi.fact)
+                    $if _.isArray(mi.fact.enum)
+                        $foreach ev in mi.fact.enum
+                            $*
+                            {
+                                protocol "${pr.name}"
+                                metricProperty "${mi.fact.name}"
+                                value "${ev}"
+                            *$
+                            $_ emitImplication
+                                $@ pr.name
+                                $@ mi.fact.name
+                                $@ ev
+                                $@ mi
+
+                    $else
+                        $*
+                        {
+                            protocol "${pr.name}"
+                            metricProperty "${mi.fact.name}"
+                            value "${mi.fact.value}"
+                        *$
+                        $_ emitImplication
+                            $@ pr.name
+                            $@ mi.fact.name
+                            $@ mi.fact.value
+                            $@ mi
+
+                    $*
+                    $if _.isArray(mi.implications)
+                        $foreach impl in mi.implications
+                            $if _.isArray(impl.enum)
+                                $foreach ev in impl.enum
+                                    $$ $ enums[impl.name][ev] = true
+
+                            $elif _.isNotEmpty(impl.value)
+                                $$ $ enums[impl.name][impl.value] = true
+                    *$
+

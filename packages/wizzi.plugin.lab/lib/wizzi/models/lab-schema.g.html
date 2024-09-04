@@ -1,0 +1,504 @@
+<!--
+    artifact generator: C:\Users\stfnb\AppData\Roaming\npm\node_modules\@wizzi\cli\node_modules\@wizzi\plugin.html\lib\artifacts\html\document\gen\main.js
+    package: wizzi-web@
+    primary source IttfDocument: C:\Users\stfnb\AppData\Roaming\npm\node_modules\@wizzi\cli\node_modules\@wizzi\plugin.wzschema\lib\artifacts\wzschema\html_docs\gen\ittf\wfschema-docs.html.ittf
+    utc time: Fri, 30 Aug 2024 16:41:06 GMT
+-->
+<!doctype html>
+<html>
+<head>
+    <title>Wizzi schema lab</title>
+    <style>
+        body {
+          font-family: verdana;
+          font-size: 13px;
+        } 
+        .main-left {
+          position: fixed;
+          margin-left: 5%;
+          top: 80px;
+          width: 20%;
+          height: 80%;
+          background: #eee;
+          overflow: auto;
+        } 
+        .main-center {
+          top: 80px;
+          margin-left: 30%;
+          height: 80%;
+          width: 50%;
+          position: fixed;
+          overflow: auto;
+          z-index: 1;
+        } 
+        .well {
+          border: solid 1px #aaa;
+        } 
+        .pretty-table { border: 1px solid #333; width: 100%; margin-top: 30px; }
+        .pretty-table th, .pretty-table td { border: 1px dotted #666; }
+        .pretty-table-2 { border: 1px solid #999; width: 100%; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <h1>Wizzi Schema lab</h1>
+        <div class="main-left">
+            <ul>
+                <li><a href="#element_node">node</a>
+                </li>
+                <li><a href="#element_comment">comment</a>
+                </li>
+                <li><a href="#element_lab">lab</a>
+                </li>
+                <li><a href="#element_child">child</a>
+                </li>
+                <li><a href="#element_mdInclude">mdInclude</a>
+                </li>
+                <li><a href="#element_modelCollection">modelCollection</a>
+                </li>
+                <li><a href="#element_pathTemplateValue">pathTemplateValue</a>
+                </li>
+            </ul>
+        </div>
+        <div class="main-center">
+            <table id="element_node" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>node</b>
+                        </td>
+                        <td>node</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>node</td>
+                            <td>nodes</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_comment" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>comment</b>
+                        </td>
+                        <td>comment</td>
+                        <td>node</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>node</td>
+                            <td>nodes</td>
+                            <td>one-to-many</td>
+                            <td>node</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_lab" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>lab</b>
+                        </td>
+                        <td>lab</td>
+                        <td>node</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>child</td>
+                            <td>childs</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>node</td>
+                            <td>nodes</td>
+                            <td>one-to-many</td>
+                            <td>node</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_child" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>child</b>
+                        </td>
+                        <td>child</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Attributes</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Tag</th>
+                            <th>Type</th>
+                            <th>Default</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>desc</td>
+                            <td>desc</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_mdInclude" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>mdInclude</b>
+                        </td>
+                        <td>::md</td>
+                        <td>node</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>node</td>
+                            <td>nodes</td>
+                            <td>one-to-many</td>
+                            <td>node</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_modelCollection" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>modelCollection</b>
+                        </td>
+                        <td>model-coll</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Description</h5>
+            <div>
+                <span>Single items of a collection contained in a "model" may act as data contexts &nbsp;</span>
+                <span>of artifacts where each collection item generates a separate artifact. &nbsp;</span>
+                <span>This element, contained in a "modelRef" element, specifies: &nbsp;</span>
+                <span>. the collection name: the IttfNodeValue of this element &nbsp;</span>
+                <span>. the export name of the collection item when acting as a context property: the "item-name" attribute &nbsp;</span>
+                <span>. the property names of the collection item that will be used to build the destination path &nbsp;</span>
+                <span>of the artifact: the "pathTemplateValues" child elements &nbsp;</span>
+            </div>
+            <h5>Attributes</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Tag</th>
+                            <th>Type</th>
+                            <th>Default</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>itemName</td>
+                            <td>item-name</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <div>
+                                    <span>The export name of a collection item when acting as a context property. &nbsp;</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>pathTemplateValue</td>
+                            <td>pathTemplateValues</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>comment</td>
+                            <td>comments</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_pathTemplateValue" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>pathTemplateValue</b>
+                        </td>
+                        <td>path-template-value</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Attributes</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Tag</th>
+                            <th>Type</th>
+                            <th>Default</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>attribute</td>
+                            <td>attribute</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <div>
+                                    <span>The property of the context object (a collection item) containing the value which will replace &nbsp;</span>
+                                    <span>the "token" value in the generated artifact path template. &nbsp;</span>
+                                    <span>Is alternative to "function" &nbsp;</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>function</td>
+                            <td>function</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <div>
+                                    <span>The function of the context object (a collection item) that returns the value which will replace &nbsp;</span>
+                                    <span>the "token" value in the generated artifact path template. &nbsp;</span>
+                                    <span>Is alternative to "attribute" &nbsp;</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>token</td>
+                            <td>token</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <div>
+                                    <span>The token that will be replaced by the value returned accessing "attribute" or calling "function" &nbsp;</span>
+                                    <span>on a context object. &nbsp;</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>comment</td>
+                            <td>comments</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+        </div>
+    </div>
+</body>
+
+</html>

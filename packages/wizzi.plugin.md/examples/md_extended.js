@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.md\.wizzi-override\examples\md_extended.js.ittf
-    utc time: Mon, 06 May 2024 14:32:29 GMT
+    utc time: Wed, 04 Sep 2024 13:16:42 GMT
 */
-'use strict';
 var path = require('path');
 var fs = require('fs');
 var async = require('async');
@@ -20,7 +19,6 @@ function executeExample() {
     executeGenerateModules([
         'first'
     ], (err, result) => {
-    
         if (err) {
             console.log("[31m%s[0m", 'md.examples.executeGenerateModules.err', err);
             console.log("[31m%s[0m", 'md.examples.executeGenerateModules.err.toString()', err.toString());
@@ -34,20 +32,17 @@ function executeExample() {
     )
     function executeGenerateModules(modules, callback) {
         async.mapSeries(modules, (module, callback) => {
-        
             console.log('md.example.executeGenerateModules.module: ' + module, __filename);
             var ittfDocumentUri = path.join(__dirname, 'ittf', module + '.md.ittf');
             var outputLoadedPath = path.join(__dirname, 'results', module + '.md.json');
             var outputExtendedPath = path.join(__dirname, 'results', module + '.md.extended.json');
             loadWizziModel(ittfDocumentUri, {}, (err, model) => {
-            
                 if (err) {
                     return callback(err);
                 }
                 console.log('md.example.executeGenerateModules.outputLoadedPath: ' + outputLoadedPath, __filename);
                 file.write(outputLoadedPath, stringify(model.toJson(), null, 4))
                 loadModelAndTransform(ittfDocumentUri, {}, "md/extended", (err, model) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -81,7 +76,6 @@ function createWizziFactory(globalContext, callback) {
 }
 function loadMTree(ittfDocumentUri, context, callback) {
     createWizziFactory({}, (err, wf) => {
-    
         if (err) {
             return callback(err);
         }
@@ -91,7 +85,6 @@ function loadMTree(ittfDocumentUri, context, callback) {
 }
 function loadMTreeBuildupScript(ittfDocumentUri, context, callback) {
     createWizziFactory({}, (err, wf) => {
-    
         if (err) {
             return callback(err);
         }
@@ -102,7 +95,6 @@ function loadMTreeBuildupScript(ittfDocumentUri, context, callback) {
 function loadWizziModel(ittfDocumentUri, context, callback) {
     var fi = fileInfoByPath(ittfDocumentUri);
     createWizziFactory({}, (err, wf) => {
-    
         if (err) {
             return callback(err);
         }
@@ -116,7 +108,6 @@ function loadWizziModel(ittfDocumentUri, context, callback) {
 function loadWizziModelAndSaveToJson(ittfDocumentUri, context, outputFolder, callback) {
     var fi = fileInfoByPath(ittfDocumentUri);
     loadWizziModel(ittfDocumentUri, context, (err, model) => {
-    
         if (err) {
             return callback(err);
         }
@@ -128,7 +119,6 @@ function loadWizziModelAndSaveToJson(ittfDocumentUri, context, outputFolder, cal
 function loadModelAndGenerateArtifact(ittfDocumentUri, context, artifactName, callback) {
     var fi = fileInfoByPath(ittfDocumentUri);
     createWizziFactory({}, (err, wf) => {
-    
         if (err) {
             return callback(err);
         }
@@ -141,7 +131,6 @@ function loadModelAndGenerateArtifact(ittfDocumentUri, context, artifactName, ca
 }
 function loadModelAndGenerateArtifactFromText(ittfContent, context, artifactName, callback) {
     createWizziFactory({}, (err, wf) => {
-    
         if (err) {
             return callback(err);
         }
@@ -155,12 +144,10 @@ function loadModelAndGenerateArtifactFromText(ittfContent, context, artifactName
 function loadModelAndTransform(ittfDocumentUri, context, transformName, callback) {
     var fi = fileInfoByPath(ittfDocumentUri);
     createWizziFactory({}, (err, wf) => {
-    
         if (err) {
             return callback(err);
         }
         loadWizziModel(ittfDocumentUri, context, (err, model) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -172,7 +159,6 @@ function loadModelAndTransform(ittfDocumentUri, context, transformName, callback
 }
 function executeWizziJob(ittfDocumentUri, context, callback) {
     createWizziFactory({}, (err, wf) => {
-    
         if (err) {
             return callback(err);
         }
@@ -190,7 +176,7 @@ function executeWizziJob(ittfDocumentUri, context, callback) {
     }
     )
 }
-function executeWizziJob_2(wfjobDocumentUri, options) {
+function executeWizziJob_2(wzjobDocumentUri, options) {
     options = options || {};
     options.plugins = options.plugins || [];
     options.globalContext = options.globalContext || {};
@@ -215,8 +201,8 @@ function executeWizziJob_2(wfjobDocumentUri, options) {
             plugins: jobPlugins
          }, 
         job: {
-            name: 'example ' + wfjobDocumentUri, 
-            ittfDocumentUri: wfjobDocumentUri, 
+            name: 'example ' + wzjobDocumentUri, 
+            ittfDocumentUri: wzjobDocumentUri, 
             productionOptions: wizzi.productionOptions({
                 indentSpaces: 4, 
                 basedir: __dirname, 
@@ -232,7 +218,6 @@ function executeWizziJob_2(wfjobDocumentUri, options) {
 }
 function executegenerateModelDoms(wfschemaIttfDocumentUri, outputPackagePath, wfschemaName, mTreeBuildUpContext, callback) {
     createWizziFactory({}, (err, wf) => {
-    
         if (err) {
             return callback(err);
         }
@@ -242,7 +227,6 @@ function executegenerateModelDoms(wfschemaIttfDocumentUri, outputPackagePath, wf
 }
 function getIttfFilesBySchema(srcpath, schema) {
     return fs.readdirSync(srcpath).filter((file) => {
-        
             return fs.lstatSync(path.join(srcpath, file)).isFile() && verify.endsWith(file, (schema === 'ittf' ? '.ittf' : '.' + schema + '.ittf'));
         }
         )

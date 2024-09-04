@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ittf\.wizzi-override\lib\artifacts\ittf\cheatsheet\trans\main.js.ittf
-    utc time: Mon, 06 May 2024 14:25:24 GMT
+    utc time: Fri, 30 Aug 2024 12:33:01 GMT
 */
-'use strict';
 
 
 var util = require('util');
@@ -104,7 +103,6 @@ function generateArtifacts(ctx, workObj, callback_main) {
         console.log('counter', ++counter, __filename);
         process.nextTick(function() {
             pretty.prettifyIttfHtmlFromString(item.ittfWrapped, (err, pretty) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -116,7 +114,6 @@ function generateArtifacts(ctx, workObj, callback_main) {
                 // loog 'ctx.wizziFactory.loadMTreeBuildupScriptFromText', ctx.wizziFactory.loadMTreeBuildupScriptFromText
                 if (item.render === 'script') {
                     ctx.wizziFactory.loadMTreeBuildupScriptFromText(item.ittfWrapped, {}, (err, script) => {
-                    
                         // loog 'counter', --counter
                         if (err) {
                             item.generated = '\n' + verify.htmlEscape(stringify(err, null, 2));
@@ -136,7 +133,6 @@ function generateArtifacts(ctx, workObj, callback_main) {
                             noGeneratorComments: true
                          }
                      }, artifactNameFromSchema(item.schema), (err, artifactText) => {
-                    
                         // loog 'err, artifactText', err, artifactText
                         // loog 'counter', --counter
                         if (err) {
@@ -154,7 +150,6 @@ function generateArtifacts(ctx, workObj, callback_main) {
             )
         })
     }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -312,7 +307,6 @@ md.trans = function(model, ctx, callback) {
         loadCheats(model, workObj)
         console.log('main.loadCheats.done', __filename);
         generateArtifacts(ctx, workObj, (err, result) => {
-        
             if (err) {
                 return callback(err);
             }

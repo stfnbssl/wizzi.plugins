@@ -1,13 +1,13 @@
 <!--
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\node_modules\wizzi-web\lib\artifacts\html\document\gen\main.js
-    package: wizzi-web@0.7.16
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\lib\artifacts\wfschema\html_docs\gen\ittf\wfschema-docs.html.ittf
-    utc time: Fri, 15 Mar 2024 07:53:20 GMT
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.html\lib\artifacts\html\document\gen\main.js
+    package: @wizzi/plugin.html@0.8.10
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\lib\artifacts\wzschema\html_docs\gen\ittf\wfschema-docs.html.ittf
+    utc time: Fri, 30 Aug 2024 07:29:12 GMT
 -->
 <!doctype html>
 <html>
 <head>
-    <title>Wizzi schema wfjob</title>
+    <title>Wizzi schema wzjob</title>
     <style>
         body {
           font-family: verdana;
@@ -41,10 +41,10 @@
 </head>
 <body>
     <div class="main">
-        <h1>Wizzi Schema wfjob</h1>
+        <h1>Wizzi Schema wzjob</h1>
         <div class="main-left">
             <ul>
-                <li><a href="#element_wfjob">wfjob</a>
+                <li><a href="#element_wzjob">wzjob</a>
                 </li>
                 <li><a href="#element_comment">comment</a>
                 </li>
@@ -79,7 +79,7 @@
         <div class="main-center">
             <h5>Exports</h5>
             <div></div>
-            <table id="element_wfjob" class="pretty-table">
+            <table id="element_wzjob" class="pretty-table">
                 <thead>
                     <tr>
                         <th>Element</th>
@@ -91,9 +91,9 @@
                 <tbody>
                     <tr>
                         <td>
-                            <b>wfjob</b>
+                            <b>wzjob</b>
                         </td>
-                        <td>wfjob</td>
+                        <td>wzjob</td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -101,8 +101,8 @@
             </table>
             <h5>Description</h5>
             <div>
-                <span>The root element of the wfjob schema. &nbsp;</span>
-                <span>The base path for the source models used by this "wfjob". &nbsp;</span>
+                <span>The root element of the wzjob schema. &nbsp;</span>
+                <span>The base path for the source models used by this "wzjob". &nbsp;</span>
                 <span>The base folder path for the generated artifacts. &nbsp;</span>
             </div>
             <h5>Attributes</h5>
@@ -293,7 +293,7 @@
             <div>
                 <span>A wizzi model instance or a POJO acting as a context during an mTree loading. &nbsp;</span>
                 <span>The ittf node value (wzName) is the name of the model that must be unique &nbsp;</span>
-                <span>in a "wfjob"; it will become the default export name of the context &nbsp;</span>
+                <span>in a "wzjob"; it will become the default export name of the context &nbsp;</span>
                 <span>property that exposes the model. &nbsp;</span>
                 <span>A "model" will be loaded once, and will be reused if &nbsp;</span>
                 <span>referenced in many evaluations. &nbsp;</span>
@@ -331,7 +331,7 @@
                                 <div>
                                     <span>The path to the primary ittf document of the "model" or to the the POJO source. &nbsp;</span>
                                     <span>When relative, the base path is the "modelsBaseFolder" &nbsp;</span>
-                                    <span>declared on the "wfjob" element. &nbsp;</span>
+                                    <span>declared on the "wzjob" element. &nbsp;</span>
                                 </div>
                             </td>
                         </tr>
@@ -720,9 +720,9 @@
                 <span>. A swig template. &nbsp;</span>
                 <span>. A code write generation that takes in input a context of one or more WizziModels. &nbsp;</span>
                 <span>. A final artifact to be copied to a destination folder without transformations. &nbsp;</span>
-                <span>. A reference to another WfJob, to be executed before the current WfJob where the artifact is declared. &nbsp;</span>
+                <span>. A reference to another WzJob, to be executed before the current WzJob where the artifact is declared. &nbsp;</span>
                 <span> &nbsp;</span>
-                <span>Context value objects for template transformations are declared in the "model" element, child of the "wfjob" root element &nbsp;</span>
+                <span>Context value objects for template transformations are declared in the "model" element, child of the "wzjob" root element &nbsp;</span>
                 <span>and may be referenced in the elements "modelRef", children of the "artifact" element. &nbsp;</span>
                 <span> &nbsp;</span>
                 <span>The "src" attribute can be a glob pattern. &nbsp;</span>
@@ -761,10 +761,10 @@
                 <span>Indicator that the mTree buildup script must be 'compiled' for javascript &nbsp;</span>
                 <span>and loaded with a 'require-from-string' function instead of &nbsp;</span>
                 <span>being submitted to js-wizzi. &nbsp;</span>
-                <span>Indicator that the artifact source is a wizzi factory job, alias a wizzi model of schema 'wfjob'. &nbsp;</span>
-                <span>The job will be executed before any other artifact production of the current wfjob. &nbsp;</span>
+                <span>Indicator that the artifact source is a wizzi factory job, alias a wizzi model of schema 'wzjob'. &nbsp;</span>
+                <span>The job will be executed before any other artifact production of the current wzjob. &nbsp;</span>
                 <span>This could be autodected from the schema, but autodetection would forbid other uses or transformations &nbsp;</span>
-                <span>of a "wfjob" model, so the indicator is required. &nbsp;</span>
+                <span>of a "wzjob" model, so the indicator is required. &nbsp;</span>
                 <span>Indicator that the artifact source is a wizzi schema, alias a wizzi model of schema 'wfschema' &nbsp;</span>
                 <span>and that the generation of the artifacts for the wizzi model described by the wfschema is requested. &nbsp;</span>
                 <span>This could be autodected from the schema, but autodetection would forbid other uses or transformations &nbsp;</span>
@@ -890,8 +890,8 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td>isWfJob</td>
-                            <td>is-wf-job</td>
+                            <td>isWzJob</td>
+                            <td>is-wz-job</td>
                             <td>boolean</td>
                             <td>false</td>
                             <td></td>
@@ -899,8 +899,8 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td>isWfModelType</td>
-                            <td>is-wf-model-type</td>
+                            <td>isWzModelType</td>
+                            <td>is-wz-model-type</td>
                             <td>boolean</td>
                             <td>false</td>
                             <td></td>
@@ -1550,4 +1550,3 @@
 </body>
 
 </html>
-

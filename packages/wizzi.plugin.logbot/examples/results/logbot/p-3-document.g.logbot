@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.html\lib\artifacts\html\document\gen\main.js
     package: @wizzi/plugin.html@0.8.10
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.logbot\lib\artifacts\logbot\document\gen\ittf\document.html.ittf
-    utc time: Fri, 09 Aug 2024 16:30:56 GMT
+    utc time: Mon, 12 Aug 2024 11:49:05 GMT
 -->
 <!doctype html>
 <html lang="en">
@@ -44,6 +44,7 @@
             content: "\2212";
         }
         .panel {
+            margin-top: 5px;
             padding: 0 18px;
             display: none;
             background-color: white;
@@ -59,16 +60,31 @@
             -o-border-radius: 5px;
             border-radius: 5px;
         }
+        .name {
+            font-size: 9px;
+        }
+        .billing {
+            font-size: 12px;
+            padding: 4px;
+            background-color: #333333;
+            color: yellow;
+        }
     </style>
 </head>
 <body>
     <h2>chatGPT API calls</h2>
-    <button class="accordion">Join-1</button>
+    <button class="accordion">Join of two arrays</button>
     <div class="panel">
-        <p>Description: Join of two arrays</p>
-        <p>Info billing: "Returned cached response"</p>
-        <p>Usage </p>
-        <p>Finish reason </p>
+        <h3>Prompt</h3>
+        <div>role system</div>
+        <div>content undefined You are an expert of JSON and of the `jsonata` package</div>
+        <div>role user</div>
+        <div>content Using jsonata, given an array of books { isbn, title, author } and an array of loans { isbn, userName } i need a join resulting in { isbn, title, author, userName}</div>
+    </div>
+    <div class="panel">
+        <h3>Answer</h3>
+        <span class="billing">
+            Info billing: "Returned cached response"</span>
         <p>To achieve the join operation using <code>jsonata</code>, you can perform a mapping and filtering operation. Assuming you have the following structure for your data:</p>
 <pre><code class="language-json">{
   &quot;books&quot;: [
@@ -120,12 +136,18 @@
 </code></pre>
 <p>In this example, the book with <code>isbn</code> &quot;333&quot; does not have a corresponding loan, so its <code>userName</code> is <code>null</code>.</p>
 </div>
-    <button class="accordion">Accordion</button>
+    <button class="accordion">Accordion example</button>
     <div class="panel">
-        <p>Description: Accordion example</p>
-        <p>Info billing: "Returned cached response"</p>
-        <p>Usage </p>
-        <p>Finish reason </p>
+        <h3>Prompt</h3>
+        <div>role system</div>
+        <div>content undefined You are an expert of HTML and of the minimal js framework `alpine`</div>
+        <div>role user</div>
+        <div>content I have a list of result, each result contains a title, a longer description, and javascript code. I need an HTML page to show the items of the list as `accordion` controls. So i have a list of titles and, when a title is clicked, the description and the code are shown.</div>
+    </div>
+    <div class="panel">
+        <h3>Answer</h3>
+        <span class="billing">
+            Info billing: "Returned cached response"</span>
         <p>Certainly! You can create an accordion using HTML and the Alpine.js framework. Alpine.js is great for this task because it allows you to handle interactivity with minimal JavaScript. Below is an example of how you can build this:</p>
 <pre><code class="language-html">&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;en&quot;&gt;

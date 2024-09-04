@@ -2,9 +2,7 @@
   "name": "prisma",
   "preserveTags": true,
   "requires": [],
-  "exportTos": [
-    "json"
-  ],
+  "exportTos": [],
   "elements": [
     {
       "name": "comment",
@@ -91,6 +89,12 @@
       ],
       "derived": [
         {
+          "name": "extension",
+          "tags": [
+            "ext"
+          ]
+        },
+        {
           "name": "prisma",
           "tags": [
             "prisma"
@@ -133,12 +137,135 @@
           ]
         },
         {
+          "name": "fieldConstraint",
+          "tags": [
+            "fieldConstraint"
+          ]
+        },
+        {
+          "name": "defaultValue",
+          "tags": [
+            "default"
+          ]
+        },
+        {
+          "name": "min",
+          "tags": [
+            "min"
+          ]
+        },
+        {
+          "name": "max",
+          "tags": [
+            "max"
+          ]
+        },
+        {
+          "name": "minLength",
+          "tags": [
+            "min-length"
+          ]
+        },
+        {
+          "name": "maxLength",
+          "tags": [
+            "max-length"
+          ]
+        },
+        {
+          "name": "regExp",
+          "tags": [
+            "reg-exp"
+          ]
+        },
+        {
+          "name": "xenum",
+          "tags": [
+            "enum"
+          ]
+        },
+        {
+          "name": "dbColumn",
+          "tags": [
+            "dbColumn"
+          ]
+        },
+        {
+          "name": "dbColumnDefaultTo",
+          "tags": [
+            "db-default-to"
+          ]
+        },
+        {
+          "name": "dbColumnName",
+          "tags": [
+            "db-name"
+          ]
+        },
+        {
+          "name": "dbColumnNotNullable",
+          "tags": [
+            "db-not-nullable"
+          ]
+        },
+        {
+          "name": "dbColumnUnsigned",
+          "tags": [
+            "db-unsigned"
+          ]
+        },
+        {
+          "name": "dbColumnUnique",
+          "tags": [
+            "db-unique"
+          ]
+        },
+        {
+          "name": "dbColumnType",
+          "tags": [
+            "db-type"
+          ]
+        },
+        {
+          "name": "dbColumnArgs",
+          "tags": [
+            "db-args"
+          ]
+        },
+        {
           "name": "blockAttribute",
           "tags": [
             "@@"
           ]
         }
       ],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "extension",
+      "super": "commentable",
+      "isRoot": false,
+      "tags": [
+        "ext"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        }
+      ],
+      "derived": [],
       "restricts": [],
       "methods": [],
       "comments": []
@@ -212,78 +339,90 @@
       ],
       "flags": "is-abstract ",
       "attributes": [],
-      "relations": [],
+      "relations": [
+        {
+          "name": "extension",
+          "role": "extensions",
+          "tags": [
+            "ext"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        }
+      ],
       "derived": [
         {
           "name": "stringType",
           "tags": [
-            ":string"
+            "string"
           ]
         },
         {
           "name": "booleanType",
           "tags": [
-            ":boolean"
+            "boolean"
           ]
         },
         {
           "name": "intType",
           "tags": [
-            ":int"
+            "int"
           ]
         },
         {
           "name": "bigIntType",
           "tags": [
-            ":bigInt"
+            "bigInt"
           ]
         },
         {
           "name": "floatType",
           "tags": [
-            ":float"
+            "float"
           ]
         },
         {
           "name": "decimalType",
           "tags": [
-            ":decimal"
+            "decimal"
           ]
         },
         {
           "name": "dateTimeType",
           "tags": [
-            ":dateTime"
+            "dateTime"
           ]
         },
         {
           "name": "jsonType",
           "tags": [
-            ":json"
+            "json"
           ]
         },
         {
           "name": "bytesType",
           "tags": [
-            ":bytes"
+            "bytes"
           ]
         },
         {
           "name": "unsupportedType",
           "tags": [
-            ":unsupported"
+            "unsupported"
           ]
         },
         {
           "name": "refType",
           "tags": [
-            ":ref"
+            "ref"
           ]
         },
         {
           "name": "listType",
           "tags": [
-            ":["
+            "["
           ]
         }
       ],
@@ -312,11 +451,23 @@
       "super": "fieldType",
       "isRoot": false,
       "tags": [
-        ":string"
+        "string"
       ],
       "flags": "",
       "attributes": [],
-      "relations": [],
+      "relations": [
+        {
+          "name": "extension",
+          "role": "extensions",
+          "tags": [
+            "ext"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "fieldType",
+          "comments": []
+        }
+      ],
       "derived": [],
       "restricts": [],
       "methods": [],
@@ -327,11 +478,23 @@
       "super": "fieldType",
       "isRoot": false,
       "tags": [
-        ":boolean"
+        "boolean"
       ],
       "flags": "",
       "attributes": [],
-      "relations": [],
+      "relations": [
+        {
+          "name": "extension",
+          "role": "extensions",
+          "tags": [
+            "ext"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "fieldType",
+          "comments": []
+        }
+      ],
       "derived": [],
       "restricts": [],
       "methods": [],
@@ -342,11 +505,23 @@
       "super": "fieldType",
       "isRoot": false,
       "tags": [
-        ":int"
+        "int"
       ],
       "flags": "",
       "attributes": [],
-      "relations": [],
+      "relations": [
+        {
+          "name": "extension",
+          "role": "extensions",
+          "tags": [
+            "ext"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "fieldType",
+          "comments": []
+        }
+      ],
       "derived": [],
       "restricts": [],
       "methods": [],
@@ -357,11 +532,23 @@
       "super": "fieldType",
       "isRoot": false,
       "tags": [
-        ":bigInt"
+        "bigInt"
       ],
       "flags": "",
       "attributes": [],
-      "relations": [],
+      "relations": [
+        {
+          "name": "extension",
+          "role": "extensions",
+          "tags": [
+            "ext"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "fieldType",
+          "comments": []
+        }
+      ],
       "derived": [],
       "restricts": [],
       "methods": [],
@@ -372,11 +559,23 @@
       "super": "fieldType",
       "isRoot": false,
       "tags": [
-        ":float"
+        "float"
       ],
       "flags": "",
       "attributes": [],
-      "relations": [],
+      "relations": [
+        {
+          "name": "extension",
+          "role": "extensions",
+          "tags": [
+            "ext"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "fieldType",
+          "comments": []
+        }
+      ],
       "derived": [],
       "restricts": [],
       "methods": [],
@@ -387,11 +586,23 @@
       "super": "fieldType",
       "isRoot": false,
       "tags": [
-        ":decimal"
+        "decimal"
       ],
       "flags": "",
       "attributes": [],
-      "relations": [],
+      "relations": [
+        {
+          "name": "extension",
+          "role": "extensions",
+          "tags": [
+            "ext"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "fieldType",
+          "comments": []
+        }
+      ],
       "derived": [],
       "restricts": [],
       "methods": [],
@@ -402,11 +613,23 @@
       "super": "fieldType",
       "isRoot": false,
       "tags": [
-        ":dateTime"
+        "dateTime"
       ],
       "flags": "",
       "attributes": [],
-      "relations": [],
+      "relations": [
+        {
+          "name": "extension",
+          "role": "extensions",
+          "tags": [
+            "ext"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "fieldType",
+          "comments": []
+        }
+      ],
       "derived": [],
       "restricts": [],
       "methods": [],
@@ -417,11 +640,23 @@
       "super": "fieldType",
       "isRoot": false,
       "tags": [
-        ":json"
+        "json"
       ],
       "flags": "",
       "attributes": [],
-      "relations": [],
+      "relations": [
+        {
+          "name": "extension",
+          "role": "extensions",
+          "tags": [
+            "ext"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "fieldType",
+          "comments": []
+        }
+      ],
       "derived": [],
       "restricts": [],
       "methods": [],
@@ -432,11 +667,23 @@
       "super": "fieldType",
       "isRoot": false,
       "tags": [
-        ":bytes"
+        "bytes"
       ],
       "flags": "",
       "attributes": [],
-      "relations": [],
+      "relations": [
+        {
+          "name": "extension",
+          "role": "extensions",
+          "tags": [
+            "ext"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "fieldType",
+          "comments": []
+        }
+      ],
       "derived": [],
       "restricts": [],
       "methods": [],
@@ -447,11 +694,23 @@
       "super": "fieldType",
       "isRoot": false,
       "tags": [
-        ":unsupported"
+        "unsupported"
       ],
       "flags": "",
       "attributes": [],
-      "relations": [],
+      "relations": [
+        {
+          "name": "extension",
+          "role": "extensions",
+          "tags": [
+            "ext"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "fieldType",
+          "comments": []
+        }
+      ],
       "derived": [],
       "restricts": [],
       "methods": [],
@@ -462,11 +721,23 @@
       "super": "fieldType",
       "isRoot": false,
       "tags": [
-        ":ref"
+        "ref"
       ],
       "flags": "",
       "attributes": [],
-      "relations": [],
+      "relations": [
+        {
+          "name": "extension",
+          "role": "extensions",
+          "tags": [
+            "ext"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "fieldType",
+          "comments": []
+        }
+      ],
       "derived": [],
       "restricts": [],
       "methods": [],
@@ -477,7 +748,7 @@
       "super": "fieldType",
       "isRoot": false,
       "tags": [
-        ":["
+        "["
       ],
       "flags": "",
       "attributes": [],
@@ -491,6 +762,17 @@
           "cardinality": "one-to-one",
           "flags": "is-one-to-one ",
           "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "extension",
+          "role": "extensions",
+          "tags": [
+            "ext"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "fieldType",
           "comments": []
         }
       ],
@@ -550,6 +832,12 @@
           "name": "array",
           "tags": [
             "["
+          ]
+        },
+        {
+          "name": "attributeName",
+          "tags": [
+            "name"
           ]
         },
         {
@@ -819,6 +1107,23 @@
             }
           ],
           "comments": []
+        },
+        {
+          "name": "setJSON",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "parent"
+          ],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
         }
       ],
       "comments": []
@@ -864,6 +1169,23 @@
           "isStatic": false,
           "isKnownMethod": false,
           "params": [],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "setJSON",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "parentArray"
+          ],
           "statements": [
             {
               "tag": "+",
@@ -999,7 +1321,21 @@
         "model"
       ],
       "flags": "",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "extNoUpload",
+          "type": "boolean",
+          "tags": [
+            "noUpload"
+          ],
+          "default": "false",
+          "defaultWhenDeclared": "true",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "field",
@@ -1053,10 +1389,67 @@
           "name": "optional",
           "type": "boolean",
           "tags": [
-            ":optional"
+            "optional"
           ],
           "default": "false",
           "defaultWhenDeclared": "true",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "extIdRelated",
+          "type": "boolean",
+          "tags": [
+            "idRelated"
+          ],
+          "default": "false",
+          "defaultWhenDeclared": "true",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "relation",
+          "type": "string",
+          "tags": [
+            "relation"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "relationTarget",
+          "type": "string",
+          "tags": [
+            "relation-target"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "relatedModel",
+          "type": "string",
+          "tags": [
+            "related-model"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "relationName",
+          "type": "string",
+          "tags": [
+            "relation-name"
+          ],
           "flags": "",
           "inheritedFrom": null,
           "restricts": [],
@@ -1087,6 +1480,17 @@
           "comments": []
         },
         {
+          "name": "fieldConstraint",
+          "role": "fieldConstraints",
+          "tags": [
+            "fieldConstraint"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
           "name": "comment",
           "role": "comments",
           "tags": [
@@ -1102,7 +1506,52 @@
       "restricts": [],
       "methods": [
         {
+          "name": "wzInitialize",
+          "isStatic": false,
+          "isKnownMethod": true,
+          "params": [],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
           "name": "getTypeString",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "getType",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "getTypeExtensions",
           "isStatic": false,
           "isKnownMethod": false,
           "params": [],
@@ -1140,6 +1589,691 @@
           "inheritedFrom": null,
           "comments": []
         },
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "fieldConstraint",
+      "super": "commentable",
+      "isRoot": false,
+      "tags": [
+        "fieldConstraint"
+      ],
+      "flags": "is-abstract ",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        }
+      ],
+      "derived": [
+        {
+          "name": "defaultValue",
+          "tags": [
+            "default"
+          ]
+        },
+        {
+          "name": "min",
+          "tags": [
+            "min"
+          ]
+        },
+        {
+          "name": "max",
+          "tags": [
+            "max"
+          ]
+        },
+        {
+          "name": "minLength",
+          "tags": [
+            "min-length"
+          ]
+        },
+        {
+          "name": "maxLength",
+          "tags": [
+            "max-length"
+          ]
+        },
+        {
+          "name": "regExp",
+          "tags": [
+            "reg-exp"
+          ]
+        },
+        {
+          "name": "xenum",
+          "tags": [
+            "enum"
+          ]
+        }
+      ],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "defaultValue",
+      "super": "fieldConstraint",
+      "isRoot": false,
+      "tags": [
+        "default"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "setField",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "field"
+          ],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": []
+    },
+    {
+      "name": "min",
+      "super": "fieldConstraint",
+      "isRoot": false,
+      "tags": [
+        "min"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "setField",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "field"
+          ],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": []
+    },
+    {
+      "name": "max",
+      "super": "fieldConstraint",
+      "isRoot": false,
+      "tags": [
+        "max"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "setField",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "field"
+          ],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": []
+    },
+    {
+      "name": "minLength",
+      "super": "fieldConstraint",
+      "isRoot": false,
+      "tags": [
+        "min-length"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "setField",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "field"
+          ],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": []
+    },
+    {
+      "name": "maxLength",
+      "super": "fieldConstraint",
+      "isRoot": false,
+      "tags": [
+        "max-length"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "setField",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "field"
+          ],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": []
+    },
+    {
+      "name": "regExp",
+      "super": "fieldConstraint",
+      "isRoot": false,
+      "tags": [
+        "reg-exp"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "setField",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "field"
+          ],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": []
+    },
+    {
+      "name": "xenum",
+      "super": "fieldConstraint",
+      "isRoot": false,
+      "tags": [
+        "enum"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "enumValue",
+          "role": "enumValues",
+          "tags": [
+            "value"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "wzInitialize",
+          "isStatic": false,
+          "isKnownMethod": true,
+          "params": [],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "setField",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "field"
+          ],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": []
+    },
+    {
+      "name": "enumValue",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "value"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "dbColumn",
+      "super": "commentable",
+      "isRoot": false,
+      "tags": [
+        "dbColumn"
+      ],
+      "flags": "is-abstract ",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        }
+      ],
+      "derived": [
+        {
+          "name": "dbColumnDefaultTo",
+          "tags": [
+            "db-default-to"
+          ]
+        },
+        {
+          "name": "dbColumnName",
+          "tags": [
+            "db-name"
+          ]
+        },
+        {
+          "name": "dbColumnNotNullable",
+          "tags": [
+            "db-not-nullable"
+          ]
+        },
+        {
+          "name": "dbColumnUnsigned",
+          "tags": [
+            "db-unsigned"
+          ]
+        },
+        {
+          "name": "dbColumnUnique",
+          "tags": [
+            "db-unique"
+          ]
+        },
+        {
+          "name": "dbColumnType",
+          "tags": [
+            "db-type"
+          ]
+        },
+        {
+          "name": "dbColumnArgs",
+          "tags": [
+            "db-args"
+          ]
+        }
+      ],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "dbColumnDefaultTo",
+      "super": "dbColumn",
+      "isRoot": false,
+      "tags": [
+        "db-default-to"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "dbColumnName",
+      "super": "dbColumn",
+      "isRoot": false,
+      "tags": [
+        "db-name"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "dbColumnNotNullable",
+      "super": "dbColumn",
+      "isRoot": false,
+      "tags": [
+        "db-not-nullable"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "dbColumnUnsigned",
+      "super": "dbColumn",
+      "isRoot": false,
+      "tags": [
+        "db-unsigned"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "dbColumnUnique",
+      "super": "dbColumn",
+      "isRoot": false,
+      "tags": [
+        "db-unique"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "dbColumnType",
+      "super": "dbColumn",
+      "isRoot": false,
+      "tags": [
+        "db-type"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "dbColumnArgs",
+      "super": "dbColumn",
+      "isRoot": false,
+      "tags": [
+        "db-args"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
         {
           "name": "comment",
           "role": "comments",
@@ -1204,7 +2338,85 @@
       ],
       "derived": [],
       "restricts": [],
-      "methods": [],
+      "methods": [
+        {
+          "name": "setJSON",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "parent"
+          ],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": []
+    },
+    {
+      "name": "attributeName",
+      "super": "valueAssign",
+      "isRoot": false,
+      "tags": [
+        "name"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "valueAssign",
+          "role": "valueAssigns",
+          "tags": [
+            "valueAssign"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "valueAssign",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "getValueString",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "setJSON",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "parent"
+          ],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
       "comments": []
     },
     {
@@ -1248,6 +2460,23 @@
           "isStatic": false,
           "isKnownMethod": false,
           "params": [],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "setJSON",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "parent"
+          ],
           "statements": [
             {
               "tag": "+",
@@ -1311,6 +2540,23 @@
             }
           ],
           "comments": []
+        },
+        {
+          "name": "setJSON",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "parent"
+          ],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
         }
       ],
       "comments": []
@@ -1345,6 +2591,23 @@
           "isStatic": false,
           "isKnownMethod": false,
           "params": [],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "setJSON",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "parent"
+          ],
           "statements": [
             {
               "tag": "+",
@@ -1397,6 +2660,23 @@
             }
           ],
           "comments": []
+        },
+        {
+          "name": "setJSON",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "parent"
+          ],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
         }
       ],
       "comments": []
@@ -1431,6 +2711,23 @@
           "isStatic": false,
           "isKnownMethod": false,
           "params": [],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "setJSON",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "parent"
+          ],
           "statements": [
             {
               "tag": "+",

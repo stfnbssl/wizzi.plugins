@@ -6,8 +6,8 @@
 */
 const path = require('path');
 module.exports = {
-    wfjobName: "wizzi.plugin.logbot/job", 
-    wfjobPath: path.join(__dirname, '.wizzi', 'generate.wfjob.ittf'), 
+    wzjobName: "wizzi.plugin.logbot/job", 
+    wzjobPath: path.join(__dirname, '.wizzi', 'generate.wzjob.ittf'), 
     destPath: __dirname, 
     plugins: [
         "./wizzi.plugin.css/index.js", 

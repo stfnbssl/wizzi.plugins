@@ -36,7 +36,7 @@ var raml_examples_step_1 = function(step_callback) {
         }
         wf.executeJob({
             name: "", 
-            path: path.join(__dirname, 'ittf', 'dash', 'dash-raml.wfjob.ittf'), 
+            path: path.join(__dirname, 'ittf', 'dash', 'dash-raml.wzjob.ittf'), 
             productionOptions: wizzi.productionOptions({
                 indentSpaces: 4, 
                 basedir: __dirname, 
@@ -50,7 +50,7 @@ var raml_examples_step_1 = function(step_callback) {
                 console.log("[31m%s[0m", 'err', err);
                 throw err;
             }
-            console.log('dash-raml.wfjob.ittf result', result, __filename);
+            console.log('dash-raml.wzjob.ittf result', result, __filename);
         }
         )
     }

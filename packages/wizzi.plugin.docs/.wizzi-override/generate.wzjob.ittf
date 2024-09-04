@@ -1,0 +1,61 @@
+wzjob wizzi.plugin.docs/job
+    
+    $
+        var jobCtx = {
+            ittf_models_folder: path.join(__dirname, 'models'),
+            ittf_lib_folder: path.join(__dirname, 'lib'),
+            ittf_root_folder: path.join(__dirname, 'root'),
+            ittf_examples_folder: path.join(__dirname, 'examples'),
+            ittf_tests_folder: path.join(__dirname, 'tests'),
+            dest_folder: path.join(__dirname, '..'),
+            job_model: 'wzCtx'
+        }
+    
+    model ${jobCtx.job_model}
+        schema json
+        src ${jobCtx.ittf_models_folder}/wzctx.json.ittf
+    
+    line ittf-models
+        cwd-folder ${jobCtx.ittf_models_folder}
+        wzjobs(any_json, &jobCtx)
+    
+    line ittf-root
+        cwd-folder ${jobCtx.ittf_root_folder}
+        wzjobs(any_js, &jobCtx)
+        wzjobs(any_json, &jobCtx)
+        wzjobs(any_md, &jobCtx)
+        wzjobs(any_text, &jobCtx)
+        wzjobs(.gitignore, &jobCtx)
+        wzjobs(any_plain, &jobCtx, ts)
+    
+    line ittf-lib
+        cwd-folder ${jobCtx.ittf_lib_folder}
+        dest-folder ${jobCtx.dest_folder}/lib
+        wzjobs(any_js, &jobCtx)
+        wzjobs(any_lib__copy, &jobCtx, ittf)
+    
+    line ittf-examples
+        cwd-folder ${jobCtx.ittf_examples_folder}
+        dest-folder ${jobCtx.dest_folder}/examples
+        wzjobs(any_js, &jobCtx)
+        wzjobs(any_html, &jobCtx)
+        wzjobs(any_css, &jobCtx)
+        wzjobs(any_ittf, &jobCtx)
+        wzjobs(any_text, &jobCtx)
+        wzjobs(any_plain, &jobCtx, html)
+        wzjobs(any_plain, &jobCtx, css)
+        wzjobs(any_plain, &jobCtx, js)
+        wzjobs(any_examples__copy, &jobCtx, ittf)
+    
+    line ittf-tests
+        cwd-folder ${jobCtx.ittf_tests_folder}
+        dest-folder ${jobCtx.dest_folder}/tests
+        wzjobs(any_plain, &jobCtx, ittf)
+    
+    production
+        dest-folder ${jobCtx.dest_folder}
+        line-ref ittf-models
+        line-ref ittf-root
+        line-ref ittf-examples
+        line-ref ittf-tests
+        line-ref ittf-lib

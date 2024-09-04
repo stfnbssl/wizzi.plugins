@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.json\.wizzi-override\lib\artifacts\json\toyaml\gen\main.js.ittf
-    utc time: Mon, 06 May 2024 14:25:33 GMT
+    utc time: Tue, 13 Aug 2024 18:04:47 GMT
 */
-'use strict';
 
 
 var util = require('util');
@@ -73,7 +72,6 @@ md.genItems = function(items, ctx, options, callback) {
         goitems.push(items[i]);
     }
     async.mapSeries(goitems, md.mapItem(ctx), (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }

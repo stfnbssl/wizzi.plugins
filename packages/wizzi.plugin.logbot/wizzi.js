@@ -65,8 +65,8 @@ function generate(configPath) {
             pluginsBaseFolder: x_pluginsBaseFolder
          }, 
         job: {
-            name: configInstance.wfjobName, 
-            ittfDocumentUri: configInstance.wfjobPath, 
+            name: configInstance.wzjobName, 
+            ittfDocumentUri: configInstance.wzjobPath, 
             productionOptions: wizzi.productionOptions({
                 indentSpaces: 4, 
                 basedir: __dirname, 
@@ -82,17 +82,17 @@ function generate(configPath) {
          }
      }, function(err) {
         if (err) {
-            return wizzi.printWizziJobError(configInstance.wfjobName, err);
+            return wizzi.printWizziJobError(configInstance.wzjobName, err);
         }
         if (configInstance.schemas && configInstance.schemas.length > 0) {
-            generateSchemas(configInstance.schemas, path.dirname(configInstance.wfjobPath), configInstance.destPath, configInstance.packageName || configInstance.wfjobName, {
+            generateSchemas(configInstance.schemas, path.dirname(configInstance.wzjobPath), configInstance.destPath, configInstance.packageName || configInstance.wzjobName, {
                 items: x_pluginsItems, 
                 baseFolder: x_pluginsBaseFolder
              })
         }
     })
 }
-function generateSchemas(schemasToGen, wfJobFolder, destPath, packageName, plugins) {
+function generateSchemas(schemasToGen, wzJobFolder, destPath, packageName, plugins) {
     async.mapSeries(schemasToGen, function(schemaName, callback) {
         console.log('wizzi-cli.generate.Generating schema ' + schemaName);
         var options = {};
@@ -106,7 +106,7 @@ function generateSchemas(schemasToGen, wfJobFolder, destPath, packageName, plugi
             configOptions: options, 
             wfschema: {
                 name: schemaName, 
-                ittfDocumentUri: path.join(wfJobFolder, 'lib', 'wizzi', 'schemas', schemaName + '.wzschema.ittf'), 
+                ittfDocumentUri: path.join(wzJobFolder, 'lib', 'wizzi', 'schemas', schemaName + '.wzschema.ittf'), 
                 outputPackageFolder: destPath
              }
          }, function(err, result) {

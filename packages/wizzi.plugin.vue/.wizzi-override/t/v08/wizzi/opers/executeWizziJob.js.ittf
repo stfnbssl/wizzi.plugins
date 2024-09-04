@@ -20,7 +20,7 @@ $group
                         @ jobContext {}
                     @ callback
     function executeWizziJob_2
-        param wfjobDocumentUri
+        param wzjobDocumentUri
         param options
         set options = options || {}
         set options.plugins = options.plugins || []
@@ -42,8 +42,8 @@ $group
                     @ wfBaseFolder 'c:/my/wizzi/v5'
                     @ plugins jobPlugins
                 { job
-                    @ name 'example ' + wfjobDocumentUri
-                    @ ittfDocumentUri wfjobDocumentUri
+                    @ name 'example ' + wzjobDocumentUri
+                    @ ittfDocumentUri wzjobDocumentUri
                     @ productionOptions
                         _ wizzi.productionOptions
                             {

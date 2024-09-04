@@ -1,0 +1,278 @@
+prisma logbot
+    
+    dbgen/sqlite()
+
+    #
+    # Entità di typizzazione di base
+    #
+
+    model_cuid( Protocol
+        field name
+            string 
+            # example "s7" | "modbustcp" | "opqua" | "modbusrtu" | ...
+        field connectionProperties
+            ref ConnectionProperty[] 
+        field metricProperties
+            ref MetricProperty[] 
+        field connectionPropertyConstraints
+            ref ConnectionPropertyConstraint[]
+        field metricPropertyConstraints
+            ref MetricPropertyConstraint[]
+        field metricPropertyImplications
+            ref MetricPropertyImplication[]
+        field plcs
+            ref Plc[]
+
+    model_cuid( Constraint
+        field name
+            string        
+            # example "minimum" | "maximum" | "maxLength" | ...
+        field connectionPropertyConstraints
+            ref ConnectionPropertyConstraint[]
+        field metricPropertyConstraints
+            ref MetricPropertyConstraint[]
+
+    model_cuid( Implication
+        field name
+            string        
+            # example "require"
+        field metricPropertyImplications
+            ref MetricPropertyImplication[]
+
+    model_cuid( ConnectionProperty
+        field_reference( protocol
+        field name
+            string 
+        field description
+            string 
+        field pattern
+            string 
+        field default
+            string 
+        field required
+            boolean 
+        field connectionPropertyConstraints
+            ref ConnectionPropertyConstraint[]
+        field connectionValues
+            ref ConnectionValue[]
+
+    model_cuid( ConnectionPropertyConstraint
+        field_reference( protocol
+        field_reference( connectionProperty
+        field_reference( constraint
+        field value
+            string 
+            # Il contenuto di `value` deve essere convertito nel `type` della ConnectionProperty
+
+    model_cuid( MetricProperty
+        field_reference( protocol
+        field name
+            string 
+            # pattern "^[a-zA-Z0-9_.-]{3,32}$"
+            # description "name of metric"
+            reg-exp ^[a-zA-Z0-9_.-]{3,32}$
+        field description
+            string 
+        field pattern
+            string 
+            enum
+                value super
+                value minus
+        field default
+            string 
+        field required
+            boolean 
+        field metricPropertyConstraints
+            ref MetricPropertyConstraint[]
+        field metricPropertyImplications
+            ref MetricPropertyImplication[]
+            @ relation
+                name r_metricProperty
+        field onMetricPropertyImplications
+            ref MetricPropertyImplication[]
+            @ relation
+                name r_on_metricProperty
+        field metricValues
+            ref MetricValue[]
+        
+    model_cuid( MetricPropertyConstraint
+        field_reference( protocol
+        field_reference( metricProperty
+        field_reference( constraint
+        field value
+            string 
+            # Il contenuto di `value` deve essere convertito nel `type` della MetricProperty
+
+    model_cuid( MetricPropertyImplication
+        field_reference( protocol
+        field_reference( metricProperty, metricProperty, r_metricProperty
+        field value
+            string 
+        field_reference( implication
+        field_reference( metricProperty, onMetricProperty, r_on_metricProperty
+        field onValue
+            string 
+    
+    #
+    # Entità di gestione utenti ed accessi
+    #
+    model_cuid( Organization
+        field users
+            ref User[]
+        field plants
+            ref Plant[]
+    
+    model_cuid( User
+        field_reference( organization
+
+    #
+    # Entità di configurazione impianti
+    #
+
+    model_cuid( Plant
+        field_reference( organization
+        field plant_id
+            string 
+        field gateways
+            ref Gateway[]
+
+    model_cuid( Gateway
+        field_reference( plant, plant
+        field iot_id
+            string 
+        field batching_maxSize
+            int
+            # minimum 0
+            # maximum 1000
+            # description "0 means no batching"
+        field batching_period
+            int
+            min 0
+            # description "batching period in seconds, 0 means disabled"
+        field iot_config
+            string
+                ext prisma Memo
+        field plcs
+            ref Plc[]
+        field scripts
+            ref Script[]            
+
+    model_cuid( Plc
+        field_reference( gateway
+        field_reference( protocol
+        field plc_id
+            string 
+            # pattern "^[a-zA-Z0-9_.-]{3,32}$"
+            # description "id of plc"
+        field connectionValues
+            ref ConnectionValue[]
+        field metrics
+            ref Metric[]
+
+    model_cuid( ConnectionValue
+        field_reference( plc
+        field_reference( connectionProperty
+        field value
+            string 
+
+    model_cuid( Metric
+        field_reference( plc
+        field_reference( script, , , optional
+        field name
+            string 
+            # pattern "^[a-zA-Z0-9_.-]{3,32}$"
+            # description "metric name"
+        field interval
+            int
+            # minimum 10000
+            # maximum 10000000000
+            # description "interval in ms"
+        field description
+            string
+            # maxLength 80
+            # description "optional description for metric"
+        field topic
+            string
+            # enum "mdm", "mdm-index-overload" 
+            # description "topic to publish to"
+        field script_value
+            string
+            # description "script value itself when not used the reference to Script model"
+        field ret_policy
+            string
+            # enum "agg10y", "noagg6m", "noagg6h", "noagg3m" 
+            # description "retain policy tag"
+        field metricValues
+            ref MetricValue[]
+        field staticTags
+            ref StaticTag[]
+        field dynamicTags
+            ref DynamicTag[]
+
+    model_cuid( MetricValue
+        field_reference( metric
+        field_reference( metricProperty
+        field value
+            string 
+
+    model_cuid( StaticTag
+        field_reference( metric
+        field tag_key
+            string 
+            # pattern ^[a-zA-Z0-9_-]{3,10}$
+        field tag_value
+            string 
+            # pattern ^[a-zA-Z0-9_.-]{1,10}$
+
+    model_cuid( DynamicTag
+        field_reference( metric
+        field tag_id
+            string 
+            # pattern ^[a-zA-Z0-9_-]{3,10}$
+        field default_value
+            string 
+            # pattern ^[a-zA-Z0-9_.-]{1,10}$
+            # description "default value of the tag (will be used in case of failed fetching or not allowed value)"
+        field description
+            string 
+            # maxLength 80
+        field ref_plc_id
+            string 
+            # pattern "^[a-zA-Z0-9_.-]{3,32}$"
+            # riferimento a plc del gateway
+        field ref_metric_name
+            string 
+            # pattern "^[a-zA-Z0-9_.-]{3,32}$"
+            # riferimento a metrica del plc del gateway selezionato
+        field allowedValues
+            ref DynamicTagAllowedValue[]
+
+    model_cuid( DynamicTagAllowedValue
+        field_reference( dynamicTag
+        field tag_value
+            string 
+            # pattern ^[a-zA-Z0-9_.-]{1,10}$ or regex
+            # value|regex can be detected programmatically
+            # no need of a DynamicTagAllowedRegex model
+
+    model_cuid( Script
+        field_reference( gateway
+        field script_id
+            string 
+            # pattern "^[a-zA-Z0-9_-]{3,20}$"
+        field script_type
+            string
+            # pattern "^[a-zA-Z0-9_. -]{3,20}$"
+        field script_description
+            string
+            # pattern "^[a-zA-Z0-9_. -+]{3,100}$"
+        field script_timeout
+            int
+            # minimum 0
+            # maximum 1000
+        field script_content
+            string
+            # maxLength 1000
+            # description "The whole return object must contains currentSent: any, fire: boolean, error: boolean. **Available variables: lastSent, currentRead**",
+        field metrics
+            ref Metric[]

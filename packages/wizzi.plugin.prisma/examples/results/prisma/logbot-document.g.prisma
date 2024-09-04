@@ -1,0 +1,216 @@
+datasource db {
+    provider = "sqlite"
+    url = env("DATABASE_URL", 3)
+}
+
+generator client {
+    provider = "prisma-client-js"
+    output = "node_modules/.prisma/client"
+    engineType = "library"
+    binaryTargets = ["native"]
+}
+
+model Protocol {
+    id String @id @default(cuid())
+    name String
+    connectionProperties ConnectionProperty[]
+    metricProperties MetricProperty[]
+    connectionPropertyConstraints ConnectionPropertyConstraint[]
+    metricPropertyConstraints MetricPropertyConstraint[]
+    metricPropertyImplications MetricPropertyImplication[]
+    plcs Plc[]
+}
+
+model Constraint {
+    id String @id @default(cuid())
+    name String
+    connectionPropertyConstraints ConnectionPropertyConstraint[]
+    metricPropertyConstraints MetricPropertyConstraint[]
+}
+
+model Implication {
+    id String @id @default(cuid())
+    name String
+    metricPropertyImplications MetricPropertyImplication[]
+}
+
+model ConnectionProperty {
+    id String @id @default(cuid())
+    protocol Protocol @relation(fields: [protocolId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    protocolId String
+    name String
+    description String
+    pattern String
+    default String
+    required Boolean
+    connectionPropertyConstraints ConnectionPropertyConstraint[]
+    connectionValues ConnectionValue[]
+}
+
+model ConnectionPropertyConstraint {
+    id String @id @default(cuid())
+    protocol Protocol @relation(fields: [protocolId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    protocolId String
+    connectionProperty ConnectionProperty @relation(fields: [connectionPropertyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    connectionPropertyId String
+    constraint Constraint @relation(fields: [constraintId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    constraintId String
+    value String
+}
+
+model MetricProperty {
+    id String @id @default(cuid())
+    protocol Protocol @relation(fields: [protocolId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    protocolId String
+    name String
+    description String
+    pattern String
+    default String
+    required Boolean
+    metricPropertyConstraints MetricPropertyConstraint[]
+    metricPropertyImplications MetricPropertyImplication[] @relation(name: "r_metricProperty")
+    onMetricPropertyImplications MetricPropertyImplication[] @relation(name: "r_on_metricProperty")
+    metricValues MetricValue[]
+}
+
+model MetricPropertyConstraint {
+    id String @id @default(cuid())
+    protocol Protocol @relation(fields: [protocolId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    protocolId String
+    metricProperty MetricProperty @relation(fields: [metricPropertyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    metricPropertyId String
+    constraint Constraint @relation(fields: [constraintId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    constraintId String
+    value String
+}
+
+model MetricPropertyImplication {
+    id String @id @default(cuid())
+    protocol Protocol @relation(fields: [protocolId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    protocolId String
+    metricProperty MetricProperty @relation(name: "r_metricProperty", fields: [metricPropertyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    metricPropertyId String
+    value String
+    implication Implication @relation(fields: [implicationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    implicationId String
+    onMetricProperty MetricProperty @relation(name: "r_on_metricProperty", fields: [onMetricPropertyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    onMetricPropertyId String
+    onValue String
+}
+
+model Organization {
+    id String @id @default(cuid())
+    users User[]
+    plants Plant[]
+}
+
+model User {
+    id String @id @default(cuid())
+    organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    organizationId String
+}
+
+model Plant {
+    id String @id @default(cuid())
+    organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    organizationId String
+    plant_id String
+    gateways Gateway[]
+}
+
+model Gateway {
+    id String @id @default(cuid())
+    plant Plant @relation(fields: [plantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    plantId String
+    iot_id String
+    batching_maxSize Int
+    batching_period Int
+    plcs Plc[]
+    scripts Script[]
+}
+
+model Plc {
+    id String @id @default(cuid())
+    gateway Gateway @relation(fields: [gatewayId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    gatewayId String
+    protocol Protocol @relation(fields: [protocolId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    protocolId String
+    plc_id String
+    connectionValues ConnectionValue[]
+    metrics Metric[]
+}
+
+model ConnectionValue {
+    id String @id @default(cuid())
+    plc Plc @relation(fields: [plcId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    plcId String
+    connectionProperty ConnectionProperty @relation(fields: [connectionPropertyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    connectionPropertyId String
+    value String
+}
+
+model Metric {
+    id String @id @default(cuid())
+    plc Plc @relation(fields: [plcId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    plcId String
+    script Script? @relation(fields: [scriptId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    scriptId String
+    name String
+    interval Int
+    description String
+    topic String
+    script_value String
+    ret_policy String
+    metricValues MetricValue[]
+    staticTags StaticTag[]
+    dynamicTags DynamicTag[]
+}
+
+model MetricValue {
+    id String @id @default(cuid())
+    metric Metric @relation(fields: [metricId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    metricId String
+    metricProperty MetricProperty @relation(fields: [metricPropertyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    metricPropertyId String
+    value String
+}
+
+model StaticTag {
+    id String @id @default(cuid())
+    metric Metric @relation(fields: [metricId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    metricId String
+    tag_key String
+    tag_value String
+}
+
+model DynamicTag {
+    id String @id @default(cuid())
+    metric Metric @relation(fields: [metricId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    metricId String
+    tag_id String
+    default_value String
+    description String
+    ref_plc_id String
+    ref_metric_name String
+    allowedValues DynamicTagAllowedValue[]
+}
+
+model DynamicTagAllowedValue {
+    id String @id @default(cuid())
+    dynamicTag DynamicTag @relation(fields: [dynamicTagId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    dynamicTagId String
+    tag_value String
+}
+
+model Script {
+    id String @id @default(cuid())
+    gateway Gateway @relation(fields: [gatewayId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    gatewayId String
+    script_id String
+    script_type String
+    script_description String
+    script_timeout Int
+    script_content String
+    metrics Metric[]
+}
+

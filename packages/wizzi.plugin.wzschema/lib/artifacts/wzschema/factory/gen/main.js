@@ -49,7 +49,7 @@ function isWizziPackageSchema(name) {
         'nools', 
         'npmpackage', 
         'wftest', 
-        'wfjob', 
+        'wzjob', 
         'wzjob', 
         'wfpackage', 
         'wfschema', 

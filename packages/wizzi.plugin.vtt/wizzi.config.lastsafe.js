@@ -7,8 +7,8 @@
 'use strict';
 const path = require('path');
 module.exports = {
-    wfjobName: "wizzi.plugin.vtt-override/job", 
-    wfjobPath: path.join(__dirname, '.wizzi-override', 'generate.wfjob.ittf'), 
+    wzjobName: "wizzi.plugin.vtt-override/job", 
+    wzjobPath: path.join(__dirname, '.wizzi-override', 'generate.wzjob.ittf'), 
     destPath: __dirname, 
     plugins: [
         "./wizzi.plugin.css/index.js", 

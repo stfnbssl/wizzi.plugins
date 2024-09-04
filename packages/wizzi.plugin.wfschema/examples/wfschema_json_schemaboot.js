@@ -182,7 +182,7 @@ function executeWizziJob(ittfDocumentUri, context, callback) {
     }
     )
 }
-function executeWizziJob_2(wfjobDocumentUri, options) {
+function executeWizziJob_2(wzjobDocumentUri, options) {
     options = options || {};
     options.plugins = options.plugins || [];
     options.globalContext = options.globalContext || {};
@@ -207,8 +207,8 @@ function executeWizziJob_2(wfjobDocumentUri, options) {
             plugins: jobPlugins
          }, 
         job: {
-            name: 'example ' + wfjobDocumentUri, 
-            ittfDocumentUri: wfjobDocumentUri, 
+            name: 'example ' + wzjobDocumentUri, 
+            ittfDocumentUri: wzjobDocumentUri, 
             productionOptions: wizzi.productionOptions({
                 indentSpaces: 4, 
                 basedir: __dirname, 

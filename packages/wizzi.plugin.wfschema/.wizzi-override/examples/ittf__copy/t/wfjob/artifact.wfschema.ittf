@@ -22,9 +22,9 @@
 		# . A swig template.
 		# . A code write generation that takes in input a context of one or more WizziModels.
 		# . A final artifact to be copied to a destination folder without transformations.
-		# . A reference to another WfJob, to be executed before the current WfJob where the artifact is declared.
+		# . A reference to another WzJob, to be executed before the current WzJob where the artifact is declared.
 		#
-		# Context value objects for template transformations are declared in the "model" element, child of the "wfjob" root element
+		# Context value objects for template transformations are declared in the "model" element, child of the "wzjob" root element
 		# and may be referenced in the elements "modelRef", children of the "artifact" element.
 		# 
         # The "src" attribute can be a glob pattern.
@@ -98,13 +98,13 @@
 			# and loaded with a 'require-from-string' function instead of 
 			# being submitted to js-wizzi.
 
-		a_flag( isWfJob, is-wf-job )
-			# Indicator that the artifact source is a wizzi factory job, alias a wizzi model of schema 'wfjob'.
-			# The job will be executed before any other artifact production of the current wfjob.
+		a_flag( isWzJob, is-wz-job )
+			# Indicator that the artifact source is a wizzi factory job, alias a wizzi model of schema 'wzjob'.
+			# The job will be executed before any other artifact production of the current wzjob.
 			# This could be autodected from the schema, but autodetection would forbid other uses or transformations
-			# of a "wfjob" model, so the indicator is required.
+			# of a "wzjob" model, so the indicator is required.
 
-		a_flag( isWfModelType, is-wf-model-type )
+		a_flag( isWzModelType, is-wz-model-type )
 			# Indicator that the artifact source is a wizzi schema, alias a wizzi model of schema 'wfschema'
 			# and that the generation of the artifacts for the wizzi model described by the wfschema is requested.
 			# This could be autodected from the schema, but autodetection would forbid other uses or transformations

@@ -40,7 +40,7 @@ var rdbms_examples_step_1 = function(step_callback) {
         }
         wf.executeJob({
             name: "", 
-            path: path.join(__dirname, 'ittf', 'dash', 'dash-rdbms.wfjob.ittf'), 
+            path: path.join(__dirname, 'ittf', 'dash', 'dash-rdbms.wzjob.ittf'), 
             productionOptions: wizzi.productionOptions({
                 indentSpaces: 4, 
                 basedir: __dirname, 
@@ -54,7 +54,7 @@ var rdbms_examples_step_1 = function(step_callback) {
                 console.log("[31m%s[0m", 'err', err);
                 throw err;
             }
-            console.log('dash-rdbms.wfjob.ittf result', result, __filename);
+            console.log('dash-rdbms.wzjob.ittf result', result, __filename);
         }
         )
     }

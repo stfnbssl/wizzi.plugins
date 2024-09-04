@@ -1,0 +1,330 @@
+module
+    kind es6
+    $
+        var md = {
+            plugin: 'wizzi.plugin.logbot',
+            name: 'jsonupload',
+            schema: 'logbot',
+            rootElement: 'logbot',
+            rootTag: 'logbot',
+            checkSchema: true,
+            isAsync: true,
+        };
+
+    gen( &md )
+        $append main
+            set ctx.__json
+                {
+                    [ oems
+                    [ users
+                    [ plants
+                    [ gateways
+                    [ dynamicTags
+                    [ dynamicTagAllowedValues
+                    [ scripts
+                    [ plcs
+                    [ connectionValues
+                    [ metrics
+                    [ metricValues
+                    [ staticTags
+                    [ dynamicTagRefs
+                    
+            set ctx.__current = ctx.__json
+            _ md.logbot
+                @ model
+                @ ctx
+                a_cb( )
+                    if ctx.artifactGenerationErrors.length > 0
+                        r_cb_err( ctx.artifactGenerationErrors )
+                    else
+                        # generation OK
+                        _ ctx.w
+                            _ JSON.stringify
+                                @ ctx.__json
+                                @ null
+                                @ 2
+                        r_cb( ctx )
+
+        async-md( logbot )
+            _ md.genItems
+                @ model.nodes
+                @ ctx
+                {
+                    @ indent true
+                a_cb()
+                    r_cb()
+        
+        async-md( oem )
+            var json
+                {
+                    @ name model.wzName
+                    @ nameKey getKeyPath(model)
+            _ ctx.__current.oems.push
+                @ json
+            foreach item in model.users
+                _ user
+                    @ ctx.__current
+                    @ model
+                    @ item
+            foreach item in model.plants
+                _ plant
+                    @ ctx.__current
+                    @ model
+                    @ item
+            r_cb()
+
+    +
+    function user
+        param jsonDataTables
+        param parentModel
+        param model
+        var json
+            {
+                @ name model.wzName
+                @ nameKey getKeyPath(model)
+                @ oem getKeyPath(parentModel)
+        _ jsonDataTables.users.push
+            @ json
+    +
+    function plant
+        param jsonDataTables
+        param parentModel
+        param model
+        var json
+            {
+                @ name model.wzName
+                @ nameKey getKeyPath(model)
+                @ oem getKeyPath(parentModel)
+                @ plant_id model.plant_id
+        _ jsonDataTables.plants.push
+            @ json
+        foreach item in model.gateways
+            _ gateway
+                @ jsonDataTables
+                @ model
+                @ item
+    +
+    function gateway
+        param jsonDataTables
+        param parentModel
+        param model
+        var json
+            {
+                @ name model.wzName
+                @ nameKey getKeyPath(model)
+                @ plant getKeyPath(parentModel)
+                @ iot_id model.iot_id
+                @ batching_maxSize model.batching_maxSize
+                @ batching_period model.batching_period
+        _ jsonDataTables.gateways.push
+            @ json
+        foreach item in model.dynamicTags
+            _ dynamicTag
+                @ jsonDataTables
+                @ model
+                @ item
+        foreach item in model.scripts
+            _ script
+                @ jsonDataTables
+                @ model
+                @ item
+        foreach item in model.plcs
+            _ plc
+                @ jsonDataTables
+                @ model
+                @ item
+    +
+    function dynamicTag
+        param jsonDataTables
+        param parentModel
+        param model
+        var json
+            {
+                @ nameKey getKeyPath(model)
+                @ gateway getKeyPath(parentModel)
+                @ tag_id model.wzName
+                @ default_value model.default_value
+                @ description model.description
+                @ ref_plc_id model.ref_plc_id
+                @ ref_metric_name model.ref_metric_name
+        _ jsonDataTables.dynamicTags.push
+            @ json
+        foreach item in model.dynamicTagAllowedValues
+            _ dynamicTagAllowedValue
+                @ jsonDataTables
+                @ model
+                @ item
+        foreach item in model.dynamicTagRegexAllowedValues
+            _ dynamicTagRegexAllowedValue
+                @ jsonDataTables
+                @ model
+                @ item
+    +
+    function dynamicTagAllowedValue
+        param jsonDataTables
+        param parentModel
+        param model
+        var json
+            {
+                @ nameKey getKeyPath(model)
+                @ dynamicTag getKeyPath(parentModel)
+                @ tag_value model.wzName
+                @ is_regex false
+        _ jsonDataTables.dynamicTagAllowedValues.push
+            @ json
+    +
+    function dynamicTagRegexAllowedValue
+        param jsonDataTables
+        param parentModel
+        param model
+        var json
+            {
+                @ nameKey getKeyPath(model)
+                @ dynamicTag getKeyPath(parentModel)
+                @ tag_value model.wzName
+                @ is_regex true
+        _ jsonDataTables.dynamicTagAllowedValues.push
+            @ json
+    +
+    function script
+        param jsonDataTables
+        param parentModel
+        param model
+        var json
+            {
+                @ nameKey getKeyPath(model)
+                @ gateway getKeyPath(parentModel)
+                @ script_id model.wzName
+                @ script_type model.script_type
+                @ script_description model.script_description
+                @ script_timeout model.script_timeout
+                @ script_content model.script_content
+        _ jsonDataTables.scripts.push
+            @ json
+    +
+    function plc
+        param jsonDataTables
+        param parentModel
+        param model
+        var json
+            {
+                @ name model.wzName
+                @ nameKey getKeyPath(model)
+                @ gateway getKeyPath(parentModel)
+                @ protocol model.protocol
+                @ plc_id model.plc_id
+        _ jsonDataTables.plcs.push
+            @ json
+        foreach item in model.connectionValues
+            _ connectionValue
+                @ jsonDataTables
+                @ model
+                @ item
+        foreach item in model.metrics
+            _ metric
+                @ jsonDataTables
+                @ model
+                @ item
+    +
+    function connectionValue
+        param jsonDataTables
+        param parentModel
+        param model
+        var json
+            {
+                @ connectionProperty model.wzName + '-' + parentModel.protocol
+                @ nameKey getKeyPath(model)
+                @ plc getKeyPath(parentModel)
+                @ value model.value
+        _ jsonDataTables.connectionValues.push
+            @ json
+    +
+    function metric
+        param jsonDataTables
+        param parentModel
+        param model
+        var json
+            {
+                @ name model.wzName
+                @ nameKey getKeyPath(model)
+                @ plc getKeyPath(parentModel)
+                @ script model.scriptRef ? getKeyPath(parentModel.wzParent) + '+' + model.scriptRef.wzName : null
+                @ interval model.interval
+                @ description model.description
+                @ topic model.topic
+                @ script_value model.script_value
+                @ ret_policy model.ret_policy
+        _ jsonDataTables.metrics.push
+            @ json
+        foreach item in model.staticTags
+            _ staticTag
+                @ jsonDataTables
+                @ model
+                @ item
+        foreach item in model.dynamicTagRefs
+            _ dynamicTagRef
+                @ jsonDataTables
+                @ model
+                @ item
+        foreach item in model.metricValues
+            _ metricValue
+                @ jsonDataTables
+                @ model
+                @ item
+    +
+    function staticTag
+        param jsonDataTables
+        param parentModel
+        param model
+        var json
+            {
+                @ nameKey getKeyPath(model)
+                @ metric getKeyPath(parentModel)
+                @ key model.wzName
+                @ value model.tag_value
+        _ jsonDataTables.staticTags.push
+            @ json
+    +
+    function dynamicTagRef
+        param jsonDataTables
+        param parentModel
+        param model
+        var json
+            {
+                @ key model.wzName
+                @ nameKey getKeyPath(model)
+                @ metric getKeyPath(parentModel)
+                @ dynamicTag model.value_ref
+                @ value_itself model.value_itself
+        _ jsonDataTables.dynamicTagRefs.push
+            @ json
+
+    +
+    function metricValue
+        param jsonDataTables
+        param parentModel
+        param model
+        var json
+            {
+                @ metricProperty model.wzName + '-' + parentModel.wzParent.protocol
+                @ nameKey getKeyPath(model)
+                @ metric getKeyPath(parentModel)
+                @ value model.value
+        _ jsonDataTables.metricValues.push
+            @ json
+
+    +
+    function getKeyPath
+        param model
+        param rootEl
+        if model.wzElement == 'oem'
+            return model.wzName
+        const names = [ model.wzName ]
+        let parent = model.wzParent
+        while parent != null
+            _ names.push
+                @ parent.wzName
+            if parent.wzElement == 'oem'
+                return [...names].reverse().join('+')
+            set parent = parent.wzParent
+        return names.join('+')

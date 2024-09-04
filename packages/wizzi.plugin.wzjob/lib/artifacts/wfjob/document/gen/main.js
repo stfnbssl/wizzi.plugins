@@ -1,20 +1,19 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzjob\.wizzi-override\lib\artifacts\wfjob\document\gen\main.js.ittf
-    utc time: Fri, 15 Mar 2024 07:53:19 GMT
+    package: @wizzi/plugin.js@0.8.9
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzjob\.wizzi-override\lib\artifacts\wzjob\document\gen\main.js.ittf
+    utc time: Fri, 30 Aug 2024 07:29:11 GMT
 */
-'use strict';
 
 
 var util = require('util');
 var path = require('path');
 var async = require('async');
-var verify = require('wizzi-utils').verify;
-var lineParser = require('wizzi-utils').helpers.lineParser;
+var verify = require('@wizzi/utils').verify;
+var lineParser = require('@wizzi/utils').helpers.lineParser;
 var errors = require('../../../../../errors');
 
-var myname = 'wizzi.plugin.wzjob.artifacts.wfjob.document.gen.main';
+var myname = 'wizzi.plugin.wzjob.artifacts.wzjob.document.gen.main';
 
 var md = module.exports = {};
 
@@ -26,12 +25,11 @@ md.gen = function(model, ctx, callback) {
     if (verify.isObject(model) == false) {
         return callback(error('InvalidArgument', 'gen', 'The model parameter must be an object. Received: ' + model, model));
     }
-    if (model.wzElement !== 'wfjob') {
-        return callback(error('InvalidArgument', 'gen', 'Invalid model schema. Expected root element "wfjob". Received: ' + model.wzElement, model));
+    if (model.wzElement !== 'wzjob') {
+        return callback(error('InvalidArgument', 'gen', 'Invalid model schema. Expected root element "wzjob". Received: ' + model.wzElement, model));
     }
     try {
-        md.wfjob(model, ctx, (err, notUsed) => {
-        
+        md.wzjob(model, ctx, (err, notUsed) => {
             if (err) {
                 return callback(err);
             }
@@ -76,7 +74,6 @@ md.genItems = function(items, ctx, options, callback) {
         goitems.push(items[i]);
     }
     async.mapSeries(goitems, md.mapItem(ctx), (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -104,8 +101,8 @@ md.genItem = function(model, ctx, callback) {
     }
 }
 ;
-md.wfjob = function(model, ctx, callback) {
-    ctx.write('<wfjob');
+md.wzjob = function(model, ctx, callback) {
+    ctx.write('<wzjob');
     if (model.wzName && model.wzName.length > 0) {
         ctx.write(' wzName=' + model.wzName);
     }
@@ -123,7 +120,6 @@ md.wfjob = function(model, ctx, callback) {
         indent: true, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -131,7 +127,6 @@ md.wfjob = function(model, ctx, callback) {
             indent: true, 
             from: 0
          }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -139,7 +134,6 @@ md.wfjob = function(model, ctx, callback) {
                 indent: true, 
                 from: 0
              }, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -147,7 +141,6 @@ md.wfjob = function(model, ctx, callback) {
                     indent: true, 
                     from: 0
                  }, (err, notUsed) => {
-                
                     if (err) {
                         return callback(err);
                     }
@@ -155,7 +148,6 @@ md.wfjob = function(model, ctx, callback) {
                         indent: true, 
                         from: 0
                      }, (err, notUsed) => {
-                    
                         if (err) {
                             return callback(err);
                         }
@@ -163,11 +155,10 @@ md.wfjob = function(model, ctx, callback) {
                             indent: true, 
                             from: 0
                          }, (err, notUsed) => {
-                        
                             if (err) {
                                 return callback(err);
                             }
-                            ctx.w('</wfjob>');
+                            ctx.w('</wzjob>');
                             return callback(null);
                         }
                         )
@@ -218,7 +209,6 @@ md.model = function(model, ctx, callback) {
         indent: true, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -226,7 +216,6 @@ md.model = function(model, ctx, callback) {
             indent: true, 
             from: 0
          }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -251,7 +240,6 @@ md.modelRef = function(model, ctx, callback) {
         indent: true, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -259,7 +247,6 @@ md.modelRef = function(model, ctx, callback) {
             indent: true, 
             from: 0
          }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -267,7 +254,6 @@ md.modelRef = function(model, ctx, callback) {
                 indent: true, 
                 from: 0
              }, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -294,7 +280,6 @@ md.modelCollection = function(model, ctx, callback) {
         indent: true, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -302,7 +287,6 @@ md.modelCollection = function(model, ctx, callback) {
             indent: true, 
             from: 0
          }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -333,7 +317,6 @@ md.pathTemplateValue = function(model, ctx, callback) {
         indent: true, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -369,7 +352,6 @@ md.line = function(model, ctx, callback) {
         indent: true, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -377,7 +359,6 @@ md.line = function(model, ctx, callback) {
             indent: true, 
             from: 0
          }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -409,11 +390,11 @@ md.artifact = function(model, ctx, callback) {
     if (model.isCompile && (model.isCompile.length > 0 || model.isCompile == true)) {
         ctx.write(' isCompile=' + model.isCompile);
     }
-    if (model.isWfJob && (model.isWfJob.length > 0 || model.isWfJob == true)) {
-        ctx.write(' isWfJob=' + model.isWfJob);
+    if (model.isWzJob && (model.isWzJob.length > 0 || model.isWzJob == true)) {
+        ctx.write(' isWzJob=' + model.isWzJob);
     }
-    if (model.isWfModelType && (model.isWfModelType.length > 0 || model.isWfModelType == true)) {
-        ctx.write(' isWfModelType=' + model.isWfModelType);
+    if (model.isWzModelType && (model.isWzModelType.length > 0 || model.isWzModelType == true)) {
+        ctx.write(' isWzModelType=' + model.isWzModelType);
     }
     if (model.generator && (model.generator.length > 0 || model.generator == true)) {
         ctx.write(' generator=' + model.generator);
@@ -438,7 +419,6 @@ md.artifact = function(model, ctx, callback) {
         indent: true, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -446,7 +426,6 @@ md.artifact = function(model, ctx, callback) {
             indent: true, 
             from: 0
          }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -454,7 +433,6 @@ md.artifact = function(model, ctx, callback) {
                 indent: true, 
                 from: 0
              }, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -494,7 +472,6 @@ md.production = function(model, ctx, callback) {
         indent: true, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -502,7 +479,6 @@ md.production = function(model, ctx, callback) {
             indent: true, 
             from: 0
          }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -510,7 +486,6 @@ md.production = function(model, ctx, callback) {
                 indent: true, 
                 from: 0
              }, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -533,7 +508,6 @@ md.lineRef = function(model, ctx, callback) {
         indent: true, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -621,7 +595,6 @@ md.execFile = function(model, ctx, callback) {
         indent: true, 
         from: 0
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -629,7 +602,6 @@ md.execFile = function(model, ctx, callback) {
             indent: true, 
             from: 0
          }, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -637,7 +609,6 @@ md.execFile = function(model, ctx, callback) {
                 indent: true, 
                 from: 0
              }, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -715,7 +686,7 @@ function getAttrs(e) {
 function error(errorName, method, message, model, innerError) {
     return new errors.WizziPluginError(message, model, {
             errorName: errorName, 
-            method: 'wizzi.plugin.wzjob/lib/artifacts/wfjob/document/gen/main.' + method, 
+            method: 'wizzi.plugin.wzjob/lib/artifacts/wzjob/document/gen/main.' + method, 
             sourcePath: __filename, 
             inner: innerError
          });

@@ -1,0 +1,10 @@
+$group
+    $params name
+    
+    model ${name}
+        field id
+            string 
+            @ id
+            @ default
+                _ cuid
+        $hook

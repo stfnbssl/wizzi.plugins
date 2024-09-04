@@ -1,0 +1,358 @@
+module
+    kind es6
+    $
+        var md = {
+            plugin: 'wizzi.plugin.prisma',
+            name: 'document',
+            schema: 'prisma',
+            rootElement: '',
+            rootTag: 'prisma',
+            checkSchema: true,
+            isAsync: true,
+        };
+
+    gen( &md )
+        $append imports
+            var functionAttributes = ['default', 'relation', 'map']
+        $append main
+            set ctx.__json
+                {
+                    @ name model.wzName
+                    [ datasources
+                    [ generators
+                    [ enums
+                    [ models
+                    [ relations
+                    [ indexes
+            set ctx.__current = ctx.__json
+            _ md.prisma
+                @ model
+                @ ctx
+                a_cb( )
+                    if ctx.artifactGenerationErrors.length > 0
+                        r_cb_err( ctx.artifactGenerationErrors )
+                    else
+                        # generation OK
+                        _ setRelations
+                            @ ctx.__json.models
+                        _ ctx.w
+                            _ JSON.stringify
+                                @ ctx.__json
+                                @ null
+                                @ 2
+                        r_cb( ctx )
+        async-md( prisma )
+            _md_gen_items( datasources
+                _md_gen_items( generators
+                    _md_gen_items( models
+                        r_cb()
+        
+        async-md( datasource )
+            var saveCurrent = ctx.__current
+            var json
+                {
+                    @ name model.wzName
+                    [ configs
+            _ ctx.__current.datasources.push
+                @ json
+            set ctx.__current = json
+            _md_gen_items( configs, indent
+                set ctx.__current = saveCurrent
+                r_cb()
+
+        async-md( generator )
+            var saveCurrent = ctx.__current
+            var json
+                {
+                    @ name model.wzName
+                    [ configs
+            _ ctx.__current.generators.push
+                @ json
+            set ctx.__current = json
+            _md_gen_items( configs, indent
+                set ctx.__current = saveCurrent
+                r_cb()
+
+        async-md( model )
+            var saveCurrent = ctx.__current
+            # loog 'model', model.wzName
+            var jsonModel
+                {
+                    @ Name model.wzName
+                    @ NamePlural verify.pluralize(model.wzName)
+                    @ name model.wzName[0].toLowerCase() + model.wzName.substring(1)
+                    @ namePlural verify.pluralize(model.wzName[0].toLowerCase() + model.wzName.substring(1)) 
+                    [ fields
+                    [ relations
+                    [ attributes
+                    [ indexes
+            if model.extNoUpload
+                set jsonModel.extNoUpload = true
+            _ ctx.__current.models.push
+                @ jsonModel
+            set ctx.__current = jsonModel
+            _md_gen_items( fields, indent
+                _md_gen_items( blockAttributes, indent
+                    _ setJSON_KnownModelAttributes  
+                        @ jsonModel     
+                    if jsonModel.indexes.length > 0
+                        foreach index in jsonModel.indexes 
+                            var newFields = []
+                            var foreignCount = 0
+                            foreach field in index.fields
+                                var ffim
+                                    _ getForeignFieldInModel
+                                        @ jsonModel
+                                        @ field
+                                if ffim
+                                    _ newFields.push
+                                        {
+                                            @ name field
+                                            @ foreign ffim
+                                    set foreignCount++
+                                else
+                                    _ newFields.push
+                                        {
+                                            @ name field
+                            set index.fields = newFields
+                            set index.foreignFields = foreignCount
+                        _ ctx.__json.indexes.push
+                            {
+                                @ model jsonModel.Name
+                                @ indexes jsonModel.indexes
+                                
+                    set ctx.__current = saveCurrent
+                    r_cb()
+
+        async-md( config )
+            var json
+                {
+                    @ name model.wzName
+                    @ value 
+                        _ verify.unquote
+                            _ model.valueAssign.getValueString
+            _ ctx.__current.configs.push
+                @ json
+            r_cb()
+
+        async-md( field )
+            var saveCurrent = ctx.__current
+            var jsonField
+                {
+                    @ name model.wzName
+                    @ type model.getType()
+                    @ optional model.optional
+                    @ typeExtensions model.getTypeExtensions()
+                    [ attributes
+                    [ constraints
+            if model.extIdRelated
+                set jsonField.extIdRelated = true
+                set jsonField.relatedModel = model.relatedModel
+                set jsonField.relationName = model.relationName
+                set jsonField.relation = model.relation
+                set jsonField.relationTarget = model.relationTarget
+            elif verify.isNotEmpty(model.relation)
+                set jsonField.extIdRelated = true
+                set jsonField.relation = model.relation
+                set jsonField.relationTarget = model.relationTarget
+            _ ctx.__current.fields.push
+                @ jsonField
+            set ctx.__current = jsonField
+            _md_gen_items( fieldAttributes
+                foreach fc in model.fieldConstraints
+                    var c
+                        {
+                            @ type fc.wzElement
+                    _ fc.setField
+                        @ c
+                    _ ctx.__current.constraints.push
+                        @ c
+                    _ fc.setField
+                        @ ctx.__current
+                _ setJSON_KnownFieldTypes
+                    @ jsonField
+                set ctx.__current = saveCurrent
+                r_cb()
+        
+        async-md( fieldAttribute )
+        	var nv 
+                _ lineParser.parseNameValueRaw
+                    @ model.wzName
+                    @ model
+            var name = nv.name()
+            var value = nv.value()
+            if functionAttributes.indexOf(name) > - 1
+                $$ _ ctx.write('(')
+            if model.valueAssigns.length > 0
+                var json 
+                    {
+                        @ type "@" + (functionAttributes.indexOf(name) > - 1 ? 'function' : '')
+                        @ name name
+                        @ value null
+                        [ args
+                foreach item in model.valueAssigns
+                    var arg = {}
+                    if item.setJSON 
+                        _ item.setJSON
+                            @ arg
+                        _ json.args.push
+                            @ arg
+                    else
+                        _ json.args.push
+                            _ verify.unquote
+                                _ item.getValueString
+                    $*
+                    _ json.args.push
+                        _ verify.unquote
+                            _ item.getValueString
+                    *$
+                _ ctx.__current.attributes.push
+                    @ json
+            else
+                _ ctx.__current.attributes.push
+                    {
+                        @ type "@"
+                        @ name name
+                        @ value verify.isNotEmpty(value) ? value : null
+                        [ args
+            if functionAttributes.indexOf(name) > - 1
+                $$ _ ctx.write(')')
+            r_cb()
+
+        async-md( fieldConstraint )
+            var c
+                {
+                    @ type fieldConstraint.wzElement
+            _ fieldConstraint.setField
+                @ c
+            _ ctx.__current.constraints.push
+                @ c
+            _ fieldConstraint.setField
+                @ ctx.__current
+            r_cb()
+
+        async-md( blockAttribute )
+            var json 
+                {
+                    @ type "@@" + model.wzName
+                    @ name
+                        _ verify.unquote
+                            @ model.name
+                    [ args
+            foreach item in model.valueAssigns
+                _ item.setJSON
+                    @ json.args
+                $*
+                _ json.args.push
+                    @ arg
+                _ verify.unquote
+                    _ item.getValueString
+                *$
+            _ ctx.__current.attributes.push
+                @ json
+            if model.wzName == 'unique'
+                _ ctx.__current.indexes.push
+                    {
+                        @ name json.name
+                        @ fields json.args
+            r_cb()
+
+    function setJSON_KnownFieldTypes
+        param jsonField
+        # loog 'setJSON_KnownFieldTypes', jsonField.attributes.length, jsonField.attributes[0]
+        if jsonField.attributes.length > 0 
+            \b && jsonField.attributes[0].type == "@function"
+            \b && jsonField.attributes[0].name == "relation"
+            set jsonField.isRelation = true
+            var value
+                {
+                    @ model jsonField.type
+            foreach arg in jsonField.attributes[0].args
+                # loog 'setJSON_KnownFieldTypes.arg', arg
+                for var k in arg
+                    set value[k] = arg[k]
+            set jsonField.relation = value
+
+        if jsonField.attributes.length > 0 
+            \b && jsonField.attributes[0].type == "@"
+            \b && jsonField.attributes[0].name == "id"
+            set jsonField.isId = true
+
+        if jsonField.attributes.length > 0 
+            \b && jsonField.attributes[0].type == "@"
+            \b && jsonField.attributes[0].name == "id"
+            set jsonField.isUnique = true
+
+    function setJSON_KnownModelAttributes
+        param model
+        foreach a in model.attributes
+            if a.type == "@@unique"
+                set model.hasUniqueIndex = true
+
+    function setRelations
+        param models
+        foreach model in models
+            foreach field in model.fields
+                if field.isRelation
+                    _ setOneToManyRelation
+                        @ models
+                        @ model
+                        @ field
+
+    function setOneToManyRelation
+        param models
+        param manyModel
+        param field
+        foreach model in models
+            if model.Name == field.type
+                _ model.relations.push
+                    {
+                        @ model field.type
+                        { toModel
+                            @ Name manyModel.Name
+                            @ name manyModel.name
+                            @ namePlural manyModel.namePlural
+                        @ relation field.relation
+    
+    function setIndexes
+        param ctx
+        foreach item in ctx.__json.indexes
+            foreach field in item.fields
+
+    function getForeignFieldInModel
+        param jsonModel
+        param fieldName
+        foreach field in jsonModel.fields
+            if field.extIdRelated && field.name == fieldName
+                return 
+                    {
+                        @ relatedModel field.relatedModel
+                        @ relation field.relation
+                        @ relationTarget field.relationTarget
+                        @ optional field.optional
+        return null
+
+$*
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL", 3)
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  output        = "node_modules/.prisma/client"
+  engineType    = "library"
+  binaryTargets = ["native"]
+}
+
+model User {
+  id    String @id @default(cuid())
+  email String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  password Password?
+  notes    Note[]
+}
+*$

@@ -34,6 +34,12 @@
           ]
         },
         {
+          "name": "oem",
+          "tags": [
+            "oem"
+          ]
+        },
+        {
           "name": "jsInclude",
           "tags": [
             "::js"
@@ -142,6 +148,780 @@
       "restricts": [],
       "methods": [],
       "comments": []
+    },
+    {
+      "name": "oem",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "oem"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "user",
+          "role": "users",
+          "tags": [
+            "user"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "plant",
+          "role": "plants",
+          "tags": [
+            "plant"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "the wzName is the `name` attribute"
+      ]
+    },
+    {
+      "name": "user",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "user"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "the wzName is the `name` attribute"
+      ]
+    },
+    {
+      "name": "plant",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "plant"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "plant_id",
+          "type": "string",
+          "tags": [
+            "plant_id"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "gateway",
+          "role": "gateways",
+          "tags": [
+            "gateway"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "the wzName is the `name` attribute"
+      ]
+    },
+    {
+      "name": "gateway",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "gateway"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "iot_id",
+          "type": "string",
+          "tags": [
+            "iot_id"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "batching",
+          "role": null,
+          "tags": [
+            "batching"
+          ],
+          "cardinality": "one-to-one",
+          "flags": "is-one-to-one ",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "dynamicTag",
+          "role": "dynamicTags",
+          "tags": [
+            "dynamic"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "script",
+          "role": "scripts",
+          "tags": [
+            "script"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "plc",
+          "role": "plcs",
+          "tags": [
+            "plc"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "the wzName is the `name` attribute"
+      ]
+    },
+    {
+      "name": "batching",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "batching"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "maxSize",
+          "type": "integer",
+          "tags": [
+            "maxSize"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "period",
+          "type": "integer",
+          "tags": [
+            "period"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "the wzName is the `name` attribute"
+      ]
+    },
+    {
+      "name": "plc",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "plc"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "plc_id",
+          "type": "string",
+          "tags": [
+            "plc_id"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "protocol",
+          "type": "string",
+          "tags": [
+            "protocol"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "connectionValue",
+          "role": "connectionValues",
+          "tags": [
+            "connection_value"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "metric",
+          "role": "metrics",
+          "tags": [
+            "metric"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "the wzName is the `name` attribute"
+      ]
+    },
+    {
+      "name": "connectionValue",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "connection_value"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "value",
+          "type": "string",
+          "tags": [
+            "value"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "the wzName is the `connectionProperty` attribute"
+      ]
+    },
+    {
+      "name": "metric",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "metric"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "interval",
+          "type": "integer",
+          "tags": [
+            "interval"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "topic",
+          "type": "string",
+          "tags": [
+            "topic"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "ret_policy",
+          "type": "string",
+          "tags": [
+            "ret_policy"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "script_value",
+          "type": "string",
+          "tags": [
+            "script_value"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "metricValue",
+          "role": "metricValues",
+          "tags": [
+            "property"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "staticTag",
+          "role": "staticTags",
+          "tags": [
+            "static"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "dynamicTagRef",
+          "role": "dynamicTagRefs",
+          "tags": [
+            "dynamic"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "scriptRef",
+          "role": null,
+          "tags": [
+            "script_ref"
+          ],
+          "cardinality": "one-to-one",
+          "flags": "is-one-to-one ",
+          "inheritedFrom": null,
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "the wzName is the `name` attribute"
+      ]
+    },
+    {
+      "name": "metricValue",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "property"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "value",
+          "type": "string",
+          "tags": [
+            "value"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "the wzName is the `metricProperty` attribute"
+      ]
+    },
+    {
+      "name": "staticTag",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "static"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "tag_value",
+          "type": "string",
+          "tags": [
+            "value"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "the wzName is the `tag_key` attribute"
+      ]
+    },
+    {
+      "name": "dynamicTag",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "dynamic"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "default_value",
+          "type": "string",
+          "tags": [
+            "default_value"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "ref_plc_id",
+          "type": "string",
+          "tags": [
+            "ref_plc_id"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "ref_metric_name",
+          "type": "string",
+          "tags": [
+            "ref_metric_name"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "dynamicTagAllowedValue",
+          "role": "dynamicTagAllowedValues",
+          "tags": [
+            "allowed_value"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "dynamicTagRegexAllowedValue",
+          "role": "dynamicTagRegexAllowedValues",
+          "tags": [
+            "regex_allowed_value"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "the wzName is the `tag_id` attribute"
+      ]
+    },
+    {
+      "name": "dynamicTagRef",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "dynamic"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "value_ref",
+          "type": "string",
+          "tags": [
+            "value_ref"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "value_itself",
+          "type": "string",
+          "tags": [
+            "value_itself"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "the wzName is the `key` attribute"
+      ]
+    },
+    {
+      "name": "dynamicTagAllowedValue",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "allowed_value"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "the wzName is the `tag_value` attribute"
+      ]
+    },
+    {
+      "name": "dynamicTagRegexAllowedValue",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "regex_allowed_value"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "the wzName is the `tag_value`"
+      ]
+    },
+    {
+      "name": "script",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "script"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "script_type",
+          "type": "string",
+          "tags": [
+            "script_type"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "script_description",
+          "type": "string",
+          "tags": [
+            "script_description"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "script_timeout",
+          "type": "integer",
+          "tags": [
+            "script_timeout"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "script_content",
+          "type": "string",
+          "tags": [
+            "script_content"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "the wzName is the `script_id` attribute"
+      ]
+    },
+    {
+      "name": "scriptRef",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "script_ref"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "the wzName is the `script_id` attribute"
+      ]
     },
     {
       "name": "jsInclude",

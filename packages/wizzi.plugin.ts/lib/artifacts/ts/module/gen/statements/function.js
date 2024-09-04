@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\artifacts\ts\module\gen\statements\function.js.ittf
-    utc time: Tue, 06 Aug 2024 14:55:17 GMT
+    utc time: Wed, 04 Sep 2024 02:34:22 GMT
 */
 var util = require('util');
 var verify = require('@wizzi/utils').verify;
@@ -444,7 +444,6 @@ md.load = function(cnt) {
                 return callback(err);
             }
             if (ctx.__is_react_class && model.wzParent.wzElement == 'reactComponent') {
-                console.log(11, __filename);
                 var implicitReturn = u.isImplicitReturn(model);
                 var firstChildIsTemplate = u.firstChildIs(model, ['template']);
                 ctx.w(' = (');
@@ -470,7 +469,6 @@ md.load = function(cnt) {
                 )
             }
             else if (u.onlyChildIs(model, 'callOnValue') || u.onlyChildIsHtmlElement(model)) {
-                console.log(12, __filename);
                 if (model.wzName.length > 0) {
                     ctx.write(' = (');
                 }
@@ -500,7 +498,6 @@ md.load = function(cnt) {
                 )
             }
             else if (u.onlyChildIs(model, 'arrowfunction')) {
-                console.log(13, __filename);
                 if (model.wzName.length > 0) {
                     ctx.write(' = (');
                 }
@@ -535,7 +532,6 @@ md.load = function(cnt) {
             
             // loog 'function.firstChildIs template', firstChildIsTemplate
             else if (u.isImplicitReturn(model)) {
-                console.log(14, __filename);
                 var isSingleParam = u.isSingleParamForArrowFunction(model);
                 var firstChildIsTemplate = u.firstChildIs(model, ['template']);
                 if (model.wzName.length > 0) {
@@ -566,7 +562,6 @@ md.load = function(cnt) {
                 )
             }
             else {
-                console.log(15, model.wzName, __filename);
                 if (model.wzName.length > 0) {
                     ctx.write('(');
                 }

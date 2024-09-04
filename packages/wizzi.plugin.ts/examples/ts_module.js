@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\examples\ts_module.js.ittf
-    utc time: Tue, 06 Aug 2024 14:55:13 GMT
+    utc time: Wed, 04 Sep 2024 02:34:18 GMT
 */
 var path = require('path');
 var fs = require('fs');
@@ -169,7 +169,7 @@ function executeWizziJob(ittfDocumentUri, context, callback) {
     }
     )
 }
-function executeWizziJob_2(wfjobDocumentUri, options) {
+function executeWizziJob_2(wzjobDocumentUri, options) {
     options = options || {};
     options.plugins = options.plugins || [];
     options.globalContext = options.globalContext || {};
@@ -194,8 +194,8 @@ function executeWizziJob_2(wfjobDocumentUri, options) {
             plugins: jobPlugins
          }, 
         job: {
-            name: 'example ' + wfjobDocumentUri, 
-            ittfDocumentUri: wfjobDocumentUri, 
+            name: 'example ' + wzjobDocumentUri, 
+            ittfDocumentUri: wzjobDocumentUri, 
             productionOptions: wizzi.productionOptions({
                 indentSpaces: 4, 
                 basedir: __dirname, 

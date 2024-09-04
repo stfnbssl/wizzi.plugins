@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.logbot\.wizzi-override\lib\artifacts\logbot\document\gen\main.js.ittf
-    utc time: Fri, 09 Aug 2024 16:30:49 GMT
+    utc time: Wed, 04 Sep 2024 13:08:58 GMT
 */
 
 
@@ -18,7 +18,7 @@ var axios = require('axios');
 var marked = require('marked');
 var api = null;
 
-var myname = 'wizzi.plugin.lbot.artifacts.logbot.document.gen.main';
+var myname = 'wizzi.plugin.logbot.artifacts.logbot.document.gen.main';
 
 var md = module.exports = {};
 
@@ -199,6 +199,7 @@ md.aiCall = function(model, ctx, callback) {
             }
             ).catch((err) => {
                 console.log("[31m%s[0m", 'Error:', err.message);
+                console.log("[31m%s[0m", 'Error:', err);
                 ctx.__current.err = {
                     message: err.message
                  };
@@ -402,7 +403,8 @@ md.to = function(model, ctx, callback) {
                                 
                             } 
                             catch (ex) {
-                                console.log("[31m%s[0m", ex);
+                                console.log("[31m%s[0m", 'Exception.message:', ex.message);
+                                console.log("[31m%s[0m", 'Exception:', ex);
                                 ctx.__apply.err = {
                                     message: 'Error calling jsonata: ' + ex.message
                                  };
@@ -523,7 +525,7 @@ function getAttrs(e) {
 function error(errorName, method, message, model, innerError) {
     return new errors.WizziPluginError(message, model, {
             errorName: errorName, 
-            method: 'wizzi.plugin.lbot/lib/artifacts/logbot/document/gen/main.' + method, 
+            method: 'wizzi.plugin.logbot/lib/artifacts/logbot/document/gen/main.' + method, 
             sourcePath: __filename, 
             inner: innerError
          });

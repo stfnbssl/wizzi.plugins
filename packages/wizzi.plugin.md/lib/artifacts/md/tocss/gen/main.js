@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.md\.wizzi-override\lib\artifacts\md\tocss\gen\main.js.ittf
-    utc time: Mon, 06 May 2024 14:32:29 GMT
+    utc time: Wed, 04 Sep 2024 13:16:43 GMT
 */
-'use strict';
 
 
 var util = require('util');
@@ -32,7 +31,6 @@ md.gen = function(model, ctx, callback) {
     }
     try {
         md.md(model, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -77,7 +75,6 @@ md.genItems = function(items, ctx, options, callback) {
         goitems.push(items[i]);
     }
     async.mapSeries(goitems, md.mapItem(ctx), (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -107,7 +104,6 @@ md.genItem = function(model, ctx, callback) {
 ;
 md.md = function(model, ctx, callback) {
     async.mapSeries(model.elements, (childmodel, callback) => {
-    
         if (childmodel.wzElement == 'cssInclude') {
             md.cssInclude(childmodel, ctx, callback)
         }
@@ -116,7 +112,6 @@ md.md = function(model, ctx, callback) {
         }
     }
     , (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -149,7 +144,6 @@ function error(errorName, method, message, model, innerError) {
 md.cssInclude = function(model, ctx, callback) {
     if (model.get_css) {
         included_writers.writeIncludeCss(ctx, model, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }

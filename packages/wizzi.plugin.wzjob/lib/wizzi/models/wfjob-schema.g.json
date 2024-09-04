@@ -1,5 +1,5 @@
 {
-  "name": "wfjob",
+  "name": "wzjob",
   "preserveTags": true,
   "requires": [],
   "exportTos": [
@@ -7,11 +7,11 @@
   ],
   "elements": [
     {
-      "name": "wfjob",
+      "name": "wzjob",
       "super": null,
       "isRoot": true,
       "tags": [
-        "wfjob"
+        "wzjob"
       ],
       "flags": "",
       "attributes": [
@@ -123,8 +123,8 @@
       "restricts": [],
       "methods": [],
       "comments": [
-        "The root element of the wfjob schema.",
-        "The base path for the source models used by this \"wfjob\".",
+        "The root element of the wzjob schema.",
+        "The base path for the source models used by this \"wzjob\".",
         "The base folder path for the generated artifacts."
       ]
     },
@@ -185,7 +185,7 @@
           "comments": [
             "The path to the primary ittf document of the \"model\" or to the the POJO source.",
             "When relative, the base path is the \"modelsBaseFolder\"",
-            "declared on the \"wfjob\" element."
+            "declared on the \"wzjob\" element."
           ]
         },
         {
@@ -300,7 +300,7 @@
       "comments": [
         "A wizzi model instance or a POJO acting as a context during an mTree loading.",
         "The ittf node value (wzName) is the name of the model that must be unique",
-        "in a \"wfjob\"; it will become the default export name of the context",
+        "in a \"wzjob\"; it will become the default export name of the context",
         "property that exposes the model.",
         "A \"model\" will be loaded once, and will be reused if",
         "referenced in many evaluations.",
@@ -593,10 +593,10 @@
           "comments": []
         },
         {
-          "name": "isWfJob",
+          "name": "isWzJob",
           "type": "boolean",
           "tags": [
-            "is-wf-job"
+            "is-wz-job"
           ],
           "default": "false",
           "defaultWhenDeclared": "true",
@@ -606,10 +606,10 @@
           "comments": []
         },
         {
-          "name": "isWfModelType",
+          "name": "isWzModelType",
           "type": "boolean",
           "tags": [
-            "is-wf-model-type"
+            "is-wz-model-type"
           ],
           "default": "false",
           "defaultWhenDeclared": "true",
@@ -741,9 +741,9 @@
         ". A swig template.",
         ". A code write generation that takes in input a context of one or more WizziModels.",
         ". A final artifact to be copied to a destination folder without transformations.",
-        ". A reference to another WfJob, to be executed before the current WfJob where the artifact is declared.",
+        ". A reference to another WzJob, to be executed before the current WzJob where the artifact is declared.",
         "",
-        "Context value objects for template transformations are declared in the \"model\" element, child of the \"wfjob\" root element",
+        "Context value objects for template transformations are declared in the \"model\" element, child of the \"wzjob\" root element",
         "and may be referenced in the elements \"modelRef\", children of the \"artifact\" element.",
         "",
         "The \"src\" attribute can be a glob pattern.",
@@ -782,10 +782,10 @@
         "Indicator that the mTree buildup script must be 'compiled' for javascript",
         "and loaded with a 'require-from-string' function instead of",
         "being submitted to js-wizzi.",
-        "Indicator that the artifact source is a wizzi factory job, alias a wizzi model of schema 'wfjob'.",
-        "The job will be executed before any other artifact production of the current wfjob.",
+        "Indicator that the artifact source is a wizzi factory job, alias a wizzi model of schema 'wzjob'.",
+        "The job will be executed before any other artifact production of the current wzjob.",
         "This could be autodected from the schema, but autodetection would forbid other uses or transformations",
-        "of a \"wfjob\" model, so the indicator is required.",
+        "of a \"wzjob\" model, so the indicator is required.",
         "Indicator that the artifact source is a wizzi schema, alias a wizzi model of schema 'wfschema'",
         "and that the generation of the artifacts for the wizzi model described by the wfschema is requested.",
         "This could be autodected from the schema, but autodetection would forbid other uses or transformations",

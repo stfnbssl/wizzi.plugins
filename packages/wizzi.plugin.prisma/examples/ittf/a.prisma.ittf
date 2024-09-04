@@ -21,32 +21,32 @@ prisma first
 
     model User
         field id
-            :string 
+            string 
             @ id
             @ default
                 _ cuid
         field email
-            :string 
+            string 
             @ unique
         field createdAt
-            :dateTime 
+            dateTime 
             @ default
                 _ now
         field updatedAt
-            :dateTime 
+            dateTime 
             @ updatedAt
         field password
-            :ref Password
-            :optional 
+            ref Password
+            optional 
         field notes
-            :[ 
-                :ref Note
+            [ 
+                ref Note
 
     model Password
         field hash
-            :string 
+            string 
         field user
-            :ref User
+            ref User
             @ relation
                 fields 
                     [ 
@@ -57,28 +57,28 @@ prisma first
                 onDelete Cascade
                 onUpdate Cascade
         field userId
-            :string 
+            string 
             @ unique
 
     model Note
         field id
-            :string 
+            string 
             @ id
             @ default
                 _ cuid
         field title
-            :string 
+            string 
         field body
-            :string 
+            string 
         field createdAt
-            :dateTime 
+            dateTime 
             @ default
                 _ now
         field updatedAt
-            :dateTime 
+            dateTime 
             @ updatedAt
         field user
-            :ref User
+            ref User
             @ relation
                 fields 
                     [ 
@@ -89,4 +89,4 @@ prisma first
                 onDelete Cascade
                 onUpdate Cascade
         field userId
-            :string 
+            string 

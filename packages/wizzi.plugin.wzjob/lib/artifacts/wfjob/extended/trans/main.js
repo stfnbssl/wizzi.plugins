@@ -1,20 +1,19 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzjob\.wizzi-override\lib\artifacts\wfjob\extended\trans\main.js.ittf
-    utc time: Fri, 15 Mar 2024 07:53:19 GMT
+    package: @wizzi/plugin.js@0.8.9
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzjob\.wizzi-override\lib\artifacts\wzjob\extended\trans\main.js.ittf
+    utc time: Fri, 30 Aug 2024 07:29:11 GMT
 */
-'use strict';
 
 
 var util = require('util');
 var async = require('async');
-var verify = require('wizzi-utils').verify;
+var verify = require('@wizzi/utils').verify;
 var lineParser = verify.lineParser;
 var errors = require('../../../../../errors');
 
 var md = module.exports = {};
-var myname = 'wizzi.plugin.wzjob.wfjob.extended.trans.main';
+var myname = 'wizzi.plugin.wzjob.wzjob.extended.trans.main';
 
 md.trans = function(model, ctx, callback) {
     if (typeof(callback) !== 'function') {
@@ -23,8 +22,8 @@ md.trans = function(model, ctx, callback) {
     if (verify.isObject(model) == false) {
         return callback(error('InvalidArgument', 'gen', 'The model parameter must be an object. Received: ' + model, model));
     }
-    if (model.wzElement !== 'wfjob') {
-        return callback(error('InvalidArgument', 'gen', 'Invalid model schema. Expected "wfjob". Received: ' + model.wzElement, model));
+    if (model.wzElement !== 'wzjob') {
+        return callback(error('InvalidArgument', 'gen', 'Invalid model schema. Expected "wzjob". Received: ' + model.wzElement, model));
     }
     
     try {
@@ -56,7 +55,7 @@ md.trans = function(model, ctx, callback) {
 function error(errorName, method, message, model, innerError) {
     return new errors.WizziPluginError(message, model, {
             errorName: errorName, 
-            method: 'wizzi.plugin.wzjob/lib/artifacts/wfjob/extended/trans/main.' + method, 
+            method: 'wizzi.plugin.wzjob/lib/artifacts/wzjob/extended/trans/main.' + method, 
             sourcePath: __filename, 
             inner: innerError
          });

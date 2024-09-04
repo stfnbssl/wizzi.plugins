@@ -1,0 +1,4420 @@
+{
+    "wzElement": "prisma",
+    "wzName": "logbot",
+    "comments": [
+        {
+            "wzElement": "comment",
+            "wzTag": "#",
+            "wzName": "",
+            "comments": []
+        },
+        {
+            "wzElement": "comment",
+            "wzTag": "#",
+            "wzName": "Entità di typizzazione di base",
+            "comments": []
+        },
+        {
+            "wzElement": "comment",
+            "wzTag": "#",
+            "wzName": "",
+            "comments": []
+        },
+        {
+            "wzElement": "comment",
+            "wzTag": "#",
+            "wzName": "",
+            "comments": []
+        },
+        {
+            "wzElement": "comment",
+            "wzTag": "#",
+            "wzName": "Entità di gestione utenti ed accessi",
+            "comments": []
+        },
+        {
+            "wzElement": "comment",
+            "wzTag": "#",
+            "wzName": "",
+            "comments": []
+        },
+        {
+            "wzElement": "comment",
+            "wzTag": "#",
+            "wzName": "",
+            "comments": []
+        },
+        {
+            "wzElement": "comment",
+            "wzTag": "#",
+            "wzName": "Entità di configurazione impianti",
+            "comments": []
+        },
+        {
+            "wzElement": "comment",
+            "wzTag": "#",
+            "wzName": "",
+            "comments": []
+        }
+    ],
+    "datasources": [
+        {
+            "wzElement": "datasource",
+            "wzTag": "datasource",
+            "wzName": "db",
+            "comments": [],
+            "configs": [
+                {
+                    "wzElement": "config",
+                    "wzTag": "config",
+                    "wzName": "provider",
+                    "comments": [],
+                    "valueAssign": {
+                        "wzElement": "scalarAssign",
+                        "wzName": "\"sqlite\"",
+                        "valueAssigns": []
+                    }
+                },
+                {
+                    "wzElement": "config",
+                    "wzTag": "config",
+                    "wzName": "url",
+                    "comments": [],
+                    "valueAssign": {
+                        "wzElement": "functionCallAssign",
+                        "wzName": "env",
+                        "valueAssigns": [],
+                        "params": [
+                            {
+                                "wzElement": "scalaraParam",
+                                "wzTag": "@",
+                                "wzName": "\"DATABASE_URL\""
+                            },
+                            {
+                                "wzElement": "scalaraParam",
+                                "wzTag": "@",
+                                "wzName": "3"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ],
+    "generators": [
+        {
+            "wzElement": "generator",
+            "wzTag": "generator",
+            "wzName": "client",
+            "comments": [],
+            "configs": [
+                {
+                    "wzElement": "config",
+                    "wzTag": "config",
+                    "wzName": "provider",
+                    "comments": [],
+                    "valueAssign": {
+                        "wzElement": "scalarAssign",
+                        "wzName": "\"prisma-client-js\"",
+                        "valueAssigns": []
+                    }
+                },
+                {
+                    "wzElement": "config",
+                    "wzTag": "config",
+                    "wzName": "output",
+                    "comments": [],
+                    "valueAssign": {
+                        "wzElement": "scalarAssign",
+                        "wzName": "\"node_modules/.prisma/client\"",
+                        "valueAssigns": []
+                    }
+                },
+                {
+                    "wzElement": "config",
+                    "wzTag": "config",
+                    "wzName": "engineType",
+                    "comments": [],
+                    "valueAssign": {
+                        "wzElement": "scalarAssign",
+                        "wzName": "\"library\"",
+                        "valueAssigns": []
+                    }
+                },
+                {
+                    "wzElement": "config",
+                    "wzTag": "config",
+                    "wzName": "binaryTargets",
+                    "comments": [],
+                    "valueAssign": {
+                        "wzElement": "array",
+                        "wzName": "",
+                        "valueAssigns": [
+                            {
+                                "wzElement": "scalarValue",
+                                "wzTag": "@",
+                                "wzName": "\"native\"",
+                                "valueAssigns": []
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ],
+    "models": [
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "Protocol",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "id",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": []
+                        },
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "default",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "functionCallAssign",
+                                    "wzTag": "_",
+                                    "wzName": "cuid",
+                                    "valueAssigns": [],
+                                    "params": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "name",
+                    "optional": false,
+                    "comments": [
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "example \"s7\" | \"modbustcp\" | \"opqua\" | \"modbusrtu\" | ...",
+                            "comments": []
+                        }
+                    ],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "connectionProperties",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "ConnectionProperty[]"
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "metricProperties",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "MetricProperty[]"
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "connectionPropertyConstraints",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "ConnectionPropertyConstraint[]"
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "metricPropertyConstraints",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "MetricPropertyConstraint[]"
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "metricPropertyImplications",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "MetricPropertyImplication[]"
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "plcs",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "Plc[]"
+                    },
+                    "fieldAttributes": []
+                }
+            ],
+            "blockAttributes": []
+        },
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "Constraint",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "id",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": []
+                        },
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "default",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "functionCallAssign",
+                                    "wzTag": "_",
+                                    "wzName": "cuid",
+                                    "valueAssigns": [],
+                                    "params": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "name",
+                    "optional": false,
+                    "comments": [
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "example \"minimum\" | \"maximum\" | \"maxLength\" | ...",
+                            "comments": []
+                        }
+                    ],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "connectionPropertyConstraints",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "ConnectionPropertyConstraint[]"
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "metricPropertyConstraints",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "MetricPropertyConstraint[]"
+                    },
+                    "fieldAttributes": []
+                }
+            ],
+            "blockAttributes": []
+        },
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "Implication",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "id",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": []
+                        },
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "default",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "functionCallAssign",
+                                    "wzTag": "_",
+                                    "wzName": "cuid",
+                                    "valueAssigns": [],
+                                    "params": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "name",
+                    "optional": false,
+                    "comments": [
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "example \"require\"",
+                            "comments": []
+                        }
+                    ],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "metricPropertyImplications",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "MetricPropertyImplication[]"
+                    },
+                    "fieldAttributes": []
+                }
+            ],
+            "blockAttributes": []
+        },
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "ConnectionProperty",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "id",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": []
+                        },
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "default",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "functionCallAssign",
+                                    "wzTag": "_",
+                                    "wzName": "cuid",
+                                    "valueAssigns": [],
+                                    "params": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "protocol",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "Protocol"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "fields",
+                                    "wzTag": "fields",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "protocolId",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "references",
+                                    "wzTag": "references",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "id",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "onDelete",
+                                    "wzTag": "onDelete",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                },
+                                {
+                                    "wzElement": "onUpdate",
+                                    "wzTag": "onUpdate",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "protocolId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "name",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "description",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "pattern",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "default",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "required",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "booleanType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "connectionPropertyConstraints",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "ConnectionPropertyConstraint[]"
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "connectionValues",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "ConnectionValue[]"
+                    },
+                    "fieldAttributes": []
+                }
+            ],
+            "blockAttributes": []
+        },
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "ConnectionPropertyConstraint",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "id",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": []
+                        },
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "default",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "functionCallAssign",
+                                    "wzTag": "_",
+                                    "wzName": "cuid",
+                                    "valueAssigns": [],
+                                    "params": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "protocol",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "Protocol"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "fields",
+                                    "wzTag": "fields",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "protocolId",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "references",
+                                    "wzTag": "references",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "id",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "onDelete",
+                                    "wzTag": "onDelete",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                },
+                                {
+                                    "wzElement": "onUpdate",
+                                    "wzTag": "onUpdate",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "protocolId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "connectionProperty",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "ConnectionProperty"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "fields",
+                                    "wzTag": "fields",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "connectionPropertyId",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "references",
+                                    "wzTag": "references",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "id",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "onDelete",
+                                    "wzTag": "onDelete",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                },
+                                {
+                                    "wzElement": "onUpdate",
+                                    "wzTag": "onUpdate",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "connectionPropertyId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "constraint",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "Constraint"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "fields",
+                                    "wzTag": "fields",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "constraintId",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "references",
+                                    "wzTag": "references",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "id",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "onDelete",
+                                    "wzTag": "onDelete",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                },
+                                {
+                                    "wzElement": "onUpdate",
+                                    "wzTag": "onUpdate",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "constraintId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "value",
+                    "optional": false,
+                    "comments": [
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "Il contenuto di `value` deve essere convertito nel `type` della ConnectionProperty",
+                            "comments": []
+                        }
+                    ],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                }
+            ],
+            "blockAttributes": []
+        },
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "MetricProperty",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "id",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": []
+                        },
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "default",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "functionCallAssign",
+                                    "wzTag": "_",
+                                    "wzName": "cuid",
+                                    "valueAssigns": [],
+                                    "params": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "protocol",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "Protocol"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "fields",
+                                    "wzTag": "fields",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "protocolId",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "references",
+                                    "wzTag": "references",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "id",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "onDelete",
+                                    "wzTag": "onDelete",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                },
+                                {
+                                    "wzElement": "onUpdate",
+                                    "wzTag": "onUpdate",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "protocolId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "name",
+                    "optional": false,
+                    "comments": [
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "pattern \"^[a-zA-Z0-9_.-]{3,32}$\"",
+                            "comments": []
+                        },
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "description \"name of metric\"",
+                            "comments": []
+                        }
+                    ],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "description",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "pattern",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "default",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "required",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "booleanType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "metricPropertyConstraints",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "MetricPropertyConstraint[]"
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "metricPropertyImplications",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "MetricPropertyImplication[]"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "attributeName",
+                                    "wzTag": ":name",
+                                    "wzName": "r_metricProperty",
+                                    "valueAssigns": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "onMetricPropertyImplications",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "MetricPropertyImplication[]"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "attributeName",
+                                    "wzTag": ":name",
+                                    "wzName": "r_on_metricProperty",
+                                    "valueAssigns": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "metricValues",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "MetricValue[]"
+                    },
+                    "fieldAttributes": []
+                }
+            ],
+            "blockAttributes": []
+        },
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "MetricPropertyConstraint",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "id",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": []
+                        },
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "default",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "functionCallAssign",
+                                    "wzTag": "_",
+                                    "wzName": "cuid",
+                                    "valueAssigns": [],
+                                    "params": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "protocol",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "Protocol"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "fields",
+                                    "wzTag": "fields",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "protocolId",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "references",
+                                    "wzTag": "references",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "id",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "onDelete",
+                                    "wzTag": "onDelete",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                },
+                                {
+                                    "wzElement": "onUpdate",
+                                    "wzTag": "onUpdate",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "protocolId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "metricProperty",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "MetricProperty"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "fields",
+                                    "wzTag": "fields",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "metricPropertyId",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "references",
+                                    "wzTag": "references",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "id",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "onDelete",
+                                    "wzTag": "onDelete",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                },
+                                {
+                                    "wzElement": "onUpdate",
+                                    "wzTag": "onUpdate",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "metricPropertyId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "constraint",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "Constraint"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "fields",
+                                    "wzTag": "fields",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "constraintId",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "references",
+                                    "wzTag": "references",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "id",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "onDelete",
+                                    "wzTag": "onDelete",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                },
+                                {
+                                    "wzElement": "onUpdate",
+                                    "wzTag": "onUpdate",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "constraintId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "value",
+                    "optional": false,
+                    "comments": [
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "Il contenuto di `value` deve essere convertito nel `type` della MetricProperty",
+                            "comments": []
+                        }
+                    ],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                }
+            ],
+            "blockAttributes": []
+        },
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "MetricPropertyImplication",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "id",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": []
+                        },
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "default",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "functionCallAssign",
+                                    "wzTag": "_",
+                                    "wzName": "cuid",
+                                    "valueAssigns": [],
+                                    "params": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "protocol",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "Protocol"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "fields",
+                                    "wzTag": "fields",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "protocolId",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "references",
+                                    "wzTag": "references",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "id",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "onDelete",
+                                    "wzTag": "onDelete",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                },
+                                {
+                                    "wzElement": "onUpdate",
+                                    "wzTag": "onUpdate",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "protocolId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "metricProperty",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "MetricProperty"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "attributeName",
+                                    "wzTag": ":name",
+                                    "wzName": "r_metricProperty",
+                                    "valueAssigns": []
+                                },
+                                {
+                                    "wzElement": "fields",
+                                    "wzTag": "fields",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "metricPropertyId",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "references",
+                                    "wzTag": "references",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "id",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "onDelete",
+                                    "wzTag": "onDelete",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                },
+                                {
+                                    "wzElement": "onUpdate",
+                                    "wzTag": "onUpdate",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "metricPropertyId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "value",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "implication",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "Implication"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "fields",
+                                    "wzTag": "fields",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "implicationId",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "references",
+                                    "wzTag": "references",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "id",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "onDelete",
+                                    "wzTag": "onDelete",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                },
+                                {
+                                    "wzElement": "onUpdate",
+                                    "wzTag": "onUpdate",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "implicationId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "onMetricProperty",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "MetricProperty"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "attributeName",
+                                    "wzTag": ":name",
+                                    "wzName": "r_on_metricProperty",
+                                    "valueAssigns": []
+                                },
+                                {
+                                    "wzElement": "fields",
+                                    "wzTag": "fields",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "onMetricPropertyId",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "references",
+                                    "wzTag": "references",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "id",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "onDelete",
+                                    "wzTag": "onDelete",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                },
+                                {
+                                    "wzElement": "onUpdate",
+                                    "wzTag": "onUpdate",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "onMetricPropertyId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "onValue",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                }
+            ],
+            "blockAttributes": []
+        },
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "Organization",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "id",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": []
+                        },
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "default",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "functionCallAssign",
+                                    "wzTag": "_",
+                                    "wzName": "cuid",
+                                    "valueAssigns": [],
+                                    "params": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "users",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "User[]"
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "plants",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "Plant[]"
+                    },
+                    "fieldAttributes": []
+                }
+            ],
+            "blockAttributes": []
+        },
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "User",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "id",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": []
+                        },
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "default",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "functionCallAssign",
+                                    "wzTag": "_",
+                                    "wzName": "cuid",
+                                    "valueAssigns": [],
+                                    "params": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "organization",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "Organization"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "fields",
+                                    "wzTag": "fields",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "organizationId",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "references",
+                                    "wzTag": "references",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "id",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "onDelete",
+                                    "wzTag": "onDelete",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                },
+                                {
+                                    "wzElement": "onUpdate",
+                                    "wzTag": "onUpdate",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "organizationId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                }
+            ],
+            "blockAttributes": []
+        },
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "Plant",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "id",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": []
+                        },
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "default",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "functionCallAssign",
+                                    "wzTag": "_",
+                                    "wzName": "cuid",
+                                    "valueAssigns": [],
+                                    "params": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "organization",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "Organization"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "fields",
+                                    "wzTag": "fields",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "organizationId",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "references",
+                                    "wzTag": "references",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "id",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "onDelete",
+                                    "wzTag": "onDelete",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                },
+                                {
+                                    "wzElement": "onUpdate",
+                                    "wzTag": "onUpdate",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "organizationId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "plant_id",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "gateways",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "Gateway[]"
+                    },
+                    "fieldAttributes": []
+                }
+            ],
+            "blockAttributes": []
+        },
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "Gateway",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "id",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": []
+                        },
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "default",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "functionCallAssign",
+                                    "wzTag": "_",
+                                    "wzName": "cuid",
+                                    "valueAssigns": [],
+                                    "params": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "plant",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "Plant"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "fields",
+                                    "wzTag": "fields",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "plantId",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "references",
+                                    "wzTag": "references",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "id",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "onDelete",
+                                    "wzTag": "onDelete",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                },
+                                {
+                                    "wzElement": "onUpdate",
+                                    "wzTag": "onUpdate",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "plantId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "iot_id",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "batching_maxSize",
+                    "optional": false,
+                    "comments": [
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "minimum 0",
+                            "comments": []
+                        },
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "maximum 1000",
+                            "comments": []
+                        },
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "description \"0 means no batching\"",
+                            "comments": []
+                        }
+                    ],
+                    "fieldType": {
+                        "wzElement": "intType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "batching_period",
+                    "optional": false,
+                    "comments": [
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "minimum 0",
+                            "comments": []
+                        },
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "description \"batching period in seconds, 0 means disabled\"",
+                            "comments": []
+                        }
+                    ],
+                    "fieldType": {
+                        "wzElement": "intType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "plcs",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "Plc[]"
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "scripts",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "Script[]"
+                    },
+                    "fieldAttributes": []
+                }
+            ],
+            "blockAttributes": []
+        },
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "Plc",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "id",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": []
+                        },
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "default",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "functionCallAssign",
+                                    "wzTag": "_",
+                                    "wzName": "cuid",
+                                    "valueAssigns": [],
+                                    "params": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "gateway",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "Gateway"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "fields",
+                                    "wzTag": "fields",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "gatewayId",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "references",
+                                    "wzTag": "references",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "id",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "onDelete",
+                                    "wzTag": "onDelete",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                },
+                                {
+                                    "wzElement": "onUpdate",
+                                    "wzTag": "onUpdate",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "gatewayId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "protocol",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "Protocol"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "fields",
+                                    "wzTag": "fields",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "protocolId",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "references",
+                                    "wzTag": "references",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "id",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "onDelete",
+                                    "wzTag": "onDelete",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                },
+                                {
+                                    "wzElement": "onUpdate",
+                                    "wzTag": "onUpdate",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "protocolId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "plc_id",
+                    "optional": false,
+                    "comments": [
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "pattern \"^[a-zA-Z0-9_.-]{3,32}$\"",
+                            "comments": []
+                        },
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "description \"id of plc\"",
+                            "comments": []
+                        }
+                    ],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "connectionValues",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "ConnectionValue[]"
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "metrics",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "Metric[]"
+                    },
+                    "fieldAttributes": []
+                }
+            ],
+            "blockAttributes": []
+        },
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "ConnectionValue",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "id",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": []
+                        },
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "default",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "functionCallAssign",
+                                    "wzTag": "_",
+                                    "wzName": "cuid",
+                                    "valueAssigns": [],
+                                    "params": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "plc",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "Plc"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "fields",
+                                    "wzTag": "fields",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "plcId",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "references",
+                                    "wzTag": "references",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "id",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "onDelete",
+                                    "wzTag": "onDelete",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                },
+                                {
+                                    "wzElement": "onUpdate",
+                                    "wzTag": "onUpdate",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "plcId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "connectionProperty",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "ConnectionProperty"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "fields",
+                                    "wzTag": "fields",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "connectionPropertyId",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "references",
+                                    "wzTag": "references",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "id",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "onDelete",
+                                    "wzTag": "onDelete",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                },
+                                {
+                                    "wzElement": "onUpdate",
+                                    "wzTag": "onUpdate",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "connectionPropertyId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "value",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                }
+            ],
+            "blockAttributes": []
+        },
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "Metric",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "id",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": []
+                        },
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "default",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "functionCallAssign",
+                                    "wzTag": "_",
+                                    "wzName": "cuid",
+                                    "valueAssigns": [],
+                                    "params": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "plc",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "Plc"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "fields",
+                                    "wzTag": "fields",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "plcId",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "references",
+                                    "wzTag": "references",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "id",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "onDelete",
+                                    "wzTag": "onDelete",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                },
+                                {
+                                    "wzElement": "onUpdate",
+                                    "wzTag": "onUpdate",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "plcId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "script",
+                    "optional": true,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "Script"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "fields",
+                                    "wzTag": "fields",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "scriptId",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "references",
+                                    "wzTag": "references",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "id",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "onDelete",
+                                    "wzTag": "onDelete",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                },
+                                {
+                                    "wzElement": "onUpdate",
+                                    "wzTag": "onUpdate",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "scriptId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "name",
+                    "optional": false,
+                    "comments": [
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "pattern \"^[a-zA-Z0-9_.-]{3,32}$\"",
+                            "comments": []
+                        },
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "description \"metric name\"",
+                            "comments": []
+                        }
+                    ],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "interval",
+                    "optional": false,
+                    "comments": [
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "minimum 10000",
+                            "comments": []
+                        },
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "maximum 10000000000",
+                            "comments": []
+                        },
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "description \"interval in ms\"",
+                            "comments": []
+                        }
+                    ],
+                    "fieldType": {
+                        "wzElement": "intType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "description",
+                    "optional": false,
+                    "comments": [
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "maxLength 80",
+                            "comments": []
+                        },
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "description \"optional description for metric\"",
+                            "comments": []
+                        }
+                    ],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "topic",
+                    "optional": false,
+                    "comments": [
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "enum \"mdm\", \"mdm-index-overload\"",
+                            "comments": []
+                        },
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "description \"topic to publish to\"",
+                            "comments": []
+                        }
+                    ],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "script_value",
+                    "optional": false,
+                    "comments": [
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "description \"script value itself when not used the reference to Script model\"",
+                            "comments": []
+                        }
+                    ],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "ret_policy",
+                    "optional": false,
+                    "comments": [
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "enum \"agg10y\", \"noagg6m\", \"noagg6h\", \"noagg3m\"",
+                            "comments": []
+                        },
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "description \"retain policy tag\"",
+                            "comments": []
+                        }
+                    ],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "metricValues",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "MetricValue[]"
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "staticTags",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "StaticTag[]"
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "dynamicTags",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "DynamicTag[]"
+                    },
+                    "fieldAttributes": []
+                }
+            ],
+            "blockAttributes": []
+        },
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "MetricValue",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "id",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": []
+                        },
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "default",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "functionCallAssign",
+                                    "wzTag": "_",
+                                    "wzName": "cuid",
+                                    "valueAssigns": [],
+                                    "params": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "metric",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "Metric"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "fields",
+                                    "wzTag": "fields",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "metricId",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "references",
+                                    "wzTag": "references",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "id",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "onDelete",
+                                    "wzTag": "onDelete",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                },
+                                {
+                                    "wzElement": "onUpdate",
+                                    "wzTag": "onUpdate",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "metricId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "metricProperty",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "MetricProperty"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "fields",
+                                    "wzTag": "fields",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "metricPropertyId",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "references",
+                                    "wzTag": "references",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "id",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "onDelete",
+                                    "wzTag": "onDelete",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                },
+                                {
+                                    "wzElement": "onUpdate",
+                                    "wzTag": "onUpdate",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "metricPropertyId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "value",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                }
+            ],
+            "blockAttributes": []
+        },
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "StaticTag",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "id",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": []
+                        },
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "default",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "functionCallAssign",
+                                    "wzTag": "_",
+                                    "wzName": "cuid",
+                                    "valueAssigns": [],
+                                    "params": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "metric",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "Metric"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "fields",
+                                    "wzTag": "fields",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "metricId",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "references",
+                                    "wzTag": "references",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "id",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "onDelete",
+                                    "wzTag": "onDelete",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                },
+                                {
+                                    "wzElement": "onUpdate",
+                                    "wzTag": "onUpdate",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "metricId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "tag_key",
+                    "optional": false,
+                    "comments": [
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "pattern ^[a-zA-Z0-9_-]{3,10}$",
+                            "comments": []
+                        }
+                    ],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "tag_value",
+                    "optional": false,
+                    "comments": [
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "pattern ^[a-zA-Z0-9_.-]{1,10}$",
+                            "comments": []
+                        }
+                    ],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                }
+            ],
+            "blockAttributes": []
+        },
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "DynamicTag",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "id",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": []
+                        },
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "default",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "functionCallAssign",
+                                    "wzTag": "_",
+                                    "wzName": "cuid",
+                                    "valueAssigns": [],
+                                    "params": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "metric",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "Metric"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "fields",
+                                    "wzTag": "fields",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "metricId",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "references",
+                                    "wzTag": "references",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "id",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "onDelete",
+                                    "wzTag": "onDelete",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                },
+                                {
+                                    "wzElement": "onUpdate",
+                                    "wzTag": "onUpdate",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "metricId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "tag_id",
+                    "optional": false,
+                    "comments": [
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "pattern ^[a-zA-Z0-9_-]{3,10}$",
+                            "comments": []
+                        }
+                    ],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "default_value",
+                    "optional": false,
+                    "comments": [
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "pattern ^[a-zA-Z0-9_.-]{1,10}$",
+                            "comments": []
+                        },
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "description \"default value of the tag (will be used in case of failed fetching or not allowed value)\"",
+                            "comments": []
+                        }
+                    ],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "description",
+                    "optional": false,
+                    "comments": [
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "maxLength 80",
+                            "comments": []
+                        }
+                    ],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "ref_plc_id",
+                    "optional": false,
+                    "comments": [
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "pattern \"^[a-zA-Z0-9_.-]{3,32}$\"",
+                            "comments": []
+                        },
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "riferimento a plc del gateway",
+                            "comments": []
+                        }
+                    ],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "ref_metric_name",
+                    "optional": false,
+                    "comments": [
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "pattern \"^[a-zA-Z0-9_.-]{3,32}$\"",
+                            "comments": []
+                        },
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "riferimento a metrica del plc del gateway selezionato",
+                            "comments": []
+                        }
+                    ],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "allowedValues",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "DynamicTagAllowedValue[]"
+                    },
+                    "fieldAttributes": []
+                }
+            ],
+            "blockAttributes": []
+        },
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "DynamicTagAllowedValue",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "id",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": []
+                        },
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "default",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "functionCallAssign",
+                                    "wzTag": "_",
+                                    "wzName": "cuid",
+                                    "valueAssigns": [],
+                                    "params": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "dynamicTag",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "DynamicTag"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "fields",
+                                    "wzTag": "fields",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "dynamicTagId",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "references",
+                                    "wzTag": "references",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "id",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "onDelete",
+                                    "wzTag": "onDelete",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                },
+                                {
+                                    "wzElement": "onUpdate",
+                                    "wzTag": "onUpdate",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "dynamicTagId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "tag_value",
+                    "optional": false,
+                    "comments": [
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "pattern ^[a-zA-Z0-9_.-]{1,10}$ or regex",
+                            "comments": []
+                        },
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "value|regex can be detected programmatically",
+                            "comments": []
+                        },
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "no need of a DynamicTagAllowedRegex model",
+                            "comments": []
+                        }
+                    ],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                }
+            ],
+            "blockAttributes": []
+        },
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "Script",
+            "comments": [],
+            "fields": [
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "id",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "id",
+                            "comments": [],
+                            "valueAssigns": []
+                        },
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "default",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "functionCallAssign",
+                                    "wzTag": "_",
+                                    "wzName": "cuid",
+                                    "valueAssigns": [],
+                                    "params": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "gateway",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "Gateway"
+                    },
+                    "fieldAttributes": [
+                        {
+                            "wzElement": "fieldAttribute",
+                            "wzTag": "@",
+                            "wzName": "relation",
+                            "comments": [],
+                            "valueAssigns": [
+                                {
+                                    "wzElement": "fields",
+                                    "wzTag": "fields",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "gatewayId",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "references",
+                                    "wzTag": "references",
+                                    "wzName": "",
+                                    "valueAssigns": [],
+                                    "array": {
+                                        "wzElement": "array",
+                                        "wzName": "",
+                                        "valueAssigns": [
+                                            {
+                                                "wzElement": "scalarValue",
+                                                "wzTag": "@",
+                                                "wzName": "id",
+                                                "valueAssigns": []
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "wzElement": "onDelete",
+                                    "wzTag": "onDelete",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                },
+                                {
+                                    "wzElement": "onUpdate",
+                                    "wzTag": "onUpdate",
+                                    "wzName": "Cascade",
+                                    "valueAssigns": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "gatewayId",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "script_id",
+                    "optional": false,
+                    "comments": [
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "pattern \"^[a-zA-Z0-9_-]{3,20}$\"",
+                            "comments": []
+                        }
+                    ],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "script_type",
+                    "optional": false,
+                    "comments": [
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "pattern \"^[a-zA-Z0-9_. -]{3,20}$\"",
+                            "comments": []
+                        }
+                    ],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "script_description",
+                    "optional": false,
+                    "comments": [
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "pattern \"^[a-zA-Z0-9_. -+]{3,100}$\"",
+                            "comments": []
+                        }
+                    ],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "script_timeout",
+                    "optional": false,
+                    "comments": [
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "minimum 0",
+                            "comments": []
+                        },
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "maximum 1000",
+                            "comments": []
+                        }
+                    ],
+                    "fieldType": {
+                        "wzElement": "intType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "script_content",
+                    "optional": false,
+                    "comments": [
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "maxLength 1000",
+                            "comments": []
+                        },
+                        {
+                            "wzElement": "comment",
+                            "wzTag": "#",
+                            "wzName": "description \"The whole return object must contains currentSent: any, fire: boolean, error: boolean. **Available variables: lastSent, currentRead**\",",
+                            "comments": []
+                        }
+                    ],
+                    "fieldType": {
+                        "wzElement": "stringType",
+                        "wzName": ""
+                    },
+                    "fieldAttributes": []
+                },
+                {
+                    "wzElement": "field",
+                    "wzTag": "field",
+                    "wzName": "metrics",
+                    "optional": false,
+                    "comments": [],
+                    "fieldType": {
+                        "wzElement": "refType",
+                        "wzName": "Metric[]"
+                    },
+                    "fieldAttributes": []
+                }
+            ],
+            "blockAttributes": []
+        }
+    ]
+}

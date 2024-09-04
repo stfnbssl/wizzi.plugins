@@ -1,0 +1,61 @@
+wzjob wizzi.meta.js/job
+    $
+        var jobCtx = {
+            ittf_models_folder: path.join(__dirname, 'models'),
+            ittf_ittf_folder: path.join(__dirname, 'ittf'),
+            ittf_src_folder: path.join(__dirname, 'src'),
+            ittf_root_folder: path.join(__dirname, 'root'),
+            ittf_examples_folder: path.join(__dirname, 'examples'),
+            ittf_tests_folder: path.join(__dirname, 'tests'),
+            dest_folder: path.join(__dirname, '..'),
+            job_model: 'wzCtx'
+        }
+    model ${jobCtx.job_model}
+        schema json
+        src ${jobCtx.ittf_models_folder}/wzctx.json.ittf
+    line ittf-models
+        cwd-folder ${jobCtx.ittf_models_folder}
+        wzjobs(any_json, &jobCtx)
+    line ittf-ittf
+        cwd-folder ${jobCtx.ittf_ittf_folder}
+        dest-folder ${jobCtx.dest_folder}/ittf
+        wzjobs(any_plain, &jobCtx, ittf)
+    line ittf-root
+        cwd-folder ${jobCtx.ittf_root_folder}
+        wzjobs(any_js, &jobCtx)
+        wzjobs(any_json, &jobCtx)
+        wzjobs(any_md, &jobCtx)
+        wzjobs(any_text, &jobCtx)
+        wzjobs(.gitignore, &jobCtx)
+        wzjobs(any_plain, &jobCtx, ts)
+    line ittf-src
+        cwd-folder ${jobCtx.ittf_src_folder}
+        dest-folder ${jobCtx.dest_folder}/src
+        wzjobs(any_js, &jobCtx)
+        wzjobs(any_json, &jobCtx)
+        wzjobs(any_md, &jobCtx)
+    line ittf-examples
+        cwd-folder ${jobCtx.ittf_examples_folder}
+        dest-folder ${jobCtx.dest_folder}/examples
+        wzjobs(any_js, &jobCtx)
+        wzjobs(any_html, &jobCtx)
+        wzjobs(any_css, &jobCtx)
+        wzjobs(any_ittf, &jobCtx)
+        wzjobs(any_text, &jobCtx)
+        wzjobs(any_plain, &jobCtx, html)
+        wzjobs(any_plain, &jobCtx, css)
+        wzjobs(any_plain, &jobCtx, js)
+        wzjobs(any_examples__copy, &jobCtx, ittf)
+    line ittf-tests
+        cwd-folder ${jobCtx.ittf_tests_folder}
+        dest-folder ${jobCtx.dest_folder}/tests
+        wzjobs(any_plain, &jobCtx, ittf)
+    production
+        dest-folder ${jobCtx.dest_folder}
+        line-ref ittf-models
+        $if false
+            line-ref ittf-ittf
+        line-ref ittf-root
+        line-ref ittf-src
+        $if false
+            line-ref ittf-examples

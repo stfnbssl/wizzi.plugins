@@ -1,4 +1,4 @@
-wfjob wizzi.plugin.wfschema/job
+wzjob wizzi.plugin.wfschema/job
     
     $
         var jobCtx = {
@@ -17,40 +17,40 @@ wfjob wizzi.plugin.wfschema/job
     
     line ittf-models
         cwd-folder ${jobCtx.ittf_models_folder}
-        wfjobs(any_json, &jobCtx)
+        wzjobs(any_json, &jobCtx)
     
     line ittf-root
         cwd-folder ${jobCtx.ittf_root_folder}
-        wfjobs(any_js, &jobCtx)
-        wfjobs(any_json, &jobCtx)
-        wfjobs(any_md, &jobCtx)
-        wfjobs(any_text, &jobCtx)
-        wfjobs(.gitignore, &jobCtx)
-        wfjobs(any_plain, &jobCtx, ts)
+        wzjobs(any_js, &jobCtx)
+        wzjobs(any_json, &jobCtx)
+        wzjobs(any_md, &jobCtx)
+        wzjobs(any_text, &jobCtx)
+        wzjobs(.gitignore, &jobCtx)
+        wzjobs(any_plain, &jobCtx, ts)
     
     line ittf-lib
         cwd-folder ${jobCtx.ittf_lib_folder}
         dest-folder ${jobCtx.dest_folder}/lib
-        wfjobs(any_js, &jobCtx)
-        wfjobs(any_lib__copy, &jobCtx, ittf)
+        wzjobs(any_js, &jobCtx)
+        wzjobs(any_lib__copy, &jobCtx, ittf)
     
     line ittf-examples
         cwd-folder ${jobCtx.ittf_examples_folder}
         dest-folder ${jobCtx.dest_folder}/examples
-        wfjobs(any_js, &jobCtx)
-        wfjobs(any_html, &jobCtx)
-        wfjobs(any_css, &jobCtx)
-        wfjobs(any_ittf, &jobCtx)
-        wfjobs(any_text, &jobCtx)
-        wfjobs(any_plain, &jobCtx, html)
-        wfjobs(any_plain, &jobCtx, css)
-        wfjobs(any_plain, &jobCtx, js)
-        wfjobs(any_examples__copy, &jobCtx, ittf)
+        wzjobs(any_js, &jobCtx)
+        wzjobs(any_html, &jobCtx)
+        wzjobs(any_css, &jobCtx)
+        wzjobs(any_ittf, &jobCtx)
+        wzjobs(any_text, &jobCtx)
+        wzjobs(any_plain, &jobCtx, html)
+        wzjobs(any_plain, &jobCtx, css)
+        wzjobs(any_plain, &jobCtx, js)
+        wzjobs(any_examples__copy, &jobCtx, ittf)
     
     line ittf-tests
         cwd-folder ${jobCtx.ittf_tests_folder}
         dest-folder ${jobCtx.dest_folder}/tests
-        wfjobs(any_plain, &jobCtx, ittf)
+        wzjobs(any_plain, &jobCtx, ittf)
     
     production
         dest-folder ${jobCtx.dest_folder}

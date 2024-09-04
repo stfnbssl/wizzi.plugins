@@ -1,0 +1,124 @@
+$group
+
+    e oem : node
+        # the wzName is the `name` attribute
+        $$ a name
+        a description
+        r user/s
+        r plant/s
+    
+    e user
+        # the wzName is the `name` attribute
+        $$ a name
+    
+    e plant
+        # the wzName is the `name` attribute
+        $$ a name
+        a description
+        a plant_id
+        r gateway/s
+    
+    e gateway
+        # the wzName is the `name` attribute
+        $$ a name
+        a iot_id
+        a description
+        r batching
+            one-to-one
+        r dynamicTag/s
+        r script/s
+        r plc/s
+    
+    e batching
+        # the wzName is the `name` attribute
+        $$ a name
+        a maxSize
+            type integer
+        a period
+            type integer
+        
+    e plc
+        # the wzName is the `name` attribute
+        $$ a name
+        a plc_id
+        a protocol
+        a description
+        r connectionValue/s
+        r metric/s
+    
+    e connectionValue
+        tag connection_value
+        # the wzName is the `connectionProperty` attribute
+        $$ a connectionProperty
+        a value
+
+    e metric
+        # the wzName is the `name` attribute
+        $$ a name
+        a interval
+            type integer
+        a description
+        a topic
+        a ret_policy
+        a script_value
+        r metricValue/s
+        r staticTag/s
+        r dynamicTagRef/s
+        r scriptRef
+            one-to-one
+    
+    e metricValue
+        tag property
+        # the wzName is the `metricProperty` attribute
+        $$ a metricProperty
+        a value
+    
+    e staticTag
+        tag static
+        # the wzName is the `tag_key` attribute
+        $$ a tag_key
+        a tag_value
+            tag value
+    
+    e dynamicTag
+        tag dynamic
+        # the wzName is the `tag_id` attribute
+        $$ a tag_id
+        a default_value
+        a description
+        a ref_plc_id
+        a ref_metric_name
+        r dynamicTagAllowedValue/s
+        r dynamicTagRegexAllowedValue/s
+    
+    e dynamicTagRef
+        tag dynamic
+        # the wzName is the `key` attribute
+        $$ a key
+        a value_ref
+        a value_itself
+
+    e dynamicTagAllowedValue
+        tag allowed_value
+        # the wzName is the `tag_value` attribute
+        $$ a tag_value
+    
+    e dynamicTagRegexAllowedValue
+        tag regex_allowed_value
+        # the wzName is the `tag_value`
+        $$ a tag_value
+
+    e script
+        tag script
+        # the wzName is the `script_id` attribute
+        $$ a script_id
+        a script_type
+        a script_description
+        a script_timeout
+            type integer
+        a script_content
+
+    e scriptRef
+        tag script_ref
+        # the wzName is the `script_id` attribute
+        $$ a script_id

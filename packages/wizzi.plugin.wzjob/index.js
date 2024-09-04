@@ -1,10 +1,9 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzjob\.wizzi-override\root\index.js.ittf
-    utc time: Fri, 15 Mar 2024 07:53:17 GMT
+    utc time: Fri, 30 Aug 2024 07:29:10 GMT
 */
-'use strict';
 
 var util = require('util');
 var path = require('path');
@@ -177,25 +176,21 @@ function error(errorName, method, message, innerError) {
 }
 
 module.exports = {
-    version: '0.7.9', 
+    version: '0.8.4', 
     provides: {
         schemas: [
-            'wzjob', 
-            'wfjob'
+            'wzjob'
         ], 
         modelTransformers: [
-            'wzjob/extended', 
-            'wfjob/extended'
+            'wzjob/extended'
         ], 
         artifactGenerators: [
-            'wzjob/document', 
-            'wfjob/document'
+            'wzjob/document'
         ]
      }, 
     createFactoryPlugin: function(wizziPackage, options, callback) {
         var plugin = new FactoryPlugin(wizziPackage, this.provides);
         plugin.initialize(options, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }

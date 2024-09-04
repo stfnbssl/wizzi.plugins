@@ -466,23 +466,23 @@ module wizzi.plugin.md@${wzCtx.version}.lib.artifacts.md.document.gen.main
                         foreach th in item.elements
                             var prevTHL = columns[item.elements.indexOf(th)] || 0
                             set columns[item.elements.indexOf(th)] = Math.max(prevTHL, th.wzName.length)
-                            log item.elements.indexOf(th), prevTHL, th.wzName.length, th.wzName
+                            # loog item.elements.indexOf(th), prevTHL, th.wzName.length, th.wzName
                     elif item.wzElement == 'tbody'
                         foreach tr in item.elements
                             foreach td in tr.elements
                                 var prevTDL = columns[tr.elements.indexOf(td)] || 0
                                 set columns[tr.elements.indexOf(td)] = Math.max(prevTDL, td.wzName.length)
-                                log tr.elements.indexOf(td), prevTDL, td.wzName.length, td.wzName
+                                # loog tr.elements.indexOf(td), prevTDL, td.wzName.length, td.wzName
                 foreach item in table.elements
                     if item.wzElement == 'thead'
                         foreach th in item.elements
                             set th.maxLength = columns[item.elements.indexOf(th)]
-                            log item.elements.indexOf(th), th.maxLength, th.wzName
+                            # loog item.elements.indexOf(th), th.maxLength, th.wzName
                     elif item.wzElement == 'tbody'
                         foreach tr in item.elements
                             foreach td in tr.elements
                                 set td.maxLength = columns[tr.elements.indexOf(td)]
-                                log tr.elements.indexOf(td), td.maxLength, td.wzName
+                                # loog tr.elements.indexOf(td), td.maxLength, td.wzName
         set md.getColumnValue
             function
                 param el 

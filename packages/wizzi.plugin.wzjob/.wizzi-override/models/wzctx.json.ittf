@@ -1,9 +1,12 @@
 {
     $include versions
     name "wizzi.plugin.wzjob"
-    npnName "@wizzi/plugin.wzjob"
+    npmName "@wizzi/plugin.wzjob"
     pluginBasename "wzjob"
     version '${versions['@wizzi/plugin.wzjob@next']}'
+    version_wizzi_factory '${versions['@wizzi/factory']}'
+    version_wizzi_mtree '${versions['@wizzi/mtree']}'
+    version_wizzi_utils '${versions['@wizzi/utils']}'
     description "wizzi.plugin.wzjob"
     { author
         name "Stefano Bassoli"
@@ -11,7 +14,8 @@
     { github
         userid "stfnbssl"
     { license
-        name "MIT"
+        type "MIT"
+        url "https://github.com/stfnbssl/wizzi.plugins/tree/main/packages/wizzi.plugin.wzjob/license.text"
         copy "copy 2023"
     { Build
         isWizziPlugin true
@@ -33,9 +37,10 @@
                     name "document"
             [ wizzifiers
             [ includes
+        $*
         {
-            name "wfjob"
-            title "wfjob wizzi schema"
+            name "wzjob"
+            title "wzjob wizzi schema"
             builtin false
             [ modelTransformers
                 {
@@ -45,3 +50,4 @@
                     name "document"
             [ wizzifiers
             [ includes
+        *$

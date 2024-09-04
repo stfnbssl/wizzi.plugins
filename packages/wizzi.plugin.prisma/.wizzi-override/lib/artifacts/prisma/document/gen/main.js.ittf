@@ -29,18 +29,19 @@ module
                 _md_gen_items( generators
                     _md_gen_items( models
                         r_cb()
-
-
+        
         async-md( datasource )
             _ ctx.w('datasource ' + model.wzName + ' {')
             _md_gen_items( configs, indent
                 _ ctx.w('}')
+                _ ctx.w()
                 r_cb()
 
         async-md( generator )
             _ ctx.w('generator ' + model.wzName + ' {')
             _md_gen_items( configs, indent
                 _ ctx.w('}')
+                _ ctx.w()
                 r_cb()
 
         async-md( model )
@@ -48,6 +49,7 @@ module
             _md_gen_items( fields, indent
                 _md_gen_items( blockAttributes, indent
                     _ ctx.w('}')
+                    _ ctx.w()
                     r_cb()
 
         async-md( config )
@@ -60,7 +62,8 @@ module
 
         async-md( field )
             _ ctx.write(model.wzName)
-            _ ctx.write(' ' + model.getTypeString())
+            var space = model.wzName.length > 0 ? ' ' : ''
+            _ ctx.write(space + model.getTypeString())
             _md_gen_items( fieldAttributes
                 _ ctx.w()
                 r_cb()

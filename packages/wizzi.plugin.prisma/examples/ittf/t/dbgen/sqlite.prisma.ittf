@@ -1,0 +1,20 @@
+$group
+
+    datasource db
+        config provider
+            = "sqlite"
+        config url
+            _ env
+                @ "DATABASE_URL"
+                @ 3
+    
+    generator client
+        config provider
+            = "prisma-client-js"
+        config output
+            = "node_modules/.prisma/client"
+        config engineType
+            = "library"
+        config binaryTargets
+            [ 
+                @ "native"

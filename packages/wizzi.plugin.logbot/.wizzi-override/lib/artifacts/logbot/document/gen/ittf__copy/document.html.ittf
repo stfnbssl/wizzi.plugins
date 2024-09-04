@@ -37,6 +37,7 @@
                     content "\2212"
                     # 
                 . panel
+                    margin-top 5px
                     padding 0 18px
                     display none
                     background-color white
@@ -46,16 +47,50 @@
                     background-color #f4f4f4
                     padding 10px
                     border-radius 5px
+                . name
+                    font-size 9px
+                . billing-green
+                    font-size 12px
+                    padding 4px
+                    background-color green
+                    color yellow
+                . billing-red
+                    font-size 12px
+                    padding 4px
+                    background-color red
+                    color yellow
+                . message-role
+                    width 25%
+                    font-size 12px
+                    font-weight 700
+                . message-content
+                    width 25%
     body 
         h2 chatGPT API calls
 		$foreach aicall in schema.lbot.aiCalls
-			button ${aicall.name}
+			button ${aicall.description}
 				class accordion
-			. panel
-				p Description: ${aicall.description}
-				p Info billing: ${JSON.stringify(aicall.info)}
-				p Usage ${JSON.stringify(aicall.usage)}
-				p Finish reason ${aicall.finish_reason}
+            . panel
+                h3 Prompt
+                $foreach message in aicall.aiMessages
+                    . message-role
+                        + role: ${message.role}
+                    . message-content
+                        + content: ${message.content}
+                h3 Answer
+                $if TODO
+                    p Name: ${aicall.name}
+                        class name
+				span
+                    $if JSON.stringify(aicall.info).indexOf('cached') > -1
+                        class billing-green
+                    $else
+                        class billing-red
+                    + Info billing: ${JSON.stringify(aicall.info)}
+                $if _.isNotEmpty(JSON.stringify(aicall.usage))
+				    p Usage ${JSON.stringify(aicall.usage)}
+                $if _.isNotEmpty(aicall.finish_reason)
+				    p Finish reason ${aicall.finish_reason}
 				+ ${aicall.aiResponseHTML}
         script 
             module 

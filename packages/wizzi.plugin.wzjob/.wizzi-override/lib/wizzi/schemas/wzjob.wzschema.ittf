@@ -1,0 +1,43 @@
+﻿wzschema wzjob
+	
+	# A schema modeling a wizzi factory job.
+
+	export-to json
+	
+	e wzjob
+		
+		# The root element of the wzjob schema.
+		
+		a_tag( modelsBaseFolder, models-base-folder )
+			# The base path for the source models used by this "wzjob".
+		
+		a_tag( destBaseFolder, dest-base-folder )
+			# The base folder path for the generated artifacts.
+
+		a title
+			# A short description of the job.
+
+		r comment/s
+		r require/s
+		r model/s
+		r line/s
+		r production/s
+		r execFile/s
+
+	e comment
+		# A comment line for describing job items.
+		tag #
+
+	e require
+
+		# Requires a WizziFactoryPackage.
+		# The IttfNodeValue is the package name. 
+		# If the package is not globally installed must be a fully qualified path.
+
+	$include wzjob/model
+	
+	$include wzjob/artifact
+
+	$include wzjob/production
+
+	$include wzjob/exec

@@ -1,17 +1,16 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzjob\.wizzi-override\lib\artifacts\wzjob\document\gen\main.js.ittf
-    utc time: Fri, 15 Mar 2024 07:53:19 GMT
+    utc time: Fri, 30 Aug 2024 07:29:11 GMT
 */
-'use strict';
 
 
 var util = require('util');
 var path = require('path');
 var async = require('async');
-var verify = require('wizzi-utils').verify;
-var lineParser = require('wizzi-utils').helpers.lineParser;
+var verify = require('@wizzi/utils').verify;
+var lineParser = require('@wizzi/utils').helpers.lineParser;
 var errors = require('../../../../../errors');
 
 var myname = 'wizzi.plugin.wzjob.artifacts.wzjob.document.gen.main';
@@ -31,7 +30,6 @@ md.gen = function(model, ctx, callback) {
     }
     try {
         md.wzjob(model, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -76,7 +74,6 @@ md.genItems = function(items, ctx, options, callback) {
         goitems.push(items[i]);
     }
     async.mapSeries(goitems, md.mapItem(ctx), (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -109,7 +106,6 @@ md.wzjob = function(model, ctx, callback) {
     md.genItems(model.nodes, ctx, {
         indent: true
      }, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
