@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\root\index.js.ittf
-    utc time: Thu, 01 Aug 2024 13:34:03 GMT
+    utc time: Tue, 17 Sep 2024 11:08:12 GMT
 */
-'use strict';
 
 var util = require('util');
 var path = require('path');
@@ -46,7 +45,7 @@ class FactoryPlugin {
     }
     
     getVersion() {
-        return '0.8.8';
+        return '0.8.9';
     }
     
     getFilename() {

@@ -18,6 +18,58 @@ module
             set ctx.__json
                 {
                     @ name model.wzName
+                    { mainMetas
+                        [ fieldKeyAttributes
+                            {
+                                @ name 'isId'
+                                @ meaning 'The field is a single field primary key.'
+                            {
+                                @ name 'isRelated'
+                                @ meaning 'The field is a single field foreign key, can be `idRelated` or `objectRelated`.'
+                            {
+                                @ name 'idRelated'
+                                @ meaning 'The field is a scalar single field foreign key.'
+                            {
+                                @ name 'objectRelated'
+                                [ meaning
+                                    @ 'The field contains (is populated with) the instance/s of the related model item/s.'
+                                    @ 'When relationCardinality is `one-to-many` contains an array of related instances.'
+                                    @ 'When relationCardinality is `many-to-one` or `one-to-one` contains an object of the related instance.'
+                            {
+                                @ name 'relation'
+                                [ meaning
+                                    @ 'When The field is `objectRelated` and relationCardinality is `many-to-one` or `one-to-one` ...'
+                                    @ '... the attribute contains a relation structure that can have a multi field foreign key.'
+                        [ relationCardinalities
+                            @ 'one-to-one'
+                            @ 'one-to-many'
+                            @ 'many-to-one'
+                            @ 'many-to-many'
+                        [ fieldTypes
+                            @ 'String'
+                            @ 'Boolean'
+                            @ 'Int'
+                            @ 'BigInt'
+                            @ 'Float'
+                            @ 'Decimal'
+                            @ 'DateTime'
+                            @ 'Json'
+                            @ 'Bytes'
+                        [ constraints   
+                            @ 'min'
+                            @ 'max'
+                            @ 'minLength'
+                            @ 'maxLength'
+                            @ 'regExp'
+                            @ 'enum'
+                        [ editFormats
+                            @ 'Checkbox'
+                            @ 'Radio'
+                            @ 'Color'
+                            @ 'Switch'
+                            @ 'Slider'
+                            @ 'Rate'
+                            @ 'Upload'
                     [ datasources
                     [ generators
                     [ enums
@@ -143,17 +195,21 @@ module
                     @ type model.getType()
                     @ optional model.optional
                     @ typeExtensions model.getTypeExtensions()
+                    @ editFormat model.getEditFormat()
                     [ attributes
                     [ constraints
-            if model.extIdRelated
-                set jsonField.extIdRelated = true
+                    [ dbColumns
+            if model.idRelated
+                set jsonField.isRelated = true
+                set jsonField.idRelated = true
                 set jsonField.relatedModel = model.relatedModel
                 set jsonField.relationName = model.relationName
-                set jsonField.relation = model.relation
+                set jsonField.relationCardinality = model.relationCardinality
                 set jsonField.relationTarget = model.relationTarget
-            elif verify.isNotEmpty(model.relation)
-                set jsonField.extIdRelated = true
-                set jsonField.relation = model.relation
+            elif verify.isNotEmpty(model.relationCardinality)
+                set jsonField.isRelated = true
+                set jsonField.objectRelated = true
+                set jsonField.relationCardinality = model.relationCardinality
                 set jsonField.relationTarget = model.relationTarget
             _ ctx.__current.fields.push
                 @ jsonField
@@ -162,12 +218,22 @@ module
                 foreach fc in model.fieldConstraints
                     var c
                         {
-                            @ type fc.wzElement
+                            @ type fc.wzElement 
                     _ fc.setField
                         @ c
                     _ ctx.__current.constraints.push
                         @ c
                     _ fc.setField
+                        @ ctx.__current
+                foreach fdbc in model.dbColumns
+                    var dbc
+                        {
+                            @ type fdbc.wzElement
+                    _ fdbc.setField
+                        @ dbc
+                    _ ctx.__current.dbColumns.push
+                        @ dbc
+                    _ fdbc.setField
                         @ ctx.__current
                 _ setJSON_KnownFieldTypes
                     @ jsonField
@@ -259,11 +325,13 @@ module
 
     function setJSON_KnownFieldTypes
         param jsonField
-        # loog 'setJSON_KnownFieldTypes', jsonField.attributes.length, jsonField.attributes[0]
+        if jsonField.name == 'xrequired' || jsonField.name == 'pattern'
+            log 'setJSON_KnownFieldTypes', jsonField.attributes.length, jsonField.attributes[0]
         if jsonField.attributes.length > 0 
             \b && jsonField.attributes[0].type == "@function"
             \b && jsonField.attributes[0].name == "relation"
-            set jsonField.isRelation = true
+            set jsonField.isRelated = true
+            set jsonField.objectRelated = true
             var value
                 {
                     @ model jsonField.type
@@ -280,8 +348,19 @@ module
 
         if jsonField.attributes.length > 0 
             \b && jsonField.attributes[0].type == "@"
-            \b && jsonField.attributes[0].name == "id"
+            \b && jsonField.attributes[0].name == "unique"
             set jsonField.isUnique = true
+
+        if jsonField.attributes.length > 0 
+            \b && jsonField.attributes[0].type == "@function"
+            \b && jsonField.attributes[0].name == "default"
+            if !jsonField.attributes[0].args[0] || verify.isEmpty(jsonField.attributes[0].args[0].name)
+                throw new Error("Missing name attribute on default of field " + jsonField.name)
+            _ jsonField.constraints.push
+                {
+                    @ type "defaultValue"
+                    @ defaultValue jsonField.attributes[0].args[0].name
+            log 'jsonField.constraints', jsonField.name, jsonField.constraints
 
     function setJSON_KnownModelAttributes
         param model
@@ -293,26 +372,32 @@ module
         param models
         foreach model in models
             foreach field in model.fields
-                if field.isRelation
-                    _ setOneToManyRelation
+                $$ if field.isRelated
+                if field.objectRelated
+                    # the field is a many-to-one Object Field (model reference)
+                    _ setOneToManyOrToOneRelation
                         @ models
                         @ model
                         @ field
 
-    function setOneToManyRelation
+    function setOneToManyOrToOneRelation
         param models
-        param manyModel
-        param field
+        param manyOrOneModel
+        param manyOrOneField
+        # the manyOrOneField.type is set in
+        # .
+        # .   .field
+        # .   .   .ref <model.Name>
         foreach model in models
-            if model.Name == field.type
+            if model.Name == manyOrOneField.type
                 _ model.relations.push
                     {
-                        @ model field.type
+                        @ model manyOrOneField.type
                         { toModel
-                            @ Name manyModel.Name
-                            @ name manyModel.name
-                            @ namePlural manyModel.namePlural
-                        @ relation field.relation
+                            @ Name manyOrOneModel.Name
+                            @ name manyOrOneModel.name
+                            @ namePlural manyOrOneModel.namePlural
+                        @ relationCardinality manyOrOneField.relationCardinality
     
     function setIndexes
         param ctx
@@ -323,36 +408,12 @@ module
         param jsonModel
         param fieldName
         foreach field in jsonModel.fields
-            if field.extIdRelated && field.name == fieldName
+            if field.idRelated && field.name == fieldName
                 return 
                     {
                         @ relatedModel field.relatedModel
-                        @ relation field.relation
+                        @ relationCardinality field.relationCardinality
                         @ relationTarget field.relationTarget
                         @ optional field.optional
         return null
 
-$*
-datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL", 3)
-}
-
-generator client {
-  provider      = "prisma-client-js"
-  output        = "node_modules/.prisma/client"
-  engineType    = "library"
-  binaryTargets = ["native"]
-}
-
-model User {
-  id    String @id @default(cuid())
-  email String @unique
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  password Password?
-  notes    Note[]
-}
-*$

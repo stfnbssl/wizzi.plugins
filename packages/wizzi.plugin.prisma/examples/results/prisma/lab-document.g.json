@@ -1,0 +1,258 @@
+{
+  "name": "logbot",
+  "datasources": [
+    {
+      "name": "db",
+      "configs": [
+        {
+          "name": "provider",
+          "value": "sqlite"
+        },
+        {
+          "name": "url",
+          "value": "env(\"DATABASE_URL\", 3)"
+        }
+      ]
+    }
+  ],
+  "generators": [
+    {
+      "name": "client",
+      "configs": [
+        {
+          "name": "provider",
+          "value": "prisma-client-js"
+        },
+        {
+          "name": "output",
+          "value": "node_modules/.prisma/client"
+        },
+        {
+          "name": "engineType",
+          "value": "library"
+        },
+        {
+          "name": "binaryTargets",
+          "value": "[\"native\"]"
+        }
+      ]
+    }
+  ],
+  "enums": [],
+  "models": [
+    {
+      "Name": "ModelLab",
+      "NamePlural": "ModelLabs",
+      "name": "modelLab",
+      "namePlural": "modelLabs",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@",
+              "name": "id",
+              "value": null,
+              "args": []
+            },
+            {
+              "type": "@function",
+              "name": "default",
+              "value": null,
+              "args": [
+                {
+                  "function": {
+                    "functionName": "cuid",
+                    "args": []
+                  }
+                }
+              ]
+            }
+          ],
+          "constraints": [],
+          "dbColumns": [],
+          "isId": true,
+          "isUnique": true
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [
+            {
+              "type": "minLength",
+              "minLength": "5"
+            },
+            {
+              "type": "maxLength",
+              "maxLength": "20"
+            }
+          ],
+          "dbColumns": [],
+          "minLength": "5",
+          "maxLength": "20"
+        },
+        {
+          "name": "nameEx",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [],
+          "dbColumns": [
+            {
+              "type": "dbColumnName",
+              "dbName": "NAME-EXTRA"
+            },
+            {
+              "type": "dbColumnDefaultTo",
+              "dbDefaultTo": "Ciccio bello"
+            },
+            {
+              "type": "dbColumnNotNullable",
+              "dbNotNullable": true
+            },
+            {
+              "type": "dbColumnUnique",
+              "dbUnique": true
+            }
+          ],
+          "dbName": "NAME-EXTRA",
+          "dbDefaultTo": "Ciccio bello",
+          "dbNotNullable": true,
+          "dbUnique": true
+        },
+        {
+          "name": "myCode",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [
+            {
+              "type": "@",
+              "name": "unique",
+              "value": null,
+              "args": []
+            }
+          ],
+          "constraints": [],
+          "dbColumns": []
+        },
+        {
+          "name": "tinyNumber",
+          "type": "Int",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [
+            {
+              "type": "min",
+              "min": 1
+            },
+            {
+              "type": "max",
+              "max": 5
+            }
+          ],
+          "dbColumns": [],
+          "min": 1,
+          "max": 5
+        },
+        {
+          "name": "positiveNumber",
+          "type": "Int",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [],
+          "dbColumns": [
+            {
+              "type": "dbColumnUnsigned",
+              "dbUnsigned": true
+            }
+          ],
+          "dbUnsigned": true
+        },
+        {
+          "name": "decimalNumber",
+          "type": "Decimal",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [
+            {
+              "type": "defaultValue",
+              "default": "0"
+            }
+          ],
+          "dbColumns": [
+            {
+              "type": "dbColumnDefaultTo",
+              "dbDefaultTo": "0"
+            },
+            {
+              "type": "dbColumnType",
+              "dbType": "decimal"
+            },
+            {
+              "type": "dbColumnArgs",
+              "dbArgs": "6,1"
+            }
+          ],
+          "default": "0",
+          "dbDefaultTo": "0",
+          "dbType": "decimal",
+          "dbArgs": "6,1"
+        },
+        {
+          "name": "weatherKind",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [
+            {
+              "type": "xenum",
+              "enum": [
+                "sunny",
+                "raining",
+                "snowing"
+              ]
+            }
+          ],
+          "dbColumns": [],
+          "enum": [
+            "sunny",
+            "raining",
+            "snowing"
+          ]
+        },
+        {
+          "name": "checkedCode",
+          "type": "String",
+          "optional": false,
+          "typeExtensions": [],
+          "attributes": [],
+          "constraints": [
+            {
+              "type": "regExp",
+              "regExp": "^[a-zA-Z0-9_.-]{3,32}"
+            }
+          ],
+          "dbColumns": [],
+          "regExp": "^[a-zA-Z0-9_.-]{3,32}"
+        }
+      ],
+      "relations": [],
+      "attributes": [],
+      "indexes": []
+    }
+  ],
+  "relations": [],
+  "indexes": []
+}

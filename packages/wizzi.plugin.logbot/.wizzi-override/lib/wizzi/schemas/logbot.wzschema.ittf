@@ -11,6 +11,10 @@ wzschema logbot
         is-root
         a apiUrl
             tag api-url
+        m wzinitialize
+            foreach item in this.nodes
+                if item.wzElement == "meta"
+                    set this.meta = item
 
     $include logbot/data
     

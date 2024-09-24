@@ -51,7 +51,7 @@ module
                     var ac = getAttribsAndChilds(node)
                     var tag
                         { 
-                            @ tag cleanName(name)
+                            @ tag cleanName(name) + (ac.text ? ' ' + ac.text : '')
                             @ children
                                 [ 
                     _ parent.children.push(tag)
@@ -79,6 +79,8 @@ module
                 { 
             var children
                 [ 
+            var text = null
+            # loog 'getAttribsAndChilds.node', node
             for var prop in node
                 if node.hasOwnProperty(prop)
                     if prop === '$'
@@ -86,6 +88,8 @@ module
                         # loog('getAttribsAndChilds.$', attribsObj, true)
                         for var k in attribsObj
                             set attribs[k] = attribsObj[k]
+                    elif prop === '_'
+                        set text = node[prop]
                     else 
                         var value = node[prop]
                         var isArray = verify.isArray(value)
@@ -97,6 +101,7 @@ module
                 { 
                     @ a attribs
                     @ c children   
+                    @ text text
 
         function wizzify
             param tobeWizzified

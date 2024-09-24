@@ -15,7 +15,6 @@ var cloner = require('../utils/cloner');
 var ittfWriter = require("../utils/ittfWriter");
 var xml2js = require('xml2js');
 var xml_parser = new xml2js.Parser();
-var cleanAST = require('./cleanAST');
 
 function parseInternal(tobeWizzified, options, callback) {
     var syntax;

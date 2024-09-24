@@ -73,8 +73,8 @@
             }
           ],
           "constraints": [],
-          "isId": true,
-          "isUnique": true
+          "dbColumns": [],
+          "isId": true
         },
         {
           "name": "name",
@@ -82,7 +82,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "connectionProperties",
@@ -90,7 +91,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "metricProperties",
@@ -98,7 +100,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "connectionPropertyConstraints",
@@ -106,7 +109,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "metricPropertyConstraints",
@@ -114,7 +118,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "metricPropertyImplications",
@@ -122,7 +127,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "plcs",
@@ -130,7 +136,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         }
       ],
       "relations": [
@@ -141,17 +148,7 @@
             "name": "connectionProperty",
             "namePlural": "connectionProperties"
           },
-          "relation": {
-            "model": "Protocol",
-            "fields": [
-              "protocolId"
-            ],
-            "references": [
-              "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
-          }
+          "relationCardinality": "many-to-one"
         },
         {
           "model": "Protocol",
@@ -160,17 +157,7 @@
             "name": "connectionPropertyConstraint",
             "namePlural": "connectionPropertyConstraints"
           },
-          "relation": {
-            "model": "Protocol",
-            "fields": [
-              "protocolId"
-            ],
-            "references": [
-              "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
-          }
+          "relationCardinality": "many-to-one"
         },
         {
           "model": "Protocol",
@@ -179,17 +166,7 @@
             "name": "metricProperty",
             "namePlural": "metricProperties"
           },
-          "relation": {
-            "model": "Protocol",
-            "fields": [
-              "protocolId"
-            ],
-            "references": [
-              "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
-          }
+          "relationCardinality": "many-to-one"
         },
         {
           "model": "Protocol",
@@ -198,17 +175,7 @@
             "name": "metricPropertyConstraint",
             "namePlural": "metricPropertyConstraints"
           },
-          "relation": {
-            "model": "Protocol",
-            "fields": [
-              "protocolId"
-            ],
-            "references": [
-              "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
-          }
+          "relationCardinality": "many-to-one"
         },
         {
           "model": "Protocol",
@@ -217,17 +184,7 @@
             "name": "metricPropertyImplication",
             "namePlural": "metricPropertyImplications"
           },
-          "relation": {
-            "model": "Protocol",
-            "fields": [
-              "protocolId"
-            ],
-            "references": [
-              "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
-          }
+          "relationCardinality": "many-to-one"
         },
         {
           "model": "Protocol",
@@ -236,17 +193,7 @@
             "name": "plc",
             "namePlural": "plcs"
           },
-          "relation": {
-            "model": "Protocol",
-            "fields": [
-              "protocolId"
-            ],
-            "references": [
-              "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
-          }
+          "relationCardinality": "many-to-one"
         }
       ],
       "attributes": [],
@@ -285,8 +232,8 @@
             }
           ],
           "constraints": [],
-          "isId": true,
-          "isUnique": true
+          "dbColumns": [],
+          "isId": true
         },
         {
           "name": "name",
@@ -294,7 +241,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "connectionPropertyConstraints",
@@ -302,7 +250,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "metricPropertyConstraints",
@@ -310,7 +259,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         }
       ],
       "relations": [
@@ -321,17 +271,7 @@
             "name": "connectionPropertyConstraint",
             "namePlural": "connectionPropertyConstraints"
           },
-          "relation": {
-            "model": "Constraint",
-            "fields": [
-              "constraintId"
-            ],
-            "references": [
-              "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
-          }
+          "relationCardinality": "many-to-one"
         },
         {
           "model": "Constraint",
@@ -340,17 +280,7 @@
             "name": "metricPropertyConstraint",
             "namePlural": "metricPropertyConstraints"
           },
-          "relation": {
-            "model": "Constraint",
-            "fields": [
-              "constraintId"
-            ],
-            "references": [
-              "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
-          }
+          "relationCardinality": "many-to-one"
         }
       ],
       "attributes": [],
@@ -389,8 +319,8 @@
             }
           ],
           "constraints": [],
-          "isId": true,
-          "isUnique": true
+          "dbColumns": [],
+          "isId": true
         },
         {
           "name": "name",
@@ -398,7 +328,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "metricPropertyImplications",
@@ -406,7 +337,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         }
       ],
       "relations": [
@@ -417,17 +349,7 @@
             "name": "metricPropertyImplication",
             "namePlural": "metricPropertyImplications"
           },
-          "relation": {
-            "model": "Implication",
-            "fields": [
-              "implicationId"
-            ],
-            "references": [
-              "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
-          }
+          "relationCardinality": "many-to-one"
         }
       ],
       "attributes": [],
@@ -466,8 +388,8 @@
             }
           ],
           "constraints": [],
-          "isId": true,
-          "isUnique": true
+          "dbColumns": [],
+          "isId": true
         },
         {
           "name": "protocol",
@@ -489,18 +411,15 @@
                   "references": [
                     "id"
                   ]
-                },
-                {
-                  "onDelete": "Cascade"
-                },
-                {
-                  "onUpdate": "Cascade"
                 }
               ]
             }
           ],
           "constraints": [],
-          "isRelation": true,
+          "dbColumns": [],
+          "objectRelated": true,
+          "relationCardinality": "many-to-one",
+          "isRelated": true,
           "relation": {
             "model": "Protocol",
             "fields": [
@@ -508,9 +427,7 @@
             ],
             "references": [
               "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
+            ]
           }
         },
         {
@@ -520,7 +437,12 @@
           "typeExtensions": [],
           "attributes": [],
           "constraints": [],
-          "extIdRelated": true
+          "dbColumns": [],
+          "isRelated": true,
+          "idRelated": true,
+          "relatedModel": "Protocol",
+          "relationCardinality": "many-to-one",
+          "relationTarget": "Protocol"
         },
         {
           "name": "name",
@@ -528,7 +450,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "description",
@@ -536,15 +459,33 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "pattern",
           "type": "String",
           "optional": false,
           "typeExtensions": [],
-          "attributes": [],
-          "constraints": []
+          "attributes": [
+            {
+              "type": "@function",
+              "name": "default",
+              "value": null,
+              "args": [
+                {
+                  "name": "/^+$/"
+                }
+              ]
+            }
+          ],
+          "constraints": [
+            {
+              "type": "defaultValue",
+              "defaultValue": "/^+$/"
+            }
+          ],
+          "dbColumns": []
         },
         {
           "name": "default",
@@ -552,15 +493,33 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
-          "name": "required",
+          "name": "xrequired",
           "type": "Boolean",
           "optional": false,
           "typeExtensions": [],
-          "attributes": [],
-          "constraints": []
+          "attributes": [
+            {
+              "type": "@function",
+              "name": "default",
+              "value": null,
+              "args": [
+                {
+                  "name": "false"
+                }
+              ]
+            }
+          ],
+          "constraints": [
+            {
+              "type": "defaultValue",
+              "defaultValue": "false"
+            }
+          ],
+          "dbColumns": []
         },
         {
           "name": "connectionPropertyConstraints",
@@ -568,7 +527,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "connectionValues",
@@ -576,7 +536,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         }
       ],
       "relations": [
@@ -587,17 +548,7 @@
             "name": "connectionPropertyConstraint",
             "namePlural": "connectionPropertyConstraints"
           },
-          "relation": {
-            "model": "ConnectionProperty",
-            "fields": [
-              "connectionPropertyId"
-            ],
-            "references": [
-              "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
-          }
+          "relationCardinality": "many-to-one"
         },
         {
           "model": "ConnectionProperty",
@@ -606,17 +557,7 @@
             "name": "connectionValue",
             "namePlural": "connectionValues"
           },
-          "relation": {
-            "model": "ConnectionProperty",
-            "fields": [
-              "connectionPropertyId"
-            ],
-            "references": [
-              "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
-          }
+          "relationCardinality": "many-to-one"
         }
       ],
       "attributes": [],
@@ -655,8 +596,8 @@
             }
           ],
           "constraints": [],
-          "isId": true,
-          "isUnique": true
+          "dbColumns": [],
+          "isId": true
         },
         {
           "name": "protocol",
@@ -678,18 +619,15 @@
                   "references": [
                     "id"
                   ]
-                },
-                {
-                  "onDelete": "Cascade"
-                },
-                {
-                  "onUpdate": "Cascade"
                 }
               ]
             }
           ],
           "constraints": [],
-          "isRelation": true,
+          "dbColumns": [],
+          "objectRelated": true,
+          "relationCardinality": "many-to-one",
+          "isRelated": true,
           "relation": {
             "model": "Protocol",
             "fields": [
@@ -697,9 +635,7 @@
             ],
             "references": [
               "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
+            ]
           }
         },
         {
@@ -709,7 +645,12 @@
           "typeExtensions": [],
           "attributes": [],
           "constraints": [],
-          "extIdRelated": true
+          "dbColumns": [],
+          "isRelated": true,
+          "idRelated": true,
+          "relatedModel": "Protocol",
+          "relationCardinality": "many-to-one",
+          "relationTarget": "Protocol"
         },
         {
           "name": "connectionProperty",
@@ -731,18 +672,15 @@
                   "references": [
                     "id"
                   ]
-                },
-                {
-                  "onDelete": "Cascade"
-                },
-                {
-                  "onUpdate": "Cascade"
                 }
               ]
             }
           ],
           "constraints": [],
-          "isRelation": true,
+          "dbColumns": [],
+          "objectRelated": true,
+          "relationCardinality": "many-to-one",
+          "isRelated": true,
           "relation": {
             "model": "ConnectionProperty",
             "fields": [
@@ -750,9 +688,7 @@
             ],
             "references": [
               "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
+            ]
           }
         },
         {
@@ -762,7 +698,12 @@
           "typeExtensions": [],
           "attributes": [],
           "constraints": [],
-          "extIdRelated": true
+          "dbColumns": [],
+          "isRelated": true,
+          "idRelated": true,
+          "relatedModel": "ConnectionProperty",
+          "relationCardinality": "many-to-one",
+          "relationTarget": "ConnectionProperty"
         },
         {
           "name": "constraint",
@@ -784,18 +725,15 @@
                   "references": [
                     "id"
                   ]
-                },
-                {
-                  "onDelete": "Cascade"
-                },
-                {
-                  "onUpdate": "Cascade"
                 }
               ]
             }
           ],
           "constraints": [],
-          "isRelation": true,
+          "dbColumns": [],
+          "objectRelated": true,
+          "relationCardinality": "many-to-one",
+          "isRelated": true,
           "relation": {
             "model": "Constraint",
             "fields": [
@@ -803,9 +741,7 @@
             ],
             "references": [
               "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
+            ]
           }
         },
         {
@@ -815,7 +751,12 @@
           "typeExtensions": [],
           "attributes": [],
           "constraints": [],
-          "extIdRelated": true
+          "dbColumns": [],
+          "isRelated": true,
+          "idRelated": true,
+          "relatedModel": "Constraint",
+          "relationCardinality": "many-to-one",
+          "relationTarget": "Constraint"
         },
         {
           "name": "value",
@@ -823,7 +764,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         }
       ],
       "relations": [],
@@ -863,8 +805,8 @@
             }
           ],
           "constraints": [],
-          "isId": true,
-          "isUnique": true
+          "dbColumns": [],
+          "isId": true
         },
         {
           "name": "protocol",
@@ -886,18 +828,15 @@
                   "references": [
                     "id"
                   ]
-                },
-                {
-                  "onDelete": "Cascade"
-                },
-                {
-                  "onUpdate": "Cascade"
                 }
               ]
             }
           ],
           "constraints": [],
-          "isRelation": true,
+          "dbColumns": [],
+          "objectRelated": true,
+          "relationCardinality": "many-to-one",
+          "isRelated": true,
           "relation": {
             "model": "Protocol",
             "fields": [
@@ -905,9 +844,7 @@
             ],
             "references": [
               "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
+            ]
           }
         },
         {
@@ -917,7 +854,12 @@
           "typeExtensions": [],
           "attributes": [],
           "constraints": [],
-          "extIdRelated": true
+          "dbColumns": [],
+          "isRelated": true,
+          "idRelated": true,
+          "relatedModel": "Protocol",
+          "relationCardinality": "many-to-one",
+          "relationTarget": "Protocol"
         },
         {
           "name": "name",
@@ -931,6 +873,7 @@
               "regExp": "^[a-zA-Z0-9_.-]{3,32}$"
             }
           ],
+          "dbColumns": [],
           "regExp": "^[a-zA-Z0-9_.-]{3,32}$"
         },
         {
@@ -939,7 +882,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "pattern",
@@ -956,6 +900,7 @@
               ]
             }
           ],
+          "dbColumns": [],
           "enum": [
             "super",
             "minus"
@@ -967,15 +912,33 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
-          "name": "required",
+          "name": "xrequired",
           "type": "Boolean",
           "optional": false,
           "typeExtensions": [],
-          "attributes": [],
-          "constraints": []
+          "attributes": [
+            {
+              "type": "@function",
+              "name": "default",
+              "value": null,
+              "args": [
+                {
+                  "name": "false"
+                }
+              ]
+            }
+          ],
+          "constraints": [
+            {
+              "type": "defaultValue",
+              "defaultValue": "false"
+            }
+          ],
+          "dbColumns": []
         },
         {
           "name": "metricPropertyConstraints",
@@ -983,7 +946,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "metricPropertyImplications",
@@ -1003,7 +967,9 @@
             }
           ],
           "constraints": [],
-          "isRelation": true,
+          "dbColumns": [],
+          "isRelated": true,
+          "objectRelated": true,
           "relation": {
             "model": "MetricPropertyImplication[]",
             "name": "r_metricProperty"
@@ -1027,7 +993,9 @@
             }
           ],
           "constraints": [],
-          "isRelation": true,
+          "dbColumns": [],
+          "isRelated": true,
+          "objectRelated": true,
           "relation": {
             "model": "MetricPropertyImplication[]",
             "name": "r_on_metricProperty"
@@ -1039,7 +1007,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         }
       ],
       "relations": [
@@ -1050,17 +1019,7 @@
             "name": "metricPropertyConstraint",
             "namePlural": "metricPropertyConstraints"
           },
-          "relation": {
-            "model": "MetricProperty",
-            "fields": [
-              "metricPropertyId"
-            ],
-            "references": [
-              "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
-          }
+          "relationCardinality": "many-to-one"
         },
         {
           "model": "MetricProperty",
@@ -1069,18 +1028,7 @@
             "name": "metricPropertyImplication",
             "namePlural": "metricPropertyImplications"
           },
-          "relation": {
-            "model": "MetricProperty",
-            "name": "r_metricProperty",
-            "fields": [
-              "metricPropertyId"
-            ],
-            "references": [
-              "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
-          }
+          "relationCardinality": "many-to-one"
         },
         {
           "model": "MetricProperty",
@@ -1089,18 +1037,7 @@
             "name": "metricPropertyImplication",
             "namePlural": "metricPropertyImplications"
           },
-          "relation": {
-            "model": "MetricProperty",
-            "name": "r_on_metricProperty",
-            "fields": [
-              "onMetricPropertyId"
-            ],
-            "references": [
-              "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
-          }
+          "relationCardinality": "many-to-one"
         },
         {
           "model": "MetricProperty",
@@ -1109,17 +1046,7 @@
             "name": "metricValue",
             "namePlural": "metricValues"
           },
-          "relation": {
-            "model": "MetricProperty",
-            "fields": [
-              "metricPropertyId"
-            ],
-            "references": [
-              "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
-          }
+          "relationCardinality": "many-to-one"
         }
       ],
       "attributes": [],
@@ -1158,8 +1085,8 @@
             }
           ],
           "constraints": [],
-          "isId": true,
-          "isUnique": true
+          "dbColumns": [],
+          "isId": true
         },
         {
           "name": "protocol",
@@ -1181,18 +1108,15 @@
                   "references": [
                     "id"
                   ]
-                },
-                {
-                  "onDelete": "Cascade"
-                },
-                {
-                  "onUpdate": "Cascade"
                 }
               ]
             }
           ],
           "constraints": [],
-          "isRelation": true,
+          "dbColumns": [],
+          "objectRelated": true,
+          "relationCardinality": "many-to-one",
+          "isRelated": true,
           "relation": {
             "model": "Protocol",
             "fields": [
@@ -1200,9 +1124,7 @@
             ],
             "references": [
               "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
+            ]
           }
         },
         {
@@ -1212,7 +1134,12 @@
           "typeExtensions": [],
           "attributes": [],
           "constraints": [],
-          "extIdRelated": true
+          "dbColumns": [],
+          "isRelated": true,
+          "idRelated": true,
+          "relatedModel": "Protocol",
+          "relationCardinality": "many-to-one",
+          "relationTarget": "Protocol"
         },
         {
           "name": "metricProperty",
@@ -1234,18 +1161,15 @@
                   "references": [
                     "id"
                   ]
-                },
-                {
-                  "onDelete": "Cascade"
-                },
-                {
-                  "onUpdate": "Cascade"
                 }
               ]
             }
           ],
           "constraints": [],
-          "isRelation": true,
+          "dbColumns": [],
+          "objectRelated": true,
+          "relationCardinality": "many-to-one",
+          "isRelated": true,
           "relation": {
             "model": "MetricProperty",
             "fields": [
@@ -1253,9 +1177,7 @@
             ],
             "references": [
               "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
+            ]
           }
         },
         {
@@ -1265,7 +1187,12 @@
           "typeExtensions": [],
           "attributes": [],
           "constraints": [],
-          "extIdRelated": true
+          "dbColumns": [],
+          "isRelated": true,
+          "idRelated": true,
+          "relatedModel": "MetricProperty",
+          "relationCardinality": "many-to-one",
+          "relationTarget": "MetricProperty"
         },
         {
           "name": "constraint",
@@ -1287,18 +1214,15 @@
                   "references": [
                     "id"
                   ]
-                },
-                {
-                  "onDelete": "Cascade"
-                },
-                {
-                  "onUpdate": "Cascade"
                 }
               ]
             }
           ],
           "constraints": [],
-          "isRelation": true,
+          "dbColumns": [],
+          "objectRelated": true,
+          "relationCardinality": "many-to-one",
+          "isRelated": true,
           "relation": {
             "model": "Constraint",
             "fields": [
@@ -1306,9 +1230,7 @@
             ],
             "references": [
               "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
+            ]
           }
         },
         {
@@ -1318,7 +1240,12 @@
           "typeExtensions": [],
           "attributes": [],
           "constraints": [],
-          "extIdRelated": true
+          "dbColumns": [],
+          "isRelated": true,
+          "idRelated": true,
+          "relatedModel": "Constraint",
+          "relationCardinality": "many-to-one",
+          "relationTarget": "Constraint"
         },
         {
           "name": "value",
@@ -1326,7 +1253,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         }
       ],
       "relations": [],
@@ -1366,8 +1294,8 @@
             }
           ],
           "constraints": [],
-          "isId": true,
-          "isUnique": true
+          "dbColumns": [],
+          "isId": true
         },
         {
           "name": "protocol",
@@ -1389,18 +1317,15 @@
                   "references": [
                     "id"
                   ]
-                },
-                {
-                  "onDelete": "Cascade"
-                },
-                {
-                  "onUpdate": "Cascade"
                 }
               ]
             }
           ],
           "constraints": [],
-          "isRelation": true,
+          "dbColumns": [],
+          "objectRelated": true,
+          "relationCardinality": "many-to-one",
+          "isRelated": true,
           "relation": {
             "model": "Protocol",
             "fields": [
@@ -1408,9 +1333,7 @@
             ],
             "references": [
               "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
+            ]
           }
         },
         {
@@ -1420,7 +1343,12 @@
           "typeExtensions": [],
           "attributes": [],
           "constraints": [],
-          "extIdRelated": true
+          "dbColumns": [],
+          "isRelated": true,
+          "idRelated": true,
+          "relatedModel": "Protocol",
+          "relationCardinality": "many-to-one",
+          "relationTarget": "Protocol"
         },
         {
           "name": "metricProperty",
@@ -1445,18 +1373,15 @@
                   "references": [
                     "id"
                   ]
-                },
-                {
-                  "onDelete": "Cascade"
-                },
-                {
-                  "onUpdate": "Cascade"
                 }
               ]
             }
           ],
           "constraints": [],
-          "isRelation": true,
+          "dbColumns": [],
+          "objectRelated": true,
+          "relationCardinality": "many-to-one",
+          "isRelated": true,
           "relation": {
             "model": "MetricProperty",
             "name": "r_metricProperty",
@@ -1465,9 +1390,7 @@
             ],
             "references": [
               "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
+            ]
           }
         },
         {
@@ -1477,7 +1400,13 @@
           "typeExtensions": [],
           "attributes": [],
           "constraints": [],
-          "extIdRelated": true
+          "dbColumns": [],
+          "isRelated": true,
+          "idRelated": true,
+          "relatedModel": "MetricProperty",
+          "relationName": "r_metricProperty",
+          "relationCardinality": "many-to-one",
+          "relationTarget": "MetricProperty"
         },
         {
           "name": "value",
@@ -1485,7 +1414,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "implication",
@@ -1507,18 +1437,15 @@
                   "references": [
                     "id"
                   ]
-                },
-                {
-                  "onDelete": "Cascade"
-                },
-                {
-                  "onUpdate": "Cascade"
                 }
               ]
             }
           ],
           "constraints": [],
-          "isRelation": true,
+          "dbColumns": [],
+          "objectRelated": true,
+          "relationCardinality": "many-to-one",
+          "isRelated": true,
           "relation": {
             "model": "Implication",
             "fields": [
@@ -1526,9 +1453,7 @@
             ],
             "references": [
               "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
+            ]
           }
         },
         {
@@ -1538,7 +1463,12 @@
           "typeExtensions": [],
           "attributes": [],
           "constraints": [],
-          "extIdRelated": true
+          "dbColumns": [],
+          "isRelated": true,
+          "idRelated": true,
+          "relatedModel": "Implication",
+          "relationCardinality": "many-to-one",
+          "relationTarget": "Implication"
         },
         {
           "name": "onMetricProperty",
@@ -1563,18 +1493,15 @@
                   "references": [
                     "id"
                   ]
-                },
-                {
-                  "onDelete": "Cascade"
-                },
-                {
-                  "onUpdate": "Cascade"
                 }
               ]
             }
           ],
           "constraints": [],
-          "isRelation": true,
+          "dbColumns": [],
+          "objectRelated": true,
+          "relationCardinality": "many-to-one",
+          "isRelated": true,
           "relation": {
             "model": "MetricProperty",
             "name": "r_on_metricProperty",
@@ -1583,9 +1510,7 @@
             ],
             "references": [
               "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
+            ]
           }
         },
         {
@@ -1595,7 +1520,13 @@
           "typeExtensions": [],
           "attributes": [],
           "constraints": [],
-          "extIdRelated": true
+          "dbColumns": [],
+          "isRelated": true,
+          "idRelated": true,
+          "relatedModel": "MetricProperty",
+          "relationName": "r_on_metricProperty",
+          "relationCardinality": "many-to-one",
+          "relationTarget": "MetricProperty"
         },
         {
           "name": "onValue",
@@ -1603,7 +1534,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         }
       ],
       "relations": [],
@@ -1643,8 +1575,8 @@
             }
           ],
           "constraints": [],
-          "isId": true,
-          "isUnique": true
+          "dbColumns": [],
+          "isId": true
         },
         {
           "name": "users",
@@ -1652,7 +1584,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "plants",
@@ -1660,7 +1593,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         }
       ],
       "relations": [
@@ -1671,17 +1605,7 @@
             "name": "user",
             "namePlural": "users"
           },
-          "relation": {
-            "model": "Organization",
-            "fields": [
-              "organizationId"
-            ],
-            "references": [
-              "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
-          }
+          "relationCardinality": "many-to-one"
         },
         {
           "model": "Organization",
@@ -1690,17 +1614,7 @@
             "name": "plant",
             "namePlural": "plants"
           },
-          "relation": {
-            "model": "Organization",
-            "fields": [
-              "organizationId"
-            ],
-            "references": [
-              "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
-          }
+          "relationCardinality": "many-to-one"
         }
       ],
       "attributes": [],
@@ -1739,8 +1653,8 @@
             }
           ],
           "constraints": [],
-          "isId": true,
-          "isUnique": true
+          "dbColumns": [],
+          "isId": true
         },
         {
           "name": "organization",
@@ -1762,18 +1676,15 @@
                   "references": [
                     "id"
                   ]
-                },
-                {
-                  "onDelete": "Cascade"
-                },
-                {
-                  "onUpdate": "Cascade"
                 }
               ]
             }
           ],
           "constraints": [],
-          "isRelation": true,
+          "dbColumns": [],
+          "objectRelated": true,
+          "relationCardinality": "many-to-one",
+          "isRelated": true,
           "relation": {
             "model": "Organization",
             "fields": [
@@ -1781,9 +1692,7 @@
             ],
             "references": [
               "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
+            ]
           }
         },
         {
@@ -1793,7 +1702,12 @@
           "typeExtensions": [],
           "attributes": [],
           "constraints": [],
-          "extIdRelated": true
+          "dbColumns": [],
+          "isRelated": true,
+          "idRelated": true,
+          "relatedModel": "Organization",
+          "relationCardinality": "many-to-one",
+          "relationTarget": "Organization"
         }
       ],
       "relations": [],
@@ -1833,8 +1747,8 @@
             }
           ],
           "constraints": [],
-          "isId": true,
-          "isUnique": true
+          "dbColumns": [],
+          "isId": true
         },
         {
           "name": "organization",
@@ -1856,18 +1770,15 @@
                   "references": [
                     "id"
                   ]
-                },
-                {
-                  "onDelete": "Cascade"
-                },
-                {
-                  "onUpdate": "Cascade"
                 }
               ]
             }
           ],
           "constraints": [],
-          "isRelation": true,
+          "dbColumns": [],
+          "objectRelated": true,
+          "relationCardinality": "many-to-one",
+          "isRelated": true,
           "relation": {
             "model": "Organization",
             "fields": [
@@ -1875,9 +1786,7 @@
             ],
             "references": [
               "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
+            ]
           }
         },
         {
@@ -1887,7 +1796,12 @@
           "typeExtensions": [],
           "attributes": [],
           "constraints": [],
-          "extIdRelated": true
+          "dbColumns": [],
+          "isRelated": true,
+          "idRelated": true,
+          "relatedModel": "Organization",
+          "relationCardinality": "many-to-one",
+          "relationTarget": "Organization"
         },
         {
           "name": "plant_id",
@@ -1895,7 +1809,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "gateways",
@@ -1903,7 +1818,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         }
       ],
       "relations": [
@@ -1914,17 +1830,7 @@
             "name": "gateway",
             "namePlural": "gateways"
           },
-          "relation": {
-            "model": "Plant",
-            "fields": [
-              "plantId"
-            ],
-            "references": [
-              "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
-          }
+          "relationCardinality": "many-to-one"
         }
       ],
       "attributes": [],
@@ -1963,8 +1869,8 @@
             }
           ],
           "constraints": [],
-          "isId": true,
-          "isUnique": true
+          "dbColumns": [],
+          "isId": true
         },
         {
           "name": "plant",
@@ -1986,18 +1892,15 @@
                   "references": [
                     "id"
                   ]
-                },
-                {
-                  "onDelete": "Cascade"
-                },
-                {
-                  "onUpdate": "Cascade"
                 }
               ]
             }
           ],
           "constraints": [],
-          "isRelation": true,
+          "dbColumns": [],
+          "objectRelated": true,
+          "relationCardinality": "many-to-one",
+          "isRelated": true,
           "relation": {
             "model": "Plant",
             "fields": [
@@ -2005,9 +1908,7 @@
             ],
             "references": [
               "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
+            ]
           }
         },
         {
@@ -2017,7 +1918,12 @@
           "typeExtensions": [],
           "attributes": [],
           "constraints": [],
-          "extIdRelated": true
+          "dbColumns": [],
+          "isRelated": true,
+          "idRelated": true,
+          "relatedModel": "Plant",
+          "relationCardinality": "many-to-one",
+          "relationTarget": "Plant"
         },
         {
           "name": "iot_id",
@@ -2025,7 +1931,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "batching_maxSize",
@@ -2033,7 +1940,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "batching_period",
@@ -2047,6 +1955,7 @@
               "min": 0
             }
           ],
+          "dbColumns": [],
           "min": 0
         },
         {
@@ -2060,7 +1969,8 @@
             }
           ],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "plcs",
@@ -2068,7 +1978,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "scripts",
@@ -2076,7 +1987,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         }
       ],
       "relations": [
@@ -2087,17 +1999,7 @@
             "name": "plc",
             "namePlural": "plcs"
           },
-          "relation": {
-            "model": "Gateway",
-            "fields": [
-              "gatewayId"
-            ],
-            "references": [
-              "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
-          }
+          "relationCardinality": "many-to-one"
         },
         {
           "model": "Gateway",
@@ -2106,17 +2008,7 @@
             "name": "script",
             "namePlural": "scripts"
           },
-          "relation": {
-            "model": "Gateway",
-            "fields": [
-              "gatewayId"
-            ],
-            "references": [
-              "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
-          }
+          "relationCardinality": "many-to-one"
         }
       ],
       "attributes": [],
@@ -2155,8 +2047,8 @@
             }
           ],
           "constraints": [],
-          "isId": true,
-          "isUnique": true
+          "dbColumns": [],
+          "isId": true
         },
         {
           "name": "gateway",
@@ -2178,18 +2070,15 @@
                   "references": [
                     "id"
                   ]
-                },
-                {
-                  "onDelete": "Cascade"
-                },
-                {
-                  "onUpdate": "Cascade"
                 }
               ]
             }
           ],
           "constraints": [],
-          "isRelation": true,
+          "dbColumns": [],
+          "objectRelated": true,
+          "relationCardinality": "many-to-one",
+          "isRelated": true,
           "relation": {
             "model": "Gateway",
             "fields": [
@@ -2197,9 +2086,7 @@
             ],
             "references": [
               "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
+            ]
           }
         },
         {
@@ -2209,7 +2096,12 @@
           "typeExtensions": [],
           "attributes": [],
           "constraints": [],
-          "extIdRelated": true
+          "dbColumns": [],
+          "isRelated": true,
+          "idRelated": true,
+          "relatedModel": "Gateway",
+          "relationCardinality": "many-to-one",
+          "relationTarget": "Gateway"
         },
         {
           "name": "protocol",
@@ -2231,18 +2123,15 @@
                   "references": [
                     "id"
                   ]
-                },
-                {
-                  "onDelete": "Cascade"
-                },
-                {
-                  "onUpdate": "Cascade"
                 }
               ]
             }
           ],
           "constraints": [],
-          "isRelation": true,
+          "dbColumns": [],
+          "objectRelated": true,
+          "relationCardinality": "many-to-one",
+          "isRelated": true,
           "relation": {
             "model": "Protocol",
             "fields": [
@@ -2250,9 +2139,7 @@
             ],
             "references": [
               "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
+            ]
           }
         },
         {
@@ -2262,7 +2149,12 @@
           "typeExtensions": [],
           "attributes": [],
           "constraints": [],
-          "extIdRelated": true
+          "dbColumns": [],
+          "isRelated": true,
+          "idRelated": true,
+          "relatedModel": "Protocol",
+          "relationCardinality": "many-to-one",
+          "relationTarget": "Protocol"
         },
         {
           "name": "plc_id",
@@ -2270,7 +2162,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "connectionValues",
@@ -2278,7 +2171,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "metrics",
@@ -2286,7 +2180,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         }
       ],
       "relations": [
@@ -2297,17 +2192,7 @@
             "name": "connectionValue",
             "namePlural": "connectionValues"
           },
-          "relation": {
-            "model": "Plc",
-            "fields": [
-              "plcId"
-            ],
-            "references": [
-              "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
-          }
+          "relationCardinality": "many-to-one"
         },
         {
           "model": "Plc",
@@ -2316,17 +2201,7 @@
             "name": "metric",
             "namePlural": "metrics"
           },
-          "relation": {
-            "model": "Plc",
-            "fields": [
-              "plcId"
-            ],
-            "references": [
-              "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
-          }
+          "relationCardinality": "many-to-one"
         }
       ],
       "attributes": [],
@@ -2365,8 +2240,8 @@
             }
           ],
           "constraints": [],
-          "isId": true,
-          "isUnique": true
+          "dbColumns": [],
+          "isId": true
         },
         {
           "name": "plc",
@@ -2388,18 +2263,15 @@
                   "references": [
                     "id"
                   ]
-                },
-                {
-                  "onDelete": "Cascade"
-                },
-                {
-                  "onUpdate": "Cascade"
                 }
               ]
             }
           ],
           "constraints": [],
-          "isRelation": true,
+          "dbColumns": [],
+          "objectRelated": true,
+          "relationCardinality": "many-to-one",
+          "isRelated": true,
           "relation": {
             "model": "Plc",
             "fields": [
@@ -2407,9 +2279,7 @@
             ],
             "references": [
               "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
+            ]
           }
         },
         {
@@ -2419,7 +2289,12 @@
           "typeExtensions": [],
           "attributes": [],
           "constraints": [],
-          "extIdRelated": true
+          "dbColumns": [],
+          "isRelated": true,
+          "idRelated": true,
+          "relatedModel": "Plc",
+          "relationCardinality": "many-to-one",
+          "relationTarget": "Plc"
         },
         {
           "name": "connectionProperty",
@@ -2441,18 +2316,15 @@
                   "references": [
                     "id"
                   ]
-                },
-                {
-                  "onDelete": "Cascade"
-                },
-                {
-                  "onUpdate": "Cascade"
                 }
               ]
             }
           ],
           "constraints": [],
-          "isRelation": true,
+          "dbColumns": [],
+          "objectRelated": true,
+          "relationCardinality": "many-to-one",
+          "isRelated": true,
           "relation": {
             "model": "ConnectionProperty",
             "fields": [
@@ -2460,9 +2332,7 @@
             ],
             "references": [
               "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
+            ]
           }
         },
         {
@@ -2472,7 +2342,12 @@
           "typeExtensions": [],
           "attributes": [],
           "constraints": [],
-          "extIdRelated": true
+          "dbColumns": [],
+          "isRelated": true,
+          "idRelated": true,
+          "relatedModel": "ConnectionProperty",
+          "relationCardinality": "many-to-one",
+          "relationTarget": "ConnectionProperty"
         },
         {
           "name": "value",
@@ -2480,7 +2355,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         }
       ],
       "relations": [],
@@ -2520,8 +2396,8 @@
             }
           ],
           "constraints": [],
-          "isId": true,
-          "isUnique": true
+          "dbColumns": [],
+          "isId": true
         },
         {
           "name": "plc",
@@ -2543,18 +2419,15 @@
                   "references": [
                     "id"
                   ]
-                },
-                {
-                  "onDelete": "Cascade"
-                },
-                {
-                  "onUpdate": "Cascade"
                 }
               ]
             }
           ],
           "constraints": [],
-          "isRelation": true,
+          "dbColumns": [],
+          "objectRelated": true,
+          "relationCardinality": "many-to-one",
+          "isRelated": true,
           "relation": {
             "model": "Plc",
             "fields": [
@@ -2562,9 +2435,7 @@
             ],
             "references": [
               "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
+            ]
           }
         },
         {
@@ -2574,7 +2445,12 @@
           "typeExtensions": [],
           "attributes": [],
           "constraints": [],
-          "extIdRelated": true
+          "dbColumns": [],
+          "isRelated": true,
+          "idRelated": true,
+          "relatedModel": "Plc",
+          "relationCardinality": "many-to-one",
+          "relationTarget": "Plc"
         },
         {
           "name": "",
@@ -2599,18 +2475,15 @@
                   "references": [
                     "id"
                   ]
-                },
-                {
-                  "onDelete": "Cascade"
-                },
-                {
-                  "onUpdate": "Cascade"
                 }
               ]
             }
           ],
           "constraints": [],
-          "isRelation": true,
+          "dbColumns": [],
+          "objectRelated": true,
+          "relationCardinality": "many-to-one",
+          "isRelated": true,
           "relation": {
             "model": "Script",
             "name": "",
@@ -2619,9 +2492,7 @@
             ],
             "references": [
               "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
+            ]
           }
         },
         {
@@ -2631,7 +2502,13 @@
           "typeExtensions": [],
           "attributes": [],
           "constraints": [],
-          "extIdRelated": true
+          "dbColumns": [],
+          "isRelated": true,
+          "idRelated": true,
+          "relatedModel": "Script",
+          "relationName": "",
+          "relationCardinality": "many-to-one",
+          "relationTarget": "Script"
         },
         {
           "name": "name",
@@ -2639,7 +2516,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "interval",
@@ -2647,7 +2525,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "description",
@@ -2655,7 +2534,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "topic",
@@ -2663,7 +2543,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "script_value",
@@ -2671,7 +2552,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "ret_policy",
@@ -2679,7 +2561,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "metricValues",
@@ -2687,7 +2570,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "staticTags",
@@ -2695,7 +2579,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "dynamicTags",
@@ -2703,7 +2588,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         }
       ],
       "relations": [
@@ -2714,17 +2600,7 @@
             "name": "metricValue",
             "namePlural": "metricValues"
           },
-          "relation": {
-            "model": "Metric",
-            "fields": [
-              "metricId"
-            ],
-            "references": [
-              "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
-          }
+          "relationCardinality": "many-to-one"
         },
         {
           "model": "Metric",
@@ -2733,17 +2609,7 @@
             "name": "staticTag",
             "namePlural": "staticTags"
           },
-          "relation": {
-            "model": "Metric",
-            "fields": [
-              "metricId"
-            ],
-            "references": [
-              "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
-          }
+          "relationCardinality": "many-to-one"
         },
         {
           "model": "Metric",
@@ -2752,17 +2618,7 @@
             "name": "dynamicTag",
             "namePlural": "dynamicTags"
           },
-          "relation": {
-            "model": "Metric",
-            "fields": [
-              "metricId"
-            ],
-            "references": [
-              "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
-          }
+          "relationCardinality": "many-to-one"
         }
       ],
       "attributes": [],
@@ -2801,8 +2657,8 @@
             }
           ],
           "constraints": [],
-          "isId": true,
-          "isUnique": true
+          "dbColumns": [],
+          "isId": true
         },
         {
           "name": "metric",
@@ -2824,18 +2680,15 @@
                   "references": [
                     "id"
                   ]
-                },
-                {
-                  "onDelete": "Cascade"
-                },
-                {
-                  "onUpdate": "Cascade"
                 }
               ]
             }
           ],
           "constraints": [],
-          "isRelation": true,
+          "dbColumns": [],
+          "objectRelated": true,
+          "relationCardinality": "many-to-one",
+          "isRelated": true,
           "relation": {
             "model": "Metric",
             "fields": [
@@ -2843,9 +2696,7 @@
             ],
             "references": [
               "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
+            ]
           }
         },
         {
@@ -2855,7 +2706,12 @@
           "typeExtensions": [],
           "attributes": [],
           "constraints": [],
-          "extIdRelated": true
+          "dbColumns": [],
+          "isRelated": true,
+          "idRelated": true,
+          "relatedModel": "Metric",
+          "relationCardinality": "many-to-one",
+          "relationTarget": "Metric"
         },
         {
           "name": "metricProperty",
@@ -2877,18 +2733,15 @@
                   "references": [
                     "id"
                   ]
-                },
-                {
-                  "onDelete": "Cascade"
-                },
-                {
-                  "onUpdate": "Cascade"
                 }
               ]
             }
           ],
           "constraints": [],
-          "isRelation": true,
+          "dbColumns": [],
+          "objectRelated": true,
+          "relationCardinality": "many-to-one",
+          "isRelated": true,
           "relation": {
             "model": "MetricProperty",
             "fields": [
@@ -2896,9 +2749,7 @@
             ],
             "references": [
               "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
+            ]
           }
         },
         {
@@ -2908,7 +2759,12 @@
           "typeExtensions": [],
           "attributes": [],
           "constraints": [],
-          "extIdRelated": true
+          "dbColumns": [],
+          "isRelated": true,
+          "idRelated": true,
+          "relatedModel": "MetricProperty",
+          "relationCardinality": "many-to-one",
+          "relationTarget": "MetricProperty"
         },
         {
           "name": "value",
@@ -2916,7 +2772,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         }
       ],
       "relations": [],
@@ -2956,8 +2813,8 @@
             }
           ],
           "constraints": [],
-          "isId": true,
-          "isUnique": true
+          "dbColumns": [],
+          "isId": true
         },
         {
           "name": "metric",
@@ -2979,18 +2836,15 @@
                   "references": [
                     "id"
                   ]
-                },
-                {
-                  "onDelete": "Cascade"
-                },
-                {
-                  "onUpdate": "Cascade"
                 }
               ]
             }
           ],
           "constraints": [],
-          "isRelation": true,
+          "dbColumns": [],
+          "objectRelated": true,
+          "relationCardinality": "many-to-one",
+          "isRelated": true,
           "relation": {
             "model": "Metric",
             "fields": [
@@ -2998,9 +2852,7 @@
             ],
             "references": [
               "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
+            ]
           }
         },
         {
@@ -3010,7 +2862,12 @@
           "typeExtensions": [],
           "attributes": [],
           "constraints": [],
-          "extIdRelated": true
+          "dbColumns": [],
+          "isRelated": true,
+          "idRelated": true,
+          "relatedModel": "Metric",
+          "relationCardinality": "many-to-one",
+          "relationTarget": "Metric"
         },
         {
           "name": "tag_key",
@@ -3018,7 +2875,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "tag_value",
@@ -3026,7 +2884,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         }
       ],
       "relations": [],
@@ -3066,8 +2925,8 @@
             }
           ],
           "constraints": [],
-          "isId": true,
-          "isUnique": true
+          "dbColumns": [],
+          "isId": true
         },
         {
           "name": "metric",
@@ -3089,18 +2948,15 @@
                   "references": [
                     "id"
                   ]
-                },
-                {
-                  "onDelete": "Cascade"
-                },
-                {
-                  "onUpdate": "Cascade"
                 }
               ]
             }
           ],
           "constraints": [],
-          "isRelation": true,
+          "dbColumns": [],
+          "objectRelated": true,
+          "relationCardinality": "many-to-one",
+          "isRelated": true,
           "relation": {
             "model": "Metric",
             "fields": [
@@ -3108,9 +2964,7 @@
             ],
             "references": [
               "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
+            ]
           }
         },
         {
@@ -3120,7 +2974,12 @@
           "typeExtensions": [],
           "attributes": [],
           "constraints": [],
-          "extIdRelated": true
+          "dbColumns": [],
+          "isRelated": true,
+          "idRelated": true,
+          "relatedModel": "Metric",
+          "relationCardinality": "many-to-one",
+          "relationTarget": "Metric"
         },
         {
           "name": "tag_id",
@@ -3128,7 +2987,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "default_value",
@@ -3136,7 +2996,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "description",
@@ -3144,7 +3005,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "ref_plc_id",
@@ -3152,7 +3014,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "ref_metric_name",
@@ -3160,7 +3023,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "allowedValues",
@@ -3168,7 +3032,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         }
       ],
       "relations": [
@@ -3179,17 +3044,7 @@
             "name": "dynamicTagAllowedValue",
             "namePlural": "dynamicTagAllowedValues"
           },
-          "relation": {
-            "model": "DynamicTag",
-            "fields": [
-              "dynamicTagId"
-            ],
-            "references": [
-              "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
-          }
+          "relationCardinality": "many-to-one"
         }
       ],
       "attributes": [],
@@ -3228,8 +3083,8 @@
             }
           ],
           "constraints": [],
-          "isId": true,
-          "isUnique": true
+          "dbColumns": [],
+          "isId": true
         },
         {
           "name": "dynamicTag",
@@ -3251,18 +3106,15 @@
                   "references": [
                     "id"
                   ]
-                },
-                {
-                  "onDelete": "Cascade"
-                },
-                {
-                  "onUpdate": "Cascade"
                 }
               ]
             }
           ],
           "constraints": [],
-          "isRelation": true,
+          "dbColumns": [],
+          "objectRelated": true,
+          "relationCardinality": "many-to-one",
+          "isRelated": true,
           "relation": {
             "model": "DynamicTag",
             "fields": [
@@ -3270,9 +3122,7 @@
             ],
             "references": [
               "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
+            ]
           }
         },
         {
@@ -3282,7 +3132,12 @@
           "typeExtensions": [],
           "attributes": [],
           "constraints": [],
-          "extIdRelated": true
+          "dbColumns": [],
+          "isRelated": true,
+          "idRelated": true,
+          "relatedModel": "DynamicTag",
+          "relationCardinality": "many-to-one",
+          "relationTarget": "DynamicTag"
         },
         {
           "name": "tag_value",
@@ -3290,7 +3145,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         }
       ],
       "relations": [],
@@ -3330,8 +3186,8 @@
             }
           ],
           "constraints": [],
-          "isId": true,
-          "isUnique": true
+          "dbColumns": [],
+          "isId": true
         },
         {
           "name": "gateway",
@@ -3353,18 +3209,15 @@
                   "references": [
                     "id"
                   ]
-                },
-                {
-                  "onDelete": "Cascade"
-                },
-                {
-                  "onUpdate": "Cascade"
                 }
               ]
             }
           ],
           "constraints": [],
-          "isRelation": true,
+          "dbColumns": [],
+          "objectRelated": true,
+          "relationCardinality": "many-to-one",
+          "isRelated": true,
           "relation": {
             "model": "Gateway",
             "fields": [
@@ -3372,9 +3225,7 @@
             ],
             "references": [
               "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
+            ]
           }
         },
         {
@@ -3384,7 +3235,12 @@
           "typeExtensions": [],
           "attributes": [],
           "constraints": [],
-          "extIdRelated": true
+          "dbColumns": [],
+          "isRelated": true,
+          "idRelated": true,
+          "relatedModel": "Gateway",
+          "relationCardinality": "many-to-one",
+          "relationTarget": "Gateway"
         },
         {
           "name": "script_id",
@@ -3392,7 +3248,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "script_type",
@@ -3400,7 +3257,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "script_description",
@@ -3408,7 +3266,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "script_timeout",
@@ -3416,7 +3275,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "script_content",
@@ -3424,7 +3284,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         },
         {
           "name": "metrics",
@@ -3432,7 +3293,8 @@
           "optional": false,
           "typeExtensions": [],
           "attributes": [],
-          "constraints": []
+          "constraints": [],
+          "dbColumns": []
         }
       ],
       "relations": [
@@ -3443,18 +3305,7 @@
             "name": "metric",
             "namePlural": "metrics"
           },
-          "relation": {
-            "model": "Script",
-            "name": "",
-            "fields": [
-              "Id"
-            ],
-            "references": [
-              "id"
-            ],
-            "onDelete": "Cascade",
-            "onUpdate": "Cascade"
-          }
+          "relationCardinality": "many-to-one"
         }
       ],
       "attributes": [],

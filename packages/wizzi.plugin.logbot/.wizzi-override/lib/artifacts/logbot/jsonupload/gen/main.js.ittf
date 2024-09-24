@@ -54,11 +54,17 @@ module
                 a_cb()
                     r_cb()
         
+        async-md( meta )
+            # nothing to do
+            r_cb()
+
         async-md( oem )
             var json
                 {
                     @ name model.wzName
                     @ nameKey getKeyPath(model)
+                    @ org_xid model.org_xid
+                    @ description model.description
             _ ctx.__current.oems.push
                 @ json
             foreach item in model.users
@@ -95,7 +101,8 @@ module
                 @ name model.wzName
                 @ nameKey getKeyPath(model)
                 @ oem getKeyPath(parentModel)
-                @ plant_id model.plant_id
+                @ plant_xid model.plant_xid
+                @ description model.description
         _ jsonDataTables.plants.push
             @ json
         foreach item in model.gateways
@@ -113,9 +120,14 @@ module
                 @ name model.wzName
                 @ nameKey getKeyPath(model)
                 @ plant getKeyPath(parentModel)
-                @ iot_id model.iot_id
+                @ iot_xid model.iot_xid
                 @ batching_maxSize model.batching_maxSize
                 @ batching_period model.batching_period
+                @ gw_config 
+                    {
+                        [ dynamic_tags
+                        [ scripts
+
         _ jsonDataTables.gateways.push
             @ json
         foreach item in model.dynamicTags
@@ -123,11 +135,13 @@ module
                 @ jsonDataTables
                 @ model
                 @ item
+                @ json.gw_config
         foreach item in model.scripts
             _ script
                 @ jsonDataTables
                 @ model
                 @ item
+                @ json.gw_config
         foreach item in model.plcs
             _ plc
                 @ jsonDataTables
@@ -138,15 +152,25 @@ module
         param jsonDataTables
         param parentModel
         param model
+        param gw_config
         var json
             {
                 @ nameKey getKeyPath(model)
                 @ gateway getKeyPath(parentModel)
-                @ tag_id model.wzName
+                @ tag_xid model.wzName
                 @ default_value model.default_value
                 @ description model.description
-                @ ref_plc_id model.ref_plc_id
+                @ ref_plc_xid model.ref_plc_xid
                 @ ref_metric_name model.ref_metric_name
+        var dynamicTag
+            {
+                @ tag_xid model.wzName
+                @ default_value model.default_value
+                @ description model.description
+                @ ref_plc_xid model.ref_plc_xid
+                @ ref_metric_name model.ref_metric_name
+        _ gw_config.dynamic_tags.push
+            @ dynamicTag
         _ jsonDataTables.dynamicTags.push
             @ json
         foreach item in model.dynamicTagAllowedValues
@@ -190,15 +214,25 @@ module
         param jsonDataTables
         param parentModel
         param model
+        param gw_config
         var json
             {
                 @ nameKey getKeyPath(model)
                 @ gateway getKeyPath(parentModel)
-                @ script_id model.wzName
+                @ script_xid model.wzName
                 @ script_type model.script_type
                 @ script_description model.script_description
                 @ script_timeout model.script_timeout
                 @ script_content model.script_content
+        var script
+            {
+                @ script_xid model.wzName
+                @ script_type model.script_type
+                @ script_description model.script_description
+                @ script_timeout model.script_timeout
+                @ script_content model.script_content
+        _ gw_config.scripts.push
+            @ script
         _ jsonDataTables.scripts.push
             @ json
     +
@@ -212,7 +246,12 @@ module
                 @ nameKey getKeyPath(model)
                 @ gateway getKeyPath(parentModel)
                 @ protocol model.protocol
-                @ plc_id model.plc_id
+                @ plc_xid model.plc_xid
+                @ plc_config 
+                    {
+                        @ protocol model.protocol
+                        { connection
+                        [ metrics
         _ jsonDataTables.plcs.push
             @ json
         foreach item in model.connectionValues
@@ -220,16 +259,19 @@ module
                 @ jsonDataTables
                 @ model
                 @ item
+                @ json.plc_config    
         foreach item in model.metrics
             _ metric
                 @ jsonDataTables
                 @ model
                 @ item
+                @ json.plc_config    
     +
     function connectionValue
         param jsonDataTables
         param parentModel
         param model
+        param plc_config
         var json
             {
                 @ connectionProperty model.wzName + '-' + parentModel.protocol
@@ -238,11 +280,17 @@ module
                 @ value model.value
         _ jsonDataTables.connectionValues.push
             @ json
+        set plc_config.connection[model.wzName]
+            _ model.wzRoot().meta.getConnectionTypedValue
+                @ parentModel.protocol
+                @ model.wzName
+                @ model.value
     +
     function metric
         param jsonDataTables
         param parentModel
         param model
+        param plc_config
         var json
             {
                 @ name model.wzName
@@ -254,6 +302,18 @@ module
                 @ topic model.topic
                 @ script_value model.script_value
                 @ ret_policy model.ret_policy
+        var plc_config_metric
+            {
+                @ name model.wzName
+                @ interval model.interval
+                { tags
+                @ description model.description
+                @ topic model.topic
+                @ script model.scriptRef ? getKeyPath(parentModel.wzParent) + '+' + model.scriptRef.wzName : null
+                @ script_value model.script_value
+                @ ret_policy model.ret_policy
+        _ plc_config.metrics.push
+            @ plc_config_metric
         _ jsonDataTables.metrics.push
             @ json
         foreach item in model.staticTags
@@ -261,21 +321,25 @@ module
                 @ jsonDataTables
                 @ model
                 @ item
+                @ plc_config_metric
         foreach item in model.dynamicTagRefs
             _ dynamicTagRef
                 @ jsonDataTables
                 @ model
                 @ item
+                @ plc_config_metric
         foreach item in model.metricValues
             _ metricValue
                 @ jsonDataTables
                 @ model
                 @ item
+                @ plc_config_metric
     +
     function staticTag
         param jsonDataTables
         param parentModel
         param model
+        param plc_config_metric
         var json
             {
                 @ nameKey getKeyPath(model)
@@ -284,11 +348,18 @@ module
                 @ value model.tag_value
         _ jsonDataTables.staticTags.push
             @ json
+        if !plc_config_metric.tags.static 
+            set plc_config_metric.tags.static = []
+        _ plc_config_metric.tags.static.push
+            {
+                @ key model.wzName
+                @ value model.tag_value
     +
     function dynamicTagRef
         param jsonDataTables
         param parentModel
         param model
+        param plc_config_metric
         var json
             {
                 @ key model.wzName
@@ -298,21 +369,32 @@ module
                 @ value_itself model.value_itself
         _ jsonDataTables.dynamicTagRefs.push
             @ json
-
+        if !plc_config_metric.tags.dynamic
+            set plc_config_metric.tags.dynamic = []
+        _ plc_config_metric.tags.dynamic.push
+            {
+                @ key model.wzName
+                @ value model.value_ref
     +
     function metricValue
         param jsonDataTables
         param parentModel
         param model
+        param plc_config_metric
         var json
             {
                 @ metricProperty model.wzName + '-' + parentModel.wzParent.protocol
                 @ nameKey getKeyPath(model)
                 @ metric getKeyPath(parentModel)
                 @ value model.value
+        set plc_config_metric[model.wzName]
+            _ model.wzRoot().meta.getMetricTypedValue
+                @ parentModel.wzParent.protocol
+                @ model.wzName
+                @ model.value
+
         _ jsonDataTables.metricValues.push
             @ json
-
     +
     function getKeyPath
         param model

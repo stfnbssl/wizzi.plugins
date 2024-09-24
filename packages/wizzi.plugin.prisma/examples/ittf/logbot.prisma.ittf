@@ -47,10 +47,14 @@ prisma logbot
             string 
         field pattern
             string 
+            @ default 
+                name /^+$/
         field default
             string 
-        field required
+        field xrequired
             boolean 
+            @ default 
+                name false
         field connectionPropertyConstraints
             ref ConnectionPropertyConstraint[]
         field connectionValues
@@ -80,8 +84,10 @@ prisma logbot
                 value minus
         field default
             string 
-        field required
+        field xrequired
             boolean 
+            @ default
+                name false
         field metricPropertyConstraints
             ref MetricPropertyConstraint[]
         field metricPropertyImplications

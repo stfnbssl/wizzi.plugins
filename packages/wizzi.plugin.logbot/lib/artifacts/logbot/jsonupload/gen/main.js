@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.logbot\.wizzi-override\lib\artifacts\logbot\jsonupload\gen\main.js.ittf
-    utc time: Wed, 04 Sep 2024 13:08:58 GMT
+    utc time: Tue, 24 Sep 2024 12:10:57 GMT
 */
 
 
@@ -157,10 +157,17 @@ md.logbot = function(model, ctx, callback) {
     )
 }
 ;
+md.meta = function(model, ctx, callback) {
+    // nothing to do
+    return callback(null);
+}
+;
 md.oem = function(model, ctx, callback) {
     var json = {
         name: model.wzName, 
-        nameKey: getKeyPath(model)
+        nameKey: getKeyPath(model), 
+        org_xid: model.org_xid, 
+        description: model.description
      };
     ctx.__current.oems.push(json)
     var i, i_items=model.users, i_len=model.users.length, item;
@@ -212,7 +219,8 @@ function plant(jsonDataTables, parentModel, model) {
         name: model.wzName, 
         nameKey: getKeyPath(model), 
         oem: getKeyPath(parentModel), 
-        plant_id: model.plant_id
+        plant_xid: model.plant_xid, 
+        description: model.description
      };
     jsonDataTables.plants.push(json)
     var i, i_items=model.gateways, i_len=model.gateways.length, item;
@@ -227,20 +235,28 @@ function gateway(jsonDataTables, parentModel, model) {
         name: model.wzName, 
         nameKey: getKeyPath(model), 
         plant: getKeyPath(parentModel), 
-        iot_id: model.iot_id, 
+        iot_xid: model.iot_xid, 
         batching_maxSize: model.batching_maxSize, 
-        batching_period: model.batching_period
+        batching_period: model.batching_period, 
+        gw_config: {
+            dynamic_tags: [
+                
+            ], 
+            scripts: [
+                
+            ]
+         }
      };
     jsonDataTables.gateways.push(json)
     var i, i_items=model.dynamicTags, i_len=model.dynamicTags.length, item;
     for (i=0; i<i_len; i++) {
         item = model.dynamicTags[i];
-        dynamicTag(jsonDataTables, model, item)
+        dynamicTag(jsonDataTables, model, item, json.gw_config)
     }
     var i, i_items=model.scripts, i_len=model.scripts.length, item;
     for (i=0; i<i_len; i++) {
         item = model.scripts[i];
-        script(jsonDataTables, model, item)
+        script(jsonDataTables, model, item, json.gw_config)
     }
     var i, i_items=model.plcs, i_len=model.plcs.length, item;
     for (i=0; i<i_len; i++) {
@@ -249,16 +265,24 @@ function gateway(jsonDataTables, parentModel, model) {
     }
 }
 
-function dynamicTag(jsonDataTables, parentModel, model) {
+function dynamicTag(jsonDataTables, parentModel, model, gw_config) {
     var json = {
         nameKey: getKeyPath(model), 
         gateway: getKeyPath(parentModel), 
-        tag_id: model.wzName, 
+        tag_xid: model.wzName, 
         default_value: model.default_value, 
         description: model.description, 
-        ref_plc_id: model.ref_plc_id, 
+        ref_plc_xid: model.ref_plc_xid, 
         ref_metric_name: model.ref_metric_name
      };
+    var dynamicTag = {
+        tag_xid: model.wzName, 
+        default_value: model.default_value, 
+        description: model.description, 
+        ref_plc_xid: model.ref_plc_xid, 
+        ref_metric_name: model.ref_metric_name
+     };
+    gw_config.dynamic_tags.push(dynamicTag)
     jsonDataTables.dynamicTags.push(json)
     var i, i_items=model.dynamicTagAllowedValues, i_len=model.dynamicTagAllowedValues.length, item;
     for (i=0; i<i_len; i++) {
@@ -292,16 +316,24 @@ function dynamicTagRegexAllowedValue(jsonDataTables, parentModel, model) {
     jsonDataTables.dynamicTagAllowedValues.push(json)
 }
 
-function script(jsonDataTables, parentModel, model) {
+function script(jsonDataTables, parentModel, model, gw_config) {
     var json = {
         nameKey: getKeyPath(model), 
         gateway: getKeyPath(parentModel), 
-        script_id: model.wzName, 
+        script_xid: model.wzName, 
         script_type: model.script_type, 
         script_description: model.script_description, 
         script_timeout: model.script_timeout, 
         script_content: model.script_content
      };
+    var script = {
+        script_xid: model.wzName, 
+        script_type: model.script_type, 
+        script_description: model.script_description, 
+        script_timeout: model.script_timeout, 
+        script_content: model.script_content
+     };
+    gw_config.scripts.push(script)
     jsonDataTables.scripts.push(json)
 }
 
@@ -311,22 +343,31 @@ function plc(jsonDataTables, parentModel, model) {
         nameKey: getKeyPath(model), 
         gateway: getKeyPath(parentModel), 
         protocol: model.protocol, 
-        plc_id: model.plc_id
+        plc_xid: model.plc_xid, 
+        plc_config: {
+            protocol: model.protocol, 
+            connection: {
+                
+             }, 
+            metrics: [
+                
+            ]
+         }
      };
     jsonDataTables.plcs.push(json)
     var i, i_items=model.connectionValues, i_len=model.connectionValues.length, item;
     for (i=0; i<i_len; i++) {
         item = model.connectionValues[i];
-        connectionValue(jsonDataTables, model, item)
+        connectionValue(jsonDataTables, model, item, json.plc_config)
     }
     var i, i_items=model.metrics, i_len=model.metrics.length, item;
     for (i=0; i<i_len; i++) {
         item = model.metrics[i];
-        metric(jsonDataTables, model, item)
+        metric(jsonDataTables, model, item, json.plc_config)
     }
 }
 
-function connectionValue(jsonDataTables, parentModel, model) {
+function connectionValue(jsonDataTables, parentModel, model, plc_config) {
     var json = {
         connectionProperty: model.wzName + '-' + parentModel.protocol, 
         nameKey: getKeyPath(model), 
@@ -334,9 +375,11 @@ function connectionValue(jsonDataTables, parentModel, model) {
         value: model.value
      };
     jsonDataTables.connectionValues.push(json)
+    plc_config.connection[model.wzName] = model.wzRoot().meta.getConnectionTypedValue(parentModel.protocol, model.wzName, model.value)
+    ;
 }
 
-function metric(jsonDataTables, parentModel, model) {
+function metric(jsonDataTables, parentModel, model, plc_config) {
     var json = {
         name: model.wzName, 
         nameKey: getKeyPath(model), 
@@ -348,25 +391,38 @@ function metric(jsonDataTables, parentModel, model) {
         script_value: model.script_value, 
         ret_policy: model.ret_policy
      };
+    var plc_config_metric = {
+        name: model.wzName, 
+        interval: model.interval, 
+        tags: {
+            
+         }, 
+        description: model.description, 
+        topic: model.topic, 
+        script: model.scriptRef ? getKeyPath(parentModel.wzParent) + '+' + model.scriptRef.wzName : null, 
+        script_value: model.script_value, 
+        ret_policy: model.ret_policy
+     };
+    plc_config.metrics.push(plc_config_metric)
     jsonDataTables.metrics.push(json)
     var i, i_items=model.staticTags, i_len=model.staticTags.length, item;
     for (i=0; i<i_len; i++) {
         item = model.staticTags[i];
-        staticTag(jsonDataTables, model, item)
+        staticTag(jsonDataTables, model, item, plc_config_metric)
     }
     var i, i_items=model.dynamicTagRefs, i_len=model.dynamicTagRefs.length, item;
     for (i=0; i<i_len; i++) {
         item = model.dynamicTagRefs[i];
-        dynamicTagRef(jsonDataTables, model, item)
+        dynamicTagRef(jsonDataTables, model, item, plc_config_metric)
     }
     var i, i_items=model.metricValues, i_len=model.metricValues.length, item;
     for (i=0; i<i_len; i++) {
         item = model.metricValues[i];
-        metricValue(jsonDataTables, model, item)
+        metricValue(jsonDataTables, model, item, plc_config_metric)
     }
 }
 
-function staticTag(jsonDataTables, parentModel, model) {
+function staticTag(jsonDataTables, parentModel, model, plc_config_metric) {
     var json = {
         nameKey: getKeyPath(model), 
         metric: getKeyPath(parentModel), 
@@ -374,9 +430,16 @@ function staticTag(jsonDataTables, parentModel, model) {
         value: model.tag_value
      };
     jsonDataTables.staticTags.push(json)
+    if (!plc_config_metric.tags.static) {
+        plc_config_metric.tags.static = [];
+    }
+    plc_config_metric.tags.static.push({
+        key: model.wzName, 
+        value: model.tag_value
+     })
 }
 
-function dynamicTagRef(jsonDataTables, parentModel, model) {
+function dynamicTagRef(jsonDataTables, parentModel, model, plc_config_metric) {
     var json = {
         key: model.wzName, 
         nameKey: getKeyPath(model), 
@@ -385,15 +448,24 @@ function dynamicTagRef(jsonDataTables, parentModel, model) {
         value_itself: model.value_itself
      };
     jsonDataTables.dynamicTagRefs.push(json)
+    if (!plc_config_metric.tags.dynamic) {
+        plc_config_metric.tags.dynamic = [];
+    }
+    plc_config_metric.tags.dynamic.push({
+        key: model.wzName, 
+        value: model.value_ref
+     })
 }
 
-function metricValue(jsonDataTables, parentModel, model) {
+function metricValue(jsonDataTables, parentModel, model, plc_config_metric) {
     var json = {
         metricProperty: model.wzName + '-' + parentModel.wzParent.protocol, 
         nameKey: getKeyPath(model), 
         metric: getKeyPath(parentModel), 
         value: model.value
      };
+    plc_config_metric[model.wzName] = model.wzRoot().meta.getMetricTypedValue(parentModel.wzParent.protocol, model.wzName, model.value)
+    ;
     jsonDataTables.metricValues.push(json)
 }
 

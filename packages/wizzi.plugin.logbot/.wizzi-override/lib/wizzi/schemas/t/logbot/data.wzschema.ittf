@@ -1,8 +1,79 @@
 $group
 
+    m getTypedValue
+        param type
+        param value
+        if type == "boolean"
+            return value == "true" ? true : false
+        elif type == "integer"
+            return parseInt(value)
+        elif type == "number"
+            return parseFloat(value)
+        return value
+    
+    e meta : node
+        m getConnectionProperty
+            param protocol
+            param connectionProperty
+            foreach item in this.nodes
+                if item.wzElement == "connectionProperty" && item.protocol == protocol && item.wzName == connectionProperty
+                    return item
+            return null
+        
+        m getMetricProperty
+            param protocol
+            param metricProperty
+            foreach item in this.nodes
+                if item.wzElement == "metricProperty" && item.protocol == protocol && item.wzName == metricProperty
+                    return item
+            return null
+        
+        m getConnectionTypedValue
+            param protocol
+            param connectionProperty
+            param value
+            var cp
+                _ this.getConnectionProperty
+                    @ protocol
+                    @ connectionProperty
+            if !cp
+                throw new Error("Unknown protocol+connectionProperty: " + protocol + '+' + connectionProperty)
+            else
+                return
+                    _ getTypedValue
+                        @ cp.type
+                        @ value
+    
+        m getMetricTypedValue
+            param protocol
+            param metricProperty
+            param value
+            var cp
+                _ this.getMetricProperty
+                    @ protocol
+                    @ metricProperty
+            if !cp
+                throw new Error("Unknown protocol+metricProperty: " + protocol + '+' + metricProperty)
+            else
+                return
+                    _ getTypedValue
+                        @ cp.type
+                        @ value
+
+    e connectionProperty : node
+        a protocol
+        a type
+            # the json type
+    
+    e metricProperty : node
+        a protocol
+        a type
+            # the json type
+
     e oem : node
         # the wzName is the `name` attribute
         $$ a name
+        a org_xid
         a description
         r user/s
         r plant/s
@@ -15,13 +86,14 @@ $group
         # the wzName is the `name` attribute
         $$ a name
         a description
-        a plant_id
+        a plant_xid
         r gateway/s
     
     e gateway
         # the wzName is the `name` attribute
         $$ a name
-        a iot_id
+        a message_version
+        a iot_xid
         a description
         r batching
             one-to-one
@@ -40,7 +112,7 @@ $group
     e plc
         # the wzName is the `name` attribute
         $$ a name
-        a plc_id
+        a plc_xid
         a protocol
         a description
         r connectionValue/s
@@ -82,11 +154,11 @@ $group
     
     e dynamicTag
         tag dynamic
-        # the wzName is the `tag_id` attribute
-        $$ a tag_id
+        # the wzName is the `tag_xid` attribute
+        $$ a tag_xid
         a default_value
         a description
-        a ref_plc_id
+        a ref_plc_xid
         a ref_metric_name
         r dynamicTagAllowedValue/s
         r dynamicTagRegexAllowedValue/s
@@ -110,8 +182,8 @@ $group
 
     e script
         tag script
-        # the wzName is the `script_id` attribute
-        $$ a script_id
+        # the wzName is the `script_xid` attribute
+        $$ a script_xid
         a script_type
         a script_description
         a script_timeout
@@ -120,5 +192,5 @@ $group
 
     e scriptRef
         tag script_ref
-        # the wzName is the `script_id` attribute
-        $$ a script_id
+        # the wzName is the `script_xid` attribute
+        $$ a script_xid

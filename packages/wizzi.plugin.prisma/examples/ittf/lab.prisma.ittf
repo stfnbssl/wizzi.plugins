@@ -10,23 +10,23 @@ prisma logbot
         field nameEx
             string 
             db-name NAME-EXTRA
-            db-defaultTo Ciccio bello
-            db-notNullable true
+            db-default-to Ciccio bello
+            db-not-nullable true
             db-unique true
         field myCode
             string 
-            unique
+            @ unique
         field tinyNumber
-            integer
+            int
             min 1
             max 5
         field positiveNumber
-            integer
+            int
             db-unsigned true
         field decimalNumber
             decimal
             default 0
-            db-defaultTo 0
+            db-default-to 0
             db-type decimal
             db-args 6,1
         field weatherKind

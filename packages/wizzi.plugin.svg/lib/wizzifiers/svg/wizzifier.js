@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\wizzifiers\svg\wizzifier.js.ittf
-    utc time: Thu, 01 Aug 2024 13:34:04 GMT
+    utc time: Tue, 17 Sep 2024 11:08:13 GMT
 */
-'use strict';
 var util = require('util');
 var async = require('async');
 var stringify = require('json-stringify-safe');
@@ -124,7 +123,7 @@ function appendChilds(name, nodeArray, parent) {
         else {
             var ac = getAttribsAndChilds(node);
             var tag = {
-                tag: cleanName(name), 
+                tag: cleanName(name) + (ac.text ? ' ' + ac.text : ''), 
                 children: []
              };
             parent.children.push(tag);
@@ -153,6 +152,8 @@ function appendChilds(name, nodeArray, parent) {
 function getAttribsAndChilds(node) {
     var attribs = {};
     var children = [];
+    var text = null;
+    // loog 'getAttribsAndChilds.node', node
     for (var prop in node) {
         if (node.hasOwnProperty(prop)) {
             
@@ -162,6 +163,9 @@ function getAttribsAndChilds(node) {
                 for (var k in attribsObj) {
                     attribs[k] = attribsObj[k];
                 }
+            }
+            else if (prop === '_') {
+                text = node[prop];
             }
             else {
                 var value = node[prop];
@@ -175,7 +179,8 @@ function getAttribsAndChilds(node) {
     }
     return {
             a: attribs, 
-            c: children
+            c: children, 
+            text: text
          };
 }
 function wizzify(tobeWizzified, options, callback) {

@@ -1,10 +1,14 @@
 $group
     $params modelRef, field|@@null, relName|@@null, extra|@@null
 
+    $$doc extra = [optional][;][cascade]
+
     $ var fieldName = field == null ? modelRef : field
     
     field ${fieldName}
         ref ${_.capitalize(modelRef)}
+        related-model ${_.capitalize(modelRef)}
+        relation-cardinality many-to-one
         @ relation
             $if relName != null
                 name ${relName}
@@ -14,14 +18,20 @@ $group
             references 
                 [ 
                     @ id
-            onDelete Cascade
-            onUpdate Cascade
-        $if extra == 'optional'
+            $if extra && extra.indexOf('cascade') > -1
+                onDelete Cascade
+                onUpdate Cascade
+        $if extra && extra.indexOf('optional') > -1
             optional
         $hook
     field ${fieldName}Id
-        string
-        idRelated
-        $if extra == 'optional'
+        string   
+        $if extra && extra.indexOf('optional') > -1
             optional
+        id-related
+        related-model ${_.capitalize(modelRef)}
+        relation-cardinality many-to-one
+        relation-target ${_.capitalize(modelRef)}
+        $if relName != null
+            relation-name ${relName}
         $hook fieldId

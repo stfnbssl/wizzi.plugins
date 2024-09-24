@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.prisma\.wizzi-override\lib\artifacts\prisma\tojson\gen\main.js.ittf
-    utc time: Wed, 04 Sep 2024 13:19:52 GMT
+    utc time: Tue, 24 Sep 2024 15:38:02 GMT
 */
 
 
@@ -33,6 +33,71 @@ md.gen = function(model, ctx, callback) {
     try {
         ctx.__json = {
             name: model.wzName, 
+            mainMetas: {
+                fieldKeyAttributes: [
+                    {
+                        name: 'isId', 
+                        meaning: 'The field is a single field primary key.'
+                     }, 
+                    {
+                        name: 'isRelated', 
+                        meaning: 'The field is a single field foreign key, can be `idRelated` or `objectRelated`.'
+                     }, 
+                    {
+                        name: 'idRelated', 
+                        meaning: 'The field is a scalar single field foreign key.'
+                     }, 
+                    {
+                        name: 'objectRelated', 
+                        meaning: [
+                            'The field contains (is populated with) the instance/s of the related model item/s.', 
+                            'When relationCardinality is `one-to-many` contains an array of related instances.', 
+                            'When relationCardinality is `many-to-one` or `one-to-one` contains an object of the related instance.'
+                        ]
+                     }, 
+                    {
+                        name: 'relation', 
+                        meaning: [
+                            'When The field is `objectRelated` and relationCardinality is `many-to-one` or `one-to-one` ...', 
+                            '... the attribute contains a relation structure that can have a multi field foreign key.'
+                        ]
+                     }
+                ], 
+                relationCardinalities: [
+                    'one-to-one', 
+                    'one-to-many', 
+                    'many-to-one', 
+                    'many-to-many'
+                ], 
+                fieldTypes: [
+                    'String', 
+                    'Boolean', 
+                    'Int', 
+                    'BigInt', 
+                    'Float', 
+                    'Decimal', 
+                    'DateTime', 
+                    'Json', 
+                    'Bytes'
+                ], 
+                constraints: [
+                    'min', 
+                    'max', 
+                    'minLength', 
+                    'maxLength', 
+                    'regExp', 
+                    'enum'
+                ], 
+                editFormats: [
+                    'Checkbox', 
+                    'Radio', 
+                    'Color', 
+                    'Switch', 
+                    'Slider', 
+                    'Rate', 
+                    'Upload'
+                ]
+             }, 
             datasources: [
                 
             ], 
@@ -300,23 +365,29 @@ md.field = function(model, ctx, callback) {
         type: model.getType(), 
         optional: model.optional, 
         typeExtensions: model.getTypeExtensions(), 
+        editFormat: model.getEditFormat(), 
         attributes: [
             
         ], 
         constraints: [
             
+        ], 
+        dbColumns: [
+            
         ]
      };
-    if (model.extIdRelated) {
-        jsonField.extIdRelated = true;
+    if (model.idRelated) {
+        jsonField.isRelated = true;
+        jsonField.idRelated = true;
         jsonField.relatedModel = model.relatedModel;
         jsonField.relationName = model.relationName;
-        jsonField.relation = model.relation;
+        jsonField.relationCardinality = model.relationCardinality;
         jsonField.relationTarget = model.relationTarget;
     }
-    else if (verify.isNotEmpty(model.relation)) {
-        jsonField.extIdRelated = true;
-        jsonField.relation = model.relation;
+    else if (verify.isNotEmpty(model.relationCardinality)) {
+        jsonField.isRelated = true;
+        jsonField.objectRelated = true;
+        jsonField.relationCardinality = model.relationCardinality;
         jsonField.relationTarget = model.relationTarget;
     }
     ctx.__current.fields.push(jsonField)
@@ -337,6 +408,16 @@ md.field = function(model, ctx, callback) {
             fc.setField(c)
             ctx.__current.constraints.push(c)
             fc.setField(ctx.__current)
+        }
+        var i, i_items=model.dbColumns, i_len=model.dbColumns.length, fdbc;
+        for (i=0; i<i_len; i++) {
+            fdbc = model.dbColumns[i];
+            var dbc = {
+                type: fdbc.wzElement
+             };
+            fdbc.setField(dbc)
+            ctx.__current.dbColumns.push(dbc)
+            fdbc.setField(ctx.__current)
         }
         setJSON_KnownFieldTypes(jsonField)
         ctx.__current = saveCurrent;
@@ -444,9 +525,12 @@ function error(errorName, method, message, model, innerError) {
          });
 }
 function setJSON_KnownFieldTypes(jsonField) {
-    // loog 'setJSON_KnownFieldTypes', jsonField.attributes.length, jsonField.attributes[0]
+    if (jsonField.name == 'xrequired' || jsonField.name == 'pattern') {
+        console.log('setJSON_KnownFieldTypes', jsonField.attributes.length, jsonField.attributes[0], __filename);
+    }
     if (jsonField.attributes.length > 0 && jsonField.attributes[0].type == "@function" && jsonField.attributes[0].name == "relation") {
-        jsonField.isRelation = true;
+        jsonField.isRelated = true;
+        jsonField.objectRelated = true;
         var value = {
             model: jsonField.type
          };
@@ -463,8 +547,18 @@ function setJSON_KnownFieldTypes(jsonField) {
     if (jsonField.attributes.length > 0 && jsonField.attributes[0].type == "@" && jsonField.attributes[0].name == "id") {
         jsonField.isId = true;
     }
-    if (jsonField.attributes.length > 0 && jsonField.attributes[0].type == "@" && jsonField.attributes[0].name == "id") {
+    if (jsonField.attributes.length > 0 && jsonField.attributes[0].type == "@" && jsonField.attributes[0].name == "unique") {
         jsonField.isUnique = true;
+    }
+    if (jsonField.attributes.length > 0 && jsonField.attributes[0].type == "@function" && jsonField.attributes[0].name == "default") {
+        if (!jsonField.attributes[0].args[0] || verify.isEmpty(jsonField.attributes[0].args[0].name)) {
+            throw new Error("Missing name attribute on default of field " + jsonField.name);
+        }
+        jsonField.constraints.push({
+            type: "defaultValue", 
+            defaultValue: jsonField.attributes[0].args[0].name
+         })
+        console.log('jsonField.constraints', jsonField.name, jsonField.constraints, __filename);
     }
 }
 function setJSON_KnownModelAttributes(model) {
@@ -483,25 +577,31 @@ function setRelations(models) {
         var j, j_items=model.fields, j_len=model.fields.length, field;
         for (j=0; j<j_len; j++) {
             field = model.fields[j];
-            if (field.isRelation) {
-                setOneToManyRelation(models, model, field)
+            
+            // the field is a many-to-one Object Field (model reference)
+            if (field.objectRelated) {
+                setOneToManyOrToOneRelation(models, model, field)
             }
         }
     }
 }
-function setOneToManyRelation(models, manyModel, field) {
+function setOneToManyOrToOneRelation(models, manyOrOneModel, manyOrOneField) {
+    // the manyOrOneField.type is set in
+    // .
+    // .   .field
+    // .   .   .ref <model.Name>
     var i, i_items=models, i_len=models.length, model;
     for (i=0; i<i_len; i++) {
         model = models[i];
-        if (model.Name == field.type) {
+        if (model.Name == manyOrOneField.type) {
             model.relations.push({
-                model: field.type, 
+                model: manyOrOneField.type, 
                 toModel: {
-                    Name: manyModel.Name, 
-                    name: manyModel.name, 
-                    namePlural: manyModel.namePlural
+                    Name: manyOrOneModel.Name, 
+                    name: manyOrOneModel.name, 
+                    namePlural: manyOrOneModel.namePlural
                  }, 
-                relation: field.relation
+                relationCardinality: manyOrOneField.relationCardinality
              })
         }
     }
@@ -520,10 +620,10 @@ function getForeignFieldInModel(jsonModel, fieldName) {
     var i, i_items=jsonModel.fields, i_len=jsonModel.fields.length, field;
     for (i=0; i<i_len; i++) {
         field = jsonModel.fields[i];
-        if (field.extIdRelated && field.name == fieldName) {
+        if (field.idRelated && field.name == fieldName) {
             return {
                     relatedModel: field.relatedModel, 
-                    relation: field.relation, 
+                    relationCardinality: field.relationCardinality, 
                     relationTarget: field.relationTarget, 
                     optional: field.optional
                  };

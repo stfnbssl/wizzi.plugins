@@ -34,6 +34,24 @@
           ]
         },
         {
+          "name": "meta",
+          "tags": [
+            "meta"
+          ]
+        },
+        {
+          "name": "connectionProperty",
+          "tags": [
+            "connectionProperty"
+          ]
+        },
+        {
+          "name": "metricProperty",
+          "tags": [
+            "metricProperty"
+          ]
+        },
+        {
           "name": "oem",
           "tags": [
             "oem"
@@ -146,6 +164,228 @@
       ],
       "derived": [],
       "restricts": [],
+      "methods": [
+        {
+          "name": "wzinitialize",
+          "isStatic": false,
+          "isKnownMethod": true,
+          "params": [],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": []
+    },
+    {
+      "name": "meta",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "meta"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "getConnectionProperty",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "protocol",
+            "connectionProperty"
+          ],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "getMetricProperty",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "protocol",
+            "metricProperty"
+          ],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "getConnectionTypedValue",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "protocol",
+            "connectionProperty",
+            "value"
+          ],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "getMetricTypedValue",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [
+            "protocol",
+            "metricProperty",
+            "value"
+          ],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": []
+    },
+    {
+      "name": "connectionProperty",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "connectionProperty"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "protocol",
+          "type": "string",
+          "tags": [
+            "protocol"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "tags": [
+            "type"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "the json type"
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "metricProperty",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "metricProperty"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "protocol",
+          "type": "string",
+          "tags": [
+            "protocol"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "tags": [
+            "type"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "the json type"
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
       "methods": [],
       "comments": []
     },
@@ -158,6 +398,17 @@
       ],
       "flags": "",
       "attributes": [
+        {
+          "name": "org_xid",
+          "type": "string",
+          "tags": [
+            "org_xid"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
         {
           "name": "description",
           "type": "string",
@@ -250,10 +501,10 @@
           "comments": []
         },
         {
-          "name": "plant_id",
+          "name": "plant_xid",
           "type": "string",
           "tags": [
-            "plant_id"
+            "plant_xid"
           ],
           "flags": "",
           "inheritedFrom": null,
@@ -291,10 +542,21 @@
       "flags": "",
       "attributes": [
         {
-          "name": "iot_id",
+          "name": "message_version",
           "type": "string",
           "tags": [
-            "iot_id"
+            "message_version"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "iot_xid",
+          "type": "string",
+          "tags": [
+            "iot_xid"
           ],
           "flags": "",
           "inheritedFrom": null,
@@ -416,10 +678,10 @@
       "flags": "",
       "attributes": [
         {
-          "name": "plc_id",
+          "name": "plc_xid",
           "type": "string",
           "tags": [
-            "plc_id"
+            "plc_xid"
           ],
           "flags": "",
           "inheritedFrom": null,
@@ -717,10 +979,10 @@
           "comments": []
         },
         {
-          "name": "ref_plc_id",
+          "name": "ref_plc_xid",
           "type": "string",
           "tags": [
-            "ref_plc_id"
+            "ref_plc_xid"
           ],
           "flags": "",
           "inheritedFrom": null,
@@ -767,7 +1029,7 @@
       "restricts": [],
       "methods": [],
       "comments": [
-        "the wzName is the `tag_id` attribute"
+        "the wzName is the `tag_xid` attribute"
       ]
     },
     {
@@ -903,7 +1165,7 @@
       "restricts": [],
       "methods": [],
       "comments": [
-        "the wzName is the `script_id` attribute"
+        "the wzName is the `script_xid` attribute"
       ]
     },
     {
@@ -920,7 +1182,7 @@
       "restricts": [],
       "methods": [],
       "comments": [
-        "the wzName is the `script_id` attribute"
+        "the wzName is the `script_xid` attribute"
       ]
     },
     {
