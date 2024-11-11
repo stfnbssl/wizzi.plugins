@@ -1,43 +1,200 @@
 {
-  "oems": [
+  "manufacturers": [
     {
-      "name": "acme1",
-      "nameKey": "acme1"
+      "name": "manuacme1",
+      "nameKey": "manuacme1+"
     }
   ],
-  "users": [],
+  "manufacturerPlcModels": [
+    {
+      "name": "hello",
+      "nameKey": "hello+manuacme1+"
+    }
+  ],
+  "tenants": [
+    {
+      "name": "acme1",
+      "nameKey": "acme1",
+      "description": "Gestione Supermercati XYZ"
+    }
+  ],
+  "userGroups": [
+    {
+      "name": "acme1-gr01",
+      "nameKey": "acme1-gr01",
+      "tenant": "acme1"
+    },
+    {
+      "name": "acme1-gr02",
+      "nameKey": "acme1-gr02",
+      "tenant": "acme1"
+    },
+    {
+      "name": "acme1-gr03",
+      "nameKey": "acme1-gr03",
+      "tenant": "acme1"
+    }
+  ],
+  "modelSchemas": [
+    {
+      "name": "plant-schema",
+      "version": "1",
+      "nameKey": "plant-schema"
+    },
+    {
+      "name": "gatway-schema",
+      "version": "1",
+      "nameKey": "gatway-schema"
+    },
+    {
+      "name": "plc-schema",
+      "version": "1",
+      "nameKey": "plc-schema"
+    }
+  ],
   "plants": [
     {
       "name": "101",
       "nameKey": "acme1+101",
-      "oem": "acme1",
-      "plant_xid": "xf345"
+      "tenant": "acme1",
+      "owner": "acme1-gr01",
+      "plant_xid": "xf345",
+      "description": "Magazzino Centrale",
+      "modelSchema": "plant-schema",
+      "configState": "completed",
+      "instanceRole": "none",
+      "itemConfigState": "none",
+      "activityState": "none",
+      "plant_config": {
+        "tags": {}
+      }
     },
     {
       "name": "102",
       "nameKey": "acme1+102",
-      "oem": "acme1",
-      "plant_xid": "xf348"
+      "tenant": "acme1",
+      "owner": "acme1-gr03",
+      "plant_xid": "xf348",
+      "description": "Supermercato Centrale",
+      "modelSchema": "plant-schema",
+      "configState": "completed",
+      "instanceRole": "none",
+      "itemConfigState": "none",
+      "activityState": "none",
+      "plant_config": {
+        "tags": {}
+      }
+    }
+  ],
+  "plantPermissions": [
+    {
+      "plant": "acme1+101",
+      "userGroup": "acme1-gr01"
+    },
+    {
+      "plant": "acme1+101",
+      "userGroup": "acme1-gr02"
     }
   ],
   "gateways": [
     {
       "name": "1001",
       "nameKey": "acme1+101+1001",
+      "description": "Gateway Principale Magazzino",
+      "tenant": "acme1",
+      "owner": "acme1-gr01",
       "plant": "acme1+101",
-      "iot_xid": "GTWMC001"
+      "iot_xid": "GTWMC001",
+      "modelSchema": "gatway-schema",
+      "configState": "completed",
+      "instanceRole": "none",
+      "itemConfigState": "none",
+      "activityState": "none",
+      "gw_config": {
+        "tags": {},
+        "dynamic_tags": [
+          {
+            "tag_xid": "dt1",
+            "default_value": "122.2",
+            "ref_plc_xid": "plc1",
+            "ref_metric_name": "met1",
+            "allowed_values": [],
+            "regex_allowed_values": []
+          },
+          {
+            "tag_xid": "dt2",
+            "default_value": "123",
+            "description": "some description",
+            "ref_plc_xid": "plc1",
+            "ref_metric_name": "met2",
+            "allowed_values": [
+              "1",
+              "2",
+              "3"
+            ],
+            "regex_allowed_values": []
+          },
+          {
+            "tag_xid": "dt3",
+            "default_value": "124",
+            "ref_plc_xid": "plc1",
+            "ref_metric_name": "met3",
+            "allowed_values": [
+              "111"
+            ],
+            "regex_allowed_values": [
+              ".*111.*"
+            ]
+          }
+        ],
+        "scripts": [
+          {
+            "script_xid": "unique",
+            "script_type": "pre_publish",
+            "script_description": "Sends a value only if it differs from the last sent one",
+            "script_timeout": 1000,
+            "script_content": "\"({\\\"currentSent\\\": currentRead, \\\"fire\\\": currentRead !== lastSent , \\\"error\\\": false})\""
+          }
+        ]
+      }
     },
     {
       "name": "1002",
       "nameKey": "acme1+101+1002",
+      "description": "Gateway Backup Magazzino",
+      "tenant": "acme1",
+      "owner": "acme1-gr02",
       "plant": "acme1+101",
-      "iot_xid": "GTWMC002"
+      "iot_xid": "GTWMC002",
+      "modelSchema": "gatway-schema",
+      "configState": "completed",
+      "instanceRole": "none",
+      "itemConfigState": "none",
+      "activityState": "none",
+      "gw_config": {
+        "tags": {},
+        "dynamic_tags": [],
+        "scripts": []
+      }
     },
     {
       "name": "1003",
       "nameKey": "acme1+102+1003",
+      "description": "Gateway Principale Supermercato",
+      "tenant": "acme1",
+      "owner": "acme1-gr03",
       "plant": "acme1+102",
-      "iot_xid": "GTWSMC001"
+      "iot_xid": "GTWSMC001",
+      "modelSchema": "gatway-schema",
+      "configState": "completed",
+      "instanceRole": "none",
+      "itemConfigState": "none",
+      "activityState": "none",
+      "gw_config": {
+        "tags": {},
+        "dynamic_tags": [],
+        "scripts": []
+      }
     }
   ],
   "dynamicTags": [
@@ -114,70 +271,146 @@
     {
       "name": "2001",
       "nameKey": "acme1+101+1001+2001",
+      "description": "PLC Controllo Temperatura",
+      "owner": "acme1-gr01",
+      "tenant": "acme1",
       "gateway": "acme1+101+1001",
       "protocol": "modbustcp",
-      "plc_xid": "PLCCT001"
+      "plc_xid": "PLCCT001",
+      "modelSchema": "plc-schema",
+      "configState": "completed",
+      "instanceRole": "none",
+      "itemConfigState": "none",
+      "activityState": "none",
+      "plc_config": {
+        "protocol": "modbustcp",
+        "connection": {},
+        "metrics": [
+          {
+            "name": "3001",
+            "interval": 1000,
+            "tags": {
+              "static": [
+                {
+                  "key": "geohash",
+                  "value": "1234"
+                }
+              ],
+              "dynamic": [
+                {
+                  "key": "dyn1",
+                  "value": "acme1+101+1001+dt1"
+                },
+                {
+                  "key": "dyn2",
+                  "value": "acme1+101+1001+dt2"
+                }
+              ]
+            },
+            "description": "Temperatura Magazzino - Sensore temperatura interna",
+            "script": "acme1+101+1001+unique",
+            "memoryAddress": 200
+          },
+          {
+            "name": "3002",
+            "interval": 1000,
+            "tags": {},
+            "description": "Umidità Magazzino - Sensore umidità interna",
+            "script": null,
+            "memoryAddress": 300
+          }
+        ]
+      }
     },
     {
       "name": "2002",
       "nameKey": "acme1+101+1001+2002",
+      "description": "PLC Controllo Sicurezza",
+      "owner": "acme1-gr01",
+      "tenant": "acme1",
       "gateway": "acme1+101+1001",
       "protocol": "s7",
-      "plc_xid": "PLCSC001"
+      "plc_xid": "PLCSC001",
+      "modelSchema": "plc-schema",
+      "configState": "completed",
+      "instanceRole": "none",
+      "itemConfigState": "none",
+      "activityState": "none",
+      "plc_config": {
+        "protocol": "s7",
+        "connection": {},
+        "metrics": [
+          {
+            "name": "3003",
+            "interval": 1000,
+            "tags": {},
+            "description": "Stato Allarme - Controllo stato allarme sicurezza",
+            "script": null,
+            "memoryAddress": 200
+          }
+        ]
+      }
     },
     {
       "name": "2003",
       "nameKey": "acme1+101+1002+2003",
+      "description": "PLC Backup Temperatura",
+      "owner": "acme1-gr02",
+      "tenant": "acme1",
       "gateway": "acme1+101+1002",
       "protocol": "modbusrtu",
-      "plc_xid": "PLCBT002"
+      "plc_xid": "PLCBT002",
+      "modelSchema": "plc-schema",
+      "configState": "completed",
+      "instanceRole": "none",
+      "itemConfigState": "none",
+      "activityState": "none",
+      "plc_config": {
+        "protocol": "modbusrtu",
+        "connection": {},
+        "metrics": [
+          {
+            "name": "3004",
+            "interval": 1000,
+            "tags": {},
+            "description": "Backup Temperatura Magazzino - Sensore backup temperatura interna",
+            "script": null,
+            "memoryAddress": 200
+          }
+        ]
+      }
     },
     {
       "name": "2004",
       "nameKey": "acme1+102+1003+2004",
+      "description": "PLC Controllo Frigoriferi",
+      "owner": "acme1-gr03",
+      "tenant": "acme1",
       "gateway": "acme1+102+1003",
       "protocol": "modbustcp",
-      "plc_xid": "PLCF001"
+      "plc_xid": "PLCF001",
+      "modelSchema": "plc-schema",
+      "configState": "completed",
+      "instanceRole": "none",
+      "itemConfigState": "none",
+      "activityState": "none",
+      "plc_config": {
+        "protocol": "modbustcp",
+        "connection": {},
+        "metrics": [
+          {
+            "name": "3005",
+            "interval": 1000,
+            "tags": {},
+            "description": "Temperatura Frigorifero - Sensore temperatura frigorifero",
+            "script": null,
+            "memoryAddress": 200
+          }
+        ]
+      }
     }
   ],
-  "connectionValues": [
-    {
-      "connectionProperty": "host-modbustcp",
-      "nameKey": "acme1+101+1001+2001+host",
-      "plc": "acme1+101+1001+2001",
-      "value": "89.0.142.86"
-    },
-    {
-      "connectionProperty": "port-modbustcp",
-      "nameKey": "acme1+101+1001+2001+port",
-      "plc": "acme1+101+1001+2001",
-      "value": "502"
-    },
-    {
-      "connectionProperty": "unitId-modbustcp",
-      "nameKey": "acme1+101+1001+2001+unitId",
-      "plc": "acme1+101+1001+2001",
-      "value": "1"
-    },
-    {
-      "connectionProperty": "host-modbustcp",
-      "nameKey": "acme1+102+1003+2004+host",
-      "plc": "acme1+102+1003+2004",
-      "value": "89.0.142.86"
-    },
-    {
-      "connectionProperty": "port-modbustcp",
-      "nameKey": "acme1+102+1003+2004+port",
-      "plc": "acme1+102+1003+2004",
-      "value": "504"
-    },
-    {
-      "connectionProperty": "unitId-modbustcp",
-      "nameKey": "acme1+102+1003+2004+unitId",
-      "plc": "acme1+102+1003+2004",
-      "value": "1"
-    }
-  ],
+  "connectionValues": [],
   "metrics": [
     {
       "name": "3001",

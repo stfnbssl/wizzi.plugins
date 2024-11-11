@@ -1,0 +1,22 @@
+$group
+
+    function writeTool
+        param ctx
+        param json
+        if json.toolType == "Pydantic"
+            _ ctx.w("")
+            _ ctx.w("# Define a Pydantic tool for " + json.name)
+            _ ctx.w("class " + json.name + "(BaseTool):");
+            _ ctx.indent
+            foreach p in json.properties
+                _ ctx.w(p.name + ": " + p.type)
+            _ ctx.deindent
+
+    function writeLlms
+        param ctx
+        param json
+        if json.llms.length > 0
+            foreach tool in json.tools
+                _ writeTool
+                    @ ctx
+                    @ tool

@@ -1,0 +1,50 @@
+{
+    name "${wzCtx.npmName ? wzCtx.npmName : wzCtx.name}"
+    version "${wzCtx.version}"
+    description "${wzCtx.description}"
+    $if wzCtx.author
+        { author
+            name "${wzCtx.author.name}"
+            email "${wzCtx.author.email}"
+    private false
+    $if wzCtx.license
+        [ licenses
+            {
+                type "${wzCtx.license.type}"
+                url "${wzCtx.license.url}"
+                copy "${wzCtx.license.copy}"
+    main "${wzCtx.main}"
+    $if wzCtx.Build.useVite || wzCtx.Build.useESM
+        type "module"
+    $else
+        $if wzCtx.type
+            type "${wzCtx.type}"
+    repository
+        {
+            type "git"
+            url "https://github.com/${wzCtx.github.userId}/${wzCtx.name}/tree/master"
+    engines
+        {
+            node ">=0.10.28"
+            npm ">=1.4.28"
+    { scripts
+        test "mocha tests/**/*.js --full-trace"
+        $hook scripts
+    { dependencies
+        @wizzi/mtree "^${wzCtx.version_wizzi_mtree}"
+        @wizzi/utils "^${wzCtx.version_wizzi_utils}"
+        $foreach schema in wzCtx.Schemas
+            $foreach include in schema.includes
+                @wizzi/plugin.${include.name} "${include.version}"
+        async "^3.2.4"
+        axios "^1.7.3"
+        i "^0.3.7"
+        iconv-lite "^0.6.3"
+        json-stringify-safe "^5.0.1"
+        marked "14.0.0"
+        object-inspect "^1.12.3"
+    { devDependencies
+        @wizzi/factory "^${wzCtx.version_wizzi_factory}"
+        del "^7.0.0"
+        expect.js "^0.3.1"
+        mocha "^10.1.0"

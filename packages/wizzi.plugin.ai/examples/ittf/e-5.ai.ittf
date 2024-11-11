@@ -1,0 +1,120 @@
+ai crewAI lab
+
+    api_url http://localhost:3000
+
+    openai_llm
+        $$ model gpt-4
+        model gpt-3.5-turbo
+
+    directory_read directory_read_tool
+        directory_path ./instructions
+    
+    file_read file_read_tool
+
+    google_serper_search search_tool
+        api_key serper_api_key
+
+    custom_tool sentiment_analysis_tool
+        type SentimentAnalysisTool    
+        name Sentiment Analysis Tool
+        description Analyzes the sentiment of text
+            \b to ensure positive and engaging communication.
+        m _run
+            + return "positive"
+    
+    agent sales_rep_agent
+        role Sales Representative
+        goal Identify high-value leads that match
+            \b our ideal customer profile
+        backstory As a part of the dynamic sales team at CrewAI,
+            \b your mission is to scour
+            \b the digital landscape for potential leads.
+            \b Armed with cutting-edge tools
+            \b and a strategic mindset, you analyze data,
+            \b trends, and interactions to
+            \b unearth opportunities that others might overlook.
+            \b Your work is crucial in paving the way
+            \b for meaningful engagements and driving the company's growth.
+        allow_delegation false
+        verbose true
+
+    agent lead_sales_rep_agent
+        role Lead Sales Representative
+        goal Nurture leads with personalized, compelling communications
+        backstory Within the vibrant ecosystem of CrewAI's sales department,
+            \b you stand out as the bridge between potential clients
+            \b and the solutions they need.
+            \b By creating engaging, personalized messages,
+            \b you not only inform leads about our offerings
+            \b but also make them feel seen and heard.
+            \b Your role is pivotal in converting interest
+            \b into action, guiding leads through the journey
+            \b from curiosity to commitment.
+        allow_delegation false
+        verbose true
+
+    task lead_profiling_task
+        description Conduct an in-depth analysis of {lead_name},
+            \b a company in the {industry} sector
+            \b that recently showed interest in our solutions.
+            \b Utilize all available data sources
+            \b to compile a detailed profile,
+            \b focusing on key decision-makers, recent business
+            \b developments, and potential needs
+            \b that align with our offerings.
+            \b This task is crucial for tailoring
+            \b our engagement strategy effectively.\n
+            \b Don't make assumptions and
+            \b only use information you absolutely sure about.
+        expected_output A comprehensive report on {lead_name},
+            \b including company background,
+            \b key personnel, recent milestones, and identified needs.
+            \b Highlight potential areas where
+            \b our solutions can provide value,
+            \b and suggest personalized engagement strategies.
+        tool_ref directory_read_tool
+        tool_ref file_read_tool
+        tool_ref search_tool
+        agent sales_rep_agent
+
+    task personalized_outreach_task
+        description Using the insights gathered from
+            \b the lead profiling report on {lead_name},
+            \b craft a personalized outreach campaign
+            \b aimed at {key_decision_maker},
+            \b the {position} of {lead_name}.
+            \b The campaign should address their recent {milestone}
+            \b and how our solutions can support their goals.
+            \b Your communication must resonate
+            \b with {lead_name}'s company culture and values,
+            \b demonstrating a deep understanding of
+            \b their business and needs.\n
+            \b Don't make assumptions and only
+            \b use information you absolutely sure about.
+        expected_output A series of personalized email drafts
+            \b tailored to {lead_name},
+            \b specifically targeting {key_decision_maker}.
+            \b Each draft should include
+            \b a compelling narrative that connects our solutions
+            \b with their recent achievements and future goals.
+            \b Ensure the tone is engaging, professional,
+            \b and aligned with {lead_name}'s corporate identity.
+        tool_ref sentiment_analysis_tool
+        tool_ref search_tool
+        agent lead_sales_rep_agent
+
+    crew crew
+        agent_ref sales_rep_agent
+        agent_ref lead_sales_rep_agent
+        task_ref lead_profiling_task
+        task_ref personalized_outreach_task
+        verbose true
+        memory true
+        exec
+            inputs
+                @ lead_name "DeepLearningAI"
+                @ industry "Online Learning Platform"
+                @ key_decision_maker "Andrew Ng"
+                @ position "CEO"
+                @ milestone "product launch"            
+            display markdown

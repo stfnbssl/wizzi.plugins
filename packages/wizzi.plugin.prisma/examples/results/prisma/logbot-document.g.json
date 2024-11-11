@@ -1,5 +1,72 @@
 {
   "name": "logbot",
+  "mainMetas": {
+    "fieldKeyAttributes": [
+      {
+        "name": "isId",
+        "meaning": "The field is a single field primary key."
+      },
+      {
+        "name": "isRelated",
+        "meaning": "The field is a single field foreign key, can be `idRelated` or `objectRelated`."
+      },
+      {
+        "name": "idRelated",
+        "meaning": "The field is a scalar single field foreign key in a `many-to-one` relation."
+      },
+      {
+        "name": "objectRelated",
+        "meaning": [
+          "The field contains (is populated with) the instance/s of the related model item/s.",
+          "When relationCardinality is `one-to-many` contains an array of related instances.",
+          "When relationCardinality is `many-to-one` or `one-to-one` contains an object of the related instance."
+        ]
+      },
+      {
+        "name": "relation",
+        "meaning": [
+          "When The field is `objectRelated` and relationCardinality is `many-to-one` or `one-to-one` ...",
+          "... the attribute contains a relation structure that can have a multi field foreign key."
+        ]
+      }
+    ],
+    "relationCardinalities": [
+      "one-to-one",
+      "one-to-many",
+      "many-to-one",
+      "many-to-many"
+    ],
+    "fieldTypes": [
+      "String",
+      "Boolean",
+      "Int",
+      "BigInt",
+      "Float",
+      "Decimal",
+      "DateTime",
+      "Json",
+      "Bytes"
+    ],
+    "constraints": [
+      "min",
+      "max",
+      "minLength",
+      "maxLength",
+      "regExp",
+      "enum"
+    ],
+    "editFormats": [
+      "Checkbox",
+      "Radio",
+      "Color",
+      "Select",
+      "Switch",
+      "Slider",
+      "Rate",
+      "Upload",
+      "Markdown"
+    ]
+  },
   "datasources": [
     {
       "name": "db",
@@ -51,6 +118,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@",
@@ -81,6 +149,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -90,6 +159,7 @@
           "type": "ConnectionProperty[]",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -99,6 +169,7 @@
           "type": "MetricProperty[]",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -108,6 +179,7 @@
           "type": "ConnectionPropertyConstraint[]",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -117,6 +189,7 @@
           "type": "MetricPropertyConstraint[]",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -126,6 +199,7 @@
           "type": "MetricPropertyImplication[]",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -135,6 +209,7 @@
           "type": "Plc[]",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -210,6 +285,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@",
@@ -240,6 +316,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -249,6 +326,7 @@
           "type": "ConnectionPropertyConstraint[]",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -258,6 +336,7 @@
           "type": "MetricPropertyConstraint[]",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -297,6 +376,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@",
@@ -327,6 +407,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -336,6 +417,7 @@
           "type": "MetricPropertyImplication[]",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -366,6 +448,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@",
@@ -396,6 +479,7 @@
           "type": "Protocol",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@function",
@@ -417,9 +501,9 @@
           ],
           "constraints": [],
           "dbColumns": [],
+          "isRelated": true,
           "objectRelated": true,
           "relationCardinality": "many-to-one",
-          "isRelated": true,
           "relation": {
             "model": "Protocol",
             "fields": [
@@ -435,6 +519,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": [],
@@ -449,6 +534,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -458,6 +544,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -467,6 +554,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@function",
@@ -492,6 +580,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -501,6 +590,7 @@
           "type": "Boolean",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@function",
@@ -526,6 +616,7 @@
           "type": "ConnectionPropertyConstraint[]",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -535,6 +626,7 @@
           "type": "ConnectionValue[]",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -574,6 +666,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@",
@@ -604,6 +697,7 @@
           "type": "Protocol",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@function",
@@ -625,9 +719,9 @@
           ],
           "constraints": [],
           "dbColumns": [],
+          "isRelated": true,
           "objectRelated": true,
           "relationCardinality": "many-to-one",
-          "isRelated": true,
           "relation": {
             "model": "Protocol",
             "fields": [
@@ -643,6 +737,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": [],
@@ -657,6 +752,7 @@
           "type": "ConnectionProperty",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@function",
@@ -678,9 +774,9 @@
           ],
           "constraints": [],
           "dbColumns": [],
+          "isRelated": true,
           "objectRelated": true,
           "relationCardinality": "many-to-one",
-          "isRelated": true,
           "relation": {
             "model": "ConnectionProperty",
             "fields": [
@@ -696,6 +792,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": [],
@@ -710,6 +807,7 @@
           "type": "Constraint",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@function",
@@ -731,9 +829,9 @@
           ],
           "constraints": [],
           "dbColumns": [],
+          "isRelated": true,
           "objectRelated": true,
           "relationCardinality": "many-to-one",
-          "isRelated": true,
           "relation": {
             "model": "Constraint",
             "fields": [
@@ -749,6 +847,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": [],
@@ -763,6 +862,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -783,6 +883,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@",
@@ -813,6 +914,7 @@
           "type": "Protocol",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@function",
@@ -834,9 +936,9 @@
           ],
           "constraints": [],
           "dbColumns": [],
+          "isRelated": true,
           "objectRelated": true,
           "relationCardinality": "many-to-one",
-          "isRelated": true,
           "relation": {
             "model": "Protocol",
             "fields": [
@@ -852,6 +954,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": [],
@@ -866,6 +969,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [
             {
@@ -881,6 +985,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -890,6 +995,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [
             {
@@ -911,6 +1017,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -920,6 +1027,7 @@
           "type": "Boolean",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@function",
@@ -945,6 +1053,7 @@
           "type": "MetricPropertyConstraint[]",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -954,6 +1063,7 @@
           "type": "MetricPropertyImplication[]",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@function",
@@ -973,13 +1083,15 @@
           "relation": {
             "model": "MetricPropertyImplication[]",
             "name": "r_metricProperty"
-          }
+          },
+          "mappedBy": "metricProperty"
         },
         {
           "name": "onMetricPropertyImplications",
           "type": "MetricPropertyImplication[]",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@function",
@@ -999,13 +1111,15 @@
           "relation": {
             "model": "MetricPropertyImplication[]",
             "name": "r_on_metricProperty"
-          }
+          },
+          "mappedBy": "onMetricProperty"
         },
         {
           "name": "metricValues",
           "type": "MetricValue[]",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -1063,6 +1177,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@",
@@ -1093,6 +1208,7 @@
           "type": "Protocol",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@function",
@@ -1114,9 +1230,9 @@
           ],
           "constraints": [],
           "dbColumns": [],
+          "isRelated": true,
           "objectRelated": true,
           "relationCardinality": "many-to-one",
-          "isRelated": true,
           "relation": {
             "model": "Protocol",
             "fields": [
@@ -1132,6 +1248,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": [],
@@ -1146,6 +1263,7 @@
           "type": "MetricProperty",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@function",
@@ -1167,9 +1285,9 @@
           ],
           "constraints": [],
           "dbColumns": [],
+          "isRelated": true,
           "objectRelated": true,
           "relationCardinality": "many-to-one",
-          "isRelated": true,
           "relation": {
             "model": "MetricProperty",
             "fields": [
@@ -1185,6 +1303,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": [],
@@ -1199,6 +1318,7 @@
           "type": "Constraint",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@function",
@@ -1220,9 +1340,9 @@
           ],
           "constraints": [],
           "dbColumns": [],
+          "isRelated": true,
           "objectRelated": true,
           "relationCardinality": "many-to-one",
-          "isRelated": true,
           "relation": {
             "model": "Constraint",
             "fields": [
@@ -1238,6 +1358,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": [],
@@ -1252,6 +1373,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -1272,6 +1394,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@",
@@ -1302,6 +1425,7 @@
           "type": "Protocol",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@function",
@@ -1323,9 +1447,9 @@
           ],
           "constraints": [],
           "dbColumns": [],
+          "isRelated": true,
           "objectRelated": true,
           "relationCardinality": "many-to-one",
-          "isRelated": true,
           "relation": {
             "model": "Protocol",
             "fields": [
@@ -1341,6 +1465,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": [],
@@ -1355,6 +1480,7 @@
           "type": "MetricProperty",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@function",
@@ -1379,9 +1505,9 @@
           ],
           "constraints": [],
           "dbColumns": [],
+          "isRelated": true,
           "objectRelated": true,
           "relationCardinality": "many-to-one",
-          "isRelated": true,
           "relation": {
             "model": "MetricProperty",
             "name": "r_metricProperty",
@@ -1391,13 +1517,15 @@
             "references": [
               "id"
             ]
-          }
+          },
+          "mappedBy": "metricPropertyImplications"
         },
         {
           "name": "metricPropertyId",
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": [],
@@ -1406,13 +1534,15 @@
           "relatedModel": "MetricProperty",
           "relationName": "r_metricProperty",
           "relationCardinality": "many-to-one",
-          "relationTarget": "MetricProperty"
+          "relationTarget": "MetricProperty",
+          "inversedBy": "metricPropertyImplications"
         },
         {
           "name": "value",
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -1422,6 +1552,7 @@
           "type": "Implication",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@function",
@@ -1443,9 +1574,9 @@
           ],
           "constraints": [],
           "dbColumns": [],
+          "isRelated": true,
           "objectRelated": true,
           "relationCardinality": "many-to-one",
-          "isRelated": true,
           "relation": {
             "model": "Implication",
             "fields": [
@@ -1461,6 +1592,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": [],
@@ -1475,6 +1607,7 @@
           "type": "MetricProperty",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@function",
@@ -1499,9 +1632,9 @@
           ],
           "constraints": [],
           "dbColumns": [],
+          "isRelated": true,
           "objectRelated": true,
           "relationCardinality": "many-to-one",
-          "isRelated": true,
           "relation": {
             "model": "MetricProperty",
             "name": "r_on_metricProperty",
@@ -1511,13 +1644,15 @@
             "references": [
               "id"
             ]
-          }
+          },
+          "mappedBy": "onMetricPropertyImplications"
         },
         {
           "name": "onMetricPropertyId",
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": [],
@@ -1526,13 +1661,15 @@
           "relatedModel": "MetricProperty",
           "relationName": "r_on_metricProperty",
           "relationCardinality": "many-to-one",
-          "relationTarget": "MetricProperty"
+          "relationTarget": "MetricProperty",
+          "inversedBy": "onMetricPropertyImplications"
         },
         {
           "name": "onValue",
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -1553,6 +1690,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@",
@@ -1583,6 +1721,7 @@
           "type": "User[]",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -1592,6 +1731,7 @@
           "type": "Plant[]",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -1631,6 +1771,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@",
@@ -1661,6 +1802,7 @@
           "type": "Organization",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@function",
@@ -1682,9 +1824,9 @@
           ],
           "constraints": [],
           "dbColumns": [],
+          "isRelated": true,
           "objectRelated": true,
           "relationCardinality": "many-to-one",
-          "isRelated": true,
           "relation": {
             "model": "Organization",
             "fields": [
@@ -1700,6 +1842,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": [],
@@ -1725,6 +1868,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@",
@@ -1755,6 +1899,7 @@
           "type": "Organization",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@function",
@@ -1776,9 +1921,9 @@
           ],
           "constraints": [],
           "dbColumns": [],
+          "isRelated": true,
           "objectRelated": true,
           "relationCardinality": "many-to-one",
-          "isRelated": true,
           "relation": {
             "model": "Organization",
             "fields": [
@@ -1794,6 +1939,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": [],
@@ -1808,6 +1954,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -1817,6 +1964,7 @@
           "type": "Gateway[]",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -1847,6 +1995,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@",
@@ -1877,6 +2026,7 @@
           "type": "Plant",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@function",
@@ -1898,9 +2048,9 @@
           ],
           "constraints": [],
           "dbColumns": [],
+          "isRelated": true,
           "objectRelated": true,
           "relationCardinality": "many-to-one",
-          "isRelated": true,
           "relation": {
             "model": "Plant",
             "fields": [
@@ -1916,6 +2066,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": [],
@@ -1930,6 +2081,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -1939,6 +2091,7 @@
           "type": "Int",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -1948,6 +2101,7 @@
           "type": "Int",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [
             {
@@ -1968,6 +2122,7 @@
               "value": "Memo"
             }
           ],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -1977,6 +2132,7 @@
           "type": "Plc[]",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -1986,6 +2142,7 @@
           "type": "Script[]",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -2025,6 +2182,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@",
@@ -2055,6 +2213,7 @@
           "type": "Gateway",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@function",
@@ -2076,9 +2235,9 @@
           ],
           "constraints": [],
           "dbColumns": [],
+          "isRelated": true,
           "objectRelated": true,
           "relationCardinality": "many-to-one",
-          "isRelated": true,
           "relation": {
             "model": "Gateway",
             "fields": [
@@ -2094,6 +2253,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": [],
@@ -2108,6 +2268,7 @@
           "type": "Protocol",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@function",
@@ -2129,9 +2290,9 @@
           ],
           "constraints": [],
           "dbColumns": [],
+          "isRelated": true,
           "objectRelated": true,
           "relationCardinality": "many-to-one",
-          "isRelated": true,
           "relation": {
             "model": "Protocol",
             "fields": [
@@ -2147,6 +2308,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": [],
@@ -2161,6 +2323,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -2170,6 +2333,7 @@
           "type": "ConnectionValue[]",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -2179,6 +2343,7 @@
           "type": "Metric[]",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -2218,6 +2383,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@",
@@ -2248,6 +2414,7 @@
           "type": "Plc",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@function",
@@ -2269,9 +2436,9 @@
           ],
           "constraints": [],
           "dbColumns": [],
+          "isRelated": true,
           "objectRelated": true,
           "relationCardinality": "many-to-one",
-          "isRelated": true,
           "relation": {
             "model": "Plc",
             "fields": [
@@ -2287,6 +2454,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": [],
@@ -2301,6 +2469,7 @@
           "type": "ConnectionProperty",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@function",
@@ -2322,9 +2491,9 @@
           ],
           "constraints": [],
           "dbColumns": [],
+          "isRelated": true,
           "objectRelated": true,
           "relationCardinality": "many-to-one",
-          "isRelated": true,
           "relation": {
             "model": "ConnectionProperty",
             "fields": [
@@ -2340,6 +2509,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": [],
@@ -2354,6 +2524,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -2374,6 +2545,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@",
@@ -2404,6 +2576,7 @@
           "type": "Plc",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@function",
@@ -2425,9 +2598,9 @@
           ],
           "constraints": [],
           "dbColumns": [],
+          "isRelated": true,
           "objectRelated": true,
           "relationCardinality": "many-to-one",
-          "isRelated": true,
           "relation": {
             "model": "Plc",
             "fields": [
@@ -2443,6 +2616,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": [],
@@ -2457,6 +2631,7 @@
           "type": "Script",
           "optional": true,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@function",
@@ -2481,9 +2656,9 @@
           ],
           "constraints": [],
           "dbColumns": [],
+          "isRelated": true,
           "objectRelated": true,
           "relationCardinality": "many-to-one",
-          "isRelated": true,
           "relation": {
             "model": "Script",
             "name": "",
@@ -2500,6 +2675,7 @@
           "type": "String",
           "optional": true,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": [],
@@ -2515,6 +2691,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -2524,6 +2701,7 @@
           "type": "Int",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -2533,6 +2711,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -2542,6 +2721,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -2551,6 +2731,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -2560,6 +2741,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -2569,6 +2751,7 @@
           "type": "MetricValue[]",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -2578,6 +2761,7 @@
           "type": "StaticTag[]",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -2587,6 +2771,7 @@
           "type": "DynamicTag[]",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -2635,6 +2820,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@",
@@ -2665,6 +2851,7 @@
           "type": "Metric",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@function",
@@ -2686,9 +2873,9 @@
           ],
           "constraints": [],
           "dbColumns": [],
+          "isRelated": true,
           "objectRelated": true,
           "relationCardinality": "many-to-one",
-          "isRelated": true,
           "relation": {
             "model": "Metric",
             "fields": [
@@ -2704,6 +2891,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": [],
@@ -2718,6 +2906,7 @@
           "type": "MetricProperty",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@function",
@@ -2739,9 +2928,9 @@
           ],
           "constraints": [],
           "dbColumns": [],
+          "isRelated": true,
           "objectRelated": true,
           "relationCardinality": "many-to-one",
-          "isRelated": true,
           "relation": {
             "model": "MetricProperty",
             "fields": [
@@ -2757,6 +2946,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": [],
@@ -2771,6 +2961,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -2791,6 +2982,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@",
@@ -2821,6 +3013,7 @@
           "type": "Metric",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@function",
@@ -2842,9 +3035,9 @@
           ],
           "constraints": [],
           "dbColumns": [],
+          "isRelated": true,
           "objectRelated": true,
           "relationCardinality": "many-to-one",
-          "isRelated": true,
           "relation": {
             "model": "Metric",
             "fields": [
@@ -2860,6 +3053,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": [],
@@ -2874,6 +3068,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -2883,6 +3078,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -2903,6 +3099,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@",
@@ -2933,6 +3130,7 @@
           "type": "Metric",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@function",
@@ -2954,9 +3152,9 @@
           ],
           "constraints": [],
           "dbColumns": [],
+          "isRelated": true,
           "objectRelated": true,
           "relationCardinality": "many-to-one",
-          "isRelated": true,
           "relation": {
             "model": "Metric",
             "fields": [
@@ -2972,6 +3170,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": [],
@@ -2986,6 +3185,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -2995,6 +3195,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -3004,6 +3205,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -3013,6 +3215,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -3022,6 +3225,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -3031,6 +3235,7 @@
           "type": "DynamicTagAllowedValue[]",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -3061,6 +3266,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@",
@@ -3091,6 +3297,7 @@
           "type": "DynamicTag",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@function",
@@ -3112,9 +3319,9 @@
           ],
           "constraints": [],
           "dbColumns": [],
+          "isRelated": true,
           "objectRelated": true,
           "relationCardinality": "many-to-one",
-          "isRelated": true,
           "relation": {
             "model": "DynamicTag",
             "fields": [
@@ -3130,6 +3337,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": [],
@@ -3144,6 +3352,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -3164,6 +3373,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@",
@@ -3194,6 +3404,7 @@
           "type": "Gateway",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [
             {
               "type": "@function",
@@ -3215,9 +3426,9 @@
           ],
           "constraints": [],
           "dbColumns": [],
+          "isRelated": true,
           "objectRelated": true,
           "relationCardinality": "many-to-one",
-          "isRelated": true,
           "relation": {
             "model": "Gateway",
             "fields": [
@@ -3233,6 +3444,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": [],
@@ -3247,6 +3459,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -3256,6 +3469,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -3265,6 +3479,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -3274,6 +3489,7 @@
           "type": "Int",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -3283,6 +3499,7 @@
           "type": "String",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []
@@ -3292,6 +3509,7 @@
           "type": "Metric[]",
           "optional": false,
           "typeExtensions": [],
+          "editFormat": null,
           "attributes": [],
           "constraints": [],
           "dbColumns": []

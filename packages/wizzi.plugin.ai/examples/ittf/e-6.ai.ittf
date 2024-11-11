@@ -1,0 +1,121 @@
+ai crewAI lab
+
+    api_url http://localhost:3000
+
+    openai_llm
+        $$ model gpt-4
+        model gpt-3.5-turbo
+
+    scrape_website scrape_tool
+
+    google_serper_search search_tool
+
+    pydantic_model VenueDetails
+        p name
+            type str
+        p address
+            type str
+        p capacity
+            type int
+        p booking_status
+            type str
+
+    agent venue_coordinator
+        role Venue Coordinator
+        goal Identify and book an appropriate venue
+            \b based on event requirements
+        tool_ref search_tool
+        tool_ref scrape_tool
+        verbose true
+        backstory With a keen sense of space and
+            \b understanding of event logistics,
+            \b you excel at finding and securing
+            \b the perfect venue that fits the event's theme,
+            \b size, and budget constraints.
+
+    agent logistics_manager
+        role Logistics Manager
+        goal Manage all logistics for the event
+            \b including catering and equipmen
+        tool_ref search_tool
+        tool_ref scrape_tool
+        verbose true
+        backstory Organized and detail-oriented,
+            \b you ensure that every logistical aspect of the event
+            \b from catering to equipment setup
+            \b is flawlessly executed to create a seamless experience.
+
+    agent marketing_communications_agent
+        role Marketing and Communications Agent
+        goal Effectively market the event and
+            \b communicate with participants
+        tool_ref search_tool
+        tool_ref scrape_tool
+        verbose true
+        backstory Creative and communicative
+            \b you craft compelling messages and
+            \b engage with potential attendees
+            \b to maximize event exposure and participation.        
+           
+    task venue_task
+        description Find a venue in {event_city}
+            \b that meets criteria for {event_topic}.
+        expected_output All the details of a specifically chosen
+            \b venue you found to accommodate the event.
+        human_input true
+        output_json VenueDetails
+        output_file venue_details.json
+        agent venue_coordinator         
+
+    task logistics_task
+        description Coordinate catering and
+            \b equipment for an event
+            \b with {expected_participants} participants
+            \b on {tentative_date}.
+        expected_output Confirmation of all logistics arrangements
+            \b including catering and equipment setup.
+        human_input true
+        async_execution true
+        agent logistics_manager      
+
+    task marketing_task
+        description Promote the {event_topic}
+            \b aiming to engage at least
+            \b {expected_participants} potential attendees.
+        expected_output Report on marketing activities
+            \b and attendee engagement formatted as markdown.
+        async_execution true
+        output_file marketing_report.md
+        agent marketing_communications_agent      
+
+    crew event_management_crew
+        agent_ref venue_coordinator 
+        agent_ref logistics_manager
+        agent_ref marketing_communications_agent
+        task_ref venue_task 
+        task_ref logistics_task
+        task_ref marketing_task
+        verbose true
+        exec 
+            inputs
+                $if false
+                    @ event_topic "Logbot IoT Tech Innovation Conference"
+                    @ event_description "A gathering of tech innovators and industry leaders to explore the power of Logbot IoT technologies."
+                    @ event_city "Padua, Italy"
+                    @ tentative_date "2024-12-15"
+                    @ expected_participants 100
+                    @ budget 10000
+                    @ venue_type "Conference Hall"
+                $else
+                    @ event_topic "Tech Innovation Conference"
+                    @ event_description "A gathering of tech innovators and industry leaders to explore future technologies."
+                    @ event_city "San Francisco"
+                    @ tentative_date "2024-12-15"
+                    @ expected_participants 100
+                    @ budget 10000
+                    @ venue_type "Conference Hall"
+            display pprint
+                file_path venue_details.json
+                format json
+            display markdown
+                file_path marketing_report.md

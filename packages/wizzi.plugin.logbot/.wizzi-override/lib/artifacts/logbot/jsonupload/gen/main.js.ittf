@@ -15,14 +15,22 @@ module
         $append main
             set ctx.__json
                 {
-                    [ oems
-                    [ users
+                    [ manufacturers
+                    [ manufacturerDeviceModels
+                    [ userGatewayModels
+                    [ userDeviceModels
+                    [ tenants
+                    [ userGroups
+                    [ modelSchemas
                     [ plants
+                    [ plantPermissions
                     [ gateways
+                    [ gatewayPermissions
                     [ dynamicTags
                     [ dynamicTagAllowedValues
                     [ scripts
-                    [ plcs
+                    [ devices
+                    [ devicePermissions
                     [ connectionValues
                     [ metrics
                     [ metricValues
@@ -58,17 +66,45 @@ module
             # nothing to do
             r_cb()
 
-        async-md( oem )
+        async-md( manufacturer )
             var json
                 {
                     @ name model.wzName
                     @ nameKey getKeyPath(model)
                     @ org_xid model.org_xid
                     @ description model.description
-            _ ctx.__current.oems.push
+            _ ctx.__current.manufacturers.push
                 @ json
-            foreach item in model.users
-                _ user
+            foreach item in model.manufacturerDeviceModels
+                # loog 'manufacturer.deviceModel', item.wzName
+                _ deviceModel
+                    @ ctx.__current
+                    @ model
+                    @ item
+            r_cb()
+
+        async-md( tenant )
+            var json
+                {
+                    @ name model.wzName
+                    @ nameKey getKeyPath(model)
+                    @ org_xid model.org_xid
+                    @ description model.description
+            _ ctx.__current.tenants.push
+                @ json
+            foreach item in model.userGatewayModels
+                _ gateway
+                    @ 'userGatewayModel'
+                    @ ctx.__current
+                    @ model
+                    @ item
+            foreach item in model.userDeviceModels
+                _ deviceModel
+                    @ ctx.__current
+                    @ model
+                    @ item
+            foreach item in model.userGroups
+                _ userGroup
                     @ ctx.__current
                     @ model
                     @ item
@@ -79,17 +115,30 @@ module
                     @ item
             r_cb()
 
+        async-md( modelSchema )
+            var json
+                {
+                    @ name model.wzName
+                    @ version model.version
+                    $$ @ nameKey getKeyPath(model)
+                    @ nameKey model.wzName
+                    @ description model.description
+            _ ctx.__current.modelSchemas.push
+                @ json
+            r_cb()
+
     +
-    function user
+    function userGroup
         param jsonDataTables
         param parentModel
         param model
         var json
             {
                 @ name model.wzName
-                @ nameKey getKeyPath(model)
-                @ oem getKeyPath(parentModel)
-        _ jsonDataTables.users.push
+                $$ @ nameKey getKeyPath(model)
+                @ nameKey model.wzName
+                @ tenant getKeyPath(parentModel)
+        _ jsonDataTables.userGroups.push
             @ json
     +
     function plant
@@ -100,59 +149,142 @@ module
             {
                 @ name model.wzName
                 @ nameKey getKeyPath(model)
-                @ oem getKeyPath(parentModel)
+                @ tenant getKeyPath(parentModel)
+                @ owner model.owner
                 @ plant_xid model.plant_xid
                 @ description model.description
+                @ modelSchema model.modelSchema
+                @ configState model.configState
+                @ instanceRole model.instanceRole
+                @ itemConfigState model.itemConfigState
+                @ activityState model.activityState
+                @ modifiedId model.modifiedId
+                @ plant_model_data 
+                    {
+                        { tags
+        foreach item in model.staticTags
+            _ staticTag
+                @ jsonDataTables
+                @ model
+                @ item
+                @ json.plant_model_data
+        foreach ug in model.userGroups
+            _ jsonDataTables.plantPermissions.push
+                {
+                    @ plant getKeyPath(model)
+                    @ userGroup ug.wzName
         _ jsonDataTables.plants.push
             @ json
         foreach item in model.gateways
             _ gateway
+                @ 'gw'
                 @ jsonDataTables
                 @ model
                 @ item
     +
     function gateway
+        param kind
         param jsonDataTables
         param parentModel
         param model
-        var json
-            {
-                @ name model.wzName
-                @ nameKey getKeyPath(model)
-                @ plant getKeyPath(parentModel)
-                @ iot_xid model.iot_xid
-                @ batching_maxSize model.batching_maxSize
-                @ batching_period model.batching_period
-                @ gw_config 
-                    {
-                        [ dynamic_tags
-                        [ scripts
+        if kind == "userGatewayModel"
+            var json
+                {
+                    @ name model.wzName
+                    @ nameKey getKeyPath(model)
+                    @ description model.description
+                    @ tenant getKeyPath(parentModel)
+                    @ owner model.owner
+                    @ version model.version
+                    @ modelSchema model.modelSchema
+                    @ gw_model_data 
+                        {
+                            { tags
+                            [ dynamic_tags
+                            [ scripts
+            _ jsonDataTables.userGatewayModels.push
+                @ json
+            foreach item in model.dynamicTags
+                _ dynamicTag
+                    @ jsonDataTables
+                    @ model
+                    @ item
+                    @ json.gw_model_data
+            foreach item in model.scripts
+                _ script
+                    @ jsonDataTables
+                    @ model
+                    @ item
+                    @ json.gw_model_data
+        else
+            var json
+                {
+                    @ name model.wzName
+                    @ nameKey getKeyPath(model)
+                    @ description model.description
+                    @ tenant getKeyPath(parentModel.wzParent)
+                    @ owner model.owner
+                    @ plant getKeyPath(parentModel)
+                    @ gw_xid model.gw_xid
+                    @ iot_xid model.iot_xid
+                    @ balenaId model.balenaId
+                    @ deviceModel model.deviceModel
+                    @ settings model.settings
+                    @ modelSchema model.modelSchema
+                    @ configState model.configState
+                    @ instanceRole model.instanceRole
+                    @ itemConfigState model.itemConfigState
+                    @ activityState model.activityState
+                    @ modifiedId model.modifiedId
+                    @ settings model.settings
+                    @ batching_maxSize model.batching_maxSize
+                    @ batching_period model.batching_period
+                    @ userGatewayModel model.userGatewayModel ? model.userGatewayModel.wzName : null
+                    @ gw_model_data 
+                        {
+                            { tags
+                            $if false
+                                [ dynamic_tags
+                                [ scripts
 
-        _ jsonDataTables.gateways.push
-            @ json
-        foreach item in model.dynamicTags
-            _ dynamicTag
-                @ jsonDataTables
-                @ model
-                @ item
-                @ json.gw_config
-        foreach item in model.scripts
-            _ script
-                @ jsonDataTables
-                @ model
-                @ item
-                @ json.gw_config
-        foreach item in model.plcs
-            _ plc
-                @ jsonDataTables
-                @ model
-                @ item
+            foreach ug in model.userGroups
+                _ jsonDataTables.gatewayPermissions.push
+                    {
+                        @ gateway getKeyPath(model)
+                        @ userGroup ug.wzName
+            _ jsonDataTables.gateways.push
+                @ json
+            foreach item in model.staticTags
+                _ staticTag
+                    @ jsonDataTables
+                    @ model
+                    @ item
+                    @ json.gw_model_data
+            $*
+            foreach item in model.dynamicTags
+                _ dynamicTag
+                    @ jsonDataTables
+                    @ model
+                    @ item
+                    @ json.gw_model_data
+            foreach item in model.scripts
+                _ script
+                    @ jsonDataTables
+                    @ model
+                    @ item
+                    @ json.gw_model_data
+            *$
+            foreach item in model.devices
+                _ device
+                    @ jsonDataTables
+                    @ model
+                    @ item
     +
     function dynamicTag
         param jsonDataTables
         param parentModel
         param model
-        param gw_config
+        param gw_model_data
         var json
             {
                 @ nameKey getKeyPath(model)
@@ -160,17 +292,17 @@ module
                 @ tag_xid model.wzName
                 @ default_value model.default_value
                 @ description model.description
-                @ ref_plc_xid model.ref_plc_xid
+                @ ref_device_xid model.ref_device_xid
                 @ ref_metric_name model.ref_metric_name
-        var dynamicTag
+        var gw_model_data_dynamicTag
             {
                 @ tag_xid model.wzName
                 @ default_value model.default_value
                 @ description model.description
-                @ ref_plc_xid model.ref_plc_xid
+                @ ref_device_xid model.ref_device_xid
                 @ ref_metric_name model.ref_metric_name
-        _ gw_config.dynamic_tags.push
-            @ dynamicTag
+                [ allowed_values
+                [ regex_allowed_values
         _ jsonDataTables.dynamicTags.push
             @ json
         foreach item in model.dynamicTagAllowedValues
@@ -178,16 +310,21 @@ module
                 @ jsonDataTables
                 @ model
                 @ item
+                @ gw_model_data_dynamicTag
         foreach item in model.dynamicTagRegexAllowedValues
             _ dynamicTagRegexAllowedValue
                 @ jsonDataTables
                 @ model
                 @ item
+                @ gw_model_data_dynamicTag
+        _ gw_model_data.dynamic_tags.push
+            @ gw_model_data_dynamicTag
     +
     function dynamicTagAllowedValue
         param jsonDataTables
         param parentModel
         param model
+        param gw_model_data_dynamicTag
         var json
             {
                 @ nameKey getKeyPath(model)
@@ -196,11 +333,14 @@ module
                 @ is_regex false
         _ jsonDataTables.dynamicTagAllowedValues.push
             @ json
+        _ gw_model_data_dynamicTag.allowed_values.push
+            @ model.wzName
     +
     function dynamicTagRegexAllowedValue
         param jsonDataTables
         param parentModel
         param model
+        param gw_model_data_dynamicTag
         var json
             {
                 @ nameKey getKeyPath(model)
@@ -209,12 +349,14 @@ module
                 @ is_regex true
         _ jsonDataTables.dynamicTagAllowedValues.push
             @ json
+        _ gw_model_data_dynamicTag.regex_allowed_values.push
+            @ model.wzName
     +
     function script
         param jsonDataTables
         param parentModel
         param model
-        param gw_config
+        param gw_model_data
         var json
             {
                 @ nameKey getKeyPath(model)
@@ -231,12 +373,48 @@ module
                 @ script_description model.script_description
                 @ script_timeout model.script_timeout
                 @ script_content model.script_content
-        _ gw_config.scripts.push
+        _ gw_model_data.scripts.push
             @ script
         _ jsonDataTables.scripts.push
             @ json
     +
-    function plc
+    function deviceModel
+        param jsonDataTables
+        param parentModel
+        param model
+        var json
+            {
+                @ name model.wzName
+                @ nameKey parentModel.wzElement == 'manufacturer' ? model.wzName : getKeyPath(model)
+                @ description model.description
+                @ owner model.owner
+                @ protocol model.protocol
+                @ version model.version
+                @ modelSchema model.modelSchema
+                @ manufacturer null
+                @ tenant null
+                @ device_model_data 
+                    {
+                        @ protocol model.protocol
+                        [ metrics
+        # loog 'deviceModel.parentModel.wzElement', parentModel.wzElement
+        if parentModel.wzElement == 'manufacturer'
+            set json.manufacturer = getKeyPath(parentModel)
+            _ jsonDataTables.manufacturerDeviceModels.push
+                @ json
+        elif parentModel.wzElement == 'tenant'
+            set json.tenant = getKeyPath(parentModel)
+            _ jsonDataTables.userDeviceModels.push
+                @ json
+        foreach item in model.metrics
+            _ metric
+                @ 'manufacturerDevice'
+                @ jsonDataTables
+                @ model
+                @ item
+                @ json.device_model_data    
+    +
+    function device
         param jsonDataTables
         param parentModel
         param model
@@ -244,65 +422,83 @@ module
             {
                 @ name model.wzName
                 @ nameKey getKeyPath(model)
+                @ description model.description
+                @ owner model.owner
+                @ tenant getKeyPath(parentModel.wzParent.wzParent)
                 @ gateway getKeyPath(parentModel)
                 @ protocol model.protocol
-                @ plc_xid model.plc_xid
-                @ plc_config 
-                    {
-                        @ protocol model.protocol
-                        { connection
-                        [ metrics
-        _ jsonDataTables.plcs.push
+                @ device_xid model.device_xid
+                @ deviceModel model.deviceModel
+                @ modelConnectionSchema model.modelConnectionSchema
+                @ modelSchema model.modelSchema
+                @ configState model.configState
+                @ instanceRole model.instanceRole
+                @ itemConfigState model.itemConfigState
+                @ activityState model.activityState
+                @ modifiedId model.modifiedId
+                @ manufacturerDeviceModel model.manufacturerDeviceModel ? model.manufacturerDeviceModel.wzName : null
+                @ userDeviceModel model.userDeviceModel ? model.userDeviceModel.wzName : null
+                { device_model_connection_data 
+                    @ protocol model.protocol
+                    { connection
+                { device_model_data 
+                    { tags
+        foreach ug in model.userGroups
+            _ jsonDataTables.devicePermissions.push
+                {
+                    @ device getKeyPath(model)
+                    @ userGroup ug.wzName
+        _ jsonDataTables.devices.push
             @ json
         foreach item in model.connectionValues
             _ connectionValue
                 @ jsonDataTables
                 @ model
                 @ item
-                @ json.plc_config    
-        foreach item in model.metrics
-            _ metric
+                @ json.device_model_connection_data
+        foreach item in model.staticTags
+            _ staticTag
                 @ jsonDataTables
                 @ model
                 @ item
-                @ json.plc_config    
+                @ json.device_model_data
+        $*
+        foreach item in model.metrics
+            _ metric
+                @ 'device'
+                @ jsonDataTables
+                @ model
+                @ item
+                @ json.device_model_data    
+        *$
+
     +
     function connectionValue
         param jsonDataTables
         param parentModel
         param model
-        param plc_config
+        param device_model_connection_data
         var json
             {
                 @ connectionProperty model.wzName + '-' + parentModel.protocol
                 @ nameKey getKeyPath(model)
-                @ plc getKeyPath(parentModel)
+                @ device getKeyPath(parentModel)
                 @ value model.value
         _ jsonDataTables.connectionValues.push
             @ json
-        set plc_config.connection[model.wzName]
+        set device_model_connection_data.connection[model.wzName]
             _ model.wzRoot().meta.getConnectionTypedValue
                 @ parentModel.protocol
                 @ model.wzName
                 @ model.value
     +
     function metric
+        param kind
         param jsonDataTables
         param parentModel
         param model
-        param plc_config
-        var json
-            {
-                @ name model.wzName
-                @ nameKey getKeyPath(model)
-                @ plc getKeyPath(parentModel)
-                @ script model.scriptRef ? getKeyPath(parentModel.wzParent) + '+' + model.scriptRef.wzName : null
-                @ interval model.interval
-                @ description model.description
-                @ topic model.topic
-                @ script_value model.script_value
-                @ ret_policy model.ret_policy
-        var plc_config_metric
+        param device_model_data
+        var device_model_data_metric
             {
                 @ name model.wzName
                 @ interval model.interval
@@ -312,34 +508,55 @@ module
                 @ script model.scriptRef ? getKeyPath(parentModel.wzParent) + '+' + model.scriptRef.wzName : null
                 @ script_value model.script_value
                 @ ret_policy model.ret_policy
-        _ plc_config.metrics.push
-            @ plc_config_metric
-        _ jsonDataTables.metrics.push
-            @ json
-        foreach item in model.staticTags
-            _ staticTag
-                @ jsonDataTables
-                @ model
-                @ item
-                @ plc_config_metric
-        foreach item in model.dynamicTagRefs
-            _ dynamicTagRef
-                @ jsonDataTables
-                @ model
-                @ item
-                @ plc_config_metric
-        foreach item in model.metricValues
-            _ metricValue
-                @ jsonDataTables
-                @ model
-                @ item
-                @ plc_config_metric
+        if kind == 'manufacturerDevice'
+            foreach item in model.metricValues
+                _ metricValue
+                    @ jsonDataTables
+                    @ model
+                    @ item
+                    @ device_model_data_metric
+            _ device_model_data.metrics.push
+                @ device_model_data_metric
+        else
+            var json
+                {
+                    @ name model.wzName
+                    @ nameKey getKeyPath(model)
+                    @ device getKeyPath(parentModel)
+                    @ script model.scriptRef ? getKeyPath(parentModel.wzParent) + '+' + model.scriptRef.wzName : null
+                    @ interval model.interval
+                    @ description model.description
+                    @ topic model.topic
+                    @ script_value model.script_value
+                    @ ret_policy model.ret_policy
+            _ device_model_data.metrics.push
+                @ device_model_data_metric
+            _ jsonDataTables.metrics.push
+                @ json
+            foreach item in model.staticTags
+                _ staticTag
+                    @ jsonDataTables
+                    @ model
+                    @ item
+                    @ device_model_data_metric
+            foreach item in model.dynamicTagRefs
+                _ dynamicTagRef
+                    @ jsonDataTables
+                    @ model
+                    @ item
+                    @ device_model_data_metric
+            foreach item in model.metricValues
+                _ metricValue
+                    @ jsonDataTables
+                    @ model
+                    @ item
+                    @ device_model_data_metric
     +
     function staticTag
         param jsonDataTables
         param parentModel
         param model
-        param plc_config_metric
+        param device_model_data_metric
         var json
             {
                 @ nameKey getKeyPath(model)
@@ -348,9 +565,9 @@ module
                 @ value model.tag_value
         _ jsonDataTables.staticTags.push
             @ json
-        if !plc_config_metric.tags.static 
-            set plc_config_metric.tags.static = []
-        _ plc_config_metric.tags.static.push
+        if !device_model_data_metric.tags.static 
+            set device_model_data_metric.tags.static = []
+        _ device_model_data_metric.tags.static.push
             {
                 @ key model.wzName
                 @ value model.tag_value
@@ -359,7 +576,7 @@ module
         param jsonDataTables
         param parentModel
         param model
-        param plc_config_metric
+        param device_model_data_metric
         var json
             {
                 @ key model.wzName
@@ -369,9 +586,9 @@ module
                 @ value_itself model.value_itself
         _ jsonDataTables.dynamicTagRefs.push
             @ json
-        if !plc_config_metric.tags.dynamic
-            set plc_config_metric.tags.dynamic = []
-        _ plc_config_metric.tags.dynamic.push
+        if !device_model_data_metric.tags.dynamic
+            set device_model_data_metric.tags.dynamic = []
+        _ device_model_data_metric.tags.dynamic.push
             {
                 @ key model.wzName
                 @ value model.value_ref
@@ -380,14 +597,14 @@ module
         param jsonDataTables
         param parentModel
         param model
-        param plc_config_metric
+        param device_model_data_metric
         var json
             {
                 @ metricProperty model.wzName + '-' + parentModel.wzParent.protocol
                 @ nameKey getKeyPath(model)
                 @ metric getKeyPath(parentModel)
                 @ value model.value
-        set plc_config_metric[model.wzName]
+        set device_model_data_metric[model.wzName]
             _ model.wzRoot().meta.getMetricTypedValue
                 @ parentModel.wzParent.protocol
                 @ model.wzName
@@ -399,14 +616,14 @@ module
     function getKeyPath
         param model
         param rootEl
-        if model.wzElement == 'oem'
+        if model.wzElement == 'tenant'
             return model.wzName
         const names = [ model.wzName ]
         let parent = model.wzParent
         while parent != null
             _ names.push
                 @ parent.wzName
-            if parent.wzElement == 'oem'
+            if parent.wzElement == 'tenant'
                 return [...names].reverse().join('+')
             set parent = parent.wzParent
         return names.join('+')

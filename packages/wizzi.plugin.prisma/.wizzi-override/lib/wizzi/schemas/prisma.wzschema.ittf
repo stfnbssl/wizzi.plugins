@@ -9,8 +9,13 @@ wzschema prisma
     e docComment : comment
         tag ###
 
+    e tag
+        r tag/s
+
     e commentable
+        a description
         r comment/s
+        r tag/s
     
     e prisma : commentable
         is-root
@@ -148,6 +153,8 @@ wzschema prisma
         a_tag_flag( extNoUpload, noUpload )
         r field/s
         r blockAttribute/s
+        r extension/s
+
 
     e field : commentable
         a_tag_flag( optional, optional )
@@ -160,6 +167,8 @@ wzschema prisma
             tag relation-name 
         a relatedModel
             tag related-model
+        a referenceTwinObject
+            tag reference-twin-object
         r fieldType
             one-to-one
         r fieldAttribute/s
@@ -313,7 +322,7 @@ wzschema prisma
             param field
             set field.maxLength = this.wzName
     e regExp : fieldConstraint 
-        tag reg-exp
+        tag reg-exp|pattern
         m setField
             param field
             set field.regExp = this.wzName
@@ -404,6 +413,13 @@ wzschema prisma
                 {
                     @ name 'Color'
 
+    e selectFormat : fieldEditFormat
+        tag select-format
+        m getFormat        
+            return
+                {
+                    @ name 'Select'
+
     e switchFormat : fieldEditFormat
         tag switch-format
         m getFormat        
@@ -431,3 +447,10 @@ wzschema prisma
             return
                 {
                     @ name 'Upload'
+    
+    e markdownFormat : fieldEditFormat
+        tag markdown-format
+        m getFormat        
+            return
+                {
+                    @ name 'Markdown'

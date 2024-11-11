@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.html\lib\artifacts\html\document\gen\main.js
     package: @wizzi/plugin.html@0.8.10
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\lib\artifacts\wzschema\html_docs\gen\ittf\wfschema-docs.html.ittf
-    utc time: Tue, 24 Sep 2024 12:10:58 GMT
+    utc time: Tue, 29 Oct 2024 10:22:30 GMT
 -->
 <!doctype html>
 <html>
@@ -54,9 +54,11 @@
                 </li>
                 <li><a href="#element_metricProperty">metricProperty</a>
                 </li>
-                <li><a href="#element_oem">oem</a>
+                <li><a href="#element_tenant">tenant</a>
                 </li>
-                <li><a href="#element_user">user</a>
+                <li><a href="#element_userGroup">userGroup</a>
+                </li>
+                <li><a href="#element_modelSchema">modelSchema</a>
                 </li>
                 <li><a href="#element_plant">plant</a>
                 </li>
@@ -64,7 +66,7 @@
                 </li>
                 <li><a href="#element_batching">batching</a>
                 </li>
-                <li><a href="#element_plc">plc</a>
+                <li><a href="#element_device">device</a>
                 </li>
                 <li><a href="#element_connectionValue">connectionValue</a>
                 </li>
@@ -85,6 +87,14 @@
                 <li><a href="#element_script">script</a>
                 </li>
                 <li><a href="#element_scriptRef">scriptRef</a>
+                </li>
+                <li><a href="#element_manufacturer">manufacturer</a>
+                </li>
+                <li><a href="#element_manufacturerDeviceModel">manufacturerDeviceModel</a>
+                </li>
+                <li><a href="#element_userDeviceModel">userDeviceModel</a>
+                </li>
+                <li><a href="#element_userGatewayModel">userGatewayModel</a>
                 </li>
                 <li><a href="#element_jsInclude">jsInclude</a>
                 </li>
@@ -509,7 +519,7 @@
                     </tbody>
                 </table>
             </small>
-            <table id="element_oem" class="pretty-table">
+            <table id="element_tenant" class="pretty-table">
                 <thead>
                     <tr>
                         <th>Element</th>
@@ -521,9 +531,9 @@
                 <tbody>
                     <tr>
                         <td>
-                            <b>oem</b>
+                            <b>tenant</b>
                         </td>
-                        <td>oem</td>
+                        <td>tenant</td>
                         <td>node</td>
                         <td></td>
                     </tr>
@@ -549,8 +559,140 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>org_xid</td>
-                            <td>org_xid</td>
+                            <td>description</td>
+                            <td>description</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>userGroup</td>
+                            <td>userGroups</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>plant</td>
+                            <td>plants</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>userGatewayModel</td>
+                            <td>userGatewayModels</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>userDeviceModel</td>
+                            <td>userDeviceModels</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>node</td>
+                            <td>nodes</td>
+                            <td>one-to-many</td>
+                            <td>node</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_userGroup" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>userGroup</b>
+                        </td>
+                        <td>user_group</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Description</h5>
+            <div>
+                <span>the wzName is the `name` attribute &nbsp;</span>
+            </div>
+            <table id="element_modelSchema" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>modelSchema</b>
+                        </td>
+                        <td>model_schema</td>
+                        <td>node</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Description</h5>
+            <div>
+                <span>the wzName is the `name` attribute &nbsp;</span>
+            </div>
+            <h5>Attributes</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Tag</th>
+                            <th>Type</th>
+                            <th>Default</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>version</td>
+                            <td>version</td>
                             <td>string</td>
                             <td></td>
                             <td></td>
@@ -584,22 +726,6 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>user</td>
-                            <td>users</td>
-                            <td>one-to-many</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>plant</td>
-                            <td>plants</td>
-                            <td>one-to-many</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
                             <td>node</td>
                             <td>nodes</td>
                             <td>one-to-many</td>
@@ -610,30 +736,6 @@
                     </tbody>
                 </table>
             </small>
-            <table id="element_user" class="pretty-table">
-                <thead>
-                    <tr>
-                        <th>Element</th>
-                        <th>Tag</th>
-                        <th>Super</th>
-                        <th>Flags</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <b>user</b>
-                        </td>
-                        <td>user</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-            <h5>Description</h5>
-            <div>
-                <span>the wzName is the `name` attribute &nbsp;</span>
-            </div>
             <table id="element_plant" class="pretty-table">
                 <thead>
                     <tr>
@@ -683,8 +785,163 @@
                             <td></td>
                         </tr>
                         <tr>
+                            <td>owner</td>
+                            <td>owner</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
                             <td>plant_xid</td>
                             <td>plant_xid</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>modelSchema</td>
+                            <td>model_schema</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>configState</td>
+                            <td>config-state</td>
+                            <td>string</td>
+                            <td>completed</td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <h5>restrict</h5>
+                                <table>
+                                    <tr>
+                                        <td> creating</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> modifyingPrevious</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> modifyingCloned</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> completed</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> eliminating</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>instanceRole</td>
+                            <td>instance-role</td>
+                            <td>string</td>
+                            <td>none</td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <h5>restrict</h5>
+                                <table>
+                                    <tr>
+                                        <td> none</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> master</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> item</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>itemConfigState</td>
+                            <td>item-config-state</td>
+                            <td>string</td>
+                            <td>none</td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <h5>restrict</h5>
+                                <table>
+                                    <tr>
+                                        <td> none</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> completed</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> modifying</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>activityState</td>
+                            <td>activity-state</td>
+                            <td>string</td>
+                            <td>none</td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <h5>restrict</h5>
+                                <table>
+                                    <tr>
+                                        <td> none</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> active</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> suspended</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>modifiedId</td>
+                            <td>modified-id</td>
                             <td>string</td>
                             <td></td>
                             <td></td>
@@ -708,6 +965,22 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <tr>
+                            <td>staticTag</td>
+                            <td>staticTags</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>userGroup</td>
+                            <td>userGroups</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
                         <tr>
                             <td>gateway</td>
                             <td>gateways</td>
@@ -759,8 +1032,35 @@
                     </thead>
                     <tbody>
                         <tr>
+                            <td>description</td>
+                            <td>description</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>owner</td>
+                            <td>owner</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
                             <td>message_version</td>
                             <td>message_version</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>gw_xid</td>
+                            <td>gw_xid</td>
                             <td>string</td>
                             <td></td>
                             <td></td>
@@ -777,8 +1077,172 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td>description</td>
-                            <td>description</td>
+                            <td>modelSchema</td>
+                            <td>model_schema</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>balenaId</td>
+                            <td>balenaId</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>deviceModel</td>
+                            <td>deviceModel</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>settings</td>
+                            <td>settings</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>configState</td>
+                            <td>config-state</td>
+                            <td>string</td>
+                            <td>completed</td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <h5>restrict</h5>
+                                <table>
+                                    <tr>
+                                        <td> creating</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> modifyingPrevious</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> modifyingCloned</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> completed</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> eliminating</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>instanceRole</td>
+                            <td>instance-role</td>
+                            <td>string</td>
+                            <td>none</td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <h5>restrict</h5>
+                                <table>
+                                    <tr>
+                                        <td> none</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> master</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> item</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>itemConfigState</td>
+                            <td>item-config-state</td>
+                            <td>string</td>
+                            <td>none</td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <h5>restrict</h5>
+                                <table>
+                                    <tr>
+                                        <td> none</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> completed</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> modifying</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>activityState</td>
+                            <td>activity-state</td>
+                            <td>string</td>
+                            <td>none</td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <h5>restrict</h5>
+                                <table>
+                                    <tr>
+                                        <td> none</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> active</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> suspended</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>modifiedId</td>
+                            <td>modified-id</td>
                             <td>string</td>
                             <td></td>
                             <td></td>
@@ -811,6 +1275,14 @@
                             <td></td>
                         </tr>
                         <tr>
+                            <td>staticTag</td>
+                            <td>staticTags</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
                             <td>dynamicTag</td>
                             <td>dynamicTags</td>
                             <td>one-to-many</td>
@@ -827,8 +1299,24 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td>plc</td>
-                            <td>plcs</td>
+                            <td>userGatewayModel</td>
+                            <td></td>
+                            <td>one-to-one</td>
+                            <td></td>
+                            <td>is-one-to-one </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>userGroup</td>
+                            <td>userGroups</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>device</td>
+                            <td>devices</td>
                             <td>one-to-many</td>
                             <td></td>
                             <td></td>
@@ -897,7 +1385,7 @@
                     </tbody>
                 </table>
             </small>
-            <table id="element_plc" class="pretty-table">
+            <table id="element_device" class="pretty-table">
                 <thead>
                     <tr>
                         <th>Element</th>
@@ -909,9 +1397,9 @@
                 <tbody>
                     <tr>
                         <td>
-                            <b>plc</b>
+                            <b>device</b>
                         </td>
-                        <td>plc</td>
+                        <td>device</td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -937,8 +1425,26 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>plc_xid</td>
-                            <td>plc_xid</td>
+                            <td>description</td>
+                            <td>description</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>owner</td>
+                            <td>owner</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>device_xid</td>
+                            <td>device_xid</td>
                             <td>string</td>
                             <td></td>
                             <td></td>
@@ -955,8 +1461,163 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td>description</td>
-                            <td>description</td>
+                            <td>deviceModel</td>
+                            <td>deviceModel</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>modelConnectionSchema</td>
+                            <td>model_connection_schema</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>modelSchema</td>
+                            <td>model_schema</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>configState</td>
+                            <td>config-state</td>
+                            <td>string</td>
+                            <td>completed</td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <h5>restrict</h5>
+                                <table>
+                                    <tr>
+                                        <td> creating</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> modifyingPrevious</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> modifyingCloned</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> completed</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> eliminating</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>instanceRole</td>
+                            <td>instance-role</td>
+                            <td>string</td>
+                            <td>none</td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <h5>restrict</h5>
+                                <table>
+                                    <tr>
+                                        <td> none</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> master</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> item</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>itemConfigState</td>
+                            <td>item-config-state</td>
+                            <td>string</td>
+                            <td>none</td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <h5>restrict</h5>
+                                <table>
+                                    <tr>
+                                        <td> none</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> completed</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> modifying</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>activityState</td>
+                            <td>activity-state</td>
+                            <td>string</td>
+                            <td>none</td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <h5>restrict</h5>
+                                <table>
+                                    <tr>
+                                        <td> none</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> active</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> suspended</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>modifiedId</td>
+                            <td>modified-id</td>
                             <td>string</td>
                             <td></td>
                             <td></td>
@@ -989,8 +1650,32 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td>metric</td>
-                            <td>metrics</td>
+                            <td>staticTag</td>
+                            <td>staticTags</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>manufacturerDeviceModel</td>
+                            <td></td>
+                            <td>one-to-one</td>
+                            <td></td>
+                            <td>is-one-to-one </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>userDeviceModel</td>
+                            <td></td>
+                            <td>one-to-one</td>
+                            <td></td>
+                            <td>is-one-to-one </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>userGroup</td>
+                            <td>userGroups</td>
                             <td>one-to-many</td>
                             <td></td>
                             <td></td>
@@ -1346,8 +2031,8 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td>ref_plc_xid</td>
-                            <td>ref_plc_xid</td>
+                            <td>ref_device_xid</td>
+                            <td>ref_device_xid</td>
                             <td>string</td>
                             <td></td>
                             <td></td>
@@ -1609,6 +2294,433 @@
             <div>
                 <span>the wzName is the `script_xid` attribute &nbsp;</span>
             </div>
+            <table id="element_manufacturer" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>manufacturer</b>
+                        </td>
+                        <td>manufacturer</td>
+                        <td>node</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Description</h5>
+            <div>
+                <span>the wzName is the `name` attribute &nbsp;</span>
+            </div>
+            <h5>Attributes</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Tag</th>
+                            <th>Type</th>
+                            <th>Default</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>description</td>
+                            <td>description</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>manufacturerDeviceModel</td>
+                            <td>manufacturerDeviceModels</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>node</td>
+                            <td>nodes</td>
+                            <td>one-to-many</td>
+                            <td>node</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_manufacturerDeviceModel" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>manufacturerDeviceModel</b>
+                        </td>
+                        <td>manufacturer_device_model</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Description</h5>
+            <div>
+                <span>the wzName is the `name` attribute &nbsp;</span>
+            </div>
+            <h5>Attributes</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Tag</th>
+                            <th>Type</th>
+                            <th>Default</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>version</td>
+                            <td>version</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>description</td>
+                            <td>description</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>modelSchema</td>
+                            <td>model_schema</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>protocol</td>
+                            <td>protocol</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>owner</td>
+                            <td>owner</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>metric</td>
+                            <td>metrics</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_userDeviceModel" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>userDeviceModel</b>
+                        </td>
+                        <td>user_device_model</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Description</h5>
+            <div>
+                <span>the wzName is the `name` attribute &nbsp;</span>
+            </div>
+            <h5>Attributes</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Tag</th>
+                            <th>Type</th>
+                            <th>Default</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>version</td>
+                            <td>version</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>description</td>
+                            <td>description</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>modelSchema</td>
+                            <td>model_schema</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>protocol</td>
+                            <td>protocol</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>owner</td>
+                            <td>owner</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>metric</td>
+                            <td>metrics</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <table id="element_userGatewayModel" class="pretty-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Tag</th>
+                        <th>Super</th>
+                        <th>Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>userGatewayModel</b>
+                        </td>
+                        <td>user_gateway_model</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>Description</h5>
+            <div>
+                <span>the wzName is the `name` attribute &nbsp;</span>
+            </div>
+            <h5>Attributes</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Tag</th>
+                            <th>Type</th>
+                            <th>Default</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>version</td>
+                            <td>version</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>description</td>
+                            <td>description</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>modelSchema</td>
+                            <td>model_schema</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>owner</td>
+                            <td>owner</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
+            <h5>Relations</h5>
+            <small>
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
+                            <th>Inherited</th>
+                            <th>Flags</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>dynamicTag</td>
+                            <td>dynamicTags</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>script</td>
+                            <td>scripts</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>userDeviceModel</td>
+                            <td>userDeviceModels</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </small>
             <table id="element_jsInclude" class="pretty-table">
                 <thead>
                     <tr>

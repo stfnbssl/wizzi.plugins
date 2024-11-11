@@ -1,0 +1,101 @@
+ai crewAI lab
+
+    $
+        // var seller = "crewAI (https://crewai.com)";
+        var seller = "Logbot (https://logbot.cloud)";
+        // var seller_url = "https://docs.crewai.com/how-to/Creating-a-Crew-and-kick-it-off/";
+        var seller_url = "https://logbot.cloud/iot-for-monitoring-and-predictive-maintenance/"
+        // var inquiry = "I need help with setting up a Crew and kicking it off, specifically how can I add memory to my crew? Can you provide guidance?";
+        var inquiry = "I need help with setting up my IoTs, specifically how can I improve my devices' performance? Can you provide guidance?";
+
+
+    api_url http://localhost:3000
+
+    openai_llm
+        $$ model gpt-4
+        model gpt-3.5-turbo
+
+    scrape_website docs_scrape_tool
+        website_url ${seller_url}
+
+    agent support_agent
+        role Senior Support Representative
+        goal Be the most friendly and helpful
+            \b support representative in your team
+        backstory You work at ${seller} and
+            \b are now working on providing
+            \b support to {customer}, a super important customer
+            \b for your company.
+            \b You need to make sure that you provide the best support!
+            \b Make sure to provide full complete answers,
+            \b and make no assumptions.
+        allow_delegation false
+        verbose true
+
+    agent support_quality_assurance_agent
+        role Support Quality Assurance Specialist
+        goal Get recognition for providing the
+            \b best support quality assurance in your team
+        backstory You work at ${seller} and 
+            \b are now working with your team
+            \b on a request from {customer} ensuring that
+            \b the support representative is
+            \b providing the best support possible.\n
+            \b You need to make sure that the support representative
+            \b is providing full
+            \b complete answers, and make no assumptions.
+         verbose true
+
+    task inquiry_resolution
+        description {customer} just reached out with a super important ask:\n
+            \b {inquiry}\n\n
+            \b {person} from {customer} is the one that reached out.
+            \b Make sure to use everything you know
+            \b to provide the best support possible.
+            \b You must strive to provide a complete
+            \b and accurate response to the customer's inquiry.
+        expected_output A detailed, informative response to the
+            \b customer's inquiry that addresses
+            \b all aspects of their question.\n
+            \b The response should include references
+            \b to everything you used to find the answer,
+            \b including external data or solutions.
+            \b Ensure the answer is complete,
+            \b leaving no questions unanswered, and maintain a helpful and friendly
+            \b tone throughout.
+        tool_ref docs_scrape_tool
+        agent support_agent
+
+    task quality_assurance_review
+        description Review the response drafted by the Senior Support Representative for {customer}'s inquiry.
+            \b Ensure that the answer is comprehensive, accurate, and adheres to the
+            \b high-quality standards expected for customer support.\n
+            \b Verify that all parts of the customer's inquiry
+            \b have been addressed
+            \b thoroughly, with a helpful and friendly tone.\n
+            \b Check for references and sources used to
+            \b find the information,
+            \b ensuring the response is well-supported and
+            \b leaves no questions unanswered.
+        expected_output A final, detailed, and informative response
+            \b ready to be sent to the customer.\n
+            \b This response should fully address the
+            \b customer's inquiry, incorporating all
+            \b relevant feedback and improvements.\n
+            \b Don't be too formal, we are a chill and cool company
+            \b but maintain a professional and friendly tone throughout.
+        agent support_quality_assurance_agent
+
+    crew event_management_crew
+        agent_ref support_agent
+        agent_ref support_quality_assurance_agent
+        task_ref inquiry_resolution
+        task_ref quality_assurance_review
+        verbose true
+        memory true
+        exec
+            inputs
+                @ customer "DeepLearningAI"
+                @ person "Andrew Ng"
+                @ inquiry "${inquiry}"
+            display markdown

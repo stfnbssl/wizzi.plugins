@@ -1,0 +1,515 @@
+{
+    "kind": "root",
+    "llmTypes": {
+        "OpenAI": {
+            "kind": "llm-type",
+            "type": "OpenAI",
+            "apiKey": "openai_api_key",
+            "modelName": "gpt-3.5-turbo",
+            "modelEnvVar": "OPENAI_MODEL_NAME"
+        }
+    },
+    "llms": [
+        {
+            "kind": "llm",
+            "name": "",
+            "type": "OpenAI",
+            "modelName": "gpt-3.5-turbo",
+            "modelEnvVar": "OPENAI_MODEL_NAME"
+        }
+    ],
+    "toolTypes": {
+        "MDXSearchTool": {
+            "kind": "tool-type",
+            "type": "MDXSearchTool",
+            "from": "crewai_tools",
+            "apiKey": null
+        }
+    },
+    "tools": [
+        {
+            "kind": "tool",
+            "name": "toolMdx1",
+            "type": "MDXSearchTool",
+            "from": "crewai_tools",
+            "file_path": "C:/My/3dparty/python/Anna/Obesi/IAIA/Documenti/Caselli.md"
+        },
+        {
+            "kind": "tool",
+            "name": "toolMdx2",
+            "type": "MDXSearchTool",
+            "from": "crewai_tools",
+            "file_path": "C:/My/3dparty/python/Anna/Obesi/IAIA/Documenti/Davoli.md"
+        }
+    ],
+    "modelTypes": {
+        "Pydantic": {
+            "kind": "model-type",
+            "type": "BaseModel",
+            "from": "pydantic"
+        }
+    },
+    "models": [
+        {
+            "kind": "model",
+            "name": "ObesityItems",
+            "modelType": "Pydantic",
+            "type": "BaseModel",
+            "from": "pydantic",
+            "properties": [
+                {
+                    "name": "item",
+                    "type": "str"
+                },
+                {
+                    "name": "argomento",
+                    "type": "str"
+                },
+                {
+                    "name": "fascia_età",
+                    "type": "str"
+                }
+            ]
+        }
+    ],
+    "agentsDict": {
+        "extractor": {
+            "kind": "agent",
+            "name": "extractor",
+            "properties": [
+                {
+                    "name": "role",
+                    "value": "Estrattore di contenuti",
+                    "lines": [
+                        "Estrattore di contenuti"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "goal",
+                    "value": "Estrarre e classificare contenuti riguardanti l'obesità infantile",
+                    "lines": [
+                        "Estrarre e classificare contenuti riguardanti l'obesità infantile"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "backstory",
+                    "value": "Stai lavorando ad un progetto di produzione di schede informative per il management dell'obesità infantile per fasce di età. Vari specialisti hanno prodotto schede per i pediatri in vari documenti. Dovranno essere prodotte schede anche per i genitori, usando un linguaggio più semplice. Dovranno inoltre essere fornite istruzioni ai pediatri su come presentare ai genitori le schede loro rivolte. Il tuo lavoro è estrarre dai documenti prodotti dagli specialisti i vari consigli per i pediatri classificandoli per argomento e fascia d'età, questi saranno poi passati al Mediatore dei contenuti genitoriali per adattarli all'uso da parte dei genitori.",
+                    "lines": [
+                        "Stai lavorando ad un progetto di produzione di schede informative ",
+                        "per il management dell'obesità infantile per fasce di età. ",
+                        "Vari specialisti hanno prodotto schede per i pediatri in vari ",
+                        "documenti. ",
+                        "Dovranno essere prodotte schede anche per i genitori, usando ",
+                        "un linguaggio più semplice. ",
+                        "Dovranno inoltre essere fornite istruzioni ai pediatri su come ",
+                        "presentare ai genitori le schede loro rivolte. ",
+                        "Il tuo lavoro è estrarre dai documenti prodotti dagli specialisti ",
+                        "i vari consigli per i pediatri classificandoli per argomento ",
+                        "e fascia d'età, questi saranno poi passati al Mediatore dei contenuti ",
+                        "genitoriali per adattarli all'uso da parte dei genitori."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "tools",
+                    "value": [
+                        "toolMdx1",
+                        "toolMdx2"
+                    ],
+                    "type": "array",
+                    "itemType": "object"
+                },
+                {
+                    "name": "verbose",
+                    "value": true,
+                    "type": "boolean"
+                }
+            ],
+            "tools": []
+        },
+        "adapterForParents": {
+            "kind": "agent",
+            "name": "adapterForParents",
+            "properties": [
+                {
+                    "name": "role",
+                    "value": "Mediatore dei contenuti genitoriali",
+                    "lines": [
+                        "Mediatore dei contenuti genitoriali"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "goal",
+                    "value": "Riformulare contenuti specialistici pediatrici per esporli a genitori di cultura medio bassa",
+                    "lines": [
+                        "Riformulare contenuti specialistici pediatrici per esporli a ",
+                        "genitori di cultura medio bassa"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "backstory",
+                    "value": "Comunicare ai genitori consigli riguardanti l'obesità del loro figlio è compito molto delicato. Si deve evitare un linguaggio troppo specialistico e occorre prestare attenzione a non urtare la suscettibilità e a non rinforzare lo stigma che questa patologia porta con se. Gli item estratti dall'Estrattore di contenuti dovranno essere riformulati con queste avvertenze.",
+                    "lines": [
+                        "Comunicare ai genitori consigli riguardanti l'obesità del loro ",
+                        "figlio è compito molto delicato. ",
+                        "Si deve evitare un linguaggio troppo specialistico e occorre ",
+                        "prestare attenzione a non urtare la suscettibilità e a non rinforzare ",
+                        "lo stigma che questa patologia porta con se. ",
+                        "Gli item estratti dall'Estrattore di contenuti dovranno essere ",
+                        "riformulati con queste avvertenze."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "tools",
+                    "value": [],
+                    "type": "array",
+                    "itemType": "object"
+                },
+                {
+                    "name": "verbose",
+                    "value": true,
+                    "type": "boolean"
+                }
+            ],
+            "tools": []
+        }
+    },
+    "agents": [
+        {
+            "kind": "agent",
+            "name": "extractor",
+            "properties": [
+                {
+                    "name": "role",
+                    "value": "Estrattore di contenuti",
+                    "lines": [
+                        "Estrattore di contenuti"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "goal",
+                    "value": "Estrarre e classificare contenuti riguardanti l'obesità infantile",
+                    "lines": [
+                        "Estrarre e classificare contenuti riguardanti l'obesità infantile"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "backstory",
+                    "value": "Stai lavorando ad un progetto di produzione di schede informative per il management dell'obesità infantile per fasce di età. Vari specialisti hanno prodotto schede per i pediatri in vari documenti. Dovranno essere prodotte schede anche per i genitori, usando un linguaggio più semplice. Dovranno inoltre essere fornite istruzioni ai pediatri su come presentare ai genitori le schede loro rivolte. Il tuo lavoro è estrarre dai documenti prodotti dagli specialisti i vari consigli per i pediatri classificandoli per argomento e fascia d'età, questi saranno poi passati al Mediatore dei contenuti genitoriali per adattarli all'uso da parte dei genitori.",
+                    "lines": [
+                        "Stai lavorando ad un progetto di produzione di schede informative ",
+                        "per il management dell'obesità infantile per fasce di età. ",
+                        "Vari specialisti hanno prodotto schede per i pediatri in vari ",
+                        "documenti. ",
+                        "Dovranno essere prodotte schede anche per i genitori, usando ",
+                        "un linguaggio più semplice. ",
+                        "Dovranno inoltre essere fornite istruzioni ai pediatri su come ",
+                        "presentare ai genitori le schede loro rivolte. ",
+                        "Il tuo lavoro è estrarre dai documenti prodotti dagli specialisti ",
+                        "i vari consigli per i pediatri classificandoli per argomento ",
+                        "e fascia d'età, questi saranno poi passati al Mediatore dei contenuti ",
+                        "genitoriali per adattarli all'uso da parte dei genitori."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "tools",
+                    "value": [
+                        "toolMdx1",
+                        "toolMdx2"
+                    ],
+                    "type": "array",
+                    "itemType": "object"
+                },
+                {
+                    "name": "verbose",
+                    "value": true,
+                    "type": "boolean"
+                }
+            ],
+            "tools": []
+        },
+        {
+            "kind": "agent",
+            "name": "adapterForParents",
+            "properties": [
+                {
+                    "name": "role",
+                    "value": "Mediatore dei contenuti genitoriali",
+                    "lines": [
+                        "Mediatore dei contenuti genitoriali"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "goal",
+                    "value": "Riformulare contenuti specialistici pediatrici per esporli a genitori di cultura medio bassa",
+                    "lines": [
+                        "Riformulare contenuti specialistici pediatrici per esporli a ",
+                        "genitori di cultura medio bassa"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "backstory",
+                    "value": "Comunicare ai genitori consigli riguardanti l'obesità del loro figlio è compito molto delicato. Si deve evitare un linguaggio troppo specialistico e occorre prestare attenzione a non urtare la suscettibilità e a non rinforzare lo stigma che questa patologia porta con se. Gli item estratti dall'Estrattore di contenuti dovranno essere riformulati con queste avvertenze.",
+                    "lines": [
+                        "Comunicare ai genitori consigli riguardanti l'obesità del loro ",
+                        "figlio è compito molto delicato. ",
+                        "Si deve evitare un linguaggio troppo specialistico e occorre ",
+                        "prestare attenzione a non urtare la suscettibilità e a non rinforzare ",
+                        "lo stigma che questa patologia porta con se. ",
+                        "Gli item estratti dall'Estrattore di contenuti dovranno essere ",
+                        "riformulati con queste avvertenze."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "tools",
+                    "value": [],
+                    "type": "array",
+                    "itemType": "object"
+                },
+                {
+                    "name": "verbose",
+                    "value": true,
+                    "type": "boolean"
+                }
+            ],
+            "tools": []
+        }
+    ],
+    "tasksDict": {
+        "extractTopics": {
+            "kind": "task",
+            "name": "extractTopics",
+            "properties": [
+                {
+                    "name": "description",
+                    "value": "1. Estrai i vari consigli sul management dell'obesità infantile formulati dagli specialisti e riportati su documenti markdown. 2. Classifica i vari consigli, che chiamiamo item, per argomento e fascia d'età.",
+                    "lines": [
+                        "1. ",
+                        "Estrai i vari consigli sul management dell'obesità infantile ",
+                        "formulati dagli specialisti e riportati su documenti markdown. ",
+                        "2. ",
+                        "Classifica i vari consigli, che chiamiamo item, per argomento ",
+                        "e fascia d'età."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "expected_output",
+                    "value": "Un documento JSON con gli item classificati per argomento ed fascia d'età.",
+                    "lines": [
+                        "Un documento JSON con gli item classificati per argomento ed ",
+                        "fascia d'età."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "output_json",
+                    "value": "ObesityItems",
+                    "lines": [
+                        "ObesityItems"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "output_file",
+                    "value": "obesity_items.json",
+                    "lines": [
+                        "obesity_items. ",
+                        "json"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "agent",
+                    "value": "extractor",
+                    "lines": [
+                        "extractor"
+                    ],
+                    "type": "string"
+                }
+            ]
+        },
+        "adaptTopicsToParents": {
+            "kind": "task",
+            "name": "adaptTopicsToParents",
+            "properties": [
+                {
+                    "name": "description",
+                    "value": "1. Esamina i consigli contenuti nella proprietà `item` dell'input e adattali alla comprensione di genitori di cultura medio bassa. 2. Gli item sono classificati per argomento ed età ed all'interno di una stessa età e di uno stesso argomento puoi considerare gli item anche nel loro insieme.",
+                    "lines": [
+                        "1. ",
+                        "Esamina i consigli contenuti nella proprietà `item` dell'input ",
+                        "e adattali alla comprensione di genitori di cultura medio bassa. ",
+                        "2. ",
+                        "Gli item sono classificati per argomento ed età ed all'interno ",
+                        "di una stessa età e di uno stesso argomento puoi considerare ",
+                        "gli item anche nel loro insieme."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "expected_output",
+                    "value": "Un documento in formato markdown con i consigli per i genitori raggruppati per età e all'interno dell'età per argomento.",
+                    "lines": [
+                        "Un documento in formato markdown con i consigli per i genitori ",
+                        "raggruppati per età e all'interno dell'età per argomento."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "agent",
+                    "value": "adapterForParents",
+                    "lines": [
+                        "adapterForParents"
+                    ],
+                    "type": "string"
+                }
+            ]
+        }
+    },
+    "tasks": [
+        {
+            "kind": "task",
+            "name": "extractTopics",
+            "properties": [
+                {
+                    "name": "description",
+                    "value": "1. Estrai i vari consigli sul management dell'obesità infantile formulati dagli specialisti e riportati su documenti markdown. 2. Classifica i vari consigli, che chiamiamo item, per argomento e fascia d'età.",
+                    "lines": [
+                        "1. ",
+                        "Estrai i vari consigli sul management dell'obesità infantile ",
+                        "formulati dagli specialisti e riportati su documenti markdown. ",
+                        "2. ",
+                        "Classifica i vari consigli, che chiamiamo item, per argomento ",
+                        "e fascia d'età."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "expected_output",
+                    "value": "Un documento JSON con gli item classificati per argomento ed fascia d'età.",
+                    "lines": [
+                        "Un documento JSON con gli item classificati per argomento ed ",
+                        "fascia d'età."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "output_json",
+                    "value": "ObesityItems",
+                    "lines": [
+                        "ObesityItems"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "output_file",
+                    "value": "obesity_items.json",
+                    "lines": [
+                        "obesity_items. ",
+                        "json"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "agent",
+                    "value": "extractor",
+                    "lines": [
+                        "extractor"
+                    ],
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "kind": "task",
+            "name": "adaptTopicsToParents",
+            "properties": [
+                {
+                    "name": "description",
+                    "value": "1. Esamina i consigli contenuti nella proprietà `item` dell'input e adattali alla comprensione di genitori di cultura medio bassa. 2. Gli item sono classificati per argomento ed età ed all'interno di una stessa età e di uno stesso argomento puoi considerare gli item anche nel loro insieme.",
+                    "lines": [
+                        "1. ",
+                        "Esamina i consigli contenuti nella proprietà `item` dell'input ",
+                        "e adattali alla comprensione di genitori di cultura medio bassa. ",
+                        "2. ",
+                        "Gli item sono classificati per argomento ed età ed all'interno ",
+                        "di una stessa età e di uno stesso argomento puoi considerare ",
+                        "gli item anche nel loro insieme."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "expected_output",
+                    "value": "Un documento in formato markdown con i consigli per i genitori raggruppati per età e all'interno dell'età per argomento.",
+                    "lines": [
+                        "Un documento in formato markdown con i consigli per i genitori ",
+                        "raggruppati per età e all'interno dell'età per argomento."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "agent",
+                    "value": "adapterForParents",
+                    "lines": [
+                        "adapterForParents"
+                    ],
+                    "type": "string"
+                }
+            ]
+        }
+    ],
+    "crewsDict": {
+        "event_management_crew": {
+            "kind": "crew",
+            "name": "event_management_crew",
+            "properties": [
+                {
+                    "name": "verbose",
+                    "value": true,
+                    "type": "boolean"
+                }
+            ],
+            "agents": [
+                "extractor",
+                "adapterForParents"
+            ],
+            "tasks": [
+                "extractTopics",
+                "adaptTopicsToParents"
+            ]
+        }
+    },
+    "crews": [
+        {
+            "kind": "crew",
+            "name": "event_management_crew",
+            "properties": [
+                {
+                    "name": "verbose",
+                    "value": true,
+                    "type": "boolean"
+                }
+            ],
+            "agents": [
+                "extractor",
+                "adapterForParents"
+            ],
+            "tasks": [
+                "extractTopics",
+                "adaptTopicsToParents"
+            ]
+        }
+    ]
+}

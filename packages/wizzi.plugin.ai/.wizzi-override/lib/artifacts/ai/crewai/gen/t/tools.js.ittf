@@ -1,0 +1,181 @@
+$group
+
+    async-md( DirectoryRead )
+        log 'DirectoryRead', ctx.__current
+        var saveCurrent = ctx.__current
+        if saveCurrent.kind != 'root'
+            throw new Error("tool declaration must be on root")
+        set ctx.__current
+            {
+                @ kind 'tool'
+                @ name model.wzName
+                @ type 'DirectoryReadTool'
+                @ from 'crewai_tools'
+                @ directory_path model.directory_path
+        set saveCurrent.toolTypes['DirectoryReadTool']
+            {
+                @ kind 'tool-type'
+                @ type 'DirectoryReadTool'
+                @ from 'crewai_tools'
+                @ apiKey null
+        set saveCurrent.tools.push(ctx.__current);
+        set ctx.__current = saveCurrent
+        r_cb()
+
+    async-md( FileRead )
+        log 'FileRead', ctx.__current
+        var saveCurrent = ctx.__current
+        if saveCurrent.kind != 'root'
+            throw new Error("tool declaration must be on root")
+        set ctx.__current
+            {
+                @ kind 'tool'
+                @ name model.wzName
+                @ type 'FileReadTool'
+                @ from 'crewai_tools'
+                @ file_path model.file_path
+        set saveCurrent.toolTypes['FileReadTool']
+            {
+                @ kind 'tool-type'
+                @ type 'FileReadTool'
+                @ from 'crewai_tools'
+                @ apiKey null
+        set saveCurrent.tools.push(ctx.__current);
+        set ctx.__current = saveCurrent
+        r_cb()
+
+    async-md( GoogleSerperSearch )
+        log 'GoogleSerperSearch', ctx.__current
+        var saveCurrent = ctx.__current
+        if saveCurrent.kind != 'root'
+            throw new Error("tool declaration must be on root")
+        set ctx.__current
+            {
+                @ kind 'tool'
+                @ name model.wzName
+                @ type 'SerperDevTool'
+                @ from 'crewai_tools'
+                [ properties
+        _ addStringProperty(ctx.__current, 'search_url', model.search_url)
+        _ addStringProperty(ctx.__current, 'country', model.country)
+        _ addStringProperty(ctx.__current, 'location', model.location)
+        _ addStringProperty(ctx.__current, 'locale', model.locale)
+        _ addNumberProperty(ctx.__current, 'n_results', model.n_results, 10)
+        set saveCurrent.toolTypes['SerperDevTool']
+            {
+                @ kind 'tool-type'
+                @ type 'SerperDevTool'
+                @ from 'crewai_tools'
+                @ apiKey null
+        set saveCurrent.apiKeys['SerperDevTool']
+            {
+                @ kind 'api-key'
+                @ type 'SerperDevTool'
+                @ apiKey 'serper_api_key'
+                @ modelEnvVar 'SERPER_API_KEY'
+        set saveCurrent.tools.push(ctx.__current);
+        set ctx.__current = saveCurrent
+        r_cb()
+
+    async-md( MdxRagSearch )
+        log 'MdxRagSearch', ctx.__current
+        var saveCurrent = ctx.__current
+        if saveCurrent.kind != 'root'
+            throw new Error("tool declaration must be on root")
+        set ctx.__current
+            {
+                @ kind 'tool'
+                @ name model.wzName
+                @ type 'MDXSearchTool'
+                @ from 'crewai_tools'
+                @ file_path model.file_path
+        set saveCurrent.toolTypes['MDXSearchTool']
+            {
+                @ kind 'tool-type'
+                @ type 'MDXSearchTool'
+                @ from 'crewai_tools'
+                @ apiKey null
+        set saveCurrent.tools.push(ctx.__current);
+        set ctx.__current = saveCurrent
+        r_cb()
+
+    async-md( ScrapeWebsite )
+        log 'ScrapeWebsite', ctx.__current
+        var saveCurrent = ctx.__current
+        if saveCurrent.kind != 'root'
+            throw new Error("tool declaration must be on root")
+        set ctx.__current
+            {
+                @ kind 'tool'
+                @ name model.wzName
+                @ type 'ScrapeWebsiteTool'
+                @ from 'crewai_tools'
+                @ website_url model.website_url
+        set saveCurrent.toolTypes['ScrapeWebsiteTool']
+            {
+                @ kind 'tool-type'
+                @ type 'ScrapeWebsiteTool'
+                @ from 'crewai_tools'
+                @ apiKey null
+        set saveCurrent.tools.push(ctx.__current);
+        set ctx.__current = saveCurrent
+        r_cb()
+
+    async-md( WebsiteRagSearch )
+        log 'WebsiteRagSearch', ctx.__current
+        var saveCurrent = ctx.__current
+        if saveCurrent.kind != 'root'
+            throw new Error("tool declaration must be on root")
+        set ctx.__current
+            {
+                @ kind 'tool'
+                @ name model.wzName
+                @ type 'WebsiteSearchTool'
+                @ from 'crewai_tools'
+                @ website_url model.website_url
+        set saveCurrent.toolTypes['WebsiteSearchTool']
+            {
+                @ kind 'tool-type'
+                @ type 'WebsiteSearchTool'
+                @ from 'crewai_tools'
+                @ apiKey null
+        set saveCurrent.tools.push(ctx.__current);
+        set ctx.__current = saveCurrent
+        r_cb()
+
+    async-md( CustomTool )
+        log 'CustomTool', ctx.__current
+        var saveCurrent = ctx.__current
+        if saveCurrent.kind != 'root'
+            throw new Error("tool declaration must be on root")
+        set ctx.__current
+            {
+                @ kind 'tool'
+                @ name model.wzName
+                @ type 'BaseTool'
+                @ from 'crewai_tools'
+                @ customType model.type
+                @ customName model.name
+                @ customDescription model.description
+                [ methods
+        foreach node in model.nodes
+            if node.wzElement == 'method'
+                var method
+                    {
+                        @ name node.wzName
+                        [ lines
+                foreach child in node.nodes
+                    if child.wzElement == 'codeLine'
+                        _ method.lines.push
+                            @ child.wzName
+                _ ctx.__current.methods.push
+                    @ method
+        set saveCurrent.toolTypes['CustomTool']
+            {
+                @ kind 'tool-type'
+                @ type 'BaseTool'
+                @ from 'crewai_tools'
+                @ apiKey null
+        set saveCurrent.tools.push(ctx.__current);
+        set ctx.__current = saveCurrent
+        r_cb()

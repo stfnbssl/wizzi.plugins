@@ -1,0 +1,17 @@
+$group
+
+    e crewai : node
+    e agentRef
+        tag agent_ref
+    e taskRef
+        tag task_ref
+    e toolRef
+        tag tool_ref
+    e llmRef
+        tag llm_ref
+    $include llm
+    $include tools
+    $include models
+    $include agent
+    $include task
+    $include crew

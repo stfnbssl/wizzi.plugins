@@ -1,0 +1,113 @@
+$group
+
+    function writeProgramStart
+        param ctx
+        param json
+        _ ctx.w("import os")
+        _ ctx.w("")
+        _ ctx.w("# Warning control")
+        _ ctx.w("import warnings")
+        _ ctx.w("warnings.filterwarnings('ignore')")
+        _ ctx.w("")
+        _ ctx.w("# import crew types")
+        _ ctx.w("from crewai import Agent, Task, Crew")
+        _ ctx.w("")
+        _ ctx.w("# import dotenv")
+        _ ctx.w("from dotenv import load_dotenv, find_dotenv")
+        if Object.keys(json.toolTypes).length > 0
+            _ ctx.w("")
+            _ ctx.w("# import tool types")
+            for const k in json.toolTypes
+                var tt = json.toolTypes[k]
+                if verify.isNotEmpty(tt.from)
+                    _ ctx.w("from " + tt.from + " import " + tt.type)
+                else
+                    _ ctx.w("import " + tt.type)
+        if Object.keys(json.modelTypes).length > 0
+            _ ctx.w("")
+            _ ctx.w("# import model types")
+            for const k in json.modelTypes
+                var mt = json.modelTypes[k]
+                if verify.isNotEmpty(mt.from)
+                    _ ctx.w("from " + mt.from + " import " + mt.type)
+                else
+                    _ ctx.w("import " + mt.type)
+        if Object.keys(json.displayTypes).length > 0
+            _ ctx.w("")
+            _ ctx.w("# import display types")
+            for const k in json.displayTypes
+                var dt = json.displayTypes[k]
+                if verify.isNotEmpty(dt.from)
+                    _ ctx.w("from " + dt.from + " import " + dt.type)
+                else
+                    _ ctx.w("import " + dt.type)
+        _ ctx.w("")
+        _ ctx.w("# set environment variables")
+        _ ctx.w("# these expect to find a .env file at the directory above.")
+        _ ctx.w("# the format for that file is (without the comment)")
+        _ ctx.w("# API_KEYNAME=AStringThatIsTheLongAPIKeyFromSomeService")
+        _ ctx.w("")
+        _ ctx.w("def load_env():")
+        _ ctx.w("    _ = load_dotenv(find_dotenv())")
+        for const k in json.apiKeys
+            var ak = json.apiKeys[k]
+            _ ctx.w("")
+            _ ctx.w("def get_" + ak.apiKey + "():")
+            _ ctx.w("    load_env()")
+            _ ctx.w("    " + ak.apiKey + " = os.getenv(\"" + ak.apiKey.toUpperCase() + "\")")
+            _ ctx.w("    return " + ak.apiKey)
+        for const k in json.llmTypes
+            var lt = json.llmTypes[k]
+            _ ctx.w("")
+            _ ctx.w("def get_" + lt.apiKey + "():")
+            _ ctx.w("    load_env()")
+            _ ctx.w("    " + lt.apiKey + " = os.getenv(\"" + lt.apiKey.toUpperCase() + "\")")
+            _ ctx.w("    return " + lt.apiKey)
+        for const k in json.llmTypes
+            var lt = json.llmTypes[k]
+            _ ctx.w("")
+            _ ctx.w("# " + lt.type)
+            _ ctx.w(lt.apiKey + " = get_" + lt.apiKey + "()")
+            _ ctx.w("os.environ[\"" + lt.modelEnvVar + "\"] = '" + lt.modelName + "'")
+        for const k in json.apiKeys
+            var ak = json.apiKeys[k]
+            _ ctx.w("")
+            _ ctx.w("# " + ak.type)
+            _ ctx.w("os.environ[\"" + ak.modelEnvVar + "\"] = get_" + ak.apiKey + "()")
+    
+    function writeProperties
+        param ctx
+        param json
+        for var i = 0; i<json.properties.length; i++
+            var p = json.properties[i]
+            var comma = i<json.properties.length-1 ? ',' : ''
+            if p.lines && p.lines.length > 1
+                $$ log 111, p.name, comma
+                var spaces1 = new Array(p.name.length+4).join(' ')
+                _ ctx.w(p.name + '="' + escapeLine(p.lines[0]) + '"')
+                for var j=1; j<p.lines.length; j++
+                    var thiscomma = j<p.lines.length-1 ? '' : comma
+                    $$ log 115, p.name, comma, thiscomma
+                    _ ctx.w(spaces1 + '"' + escapeLine(p.lines[j]) + '"' + thiscomma)
+            else
+                $$ log 222, p.name, comma
+                if p.type == 'string'
+                    _ ctx.w(p.name + '="' + escapeLine(p.value) + '"' + comma)
+                elif p.type == 'boolean'
+                    _ ctx.w(p.name + '=' + (p.value ? 'True' : 'False') + comma)
+                elif p.type == 'array'
+                    if p.itemType == 'string'
+                        foreach item in p.value
+                            # TODO
+                    else
+                        _ ctx.w(p.name + '=[' + p.value + ']' + comma)
+                else
+                    _ ctx.w(p.name + '=' + p.value + comma)
+
+    function escapeLine
+        param text
+        return 
+            _ verify.replaceAll
+                @ text
+                @ '\"'
+                @ '\\"'

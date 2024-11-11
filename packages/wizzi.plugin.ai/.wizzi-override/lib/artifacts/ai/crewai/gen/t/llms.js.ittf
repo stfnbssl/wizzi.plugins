@@ -1,0 +1,31 @@
+$group
+
+    async-md( OpenAI )
+        log 'OpenAI', ctx.__current
+        var saveCurrent = ctx.__current
+        if saveCurrent.kind != 'root'
+            throw new Error("llm declaration must be on root")
+        # TODO model.model and modelEnvVar
+        # is a model selectable by agents or tasks?
+        # need we to manage many models for a single LLM?
+        set ctx.__current
+            {
+                @ kind 'llm'
+                @ name model.wzName
+                @ type 'OpenAI'
+                @ modelName model.model
+                @ modelEnvVar 'OPENAI_MODEL_NAME'
+        set saveCurrent.llmTypes['OpenAI']
+            {
+                @ kind 'llm-type'
+                @ type 'OpenAI'
+                @ apiKey 'openai_api_key'
+                @ modelName model.model
+                @ modelEnvVar 'OPENAI_MODEL_NAME'
+        set saveCurrent.llms.push(ctx.__current);
+        _ md.genItems
+            @ model.nodes
+            @ ctx
+            a_cb()
+                set ctx.__current = saveCurrent
+                r_cb()

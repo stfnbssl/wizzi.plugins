@@ -1,0 +1,35 @@
+$group
+    a configState
+        tag config-state
+        restrict
+            enum creating
+            enum modifyingPrevious
+            enum modifyingCloned
+            enum completed
+            enum eliminating
+        default completed
+    a instanceRole
+        tag instance-role
+        restrict
+            enum none
+            enum master
+            enum item
+        default none
+    a itemConfigState
+        tag item-config-state
+        restrict
+            enum none
+            enum completed
+            enum modifying
+        default none
+    a activityState
+        tag activity-state
+        restrict
+            enum none
+            enum active
+            enum suspended
+        default none
+    a modifiedId
+        tag modified-id
+
+

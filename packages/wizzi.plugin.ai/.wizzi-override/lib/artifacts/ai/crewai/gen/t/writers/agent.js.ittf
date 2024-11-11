@@ -1,0 +1,41 @@
+$group
+
+    function writeAgent
+        param ctx
+        param json
+        # log 'writeAgent', json, json.properties.length
+        _ ctx.w("")
+        _ ctx.w(json.name + " = Agent(")
+        _ ctx.indent
+        _ writeProperties
+            @ ctx
+            @ json
+        _ ctx.deindent
+        _ ctx.w(")")
+
+    function writeAgents
+        param ctx
+        param json
+        if json.agents.length > 0
+            foreach agent in json.agents
+                _ writeAgent
+                    @ ctx
+                    @ agent        
+
+$*        
+extractor = Agent(
+    role="Estrattore dei contenuti",
+    goal="Estrarre e classificare contenuti riguardanti l'obesità infantile",
+    backstory="Stai lavorando ad un progetto di produzione di schede informative "
+              "per il management dell'obesità infantile per fasce di età."
+              "Vari specialisti hanno prodotto schede per i pediatri in vari documenti. "
+              "Dovranno essere prodotte schede anche per i genitori, usando un linguaggio più semplice."
+              "Dovranno inoltre essere fornite istruzioni ai pediatri su come presentare ai genitori le schede loro rivolte. "
+              "Il tuo lavoro è estrarre dai documenti prodotti dagli specialisti i vari consigli per i pediatri "
+              "classificandoli per argomento e fascia d'età, "
+              "questi saranno poi passati al Mediatore dei contenuti genitoriali per adattarli all'uso da parte dei genitori.",
+    tools = [toolDocx1, toolDocx2],
+    allow_delegation=False,
+	verbose=True
+)
+*$

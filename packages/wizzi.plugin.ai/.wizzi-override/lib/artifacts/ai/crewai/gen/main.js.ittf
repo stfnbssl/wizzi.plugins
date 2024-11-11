@@ -1,0 +1,403 @@
+module
+    kind es6
+    $
+        var md = {
+            plugin: 'wizzi.plugin.ai',
+            name: 'crewai',
+            schema: 'ai',
+            rootElement: 'ai',
+            rootTag: 'ai',
+            checkSchema: true,
+            isAsync: true,
+        };
+
+    gen( &md )
+        $append imports
+            var axios = require('axios')
+            var writer = require('./writer')
+            var api = null
+
+        $append main
+            set ctx.__json
+                {
+                    @ kind "root"
+                    { apiKeys
+                    { llmTypes
+                    [ llms
+                    { toolTypes
+                    [ tools
+                    { modelTypes
+                    [ models
+                    { displayTypes
+                    { agentsDict
+                    [ agents
+                    { tasksDict
+                    [ tasks
+                    { crewsDict
+                    [ crews
+            set ctx.__current = ctx.__json
+            _ md.ai
+                @ model
+                @ ctx
+                a_cb( )
+                    if ctx.artifactGenerationErrors.length > 0
+                        r_cb_err( ctx.artifactGenerationErrors )
+                    else
+                        # generation OK
+                        _ writer.writeCrew
+                            @ ctx
+                            @ ctx.__json
+                        $*
+                        _ ctx.write
+                            _ JSON.stringify
+                                @ ctx.__json
+                                @ null
+                                @ 4
+                        *$
+                        r_cb( ctx )
+        async-md( ai )
+            if verify.isNotEmpty(model.apiUrl)
+                set api
+                    _ axios.create
+                        {
+                            @ baseURL model.apiUrl
+                            { headers
+                                @ ['Content-Type'] "application/json"
+            _ md.genItems
+                @ model.nodes
+                @ ctx
+                a_cb()
+                    r_cb()
+        
+        async-md( agent )
+            # log 'agent', ctx.__current
+            var saveCurrent = ctx.__current
+            if saveCurrent.kind != 'root'
+                throw new Error("agent declaration must be on root")
+            set ctx.__current
+                {
+                    @ kind 'agent'
+                    @ name model.wzName
+                    [ properties
+                    [ tools
+            _ addStringProperty(ctx.__current, 'role', model.role)
+            _ addStringProperty(ctx.__current, 'goal', model.goal)
+            _ addStringProperty(ctx.__current, 'backstory', model.backstory)
+            var tools = []
+            foreach tool in model.toolRefs
+                _ tools.push
+                    @ tool.wzName
+            _ addArrayProperty(ctx.__current, 'tools', tools, 'array')
+            _ addStringProperty(ctx.__current, 'llm', model.llm)
+            _ addStringProperty(ctx.__current, 'function_calling_llm', model.function_calling_llm)
+            _ addNumberProperty(ctx.__current, 'max_iter', model.max_iter, 25)
+            _ addStringProperty(ctx.__current, 'max_rpm', model.max_rpm)
+            _ addStringProperty(ctx.__current, 'max_execution_time', model.max_execution_time)
+            _ addBooleanProperty(ctx.__current, 'verbose', model.verbose, false)
+            # TODO step_callback
+            _ addBooleanProperty(ctx.__current, 'allow_delegation', model.allow_delegation, false)
+            _ addBooleanProperty(ctx.__current, 'cache', model.cache, true)
+            _ addStringProperty(ctx.__current, 'system_template', model.system_template)
+            _ addStringProperty(ctx.__current, 'prompt_template', model.prompt_template)
+            _ addStringProperty(ctx.__current, 'response_template', model.response_template)
+            _ addBooleanProperty(ctx.__current, 'allow_code_execution', model.allow_code_execution, false)
+            _ addNumberProperty(ctx.__current, 'max_retry_limit', model.max_retry_limit, 2)
+            _ addBooleanProperty(ctx.__current, 'use_system_prompt', model.use_system_prompt, true)
+            _ addBooleanProperty(ctx.__current, 'respect_context_window', model.respect_context_window, true)
+            _ addStringProperty(ctx.__current, 'code_execution_mode', model.code_execution_mode, 'safe')
+            set saveCurrent.agentsDict[model.wzName] = ctx.__current
+            set saveCurrent.agents.push(ctx.__current)
+            _ md.genItems
+                @ model.nodes
+                @ ctx
+                a_cb()
+                    set ctx.__current = saveCurrent
+                    r_cb()
+            
+        async-md( task )
+            # log 'task', ctx.__current
+            var saveCurrent = ctx.__current
+            if saveCurrent.kind != 'root'
+                throw new Error("task declaration must be on root")
+            set ctx.__current
+                {
+                    @ kind 'task'
+                    @ name model.wzName
+                    [ properties
+            _ addStringProperty(ctx.__current, 'description', model.description)
+            _ addStringProperty(ctx.__current, 'expected_output', model.expected_output)
+            _ addBooleanProperty(ctx.__current, 'async_execution', model.async_execution, false)
+            _ addInstanceProperty(ctx.__current, 'output_json', model.output_json)
+            _ addInstanceProperty(ctx.__current, 'output_pydantic', model.output_pydantic)
+            _ addStringProperty(ctx.__current, 'output_file', model.output_file)
+            _ addStringProperty(ctx.__current, 'output', model.output)
+            _ addStringProperty(ctx.__current, 'callback', model.callback)
+            _ addBooleanProperty(ctx.__current, 'human_input', model.human_input, false)
+            _ addStringProperty(ctx.__current, 'converter_cls', model.converter_cls)
+            if verify.isObject(model.agent)
+                _ addInstanceProperty(ctx.__current, 'agent', model.agent.wzName)
+            if verify.isObject(model.taskContext)
+                var context = []
+                foreach item in model.taskContext.taskRefs
+                    _ context.push
+                        @ item.wzName
+                _ addArrayProperty(ctx.__current, 'context', context)
+            if verify.isObject(model.config)
+                var config = {}
+                foreach item in model.config.properties
+                    var nv = verify.getNameValueRaw(item.wzName)
+                    set config[nv.name()] = nv.value()
+                _ addObjectProperty(ctx.__current, 'config', config)
+            var tools = []
+            foreach tool in model.toolRefs
+                _ tools.push
+                    @ tool.wzName
+            _ addArrayProperty(ctx.__current, 'tools', tools, 'array')
+            set saveCurrent.tasksDict[model.wzName] = ctx.__current
+            set saveCurrent.tasks.push(ctx.__current)
+            _ md.genItems
+                @ model.nodes
+                @ ctx
+                a_cb()
+                    set ctx.__current = saveCurrent
+                    r_cb()
+            
+        async-md( crew )
+            # log 'crew', ctx.__current
+            var saveCurrent = ctx.__current
+            if saveCurrent.kind != 'root'
+                throw new Error("crew declaration must be on root")
+            set ctx.__current
+                {
+                    @ kind 'crew'
+                    @ name model.wzName
+                    [ properties
+                    [ agents
+                    [ tasks
+                    [ execs
+            _ addStringProperty(ctx.__current, 'process', model.process, 'sequential')
+            _ addBooleanProperty(ctx.__current, 'verbose', model.verbose, false)
+            _ addStringProperty(ctx.__current, 'manager_llm', model.manager_llm)
+            _ addStringProperty(ctx.__current, 'function_calling_llm', model.function_calling_llm)
+            _ addStringProperty(ctx.__current, 'function_calling_llm', model.function_calling_llm)
+            if verify.isObject(model.config)
+                var config = {}
+                foreach item in model.config.properties
+                    var nv = verify.getNameValueRaw(item.wzName)
+                    set config[nv.name()] = nv.value()
+                _ addObjectProperty(ctx.__current, 'config', config)
+            _ addStringProperty(ctx.__current, 'max_rpm', model.max_rpm)
+            _ addStringProperty(ctx.__current, 'language', model.language, "English")
+            _ addStringProperty(ctx.__current, 'language_file', model.language_file)
+            _ addBooleanProperty(ctx.__current, 'memory', model.memory, false)
+            _ addBooleanProperty(ctx.__current, 'cache', model.cache, true)
+            $*
+            a embedder
+                # Configuration for the embedder to be used by the crew.
+                # Mostly used by memory for now. 
+                # Default is {"provider": "openai"}.
+            *$
+            _ addBooleanProperty(ctx.__current, 'full_output', model.full_output, false)
+            $*
+            a step_callback
+                # A function that is called after each step of every agent. 
+                # This can be used to log the agent’s actions or to perform other operations; 
+                # it won’t override the agent-specific step_callback.
+            a task_callback
+                # A function that is called after the completion of each task. 
+                # Useful for monitoring or additional operations post-task execution.
+            a share_crew
+                # Whether you want to share the complete crew information and execution with the crewAI team to make the library better, 
+                # and allow us to train models.
+            *$
+            _ addStringProperty(ctx.__current, 'output_log_file', model.output_log_file)
+            _ addStringProperty(ctx.__current, 'manager_agent', model.manager_agent)
+            $*
+            a manager_callbacks
+                # Takes a list of callback handlers to be executed by the manager agent when a hierarchical process is used.
+            *$
+            _ addStringProperty(ctx.__current, 'prompt_file', model.prompt_file)
+            _ addBooleanProperty(ctx.__current, 'planning', model.planning, false)
+            _ addStringProperty(ctx.__current, 'planning_llm', model.planning_llm)
+            foreach agent in model.agentRefs
+                _ ctx.__current.agents.push
+                    @ agent.wzName
+            foreach task in model.taskRefs
+                _ ctx.__current.tasks.push
+                    @ task.wzName
+            _ parseExecs
+                @ model
+                @ saveCurrent
+                @ ctx.__current
+            set saveCurrent.crewsDict[model.wzName] = ctx.__current
+            set saveCurrent.crews.push(ctx.__current)
+            _ md.genItems
+                @ model.nodes
+                @ ctx
+                a_cb()
+                    set ctx.__current = saveCurrent
+                    r_cb()
+
+        $include llms
+
+        $include tools
+
+        $include models
+
+        $include execs
+
+        function addStringProperty
+            param json
+            param name
+            param value
+            param defaultValue
+            if verify.isNotEmpty(value) && value != defaultValue
+                _ json.properties.push
+                    {
+                        @ name
+                        @ value
+                        @ lines getPropertyLines(value)
+                        @ type 'string'
+        
+        function addBooleanProperty
+            param json
+            param name
+            param value
+            param defaultValue
+            if value != defaultValue
+                _ json.properties.push
+                    {
+                        @ name
+                        @ value
+                        @ type 'boolean'
+
+        function addNumberProperty
+            param json
+            param name
+            param value
+            param defaultValue
+            if value != defaultValue
+                _ json.properties.push
+                    {
+                        @ name
+                        @ value
+                        @ type 'number'
+
+        function addArrayProperty
+            param json
+            param name
+            param value
+            param itemType
+            _ json.properties.push
+                {
+                    @ name
+                    @ value
+                    @ type 'array'
+                    @ itemType
+
+        function addObjectProperty
+            param json
+            param name
+            param value
+            _ json.properties.push
+                {
+                    @ name
+                    @ value
+                    @ type 'object'
+
+        function addInstanceProperty
+            param json
+            param name
+            param value
+            if verify.isNotEmpty(value) 
+                _ json.properties.push
+                    {
+                        @ name
+                        @ value
+                        @ type 'instance'
+
+        function getPropertyLines
+            param text
+            var lines = []
+            var words = []
+            var word = []
+            var count = 0
+            for var i=0; i<text.length; i++
+                var ch = text[i]
+                var chNext = text[i+1]
+                if ch == ' '
+                    if word.length > 0
+                        _ words.push
+                            _ word.join('')
+                    set word = []
+                    set count++
+                    if count > 60
+                        if word.length > 0
+                            _ words.push
+                                _ word.join('')
+                        set word = []
+                        # log 'words ++', words
+                        _ lines.push
+                            _ words.join(' ')
+                        set words = []
+                        set count = 0
+                elif ch == '.' && chNext == ' '
+                    _ word.push(ch)
+                    _ words.push
+                        _ word.join('')
+                    set word = []
+                    _ lines.push
+                        _ words.join(' ')
+                    set words = []
+                    set count = 0
+                else
+                    if word.length == 0 && words.length == 0 && lines.length > 0
+                        set lines[lines.length-1] = lines[lines.length-1] + ' '
+                    _ word.push(ch)
+                    set count++
+            if word.length > 0
+                _ words.push
+                    _ word.join('')
+            if words.length > 0
+                _ lines.push
+                    _ words.join(' ')
+            return lines
+
+        var noattrs
+            [
+                @ 'wzTag'
+                @ 'wzName'
+                @ 'wzElement'
+                @ 'wzParent'
+                @ 'wzSourceLineInfo'
+                @ '___exportName'
+        
+        function isAttrValue
+            param a
+            param v
+            if noattrs.indexOf(a) > -1
+                return false
+            if v == null || verify.isArray(v) || verify.isObject(v) || verify.isFunction(v)
+                return false
+            return true
+        
+        function getAttrs
+            param e
+            var retval = []
+            for var a in e
+                if isAttrValue(a, e[a])
+                    _ retval.push({ name: verify.replaceAll(a, '_', '-'), value: e[a] })
+                elif a.substr(0, 3) === 'ng-'
+                    _ retval.push({ name: a, value: e[a] })
+                elif a.substr(0, 5) === 'data-'
+                    _ retval.push({ name: a, value: e[a] })
+                elif a.substr(0, 5) === 'aria-'
+                    _ retval.push({ name: a, value: e[a] })
+            if e.attributes
+                foreach a in e.attributes
+                    var p = lineParser.parseNameValueRaw(a.wzName, a)
+                    if p.hasValue()
+                        _ retval.push({ name: p.name(), value: p.value() })
+                    else
+                        _ retval.push({ name: p.name() })
+            return retval

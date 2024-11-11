@@ -1,0 +1,22 @@
+$group
+
+    function writeModel
+        param ctx
+        param json
+        if json.modelType == "Pydantic"
+            _ ctx.w("")
+            _ ctx.w("# Define a Pydantic model for " + json.name)
+            _ ctx.w("class " + json.name + "(BaseModel):");
+            _ ctx.indent
+            foreach p in json.properties
+                _ ctx.w(p.name + ": " + p.type)
+            _ ctx.deindent
+
+    function writeModels
+        param ctx
+        param json
+        if json.models.length > 0
+            foreach model in json.models
+                _ writeModel
+                    @ ctx
+                    @ model

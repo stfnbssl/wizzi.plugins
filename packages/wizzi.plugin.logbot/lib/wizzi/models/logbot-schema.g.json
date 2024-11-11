@@ -52,9 +52,21 @@
           ]
         },
         {
-          "name": "oem",
+          "name": "tenant",
           "tags": [
-            "oem"
+            "tenant"
+          ]
+        },
+        {
+          "name": "modelSchema",
+          "tags": [
+            "model_schema"
+          ]
+        },
+        {
+          "name": "manufacturer",
+          "tags": [
+            "manufacturer"
           ]
         },
         {
@@ -390,25 +402,14 @@
       "comments": []
     },
     {
-      "name": "oem",
+      "name": "tenant",
       "super": "node",
       "isRoot": false,
       "tags": [
-        "oem"
+        "tenant"
       ],
       "flags": "",
       "attributes": [
-        {
-          "name": "org_xid",
-          "type": "string",
-          "tags": [
-            "org_xid"
-          ],
-          "flags": "",
-          "inheritedFrom": null,
-          "restricts": [],
-          "comments": []
-        },
         {
           "name": "description",
           "type": "string",
@@ -423,10 +424,10 @@
       ],
       "relations": [
         {
-          "name": "user",
-          "role": "users",
+          "name": "userGroup",
+          "role": "userGroups",
           "tags": [
-            "user"
+            "user_group"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -438,6 +439,28 @@
           "role": "plants",
           "tags": [
             "plant"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "userGatewayModel",
+          "role": "userGatewayModels",
+          "tags": [
+            "user_gateway_model"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "userDeviceModel",
+          "role": "userDeviceModels",
+          "tags": [
+            "user_device_model"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -464,15 +487,67 @@
       ]
     },
     {
-      "name": "user",
+      "name": "userGroup",
       "super": null,
       "isRoot": false,
       "tags": [
-        "user"
+        "user_group"
       ],
       "flags": "",
       "attributes": [],
       "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "the wzName is the `name` attribute"
+      ]
+    },
+    {
+      "name": "modelSchema",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "model_schema"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "version",
+          "type": "string",
+          "tags": [
+            "version"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
       "derived": [],
       "restricts": [],
       "methods": [],
@@ -501,6 +576,17 @@
           "comments": []
         },
         {
+          "name": "owner",
+          "type": "string",
+          "tags": [
+            "owner"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
           "name": "plant_xid",
           "type": "string",
           "tags": [
@@ -510,9 +596,195 @@
           "inheritedFrom": null,
           "restricts": [],
           "comments": []
+        },
+        {
+          "name": "modelSchema",
+          "type": "string",
+          "tags": [
+            "model_schema"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "configState",
+          "type": "string",
+          "tags": [
+            "config-state"
+          ],
+          "default": "completed",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [
+            {
+              "facets": [
+                {
+                  "type": "enumFacet",
+                  "value": "creating",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "modifyingPrevious",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "modifyingCloned",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "completed",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "eliminating",
+                  "comments": []
+                }
+              ],
+              "comments": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "instanceRole",
+          "type": "string",
+          "tags": [
+            "instance-role"
+          ],
+          "default": "none",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [
+            {
+              "facets": [
+                {
+                  "type": "enumFacet",
+                  "value": "none",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "master",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "item",
+                  "comments": []
+                }
+              ],
+              "comments": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "itemConfigState",
+          "type": "string",
+          "tags": [
+            "item-config-state"
+          ],
+          "default": "none",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [
+            {
+              "facets": [
+                {
+                  "type": "enumFacet",
+                  "value": "none",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "completed",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "modifying",
+                  "comments": []
+                }
+              ],
+              "comments": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "activityState",
+          "type": "string",
+          "tags": [
+            "activity-state"
+          ],
+          "default": "none",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [
+            {
+              "facets": [
+                {
+                  "type": "enumFacet",
+                  "value": "none",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "active",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "suspended",
+                  "comments": []
+                }
+              ],
+              "comments": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "modifiedId",
+          "type": "string",
+          "tags": [
+            "modified-id"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
         }
       ],
       "relations": [
+        {
+          "name": "staticTag",
+          "role": "staticTags",
+          "tags": [
+            "static"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "userGroup",
+          "role": "userGroups",
+          "tags": [
+            "user_group"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
         {
           "name": "gateway",
           "role": "gateways",
@@ -542,10 +814,43 @@
       "flags": "",
       "attributes": [
         {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "owner",
+          "type": "string",
+          "tags": [
+            "owner"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
           "name": "message_version",
           "type": "string",
           "tags": [
             "message_version"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "gw_xid",
+          "type": "string",
+          "tags": [
+            "gw_xid"
           ],
           "flags": "",
           "inheritedFrom": null,
@@ -564,10 +869,196 @@
           "comments": []
         },
         {
-          "name": "description",
+          "name": "modelSchema",
           "type": "string",
           "tags": [
-            "description"
+            "model_schema"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "balenaId",
+          "type": "string",
+          "tags": [
+            "balenaId"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "deviceModel",
+          "type": "string",
+          "tags": [
+            "deviceModel"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "settings",
+          "type": "string",
+          "tags": [
+            "settings"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "configState",
+          "type": "string",
+          "tags": [
+            "config-state"
+          ],
+          "default": "completed",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [
+            {
+              "facets": [
+                {
+                  "type": "enumFacet",
+                  "value": "creating",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "modifyingPrevious",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "modifyingCloned",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "completed",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "eliminating",
+                  "comments": []
+                }
+              ],
+              "comments": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "instanceRole",
+          "type": "string",
+          "tags": [
+            "instance-role"
+          ],
+          "default": "none",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [
+            {
+              "facets": [
+                {
+                  "type": "enumFacet",
+                  "value": "none",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "master",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "item",
+                  "comments": []
+                }
+              ],
+              "comments": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "itemConfigState",
+          "type": "string",
+          "tags": [
+            "item-config-state"
+          ],
+          "default": "none",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [
+            {
+              "facets": [
+                {
+                  "type": "enumFacet",
+                  "value": "none",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "completed",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "modifying",
+                  "comments": []
+                }
+              ],
+              "comments": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "activityState",
+          "type": "string",
+          "tags": [
+            "activity-state"
+          ],
+          "default": "none",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [
+            {
+              "facets": [
+                {
+                  "type": "enumFacet",
+                  "value": "none",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "active",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "suspended",
+                  "comments": []
+                }
+              ],
+              "comments": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "modifiedId",
+          "type": "string",
+          "tags": [
+            "modified-id"
           ],
           "flags": "",
           "inheritedFrom": null,
@@ -584,6 +1075,17 @@
           ],
           "cardinality": "one-to-one",
           "flags": "is-one-to-one ",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "staticTag",
+          "role": "staticTags",
+          "tags": [
+            "static"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
           "inheritedFrom": null,
           "comments": []
         },
@@ -610,10 +1112,32 @@
           "comments": []
         },
         {
-          "name": "plc",
-          "role": "plcs",
+          "name": "userGatewayModel",
+          "role": null,
           "tags": [
-            "plc"
+            "user_gateway_model"
+          ],
+          "cardinality": "one-to-one",
+          "flags": "is-one-to-one ",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "userGroup",
+          "role": "userGroups",
+          "tags": [
+            "user_group"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "device",
+          "role": "devices",
+          "tags": [
+            "device"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -669,19 +1193,41 @@
       ]
     },
     {
-      "name": "plc",
+      "name": "device",
       "super": null,
       "isRoot": false,
       "tags": [
-        "plc"
+        "device"
       ],
       "flags": "",
       "attributes": [
         {
-          "name": "plc_xid",
+          "name": "description",
           "type": "string",
           "tags": [
-            "plc_xid"
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "owner",
+          "type": "string",
+          "tags": [
+            "owner"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "device_xid",
+          "type": "string",
+          "tags": [
+            "device_xid"
           ],
           "flags": "",
           "inheritedFrom": null,
@@ -700,10 +1246,185 @@
           "comments": []
         },
         {
-          "name": "description",
+          "name": "deviceModel",
           "type": "string",
           "tags": [
-            "description"
+            "deviceModel"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "modelConnectionSchema",
+          "type": "string",
+          "tags": [
+            "model_connection_schema"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "modelSchema",
+          "type": "string",
+          "tags": [
+            "model_schema"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "configState",
+          "type": "string",
+          "tags": [
+            "config-state"
+          ],
+          "default": "completed",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [
+            {
+              "facets": [
+                {
+                  "type": "enumFacet",
+                  "value": "creating",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "modifyingPrevious",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "modifyingCloned",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "completed",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "eliminating",
+                  "comments": []
+                }
+              ],
+              "comments": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "instanceRole",
+          "type": "string",
+          "tags": [
+            "instance-role"
+          ],
+          "default": "none",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [
+            {
+              "facets": [
+                {
+                  "type": "enumFacet",
+                  "value": "none",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "master",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "item",
+                  "comments": []
+                }
+              ],
+              "comments": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "itemConfigState",
+          "type": "string",
+          "tags": [
+            "item-config-state"
+          ],
+          "default": "none",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [
+            {
+              "facets": [
+                {
+                  "type": "enumFacet",
+                  "value": "none",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "completed",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "modifying",
+                  "comments": []
+                }
+              ],
+              "comments": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "activityState",
+          "type": "string",
+          "tags": [
+            "activity-state"
+          ],
+          "default": "none",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [
+            {
+              "facets": [
+                {
+                  "type": "enumFacet",
+                  "value": "none",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "active",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "suspended",
+                  "comments": []
+                }
+              ],
+              "comments": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "modifiedId",
+          "type": "string",
+          "tags": [
+            "modified-id"
           ],
           "flags": "",
           "inheritedFrom": null,
@@ -724,10 +1445,43 @@
           "comments": []
         },
         {
-          "name": "metric",
-          "role": "metrics",
+          "name": "staticTag",
+          "role": "staticTags",
           "tags": [
-            "metric"
+            "static"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "manufacturerDeviceModel",
+          "role": null,
+          "tags": [
+            "manufacturer_device_model"
+          ],
+          "cardinality": "one-to-one",
+          "flags": "is-one-to-one ",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "userDeviceModel",
+          "role": null,
+          "tags": [
+            "user_device_model"
+          ],
+          "cardinality": "one-to-one",
+          "flags": "is-one-to-one ",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "userGroup",
+          "role": "userGroups",
+          "tags": [
+            "user_group"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -979,10 +1733,10 @@
           "comments": []
         },
         {
-          "name": "ref_plc_xid",
+          "name": "ref_device_xid",
           "type": "string",
           "tags": [
-            "ref_plc_xid"
+            "ref_device_xid"
           ],
           "flags": "",
           "inheritedFrom": null,
@@ -1183,6 +1937,324 @@
       "methods": [],
       "comments": [
         "the wzName is the `script_xid` attribute"
+      ]
+    },
+    {
+      "name": "manufacturer",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "manufacturer"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "manufacturerDeviceModel",
+          "role": "manufacturerDeviceModels",
+          "tags": [
+            "manufacturer_device_model"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "the wzName is the `name` attribute"
+      ]
+    },
+    {
+      "name": "manufacturerDeviceModel",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "manufacturer_device_model"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "version",
+          "type": "string",
+          "tags": [
+            "version"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "modelSchema",
+          "type": "string",
+          "tags": [
+            "model_schema"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "protocol",
+          "type": "string",
+          "tags": [
+            "protocol"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "owner",
+          "type": "string",
+          "tags": [
+            "owner"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "metric",
+          "role": "metrics",
+          "tags": [
+            "metric"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "the wzName is the `name` attribute"
+      ]
+    },
+    {
+      "name": "userDeviceModel",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "user_device_model"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "version",
+          "type": "string",
+          "tags": [
+            "version"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "modelSchema",
+          "type": "string",
+          "tags": [
+            "model_schema"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "protocol",
+          "type": "string",
+          "tags": [
+            "protocol"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "owner",
+          "type": "string",
+          "tags": [
+            "owner"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "metric",
+          "role": "metrics",
+          "tags": [
+            "metric"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "the wzName is the `name` attribute"
+      ]
+    },
+    {
+      "name": "userGatewayModel",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "user_gateway_model"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "version",
+          "type": "string",
+          "tags": [
+            "version"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "modelSchema",
+          "type": "string",
+          "tags": [
+            "model_schema"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "owner",
+          "type": "string",
+          "tags": [
+            "owner"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "dynamicTag",
+          "role": "dynamicTags",
+          "tags": [
+            "dynamic"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "script",
+          "role": "scripts",
+          "tags": [
+            "script"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "userDeviceModel",
+          "role": "userDeviceModels",
+          "tags": [
+            "user_device_model"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "the wzName is the `name` attribute"
       ]
     },
     {

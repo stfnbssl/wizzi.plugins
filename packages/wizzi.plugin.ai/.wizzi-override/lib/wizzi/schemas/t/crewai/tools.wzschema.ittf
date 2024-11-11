@@ -1,0 +1,68 @@
+$group
+
+    e tool : node
+        a apiKey
+            tag api_key
+   
+    e DirectoryRead : tool
+        tag directory_read
+        a directory_path
+    
+    e DirectoryRagSearch : tool
+        tag directory_rag_search
+        a directory_path
+    
+    e FileRead : tool
+        tag file_read
+        a file_path
+    
+    e FileWrite : tool
+        tag file_write
+        a file_path
+    
+    e GoogleSerperSearch : tool
+        tag google_serper_search
+        a search_url
+            # The URL endpoint for the search API. (Default is https://google.serper.dev/search)
+        a country
+            # Optional. 
+            # Specify the country for the search results.
+        a location
+            # Optional.
+            # Specify the location for the search results.
+        a locale
+            # Optional. 
+            # Specify the locale for the search results.
+        a_integer(n_results, @@null, 10)
+            # Number of search results to return.
+    
+    e JsonRagSearch : tool
+        tag json_rag_search
+        a file_path
+    
+    e MdxRagSearch : tool
+        tag mdx_rag_search
+        a file_path
+    
+    e PdfRagSearch : tool
+        tag pdf_rag_search
+        a file_path
+    
+    e ScrapeWebsite : tool
+        tag scrape_website
+        a website_url
+    
+    e TxtRagSearch : tool
+        tag txt_rag_search
+        a file_path
+    
+    e WebsiteRagSearch : tool
+        tag website_rag_search
+        a website_url
+
+    e CustomTool : tool
+        tag custom_tool
+        a type
+        a name
+        a description
+        #

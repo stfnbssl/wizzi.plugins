@@ -1,0 +1,36 @@
+$group
+
+    function writeTask
+        param ctx
+        param json
+        log 'writeTask', json, json.properties.length
+        _ ctx.w("")
+        _ ctx.w(json.name + " = Task(")
+        _ ctx.indent
+        _ writeProperties
+            @ ctx
+            @ json
+        _ ctx.deindent
+        _ ctx.w(")")
+
+    function writeTasks
+        param ctx
+        param json
+        if json.tasks.length > 0
+            foreach task in json.tasks
+                _ writeTask
+                    @ ctx
+                    @ task        
+
+$*        
+extractTopics = Task(
+    description=(
+        "1. Estrai i vari consigli sul management dell'obesità infantile formulati dagli specialisti e riportati su documenti word.\n"
+        "2. Classifica i vari consigli, che chiamiamo item, per argomento ed età.\n"
+    ),
+    expected_output="Un documento JSON con gli item classificati per argomento ed età.",
+    output_json=ObesityItems,
+    output_file="obesity_items.json",      
+    agent=extractor,
+)
+*$

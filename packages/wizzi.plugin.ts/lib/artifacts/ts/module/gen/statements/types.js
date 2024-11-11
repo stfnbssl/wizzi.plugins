@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\artifacts\ts\module\gen\statements\types.js.ittf
-    utc time: Wed, 04 Sep 2024 02:34:22 GMT
+    utc time: Wed, 30 Oct 2024 04:22:27 GMT
 */
 var util = require('util');
 var verify = require('@wizzi/utils').verify;
@@ -172,6 +172,18 @@ md.load = function(cnt) {
             throw new Error('The callback parameter must be a function. In ' + myname + '.typeAny. Got: ' + callback);
         }
         ctx.write('any');
+        return callback(null);
+    }
+    ;
+    cnt.stm.typeSymbol = function(model, ctx, kind, callback) {
+        if (typeof callback === 'undefined') {
+            callback = kind;
+            kind = null;
+        }
+        if (typeof callback !== 'function') {
+            throw new Error('The callback parameter must be a function. In ' + myname + '.typeSymbol. Got: ' + callback);
+        }
+        ctx.write('symbol');
         return callback(null);
     }
     ;

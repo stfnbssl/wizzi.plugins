@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.prisma\.wizzi-override\lib\artifacts\prisma\tojson\gen\main.js.ittf
-    utc time: Tue, 24 Sep 2024 15:38:02 GMT
+    utc time: Fri, 18 Oct 2024 06:10:47 GMT
 */
 
 
@@ -45,7 +45,7 @@ md.gen = function(model, ctx, callback) {
                      }, 
                     {
                         name: 'idRelated', 
-                        meaning: 'The field is a scalar single field foreign key.'
+                        meaning: 'The field is a scalar single field foreign key in a `many-to-one` relation.'
                      }, 
                     {
                         name: 'objectRelated', 
@@ -92,10 +92,12 @@ md.gen = function(model, ctx, callback) {
                     'Checkbox', 
                     'Radio', 
                     'Color', 
+                    'Select', 
                     'Switch', 
                     'Slider', 
                     'Rate', 
-                    'Upload'
+                    'Upload', 
+                    'Markdown'
                 ]
              }, 
             datasources: [
@@ -288,6 +290,9 @@ md.model = function(model, ctx, callback) {
         ], 
         indexes: [
             
+        ], 
+        tags: [
+            
         ]
      };
     if (model.extNoUpload) {
@@ -295,6 +300,7 @@ md.model = function(model, ctx, callback) {
     }
     ctx.__current.models.push(jsonModel)
     ctx.__current = jsonModel;
+    setTags(model, jsonModel)
     md.genItems(model.fields, ctx, {
         indent: true, 
         from: 0
@@ -374,6 +380,9 @@ md.field = function(model, ctx, callback) {
         ], 
         dbColumns: [
             
+        ], 
+        tags: [
+            
         ]
      };
     if (model.idRelated) {
@@ -383,6 +392,16 @@ md.field = function(model, ctx, callback) {
         jsonField.relationName = model.relationName;
         jsonField.relationCardinality = model.relationCardinality;
         jsonField.relationTarget = model.relationTarget;
+        jsonField.referenceTwinObject = model.referenceTwinObject;
+        if (verify.isNotEmpty(model.relationName)) {
+            var inversedByField = get_FieldInversedBy_ByRelationName(model, model.relationName);
+            if (inversedByField) {
+                jsonField.inversedBy = inversedByField.wzName;
+            }
+            else {
+                throw new Error("In field " + model.wzName + ' cannot find inversedBy for relationName: ' + model.relationName);
+            }
+        }
     }
     else if (verify.isNotEmpty(model.relationCardinality)) {
         jsonField.isRelated = true;
@@ -391,6 +410,7 @@ md.field = function(model, ctx, callback) {
         jsonField.relationTarget = model.relationTarget;
     }
     ctx.__current.fields.push(jsonField)
+    setTags(model, jsonField)
     ctx.__current = jsonField;
     md.genItems(model.fieldAttributes, ctx, {
         indent: false, 
@@ -420,6 +440,15 @@ md.field = function(model, ctx, callback) {
             fdbc.setField(ctx.__current)
         }
         setJSON_KnownFieldTypes(jsonField)
+        if (jsonField.relation && verify.isNotEmpty(jsonField.relation.name)) {
+            var mappedBy = get_FieldInversedBy_ByRelationName(model, jsonField.relation.name);
+            if (mappedBy) {
+                jsonField.mappedBy = mappedBy.wzName;
+            }
+            else {
+                throw new Error("In field " + model.wzName + ' cannot find inversedBy for relationName: ' + jsonField.relation.name);
+            }
+        }
         ctx.__current = saveCurrent;
         return callback(null);
     }
@@ -524,9 +553,56 @@ function error(errorName, method, message, model, innerError) {
             inner: innerError
          });
 }
+function get_FieldInversedBy_ByRelationName(field, relationName) {
+    var i, i_items=field.wzParent.wzParent.models, i_len=field.wzParent.wzParent.models.length, model;
+    for (i=0; i<i_len; i++) {
+        model = field.wzParent.wzParent.models[i];
+        if (model.wzName != field.wzParent.wzName) {
+            var j, j_items=model.fields, j_len=model.fields.length, cfield;
+            for (j=0; j<j_len; j++) {
+                cfield = model.fields[j];
+                var k, k_items=cfield.fieldAttributes, k_len=cfield.fieldAttributes.length, fieldAttribute;
+                for (k=0; k<k_len; k++) {
+                    fieldAttribute = cfield.fieldAttributes[k];
+                    
+                    // loog "get_FieldInversedBy_ByRelationName", cfield.wzName
+                    if (fieldAttribute.wzName == 'relation') {
+                        var args = [];
+                        var l, l_items=fieldAttribute.valueAssigns, l_len=fieldAttribute.valueAssigns.length, item;
+                        for (l=0; l<l_len; l++) {
+                            item = fieldAttribute.valueAssigns[l];
+                            var arg = {};
+                            
+                            // loog "get_FieldInversedBy_ByRelationName.arg", arg
+                            if (item.setJSON) {
+                                item.setJSON(arg)
+                                args.push(arg)
+                            }
+                            else {
+                                args.push(verify.unquote(item.getValueString()))
+                            }
+                        }
+                        var l, l_items=args, l_len=args.length, arg;
+                        for (l=0; l<l_len; l++) {
+                            arg = args[l];
+                            for (var k in arg) {
+                                // loog "get_FieldInversedBy_ByRelationName.k, arg[k]", k, arg[k]
+                                if (k == 'name' && arg[k] == relationName) {
+                                    return cfield;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return null;
+}
 function setJSON_KnownFieldTypes(jsonField) {
+    
+    // loog 'setJSON_KnownFieldTypes', jsonField.attributes.length, jsonField.attributes[0]
     if (jsonField.name == 'xrequired' || jsonField.name == 'pattern') {
-        console.log('setJSON_KnownFieldTypes', jsonField.attributes.length, jsonField.attributes[0], __filename);
     }
     if (jsonField.attributes.length > 0 && jsonField.attributes[0].type == "@function" && jsonField.attributes[0].name == "relation") {
         jsonField.isRelated = true;
@@ -550,15 +626,31 @@ function setJSON_KnownFieldTypes(jsonField) {
     if (jsonField.attributes.length > 0 && jsonField.attributes[0].type == "@" && jsonField.attributes[0].name == "unique") {
         jsonField.isUnique = true;
     }
+    
+    // loog 'jsonField.constraints', jsonField.name, jsonField.constraints
     if (jsonField.attributes.length > 0 && jsonField.attributes[0].type == "@function" && jsonField.attributes[0].name == "default") {
-        if (!jsonField.attributes[0].args[0] || verify.isEmpty(jsonField.attributes[0].args[0].name)) {
+        if (jsonField.attributes[0].args[0]) {
+            if (verify.isNotEmpty(jsonField.attributes[0].args[0].name)) {
+                jsonField.constraints.push({
+                    type: "defaultValue", 
+                    defaultValue: jsonField.attributes[0].args[0].name
+                 })
+            }
+            else if (verify.isNotEmpty(jsonField.attributes[0].args[0])) {
+                jsonField.constraints.push({
+                    type: "defaultValue", 
+                    defaultValue: getTypedValue(jsonField.type, jsonField.attributes[0].args[0])
+                 })
+            }
+            else {
+                console.log("[31m%s[0m", 'jsonField.attributes[0].args', jsonField.attributes[0].args);
+                throw new Error("Missing name attribute on default of field " + jsonField.name);
+            }
+        }
+        else {
+            console.log("[31m%s[0m", 'jsonField.attributes[0].args', jsonField.attributes[0].args);
             throw new Error("Missing name attribute on default of field " + jsonField.name);
         }
-        jsonField.constraints.push({
-            type: "defaultValue", 
-            defaultValue: jsonField.attributes[0].args[0].name
-         })
-        console.log('jsonField.constraints', jsonField.name, jsonField.constraints, __filename);
     }
 }
 function setJSON_KnownModelAttributes(model) {
@@ -585,6 +677,19 @@ function setRelations(models) {
         }
     }
 }
+function setTags(model, json) {
+    var i, i_items=model.tags, i_len=model.tags.length, tag;
+    for (i=0; i<i_len; i++) {
+        tag = model.tags[i];
+        var nv = lineParser.parseNameValueRaw(tag.wzName, tag);
+        var name = nv.name();
+        var value = nv.value();
+        json.tags.push({
+            name: name, 
+            value: value
+         })
+    }
+}
 function setOneToManyOrToOneRelation(models, manyOrOneModel, manyOrOneField) {
     // the manyOrOneField.type is set in
     // .
@@ -606,16 +711,6 @@ function setOneToManyOrToOneRelation(models, manyOrOneModel, manyOrOneField) {
         }
     }
 }
-function setIndexes(ctx) {
-    var i, i_items=ctx.__json.indexes, i_len=ctx.__json.indexes.length, item;
-    for (i=0; i<i_len; i++) {
-        item = ctx.__json.indexes[i];
-        var j, j_items=item.fields, j_len=item.fields.length, field;
-        for (j=0; j<j_len; j++) {
-            field = item.fields[j];
-        }
-    }
-}
 function getForeignFieldInModel(jsonModel, fieldName) {
     var i, i_items=jsonModel.fields, i_len=jsonModel.fields.length, field;
     for (i=0; i<i_len; i++) {
@@ -630,4 +725,18 @@ function getForeignFieldInModel(jsonModel, fieldName) {
         }
     }
     return null;
+}
+function getTypedValue(type, value) {
+    if (type == "Boolean") {
+        return value == 'true' ? true : false;
+    }
+    else if (type == "Int") {
+        return parseInt(value);
+    }
+    else if (type == "Float" || type == "Decimal") {
+        return parseFloat(value);
+    }
+    else {
+        return value;
+    }
 }

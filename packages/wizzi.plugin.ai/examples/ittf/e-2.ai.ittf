@@ -1,0 +1,71 @@
+ai crewAI lab
+
+    api_url http://localhost:3000
+
+    openai_llm
+        $$ model gpt-4
+        model gpt-3.5-turbo
+
+    $$ mdx_rag_search toolMdx1
+    file_read toolMdx1
+        file_path C:/My/3dparty/python/Anna/Obesi/IAIA/Documenti/Caselli.md
+    
+    $$ mdx_rag_search toolMdx2
+    file_read toolMdx2
+        file_path C:/My/3dparty/python/Anna/Obesi/IAIA/Documenti/Davoli.md
+
+    pydantic_model ObesityItems
+        p item
+            type str
+        p argomento
+            type str
+        p fascia_età
+            type str
+
+    agent extractor
+        role Estrattore di contenuti
+        goal Estrarre e classificare contenuti riguardanti l'obesità infantile
+        backstory Stai lavorando ad un progetto di produzione di schede informative
+            \b per il management dell'obesità infantile per fasce di età.
+            \b Vari specialisti hanno prodotto schede per i pediatri in vari documenti.
+            \b Dovranno essere prodotte schede anche per i genitori, usando un linguaggio più semplice.
+            \b Dovranno inoltre essere fornite istruzioni ai pediatri su come presentare ai genitori le schede loro rivolte.
+            \b Il tuo lavoro è estrarre dai documenti prodotti dagli specialisti i vari consigli per i pediatri 
+            \b classificandoli per argomento e fascia d'età,
+            \b questi saranno poi passati al Mediatore dei contenuti genitoriali per adattarli all'uso da parte dei genitori.
+        tool_ref toolMdx1
+        tool_ref toolMdx2
+        allow_delegation false
+        verbose true
+
+    agent adapterForParents
+        role Mediatore dei contenuti genitoriali
+        goal Riformulare contenuti specialistici pediatrici per esporli a genitori di cultura medio bassa
+        backstory Comunicare ai genitori consigli riguardanti l'obesità del loro figlio è compito molto delicato.
+              \b Si deve evitare un linguaggio troppo specialistico e occorre prestare attenzione a non
+              \b urtare la suscettibilità e a non rinforzare lo stigma che questa patologia porta con se.
+              \b Gli item estratti dall'Estrattore di contenuti dovranno essere riformulati con queste avvertenze. 
+        allow_delegation false
+        verbose true
+
+    task extractTopics
+        description 1. Estrai i vari consigli sul management dell'obesità infantile formulati dagli specialisti e riportati su documenti markdown.
+            \b 2. Classifica i vari consigli, che chiamiamo item, per argomento e fascia d'età.
+        expected_output Un documento JSON con gli item classificati per argomento ed fascia d'età.
+        output_json ObesityItems
+        output_file obesity_items.json      
+        agent extractor
+
+    task adaptTopicsToParents
+        description 1. Esamina i consigli contenuti nella proprietà `item` dell'input e adattali alla comprensione di genitori di cultura medio bassa.
+            \b 2. Gli item sono classificati per argomento ed età ed all'interno di una stessa età e di uno stesso argomento puoi
+            \b considerare gli item anche nel loro insieme.
+        expected_output Un documento in formato markdown con i consigli per i genitori raggruppati per età e all'interno dell'età per argomento.
+        agent adapterForParents
+
+    crew event_management_crew
+        agent_ref extractor
+        agent_ref adapterForParents    
+        task_ref extractTopics
+        task_ref adaptTopicsToParents
+        verbose true

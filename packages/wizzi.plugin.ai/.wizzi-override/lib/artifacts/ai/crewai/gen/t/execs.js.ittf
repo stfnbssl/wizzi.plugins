@@ -1,0 +1,54 @@
+$group
+
+    function parseExecs
+        param model
+        param mainJson
+        param crewJson
+        foreach exec in model.execs
+            var execObj
+                {
+                    [ inputs
+                    [ displays
+            if verify.isObject(exec.inputs)
+                foreach item in exec.inputs.properties
+                    var p = lineParser.parseNameValueRaw(item.wzName, item)
+                    if p.hasValue()
+                        _ execObj.inputs.push
+                            { 
+                                @ name p.name()
+                                @ value p.value()
+                    else
+                        _ execObj.inputs.push
+                            { 
+                                @ name p.name()
+            foreach display in exec.displays
+                _ parseDisplay
+                    @ display
+                    @ mainJson
+                    @ execObj
+            _ crewJson.execs.push
+                @ execObj
+
+    function parseDisplay
+        param model
+        param mainJson
+        param execObj
+        if model.wzName == 'markdown'
+            set mainJson.displayTypes['Markdown']
+                {
+                    @ from 'IPython.display'
+                    @ type 'Markdown'
+        elif model.wzName == 'pprint'
+            set mainJson.displayTypes['pprint']
+                {
+                    @ from 'pprint'
+                    @ type 'pprint'
+            if model.format == 'json'
+                set mainJson.displayTypes['json']
+                    {
+                        @ type 'json'
+        _ execObj.displays.push
+            {
+                @ type model.wzName
+                @ file_path model.file_path
+                @ format model.format

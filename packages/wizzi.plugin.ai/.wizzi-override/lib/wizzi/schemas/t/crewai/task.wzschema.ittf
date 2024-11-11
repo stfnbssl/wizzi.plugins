@@ -1,0 +1,57 @@
+$group
+
+    e taskContext : node
+        r taskRef/s
+    
+    e task : node
+        a description
+            # A clear, concise statement of what the task entails.
+        a expected_output
+            # A detailed description of what the task’s completion looks like.
+        a_false(async_execution)
+            # Optional[bool]
+            # If set, the task executes asynchronously, allowing progression without waiting for completion. 
+        a output_json
+            # Optional[Type[BaseModel]]
+            # Outputs a JSON object, requiring an OpenAI client. 
+            # Only one output format can be set.
+        a output_pydantic
+            # Optional[Type[BaseModel]]
+            # Outputs a Pydantic model object, requiring an OpenAI client. 
+            # Only one output format can be set.
+        a output_file
+            # Optional[str]	
+            # Saves the task output to a file. 
+            # If used with Output JSON or Output Pydantic, specifies how the output is saved.
+        a output
+            # Optional[TaskOutput]
+            # An instance of TaskOutput, containing the raw, JSON, and Pydantic output plus additional details.
+        a callback
+            # Optional[Any]	
+            # A callable that is executed with the task’s output upon completion.
+        a_false(human_input)
+            # Optional[bool]
+            # Indicates if the task should involve human review at the end, useful for tasks needing human oversight. 
+        a converter_cls
+            # Optional[Type[Converter]]	
+            # A converter class used to export structured output. 
+            # Defaults to None.            
+        r agent
+            one-to-one
+            # Optional[BaseAgent]
+            # The agent responsible for the task, assigned either directly or by the crew’s process.
+        r taskContext
+            one-to-one
+            # Optional[List["Task"]]
+            # Specifies tasks whose outputs are used as context for this task.
+        r config
+            one-to-one
+            # Optional[Dict[str, Any]]
+            # Additional configuration details for the agent executing the task, allowing further customization. 
+            # Defaults to None.
+        r toolRef/s
+            # Optional[List[Any]]
+            # The functions or capabilities the agent can utilize to perform the task. 
+            # Defaults to an empty list.
+
+    

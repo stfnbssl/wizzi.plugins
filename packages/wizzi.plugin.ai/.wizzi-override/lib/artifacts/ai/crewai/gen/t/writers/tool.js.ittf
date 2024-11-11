@@ -1,0 +1,95 @@
+$group
+
+    function writeToolVars
+        param ctx
+        param json
+        if json.type == 'BaseTool'
+            _ writeCustomToolType
+                @ ctx
+                @ json
+        elif json.type == 'DirectoryReadTool'
+            if verify.isNotEmpty(json.directory_path)
+                _ ctx.w(json.name + '_path = "' + json.directory_path + '"')
+        elif json.type == 'FileReadTool'
+            if verify.isNotEmpty(json.file_path)
+                _ ctx.w(json.name + '_path = "' + json.file_path + '"')
+        elif json.type == 'MDXSearchTool'
+            if verify.isNotEmpty(json.file_path)
+                _ ctx.w(json.name + '_path = "' + json.file_path + '"')
+        elif json.type == 'ScrapeWebsiteTool'
+            if verify.isNotEmpty(json.website_url)
+                _ ctx.w(json.name + '_url = "' + json.website_url + '"')
+        elif json.type == 'WebsiteSearchTool'
+            if verify.isNotEmpty(json.website_url)
+                _ ctx.w(json.name + '_url = "' + json.website_url + '"')
+
+    function writeToolInstance
+        param ctx
+        param json
+        if json.type == 'BaseTool'
+            _ ctx.w(json.name + ' = ' + json.customType + '()')
+        elif json.type == 'DirectoryReadTool'
+            _ ctx.w(json.name + ' = DirectoryReadTool(directory=' + json.name + '_path)')
+        elif json.type == 'FileReadTool'
+            if verify.isNotEmpty(json.file_path)
+                _ ctx.w(json.name + ' = FileReadTool(file_path=' + json.name + '_path)')
+            else
+                _ ctx.w(json.name + ' = FileReadTool()')
+        elif json.type == 'MDXSearchTool'
+            if verify.isNotEmpty(json.file_path)
+                _ ctx.w(json.name + ' = MDXSearchTool(mdx=' + json.name + '_path)')
+            else
+                _ ctx.w(json.name + ' = MDXSearchTool()')
+        elif json.type == 'SerperDevTool'
+            if json.properties.length > 0
+                _ ctx.w(json.name + ' = SerperDevTool(')
+                _ ctx.indent
+                _ writeProperties
+                    @ ctx
+                    @ json
+                _ ctx.deindent
+                _ ctx.w(')')
+            else
+                _ ctx.w(json.name + ' = SerperDevTool()')
+        elif json.type == 'ScrapeWebsiteTool'
+            if verify.isNotEmpty(json.website_url)
+                _ ctx.w(json.name + ' = ScrapeWebsiteTool(website_url=' + json.name + '_url)')
+            else
+                _ ctx.w(json.name + ' = ScrapeWebsiteTool()')
+        elif json.type == 'WebsiteSearchTool'
+            if verify.isNotEmpty(json.website_url)
+                _ ctx.w(json.name + ' = WebsiteSearchTool(website=' + json.name + '_url)')
+            else
+                _ ctx.w(json.name + ' = WebsiteSearchTool()')
+
+    function writeTools
+        param ctx
+        param json
+        if json.tools.length > 0
+            _ ctx.w()
+            _ ctx.w('# tools definitions')
+            _ ctx.w()
+            foreach tool in json.tools
+                _ writeToolVars
+                    @ ctx
+                    @ tool
+            foreach tool in json.tools
+                _ writeToolInstance
+                    @ ctx
+                    @ tool     
+
+    function writeCustomToolType
+        param ctx
+        param json
+        _ ctx.w("class " + json.customType + "(BaseTool):")
+        _ ctx.indent
+        _ ctx.w("name: str = \"" + json.customName + "\"")
+        _ ctx.w("description: str = \"" + json.customDescription + "\"")
+        foreach m in json.methods
+            if m.name == '_run'
+                _ ctx.w("def _run(self, text: str) -> str:")
+                _ ctx.indent
+                foreach l in m.lines
+                    _ ctx.w(l)
+                _ ctx.deindent
+        _ ctx.deindent

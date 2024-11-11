@@ -68,6 +68,33 @@
       "comments": []
     },
     {
+      "name": "tag",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "tag"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
       "name": "commentable",
       "super": null,
       "isRoot": false,
@@ -75,13 +102,36 @@
         "commentable"
       ],
       "flags": "",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "comment",
           "role": "comments",
           "tags": [
             "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -177,7 +227,8 @@
         {
           "name": "regExp",
           "tags": [
-            "reg-exp"
+            "reg-exp",
+            "pattern"
           ]
         },
         {
@@ -259,6 +310,12 @@
           ]
         },
         {
+          "name": "selectFormat",
+          "tags": [
+            "select-format"
+          ]
+        },
+        {
           "name": "switchFormat",
           "tags": [
             "switch-format"
@@ -281,6 +338,12 @@
           "tags": [
             "upload-format"
           ]
+        },
+        {
+          "name": "markdownFormat",
+          "tags": [
+            "markdown-format"
+          ]
         }
       ],
       "restricts": [],
@@ -295,7 +358,19 @@
         "prisma"
       ],
       "flags": "",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "datasource",
@@ -335,6 +410,17 @@
           "role": "comments",
           "tags": [
             "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -1224,7 +1310,19 @@
         "config"
       ],
       "flags": "",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "valueAssign",
@@ -1247,6 +1345,17 @@
           "flags": "",
           "inheritedFrom": "commentable",
           "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
         }
       ],
       "derived": [],
@@ -1262,7 +1371,19 @@
         "datasource"
       ],
       "flags": "",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "config",
@@ -1285,6 +1406,17 @@
           "flags": "",
           "inheritedFrom": "commentable",
           "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
         }
       ],
       "derived": [],
@@ -1300,7 +1432,19 @@
         "generator"
       ],
       "flags": "",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "config",
@@ -1318,6 +1462,17 @@
           "role": "comments",
           "tags": [
             "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -1351,6 +1506,17 @@
           "inheritedFrom": null,
           "restricts": [],
           "comments": []
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
         }
       ],
       "relations": [
@@ -1377,10 +1543,32 @@
           "comments": []
         },
         {
+          "name": "extension",
+          "role": "extensions",
+          "tags": [
+            "ext"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
           "name": "comment",
           "role": "comments",
           "tags": [
             "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -1471,6 +1659,28 @@
           "inheritedFrom": null,
           "restricts": [],
           "comments": []
+        },
+        {
+          "name": "referenceTwinObject",
+          "type": "string",
+          "tags": [
+            "reference-twin-object"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
         }
       ],
       "relations": [
@@ -1534,6 +1744,17 @@
           "role": "comments",
           "tags": [
             "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -1630,7 +1851,19 @@
         "@"
       ],
       "flags": "",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "valueAssign",
@@ -1648,6 +1881,17 @@
           "role": "comments",
           "tags": [
             "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -1679,6 +1923,17 @@
           "inheritedFrom": null,
           "restricts": [],
           "comments": []
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
         }
       ],
       "relations": [
@@ -1698,6 +1953,17 @@
           "role": "comments",
           "tags": [
             "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -2118,13 +2384,36 @@
         "ext"
       ],
       "flags": "",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "comment",
           "role": "comments",
           "tags": [
             "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -2145,13 +2434,36 @@
         "fieldConstraint"
       ],
       "flags": "is-abstract ",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "comment",
           "role": "comments",
           "tags": [
             "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -2187,7 +2499,8 @@
         {
           "name": "regExp",
           "tags": [
-            "reg-exp"
+            "reg-exp",
+            "pattern"
           ]
         },
         {
@@ -2209,13 +2522,36 @@
         "min"
       ],
       "flags": "",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "comment",
           "role": "comments",
           "tags": [
             "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -2254,13 +2590,36 @@
         "max"
       ],
       "flags": "",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "comment",
           "role": "comments",
           "tags": [
             "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -2299,13 +2658,36 @@
         "min-length"
       ],
       "flags": "",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "comment",
           "role": "comments",
           "tags": [
             "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -2344,13 +2726,36 @@
         "max-length"
       ],
       "flags": "",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "comment",
           "role": "comments",
           "tags": [
             "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -2386,16 +2791,40 @@
       "super": "fieldConstraint",
       "isRoot": false,
       "tags": [
-        "reg-exp"
+        "reg-exp",
+        "pattern"
       ],
       "flags": "",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "comment",
           "role": "comments",
           "tags": [
             "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -2434,7 +2863,19 @@
         "enum"
       ],
       "flags": "",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "enumValue",
@@ -2452,6 +2893,17 @@
           "role": "comments",
           "tags": [
             "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -2520,13 +2972,36 @@
         "dbColumn"
       ],
       "flags": "is-abstract ",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "comment",
           "role": "comments",
           "tags": [
             "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -2590,13 +3065,36 @@
         "db-default-to"
       ],
       "flags": "",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "comment",
           "role": "comments",
           "tags": [
             "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -2635,13 +3133,36 @@
         "db-name"
       ],
       "flags": "",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "comment",
           "role": "comments",
           "tags": [
             "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -2680,13 +3201,36 @@
         "db-not-nullable"
       ],
       "flags": "",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "comment",
           "role": "comments",
           "tags": [
             "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -2725,13 +3269,36 @@
         "db-unsigned"
       ],
       "flags": "",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "comment",
           "role": "comments",
           "tags": [
             "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -2770,13 +3337,36 @@
         "db-unique"
       ],
       "flags": "",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "comment",
           "role": "comments",
           "tags": [
             "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -2815,13 +3405,36 @@
         "db-type"
       ],
       "flags": "",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "comment",
           "role": "comments",
           "tags": [
             "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -2860,13 +3473,36 @@
         "db-args"
       ],
       "flags": "",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "comment",
           "role": "comments",
           "tags": [
             "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -2905,13 +3541,36 @@
         "fieldEditFormat"
       ],
       "flags": "is-abstract ",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "comment",
           "role": "comments",
           "tags": [
             "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -2939,6 +3598,12 @@
           ]
         },
         {
+          "name": "selectFormat",
+          "tags": [
+            "select-format"
+          ]
+        },
+        {
           "name": "switchFormat",
           "tags": [
             "switch-format"
@@ -2961,6 +3626,12 @@
           "tags": [
             "upload-format"
           ]
+        },
+        {
+          "name": "markdownFormat",
+          "tags": [
+            "markdown-format"
+          ]
         }
       ],
       "restricts": [],
@@ -2975,13 +3646,36 @@
         "checkbox-format"
       ],
       "flags": "",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "comment",
           "role": "comments",
           "tags": [
             "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -3018,13 +3712,36 @@
         "radio-format"
       ],
       "flags": "",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "comment",
           "role": "comments",
           "tags": [
             "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -3061,13 +3778,102 @@
         "color-format"
       ],
       "flags": "",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "comment",
           "role": "comments",
           "tags": [
             "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "getFormat",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": []
+    },
+    {
+      "name": "selectFormat",
+      "super": "fieldEditFormat",
+      "isRoot": false,
+      "tags": [
+        "select-format"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -3104,13 +3910,36 @@
         "switch-format"
       ],
       "flags": "",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "comment",
           "role": "comments",
           "tags": [
             "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -3147,13 +3976,36 @@
         "slider-format"
       ],
       "flags": "",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "comment",
           "role": "comments",
           "tags": [
             "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -3190,13 +4042,36 @@
         "rate-format"
       ],
       "flags": "",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "comment",
           "role": "comments",
           "tags": [
             "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -3233,13 +4108,102 @@
         "upload-format"
       ],
       "flags": "",
-      "attributes": [],
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
+        }
+      ],
       "relations": [
         {
           "name": "comment",
           "role": "comments",
           "tags": [
             "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "getFormat",
+          "isStatic": false,
+          "isKnownMethod": false,
+          "params": [],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": []
+    },
+    {
+      "name": "markdownFormat",
+      "super": "fieldEditFormat",
+      "isRoot": false,
+      "tags": [
+        "markdown-format"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "comment",
+          "role": "comments",
+          "tags": [
+            "#"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "commentable",
+          "comments": []
+        },
+        {
+          "name": "tag",
+          "role": "tags",
+          "tags": [
+            "tag"
           ],
           "cardinality": "one-to-many",
           "flags": "",

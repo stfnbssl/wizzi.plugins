@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.logbot\.wizzi-override\lib\artifacts\logbot\jsonupload\gen\main.js.ittf
-    utc time: Tue, 24 Sep 2024 12:10:57 GMT
+    utc time: Tue, 29 Oct 2024 10:22:29 GMT
 */
 
 
@@ -31,16 +31,37 @@ md.gen = function(model, ctx, callback) {
     }
     try {
         ctx.__json = {
-            oems: [
+            manufacturers: [
                 
             ], 
-            users: [
+            manufacturerDeviceModels: [
+                
+            ], 
+            userGatewayModels: [
+                
+            ], 
+            userDeviceModels: [
+                
+            ], 
+            tenants: [
+                
+            ], 
+            userGroups: [
+                
+            ], 
+            modelSchemas: [
                 
             ], 
             plants: [
                 
             ], 
+            plantPermissions: [
+                
+            ], 
             gateways: [
+                
+            ], 
+            gatewayPermissions: [
                 
             ], 
             dynamicTags: [
@@ -52,7 +73,10 @@ md.gen = function(model, ctx, callback) {
             scripts: [
                 
             ], 
-            plcs: [
+            devices: [
+                
+            ], 
+            devicePermissions: [
                 
             ], 
             connectionValues: [
@@ -162,24 +186,62 @@ md.meta = function(model, ctx, callback) {
     return callback(null);
 }
 ;
-md.oem = function(model, ctx, callback) {
+md.manufacturer = function(model, ctx, callback) {
     var json = {
         name: model.wzName, 
         nameKey: getKeyPath(model), 
         org_xid: model.org_xid, 
         description: model.description
      };
-    ctx.__current.oems.push(json)
-    var i, i_items=model.users, i_len=model.users.length, item;
+    ctx.__current.manufacturers.push(json)
+    var i, i_items=model.manufacturerDeviceModels, i_len=model.manufacturerDeviceModels.length, item;
     for (i=0; i<i_len; i++) {
-        item = model.users[i];
-        user(ctx.__current, model, item)
+        item = model.manufacturerDeviceModels[i];
+        // loog 'manufacturer.deviceModel', item.wzName
+        deviceModel(ctx.__current, model, item)
+    }
+    return callback(null);
+}
+;
+md.tenant = function(model, ctx, callback) {
+    var json = {
+        name: model.wzName, 
+        nameKey: getKeyPath(model), 
+        org_xid: model.org_xid, 
+        description: model.description
+     };
+    ctx.__current.tenants.push(json)
+    var i, i_items=model.userGatewayModels, i_len=model.userGatewayModels.length, item;
+    for (i=0; i<i_len; i++) {
+        item = model.userGatewayModels[i];
+        gateway('userGatewayModel', ctx.__current, model, item)
+    }
+    var i, i_items=model.userDeviceModels, i_len=model.userDeviceModels.length, item;
+    for (i=0; i<i_len; i++) {
+        item = model.userDeviceModels[i];
+        deviceModel(ctx.__current, model, item)
+    }
+    var i, i_items=model.userGroups, i_len=model.userGroups.length, item;
+    for (i=0; i<i_len; i++) {
+        item = model.userGroups[i];
+        userGroup(ctx.__current, model, item)
     }
     var i, i_items=model.plants, i_len=model.plants.length, item;
     for (i=0; i<i_len; i++) {
         item = model.plants[i];
         plant(ctx.__current, model, item)
     }
+    return callback(null);
+}
+;
+md.modelSchema = function(model, ctx, callback) {
+    var json = {
+        name: model.wzName, 
+        version: model.version, 
+        nameKey: model.wzName, 
+        description: model.description
+     };
+    ctx.__current.modelSchemas.push(json)
     return callback(null);
 }
 ;
@@ -205,98 +267,179 @@ function error(errorName, method, message, model, innerError) {
          });
 }
 
-function user(jsonDataTables, parentModel, model) {
+function userGroup(jsonDataTables, parentModel, model) {
     var json = {
         name: model.wzName, 
-        nameKey: getKeyPath(model), 
-        oem: getKeyPath(parentModel)
+        nameKey: model.wzName, 
+        tenant: getKeyPath(parentModel)
      };
-    jsonDataTables.users.push(json)
+    jsonDataTables.userGroups.push(json)
 }
 
 function plant(jsonDataTables, parentModel, model) {
     var json = {
         name: model.wzName, 
         nameKey: getKeyPath(model), 
-        oem: getKeyPath(parentModel), 
+        tenant: getKeyPath(parentModel), 
+        owner: model.owner, 
         plant_xid: model.plant_xid, 
-        description: model.description
+        description: model.description, 
+        modelSchema: model.modelSchema, 
+        configState: model.configState, 
+        instanceRole: model.instanceRole, 
+        itemConfigState: model.itemConfigState, 
+        activityState: model.activityState, 
+        modifiedId: model.modifiedId, 
+        plant_model_data: {
+            tags: {
+                
+             }
+         }
      };
+    var i, i_items=model.staticTags, i_len=model.staticTags.length, item;
+    for (i=0; i<i_len; i++) {
+        item = model.staticTags[i];
+        staticTag(jsonDataTables, model, item, json.plant_model_data)
+    }
+    var i, i_items=model.userGroups, i_len=model.userGroups.length, ug;
+    for (i=0; i<i_len; i++) {
+        ug = model.userGroups[i];
+        jsonDataTables.plantPermissions.push({
+            plant: getKeyPath(model), 
+            userGroup: ug.wzName
+         })
+    }
     jsonDataTables.plants.push(json)
     var i, i_items=model.gateways, i_len=model.gateways.length, item;
     for (i=0; i<i_len; i++) {
         item = model.gateways[i];
-        gateway(jsonDataTables, model, item)
+        gateway('gw', jsonDataTables, model, item)
     }
 }
 
-function gateway(jsonDataTables, parentModel, model) {
-    var json = {
-        name: model.wzName, 
-        nameKey: getKeyPath(model), 
-        plant: getKeyPath(parentModel), 
-        iot_xid: model.iot_xid, 
-        batching_maxSize: model.batching_maxSize, 
-        batching_period: model.batching_period, 
-        gw_config: {
-            dynamic_tags: [
-                
-            ], 
-            scripts: [
-                
-            ]
-         }
-     };
-    jsonDataTables.gateways.push(json)
-    var i, i_items=model.dynamicTags, i_len=model.dynamicTags.length, item;
-    for (i=0; i<i_len; i++) {
-        item = model.dynamicTags[i];
-        dynamicTag(jsonDataTables, model, item, json.gw_config)
+function gateway(kind, jsonDataTables, parentModel, model) {
+    if (kind == "userGatewayModel") {
+        var json = {
+            name: model.wzName, 
+            nameKey: getKeyPath(model), 
+            description: model.description, 
+            tenant: getKeyPath(parentModel), 
+            owner: model.owner, 
+            version: model.version, 
+            modelSchema: model.modelSchema, 
+            gw_model_data: {
+                tags: {
+                    
+                 }, 
+                dynamic_tags: [
+                    
+                ], 
+                scripts: [
+                    
+                ]
+             }
+         };
+        jsonDataTables.userGatewayModels.push(json)
+        var i, i_items=model.dynamicTags, i_len=model.dynamicTags.length, item;
+        for (i=0; i<i_len; i++) {
+            item = model.dynamicTags[i];
+            dynamicTag(jsonDataTables, model, item, json.gw_model_data)
+        }
+        var i, i_items=model.scripts, i_len=model.scripts.length, item;
+        for (i=0; i<i_len; i++) {
+            item = model.scripts[i];
+            script(jsonDataTables, model, item, json.gw_model_data)
+        }
     }
-    var i, i_items=model.scripts, i_len=model.scripts.length, item;
-    for (i=0; i<i_len; i++) {
-        item = model.scripts[i];
-        script(jsonDataTables, model, item, json.gw_config)
-    }
-    var i, i_items=model.plcs, i_len=model.plcs.length, item;
-    for (i=0; i<i_len; i++) {
-        item = model.plcs[i];
-        plc(jsonDataTables, model, item)
+    else {
+        var json = {
+            name: model.wzName, 
+            nameKey: getKeyPath(model), 
+            description: model.description, 
+            tenant: getKeyPath(parentModel.wzParent), 
+            owner: model.owner, 
+            plant: getKeyPath(parentModel), 
+            gw_xid: model.gw_xid, 
+            iot_xid: model.iot_xid, 
+            balenaId: model.balenaId, 
+            deviceModel: model.deviceModel, 
+            settings: model.settings, 
+            modelSchema: model.modelSchema, 
+            configState: model.configState, 
+            instanceRole: model.instanceRole, 
+            itemConfigState: model.itemConfigState, 
+            activityState: model.activityState, 
+            modifiedId: model.modifiedId, 
+            settings: model.settings, 
+            batching_maxSize: model.batching_maxSize, 
+            batching_period: model.batching_period, 
+            userGatewayModel: model.userGatewayModel ? model.userGatewayModel.wzName : null, 
+            gw_model_data: {
+                tags: {
+                    
+                 }
+             }
+         };
+        var i, i_items=model.userGroups, i_len=model.userGroups.length, ug;
+        for (i=0; i<i_len; i++) {
+            ug = model.userGroups[i];
+            jsonDataTables.gatewayPermissions.push({
+                gateway: getKeyPath(model), 
+                userGroup: ug.wzName
+             })
+        }
+        jsonDataTables.gateways.push(json)
+        var i, i_items=model.staticTags, i_len=model.staticTags.length, item;
+        for (i=0; i<i_len; i++) {
+            item = model.staticTags[i];
+            staticTag(jsonDataTables, model, item, json.gw_model_data)
+        }
+        var i, i_items=model.devices, i_len=model.devices.length, item;
+        for (i=0; i<i_len; i++) {
+            item = model.devices[i];
+            device(jsonDataTables, model, item)
+        }
     }
 }
 
-function dynamicTag(jsonDataTables, parentModel, model, gw_config) {
+function dynamicTag(jsonDataTables, parentModel, model, gw_model_data) {
     var json = {
         nameKey: getKeyPath(model), 
         gateway: getKeyPath(parentModel), 
         tag_xid: model.wzName, 
         default_value: model.default_value, 
         description: model.description, 
-        ref_plc_xid: model.ref_plc_xid, 
+        ref_device_xid: model.ref_device_xid, 
         ref_metric_name: model.ref_metric_name
      };
-    var dynamicTag = {
+    var gw_model_data_dynamicTag = {
         tag_xid: model.wzName, 
         default_value: model.default_value, 
         description: model.description, 
-        ref_plc_xid: model.ref_plc_xid, 
-        ref_metric_name: model.ref_metric_name
+        ref_device_xid: model.ref_device_xid, 
+        ref_metric_name: model.ref_metric_name, 
+        allowed_values: [
+            
+        ], 
+        regex_allowed_values: [
+            
+        ]
      };
-    gw_config.dynamic_tags.push(dynamicTag)
     jsonDataTables.dynamicTags.push(json)
     var i, i_items=model.dynamicTagAllowedValues, i_len=model.dynamicTagAllowedValues.length, item;
     for (i=0; i<i_len; i++) {
         item = model.dynamicTagAllowedValues[i];
-        dynamicTagAllowedValue(jsonDataTables, model, item)
+        dynamicTagAllowedValue(jsonDataTables, model, item, gw_model_data_dynamicTag)
     }
     var i, i_items=model.dynamicTagRegexAllowedValues, i_len=model.dynamicTagRegexAllowedValues.length, item;
     for (i=0; i<i_len; i++) {
         item = model.dynamicTagRegexAllowedValues[i];
-        dynamicTagRegexAllowedValue(jsonDataTables, model, item)
+        dynamicTagRegexAllowedValue(jsonDataTables, model, item, gw_model_data_dynamicTag)
     }
+    gw_model_data.dynamic_tags.push(gw_model_data_dynamicTag)
 }
 
-function dynamicTagAllowedValue(jsonDataTables, parentModel, model) {
+function dynamicTagAllowedValue(jsonDataTables, parentModel, model, gw_model_data_dynamicTag) {
     var json = {
         nameKey: getKeyPath(model), 
         dynamicTag: getKeyPath(parentModel), 
@@ -304,9 +447,10 @@ function dynamicTagAllowedValue(jsonDataTables, parentModel, model) {
         is_regex: false
      };
     jsonDataTables.dynamicTagAllowedValues.push(json)
+    gw_model_data_dynamicTag.allowed_values.push(model.wzName)
 }
 
-function dynamicTagRegexAllowedValue(jsonDataTables, parentModel, model) {
+function dynamicTagRegexAllowedValue(jsonDataTables, parentModel, model, gw_model_data_dynamicTag) {
     var json = {
         nameKey: getKeyPath(model), 
         dynamicTag: getKeyPath(parentModel), 
@@ -314,9 +458,10 @@ function dynamicTagRegexAllowedValue(jsonDataTables, parentModel, model) {
         is_regex: true
      };
     jsonDataTables.dynamicTagAllowedValues.push(json)
+    gw_model_data_dynamicTag.regex_allowed_values.push(model.wzName)
 }
 
-function script(jsonDataTables, parentModel, model, gw_config) {
+function script(jsonDataTables, parentModel, model, gw_model_data) {
     var json = {
         nameKey: getKeyPath(model), 
         gateway: getKeyPath(parentModel), 
@@ -333,65 +478,111 @@ function script(jsonDataTables, parentModel, model, gw_config) {
         script_timeout: model.script_timeout, 
         script_content: model.script_content
      };
-    gw_config.scripts.push(script)
+    gw_model_data.scripts.push(script)
     jsonDataTables.scripts.push(json)
 }
 
-function plc(jsonDataTables, parentModel, model) {
+function deviceModel(jsonDataTables, parentModel, model) {
     var json = {
         name: model.wzName, 
-        nameKey: getKeyPath(model), 
-        gateway: getKeyPath(parentModel), 
+        nameKey: parentModel.wzElement == 'manufacturer' ? model.wzName : getKeyPath(model), 
+        description: model.description, 
+        owner: model.owner, 
         protocol: model.protocol, 
-        plc_xid: model.plc_xid, 
-        plc_config: {
+        version: model.version, 
+        modelSchema: model.modelSchema, 
+        manufacturer: null, 
+        tenant: null, 
+        device_model_data: {
             protocol: model.protocol, 
-            connection: {
-                
-             }, 
             metrics: [
                 
             ]
          }
      };
-    jsonDataTables.plcs.push(json)
-    var i, i_items=model.connectionValues, i_len=model.connectionValues.length, item;
-    for (i=0; i<i_len; i++) {
-        item = model.connectionValues[i];
-        connectionValue(jsonDataTables, model, item, json.plc_config)
+    // loog 'deviceModel.parentModel.wzElement', parentModel.wzElement
+    if (parentModel.wzElement == 'manufacturer') {
+        json.manufacturer = getKeyPath(parentModel);
+        jsonDataTables.manufacturerDeviceModels.push(json)
+    }
+    else if (parentModel.wzElement == 'tenant') {
+        json.tenant = getKeyPath(parentModel);
+        jsonDataTables.userDeviceModels.push(json)
     }
     var i, i_items=model.metrics, i_len=model.metrics.length, item;
     for (i=0; i<i_len; i++) {
         item = model.metrics[i];
-        metric(jsonDataTables, model, item, json.plc_config)
+        metric('manufacturerDevice', jsonDataTables, model, item, json.device_model_data)
     }
 }
 
-function connectionValue(jsonDataTables, parentModel, model, plc_config) {
-    var json = {
-        connectionProperty: model.wzName + '-' + parentModel.protocol, 
-        nameKey: getKeyPath(model), 
-        plc: getKeyPath(parentModel), 
-        value: model.value
-     };
-    jsonDataTables.connectionValues.push(json)
-    plc_config.connection[model.wzName] = model.wzRoot().meta.getConnectionTypedValue(parentModel.protocol, model.wzName, model.value)
-    ;
-}
-
-function metric(jsonDataTables, parentModel, model, plc_config) {
+function device(jsonDataTables, parentModel, model) {
     var json = {
         name: model.wzName, 
         nameKey: getKeyPath(model), 
-        plc: getKeyPath(parentModel), 
-        script: model.scriptRef ? getKeyPath(parentModel.wzParent) + '+' + model.scriptRef.wzName : null, 
-        interval: model.interval, 
         description: model.description, 
-        topic: model.topic, 
-        script_value: model.script_value, 
-        ret_policy: model.ret_policy
+        owner: model.owner, 
+        tenant: getKeyPath(parentModel.wzParent.wzParent), 
+        gateway: getKeyPath(parentModel), 
+        protocol: model.protocol, 
+        device_xid: model.device_xid, 
+        deviceModel: model.deviceModel, 
+        modelConnectionSchema: model.modelConnectionSchema, 
+        modelSchema: model.modelSchema, 
+        configState: model.configState, 
+        instanceRole: model.instanceRole, 
+        itemConfigState: model.itemConfigState, 
+        activityState: model.activityState, 
+        modifiedId: model.modifiedId, 
+        manufacturerDeviceModel: model.manufacturerDeviceModel ? model.manufacturerDeviceModel.wzName : null, 
+        userDeviceModel: model.userDeviceModel ? model.userDeviceModel.wzName : null, 
+        device_model_connection_data: {
+            protocol: model.protocol, 
+            connection: {
+                
+             }
+         }, 
+        device_model_data: {
+            tags: {
+                
+             }
+         }
      };
-    var plc_config_metric = {
+    var i, i_items=model.userGroups, i_len=model.userGroups.length, ug;
+    for (i=0; i<i_len; i++) {
+        ug = model.userGroups[i];
+        jsonDataTables.devicePermissions.push({
+            device: getKeyPath(model), 
+            userGroup: ug.wzName
+         })
+    }
+    jsonDataTables.devices.push(json)
+    var i, i_items=model.connectionValues, i_len=model.connectionValues.length, item;
+    for (i=0; i<i_len; i++) {
+        item = model.connectionValues[i];
+        connectionValue(jsonDataTables, model, item, json.device_model_connection_data)
+    }
+    var i, i_items=model.staticTags, i_len=model.staticTags.length, item;
+    for (i=0; i<i_len; i++) {
+        item = model.staticTags[i];
+        staticTag(jsonDataTables, model, item, json.device_model_data)
+    }
+}
+
+function connectionValue(jsonDataTables, parentModel, model, device_model_connection_data) {
+    var json = {
+        connectionProperty: model.wzName + '-' + parentModel.protocol, 
+        nameKey: getKeyPath(model), 
+        device: getKeyPath(parentModel), 
+        value: model.value
+     };
+    jsonDataTables.connectionValues.push(json)
+    device_model_connection_data.connection[model.wzName] = model.wzRoot().meta.getConnectionTypedValue(parentModel.protocol, model.wzName, model.value)
+    ;
+}
+
+function metric(kind, jsonDataTables, parentModel, model, device_model_data) {
+    var device_model_data_metric = {
         name: model.wzName, 
         interval: model.interval, 
         tags: {
@@ -403,26 +594,47 @@ function metric(jsonDataTables, parentModel, model, plc_config) {
         script_value: model.script_value, 
         ret_policy: model.ret_policy
      };
-    plc_config.metrics.push(plc_config_metric)
-    jsonDataTables.metrics.push(json)
-    var i, i_items=model.staticTags, i_len=model.staticTags.length, item;
-    for (i=0; i<i_len; i++) {
-        item = model.staticTags[i];
-        staticTag(jsonDataTables, model, item, plc_config_metric)
+    if (kind == 'manufacturerDevice') {
+        var i, i_items=model.metricValues, i_len=model.metricValues.length, item;
+        for (i=0; i<i_len; i++) {
+            item = model.metricValues[i];
+            metricValue(jsonDataTables, model, item, device_model_data_metric)
+        }
+        device_model_data.metrics.push(device_model_data_metric)
     }
-    var i, i_items=model.dynamicTagRefs, i_len=model.dynamicTagRefs.length, item;
-    for (i=0; i<i_len; i++) {
-        item = model.dynamicTagRefs[i];
-        dynamicTagRef(jsonDataTables, model, item, plc_config_metric)
-    }
-    var i, i_items=model.metricValues, i_len=model.metricValues.length, item;
-    for (i=0; i<i_len; i++) {
-        item = model.metricValues[i];
-        metricValue(jsonDataTables, model, item, plc_config_metric)
+    else {
+        var json = {
+            name: model.wzName, 
+            nameKey: getKeyPath(model), 
+            device: getKeyPath(parentModel), 
+            script: model.scriptRef ? getKeyPath(parentModel.wzParent) + '+' + model.scriptRef.wzName : null, 
+            interval: model.interval, 
+            description: model.description, 
+            topic: model.topic, 
+            script_value: model.script_value, 
+            ret_policy: model.ret_policy
+         };
+        device_model_data.metrics.push(device_model_data_metric)
+        jsonDataTables.metrics.push(json)
+        var i, i_items=model.staticTags, i_len=model.staticTags.length, item;
+        for (i=0; i<i_len; i++) {
+            item = model.staticTags[i];
+            staticTag(jsonDataTables, model, item, device_model_data_metric)
+        }
+        var i, i_items=model.dynamicTagRefs, i_len=model.dynamicTagRefs.length, item;
+        for (i=0; i<i_len; i++) {
+            item = model.dynamicTagRefs[i];
+            dynamicTagRef(jsonDataTables, model, item, device_model_data_metric)
+        }
+        var i, i_items=model.metricValues, i_len=model.metricValues.length, item;
+        for (i=0; i<i_len; i++) {
+            item = model.metricValues[i];
+            metricValue(jsonDataTables, model, item, device_model_data_metric)
+        }
     }
 }
 
-function staticTag(jsonDataTables, parentModel, model, plc_config_metric) {
+function staticTag(jsonDataTables, parentModel, model, device_model_data_metric) {
     var json = {
         nameKey: getKeyPath(model), 
         metric: getKeyPath(parentModel), 
@@ -430,16 +642,16 @@ function staticTag(jsonDataTables, parentModel, model, plc_config_metric) {
         value: model.tag_value
      };
     jsonDataTables.staticTags.push(json)
-    if (!plc_config_metric.tags.static) {
-        plc_config_metric.tags.static = [];
+    if (!device_model_data_metric.tags.static) {
+        device_model_data_metric.tags.static = [];
     }
-    plc_config_metric.tags.static.push({
+    device_model_data_metric.tags.static.push({
         key: model.wzName, 
         value: model.tag_value
      })
 }
 
-function dynamicTagRef(jsonDataTables, parentModel, model, plc_config_metric) {
+function dynamicTagRef(jsonDataTables, parentModel, model, device_model_data_metric) {
     var json = {
         key: model.wzName, 
         nameKey: getKeyPath(model), 
@@ -448,36 +660,36 @@ function dynamicTagRef(jsonDataTables, parentModel, model, plc_config_metric) {
         value_itself: model.value_itself
      };
     jsonDataTables.dynamicTagRefs.push(json)
-    if (!plc_config_metric.tags.dynamic) {
-        plc_config_metric.tags.dynamic = [];
+    if (!device_model_data_metric.tags.dynamic) {
+        device_model_data_metric.tags.dynamic = [];
     }
-    plc_config_metric.tags.dynamic.push({
+    device_model_data_metric.tags.dynamic.push({
         key: model.wzName, 
         value: model.value_ref
      })
 }
 
-function metricValue(jsonDataTables, parentModel, model, plc_config_metric) {
+function metricValue(jsonDataTables, parentModel, model, device_model_data_metric) {
     var json = {
         metricProperty: model.wzName + '-' + parentModel.wzParent.protocol, 
         nameKey: getKeyPath(model), 
         metric: getKeyPath(parentModel), 
         value: model.value
      };
-    plc_config_metric[model.wzName] = model.wzRoot().meta.getMetricTypedValue(parentModel.wzParent.protocol, model.wzName, model.value)
+    device_model_data_metric[model.wzName] = model.wzRoot().meta.getMetricTypedValue(parentModel.wzParent.protocol, model.wzName, model.value)
     ;
     jsonDataTables.metricValues.push(json)
 }
 
 function getKeyPath(model, rootEl) {
-    if (model.wzElement == 'oem') {
+    if (model.wzElement == 'tenant') {
         return model.wzName;
     }
     const names = [ model.wzName ];
     let parent = model.wzParent;
     while (parent != null) {
         names.push(parent.wzName)
-        if (parent.wzElement == 'oem') {
+        if (parent.wzElement == 'tenant') {
             return [...names].reverse().join('+');
         }
         parent = parent.wzParent;

@@ -1,0 +1,40 @@
+$group
+
+    e manufacturer : node
+        # the wzName is the `name` attribute
+        a description
+        r manufacturerDeviceModel/s
+    
+    e manufacturerDeviceModel
+        tag manufacturer_device_model
+        # the wzName is the `name` attribute
+        a version
+        a description
+        a modelSchema
+            tag model_schema
+        a protocol
+        a owner
+        r metric/s
+
+    e userDeviceModel
+        tag user_device_model
+        # the wzName is the `name` attribute
+        a version
+        a description
+        a modelSchema
+            tag model_schema
+        a protocol
+        a owner
+        r metric/s
+    
+    e userGatewayModel
+        tag user_gateway_model
+        # the wzName is the `name` attribute
+        a version
+        a description
+        a modelSchema
+            tag model_schema
+        a owner
+        r dynamicTag/s
+        r script/s
+        r userDeviceModel/s

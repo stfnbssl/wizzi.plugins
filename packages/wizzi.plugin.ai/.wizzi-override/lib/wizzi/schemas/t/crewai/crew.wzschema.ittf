@@ -1,0 +1,82 @@
+$group
+
+    e display
+        a file_path
+        a format
+            restrict
+                enum text
+                enum json
+
+    e exec
+        r display/s
+        r inputs
+            one-to-one
+    
+    e crew : node
+        a process
+            # The process flow (e.g., sequential, hierarchical) the crew follows. 
+            default sequential
+            restrict
+                enum sequential
+                enum hierarchical
+        a_false(verbose)
+            # The verbosity level for logging during execution.
+        a manager_llm
+            # The language model used by the manager agent in a hierarchical process. 
+            # Required when using a hierarchical process.
+        a function_calling_llm
+            # If passed, the crew will use this LLM to do function calling for tools for all agents in the crew.
+            # Each agent can have its own LLM, which overrides the crew’s LLM for function calling.
+        $$ Config (optional)	config	Optional configuration settings for the crew, in Json or Dict[str, Any] format.
+        a max_rpm
+            # Maximum requests per minute the crew adheres to during execution. 
+            # Defaults to None.
+        a language
+            # Language used for the crew.
+            default English
+        a language_file
+            # Path to the language file to be used for the crew.
+        a_false(memory)
+            # Utilized for storing execution memories (short-term, long-term, entity memory). 
+        a_true(cache)
+            # Specifies whether to use a cache for storing the results of tools’ execution.
+        a embedder
+            # Configuration for the embedder to be used by the crew.
+            # Mostly used by memory for now. 
+            # Default is {"provider": "openai"}.
+        a_false(full_output)
+            # Whether the crew should return the full output with all tasks outputs or just the final output.
+        a step_callback
+            # A function that is called after each step of every agent. 
+            # This can be used to log the agent’s actions or to perform other operations; 
+            # it won’t override the agent-specific step_callback.
+        a task_callback
+            # A function that is called after the completion of each task. 
+            # Useful for monitoring or additional operations post-task execution.
+        a share_crew
+            # Whether you want to share the complete crew information and execution with the crewAI team to make the library better, 
+            # and allow us to train models.
+        a output_log_file
+            # Whether you want to have a file with the complete crew output and execution. 
+            # You can set it using True and it will default to the folder you are currently in 
+            # and it will be called logs.txt or passing a string with the full path and name of the file.
+        a manager_agent	
+            # Sets a custom agent that will be used as a manager.
+        a manager_callbacks
+            # Takes a list of callback handlers to be executed by the manager agent when a hierarchical process is used.
+        a prompt_file
+            # Path to the prompt JSON file to be used for the crew.
+        a_false(planning)
+            # Adds planning ability to the Crew. 
+            # When activated before each Crew iteration, all Crew data is sent to an AgentPlanner 
+            # that will plan the tasks and this plan will be added to each task description.
+        a planning_llm
+            # The language model used by the AgentPlanner in a planning process.
+
+        r taskRef/s
+            # A list of tasks assigned to the crew.
+        r agentRef/s
+            # A list of agents that are part of the crew.
+        r exec/s
+            # A list of executions (kickoffs)
+

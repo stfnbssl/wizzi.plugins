@@ -1,0 +1,821 @@
+{
+    "kind": "root",
+    "apiKeys": {
+        "SerperDevTool": {
+            "kind": "api-key",
+            "type": "SerperDevTool",
+            "apiKey": "serper_api_key",
+            "modelEnvVar": "SERPER_API_KEY"
+        }
+    },
+    "llmTypes": {
+        "OpenAI": {
+            "kind": "llm-type",
+            "type": "OpenAI",
+            "apiKey": "openai_api_key",
+            "modelName": "gpt-3.5-turbo",
+            "modelEnvVar": "OPENAI_MODEL_NAME"
+        }
+    },
+    "llms": [
+        {
+            "kind": "llm",
+            "name": "",
+            "type": "OpenAI",
+            "modelName": "gpt-3.5-turbo",
+            "modelEnvVar": "OPENAI_MODEL_NAME"
+        }
+    ],
+    "toolTypes": {
+        "ScrapeWebsiteTool": {
+            "kind": "tool-type",
+            "type": "ScrapeWebsiteTool",
+            "from": "crewai_tools",
+            "apiKey": null
+        },
+        "SerperDevTool": {
+            "kind": "tool-type",
+            "type": "SerperDevTool",
+            "from": "crewai_tools",
+            "apiKey": null
+        }
+    },
+    "tools": [
+        {
+            "kind": "tool",
+            "name": "scrape_tool",
+            "type": "ScrapeWebsiteTool",
+            "from": "crewai_tools"
+        },
+        {
+            "kind": "tool",
+            "name": "search_tool",
+            "type": "SerperDevTool",
+            "from": "crewai_tools",
+            "properties": []
+        }
+    ],
+    "modelTypes": {
+        "Pydantic": {
+            "kind": "model-type",
+            "type": "BaseModel",
+            "from": "pydantic"
+        }
+    },
+    "models": [
+        {
+            "kind": "model",
+            "name": "VenueDetails",
+            "modelType": "Pydantic",
+            "type": "BaseModel",
+            "from": "pydantic",
+            "properties": [
+                {
+                    "name": "name",
+                    "type": "str"
+                },
+                {
+                    "name": "address",
+                    "type": "str"
+                },
+                {
+                    "name": "capacity",
+                    "type": "int"
+                },
+                {
+                    "name": "booking_status",
+                    "type": "str"
+                }
+            ]
+        }
+    ],
+    "displayTypes": {
+        "pprint": {
+            "from": "pprint",
+            "type": "pprint"
+        },
+        "json": {
+            "type": "json"
+        },
+        "Markdown": {
+            "from": "IPython.display",
+            "type": "Markdown"
+        }
+    },
+    "agentsDict": {
+        "venue_coordinator": {
+            "kind": "agent",
+            "name": "venue_coordinator",
+            "properties": [
+                {
+                    "name": "role",
+                    "value": "Venue Coordinator",
+                    "lines": [
+                        "Venue Coordinator"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "goal",
+                    "value": "Identify and book an appropriate venue based on event requirements",
+                    "lines": [
+                        "Identify and book an appropriate venue based on event requirements"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "backstory",
+                    "value": "With a keen sense of space and understanding of event logistics, you excel at finding and securing the perfect venue that fits the event's theme, size, and budget constraints.",
+                    "lines": [
+                        "With a keen sense of space and understanding of event logistics, ",
+                        "you excel at finding and securing the perfect venue that fits ",
+                        "the event's theme, size, and budget constraints."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "tools",
+                    "value": [
+                        "search_tool",
+                        "scrape_tool"
+                    ],
+                    "type": "array",
+                    "itemType": "array"
+                },
+                {
+                    "name": "verbose",
+                    "value": true,
+                    "type": "boolean"
+                }
+            ],
+            "tools": []
+        },
+        "logistics_manager": {
+            "kind": "agent",
+            "name": "logistics_manager",
+            "properties": [
+                {
+                    "name": "role",
+                    "value": "Logistics Manager",
+                    "lines": [
+                        "Logistics Manager"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "goal",
+                    "value": "Manage all logistics for the event including catering and equipmen",
+                    "lines": [
+                        "Manage all logistics for the event including catering and equipmen"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "backstory",
+                    "value": "Organized and detail-oriented, you ensure that every logistical aspect of the event from catering to equipment setup is flawlessly executed to create a seamless experience.",
+                    "lines": [
+                        "Organized and detail-oriented, you ensure that every logistical ",
+                        "aspect of the event from catering to equipment setup is flawlessly ",
+                        "executed to create a seamless experience."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "tools",
+                    "value": [
+                        "search_tool",
+                        "scrape_tool"
+                    ],
+                    "type": "array",
+                    "itemType": "array"
+                },
+                {
+                    "name": "verbose",
+                    "value": true,
+                    "type": "boolean"
+                }
+            ],
+            "tools": []
+        },
+        "marketing_communications_agent": {
+            "kind": "agent",
+            "name": "marketing_communications_agent",
+            "properties": [
+                {
+                    "name": "role",
+                    "value": "Marketing and Communications Agent",
+                    "lines": [
+                        "Marketing and Communications Agent"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "goal",
+                    "value": "Effectively market the event and communicate with participants",
+                    "lines": [
+                        "Effectively market the event and communicate with participants"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "backstory",
+                    "value": "Creative and communicative you craft compelling messages and engage with potential attendees to maximize event exposure and participation.",
+                    "lines": [
+                        "Creative and communicative you craft compelling messages and ",
+                        "engage with potential attendees to maximize event exposure and ",
+                        "participation."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "tools",
+                    "value": [
+                        "search_tool",
+                        "scrape_tool"
+                    ],
+                    "type": "array",
+                    "itemType": "array"
+                },
+                {
+                    "name": "verbose",
+                    "value": true,
+                    "type": "boolean"
+                }
+            ],
+            "tools": []
+        }
+    },
+    "agents": [
+        {
+            "kind": "agent",
+            "name": "venue_coordinator",
+            "properties": [
+                {
+                    "name": "role",
+                    "value": "Venue Coordinator",
+                    "lines": [
+                        "Venue Coordinator"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "goal",
+                    "value": "Identify and book an appropriate venue based on event requirements",
+                    "lines": [
+                        "Identify and book an appropriate venue based on event requirements"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "backstory",
+                    "value": "With a keen sense of space and understanding of event logistics, you excel at finding and securing the perfect venue that fits the event's theme, size, and budget constraints.",
+                    "lines": [
+                        "With a keen sense of space and understanding of event logistics, ",
+                        "you excel at finding and securing the perfect venue that fits ",
+                        "the event's theme, size, and budget constraints."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "tools",
+                    "value": [
+                        "search_tool",
+                        "scrape_tool"
+                    ],
+                    "type": "array",
+                    "itemType": "array"
+                },
+                {
+                    "name": "verbose",
+                    "value": true,
+                    "type": "boolean"
+                }
+            ],
+            "tools": []
+        },
+        {
+            "kind": "agent",
+            "name": "logistics_manager",
+            "properties": [
+                {
+                    "name": "role",
+                    "value": "Logistics Manager",
+                    "lines": [
+                        "Logistics Manager"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "goal",
+                    "value": "Manage all logistics for the event including catering and equipmen",
+                    "lines": [
+                        "Manage all logistics for the event including catering and equipmen"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "backstory",
+                    "value": "Organized and detail-oriented, you ensure that every logistical aspect of the event from catering to equipment setup is flawlessly executed to create a seamless experience.",
+                    "lines": [
+                        "Organized and detail-oriented, you ensure that every logistical ",
+                        "aspect of the event from catering to equipment setup is flawlessly ",
+                        "executed to create a seamless experience."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "tools",
+                    "value": [
+                        "search_tool",
+                        "scrape_tool"
+                    ],
+                    "type": "array",
+                    "itemType": "array"
+                },
+                {
+                    "name": "verbose",
+                    "value": true,
+                    "type": "boolean"
+                }
+            ],
+            "tools": []
+        },
+        {
+            "kind": "agent",
+            "name": "marketing_communications_agent",
+            "properties": [
+                {
+                    "name": "role",
+                    "value": "Marketing and Communications Agent",
+                    "lines": [
+                        "Marketing and Communications Agent"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "goal",
+                    "value": "Effectively market the event and communicate with participants",
+                    "lines": [
+                        "Effectively market the event and communicate with participants"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "backstory",
+                    "value": "Creative and communicative you craft compelling messages and engage with potential attendees to maximize event exposure and participation.",
+                    "lines": [
+                        "Creative and communicative you craft compelling messages and ",
+                        "engage with potential attendees to maximize event exposure and ",
+                        "participation."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "tools",
+                    "value": [
+                        "search_tool",
+                        "scrape_tool"
+                    ],
+                    "type": "array",
+                    "itemType": "array"
+                },
+                {
+                    "name": "verbose",
+                    "value": true,
+                    "type": "boolean"
+                }
+            ],
+            "tools": []
+        }
+    ],
+    "tasksDict": {
+        "venue_task": {
+            "kind": "task",
+            "name": "venue_task",
+            "properties": [
+                {
+                    "name": "description",
+                    "value": "Find a venue in {event_city} that meets criteria for {event_topic}.",
+                    "lines": [
+                        "Find a venue in {event_city} that meets criteria for {event_topic}."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "expected_output",
+                    "value": "All the details of a specifically chosen venue you found to accommodate the event.",
+                    "lines": [
+                        "All the details of a specifically chosen venue you found to accommodate ",
+                        "the event."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "output_json",
+                    "value": "VenueDetails",
+                    "type": "instance"
+                },
+                {
+                    "name": "output_file",
+                    "value": "venue_details.json",
+                    "lines": [
+                        "venue_details.json"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "human_input",
+                    "value": true,
+                    "type": "boolean"
+                },
+                {
+                    "name": "agent",
+                    "value": "venue_coordinator",
+                    "type": "instance"
+                },
+                {
+                    "name": "tools",
+                    "value": [],
+                    "type": "array",
+                    "itemType": "array"
+                }
+            ]
+        },
+        "logistics_task": {
+            "kind": "task",
+            "name": "logistics_task",
+            "properties": [
+                {
+                    "name": "description",
+                    "value": "Coordinate catering and equipment for an event with {expected_participants} participants on {tentative_date}.",
+                    "lines": [
+                        "Coordinate catering and equipment for an event with {expected_participants} ",
+                        "participants on {tentative_date}."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "expected_output",
+                    "value": "Confirmation of all logistics arrangements including catering and equipment setup.",
+                    "lines": [
+                        "Confirmation of all logistics arrangements including catering ",
+                        "and equipment setup."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "async_execution",
+                    "value": true,
+                    "type": "boolean"
+                },
+                {
+                    "name": "human_input",
+                    "value": true,
+                    "type": "boolean"
+                },
+                {
+                    "name": "agent",
+                    "value": "logistics_manager",
+                    "type": "instance"
+                },
+                {
+                    "name": "tools",
+                    "value": [],
+                    "type": "array",
+                    "itemType": "array"
+                }
+            ]
+        },
+        "marketing_task": {
+            "kind": "task",
+            "name": "marketing_task",
+            "properties": [
+                {
+                    "name": "description",
+                    "value": "Promote the {event_topic} aiming to engage at least {expected_participants} potential attendees.",
+                    "lines": [
+                        "Promote the {event_topic} aiming to engage at least {expected_participants} ",
+                        "potential attendees."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "expected_output",
+                    "value": "Report on marketing activities and attendee engagement formatted as markdown.",
+                    "lines": [
+                        "Report on marketing activities and attendee engagement formatted ",
+                        "as markdown."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "async_execution",
+                    "value": true,
+                    "type": "boolean"
+                },
+                {
+                    "name": "output_file",
+                    "value": "marketing_report.md",
+                    "lines": [
+                        "marketing_report.md"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "agent",
+                    "value": "marketing_communications_agent",
+                    "type": "instance"
+                },
+                {
+                    "name": "tools",
+                    "value": [],
+                    "type": "array",
+                    "itemType": "array"
+                }
+            ]
+        }
+    },
+    "tasks": [
+        {
+            "kind": "task",
+            "name": "venue_task",
+            "properties": [
+                {
+                    "name": "description",
+                    "value": "Find a venue in {event_city} that meets criteria for {event_topic}.",
+                    "lines": [
+                        "Find a venue in {event_city} that meets criteria for {event_topic}."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "expected_output",
+                    "value": "All the details of a specifically chosen venue you found to accommodate the event.",
+                    "lines": [
+                        "All the details of a specifically chosen venue you found to accommodate ",
+                        "the event."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "output_json",
+                    "value": "VenueDetails",
+                    "type": "instance"
+                },
+                {
+                    "name": "output_file",
+                    "value": "venue_details.json",
+                    "lines": [
+                        "venue_details.json"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "human_input",
+                    "value": true,
+                    "type": "boolean"
+                },
+                {
+                    "name": "agent",
+                    "value": "venue_coordinator",
+                    "type": "instance"
+                },
+                {
+                    "name": "tools",
+                    "value": [],
+                    "type": "array",
+                    "itemType": "array"
+                }
+            ]
+        },
+        {
+            "kind": "task",
+            "name": "logistics_task",
+            "properties": [
+                {
+                    "name": "description",
+                    "value": "Coordinate catering and equipment for an event with {expected_participants} participants on {tentative_date}.",
+                    "lines": [
+                        "Coordinate catering and equipment for an event with {expected_participants} ",
+                        "participants on {tentative_date}."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "expected_output",
+                    "value": "Confirmation of all logistics arrangements including catering and equipment setup.",
+                    "lines": [
+                        "Confirmation of all logistics arrangements including catering ",
+                        "and equipment setup."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "async_execution",
+                    "value": true,
+                    "type": "boolean"
+                },
+                {
+                    "name": "human_input",
+                    "value": true,
+                    "type": "boolean"
+                },
+                {
+                    "name": "agent",
+                    "value": "logistics_manager",
+                    "type": "instance"
+                },
+                {
+                    "name": "tools",
+                    "value": [],
+                    "type": "array",
+                    "itemType": "array"
+                }
+            ]
+        },
+        {
+            "kind": "task",
+            "name": "marketing_task",
+            "properties": [
+                {
+                    "name": "description",
+                    "value": "Promote the {event_topic} aiming to engage at least {expected_participants} potential attendees.",
+                    "lines": [
+                        "Promote the {event_topic} aiming to engage at least {expected_participants} ",
+                        "potential attendees."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "expected_output",
+                    "value": "Report on marketing activities and attendee engagement formatted as markdown.",
+                    "lines": [
+                        "Report on marketing activities and attendee engagement formatted ",
+                        "as markdown."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "async_execution",
+                    "value": true,
+                    "type": "boolean"
+                },
+                {
+                    "name": "output_file",
+                    "value": "marketing_report.md",
+                    "lines": [
+                        "marketing_report.md"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "agent",
+                    "value": "marketing_communications_agent",
+                    "type": "instance"
+                },
+                {
+                    "name": "tools",
+                    "value": [],
+                    "type": "array",
+                    "itemType": "array"
+                }
+            ]
+        }
+    ],
+    "crewsDict": {
+        "event_management_crew": {
+            "kind": "crew",
+            "name": "event_management_crew",
+            "properties": [
+                {
+                    "name": "verbose",
+                    "value": true,
+                    "type": "boolean"
+                }
+            ],
+            "agents": [
+                "venue_coordinator",
+                "logistics_manager",
+                "marketing_communications_agent"
+            ],
+            "tasks": [
+                "venue_task",
+                "logistics_task",
+                "marketing_task"
+            ],
+            "execs": [
+                {
+                    "inputs": [
+                        {
+                            "name": "event_topic",
+                            "value": "\"Tech Innovation Conference\""
+                        },
+                        {
+                            "name": "event_description",
+                            "value": "\"A gathering of tech innovators and industry leaders to explore future technologies.\""
+                        },
+                        {
+                            "name": "event_city",
+                            "value": "\"San Francisco\""
+                        },
+                        {
+                            "name": "tentative_date",
+                            "value": "\"2024-09-15\""
+                        },
+                        {
+                            "name": "expected_participants",
+                            "value": "500"
+                        },
+                        {
+                            "name": "budget",
+                            "value": "20000"
+                        },
+                        {
+                            "name": "venue_type",
+                            "value": "\"Conference Hall\""
+                        }
+                    ],
+                    "displays": [
+                        {
+                            "type": "pprint",
+                            "file_path": "venue_details.json",
+                            "format": "json"
+                        },
+                        {
+                            "type": "markdown",
+                            "file_path": "marketing_report.md"
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "crews": [
+        {
+            "kind": "crew",
+            "name": "event_management_crew",
+            "properties": [
+                {
+                    "name": "verbose",
+                    "value": true,
+                    "type": "boolean"
+                }
+            ],
+            "agents": [
+                "venue_coordinator",
+                "logistics_manager",
+                "marketing_communications_agent"
+            ],
+            "tasks": [
+                "venue_task",
+                "logistics_task",
+                "marketing_task"
+            ],
+            "execs": [
+                {
+                    "inputs": [
+                        {
+                            "name": "event_topic",
+                            "value": "\"Tech Innovation Conference\""
+                        },
+                        {
+                            "name": "event_description",
+                            "value": "\"A gathering of tech innovators and industry leaders to explore future technologies.\""
+                        },
+                        {
+                            "name": "event_city",
+                            "value": "\"San Francisco\""
+                        },
+                        {
+                            "name": "tentative_date",
+                            "value": "\"2024-09-15\""
+                        },
+                        {
+                            "name": "expected_participants",
+                            "value": "500"
+                        },
+                        {
+                            "name": "budget",
+                            "value": "20000"
+                        },
+                        {
+                            "name": "venue_type",
+                            "value": "\"Conference Hall\""
+                        }
+                    ],
+                    "displays": [
+                        {
+                            "type": "pprint",
+                            "file_path": "venue_details.json",
+                            "format": "json"
+                        },
+                        {
+                            "type": "markdown",
+                            "file_path": "marketing_report.md"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

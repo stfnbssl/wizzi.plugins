@@ -1,0 +1,9 @@
+$group
+    $params name, tag|@@null, defaultValue|@@null
+    a ${name}
+        type integer
+        $if tag != null
+            tag ${tag}
+        $if defaultValue != null
+            default ${defaultValue}
+        $hook

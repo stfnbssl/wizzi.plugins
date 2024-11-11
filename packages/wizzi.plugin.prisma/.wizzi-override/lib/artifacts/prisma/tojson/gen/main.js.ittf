@@ -28,7 +28,7 @@ module
                                 @ meaning 'The field is a single field foreign key, can be `idRelated` or `objectRelated`.'
                             {
                                 @ name 'idRelated'
-                                @ meaning 'The field is a scalar single field foreign key.'
+                                @ meaning 'The field is a scalar single field foreign key in a `many-to-one` relation.'
                             {
                                 @ name 'objectRelated'
                                 [ meaning
@@ -66,10 +66,12 @@ module
                             @ 'Checkbox'
                             @ 'Radio'
                             @ 'Color'
+                            @ 'Select'
                             @ 'Switch'
                             @ 'Slider'
                             @ 'Rate'
                             @ 'Upload'
+                            @ 'Markdown'
                     [ datasources
                     [ generators
                     [ enums
@@ -138,11 +140,15 @@ module
                     [ relations
                     [ attributes
                     [ indexes
+                    [ tags
             if model.extNoUpload
                 set jsonModel.extNoUpload = true
             _ ctx.__current.models.push
                 @ jsonModel
             set ctx.__current = jsonModel
+            _ setTags
+                @ model
+                @ jsonModel
             _md_gen_items( fields, indent
                 _md_gen_items( blockAttributes, indent
                     _ setJSON_KnownModelAttributes  
@@ -199,6 +205,7 @@ module
                     [ attributes
                     [ constraints
                     [ dbColumns
+                    [ tags
             if model.idRelated
                 set jsonField.isRelated = true
                 set jsonField.idRelated = true
@@ -206,12 +213,23 @@ module
                 set jsonField.relationName = model.relationName
                 set jsonField.relationCardinality = model.relationCardinality
                 set jsonField.relationTarget = model.relationTarget
+                set jsonField.referenceTwinObject = model.referenceTwinObject
+                if verify.isNotEmpty(model.relationName)
+                    var inversedByField
+                        _ get_FieldInversedBy_ByRelationName(model, model.relationName)
+                    if inversedByField
+                        set jsonField.inversedBy = inversedByField.wzName
+                    else
+                        throw new Error("In field " + model.wzName + ' cannot find inversedBy for relationName: ' + model.relationName)
             elif verify.isNotEmpty(model.relationCardinality)
                 set jsonField.isRelated = true
                 set jsonField.objectRelated = true
                 set jsonField.relationCardinality = model.relationCardinality
                 set jsonField.relationTarget = model.relationTarget
             _ ctx.__current.fields.push
+                @ jsonField
+            _ setTags
+                @ model
                 @ jsonField
             set ctx.__current = jsonField
             _md_gen_items( fieldAttributes
@@ -237,6 +255,13 @@ module
                         @ ctx.__current
                 _ setJSON_KnownFieldTypes
                     @ jsonField
+                if jsonField.relation && verify.isNotEmpty(jsonField.relation.name)
+                    var mappedBy
+                        _ get_FieldInversedBy_ByRelationName(model, jsonField.relation.name)
+                    if mappedBy
+                        set jsonField.mappedBy = mappedBy.wzName
+                    else
+                        throw new Error("In field " + model.wzName + ' cannot find inversedBy for relationName: ' + jsonField.relation.name)
                 set ctx.__current = saveCurrent
                 r_cb()
         
@@ -323,10 +348,40 @@ module
                         @ fields json.args
             r_cb()
 
+    function get_FieldInversedBy_ByRelationName
+        param field
+        param relationName
+        foreach model in field.wzParent.wzParent.models
+            if model.wzName != field.wzParent.wzName
+                foreach cfield in model.fields
+                    
+                    foreach fieldAttribute in cfield.fieldAttributes
+                        if fieldAttribute.wzName == 'relation'
+                            # loog "get_FieldInversedBy_ByRelationName", cfield.wzName
+                            var args = []
+                            foreach item in fieldAttribute.valueAssigns
+                                var arg = {}
+                                if item.setJSON 
+                                    _ item.setJSON
+                                        @ arg
+                                    _ args.push
+                                        @ arg
+                                    # loog "get_FieldInversedBy_ByRelationName.arg", arg
+                                else
+                                    _ args.push
+                                        _ verify.unquote
+                                            _ item.getValueString
+                            foreach arg in args
+                                for var k in arg
+                                    # loog "get_FieldInversedBy_ByRelationName.k, arg[k]", k, arg[k]
+                                    if k == 'name' && arg[k] == relationName
+                                        return cfield
+        return null
+
     function setJSON_KnownFieldTypes
         param jsonField
         if jsonField.name == 'xrequired' || jsonField.name == 'pattern'
-            log 'setJSON_KnownFieldTypes', jsonField.attributes.length, jsonField.attributes[0]
+            # loog 'setJSON_KnownFieldTypes', jsonField.attributes.length, jsonField.attributes[0]
         if jsonField.attributes.length > 0 
             \b && jsonField.attributes[0].type == "@function"
             \b && jsonField.attributes[0].name == "relation"
@@ -354,13 +409,24 @@ module
         if jsonField.attributes.length > 0 
             \b && jsonField.attributes[0].type == "@function"
             \b && jsonField.attributes[0].name == "default"
-            if !jsonField.attributes[0].args[0] || verify.isEmpty(jsonField.attributes[0].args[0].name)
+            if jsonField.attributes[0].args[0]
+                if verify.isNotEmpty(jsonField.attributes[0].args[0].name)
+                    _ jsonField.constraints.push
+                        {
+                            @ type "defaultValue"
+                            @ defaultValue jsonField.attributes[0].args[0].name
+                elif verify.isNotEmpty(jsonField.attributes[0].args[0])
+                    _ jsonField.constraints.push
+                        {
+                            @ type "defaultValue"
+                            @ defaultValue getTypedValue(jsonField.type, jsonField.attributes[0].args[0])
+                else
+                    error 'jsonField.attributes[0].args', jsonField.attributes[0].args
+                    throw new Error("Missing name attribute on default of field " + jsonField.name)
+            else
+                error 'jsonField.attributes[0].args', jsonField.attributes[0].args
                 throw new Error("Missing name attribute on default of field " + jsonField.name)
-            _ jsonField.constraints.push
-                {
-                    @ type "defaultValue"
-                    @ defaultValue jsonField.attributes[0].args[0].name
-            log 'jsonField.constraints', jsonField.name, jsonField.constraints
+            # loog 'jsonField.constraints', jsonField.name, jsonField.constraints
 
     function setJSON_KnownModelAttributes
         param model
@@ -379,6 +445,21 @@ module
                         @ models
                         @ model
                         @ field
+
+    function setTags
+        param model
+        param json
+        foreach tag in model.tags
+        	var nv 
+                _ lineParser.parseNameValueRaw
+                    @ tag.wzName
+                    @ tag
+            var name = nv.name()
+            var value = nv.value()
+            _ json.tags.push
+                {
+                    @ name name
+                    @ value value
 
     function setOneToManyOrToOneRelation
         param models
@@ -399,11 +480,6 @@ module
                             @ namePlural manyOrOneModel.namePlural
                         @ relationCardinality manyOrOneField.relationCardinality
     
-    function setIndexes
-        param ctx
-        foreach item in ctx.__json.indexes
-            foreach field in item.fields
-
     function getForeignFieldInModel
         param jsonModel
         param fieldName
@@ -417,3 +493,14 @@ module
                         @ optional field.optional
         return null
 
+    function getTypedValue
+        param type
+        param value
+        if type == "Boolean"
+            return value == 'true' ? true : false
+        elif type == "Int"
+            return parseInt(value)
+        elif type == "Float" || type == "Decimal"
+            return parseFloat(value)
+        else
+            return value

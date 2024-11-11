@@ -1,0 +1,42 @@
+module
+    kind es6
+    var verify = require('@wizzi/utils').verify;
+    var md = module.exports = {}
+
+    set md.writeCrew
+        function
+            param ctx
+            param json
+            if true
+                _ writeProgramStart
+                    @ ctx
+                    @ json
+                _ writeTools
+                    @ ctx
+                    @ json
+                _ writeModels
+                    @ ctx
+                    @ json
+                _ writeAgents
+                    @ ctx
+                    @ json
+                _ writeTasks
+                    @ ctx
+                    @ json
+                _ writeCrews
+                    @ ctx
+                    @ json
+            else
+                _ ctx.write
+                    _ JSON.stringify
+                        @ json
+                        @ null
+                        @ 4
+
+    $include writers/common                    
+    $include writers/llm                    
+    $include writers/tool
+    $include writers/model
+    $include writers/agent                    
+    $include writers/task
+    $include writers/crew

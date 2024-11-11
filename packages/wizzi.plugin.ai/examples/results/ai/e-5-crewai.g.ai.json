@@ -1,0 +1,592 @@
+{
+    "kind": "root",
+    "llmTypes": {
+        "OpenAI": {
+            "kind": "llm-type",
+            "type": "OpenAI",
+            "apiKey": "openai_api_key",
+            "modelName": "gpt-3.5-turbo",
+            "modelEnvVar": "OPENAI_MODEL_NAME"
+        }
+    },
+    "llms": [
+        {
+            "kind": "llm",
+            "name": "",
+            "type": "OpenAI",
+            "modelName": "gpt-3.5-turbo",
+            "modelEnvVar": "OPENAI_MODEL_NAME"
+        }
+    ],
+    "toolTypes": {
+        "DirectoryReadTool": {
+            "kind": "tool-type",
+            "type": "DirectoryReadTool",
+            "from": "crewai_tools",
+            "apiKey": null
+        },
+        "FileReadTool": {
+            "kind": "tool-type",
+            "type": "FileReadTool",
+            "from": "crewai_tools",
+            "apiKey": null
+        },
+        "SerperDevTool": {
+            "kind": "tool-type",
+            "type": "SerperDevTool",
+            "from": "crewai_tools",
+            "apiKey": null
+        },
+        "CustomTool": {
+            "kind": "tool-type",
+            "type": "BaseTool",
+            "from": "crewai_tools",
+            "apiKey": null
+        }
+    },
+    "tools": [
+        {
+            "kind": "tool",
+            "name": "directory_read_tool",
+            "type": "DirectoryReadTool",
+            "from": "crewai_tools",
+            "directory_path": "./instructions"
+        },
+        {
+            "kind": "tool",
+            "name": "file_read_tool",
+            "type": "FileReadTool",
+            "from": "crewai_tools"
+        },
+        {
+            "kind": "tool",
+            "name": "search_tool",
+            "type": "SerperDevTool",
+            "from": "crewai_tools",
+            "properties": []
+        },
+        {
+            "kind": "tool",
+            "name": "sentiment_analysis_tool",
+            "type": "BaseTool",
+            "from": "crewai_tools",
+            "customType": "SentimentAnalysisTool",
+            "customName": "Sentiment Analysis Tool",
+            "customDescription": "Analyzes the sentiment of text to ensure positive and engaging communication.",
+            "methods": [
+                {
+                    "name": "_run",
+                    "lines": [
+                        "return \"positive\""
+                    ]
+                }
+            ]
+        }
+    ],
+    "modelTypes": {},
+    "models": [],
+    "displayTypes": {
+        "Markdown": {
+            "from": "IPython.display",
+            "type": "Markdown"
+        }
+    },
+    "agentsDict": {
+        "sales_rep_agent": {
+            "kind": "agent",
+            "name": "sales_rep_agent",
+            "properties": [
+                {
+                    "name": "role",
+                    "value": "Sales Representative",
+                    "lines": [
+                        "Sales Representative"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "goal",
+                    "value": "Identify high-value leads that match our ideal customer profile",
+                    "lines": [
+                        "Identify high-value leads that match our ideal customer profile"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "backstory",
+                    "value": "As a part of the dynamic sales team at CrewAI, your mission is to scour the digital landscape for potential leads. Armed with cutting-edge tools and a strategic mindset, you analyze data, trends, and interactions to unearth opportunities that others might overlook. Your work is crucial in paving the way for meaningful engagements and driving the company's growth.",
+                    "lines": [
+                        "As a part of the dynamic sales team at CrewAI, your mission is ",
+                        "to scour the digital landscape for potential leads. ",
+                        "Armed with cutting-edge tools and a strategic mindset, you analyze ",
+                        "data, trends, and interactions to unearth opportunities that ",
+                        "others might overlook. ",
+                        "Your work is crucial in paving the way for meaningful engagements ",
+                        "and driving the company's growth."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "tools",
+                    "value": [],
+                    "type": "array",
+                    "itemType": "array"
+                },
+                {
+                    "name": "verbose",
+                    "value": true,
+                    "type": "boolean"
+                }
+            ],
+            "tools": []
+        },
+        "lead_sales_rep_agent": {
+            "kind": "agent",
+            "name": "lead_sales_rep_agent",
+            "properties": [
+                {
+                    "name": "role",
+                    "value": "Lead Sales Representative",
+                    "lines": [
+                        "Lead Sales Representative"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "goal",
+                    "value": "Nurture leads with personalized, compelling communications",
+                    "lines": [
+                        "Nurture leads with personalized, compelling communications"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "backstory",
+                    "value": "Within the vibrant ecosystem of CrewAI's sales department, you stand out as the bridge between potential clients and the solutions they need. By creating engaging, personalized messages, you not only inform leads about our offerings but also make them feel seen and heard. Your role is pivotal in converting interest into action, guiding leads through the journey from curiosity to commitment.",
+                    "lines": [
+                        "Within the vibrant ecosystem of CrewAI's sales department, you ",
+                        "stand out as the bridge between potential clients and the solutions ",
+                        "they need. ",
+                        "By creating engaging, personalized messages, you not only inform ",
+                        "leads about our offerings but also make them feel seen and heard. ",
+                        "Your role is pivotal in converting interest into action, guiding ",
+                        "leads through the journey from curiosity to commitment."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "tools",
+                    "value": [],
+                    "type": "array",
+                    "itemType": "array"
+                },
+                {
+                    "name": "verbose",
+                    "value": true,
+                    "type": "boolean"
+                }
+            ],
+            "tools": []
+        }
+    },
+    "agents": [
+        {
+            "kind": "agent",
+            "name": "sales_rep_agent",
+            "properties": [
+                {
+                    "name": "role",
+                    "value": "Sales Representative",
+                    "lines": [
+                        "Sales Representative"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "goal",
+                    "value": "Identify high-value leads that match our ideal customer profile",
+                    "lines": [
+                        "Identify high-value leads that match our ideal customer profile"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "backstory",
+                    "value": "As a part of the dynamic sales team at CrewAI, your mission is to scour the digital landscape for potential leads. Armed with cutting-edge tools and a strategic mindset, you analyze data, trends, and interactions to unearth opportunities that others might overlook. Your work is crucial in paving the way for meaningful engagements and driving the company's growth.",
+                    "lines": [
+                        "As a part of the dynamic sales team at CrewAI, your mission is ",
+                        "to scour the digital landscape for potential leads. ",
+                        "Armed with cutting-edge tools and a strategic mindset, you analyze ",
+                        "data, trends, and interactions to unearth opportunities that ",
+                        "others might overlook. ",
+                        "Your work is crucial in paving the way for meaningful engagements ",
+                        "and driving the company's growth."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "tools",
+                    "value": [],
+                    "type": "array",
+                    "itemType": "array"
+                },
+                {
+                    "name": "verbose",
+                    "value": true,
+                    "type": "boolean"
+                }
+            ],
+            "tools": []
+        },
+        {
+            "kind": "agent",
+            "name": "lead_sales_rep_agent",
+            "properties": [
+                {
+                    "name": "role",
+                    "value": "Lead Sales Representative",
+                    "lines": [
+                        "Lead Sales Representative"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "goal",
+                    "value": "Nurture leads with personalized, compelling communications",
+                    "lines": [
+                        "Nurture leads with personalized, compelling communications"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "backstory",
+                    "value": "Within the vibrant ecosystem of CrewAI's sales department, you stand out as the bridge between potential clients and the solutions they need. By creating engaging, personalized messages, you not only inform leads about our offerings but also make them feel seen and heard. Your role is pivotal in converting interest into action, guiding leads through the journey from curiosity to commitment.",
+                    "lines": [
+                        "Within the vibrant ecosystem of CrewAI's sales department, you ",
+                        "stand out as the bridge between potential clients and the solutions ",
+                        "they need. ",
+                        "By creating engaging, personalized messages, you not only inform ",
+                        "leads about our offerings but also make them feel seen and heard. ",
+                        "Your role is pivotal in converting interest into action, guiding ",
+                        "leads through the journey from curiosity to commitment."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "tools",
+                    "value": [],
+                    "type": "array",
+                    "itemType": "array"
+                },
+                {
+                    "name": "verbose",
+                    "value": true,
+                    "type": "boolean"
+                }
+            ],
+            "tools": []
+        }
+    ],
+    "tasksDict": {
+        "lead_profiling_task": {
+            "kind": "task",
+            "name": "lead_profiling_task",
+            "properties": [
+                {
+                    "name": "description",
+                    "value": "Conduct an in-depth analysis of {lead_name}, a company in the {industry} sector that recently showed interest in our solutions. Utilize all available data sources to compile a detailed profile, focusing on key decision-makers, recent business developments, and potential needs that align with our offerings. This task is crucial for tailoring our engagement strategy effectively.\\n Don't make assumptions and only use information you absolutely sure about.",
+                    "lines": [
+                        "Conduct an in-depth analysis of {lead_name}, a company in the ",
+                        "{industry} sector that recently showed interest in our solutions. ",
+                        "Utilize all available data sources to compile a detailed profile, ",
+                        "focusing on key decision-makers, recent business developments, ",
+                        "and potential needs that align with our offerings. ",
+                        "This task is crucial for tailoring our engagement strategy effectively.\\n ",
+                        "Don't make assumptions and only use information you absolutely ",
+                        "sure about."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "expected_output",
+                    "value": "A comprehensive report on {lead_name}, including company background, key personnel, recent milestones, and identified needs. Highlight potential areas where our solutions can provide value, and suggest personalized engagement strategies.",
+                    "lines": [
+                        "A comprehensive report on {lead_name}, including company background, ",
+                        "key personnel, recent milestones, and identified needs. ",
+                        "Highlight potential areas where our solutions can provide value, ",
+                        "and suggest personalized engagement strategies."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "agent",
+                    "value": "sales_rep_agent",
+                    "type": "instance"
+                },
+                {
+                    "name": "tools",
+                    "value": [
+                        "directory_read_tool",
+                        "file_read_tool",
+                        "search_tool"
+                    ],
+                    "type": "array",
+                    "itemType": "array"
+                }
+            ]
+        },
+        "personalized_outreach_task": {
+            "kind": "task",
+            "name": "personalized_outreach_task",
+            "properties": [
+                {
+                    "name": "description",
+                    "value": "Using the insights gathered from the lead profiling report on {lead_name}, craft a personalized outreach campaign aimed at {key_decision_maker}, the {position} of {lead_name}. The campaign should address their recent {milestone} and how our solutions can support their goals. Your communication must resonate with {lead_name}'s company culture and values, demonstrating a deep understanding of their business and needs.\\n Don't make assumptions and only use information you absolutely sure about.",
+                    "lines": [
+                        "Using the insights gathered from the lead profiling report on ",
+                        "{lead_name}, craft a personalized outreach campaign aimed at ",
+                        "{key_decision_maker}, the {position} of {lead_name}. ",
+                        "The campaign should address their recent {milestone} and how ",
+                        "our solutions can support their goals. ",
+                        "Your communication must resonate with {lead_name}'s company ",
+                        "culture and values, demonstrating a deep understanding of their ",
+                        "business and needs.\\n Don't make assumptions and only use information ",
+                        "you absolutely sure about."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "expected_output",
+                    "value": "A series of personalized email drafts tailored to {lead_name}, specifically targeting {key_decision_maker}. Each draft should include a compelling narrative that connects our solutions with their recent achievements and future goals. Ensure the tone is engaging, professional, and aligned with {lead_name}'s corporate identity.",
+                    "lines": [
+                        "A series of personalized email drafts tailored to {lead_name}, ",
+                        "specifically targeting {key_decision_maker}. ",
+                        "Each draft should include a compelling narrative that connects ",
+                        "our solutions with their recent achievements and future goals. ",
+                        "Ensure the tone is engaging, professional, and aligned with ",
+                        "{lead_name}'s corporate identity."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "agent",
+                    "value": "lead_sales_rep_agent",
+                    "type": "instance"
+                },
+                {
+                    "name": "tools",
+                    "value": [
+                        "sentiment_analysis_tool",
+                        "search_tool"
+                    ],
+                    "type": "array",
+                    "itemType": "array"
+                }
+            ]
+        }
+    },
+    "tasks": [
+        {
+            "kind": "task",
+            "name": "lead_profiling_task",
+            "properties": [
+                {
+                    "name": "description",
+                    "value": "Conduct an in-depth analysis of {lead_name}, a company in the {industry} sector that recently showed interest in our solutions. Utilize all available data sources to compile a detailed profile, focusing on key decision-makers, recent business developments, and potential needs that align with our offerings. This task is crucial for tailoring our engagement strategy effectively.\\n Don't make assumptions and only use information you absolutely sure about.",
+                    "lines": [
+                        "Conduct an in-depth analysis of {lead_name}, a company in the ",
+                        "{industry} sector that recently showed interest in our solutions. ",
+                        "Utilize all available data sources to compile a detailed profile, ",
+                        "focusing on key decision-makers, recent business developments, ",
+                        "and potential needs that align with our offerings. ",
+                        "This task is crucial for tailoring our engagement strategy effectively.\\n ",
+                        "Don't make assumptions and only use information you absolutely ",
+                        "sure about."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "expected_output",
+                    "value": "A comprehensive report on {lead_name}, including company background, key personnel, recent milestones, and identified needs. Highlight potential areas where our solutions can provide value, and suggest personalized engagement strategies.",
+                    "lines": [
+                        "A comprehensive report on {lead_name}, including company background, ",
+                        "key personnel, recent milestones, and identified needs. ",
+                        "Highlight potential areas where our solutions can provide value, ",
+                        "and suggest personalized engagement strategies."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "agent",
+                    "value": "sales_rep_agent",
+                    "type": "instance"
+                },
+                {
+                    "name": "tools",
+                    "value": [
+                        "directory_read_tool",
+                        "file_read_tool",
+                        "search_tool"
+                    ],
+                    "type": "array",
+                    "itemType": "array"
+                }
+            ]
+        },
+        {
+            "kind": "task",
+            "name": "personalized_outreach_task",
+            "properties": [
+                {
+                    "name": "description",
+                    "value": "Using the insights gathered from the lead profiling report on {lead_name}, craft a personalized outreach campaign aimed at {key_decision_maker}, the {position} of {lead_name}. The campaign should address their recent {milestone} and how our solutions can support their goals. Your communication must resonate with {lead_name}'s company culture and values, demonstrating a deep understanding of their business and needs.\\n Don't make assumptions and only use information you absolutely sure about.",
+                    "lines": [
+                        "Using the insights gathered from the lead profiling report on ",
+                        "{lead_name}, craft a personalized outreach campaign aimed at ",
+                        "{key_decision_maker}, the {position} of {lead_name}. ",
+                        "The campaign should address their recent {milestone} and how ",
+                        "our solutions can support their goals. ",
+                        "Your communication must resonate with {lead_name}'s company ",
+                        "culture and values, demonstrating a deep understanding of their ",
+                        "business and needs.\\n Don't make assumptions and only use information ",
+                        "you absolutely sure about."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "expected_output",
+                    "value": "A series of personalized email drafts tailored to {lead_name}, specifically targeting {key_decision_maker}. Each draft should include a compelling narrative that connects our solutions with their recent achievements and future goals. Ensure the tone is engaging, professional, and aligned with {lead_name}'s corporate identity.",
+                    "lines": [
+                        "A series of personalized email drafts tailored to {lead_name}, ",
+                        "specifically targeting {key_decision_maker}. ",
+                        "Each draft should include a compelling narrative that connects ",
+                        "our solutions with their recent achievements and future goals. ",
+                        "Ensure the tone is engaging, professional, and aligned with ",
+                        "{lead_name}'s corporate identity."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "agent",
+                    "value": "lead_sales_rep_agent",
+                    "type": "instance"
+                },
+                {
+                    "name": "tools",
+                    "value": [
+                        "sentiment_analysis_tool",
+                        "search_tool"
+                    ],
+                    "type": "array",
+                    "itemType": "array"
+                }
+            ]
+        }
+    ],
+    "crewsDict": {
+        "crew": {
+            "kind": "crew",
+            "name": "crew",
+            "properties": [
+                {
+                    "name": "verbose",
+                    "value": true,
+                    "type": "boolean"
+                },
+                {
+                    "name": "memory",
+                    "value": true,
+                    "type": "boolean"
+                }
+            ],
+            "agents": [
+                "sales_rep_agent",
+                "lead_sales_rep_agent"
+            ],
+            "tasks": [
+                "lead_profiling_task",
+                "personalized_outreach_task"
+            ],
+            "execs": [
+                {
+                    "display": "markdown",
+                    "inputs": [
+                        {
+                            "name": "lead_name",
+                            "value": "\"DeepLearningAI\""
+                        },
+                        {
+                            "name": "industry",
+                            "value": "\"Online Learning Platform\""
+                        },
+                        {
+                            "name": "key_decision_maker",
+                            "value": "\"Andrew Ng\""
+                        },
+                        {
+                            "name": "position",
+                            "value": "\"CEO\""
+                        },
+                        {
+                            "name": "milestone",
+                            "value": "\"product launch\""
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "crews": [
+        {
+            "kind": "crew",
+            "name": "crew",
+            "properties": [
+                {
+                    "name": "verbose",
+                    "value": true,
+                    "type": "boolean"
+                },
+                {
+                    "name": "memory",
+                    "value": true,
+                    "type": "boolean"
+                }
+            ],
+            "agents": [
+                "sales_rep_agent",
+                "lead_sales_rep_agent"
+            ],
+            "tasks": [
+                "lead_profiling_task",
+                "personalized_outreach_task"
+            ],
+            "execs": [
+                {
+                    "display": "markdown",
+                    "inputs": [
+                        {
+                            "name": "lead_name",
+                            "value": "\"DeepLearningAI\""
+                        },
+                        {
+                            "name": "industry",
+                            "value": "\"Online Learning Platform\""
+                        },
+                        {
+                            "name": "key_decision_maker",
+                            "value": "\"Andrew Ng\""
+                        },
+                        {
+                            "name": "position",
+                            "value": "\"CEO\""
+                        },
+                        {
+                            "name": "milestone",
+                            "value": "\"product launch\""
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,2815 @@
+{
+  "name": "ai",
+  "preserveTags": true,
+  "requires": [],
+  "exportTos": [],
+  "elements": [
+    {
+      "name": "node",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "node"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        }
+      ],
+      "derived": [
+        {
+          "name": "ai",
+          "tags": [
+            "ai"
+          ]
+        },
+        {
+          "name": "config",
+          "tags": [
+            "config"
+          ]
+        },
+        {
+          "name": "inputs",
+          "tags": [
+            "inputs"
+          ]
+        },
+        {
+          "name": "method",
+          "tags": [
+            "m"
+          ]
+        },
+        {
+          "name": "codeLine",
+          "tags": [
+            "+"
+          ]
+        },
+        {
+          "name": "crewai",
+          "tags": [
+            "crewai"
+          ]
+        },
+        {
+          "name": "llm",
+          "tags": [
+            "llm"
+          ]
+        },
+        {
+          "name": "OpenAI",
+          "tags": [
+            "openai_llm"
+          ]
+        },
+        {
+          "name": "tool",
+          "tags": [
+            "tool"
+          ]
+        },
+        {
+          "name": "DirectoryRead",
+          "tags": [
+            "directory_read"
+          ]
+        },
+        {
+          "name": "DirectoryRagSearch",
+          "tags": [
+            "directory_rag_search"
+          ]
+        },
+        {
+          "name": "FileRead",
+          "tags": [
+            "file_read"
+          ]
+        },
+        {
+          "name": "FileWrite",
+          "tags": [
+            "file_write"
+          ]
+        },
+        {
+          "name": "GoogleSerperSearch",
+          "tags": [
+            "google_serper_search"
+          ]
+        },
+        {
+          "name": "JsonRagSearch",
+          "tags": [
+            "json_rag_search"
+          ]
+        },
+        {
+          "name": "MdxRagSearch",
+          "tags": [
+            "mdx_rag_search"
+          ]
+        },
+        {
+          "name": "PdfRagSearch",
+          "tags": [
+            "pdf_rag_search"
+          ]
+        },
+        {
+          "name": "ScrapeWebsite",
+          "tags": [
+            "scrape_website"
+          ]
+        },
+        {
+          "name": "TxtRagSearch",
+          "tags": [
+            "txt_rag_search"
+          ]
+        },
+        {
+          "name": "WebsiteRagSearch",
+          "tags": [
+            "website_rag_search"
+          ]
+        },
+        {
+          "name": "CustomTool",
+          "tags": [
+            "custom_tool"
+          ]
+        },
+        {
+          "name": "model",
+          "tags": [
+            "model"
+          ]
+        },
+        {
+          "name": "Pydantic",
+          "tags": [
+            "pydantic_model"
+          ]
+        },
+        {
+          "name": "agent",
+          "tags": [
+            "agent"
+          ]
+        },
+        {
+          "name": "taskContext",
+          "tags": [
+            "taskContext"
+          ]
+        },
+        {
+          "name": "task",
+          "tags": [
+            "task"
+          ]
+        },
+        {
+          "name": "crew",
+          "tags": [
+            "crew"
+          ]
+        },
+        {
+          "name": "call",
+          "tags": [
+            "call"
+          ]
+        },
+        {
+          "name": "message",
+          "tags": [
+            "message"
+          ]
+        }
+      ],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "ai",
+      "super": "node",
+      "isRoot": true,
+      "tags": [
+        "ai"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "apiUrl",
+          "type": "string",
+          "tags": [
+            "api-url"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [
+        {
+          "name": "wzinitialize",
+          "isStatic": false,
+          "isKnownMethod": true,
+          "params": [],
+          "statements": [
+            {
+              "tag": "+",
+              "name": "statement",
+              "value": "",
+              "statements": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "comments": []
+    },
+    {
+      "name": "property",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "@"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "config",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "config"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "property",
+          "role": "properties",
+          "tags": [
+            "@"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "inputs",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "inputs"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "property",
+          "role": "properties",
+          "tags": [
+            "@"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "method",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "m"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "codeLine",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "+"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "crewai",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "crewai"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "agentRef",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "agent_ref"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "taskRef",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "task_ref"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "toolRef",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "tool_ref"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "llmRef",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "llm_ref"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "llmProperty",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "p"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "type",
+          "type": "string",
+          "tags": [
+            "type"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "llm",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "llm"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "apiKey",
+          "type": "string",
+          "tags": [
+            "api_key"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "model",
+          "type": "string",
+          "tags": [
+            "model"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "llmProperty",
+          "role": "llmProperties",
+          "tags": [
+            "p"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [
+        {
+          "name": "OpenAI",
+          "tags": [
+            "openai_llm"
+          ]
+        }
+      ],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "OpenAI",
+      "super": "llm",
+      "isRoot": false,
+      "tags": [
+        "openai_llm"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "apiKey",
+          "type": "string",
+          "tags": [
+            "api_key"
+          ],
+          "flags": "",
+          "inheritedFrom": "llm",
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "model",
+          "type": "string",
+          "tags": [
+            "model"
+          ],
+          "flags": "",
+          "inheritedFrom": "llm",
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "llmProperty",
+          "role": "llmProperties",
+          "tags": [
+            "p"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "llm",
+          "comments": []
+        },
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "tool",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "tool"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "apiKey",
+          "type": "string",
+          "tags": [
+            "api_key"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [
+        {
+          "name": "DirectoryRead",
+          "tags": [
+            "directory_read"
+          ]
+        },
+        {
+          "name": "DirectoryRagSearch",
+          "tags": [
+            "directory_rag_search"
+          ]
+        },
+        {
+          "name": "FileRead",
+          "tags": [
+            "file_read"
+          ]
+        },
+        {
+          "name": "FileWrite",
+          "tags": [
+            "file_write"
+          ]
+        },
+        {
+          "name": "GoogleSerperSearch",
+          "tags": [
+            "google_serper_search"
+          ]
+        },
+        {
+          "name": "JsonRagSearch",
+          "tags": [
+            "json_rag_search"
+          ]
+        },
+        {
+          "name": "MdxRagSearch",
+          "tags": [
+            "mdx_rag_search"
+          ]
+        },
+        {
+          "name": "PdfRagSearch",
+          "tags": [
+            "pdf_rag_search"
+          ]
+        },
+        {
+          "name": "ScrapeWebsite",
+          "tags": [
+            "scrape_website"
+          ]
+        },
+        {
+          "name": "TxtRagSearch",
+          "tags": [
+            "txt_rag_search"
+          ]
+        },
+        {
+          "name": "WebsiteRagSearch",
+          "tags": [
+            "website_rag_search"
+          ]
+        },
+        {
+          "name": "CustomTool",
+          "tags": [
+            "custom_tool"
+          ]
+        }
+      ],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "DirectoryRead",
+      "super": "tool",
+      "isRoot": false,
+      "tags": [
+        "directory_read"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "directory_path",
+          "type": "string",
+          "tags": [
+            "directory_path"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "apiKey",
+          "type": "string",
+          "tags": [
+            "api_key"
+          ],
+          "flags": "",
+          "inheritedFrom": "tool",
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "DirectoryRagSearch",
+      "super": "tool",
+      "isRoot": false,
+      "tags": [
+        "directory_rag_search"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "directory_path",
+          "type": "string",
+          "tags": [
+            "directory_path"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "apiKey",
+          "type": "string",
+          "tags": [
+            "api_key"
+          ],
+          "flags": "",
+          "inheritedFrom": "tool",
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "FileRead",
+      "super": "tool",
+      "isRoot": false,
+      "tags": [
+        "file_read"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "file_path",
+          "type": "string",
+          "tags": [
+            "file_path"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "apiKey",
+          "type": "string",
+          "tags": [
+            "api_key"
+          ],
+          "flags": "",
+          "inheritedFrom": "tool",
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "FileWrite",
+      "super": "tool",
+      "isRoot": false,
+      "tags": [
+        "file_write"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "file_path",
+          "type": "string",
+          "tags": [
+            "file_path"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "apiKey",
+          "type": "string",
+          "tags": [
+            "api_key"
+          ],
+          "flags": "",
+          "inheritedFrom": "tool",
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "GoogleSerperSearch",
+      "super": "tool",
+      "isRoot": false,
+      "tags": [
+        "google_serper_search"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "search_url",
+          "type": "string",
+          "tags": [
+            "search_url"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "The URL endpoint for the search API. (Default is https://google.serper.dev/search)"
+          ]
+        },
+        {
+          "name": "country",
+          "type": "string",
+          "tags": [
+            "country"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "Optional.",
+            "Specify the country for the search results."
+          ]
+        },
+        {
+          "name": "location",
+          "type": "string",
+          "tags": [
+            "location"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "Optional.",
+            "Specify the location for the search results."
+          ]
+        },
+        {
+          "name": "locale",
+          "type": "string",
+          "tags": [
+            "locale"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "Optional.",
+            "Specify the locale for the search results."
+          ]
+        },
+        {
+          "name": "n_results",
+          "type": "integer",
+          "tags": [
+            "n_results"
+          ],
+          "default": "10",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "Number of search results to return."
+          ]
+        },
+        {
+          "name": "apiKey",
+          "type": "string",
+          "tags": [
+            "api_key"
+          ],
+          "flags": "",
+          "inheritedFrom": "tool",
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "JsonRagSearch",
+      "super": "tool",
+      "isRoot": false,
+      "tags": [
+        "json_rag_search"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "file_path",
+          "type": "string",
+          "tags": [
+            "file_path"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "apiKey",
+          "type": "string",
+          "tags": [
+            "api_key"
+          ],
+          "flags": "",
+          "inheritedFrom": "tool",
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "MdxRagSearch",
+      "super": "tool",
+      "isRoot": false,
+      "tags": [
+        "mdx_rag_search"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "file_path",
+          "type": "string",
+          "tags": [
+            "file_path"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "apiKey",
+          "type": "string",
+          "tags": [
+            "api_key"
+          ],
+          "flags": "",
+          "inheritedFrom": "tool",
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "PdfRagSearch",
+      "super": "tool",
+      "isRoot": false,
+      "tags": [
+        "pdf_rag_search"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "file_path",
+          "type": "string",
+          "tags": [
+            "file_path"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "apiKey",
+          "type": "string",
+          "tags": [
+            "api_key"
+          ],
+          "flags": "",
+          "inheritedFrom": "tool",
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "ScrapeWebsite",
+      "super": "tool",
+      "isRoot": false,
+      "tags": [
+        "scrape_website"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "website_url",
+          "type": "string",
+          "tags": [
+            "website_url"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "apiKey",
+          "type": "string",
+          "tags": [
+            "api_key"
+          ],
+          "flags": "",
+          "inheritedFrom": "tool",
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "TxtRagSearch",
+      "super": "tool",
+      "isRoot": false,
+      "tags": [
+        "txt_rag_search"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "file_path",
+          "type": "string",
+          "tags": [
+            "file_path"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "apiKey",
+          "type": "string",
+          "tags": [
+            "api_key"
+          ],
+          "flags": "",
+          "inheritedFrom": "tool",
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "WebsiteRagSearch",
+      "super": "tool",
+      "isRoot": false,
+      "tags": [
+        "website_rag_search"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "website_url",
+          "type": "string",
+          "tags": [
+            "website_url"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "apiKey",
+          "type": "string",
+          "tags": [
+            "api_key"
+          ],
+          "flags": "",
+          "inheritedFrom": "tool",
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "CustomTool",
+      "super": "tool",
+      "isRoot": false,
+      "tags": [
+        "custom_tool"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "type",
+          "type": "string",
+          "tags": [
+            "type"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "tags": [
+            "name"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "apiKey",
+          "type": "string",
+          "tags": [
+            "api_key"
+          ],
+          "flags": "",
+          "inheritedFrom": "tool",
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        ""
+      ]
+    },
+    {
+      "name": "modelProperty",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "p"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "type",
+          "type": "string",
+          "tags": [
+            "type"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "model",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "model"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "modelProperty",
+          "role": "modelProperties",
+          "tags": [
+            "p"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [
+        {
+          "name": "Pydantic",
+          "tags": [
+            "pydantic_model"
+          ]
+        }
+      ],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "Pydantic",
+      "super": "model",
+      "isRoot": false,
+      "tags": [
+        "pydantic_model"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "modelProperty",
+          "role": "modelProperties",
+          "tags": [
+            "p"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "model",
+          "comments": []
+        },
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "agent",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "agent"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "role",
+          "type": "string",
+          "tags": [
+            "role"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "Defines the agent’s function within the crew. It determines the kind of tasks the agent is best suited for."
+          ]
+        },
+        {
+          "name": "goal",
+          "type": "string",
+          "tags": [
+            "goal"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "The individual objective that the agent aims to achieve. It guides the agent’s decision-making process."
+          ]
+        },
+        {
+          "name": "backstory",
+          "type": "string",
+          "tags": [
+            "backstory"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "Provides context to the agent’s role and goal, enriching the interaction and collaboration dynamics."
+          ]
+        },
+        {
+          "name": "llm",
+          "type": "string",
+          "tags": [
+            "llm"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "optional",
+            "Represents the language model that will run the agent. It dynamically fetches the model name from the OPENAI_MODEL_NAME environment variable, defaulting to “gpt-4” if not specified."
+          ]
+        },
+        {
+          "name": "function_calling_llm",
+          "type": "string",
+          "tags": [
+            "function_calling_llm"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "Specifies the language model that will handle the tool calling for this agent, overriding the crew function calling LLM if passed.",
+            "Default is None."
+          ]
+        },
+        {
+          "name": "max_iter",
+          "type": "integer",
+          "tags": [
+            "max_iter"
+          ],
+          "default": "25",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "Max Iter is the maximum number of iterations the agent can perform before being forced to give its best answer."
+          ]
+        },
+        {
+          "name": "max_rpm",
+          "type": "string",
+          "tags": [
+            "max_rpm"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "optional",
+            "Max RPM is the maximum number of requests per minute the agent can perform to avoid rate limits. It’s optional and can be left unspecified.",
+            "Default value is None."
+          ]
+        },
+        {
+          "name": "max_execution_time",
+          "type": "string",
+          "tags": [
+            "max_execution_time"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "optional",
+            "Max Execution Time is the maximum execution time for an agent to execute a task. It’s optional and can be left unspecified, with a default value of None, meaning no max execution time."
+          ]
+        },
+        {
+          "name": "verbose",
+          "type": "boolean",
+          "tags": [
+            "verbose"
+          ],
+          "default": "false",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "optional",
+            "Setting this to True configures the internal logger to provide detailed execution logs, aiding in debugging and monitoring."
+          ]
+        },
+        {
+          "name": "allow_delegation",
+          "type": "boolean",
+          "tags": [
+            "allow_delegation"
+          ],
+          "default": "false",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "optional",
+            "Agents can delegate tasks or questions to one another, ensuring that each task is handled by the most suitable agent.",
+            "Default is False."
+          ]
+        },
+        {
+          "name": "step_callback",
+          "type": "string",
+          "tags": [
+            "step_callback"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "optional",
+            "A function that is called after each step of the agent.",
+            "This can be used to log the agent’s actions or to perform other operations. It will overwrite the crew step_callback."
+          ]
+        },
+        {
+          "name": "cache",
+          "type": "boolean",
+          "tags": [
+            "cache"
+          ],
+          "default": "true",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "optional",
+            "Indicates if the agent should use a cache for tool usage."
+          ]
+        },
+        {
+          "name": "system_template",
+          "type": "string",
+          "tags": [
+            "system_template"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "optional",
+            "Specifies the system format for the agent.",
+            "Default is None."
+          ]
+        },
+        {
+          "name": "prompt_template",
+          "type": "string",
+          "tags": [
+            "prompt_template"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "optional",
+            "Specifies the prompt format for the agent.",
+            "Default is None."
+          ]
+        },
+        {
+          "name": "response_template",
+          "type": "string",
+          "tags": [
+            "response_template"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "optional",
+            "Specifies the response format for the agent.",
+            "Default is None."
+          ]
+        },
+        {
+          "name": "allow_code_execution",
+          "type": "boolean",
+          "tags": [
+            "allow_code_execution"
+          ],
+          "default": "false",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "optional",
+            "Enable code execution for the agent."
+          ]
+        },
+        {
+          "name": "max_retry_limit",
+          "type": "integer",
+          "tags": [
+            "max_retry_limit"
+          ],
+          "default": "2",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "optional",
+            "Maximum number of retries for an agent to execute a task when an error occurs."
+          ]
+        },
+        {
+          "name": "use_system_prompt",
+          "type": "boolean",
+          "tags": [
+            "use_system_prompt"
+          ],
+          "default": "true",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "optional",
+            "Adds the ability to not use system prompt (to support o1 models)."
+          ]
+        },
+        {
+          "name": "respect_context_window",
+          "type": "boolean",
+          "tags": [
+            "respect_context_window"
+          ],
+          "default": "true",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "optional",
+            "Summary strategy to avoid overflowing the context window."
+          ]
+        },
+        {
+          "name": "code_execution_mode",
+          "type": "string",
+          "tags": [
+            "code_execution_mode"
+          ],
+          "default": "safe",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [
+            {
+              "facets": [
+                {
+                  "type": "enumFacet",
+                  "value": "safe",
+                  "comments": [
+                    "using Docker"
+                  ]
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "restrict",
+                  "comments": [
+                    "direct execution on the host machine"
+                  ]
+                }
+              ],
+              "comments": []
+            }
+          ],
+          "comments": [
+            "optional",
+            "Determines the mode for code execution: ‘safe’ (using Docker) or ‘unsafe’ (direct execution on the host machine)."
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "name": "toolRef",
+          "role": "toolRefs",
+          "tags": [
+            "tool_ref"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": [
+            "optional",
+            "Set of capabilities or functions that the agent can use to perform tasks. Expected to be instances of custom classes compatible with the agent’s execution environment. Tools are initialized with a default value of an empty list."
+          ]
+        },
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "taskContext",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "taskContext"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "taskRef",
+          "role": "taskRefs",
+          "tags": [
+            "task_ref"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "task",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "task"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "A clear, concise statement of what the task entails."
+          ]
+        },
+        {
+          "name": "expected_output",
+          "type": "string",
+          "tags": [
+            "expected_output"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "A detailed description of what the task’s completion looks like."
+          ]
+        },
+        {
+          "name": "async_execution",
+          "type": "boolean",
+          "tags": [
+            "async_execution"
+          ],
+          "default": "false",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "Optional[bool]",
+            "If set, the task executes asynchronously, allowing progression without waiting for completion."
+          ]
+        },
+        {
+          "name": "output_json",
+          "type": "string",
+          "tags": [
+            "output_json"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "Optional[Type[BaseModel]]",
+            "Outputs a JSON object, requiring an OpenAI client.",
+            "Only one output format can be set."
+          ]
+        },
+        {
+          "name": "output_pydantic",
+          "type": "string",
+          "tags": [
+            "output_pydantic"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "Optional[Type[BaseModel]]",
+            "Outputs a Pydantic model object, requiring an OpenAI client.",
+            "Only one output format can be set."
+          ]
+        },
+        {
+          "name": "output_file",
+          "type": "string",
+          "tags": [
+            "output_file"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "Optional[str]",
+            "Saves the task output to a file.",
+            "If used with Output JSON or Output Pydantic, specifies how the output is saved."
+          ]
+        },
+        {
+          "name": "output",
+          "type": "string",
+          "tags": [
+            "output"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "Optional[TaskOutput]",
+            "An instance of TaskOutput, containing the raw, JSON, and Pydantic output plus additional details."
+          ]
+        },
+        {
+          "name": "callback",
+          "type": "string",
+          "tags": [
+            "callback"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "Optional[Any]",
+            "A callable that is executed with the task’s output upon completion."
+          ]
+        },
+        {
+          "name": "human_input",
+          "type": "boolean",
+          "tags": [
+            "human_input"
+          ],
+          "default": "false",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "Optional[bool]",
+            "Indicates if the task should involve human review at the end, useful for tasks needing human oversight."
+          ]
+        },
+        {
+          "name": "converter_cls",
+          "type": "string",
+          "tags": [
+            "converter_cls"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "Optional[Type[Converter]]",
+            "A converter class used to export structured output.",
+            "Defaults to None."
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "name": "agent",
+          "role": null,
+          "tags": [
+            "agent"
+          ],
+          "cardinality": "one-to-one",
+          "flags": "is-one-to-one ",
+          "inheritedFrom": null,
+          "comments": [
+            "Optional[BaseAgent]",
+            "The agent responsible for the task, assigned either directly or by the crew’s process."
+          ]
+        },
+        {
+          "name": "taskContext",
+          "role": null,
+          "tags": [
+            "taskContext"
+          ],
+          "cardinality": "one-to-one",
+          "flags": "is-one-to-one ",
+          "inheritedFrom": null,
+          "comments": [
+            "Optional[List[\"Task\"]]",
+            "Specifies tasks whose outputs are used as context for this task."
+          ]
+        },
+        {
+          "name": "config",
+          "role": null,
+          "tags": [
+            "config"
+          ],
+          "cardinality": "one-to-one",
+          "flags": "is-one-to-one ",
+          "inheritedFrom": null,
+          "comments": [
+            "Optional[Dict[str, Any]]",
+            "Additional configuration details for the agent executing the task, allowing further customization.",
+            "Defaults to None."
+          ]
+        },
+        {
+          "name": "toolRef",
+          "role": "toolRefs",
+          "tags": [
+            "tool_ref"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": [
+            "Optional[List[Any]]",
+            "The functions or capabilities the agent can utilize to perform the task.",
+            "Defaults to an empty list."
+          ]
+        },
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "display",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "display"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "file_path",
+          "type": "string",
+          "tags": [
+            "file_path"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "tags": [
+            "format"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [
+            {
+              "facets": [
+                {
+                  "type": "enumFacet",
+                  "value": "text",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "json",
+                  "comments": []
+                }
+              ],
+              "comments": []
+            }
+          ],
+          "comments": []
+        }
+      ],
+      "relations": [],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "exec",
+      "super": null,
+      "isRoot": false,
+      "tags": [
+        "exec"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "display",
+          "role": "displays",
+          "tags": [
+            "display"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "inputs",
+          "role": null,
+          "tags": [
+            "inputs"
+          ],
+          "cardinality": "one-to-one",
+          "flags": "is-one-to-one ",
+          "inheritedFrom": null,
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "crew",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "crew"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "process",
+          "type": "string",
+          "tags": [
+            "process"
+          ],
+          "default": "sequential",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [
+            {
+              "facets": [
+                {
+                  "type": "enumFacet",
+                  "value": "sequential",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "hierarchical",
+                  "comments": []
+                }
+              ],
+              "comments": []
+            }
+          ],
+          "comments": [
+            "The process flow (e.g., sequential, hierarchical) the crew follows."
+          ]
+        },
+        {
+          "name": "verbose",
+          "type": "boolean",
+          "tags": [
+            "verbose"
+          ],
+          "default": "false",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "The verbosity level for logging during execution."
+          ]
+        },
+        {
+          "name": "manager_llm",
+          "type": "string",
+          "tags": [
+            "manager_llm"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "The language model used by the manager agent in a hierarchical process.",
+            "Required when using a hierarchical process."
+          ]
+        },
+        {
+          "name": "function_calling_llm",
+          "type": "string",
+          "tags": [
+            "function_calling_llm"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "If passed, the crew will use this LLM to do function calling for tools for all agents in the crew.",
+            "Each agent can have its own LLM, which overrides the crew’s LLM for function calling."
+          ]
+        },
+        {
+          "name": "max_rpm",
+          "type": "string",
+          "tags": [
+            "max_rpm"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "Maximum requests per minute the crew adheres to during execution.",
+            "Defaults to None."
+          ]
+        },
+        {
+          "name": "language",
+          "type": "string",
+          "tags": [
+            "language"
+          ],
+          "default": "English",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "Language used for the crew."
+          ]
+        },
+        {
+          "name": "language_file",
+          "type": "string",
+          "tags": [
+            "language_file"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "Path to the language file to be used for the crew."
+          ]
+        },
+        {
+          "name": "memory",
+          "type": "boolean",
+          "tags": [
+            "memory"
+          ],
+          "default": "false",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "Utilized for storing execution memories (short-term, long-term, entity memory)."
+          ]
+        },
+        {
+          "name": "cache",
+          "type": "boolean",
+          "tags": [
+            "cache"
+          ],
+          "default": "true",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "Specifies whether to use a cache for storing the results of tools’ execution."
+          ]
+        },
+        {
+          "name": "embedder",
+          "type": "string",
+          "tags": [
+            "embedder"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "Configuration for the embedder to be used by the crew.",
+            "Mostly used by memory for now.",
+            "Default is {\"provider\": \"openai\"}."
+          ]
+        },
+        {
+          "name": "full_output",
+          "type": "boolean",
+          "tags": [
+            "full_output"
+          ],
+          "default": "false",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "Whether the crew should return the full output with all tasks outputs or just the final output."
+          ]
+        },
+        {
+          "name": "step_callback",
+          "type": "string",
+          "tags": [
+            "step_callback"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "A function that is called after each step of every agent.",
+            "This can be used to log the agent’s actions or to perform other operations;",
+            "it won’t override the agent-specific step_callback."
+          ]
+        },
+        {
+          "name": "task_callback",
+          "type": "string",
+          "tags": [
+            "task_callback"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "A function that is called after the completion of each task.",
+            "Useful for monitoring or additional operations post-task execution."
+          ]
+        },
+        {
+          "name": "share_crew",
+          "type": "string",
+          "tags": [
+            "share_crew"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "Whether you want to share the complete crew information and execution with the crewAI team to make the library better,",
+            "and allow us to train models."
+          ]
+        },
+        {
+          "name": "output_log_file",
+          "type": "string",
+          "tags": [
+            "output_log_file"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "Whether you want to have a file with the complete crew output and execution.",
+            "You can set it using True and it will default to the folder you are currently in",
+            "and it will be called logs.txt or passing a string with the full path and name of the file."
+          ]
+        },
+        {
+          "name": "manager_agent",
+          "type": "string",
+          "tags": [
+            "manager_agent"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "Sets a custom agent that will be used as a manager."
+          ]
+        },
+        {
+          "name": "manager_callbacks",
+          "type": "string",
+          "tags": [
+            "manager_callbacks"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "Takes a list of callback handlers to be executed by the manager agent when a hierarchical process is used."
+          ]
+        },
+        {
+          "name": "prompt_file",
+          "type": "string",
+          "tags": [
+            "prompt_file"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "Path to the prompt JSON file to be used for the crew."
+          ]
+        },
+        {
+          "name": "planning",
+          "type": "boolean",
+          "tags": [
+            "planning"
+          ],
+          "default": "false",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "Adds planning ability to the Crew.",
+            "When activated before each Crew iteration, all Crew data is sent to an AgentPlanner",
+            "that will plan the tasks and this plan will be added to each task description."
+          ]
+        },
+        {
+          "name": "planning_llm",
+          "type": "string",
+          "tags": [
+            "planning_llm"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": [
+            "The language model used by the AgentPlanner in a planning process."
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "name": "taskRef",
+          "role": "taskRefs",
+          "tags": [
+            "task_ref"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": [
+            "A list of tasks assigned to the crew."
+          ]
+        },
+        {
+          "name": "agentRef",
+          "role": "agentRefs",
+          "tags": [
+            "agent_ref"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": [
+            "A list of agents that are part of the crew."
+          ]
+        },
+        {
+          "name": "exec",
+          "role": "execs",
+          "tags": [
+            "exec"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": [
+            "A list of executions (kickoffs)"
+          ]
+        },
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "call",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "call"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "kind",
+          "type": "string",
+          "tags": [
+            "kind"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "prompt",
+          "type": "string",
+          "tags": [
+            "prompt"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "max_tokens",
+          "type": "string",
+          "tags": [
+            "max_tokens"
+          ],
+          "default": "1500",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "temperature",
+          "type": "string",
+          "tags": [
+            "temperature"
+          ],
+          "default": "0.7",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "top_p",
+          "type": "string",
+          "tags": [
+            "top_p"
+          ],
+          "default": "1",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "frequency_penalty",
+          "type": "string",
+          "tags": [
+            "frequency_penalty"
+          ],
+          "default": "0",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "presence_penalty",
+          "type": "string",
+          "tags": [
+            "presence_penalty"
+          ],
+          "default": "0",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "message",
+          "role": "messages",
+          "tags": [
+            "message"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "message",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "message"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "role",
+          "type": "string",
+          "tags": [
+            "role"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "tags": [
+            "content"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    }
+  ]
+}

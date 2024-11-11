@@ -1,0 +1,32 @@
+$group
+
+    async-md( Pydantic )
+        log 'Pydantic', ctx.__current
+        var saveCurrent = ctx.__current
+        if saveCurrent.kind != 'root'
+            throw new Error("model declaration must be on root")
+        set ctx.__current
+            {
+                @ kind 'model'
+                @ name model.wzName
+                @ modelType 'Pydantic'
+                @ type 'BaseModel'
+                @ from 'pydantic'
+                [ properties
+        set saveCurrent.modelTypes['Pydantic']
+            {
+                @ kind 'model-type'
+                @ type 'BaseModel'
+                @ from 'pydantic'
+        foreach mp in model.modelProperties
+            _ ctx.__current.properties.push
+                {
+                    @ name mp.wzName
+                    @ type mp.type
+        set saveCurrent.models.push(ctx.__current);
+        _ md.genItems
+            @ model.nodes
+            @ ctx
+            a_cb()
+                set ctx.__current = saveCurrent
+                r_cb()

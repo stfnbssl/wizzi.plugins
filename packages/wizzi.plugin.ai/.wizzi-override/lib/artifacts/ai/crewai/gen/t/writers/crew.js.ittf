@@ -1,0 +1,118 @@
+$group
+
+    function writeCrew
+        param ctx
+        param json
+        # log 'writeCrew', json, json.properties.length
+        _ ctx.w("")
+        _ ctx.w(json.name + " = Crew(")
+        _ ctx.indent
+        # Agents
+        var comma = json.tasks.length > 0 || json.properties.length > 0 ? ',' : ''
+        _ ctx.write("agents=[")
+        if json.agents.length > 1
+            _ ctx.w(json.agents[0] + ',')
+            for var j=1; j<json.agents.length; j++
+                if j < json.agents.length-1
+                    _ ctx.w('        ' + json.agents[j] + ',')
+                else
+                    _ ctx.w('        ' + json.agents[j] + ']' + comma)
+        elif json.agents.length > 0
+            _ ctx.w(json.agents[0] + ']' + comma)   
+        # Tasks
+        var comma = json.properties.length > 0 ? ',' : ''
+        _ ctx.write("tasks=[")
+        if json.tasks.length > 1
+            _ ctx.w(json.tasks[0] + ',')
+            for var j=1; j<json.tasks.length; j++
+                if j < json.tasks.length-1
+                    # log 221, comma
+                    _ ctx.w('       ' + json.tasks[j] + ',')
+                else
+                    # log 222, comma
+                    _ ctx.w('       ' + json.tasks[j] + ']' + comma)
+        elif json.tasks.length > 0
+            _ ctx.w(json.tasks[0] + ']' + comma)   
+        _ writeProperties
+            @ ctx
+            @ json
+        _ ctx.deindent
+        _ ctx.w(")")
+
+    function writeCrewExec
+        param ctx
+        param crewJson
+        param execJson
+        log 'writeCrewExec', crewJson, execJson
+        var resultName
+        if execJson.inputs && execJson.inputs.length > 0
+            set resultName = crewJson.name + (execJson.name ? '_' + execJson.name : '') + '_result'
+            _ ctx.w(resultName + " = " + crewJson.name + ".kickoff(");
+            _ ctx.indent
+            _ ctx.w("inputs={")
+            _ ctx.indent
+            for var i=0; i<execJson.inputs.length; i++
+                var comma = i < execJson.inputs.length-1 ? ',' : ''
+                var p = execJson.inputs[i]
+                _ ctx.w('"' + p.name + '": ' + p.value + comma)        
+            _ ctx.deindent
+            _ ctx.w("}")
+            _ ctx.deindent
+            _ ctx.w(");")
+        else
+            set resultName = crewJson.name + "_result"
+            _ ctx.w(resultName + " = " + crewJson.name + ".kickoff();")        
+        foreach d in execJson.displays
+            _ writeCrewDisplay
+                @ ctx
+                @ d 
+                @ resultName
+
+    function writeCrewDisplay
+        param ctx
+        param displayJson
+        param resultName
+        if displayJson.type == 'markdown'
+            if verify.isNotEmpty(displayJson.file_path)
+                _ ctx.w("Markdown(\"" + displayJson.file_path + "\")")
+            else
+                _ ctx.w("Markdown(" + resultName + ")")
+        elif displayJson.type == 'pprint'
+            if verify.isNotEmpty(displayJson.file_path)
+                _ ctx.w("with open('" + displayJson.file_path + "') as f:")
+                if displayJson.format == 'json'
+                    _ ctx.w("    data = json.load(f)")
+                _ ctx.w("pprint(data)")
+
+    function writeCrews
+        param ctx
+        param json
+        if json.crews.length > 0
+            foreach crew in json.crews
+                _ writeCrew
+                    @ ctx
+                    @ crew        
+            _ ctx.w("")
+            _ ctx.w("# execution")
+            foreach crew in json.crews
+                if crew.execs && crew.execs.length > 0
+                    foreach exec in crew.execs
+                        _ writeCrewExec
+                            @ ctx
+                            @ crew     
+                            @ exec
+                else
+                    _ writeCrewExec
+                        @ ctx
+                        @ crew        
+                        {
+$*
+event_management_crew = Crew(
+    agents=[extractor, 
+            adapterForParents],
+    
+    tasks=[extractTopics, 
+           adaptTopicsToParents], 
+    verbose=True
+)
+*$

@@ -1,0 +1,760 @@
+{
+    "kind": "root",
+    "llmTypes": {
+        "OpenAI": {
+            "kind": "llm-type",
+            "type": "OpenAI",
+            "apiKey": "openai_api_key",
+            "modelName": "gpt-3.5-turbo",
+            "modelEnvVar": "OPENAI_MODEL_NAME"
+        }
+    },
+    "llms": [
+        {
+            "kind": "llm",
+            "name": "",
+            "type": "OpenAI",
+            "modelName": "gpt-3.5-turbo",
+            "modelEnvVar": "OPENAI_MODEL_NAME"
+        }
+    ],
+    "toolTypes": {
+        "FileReadTool": {
+            "kind": "tool-type",
+            "type": "FileReadTool",
+            "from": "crewai_tools",
+            "apiKey": null
+        }
+    },
+    "tools": [
+        {
+            "kind": "tool",
+            "name": "toolMdx1",
+            "type": "FileReadTool",
+            "from": "crewai_tools",
+            "file_path": "C:/My/3dparty/python/Anna/Obesi/IAIA/Documenti/Caselli.md"
+        },
+        {
+            "kind": "tool",
+            "name": "toolMdx2",
+            "type": "FileReadTool",
+            "from": "crewai_tools",
+            "file_path": "C:/My/3dparty/python/Anna/Obesi/IAIA/Documenti/Davoli.md"
+        }
+    ],
+    "modelTypes": {
+        "Pydantic": {
+            "kind": "model-type",
+            "type": "BaseModel",
+            "from": "pydantic"
+        }
+    },
+    "models": [
+        {
+            "kind": "model",
+            "name": "ObesityItems",
+            "modelType": "Pydantic",
+            "type": "BaseModel",
+            "from": "pydantic",
+            "properties": [
+                {
+                    "name": "item",
+                    "type": "str"
+                },
+                {
+                    "name": "argomento",
+                    "type": "str"
+                },
+                {
+                    "name": "fascia_età",
+                    "type": "str"
+                }
+            ]
+        }
+    ],
+    "displayTypes": {
+        "Markdown": {
+            "from": "IPython.display"
+        }
+    },
+    "agentsDict": {
+        "extractor": {
+            "kind": "agent",
+            "name": "extractor",
+            "properties": [
+                {
+                    "name": "role",
+                    "value": "Estrattore di contenuti",
+                    "lines": [
+                        "Estrattore di contenuti"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "goal",
+                    "value": "Estrarre e classificare contenuti riguardanti l'obesità infantile",
+                    "lines": [
+                        "Estrarre e classificare contenuti riguardanti l'obesità infantile"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "backstory",
+                    "value": "Stai lavorando ad un progetto di produzione di schede informative per il management dell'obesità infantile per fasce di età. Vari specialisti hanno prodotto schede per i pediatri in vari documenti. Dovranno essere prodotte schede anche per i genitori, usando un linguaggio più semplice. Dovranno inoltre essere fornite istruzioni ai pediatri su come presentare ai genitori le schede loro rivolte. Il tuo lavoro è estrarre dai documenti prodotti dagli specialisti i vari consigli per i pediatri classificandoli per argomento e fascia d'età, questi saranno poi passati al Mediatore dei contenuti genitoriali per adattarli all'uso da parte dei genitori.",
+                    "lines": [
+                        "Stai lavorando ad un progetto di produzione di schede informative ",
+                        "per il management dell'obesità infantile per fasce di età. ",
+                        "Vari specialisti hanno prodotto schede per i pediatri in vari ",
+                        "documenti. ",
+                        "Dovranno essere prodotte schede anche per i genitori, usando ",
+                        "un linguaggio più semplice. ",
+                        "Dovranno inoltre essere fornite istruzioni ai pediatri su come ",
+                        "presentare ai genitori le schede loro rivolte. ",
+                        "Il tuo lavoro è estrarre dai documenti prodotti dagli specialisti ",
+                        "i vari consigli per i pediatri classificandoli per argomento ",
+                        "e fascia d'età, questi saranno poi passati al Mediatore dei contenuti ",
+                        "genitoriali per adattarli all'uso da parte dei genitori."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "tools",
+                    "value": [
+                        "toolMdx1",
+                        "toolMdx2"
+                    ],
+                    "type": "array",
+                    "itemType": "object"
+                },
+                {
+                    "name": "verbose",
+                    "value": true,
+                    "type": "boolean"
+                }
+            ],
+            "tools": []
+        },
+        "planner": {
+            "kind": "agent",
+            "name": "planner",
+            "properties": [
+                {
+                    "name": "role",
+                    "value": "Content Planner",
+                    "lines": [
+                        "Content Planner"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "goal",
+                    "value": "Plan engaging and factually accurate content on {topic}",
+                    "lines": [
+                        "Plan engaging and factually accurate content on {topic}"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "backstory",
+                    "value": "You're working on planning a blog article about the topic: {topic}. You collect information that helps the audience learn something and make informed decisions. Your work is the basis for the Content Writer to write an article on this topic.",
+                    "lines": [
+                        "You're working on planning a blog article about the topic: {topic}. ",
+                        "You collect information that helps the audience learn something ",
+                        "and make informed decisions. ",
+                        "Your work is the basis for the Content Writer to write an article ",
+                        "on this topic."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "tools",
+                    "value": [],
+                    "type": "array",
+                    "itemType": "object"
+                },
+                {
+                    "name": "verbose",
+                    "value": true,
+                    "type": "boolean"
+                }
+            ],
+            "tools": []
+        },
+        "writer": {
+            "kind": "agent",
+            "name": "writer",
+            "properties": [
+                {
+                    "name": "role",
+                    "value": "Content Writer",
+                    "lines": [
+                        "Content Writer"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "goal",
+                    "value": "Write insightful and factually accurate opinion piece about the topic: {topic}",
+                    "lines": [
+                        "Write insightful and factually accurate opinion piece about the ",
+                        "topic: {topic}"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "backstory",
+                    "value": "You're working on a writing a new opinion piece about the topic: {topic}. You base your writing on the work of the Content Planner, who provides an outline and relevant context about the topic. You follow the main objectives and direction of the outline, as provide by the Content Planner. You also provide objective and impartial insights and back them up with information provide by the Content Planner. You acknowledge in your opinion piece when your statements are opinions as opposed to objective statements.",
+                    "lines": [
+                        "You're working on a writing a new opinion piece about the topic: ",
+                        "{topic}. ",
+                        "You base your writing on the work of the Content Planner, who ",
+                        "provides an outline and relevant context about the topic. ",
+                        "You follow the main objectives and direction of the outline, ",
+                        "as provide by the Content Planner. ",
+                        "You also provide objective and impartial insights and back them ",
+                        "up with information provide by the Content Planner. ",
+                        "You acknowledge in your opinion piece when your statements are ",
+                        "opinions as opposed to objective statements."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "tools",
+                    "value": [],
+                    "type": "array",
+                    "itemType": "object"
+                },
+                {
+                    "name": "verbose",
+                    "value": true,
+                    "type": "boolean"
+                }
+            ],
+            "tools": []
+        },
+        "editor": {
+            "kind": "agent",
+            "name": "editor",
+            "properties": [
+                {
+                    "name": "role",
+                    "value": "Editor",
+                    "lines": [
+                        "Editor"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "goal",
+                    "value": "Edit a given blog post to align with the writing style of the organization.",
+                    "lines": [
+                        "Edit a given blog post to align with the writing style of the ",
+                        "organization."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "backstory",
+                    "value": "You are an editor who receives a blog post from the Content Writer. Your goal is to review the blog post to ensure that it follows journalistic best practices, provides balanced viewpoints when providing opinions or assertions, and also avoids major controversial topics or opinions when possible.",
+                    "lines": [
+                        "You are an editor who receives a blog post from the Content Writer. ",
+                        "Your goal is to review the blog post to ensure that it follows ",
+                        "journalistic best practices, provides balanced viewpoints when ",
+                        "providing opinions or assertions, and also avoids major controversial ",
+                        "topics or opinions when possible."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "tools",
+                    "value": [],
+                    "type": "array",
+                    "itemType": "object"
+                },
+                {
+                    "name": "verbose",
+                    "value": true,
+                    "type": "boolean"
+                }
+            ],
+            "tools": []
+        }
+    },
+    "agents": [
+        {
+            "kind": "agent",
+            "name": "extractor",
+            "properties": [
+                {
+                    "name": "role",
+                    "value": "Estrattore di contenuti",
+                    "lines": [
+                        "Estrattore di contenuti"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "goal",
+                    "value": "Estrarre e classificare contenuti riguardanti l'obesità infantile",
+                    "lines": [
+                        "Estrarre e classificare contenuti riguardanti l'obesità infantile"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "backstory",
+                    "value": "Stai lavorando ad un progetto di produzione di schede informative per il management dell'obesità infantile per fasce di età. Vari specialisti hanno prodotto schede per i pediatri in vari documenti. Dovranno essere prodotte schede anche per i genitori, usando un linguaggio più semplice. Dovranno inoltre essere fornite istruzioni ai pediatri su come presentare ai genitori le schede loro rivolte. Il tuo lavoro è estrarre dai documenti prodotti dagli specialisti i vari consigli per i pediatri classificandoli per argomento e fascia d'età, questi saranno poi passati al Mediatore dei contenuti genitoriali per adattarli all'uso da parte dei genitori.",
+                    "lines": [
+                        "Stai lavorando ad un progetto di produzione di schede informative ",
+                        "per il management dell'obesità infantile per fasce di età. ",
+                        "Vari specialisti hanno prodotto schede per i pediatri in vari ",
+                        "documenti. ",
+                        "Dovranno essere prodotte schede anche per i genitori, usando ",
+                        "un linguaggio più semplice. ",
+                        "Dovranno inoltre essere fornite istruzioni ai pediatri su come ",
+                        "presentare ai genitori le schede loro rivolte. ",
+                        "Il tuo lavoro è estrarre dai documenti prodotti dagli specialisti ",
+                        "i vari consigli per i pediatri classificandoli per argomento ",
+                        "e fascia d'età, questi saranno poi passati al Mediatore dei contenuti ",
+                        "genitoriali per adattarli all'uso da parte dei genitori."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "tools",
+                    "value": [
+                        "toolMdx1",
+                        "toolMdx2"
+                    ],
+                    "type": "array",
+                    "itemType": "object"
+                },
+                {
+                    "name": "verbose",
+                    "value": true,
+                    "type": "boolean"
+                }
+            ],
+            "tools": []
+        },
+        {
+            "kind": "agent",
+            "name": "planner",
+            "properties": [
+                {
+                    "name": "role",
+                    "value": "Content Planner",
+                    "lines": [
+                        "Content Planner"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "goal",
+                    "value": "Plan engaging and factually accurate content on {topic}",
+                    "lines": [
+                        "Plan engaging and factually accurate content on {topic}"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "backstory",
+                    "value": "You're working on planning a blog article about the topic: {topic}. You collect information that helps the audience learn something and make informed decisions. Your work is the basis for the Content Writer to write an article on this topic.",
+                    "lines": [
+                        "You're working on planning a blog article about the topic: {topic}. ",
+                        "You collect information that helps the audience learn something ",
+                        "and make informed decisions. ",
+                        "Your work is the basis for the Content Writer to write an article ",
+                        "on this topic."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "tools",
+                    "value": [],
+                    "type": "array",
+                    "itemType": "object"
+                },
+                {
+                    "name": "verbose",
+                    "value": true,
+                    "type": "boolean"
+                }
+            ],
+            "tools": []
+        },
+        {
+            "kind": "agent",
+            "name": "writer",
+            "properties": [
+                {
+                    "name": "role",
+                    "value": "Content Writer",
+                    "lines": [
+                        "Content Writer"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "goal",
+                    "value": "Write insightful and factually accurate opinion piece about the topic: {topic}",
+                    "lines": [
+                        "Write insightful and factually accurate opinion piece about the ",
+                        "topic: {topic}"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "backstory",
+                    "value": "You're working on a writing a new opinion piece about the topic: {topic}. You base your writing on the work of the Content Planner, who provides an outline and relevant context about the topic. You follow the main objectives and direction of the outline, as provide by the Content Planner. You also provide objective and impartial insights and back them up with information provide by the Content Planner. You acknowledge in your opinion piece when your statements are opinions as opposed to objective statements.",
+                    "lines": [
+                        "You're working on a writing a new opinion piece about the topic: ",
+                        "{topic}. ",
+                        "You base your writing on the work of the Content Planner, who ",
+                        "provides an outline and relevant context about the topic. ",
+                        "You follow the main objectives and direction of the outline, ",
+                        "as provide by the Content Planner. ",
+                        "You also provide objective and impartial insights and back them ",
+                        "up with information provide by the Content Planner. ",
+                        "You acknowledge in your opinion piece when your statements are ",
+                        "opinions as opposed to objective statements."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "tools",
+                    "value": [],
+                    "type": "array",
+                    "itemType": "object"
+                },
+                {
+                    "name": "verbose",
+                    "value": true,
+                    "type": "boolean"
+                }
+            ],
+            "tools": []
+        },
+        {
+            "kind": "agent",
+            "name": "editor",
+            "properties": [
+                {
+                    "name": "role",
+                    "value": "Editor",
+                    "lines": [
+                        "Editor"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "goal",
+                    "value": "Edit a given blog post to align with the writing style of the organization.",
+                    "lines": [
+                        "Edit a given blog post to align with the writing style of the ",
+                        "organization."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "backstory",
+                    "value": "You are an editor who receives a blog post from the Content Writer. Your goal is to review the blog post to ensure that it follows journalistic best practices, provides balanced viewpoints when providing opinions or assertions, and also avoids major controversial topics or opinions when possible.",
+                    "lines": [
+                        "You are an editor who receives a blog post from the Content Writer. ",
+                        "Your goal is to review the blog post to ensure that it follows ",
+                        "journalistic best practices, provides balanced viewpoints when ",
+                        "providing opinions or assertions, and also avoids major controversial ",
+                        "topics or opinions when possible."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "tools",
+                    "value": [],
+                    "type": "array",
+                    "itemType": "object"
+                },
+                {
+                    "name": "verbose",
+                    "value": true,
+                    "type": "boolean"
+                }
+            ],
+            "tools": []
+        }
+    ],
+    "tasksDict": {
+        "plan": {
+            "kind": "task",
+            "name": "plan",
+            "properties": [
+                {
+                    "name": "description",
+                    "value": "1. Prioritize the latest trends, key players, and noteworthy news on {topic}.\\n 2. Identify the target audience, considering their interests and pain points.\\n 3. Develop a detailed content outline including an introduction, key points, and a call to action.\\n 4. Include SEO keywords and relevant data or sources.",
+                    "lines": [
+                        "1. ",
+                        "Prioritize the latest trends, key players, and noteworthy news ",
+                        "on {topic}.\\n 2. ",
+                        "Identify the target audience, considering their interests and ",
+                        "pain points.\\n 3. ",
+                        "Develop a detailed content outline including an introduction, ",
+                        "key points, and a call to action.\\n 4. ",
+                        "Include SEO keywords and relevant data or sources."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "expected_output",
+                    "value": "A comprehensive content plan document with an outline, audience analysis, SEO keywords, and resources.",
+                    "lines": [
+                        "A comprehensive content plan document with an outline, audience ",
+                        "analysis, SEO keywords, and resources."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "agent",
+                    "value": "planner",
+                    "type": "instance"
+                }
+            ]
+        },
+        "write": {
+            "kind": "task",
+            "name": "write",
+            "properties": [
+                {
+                    "name": "description",
+                    "value": "1. Use the content plan to craft a compelling blog post on {topic}.\\n 2. Incorporate SEO keywords naturally.\\n 3. Sections/Subtitles are properly named in an engaging manner.\\n 4. Ensure the post is structured with an engaging introduction, insightful body, and a summarizing conclusion.\\n 5. Proofread for grammatical errors and alignment with the brand's voice.\\n",
+                    "lines": [
+                        "1. ",
+                        "Use the content plan to craft a compelling blog post on {topic}.\\n ",
+                        "2. ",
+                        "Incorporate SEO keywords naturally.\\n 3. ",
+                        "Sections/Subtitles are properly named in an engaging manner.\\n ",
+                        "4. ",
+                        "Ensure the post is structured with an engaging introduction, ",
+                        "insightful body, and a summarizing conclusion.\\n 5. ",
+                        "Proofread for grammatical errors and alignment with the brand's ",
+                        "voice.\\n"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "expected_output",
+                    "value": "A well-written blog post in markdown format, ready for publication, each section should have 2 or 3 paragraphs.\"",
+                    "lines": [
+                        "A well-written blog post in markdown format, ready for publication, ",
+                        "each section should have 2 or 3 paragraphs.\""
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "agent",
+                    "value": "writer",
+                    "type": "instance"
+                }
+            ]
+        },
+        "edit": {
+            "kind": "task",
+            "name": "edit",
+            "properties": [
+                {
+                    "name": "description",
+                    "value": "Proofread the given blog post for grammatical errors and alignment with the brand's voice.",
+                    "lines": [
+                        "Proofread the given blog post for grammatical errors and alignment ",
+                        "with the brand's voice."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "expected_output",
+                    "value": "A well-written blog post in markdown format, ready for publication, each section should have 2 or 3 paragraphs.",
+                    "lines": [
+                        "A well-written blog post in markdown format, ready for publication, ",
+                        "each section should have 2 or 3 paragraphs."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "agent",
+                    "value": "editor",
+                    "type": "instance"
+                }
+            ]
+        }
+    },
+    "tasks": [
+        {
+            "kind": "task",
+            "name": "plan",
+            "properties": [
+                {
+                    "name": "description",
+                    "value": "1. Prioritize the latest trends, key players, and noteworthy news on {topic}.\\n 2. Identify the target audience, considering their interests and pain points.\\n 3. Develop a detailed content outline including an introduction, key points, and a call to action.\\n 4. Include SEO keywords and relevant data or sources.",
+                    "lines": [
+                        "1. ",
+                        "Prioritize the latest trends, key players, and noteworthy news ",
+                        "on {topic}.\\n 2. ",
+                        "Identify the target audience, considering their interests and ",
+                        "pain points.\\n 3. ",
+                        "Develop a detailed content outline including an introduction, ",
+                        "key points, and a call to action.\\n 4. ",
+                        "Include SEO keywords and relevant data or sources."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "expected_output",
+                    "value": "A comprehensive content plan document with an outline, audience analysis, SEO keywords, and resources.",
+                    "lines": [
+                        "A comprehensive content plan document with an outline, audience ",
+                        "analysis, SEO keywords, and resources."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "agent",
+                    "value": "planner",
+                    "type": "instance"
+                }
+            ]
+        },
+        {
+            "kind": "task",
+            "name": "write",
+            "properties": [
+                {
+                    "name": "description",
+                    "value": "1. Use the content plan to craft a compelling blog post on {topic}.\\n 2. Incorporate SEO keywords naturally.\\n 3. Sections/Subtitles are properly named in an engaging manner.\\n 4. Ensure the post is structured with an engaging introduction, insightful body, and a summarizing conclusion.\\n 5. Proofread for grammatical errors and alignment with the brand's voice.\\n",
+                    "lines": [
+                        "1. ",
+                        "Use the content plan to craft a compelling blog post on {topic}.\\n ",
+                        "2. ",
+                        "Incorporate SEO keywords naturally.\\n 3. ",
+                        "Sections/Subtitles are properly named in an engaging manner.\\n ",
+                        "4. ",
+                        "Ensure the post is structured with an engaging introduction, ",
+                        "insightful body, and a summarizing conclusion.\\n 5. ",
+                        "Proofread for grammatical errors and alignment with the brand's ",
+                        "voice.\\n"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "expected_output",
+                    "value": "A well-written blog post in markdown format, ready for publication, each section should have 2 or 3 paragraphs.\"",
+                    "lines": [
+                        "A well-written blog post in markdown format, ready for publication, ",
+                        "each section should have 2 or 3 paragraphs.\""
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "agent",
+                    "value": "writer",
+                    "type": "instance"
+                }
+            ]
+        },
+        {
+            "kind": "task",
+            "name": "edit",
+            "properties": [
+                {
+                    "name": "description",
+                    "value": "Proofread the given blog post for grammatical errors and alignment with the brand's voice.",
+                    "lines": [
+                        "Proofread the given blog post for grammatical errors and alignment ",
+                        "with the brand's voice."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "expected_output",
+                    "value": "A well-written blog post in markdown format, ready for publication, each section should have 2 or 3 paragraphs.",
+                    "lines": [
+                        "A well-written blog post in markdown format, ready for publication, ",
+                        "each section should have 2 or 3 paragraphs."
+                    ],
+                    "type": "string"
+                },
+                {
+                    "name": "agent",
+                    "value": "editor",
+                    "type": "instance"
+                }
+            ]
+        }
+    ],
+    "crewsDict": {
+        "event_management_crew": {
+            "kind": "crew",
+            "name": "event_management_crew",
+            "properties": [
+                {
+                    "name": "verbose",
+                    "value": true,
+                    "type": "boolean"
+                }
+            ],
+            "agents": [
+                "planner",
+                "writer",
+                "editor"
+            ],
+            "tasks": [
+                "plan",
+                "write",
+                "edit"
+            ],
+            "execs": [
+                {
+                    "display": "markdown",
+                    "inputs": [
+                        {
+                            "name": "topic",
+                            "value": "\"Artificial Intelligence\""
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "crews": [
+        {
+            "kind": "crew",
+            "name": "event_management_crew",
+            "properties": [
+                {
+                    "name": "verbose",
+                    "value": true,
+                    "type": "boolean"
+                }
+            ],
+            "agents": [
+                "planner",
+                "writer",
+                "editor"
+            ],
+            "tasks": [
+                "plan",
+                "write",
+                "edit"
+            ],
+            "execs": [
+                {
+                    "display": "markdown",
+                    "inputs": [
+                        {
+                            "name": "topic",
+                            "value": "\"Artificial Intelligence\""
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -70,36 +70,60 @@ $group
         a type
             # the json type
 
-    e oem : node
+    e tenant : node
         # the wzName is the `name` attribute
         $$ a name
-        a org_xid
         a description
-        r user/s
+        r userGroup/s
         r plant/s
+        r userGatewayModel/s
+        r userDeviceModel/s
     
-    e user
+    e userGroup
+        tag user_group
         # the wzName is the `name` attribute
         $$ a name
     
+    e modelSchema : node
+        tag model_schema
+        a version
+        a description
+        # the wzName is the `name` attribute
+
     e plant
         # the wzName is the `name` attribute
-        $$ a name
         a description
+        a owner
         a plant_xid
+        a modelSchema
+            tag model_schema
+        $include instance_states    
+        r staticTag/s                    
+        r userGroup/s
         r gateway/s
     
     e gateway
         # the wzName is the `name` attribute
-        $$ a name
-        a message_version
-        a iot_xid
         a description
+        a owner
+        a message_version
+        a gw_xid
+        a iot_xid
+        a modelSchema
+            tag model_schema
+        a balenaId
+        a deviceModel
+        a settings
+        $include instance_states                    
         r batching
             one-to-one
+        r staticTag/s
         r dynamicTag/s
         r script/s
-        r plc/s
+        r userGatewayModel
+            one-to-one
+        r userGroup/s
+        r device/s
     
     e batching
         # the wzName is the `name` attribute
@@ -109,14 +133,25 @@ $group
         a period
             type integer
         
-    e plc
+    e device
         # the wzName is the `name` attribute
-        $$ a name
-        a plc_xid
-        a protocol
         a description
+        a owner
+        a device_xid
+        a protocol
+        a deviceModel
+        a modelConnectionSchema
+            tag model_connection_schema
+        a modelSchema
+            tag model_schema
+        $include instance_states            
         r connectionValue/s
-        r metric/s
+        r staticTag/s
+        r manufacturerDeviceModel
+            one-to-one
+        r userDeviceModel
+            one-to-one
+        r userGroup/s
     
     e connectionValue
         tag connection_value
@@ -158,7 +193,7 @@ $group
         $$ a tag_xid
         a default_value
         a description
-        a ref_plc_xid
+        a ref_device_xid
         a ref_metric_name
         r dynamicTagAllowedValue/s
         r dynamicTagRegexAllowedValue/s
@@ -194,3 +229,9 @@ $group
         tag script_ref
         # the wzName is the `script_xid` attribute
         $$ a script_xid
+
+
+
+
+
+
