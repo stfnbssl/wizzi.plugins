@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.prisma\.wizzi-override\lib\artifacts\prisma\tojson\gen\main.js.ittf
-    utc time: Fri, 18 Oct 2024 06:10:47 GMT
+    utc time: Wed, 27 Nov 2024 09:20:15 GMT
 */
 
 
@@ -31,7 +31,7 @@ md.gen = function(model, ctx, callback) {
         return callback(error('InvalidArgument', 'gen', 'Invalid model schema. Expected root element "prisma". Received: ' + model.wzElement, model));
     }
     try {
-        ctx.__json = {
+        ctx.__json = setComments(model, {
             name: model.wzName, 
             mainMetas: {
                 fieldKeyAttributes: [
@@ -118,7 +118,8 @@ md.gen = function(model, ctx, callback) {
             indexes: [
                 
             ]
-         };
+         })
+        ;
         ctx.__current = ctx.__json;
         md.prisma(model, ctx, (err, notUsed) => {
             if (err) {
@@ -227,12 +228,12 @@ md.prisma = function(model, ctx, callback) {
 ;
 md.datasource = function(model, ctx, callback) {
     var saveCurrent = ctx.__current;
-    var json = {
+    var json = setComments(model, {
         name: model.wzName, 
         configs: [
             
         ]
-     };
+     });
     ctx.__current.datasources.push(json)
     ctx.__current = json;
     md.genItems(model.configs, ctx, {
@@ -250,12 +251,12 @@ md.datasource = function(model, ctx, callback) {
 ;
 md.generator = function(model, ctx, callback) {
     var saveCurrent = ctx.__current;
-    var json = {
+    var json = setComments(model, {
         name: model.wzName, 
         configs: [
             
         ]
-     };
+     });
     ctx.__current.generators.push(json)
     ctx.__current = json;
     md.genItems(model.configs, ctx, {
@@ -274,7 +275,7 @@ md.generator = function(model, ctx, callback) {
 md.model = function(model, ctx, callback) {
     var saveCurrent = ctx.__current;
     // loog 'model', model.wzName
-    var jsonModel = {
+    var jsonModel = setComments(model, {
         Name: model.wzName, 
         NamePlural: verify.pluralize(model.wzName), 
         name: model.wzName[0].toLowerCase() + model.wzName.substring(1), 
@@ -294,7 +295,7 @@ md.model = function(model, ctx, callback) {
         tags: [
             
         ]
-     };
+     });
     if (model.extNoUpload) {
         jsonModel.extNoUpload = true;
     }
@@ -356,17 +357,17 @@ md.model = function(model, ctx, callback) {
 }
 ;
 md.config = function(model, ctx, callback) {
-    var json = {
+    var json = setComments(model, {
         name: model.wzName, 
         value: verify.unquote(model.valueAssign.getValueString())
-     };
+     });
     ctx.__current.configs.push(json)
     return callback(null);
 }
 ;
 md.field = function(model, ctx, callback) {
     var saveCurrent = ctx.__current;
-    var jsonField = {
+    var jsonField = setComments(model, {
         name: model.wzName, 
         type: model.getType(), 
         optional: model.optional, 
@@ -384,7 +385,7 @@ md.field = function(model, ctx, callback) {
         tags: [
             
         ]
-     };
+     });
     if (model.idRelated) {
         jsonField.isRelated = true;
         jsonField.idRelated = true;
@@ -462,14 +463,14 @@ md.fieldAttribute = function(model, ctx, callback) {
     if (functionAttributes.indexOf(name) > - 1) {
     }
     if (model.valueAssigns.length > 0) {
-        var json = {
+        var json = setComments(model, {
             type: "@" + (functionAttributes.indexOf(name) > - 1 ? 'function' : ''), 
             name: name, 
             value: null, 
             args: [
                 
             ]
-         };
+         });
         var i, i_items=model.valueAssigns, i_len=model.valueAssigns.length, item;
         for (i=0; i<i_len; i++) {
             item = model.valueAssigns[i];
@@ -510,13 +511,13 @@ md.fieldConstraint = function(model, ctx, callback) {
 }
 ;
 md.blockAttribute = function(model, ctx, callback) {
-    var json = {
+    var json = setComments(model, {
         type: "@@" + model.wzName, 
         name: verify.unquote(model.name), 
         args: [
             
         ]
-     };
+     });
     var i, i_items=model.valueAssigns, i_len=model.valueAssigns.length, item;
     for (i=0; i<i_len; i++) {
         item = model.valueAssigns[i];
@@ -739,4 +740,25 @@ function getTypedValue(type, value) {
     else {
         return value;
     }
+}
+function setComments(model, instance) {
+    if (verify.isNotEmpty(model.description)) {
+        instance.description = model.description;
+    }
+    if (verify.isNotEmpty(model.rule_description)) {
+        instance.rule_description = model.rule_description;
+    }
+    if (verify.isNotEmpty(model.constraint_description)) {
+        instance.constraint_description = model.constraint_description;
+    }
+    if (verify.isNotEmpty(model.access_rules)) {
+        instance.access_rules = model.access_rules;
+    }
+    if (verify.isNotEmpty(model.note)) {
+        instance.note = model.note;
+    }
+    if (verify.isNotEmpty(model.todo)) {
+        instance.todo = model.todo;
+    }
+    return instance;
 }

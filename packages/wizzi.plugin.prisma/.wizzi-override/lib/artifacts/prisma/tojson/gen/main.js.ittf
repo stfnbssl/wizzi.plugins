@@ -16,68 +16,70 @@ module
             var functionAttributes = ['default', 'relation', 'map']
         $append main
             set ctx.__json
-                {
-                    @ name model.wzName
-                    { mainMetas
-                        [ fieldKeyAttributes
-                            {
-                                @ name 'isId'
-                                @ meaning 'The field is a single field primary key.'
-                            {
-                                @ name 'isRelated'
-                                @ meaning 'The field is a single field foreign key, can be `idRelated` or `objectRelated`.'
-                            {
-                                @ name 'idRelated'
-                                @ meaning 'The field is a scalar single field foreign key in a `many-to-one` relation.'
-                            {
-                                @ name 'objectRelated'
-                                [ meaning
-                                    @ 'The field contains (is populated with) the instance/s of the related model item/s.'
-                                    @ 'When relationCardinality is `one-to-many` contains an array of related instances.'
-                                    @ 'When relationCardinality is `many-to-one` or `one-to-one` contains an object of the related instance.'
-                            {
-                                @ name 'relation'
-                                [ meaning
-                                    @ 'When The field is `objectRelated` and relationCardinality is `many-to-one` or `one-to-one` ...'
-                                    @ '... the attribute contains a relation structure that can have a multi field foreign key.'
-                        [ relationCardinalities
-                            @ 'one-to-one'
-                            @ 'one-to-many'
-                            @ 'many-to-one'
-                            @ 'many-to-many'
-                        [ fieldTypes
-                            @ 'String'
-                            @ 'Boolean'
-                            @ 'Int'
-                            @ 'BigInt'
-                            @ 'Float'
-                            @ 'Decimal'
-                            @ 'DateTime'
-                            @ 'Json'
-                            @ 'Bytes'
-                        [ constraints   
-                            @ 'min'
-                            @ 'max'
-                            @ 'minLength'
-                            @ 'maxLength'
-                            @ 'regExp'
-                            @ 'enum'
-                        [ editFormats
-                            @ 'Checkbox'
-                            @ 'Radio'
-                            @ 'Color'
-                            @ 'Select'
-                            @ 'Switch'
-                            @ 'Slider'
-                            @ 'Rate'
-                            @ 'Upload'
-                            @ 'Markdown'
-                    [ datasources
-                    [ generators
-                    [ enums
-                    [ models
-                    [ relations
-                    [ indexes
+                _ setComments
+                    @ model
+                    {
+                        @ name model.wzName
+                        { mainMetas
+                            [ fieldKeyAttributes
+                                {
+                                    @ name 'isId'
+                                    @ meaning 'The field is a single field primary key.'
+                                {
+                                    @ name 'isRelated'
+                                    @ meaning 'The field is a single field foreign key, can be `idRelated` or `objectRelated`.'
+                                {
+                                    @ name 'idRelated'
+                                    @ meaning 'The field is a scalar single field foreign key in a `many-to-one` relation.'
+                                {
+                                    @ name 'objectRelated'
+                                    [ meaning
+                                        @ 'The field contains (is populated with) the instance/s of the related model item/s.'
+                                        @ 'When relationCardinality is `one-to-many` contains an array of related instances.'
+                                        @ 'When relationCardinality is `many-to-one` or `one-to-one` contains an object of the related instance.'
+                                {
+                                    @ name 'relation'
+                                    [ meaning
+                                        @ 'When The field is `objectRelated` and relationCardinality is `many-to-one` or `one-to-one` ...'
+                                        @ '... the attribute contains a relation structure that can have a multi field foreign key.'
+                            [ relationCardinalities
+                                @ 'one-to-one'
+                                @ 'one-to-many'
+                                @ 'many-to-one'
+                                @ 'many-to-many'
+                            [ fieldTypes
+                                @ 'String'
+                                @ 'Boolean'
+                                @ 'Int'
+                                @ 'BigInt'
+                                @ 'Float'
+                                @ 'Decimal'
+                                @ 'DateTime'
+                                @ 'Json'
+                                @ 'Bytes'
+                            [ constraints   
+                                @ 'min'
+                                @ 'max'
+                                @ 'minLength'
+                                @ 'maxLength'
+                                @ 'regExp'
+                                @ 'enum'
+                            [ editFormats
+                                @ 'Checkbox'
+                                @ 'Radio'
+                                @ 'Color'
+                                @ 'Select'
+                                @ 'Switch'
+                                @ 'Slider'
+                                @ 'Rate'
+                                @ 'Upload'
+                                @ 'Markdown'
+                        [ datasources
+                        [ generators
+                        [ enums
+                        [ models
+                        [ relations
+                        [ indexes
             set ctx.__current = ctx.__json
             _ md.prisma
                 @ model
@@ -104,9 +106,11 @@ module
         async-md( datasource )
             var saveCurrent = ctx.__current
             var json
-                {
-                    @ name model.wzName
-                    [ configs
+                _ setComments
+                    @ model
+                    {
+                        @ name model.wzName
+                        [ configs
             _ ctx.__current.datasources.push
                 @ json
             set ctx.__current = json
@@ -117,9 +121,11 @@ module
         async-md( generator )
             var saveCurrent = ctx.__current
             var json
-                {
-                    @ name model.wzName
-                    [ configs
+                _ setComments
+                    @ model
+                    {
+                        @ name model.wzName
+                        [ configs
             _ ctx.__current.generators.push
                 @ json
             set ctx.__current = json
@@ -131,16 +137,18 @@ module
             var saveCurrent = ctx.__current
             # loog 'model', model.wzName
             var jsonModel
-                {
-                    @ Name model.wzName
-                    @ NamePlural verify.pluralize(model.wzName)
-                    @ name model.wzName[0].toLowerCase() + model.wzName.substring(1)
-                    @ namePlural verify.pluralize(model.wzName[0].toLowerCase() + model.wzName.substring(1)) 
-                    [ fields
-                    [ relations
-                    [ attributes
-                    [ indexes
-                    [ tags
+                _ setComments
+                    @ model
+                    {
+                        @ Name model.wzName
+                        @ NamePlural verify.pluralize(model.wzName)
+                        @ name model.wzName[0].toLowerCase() + model.wzName.substring(1)
+                        @ namePlural verify.pluralize(model.wzName[0].toLowerCase() + model.wzName.substring(1)) 
+                        [ fields
+                        [ relations
+                        [ attributes
+                        [ indexes
+                        [ tags
             if model.extNoUpload
                 set jsonModel.extNoUpload = true
             _ ctx.__current.models.push
@@ -184,11 +192,13 @@ module
 
         async-md( config )
             var json
-                {
-                    @ name model.wzName
-                    @ value 
-                        _ verify.unquote
-                            _ model.valueAssign.getValueString
+                _ setComments
+                    @ model
+                    {
+                        @ name model.wzName
+                        @ value 
+                            _ verify.unquote
+                                _ model.valueAssign.getValueString
             _ ctx.__current.configs.push
                 @ json
             r_cb()
@@ -196,16 +206,18 @@ module
         async-md( field )
             var saveCurrent = ctx.__current
             var jsonField
-                {
-                    @ name model.wzName
-                    @ type model.getType()
-                    @ optional model.optional
-                    @ typeExtensions model.getTypeExtensions()
-                    @ editFormat model.getEditFormat()
-                    [ attributes
-                    [ constraints
-                    [ dbColumns
-                    [ tags
+                _ setComments
+                    @ model
+                    {
+                        @ name model.wzName
+                        @ type model.getType()
+                        @ optional model.optional
+                        @ typeExtensions model.getTypeExtensions()
+                        @ editFormat model.getEditFormat()
+                        [ attributes
+                        [ constraints
+                        [ dbColumns
+                        [ tags
             if model.idRelated
                 set jsonField.isRelated = true
                 set jsonField.idRelated = true
@@ -276,11 +288,13 @@ module
                 $$ _ ctx.write('(')
             if model.valueAssigns.length > 0
                 var json 
-                    {
-                        @ type "@" + (functionAttributes.indexOf(name) > - 1 ? 'function' : '')
-                        @ name name
-                        @ value null
-                        [ args
+                    _ setComments
+                        @ model
+                        {
+                            @ type "@" + (functionAttributes.indexOf(name) > - 1 ? 'function' : '')
+                            @ name name
+                            @ value null
+                            [ args
                 foreach item in model.valueAssigns
                     var arg = {}
                     if item.setJSON 
@@ -324,12 +338,14 @@ module
 
         async-md( blockAttribute )
             var json 
-                {
-                    @ type "@@" + model.wzName
-                    @ name
-                        _ verify.unquote
-                            @ model.name
-                    [ args
+                _ setComments
+                    @ model
+                    {
+                        @ type "@@" + model.wzName
+                        @ name
+                            _ verify.unquote
+                                @ model.name
+                        [ args
             foreach item in model.valueAssigns
                 _ item.setJSON
                     @ json.args
@@ -504,3 +520,11 @@ module
             return parseFloat(value)
         else
             return value
+
+    function setComments
+        param model
+        param instance
+        $foreach item in ['description','rule_description','constraint_description','access_rules','note','todo']
+            if verify.isNotEmpty(model.${item})
+                set instance.${item} = model.${item}
+        return instance

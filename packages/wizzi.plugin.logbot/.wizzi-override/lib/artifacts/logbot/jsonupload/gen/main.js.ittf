@@ -150,7 +150,7 @@ module
                 @ name model.wzName
                 @ nameKey getKeyPath(model)
                 @ tenant getKeyPath(parentModel)
-                @ owner model.owner
+                @ groupId model.groupId
                 @ plant_xid model.plant_xid
                 @ description model.description
                 @ modelSchema model.modelSchema
@@ -194,7 +194,7 @@ module
                     @ nameKey getKeyPath(model)
                     @ description model.description
                     @ tenant getKeyPath(parentModel)
-                    @ owner model.owner
+                    @ groupId model.groupId
                     @ version model.version
                     @ modelSchema model.modelSchema
                     @ gw_model_data 
@@ -223,7 +223,7 @@ module
                     @ nameKey getKeyPath(model)
                     @ description model.description
                     @ tenant getKeyPath(parentModel.wzParent)
-                    @ owner model.owner
+                    @ groupId model.groupId
                     @ plant getKeyPath(parentModel)
                     @ gw_xid model.gw_xid
                     @ iot_xid model.iot_xid
@@ -387,7 +387,7 @@ module
                 @ name model.wzName
                 @ nameKey parentModel.wzElement == 'manufacturer' ? model.wzName : getKeyPath(model)
                 @ description model.description
-                @ owner model.owner
+                @ groupId model.groupId
                 @ protocol model.protocol
                 @ version model.version
                 @ modelSchema model.modelSchema
@@ -423,7 +423,7 @@ module
                 @ name model.wzName
                 @ nameKey getKeyPath(model)
                 @ description model.description
-                @ owner model.owner
+                @ groupId model.groupId
                 @ tenant getKeyPath(parentModel.wzParent.wzParent)
                 @ gateway getKeyPath(parentModel)
                 @ protocol model.protocol

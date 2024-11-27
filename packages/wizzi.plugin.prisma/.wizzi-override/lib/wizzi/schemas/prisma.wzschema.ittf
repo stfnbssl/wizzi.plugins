@@ -14,6 +14,11 @@ wzschema prisma
 
     e commentable
         a description
+        a rule_description
+        a constraint_description
+        a access_rules
+        a note
+        a todo
         r comment/s
         r tag/s
     
@@ -151,6 +156,7 @@ wzschema prisma
     
     e model : commentable
         a_tag_flag( extNoUpload, noUpload )
+        a description
         r field/s
         r blockAttribute/s
         r extension/s

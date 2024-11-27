@@ -2,39 +2,50 @@ $group
 
     e manufacturer : node
         # the wzName is the `name` attribute
-        a description
-        r manufacturerDeviceModel/s
+        $if false
+            a description
+            r manufacturerDeviceModel/s
+        $else
+            r deviceModel/s
     
-    e manufacturerDeviceModel
-        tag manufacturer_device_model
-        # the wzName is the `name` attribute
-        a version
-        a description
-        a modelSchema
-            tag model_schema
-        a protocol
-        a owner
-        r metric/s
+    $if false
+        e manufacturerDeviceModel
+            tag manufacturer_device_model
+            # the wzName is the `name` attribute
+            a version
+            a description
+            a modelSchema
+                tag model_schema
+            a protocol
+            a groupId
+            r metric/s
 
-    e userDeviceModel
-        tag user_device_model
+    $$ e userDeviceModel
+    e deviceModel
+        tag device_model
         # the wzName is the `name` attribute
         a version
         a description
-        a modelSchema
-            tag model_schema
+        $if false
+            a modelSchema
+                tag model_schema
         a protocol
-        a owner
+        a groupId
         r metric/s
     
-    e userGatewayModel
+    $$ e userGatewayModel
+    e gatewayModel
         tag user_gateway_model
         # the wzName is the `name` attribute
         a version
         a description
-        a modelSchema
-            tag model_schema
-        a owner
+        $if false
+            a modelSchema
+                tag model_schema
+        a groupId
         r dynamicTag/s
         r script/s
-        r userDeviceModel/s
+        $if false
+            r userDeviceModel/s
+        $else
+            r deviceModel/s
