@@ -6,6 +6,7 @@
 	var util = require('util')
 	var verify = require('@wizzi/utils').verify
 	var errors = require('@wizzi/utils').errors
+	var stringify = require('json-stringify-safe')
 	+
     set module.exports
 		function
@@ -55,6 +56,7 @@
 					# skip comment
 				elif node.n === '{' || node.n === '['
 					if !node.v || node.v.length == 0
+						error "json-model.g.toJsonObject.node", node
 						return
 							_ error
 								@ 'A json object must contain property items. Found: ' + node.n + ' ' + node.v
@@ -72,13 +74,17 @@
 						_ jsonValue(node.v, node)
 						
 					set ret[node.n] = value
+					$* see new jsonValue
 					if node.children && node.children.length > 0
+						error "json-model.g.toJsonObject.node", node
 						return
 							_ error
 								@ 'A json property node cannot have children nodes. Found: ' + node.n + ' ' + node.v + ' children.length: ' + node.children.length
 								@ node
+					*$
 				else
 					if !node.children || node.children.length == 0
+						error "json-model.g.toJsonObject.node", node
 						return
 							_ error
 								@ 'A json property must have a value or a child object or array. Found: ' + node.n + ' ' + node.v
@@ -93,11 +99,13 @@
 								_ toJsonArray(node.children[0].children)
 							set ret[node.n] = value
 						else
+							error "json-model.g.toJsonObject.node", node
 							return
 								_ error
 									@ 'A json property must have a value or a child object or array. Found: ' + node.n + ' ' + node.v + ' first child: ' + node.children[0].n + ' ' + node.children[0].v
 									@ node
 					else
+						error "json-model.g.toJsonObject.node", node
 						return
 							_ error
 								@ 'A json property must have a value or a single child, object or array. Found: ' + node.n + ' ' + node.v + ' children count: ' + node.children.length
@@ -125,6 +133,7 @@
 					_ ret.push
 						@ value
 				elif node.v && node.v.length && isQuoted(node.n + ' ' + node.v) == false
+					error "json-model.g.toJsonArray.node", node
 					return
 						_ error
 							@ 'A json array item must be an object, an array or a value not a property. Found: ' + node.n + ' ' + node.v
@@ -141,14 +150,34 @@
 	function jsonValue
 		param value
 		param node
-		var jsonString = "{ \"value\": " + check(value) + "}"
+		# log 'jsonValue', value, node.children
+		var sb = [value]
+		if node.children && node.children.length > 0
+			foreach item in node.children
+				if item.n == '+'
+					_ sb.push(item.v)
+				elif item.n == '+b'
+					_ sb.push(' ' + item.v)
+				elif item.n == '+t'
+					_ sb.push('\t' + item.v)
+				elif item.n == '+n'
+					_ sb.push('\n' + item.v)
+				else
+					error "json-model.g.toJsonObject.node", node
+					return
+						_ error
+							@ 'A json property node cannot have children nodes. Found: ' + node.n + ' ' + node.v + ' children.length: ' + node.children.length
+							@ node
+		var jsonString = "{ \"value\": " + check(sb.join('')) + "}"
+		# log 'jsonString', jsonString
 		try
 			var json = JSON.parse(jsonString)
+			set node.children = []
 			return json.value
 		catch ex
 			return
 				_ error
-					@ 'Error parsing json value. Message: ' + ex.message + '. Value: ' + value
+					@ 'Error parsing json value. Message: ' + ex.message + '. Value: ' + sb.join('')
 					@ node
 
 	function check

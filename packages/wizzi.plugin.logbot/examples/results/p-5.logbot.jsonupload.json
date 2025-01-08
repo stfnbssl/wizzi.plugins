@@ -1,0 +1,204 @@
+{
+  "manufacturers": [
+    {
+      "name": "manuacme1",
+      "nameKey": "manuacme1+"
+    }
+  ],
+  "gatewayModels": [
+    {
+      "name": "GW_MODEL_1",
+      "nameKey": "acme2_ug1+GW_MODEL_1",
+      "groupId": "acme2_ug1",
+      "configuration": {
+        "tags": {},
+        "dynamic_tags": [],
+        "scripts": []
+      }
+    }
+  ],
+  "deviceModels": [
+    {
+      "name": "hello",
+      "nameKey": "hello",
+      "protocol": "modbustcp",
+      "configuration": {
+        "metrics": [
+          {
+            "name": "3001",
+            "interval": 1000,
+            "description": "Temperatura Magazzino - Sensore temperatura interna",
+            "script": "manuacme1++unique",
+            "tags": {
+              "static": [
+                {
+                  "key": "geohash",
+                  "value": "1234"
+                }
+              ]
+            },
+            "memoryAddress": 200
+          }
+        ]
+      },
+      "manufacturer": "manuacme1+"
+    },
+    {
+      "name": "DEVICE_MODEL_1",
+      "nameKey": "acme2_ug1+GW_MODEL_1+DEVICE_MODEL_1",
+      "protocol": "modbustcp",
+      "configuration": {
+        "metrics": [
+          {
+            "name": "3005",
+            "interval": 1000,
+            "description": "Temperatura Frigorifero - Sensore temperatura frigorifero",
+            "script": null,
+            "tags": {},
+            "memoryAddress": 200
+          }
+        ]
+      },
+      "groupId": "acme2_ug1",
+      "gatewayModel": "acme2_ug1+GW_MODEL_1"
+    }
+  ],
+  "userGroups": [
+    {
+      "name": "acme2_ug1",
+      "nameKey": "acme2_ug1"
+    }
+  ],
+  "plants": [
+    {
+      "name": "101",
+      "nameKey": "acme2_ug1+101",
+      "groupId": "acme2_ug1",
+      "description": "Magazzino Centrale",
+      "address": "via Serafino 12, Roma, Italia",
+      "tags": {
+        "static": [
+          {
+            "key": "geohash",
+            "value": "357"
+          }
+        ]
+      }
+    }
+  ],
+  "gateways": [
+    {
+      "name": "Z_9001",
+      "nameKey": "acme2_ug1+Z_9001",
+      "description": "Gateway Principale Magazzino",
+      "gatewayModel": null,
+      "tags": {},
+      "groupId": "acme2_ug1"
+    },
+    {
+      "name": "1001",
+      "nameKey": "acme2_ug1+101+1001",
+      "description": "Gateway Principale Magazzino",
+      "status": "activated",
+      "orderCode": "order_1023",
+      "deviceVersion": "x2.1.4",
+      "serialCode": "zxcdf",
+      "gatewayModel": null,
+      "tags": {},
+      "plant": "acme2_ug1+101",
+      "groupId": "acme2_ug1",
+      "configuration": {
+        "scripts": [
+          {
+            "script_xid": "unique",
+            "script_type": "pre_publish",
+            "script_description": "Sends a value only if it differs from the last sent one",
+            "script_timeout": 1000,
+            "script_content": "\"({\\\"currentSent\\\": currentRead, \\\"fire\\\": currentRead !== lastSent , \\\"error\\\": false})\""
+          }
+        ]
+      }
+    }
+  ],
+  "devices": [
+    {
+      "name": "2001",
+      "nameKey": "acme2_ug1+101+1001+2001",
+      "description": "PLC Controllo Temperatura",
+      "protocol": "modbustcp",
+      "deviceModel": null,
+      "connectionConfiguration": {
+        "connection": {
+          "host": "89.0.142.86",
+          "port": 502,
+          "unitId": 1
+        }
+      },
+      "tags": {},
+      "gateway": "acme2_ug1+101+1001",
+      "groupId": "acme2_ug1",
+      "configuration": {
+        "metrics": [
+          {
+            "name": "3001",
+            "interval": 1000,
+            "description": "Temperatura Magazzino - Sensore temperatura interna",
+            "script": "acme2_ug1+101+1001+unique",
+            "tags": {
+              "static": [
+                {
+                  "key": "geohash",
+                  "value": "1234"
+                }
+              ],
+              "dynamic": [
+                {
+                  "key": "dyn1",
+                  "value": "acme1+101+1001+dt1"
+                },
+                {
+                  "key": "dyn2",
+                  "value": "acme1+101+1001+dt2"
+                }
+              ]
+            },
+            "memoryAddress": 200
+          },
+          {
+            "name": "3002",
+            "interval": 1000,
+            "description": "Umidità Magazzino - Sensore umidità interna",
+            "script": null,
+            "tags": {},
+            "memoryAddress": 300
+          }
+        ]
+      }
+    },
+    {
+      "name": "2002",
+      "nameKey": "acme2_ug1+101+1001+2002",
+      "description": "PLC Controllo Sicurezza",
+      "protocol": "s7",
+      "deviceModel": null,
+      "connectionConfiguration": {
+        "connection": {}
+      },
+      "tags": {},
+      "gateway": "acme2_ug1+101+1001",
+      "groupId": "acme2_ug1",
+      "configuration": {
+        "metrics": [
+          {
+            "name": "3003",
+            "interval": 1000,
+            "description": "Stato Allarme - Controllo stato allarme sicurezza",
+            "script": null,
+            "tags": {},
+            "memoryAddress": 200
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -3,8 +3,11 @@
 	e exportTo : schemaitem
 		# Require the emission, in the WizziModelType of the schema, of a function
 		# for exporting the model instance to a different format.
-		# There are a few built-in ExportTo functions. New export formats may be created 
-		# by WizziPackage developers using methods.
+		# There are a few built-in ExportTo functions. 
+		# `json` - The function `toJson` is emitted
+		# `xml` - The function `toXml` is emitted
+		# `prettify` - The function `prettify` is emitted
+		# New export formats may be created by WizziPackage developers using methods.
 
 		tag export-to
 
@@ -15,8 +18,8 @@
 
 	e require : schemaitem
 		# A node-js require statement that is emitted in the WizziModelType of the schema.
-		# The IttfNodeValue is the package name. It is also the variable name of the required package
-		# unless a declare-var attribute is present.
+		# The IttfNodeValue is the package name. 
+		# It is also the variable name of the required package unless a declare-var attribute is present.
 		
 		a kind
 			restrict

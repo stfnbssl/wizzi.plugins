@@ -52,9 +52,9 @@
           ]
         },
         {
-          "name": "tenant",
+          "name": "userGroup",
           "tags": [
-            "tenant"
+            "user_group"
           ]
         },
         {
@@ -402,38 +402,15 @@
       "comments": []
     },
     {
-      "name": "tenant",
+      "name": "userGroup",
       "super": "node",
       "isRoot": false,
       "tags": [
-        "tenant"
+        "user_group"
       ],
       "flags": "",
-      "attributes": [
-        {
-          "name": "description",
-          "type": "string",
-          "tags": [
-            "description"
-          ],
-          "flags": "",
-          "inheritedFrom": null,
-          "restricts": [],
-          "comments": []
-        }
-      ],
+      "attributes": [],
       "relations": [
-        {
-          "name": "userGroup",
-          "role": "userGroups",
-          "tags": [
-            "user_group"
-          ],
-          "cardinality": "one-to-many",
-          "flags": "",
-          "inheritedFrom": null,
-          "comments": []
-        },
         {
           "name": "plant",
           "role": "plants",
@@ -446,10 +423,10 @@
           "comments": []
         },
         {
-          "name": "userGatewayModel",
-          "role": "userGatewayModels",
+          "name": "gateway",
+          "role": "gateways",
           "tags": [
-            "user_gateway_model"
+            "gateway"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -457,10 +434,32 @@
           "comments": []
         },
         {
-          "name": "userDeviceModel",
-          "role": "userDeviceModels",
+          "name": "device",
+          "role": "devices",
           "tags": [
-            "user_device_model"
+            "device"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "gatewayModel",
+          "role": "gatewayModels",
+          "tags": [
+            "gateway_model"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "deviceModel",
+          "role": "deviceModels",
+          "tags": [
+            "device_model"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -479,23 +478,6 @@
           "comments": []
         }
       ],
-      "derived": [],
-      "restricts": [],
-      "methods": [],
-      "comments": [
-        "the wzName is the `name` attribute"
-      ]
-    },
-    {
-      "name": "userGroup",
-      "super": null,
-      "isRoot": false,
-      "tags": [
-        "user_group"
-      ],
-      "flags": "",
-      "attributes": [],
-      "relations": [],
       "derived": [],
       "restricts": [],
       "methods": [],
@@ -576,10 +558,10 @@
           "comments": []
         },
         {
-          "name": "owner",
+          "name": "address",
           "type": "string",
           "tags": [
-            "owner"
+            "address"
           ],
           "flags": "",
           "inheritedFrom": null,
@@ -587,21 +569,10 @@
           "comments": []
         },
         {
-          "name": "plant_xid",
+          "name": "groupId",
           "type": "string",
           "tags": [
-            "plant_xid"
-          ],
-          "flags": "",
-          "inheritedFrom": null,
-          "restricts": [],
-          "comments": []
-        },
-        {
-          "name": "modelSchema",
-          "type": "string",
-          "tags": [
-            "model_schema"
+            "groupId"
           ],
           "flags": "",
           "inheritedFrom": null,
@@ -775,17 +746,6 @@
           "comments": []
         },
         {
-          "name": "userGroup",
-          "role": "userGroups",
-          "tags": [
-            "user_group"
-          ],
-          "cardinality": "one-to-many",
-          "flags": "",
-          "inheritedFrom": null,
-          "comments": []
-        },
-        {
           "name": "gateway",
           "role": "gateways",
           "tags": [
@@ -825,10 +785,10 @@
           "comments": []
         },
         {
-          "name": "owner",
+          "name": "groupId",
           "type": "string",
           "tags": [
-            "owner"
+            "groupId"
           ],
           "flags": "",
           "inheritedFrom": null,
@@ -847,39 +807,6 @@
           "comments": []
         },
         {
-          "name": "gw_xid",
-          "type": "string",
-          "tags": [
-            "gw_xid"
-          ],
-          "flags": "",
-          "inheritedFrom": null,
-          "restricts": [],
-          "comments": []
-        },
-        {
-          "name": "iot_xid",
-          "type": "string",
-          "tags": [
-            "iot_xid"
-          ],
-          "flags": "",
-          "inheritedFrom": null,
-          "restricts": [],
-          "comments": []
-        },
-        {
-          "name": "modelSchema",
-          "type": "string",
-          "tags": [
-            "model_schema"
-          ],
-          "flags": "",
-          "inheritedFrom": null,
-          "restricts": [],
-          "comments": []
-        },
-        {
           "name": "balenaId",
           "type": "string",
           "tags": [
@@ -891,10 +818,47 @@
           "comments": []
         },
         {
-          "name": "deviceModel",
+          "name": "status",
           "type": "string",
           "tags": [
-            "deviceModel"
+            "status"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [
+            {
+              "facets": [
+                {
+                  "type": "enumFacet",
+                  "value": "activated",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "deactivated",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "inventory",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "retired",
+                  "comments": []
+                }
+              ],
+              "comments": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "orderCode",
+          "type": "string",
+          "tags": [
+            "orderCode"
           ],
           "flags": "",
           "inheritedFrom": null,
@@ -902,10 +866,21 @@
           "comments": []
         },
         {
-          "name": "settings",
+          "name": "deviceVersion",
           "type": "string",
           "tags": [
-            "settings"
+            "deviceVersion"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "serialCode",
+          "type": "string",
+          "tags": [
+            "serialCode"
           ],
           "flags": "",
           "inheritedFrom": null,
@@ -1112,24 +1087,13 @@
           "comments": []
         },
         {
-          "name": "userGatewayModel",
+          "name": "gatewayModel",
           "role": null,
           "tags": [
-            "user_gateway_model"
+            "gateway_model"
           ],
           "cardinality": "one-to-one",
           "flags": "is-one-to-one ",
-          "inheritedFrom": null,
-          "comments": []
-        },
-        {
-          "name": "userGroup",
-          "role": "userGroups",
-          "tags": [
-            "user_group"
-          ],
-          "cardinality": "one-to-many",
-          "flags": "",
           "inheritedFrom": null,
           "comments": []
         },
@@ -1213,21 +1177,10 @@
           "comments": []
         },
         {
-          "name": "owner",
+          "name": "groupId",
           "type": "string",
           "tags": [
-            "owner"
-          ],
-          "flags": "",
-          "inheritedFrom": null,
-          "restricts": [],
-          "comments": []
-        },
-        {
-          "name": "device_xid",
-          "type": "string",
-          "tags": [
-            "device_xid"
+            "groupId"
           ],
           "flags": "",
           "inheritedFrom": null,
@@ -1246,10 +1199,47 @@
           "comments": []
         },
         {
-          "name": "deviceModel",
+          "name": "status",
           "type": "string",
           "tags": [
-            "deviceModel"
+            "status"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [
+            {
+              "facets": [
+                {
+                  "type": "enumFacet",
+                  "value": "activated",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "deactivated",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "inventory",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "retired",
+                  "comments": []
+                }
+              ],
+              "comments": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "orderCode",
+          "type": "string",
+          "tags": [
+            "orderCode"
           ],
           "flags": "",
           "inheritedFrom": null,
@@ -1257,10 +1247,10 @@
           "comments": []
         },
         {
-          "name": "modelConnectionSchema",
+          "name": "deviceVersion",
           "type": "string",
           "tags": [
-            "model_connection_schema"
+            "deviceVersion"
           ],
           "flags": "",
           "inheritedFrom": null,
@@ -1268,10 +1258,10 @@
           "comments": []
         },
         {
-          "name": "modelSchema",
+          "name": "serialCode",
           "type": "string",
           "tags": [
-            "model_schema"
+            "serialCode"
           ],
           "flags": "",
           "inheritedFrom": null,
@@ -1456,35 +1446,24 @@
           "comments": []
         },
         {
-          "name": "manufacturerDeviceModel",
-          "role": null,
+          "name": "metric",
+          "role": "metrics",
           "tags": [
-            "manufacturer_device_model"
-          ],
-          "cardinality": "one-to-one",
-          "flags": "is-one-to-one ",
-          "inheritedFrom": null,
-          "comments": []
-        },
-        {
-          "name": "userDeviceModel",
-          "role": null,
-          "tags": [
-            "user_device_model"
-          ],
-          "cardinality": "one-to-one",
-          "flags": "is-one-to-one ",
-          "inheritedFrom": null,
-          "comments": []
-        },
-        {
-          "name": "userGroup",
-          "role": "userGroups",
-          "tags": [
-            "user_group"
+            "metric"
           ],
           "cardinality": "one-to-many",
           "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "deviceModel",
+          "role": null,
+          "tags": [
+            "device_model"
+          ],
+          "cardinality": "one-to-one",
+          "flags": "is-one-to-one ",
           "inheritedFrom": null,
           "comments": []
         }
@@ -1572,6 +1551,98 @@
           "type": "string",
           "tags": [
             "ret_policy"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "accessLevel",
+          "type": "string",
+          "tags": [
+            "accessLevel"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [
+            {
+              "facets": [
+                {
+                  "type": "enumFacet",
+                  "value": "1",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "2",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "3",
+                  "comments": []
+                }
+              ],
+              "comments": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "category",
+          "type": "string",
+          "tags": [
+            "category"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [
+            {
+              "facets": [
+                {
+                  "type": "enumFacet",
+                  "value": "alarm",
+                  "comments": []
+                },
+                {
+                  "type": "enumFacet",
+                  "value": "data",
+                  "comments": []
+                }
+              ],
+              "comments": []
+            }
+          ],
+          "comments": []
+        },
+        {
+          "name": "min",
+          "type": "string",
+          "tags": [
+            "min"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "max",
+          "type": "string",
+          "tags": [
+            "max"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "unit",
+          "type": "string",
+          "tags": [
+            "unit"
           ],
           "flags": "",
           "inheritedFrom": null,
@@ -1947,25 +2018,24 @@
         "manufacturer"
       ],
       "flags": "",
-      "attributes": [
-        {
-          "name": "description",
-          "type": "string",
-          "tags": [
-            "description"
-          ],
-          "flags": "",
-          "inheritedFrom": null,
-          "restricts": [],
-          "comments": []
-        }
-      ],
+      "attributes": [],
       "relations": [
         {
-          "name": "manufacturerDeviceModel",
-          "role": "manufacturerDeviceModels",
+          "name": "deviceModel",
+          "role": "deviceModels",
           "tags": [
-            "manufacturer_device_model"
+            "device_model"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "gatewayModel",
+          "role": "gatewayModels",
+          "tags": [
+            "gateway_model"
           ],
           "cardinality": "one-to-many",
           "flags": "",
@@ -1992,11 +2062,11 @@
       ]
     },
     {
-      "name": "manufacturerDeviceModel",
+      "name": "deviceModel",
       "super": null,
       "isRoot": false,
       "tags": [
-        "manufacturer_device_model"
+        "device_model"
       ],
       "flags": "",
       "attributes": [
@@ -2023,17 +2093,6 @@
           "comments": []
         },
         {
-          "name": "modelSchema",
-          "type": "string",
-          "tags": [
-            "model_schema"
-          ],
-          "flags": "",
-          "inheritedFrom": null,
-          "restricts": [],
-          "comments": []
-        },
-        {
           "name": "protocol",
           "type": "string",
           "tags": [
@@ -2045,10 +2104,10 @@
           "comments": []
         },
         {
-          "name": "owner",
+          "name": "groupId",
           "type": "string",
           "tags": [
-            "owner"
+            "groupId"
           ],
           "flags": "",
           "inheritedFrom": null,
@@ -2077,11 +2136,11 @@
       ]
     },
     {
-      "name": "userDeviceModel",
+      "name": "gatewayModel",
       "super": null,
       "isRoot": false,
       "tags": [
-        "user_device_model"
+        "gateway_model"
       ],
       "flags": "",
       "attributes": [
@@ -2108,106 +2167,10 @@
           "comments": []
         },
         {
-          "name": "modelSchema",
+          "name": "groupId",
           "type": "string",
           "tags": [
-            "model_schema"
-          ],
-          "flags": "",
-          "inheritedFrom": null,
-          "restricts": [],
-          "comments": []
-        },
-        {
-          "name": "protocol",
-          "type": "string",
-          "tags": [
-            "protocol"
-          ],
-          "flags": "",
-          "inheritedFrom": null,
-          "restricts": [],
-          "comments": []
-        },
-        {
-          "name": "owner",
-          "type": "string",
-          "tags": [
-            "owner"
-          ],
-          "flags": "",
-          "inheritedFrom": null,
-          "restricts": [],
-          "comments": []
-        }
-      ],
-      "relations": [
-        {
-          "name": "metric",
-          "role": "metrics",
-          "tags": [
-            "metric"
-          ],
-          "cardinality": "one-to-many",
-          "flags": "",
-          "inheritedFrom": null,
-          "comments": []
-        }
-      ],
-      "derived": [],
-      "restricts": [],
-      "methods": [],
-      "comments": [
-        "the wzName is the `name` attribute"
-      ]
-    },
-    {
-      "name": "userGatewayModel",
-      "super": null,
-      "isRoot": false,
-      "tags": [
-        "user_gateway_model"
-      ],
-      "flags": "",
-      "attributes": [
-        {
-          "name": "version",
-          "type": "string",
-          "tags": [
-            "version"
-          ],
-          "flags": "",
-          "inheritedFrom": null,
-          "restricts": [],
-          "comments": []
-        },
-        {
-          "name": "description",
-          "type": "string",
-          "tags": [
-            "description"
-          ],
-          "flags": "",
-          "inheritedFrom": null,
-          "restricts": [],
-          "comments": []
-        },
-        {
-          "name": "modelSchema",
-          "type": "string",
-          "tags": [
-            "model_schema"
-          ],
-          "flags": "",
-          "inheritedFrom": null,
-          "restricts": [],
-          "comments": []
-        },
-        {
-          "name": "owner",
-          "type": "string",
-          "tags": [
-            "owner"
+            "groupId"
           ],
           "flags": "",
           "inheritedFrom": null,
@@ -2239,10 +2202,10 @@
           "comments": []
         },
         {
-          "name": "userDeviceModel",
-          "role": "userDeviceModels",
+          "name": "deviceModel",
+          "role": "deviceModels",
           "tags": [
-            "user_device_model"
+            "device_model"
           ],
           "cardinality": "one-to-many",
           "flags": "",

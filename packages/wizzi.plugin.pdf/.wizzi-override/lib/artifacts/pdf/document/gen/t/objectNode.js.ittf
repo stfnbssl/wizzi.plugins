@@ -5,6 +5,7 @@ $group
     async-md( ${elname} )
 
         pdfNode.js( ${elname}, ${arrayName} )
+        _ ctx.w('// objectNode elname: ${elname}, arrayName: ${arrayName}')
         _ ctx.w('const ' + pdfNode + ' = {};')
         $hook
         _ md.genItems
@@ -12,6 +13,9 @@ $group
             @ ctx
             @ noindent
             a_cb()
+                $if arrayName != null
+                    if !pdfNode.${arrayName}
+                        set pdfNode.${arrayName} = []
                 $hook close
                 _ ctx.values.pdfStack.pop()
                 r_cb()

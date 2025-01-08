@@ -231,6 +231,7 @@
         _ u.writeComments(model, ctx)
         _ u.checkInlineEnter(model, ctx)
 		var async_str = model.xasync ? 'async ' : ''
+        $$ log 'arrowfunction', model.wzName, async_str
         $*
         # loog 'arrowfunction, model.wzParent.wzElement', model.wzParent.wzElement
         # loog 'arrowfunction, ctx.__is_react_class', ctx.__is_react_class
@@ -245,7 +246,7 @@
 			@ ctx
 
         if model.wzName.length > 0
-            _ ctx.write(model.wzName + async_str)
+            _ ctx.write(model.wzName)
         else
             _ ctx.write(async_str)
 
@@ -255,9 +256,13 @@
             @ cnt
             a_cb()
                 if ctx.__is_react_class && model.wzParent.wzElement == 'reactComponent'
+                    $$ log 11
                     var implicitReturn = u.isImplicitReturn(model)
                     var firstChildIsTemplate = u.firstChildIs(model, ['template'])
-                    _ ctx.w(' = (')
+                    if model.wzName.length > 0
+                        _ ctx.w(' = ' + async_str + '(')
+                    else
+                        _ ctx.w(' = ' + '(')
                     _ u.genTSParams
                         @ model
                         @ ctx
@@ -286,8 +291,9 @@
                                     @ firstChildIsTemplate
                                     @ callback
                 elif u.onlyChildIs(model, 'callOnValue') || u.onlyChildIsHtmlElement(model)
+                    $$ log 22
                     if model.wzName.length > 0
-                        _ ctx.write(' = (')
+                        _ ctx.write(' = ' + async_str + '(')
                     else
                         _ ctx.write('(')
                     _ u.genTSParams
@@ -319,8 +325,9 @@
                                     @ false
                                     @ callback
                 elif u.onlyChildIs(model, 'arrowfunction')
+                    $$ log 33
                     if model.wzName.length > 0
-                        _ ctx.write(' = (')
+                        _ ctx.write(' = ' + async_str + '(')
                     else
                         _ ctx.write('(')
                     _ u.genTSParams
@@ -351,13 +358,15 @@
                                     @ false
                                     @ callback
                 elif u.isImplicitReturn(model)
+                    $$ log 44
                     # loog 'isImplicitReturn', model.wzElement, model.wzName
                     var isSingleParam = u.isSingleParamForArrowFunction(model)
                     var firstChildIsTemplate = u.firstChildIs(model, ['template'])
                     # loog 'function.isSingleParam', isSingleParam
                     # loog 'function.firstChildIs template', firstChildIsTemplate
                     if model.wzName.length > 0
-                        _ ctx.write(isSingleParam ? '' : '(')
+                        
+                        _ ctx.write(isSingleParam ? async_str : async_str + '(')
                     else
                         _ ctx.write(isSingleParam ? '' : '(')
                     _ u.genTSParams
@@ -388,8 +397,9 @@
                                     @ firstChildIsTemplate
                                     @ callback
                 else
-                    if model.wzName.length > 0
-                        _ ctx.write('(')
+                    $$ log 55
+                    if model.wzName.length > 0                
+                        _ ctx.write(' = ' + async_str + '(')
                     else
                         _ ctx.write('(')
                     _ u.genTSParams

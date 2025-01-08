@@ -1,15 +1,14 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.pdf\.wizzi-override\lib\artifacts\pdf\extended\trans\main.js.ittf
-    utc time: Wed, 13 Mar 2024 07:02:05 GMT
+    utc time: Sat, 28 Dec 2024 06:59:28 GMT
 */
-'use strict';
 
 
 var util = require('util');
 var async = require('async');
-var verify = require('wizzi-utils').verify;
+var verify = require('@wizzi/utils').verify;
 var lineParser = verify.lineParser;
 var errors = require('../../../../../errors');
 

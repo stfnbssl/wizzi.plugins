@@ -7,4 +7,7 @@ $group
     _ ctx.values.pdfStack.push
         {
             @ node pdfNode
-            @ arrayName "${arrayName}"
+            $if arrayName != null
+                @ arrayName "${arrayName}"
+            $else
+                @ arrayName null

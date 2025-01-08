@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.html\lib\artifacts\html\document\gen\main.js
     package: @wizzi/plugin.html@0.8.10
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\lib\artifacts\wzschema\html_docs\gen\ittf\wfschema-docs.html.ittf
-    utc time: Tue, 29 Oct 2024 10:22:30 GMT
+    utc time: Tue, 17 Dec 2024 17:22:42 GMT
 -->
 <!doctype html>
 <html>
@@ -54,8 +54,6 @@
                 </li>
                 <li><a href="#element_metricProperty">metricProperty</a>
                 </li>
-                <li><a href="#element_tenant">tenant</a>
-                </li>
                 <li><a href="#element_userGroup">userGroup</a>
                 </li>
                 <li><a href="#element_modelSchema">modelSchema</a>
@@ -90,11 +88,9 @@
                 </li>
                 <li><a href="#element_manufacturer">manufacturer</a>
                 </li>
-                <li><a href="#element_manufacturerDeviceModel">manufacturerDeviceModel</a>
+                <li><a href="#element_deviceModel">deviceModel</a>
                 </li>
-                <li><a href="#element_userDeviceModel">userDeviceModel</a>
-                </li>
-                <li><a href="#element_userGatewayModel">userGatewayModel</a>
+                <li><a href="#element_gatewayModel">gatewayModel</a>
                 </li>
                 <li><a href="#element_jsInclude">jsInclude</a>
                 </li>
@@ -519,7 +515,7 @@
                     </tbody>
                 </table>
             </small>
-            <table id="element_tenant" class="pretty-table">
+            <table id="element_userGroup" class="pretty-table">
                 <thead>
                     <tr>
                         <th>Element</th>
@@ -531,9 +527,9 @@
                 <tbody>
                     <tr>
                         <td>
-                            <b>tenant</b>
+                            <b>userGroup</b>
                         </td>
-                        <td>tenant</td>
+                        <td>user_group</td>
                         <td>node</td>
                         <td></td>
                     </tr>
@@ -543,33 +539,6 @@
             <div>
                 <span>the wzName is the `name` attribute &nbsp;</span>
             </div>
-            <h5>Attributes</h5>
-            <small>
-                <table class="table table-condensed table-bordered" style="width:100%;">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Tag</th>
-                            <th>Type</th>
-                            <th>Default</th>
-                            <th>Inherited</th>
-                            <th>Flags</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>description</td>
-                            <td>description</td>
-                            <td>string</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </small>
             <h5>Relations</h5>
             <small>
                 <table class="table table-condensed table-bordered" style="width:100%;">
@@ -585,14 +554,6 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>userGroup</td>
-                            <td>userGroups</td>
-                            <td>one-to-many</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
                             <td>plant</td>
                             <td>plants</td>
                             <td>one-to-many</td>
@@ -601,16 +562,32 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td>userGatewayModel</td>
-                            <td>userGatewayModels</td>
+                            <td>gateway</td>
+                            <td>gateways</td>
                             <td>one-to-many</td>
                             <td></td>
                             <td></td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td>userDeviceModel</td>
-                            <td>userDeviceModels</td>
+                            <td>device</td>
+                            <td>devices</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>gatewayModel</td>
+                            <td>gatewayModels</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>deviceModel</td>
+                            <td>deviceModels</td>
                             <td>one-to-many</td>
                             <td></td>
                             <td></td>
@@ -627,30 +604,6 @@
                     </tbody>
                 </table>
             </small>
-            <table id="element_userGroup" class="pretty-table">
-                <thead>
-                    <tr>
-                        <th>Element</th>
-                        <th>Tag</th>
-                        <th>Super</th>
-                        <th>Flags</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <b>userGroup</b>
-                        </td>
-                        <td>user_group</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-            <h5>Description</h5>
-            <div>
-                <span>the wzName is the `name` attribute &nbsp;</span>
-            </div>
             <table id="element_modelSchema" class="pretty-table">
                 <thead>
                     <tr>
@@ -785,8 +738,8 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td>owner</td>
-                            <td>owner</td>
+                            <td>address</td>
+                            <td>address</td>
                             <td>string</td>
                             <td></td>
                             <td></td>
@@ -794,17 +747,8 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td>plant_xid</td>
-                            <td>plant_xid</td>
-                            <td>string</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>modelSchema</td>
-                            <td>model_schema</td>
+                            <td>groupId</td>
+                            <td>groupId</td>
                             <td>string</td>
                             <td></td>
                             <td></td>
@@ -974,14 +918,6 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td>userGroup</td>
-                            <td>userGroups</td>
-                            <td>one-to-many</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
                             <td>gateway</td>
                             <td>gateways</td>
                             <td>one-to-many</td>
@@ -1041,8 +977,8 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td>owner</td>
-                            <td>owner</td>
+                            <td>groupId</td>
+                            <td>groupId</td>
                             <td>string</td>
                             <td></td>
                             <td></td>
@@ -1059,33 +995,6 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td>gw_xid</td>
-                            <td>gw_xid</td>
-                            <td>string</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>iot_xid</td>
-                            <td>iot_xid</td>
-                            <td>string</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>modelSchema</td>
-                            <td>model_schema</td>
-                            <td>string</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
                             <td>balenaId</td>
                             <td>balenaId</td>
                             <td>string</td>
@@ -1095,8 +1004,43 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td>deviceModel</td>
-                            <td>deviceModel</td>
+                            <td>status</td>
+                            <td>status</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <h5>restrict</h5>
+                                <table>
+                                    <tr>
+                                        <td> activated</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> deactivated</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> inventory</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> retired</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>orderCode</td>
+                            <td>orderCode</td>
                             <td>string</td>
                             <td></td>
                             <td></td>
@@ -1104,8 +1048,17 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td>settings</td>
-                            <td>settings</td>
+                            <td>deviceVersion</td>
+                            <td>deviceVersion</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>serialCode</td>
+                            <td>serialCode</td>
                             <td>string</td>
                             <td></td>
                             <td></td>
@@ -1299,19 +1252,11 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td>userGatewayModel</td>
+                            <td>gatewayModel</td>
                             <td></td>
                             <td>one-to-one</td>
                             <td></td>
                             <td>is-one-to-one </td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>userGroup</td>
-                            <td>userGroups</td>
-                            <td>one-to-many</td>
-                            <td></td>
-                            <td></td>
                             <td></td>
                         </tr>
                         <tr>
@@ -1434,17 +1379,8 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td>owner</td>
-                            <td>owner</td>
-                            <td>string</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>device_xid</td>
-                            <td>device_xid</td>
+                            <td>groupId</td>
+                            <td>groupId</td>
                             <td>string</td>
                             <td></td>
                             <td></td>
@@ -1461,8 +1397,43 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td>deviceModel</td>
-                            <td>deviceModel</td>
+                            <td>status</td>
+                            <td>status</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <h5>restrict</h5>
+                                <table>
+                                    <tr>
+                                        <td> activated</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> deactivated</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> inventory</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> retired</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>orderCode</td>
+                            <td>orderCode</td>
                             <td>string</td>
                             <td></td>
                             <td></td>
@@ -1470,8 +1441,8 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td>modelConnectionSchema</td>
-                            <td>model_connection_schema</td>
+                            <td>deviceVersion</td>
+                            <td>deviceVersion</td>
                             <td>string</td>
                             <td></td>
                             <td></td>
@@ -1479,8 +1450,8 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td>modelSchema</td>
-                            <td>model_schema</td>
+                            <td>serialCode</td>
+                            <td>serialCode</td>
                             <td>string</td>
                             <td></td>
                             <td></td>
@@ -1658,27 +1629,19 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td>manufacturerDeviceModel</td>
-                            <td></td>
-                            <td>one-to-one</td>
-                            <td></td>
-                            <td>is-one-to-one </td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>userDeviceModel</td>
-                            <td></td>
-                            <td>one-to-one</td>
-                            <td></td>
-                            <td>is-one-to-one </td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>userGroup</td>
-                            <td>userGroups</td>
+                            <td>metric</td>
+                            <td>metrics</td>
                             <td>one-to-many</td>
                             <td></td>
                             <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>deviceModel</td>
+                            <td></td>
+                            <td>one-to-one</td>
+                            <td></td>
+                            <td>is-one-to-one </td>
                             <td></td>
                         </tr>
                     </tbody>
@@ -1804,6 +1767,85 @@
                         <tr>
                             <td>ret_policy</td>
                             <td>ret_policy</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>accessLevel</td>
+                            <td>accessLevel</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <h5>restrict</h5>
+                                <table>
+                                    <tr>
+                                        <td> 1</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> 2</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> 3</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>category</td>
+                            <td>category</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <h5>restrict</h5>
+                                <table>
+                                    <tr>
+                                        <td> alarm</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> data</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>min</td>
+                            <td>min</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>max</td>
+                            <td>max</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>unit</td>
+                            <td>unit</td>
                             <td>string</td>
                             <td></td>
                             <td></td>
@@ -2318,33 +2360,6 @@
             <div>
                 <span>the wzName is the `name` attribute &nbsp;</span>
             </div>
-            <h5>Attributes</h5>
-            <small>
-                <table class="table table-condensed table-bordered" style="width:100%;">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Tag</th>
-                            <th>Type</th>
-                            <th>Default</th>
-                            <th>Inherited</th>
-                            <th>Flags</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>description</td>
-                            <td>description</td>
-                            <td>string</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </small>
             <h5>Relations</h5>
             <small>
                 <table class="table table-condensed table-bordered" style="width:100%;">
@@ -2360,8 +2375,16 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>manufacturerDeviceModel</td>
-                            <td>manufacturerDeviceModels</td>
+                            <td>deviceModel</td>
+                            <td>deviceModels</td>
+                            <td>one-to-many</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>gatewayModel</td>
+                            <td>gatewayModels</td>
                             <td>one-to-many</td>
                             <td></td>
                             <td></td>
@@ -2378,7 +2401,7 @@
                     </tbody>
                 </table>
             </small>
-            <table id="element_manufacturerDeviceModel" class="pretty-table">
+            <table id="element_deviceModel" class="pretty-table">
                 <thead>
                     <tr>
                         <th>Element</th>
@@ -2390,9 +2413,9 @@
                 <tbody>
                     <tr>
                         <td>
-                            <b>manufacturerDeviceModel</b>
+                            <b>deviceModel</b>
                         </td>
-                        <td>manufacturer_device_model</td>
+                        <td>device_model</td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2436,15 +2459,6 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td>modelSchema</td>
-                            <td>model_schema</td>
-                            <td>string</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
                             <td>protocol</td>
                             <td>protocol</td>
                             <td>string</td>
@@ -2454,8 +2468,8 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td>owner</td>
-                            <td>owner</td>
+                            <td>groupId</td>
+                            <td>groupId</td>
                             <td>string</td>
                             <td></td>
                             <td></td>
@@ -2490,7 +2504,7 @@
                     </tbody>
                 </table>
             </small>
-            <table id="element_userDeviceModel" class="pretty-table">
+            <table id="element_gatewayModel" class="pretty-table">
                 <thead>
                     <tr>
                         <th>Element</th>
@@ -2502,9 +2516,9 @@
                 <tbody>
                     <tr>
                         <td>
-                            <b>userDeviceModel</b>
+                            <b>gatewayModel</b>
                         </td>
-                        <td>user_device_model</td>
+                        <td>gateway_model</td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2548,129 +2562,8 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td>modelSchema</td>
-                            <td>model_schema</td>
-                            <td>string</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>protocol</td>
-                            <td>protocol</td>
-                            <td>string</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>owner</td>
-                            <td>owner</td>
-                            <td>string</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </small>
-            <h5>Relations</h5>
-            <small>
-                <table class="table table-condensed table-bordered" style="width:100%;">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Role</th>
-                            <th>Cardinality</th>
-                            <th>Inherited</th>
-                            <th>Flags</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>metric</td>
-                            <td>metrics</td>
-                            <td>one-to-many</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </small>
-            <table id="element_userGatewayModel" class="pretty-table">
-                <thead>
-                    <tr>
-                        <th>Element</th>
-                        <th>Tag</th>
-                        <th>Super</th>
-                        <th>Flags</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <b>userGatewayModel</b>
-                        </td>
-                        <td>user_gateway_model</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-            <h5>Description</h5>
-            <div>
-                <span>the wzName is the `name` attribute &nbsp;</span>
-            </div>
-            <h5>Attributes</h5>
-            <small>
-                <table class="table table-condensed table-bordered" style="width:100%;">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Tag</th>
-                            <th>Type</th>
-                            <th>Default</th>
-                            <th>Inherited</th>
-                            <th>Flags</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>version</td>
-                            <td>version</td>
-                            <td>string</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>description</td>
-                            <td>description</td>
-                            <td>string</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>modelSchema</td>
-                            <td>model_schema</td>
-                            <td>string</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>owner</td>
-                            <td>owner</td>
+                            <td>groupId</td>
+                            <td>groupId</td>
                             <td>string</td>
                             <td></td>
                             <td></td>
@@ -2711,8 +2604,8 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td>userDeviceModel</td>
-                            <td>userDeviceModels</td>
+                            <td>deviceModel</td>
+                            <td>deviceModels</td>
                             <td>one-to-many</td>
                             <td></td>
                             <td></td>
