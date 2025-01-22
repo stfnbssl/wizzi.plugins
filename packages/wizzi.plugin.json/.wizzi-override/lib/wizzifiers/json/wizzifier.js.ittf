@@ -67,7 +67,7 @@ module
                                 $$ loog "onPropName", name
                                 var n
                                     { 
-                                        @ tag name
+                                        @ tag parseName(name)
                                         @ name ''
                                         @ children
                                             [ 
@@ -83,7 +83,7 @@ module
                                 $$ loog "onProp", name, value
                                 var n
                                     { 
-                                        @ tag name
+                                        @ tag parseName(name)
                                         @ name value
                                         @ children
                                             [ 
@@ -152,7 +152,14 @@ module
                                     new Error('Json.Wizzifier.Wizzi parse failed. wizziTree: ' + util.inspect(wizziTree, {depth: 2}))
                         r_cb( synthax )
 
-
+        +
+        function parseName
+            param name
+            if name.length > 0
+                var retval = (/\s/.test(name)) ? '"' + name + '"' : name
+                return verify.replaceAll(retval, "(", "$" + "{'('}")
+            else 
+                return name
         +
         function wizzify
             param tobeWizzified

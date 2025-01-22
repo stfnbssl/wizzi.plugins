@@ -31,26 +31,6 @@ wzschema ai
     e codeLine : node
         tag +
 
-    $include crewai/main
-    
-    e call : node
-        a kind
-        a description
-        a prompt
-            tag prompt 
-        a max_tokens
-            default 1500
-        a temperature
-            default 0.7
-        a top_p
-            default 1
-        a frequency_penalty
-            default 0
-        a presence_penalty
-            default 0
-        r message/s
-
-    e message : node
-        tag message
-        a role
-        a content
+    $include commons/main
+    $include openai/main
+    $include crewai/main 

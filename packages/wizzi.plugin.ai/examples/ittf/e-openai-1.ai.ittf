@@ -1,0 +1,75 @@
+ai lab
+
+    api-url http://localhost:3000
+
+    call CyberSecurity-1
+        description Check list analisys
+        message
+            role system
+            content Sei un esperto di CyberSecurity che assisti auditors a produrre una checklist.
+                \b Per ogni item, fornisci:\n
+                \b 1. Una spegazione dettagliata.\n
+                \b 2. Un glossario dei termini più tecnici, ciascuno con una definizione e un link a risorse rileveanti sul web per rapprofondimenti.\n
+                \b 3. Link rilevanti a standards, best practices, o documentazione correlata all'item.\n
+                \b 4. Un output JSON strutturato come rischiesto nel response_format.\n
+        message
+            role user
+            json_content
+                { 
+                    idd "7.1.1"
+                    area "Secure Configuration"
+                    category "Secure Development Lifecycle"
+                    NIS2 "Art. 21, par. 2, comma e"
+                    ISA_n_62443_n_${'('}2-4) "SP.02.01"
+                    ISO_n_27001 "A.8.25"
+                    "NIST CSF" "PR.IP-2"
+                    EuCRA "Allegato I.1"
+                    "Exe. Ord. on Improving the Nation’s Cybersecurity" "Sec. 4 lect. e"
+                    description "Viene attuato un processo di SDLC che preveda l'identificazione e l'applicazione
+                        +b  di requisiti di sicurezza nelle diverse fasi del processo di sviluppo a partire
+                        +b  dalla fase di design?"
+        response_format
+            { 
+                type "json_schema"
+                { json_schema
+                    name "checklist_explanation"
+                    { schema
+                        type "object"
+                        { properties
+                            { detailed_explanation
+                                type "string"
+                            { glossary
+                                type "array"
+                                { items
+                                    type "object"
+                                    { properties
+                                        { term
+                                            type "string"
+                                        { definition
+                                            type "string"
+                                        { link
+                                            type "string"
+                                    [ required
+                                        "term" 
+                                        "definition" 
+                                        "link" 
+                                    additionalProperties false
+                            { related_links
+                                type "array"
+                                { items
+                                    type "object"
+                                    { properties
+                                        { title
+                                            type "string"
+                                        { url
+                                            type "string"
+                                    [ required
+                                        "title" 
+                                        "url" 
+                                    additionalProperties false
+                        [ required
+                            "detailed_explanation" 
+                            "glossary" 
+                            "related_links"                   
+                        additionalProperties false
+                    strict true

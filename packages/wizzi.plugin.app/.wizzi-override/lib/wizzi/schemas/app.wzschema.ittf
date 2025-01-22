@@ -1,0 +1,20 @@
+wzschema app
+    
+    export-to json
+    
+    e app
+        is-root
+        r item/s
+        r ittfPanel/s
+    
+    e item
+        a value
+    
+    e ittfPanel
+        tag ittf-panel
+        has-mtree-data
+    
+    e jsonInclude : item
+        tag ::json
+        include json {
+    

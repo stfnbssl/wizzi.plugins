@@ -31,14 +31,14 @@ module
         # loog '-> preprocessNode', node.n
         
         if inferJsonArrayInclude(node)
-            # loog '@@@@@@@@@@ inferJsonArrayInclude'
+            # loog '@@@@@@@@@@ inferJsonArrayInclude', node
             _ wrapChilds
                 @ node
                 {
                     @ n '::json-array'
                     @ v ''
         elif inferJsonObjectInclude(node)
-            # loog '@@@@@@@@@@ inferJsonObjectInclude'
+            # loog '@@@@@@@@@@ inferJsonObjectInclude', node
             _ wrapChilds
                 @ node
                 {
@@ -55,14 +55,14 @@ module
 
     function inferJsonArrayInclude
         param node
-        if node.n === 'input'
+        if ['response_format','json_content'].indexOf(node.n) > -1
             if childNameIsOneOf(node, ['[']) == true
                 return true
         return false
 
     function inferJsonObjectInclude
         param node
-        if node.n === 'input'
+        if ['response_format','json_content'].indexOf(node.n) > -1
             # loog '------------>', node.children[0]
             if childNameIsOneOf(node, ['{']) == true
                 return true

@@ -15,6 +15,7 @@ module
         $append imports
             var axios = require('axios')
             var marked = require('marked')
+            var included_writers = require('./writers/included')
             var api = null
 
         $append main
@@ -26,36 +27,38 @@ module
                 @ model
                 @ ctx
                 a_cb( )
+                    log 'ctx.artifactGenerationErrors.length', ctx.artifactGenerationErrors.length
                     if ctx.artifactGenerationErrors.length > 0
                         r_cb_err( ctx.artifactGenerationErrors )
+                    elif false
+                        _ ctx.w
+                            _ JSON.stringify(ctx.__json, null, 4)
+                        r_cb( ctx )
                     else
                         # generation OK
-                        $if false
-                            _ ctx.write
-                                _ JSON.stringify
-                                    @ ctx.__json
-                                    @ null
-                                    @ 4
-                            r_cb( ctx )
-                        $else
-                            _ ctx.wizziFactory.createFsFactory
-                                {
-                                    @ reuse true
-                                a_cb( fsWf )
-                                    _ fsWf.loadModelAndGenerateArtifact
-                                        _ path.join
-                                            @ __dirname
-                                            @ 'ittf'
-                                            @ 'document.html.ittf'                            
-                                        {
-                                            { modelRequestContext
-                                                @ schema ctx.__json
-                                            @ artifactRequestContext {}
-                                        @ 'html/document'
-                                        a_cb( artifactText )
-                                            # loog 'logbot-document', artifactText
-                                            _ ctx.w(artifactText)
-                                            r_cb( ctx )
+                        var schema
+                        if false
+                            set schema = "html"
+                        else
+                            set schema = "ittf"
+                        _ ctx.wizziFactory.createFsFactory
+                            {
+                                @ reuse true
+                            a_cb( fsWf )
+                                _ fsWf.loadModelAndGenerateArtifact
+                                    _ path.join
+                                        @ __dirname
+                                        @ schema
+                                        @ 'document.' + schema + '.ittf'                            
+                                    {
+                                        { modelRequestContext
+                                            @ schema ctx.__json
+                                        @ artifactRequestContext {}
+                                    @ schema + '/document'
+                                    a_cb( artifactText )
+                                        # loog 'ai-document', artifactText
+                                        _ ctx.w(artifactText)
+                                        r_cb( ctx )
         
         async-md( ai )
             if verify.isNotEmpty(model.apiUrl)
@@ -80,54 +83,141 @@ module
             set ctx.__current.name = model.wzName
             set ctx.__current.description = model.description
             set ctx.__current.prompt = model.prompt
-            if model.messages.length > 0
-                set ctx.__current.messages = []
-                foreach message in model.messages
-                    _ ctx.__current.messages.push
+            set ctx.__current.messages = []                
+            _ md.genItems
+                @ model.messages
+                @ ctx
+                {
+                    @ indent true
+                a_cb()
+                    _ setResponseFormat
+                        @ model.response_format
+                        @ ctx
+                        a_cb()
+                            $$ log 'call, messages', ctx.__current.messages
+                            $$ log 'call, response_format', ctx.__current.response_format
+                            if api && ctx.__current.messages && ctx.__current.messages.length > 0
+                                try
+                                    _ api.post
+                                        @ 'aiapicall'
+                                        { 
+                                            @ model model.model
+                                            @ max_tokens parseInt(model.max_tokens)
+                                            @ temperature parseFloat(model.temperature)
+                                            @ frequency_penalty parseInt(model.frequency_penalty)
+                                            @ presence_penalty parseInt(model.presence_penalty)
+                                            @ messages ctx.__current.messages
+                                            @ response_format ctx.__current.response_format
+                                            @ prompt ctx.__current.prompt
+                                        a_then( response ) 
+                                            log model.prompt, ' -> ', response.data
+                                            set ctx.__current.info = response.data.info
+                                            set ctx.__current.response = response.data.result
+                                            set ctx.__current.usage = response.usage
+                                            set ctx.__current.finish_reason = response.finish_reason
+                                            try
+                                                set ctx.__current.response
+                                                    _ JSON.parse
+                                                        @ response.data.result
+                                                if verify.isObject(ctx.__current.main_data_message)
+                                                    set ctx.__current.response
+                                                        _ Object.assign
+                                                            {
+                                                            @ ctx.__current.main_data_message
+                                                            @ ctx.__current.response
+                                                log 'Object.keys(ctx.__current.response)', Object.keys(ctx.__current.response)
+                                            catch ex
+                                                set ctx.__current.response
+                                                    {
+                                                        @ message 'error parsing ai apicall'
+                                            set ctx.__current.responseHTML
+                                                _ marked.parse
+                                                    @ response.data.result
+                                            r_cb()
+                                        catch( err ) 
+                                            error 'Error code:', err.code
+                                            error err.errors
+                                            _ callback
+                                                _ ctx.error('Error calling aiapicall: ' + err.code, model)
+                                catch ex
+                                    error 'Exception.message:', ex.message
+                                    error 'Exception:', ex
+                                    set ctx.__current.ex
+                                        {
+                                            @ message ex.message
+                                    r_cb()
+                            else
+                                r_cb()
+
+        async-md( message )
+            if model.json_content
+                _ md.json_format
+                    @ model.json_content
+                    @ ctx
+                    a_cb( )
+                        $$ log 'message.ctx.__current.json_format', ctx.__current.json_format
+                        _ ctx.__current.messages.push
+                            {
+                                @ role model.role
+                                @ content ctx.__current.json_format.jsonText
+                        set ctx.__current.main_data_message
+                            _ JSON.parse
+                                @ ctx.__current.json_format.jsonText
+                        r_cb()
+            else
+                _ ctx.__current.messages.push
+                    {
+                        @ role model.role
+                        @ content model.content
+                r_cb()
+
+        function setResponseFormat
+            param model
+            param ctx
+            param callback
+            if !model
+                set ctx.__current.response_format = null
+                r_cb()
+            _ md.json_format
+                @ model
+                @ ctx
+                a_cb( )
+                    set ctx.__current.response_format = ctx.__current.json_format.json
+                    r_cb()
+
+        async-md( json_format )
+            const jsonEl
+                {
+                    @ name model.wzName
+            set ctx.__current.json_format = jsonEl
+            # log 'model', model
+            # log 'model.nodes[0]', model.nodes[0]
+            if model.nodes.length = 1
+                let jsonModel = model.nodes[0]
+                if jsonModel
+                    if jsonModel.get_json
+                        _ included_writers.getIncludeJsonArtifact
+                            @ ctx
+                            @ jsonModel
+                            a_cb( artifactText )
+                                $$ log 'json_format.artifactText', artifactText
+                                set jsonEl.jsonText = artifactText
+                                set jsonEl.json = JSON.parse(artifactText)
+                                r_cb()
+                    else
+                        set jsonEl.err
+                            {
+                                @ message "something went wrong processing json"
+                        r_cb()
+                else
+                    set jsonEl.err
                         {
-                            @ role message.role
-                            @ content message.content
-            log 'call, model.messages', ctx.__current.messages
-            if api && ctx.__current.messages && ctx.__current.messages.length > 0
-                try
-                    _ api.post
-                        @ 'aiapicall'
-                        { 
-                            @ model model.model
-                            @ max_tokens parseInt(model.max_tokens)
-                            @ temperature parseFloat(model.temperature)
-                            @ frequency_penalty parseInt(model.frequency_penalty)
-                            @ presence_penalty parseInt(model.presence_penalty)
-                            @ messages ctx.__current.messages
-                            @ prompt ctx.__current.prompt
-                        a_then( response ) 
-                            log model.prompt, ' -> ', response.data
-                            set ctx.__current.info = response.data.info
-                            set ctx.__current.response = response.data.result
-                            set ctx.__current.usage = response.usage
-                            set ctx.__current.finish_reason = response.finish_reason
-                            set ctx.__current.responseHTML
-                                _ marked.parse
-                                    @ response.data.result
-                            r_cb()
-                        catch( err ) 
-                            error 'Error:', err.message
-                            error 'Error:', err
-                            set ctx.__current.err
-                                {
-                                    @ message err.message
-                            if err.response
-                                set ctx.__current.err.data = err.response.data
-                                set ctx.__current.err.status = err.response.status
-                            r_cb()
-                catch ex
-                    error 'Exception.message:', ex.message
-                    error 'Exception:', ex
-                    set ctx.__current.ex
-                        {
-                            @ message ex.message
+                            @ message "no data"
                     r_cb()
             else
+                set jsonEl.err
+                    {
+                        @ message "no data"
                 r_cb()
 
         var noattrs

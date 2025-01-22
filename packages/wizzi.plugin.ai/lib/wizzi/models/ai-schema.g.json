@@ -58,6 +58,42 @@
           ]
         },
         {
+          "name": "jsonObjectInclude",
+          "tags": [
+            "::json-object"
+          ]
+        },
+        {
+          "name": "jsonArrayInclude",
+          "tags": [
+            "::json-array"
+          ]
+        },
+        {
+          "name": "call",
+          "tags": [
+            "call"
+          ]
+        },
+        {
+          "name": "response_format",
+          "tags": [
+            "response_format"
+          ]
+        },
+        {
+          "name": "message",
+          "tags": [
+            "message"
+          ]
+        },
+        {
+          "name": "json_content",
+          "tags": [
+            "json_content"
+          ]
+        },
+        {
           "name": "crewai",
           "tags": [
             "crewai"
@@ -187,18 +223,6 @@
           "name": "crew",
           "tags": [
             "crew"
-          ]
-        },
-        {
-          "name": "call",
-          "tags": [
-            "call"
-          ]
-        },
-        {
-          "name": "message",
-          "tags": [
-            "message"
           ]
         }
       ],
@@ -405,6 +429,322 @@
       "restricts": [],
       "methods": [],
       "comments": []
+    },
+    {
+      "name": "jsonObjectInclude",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "::json-object"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "jsonArrayInclude",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "::json-array"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "call",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "call"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "kind",
+          "type": "string",
+          "tags": [
+            "kind"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "tags": [
+            "description"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "prompt",
+          "type": "string",
+          "tags": [
+            "prompt"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "max_tokens",
+          "type": "string",
+          "tags": [
+            "max_tokens"
+          ],
+          "default": "1500",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "temperature",
+          "type": "string",
+          "tags": [
+            "temperature"
+          ],
+          "default": "0.7",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "top_p",
+          "type": "string",
+          "tags": [
+            "top_p"
+          ],
+          "default": "1",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "frequency_penalty",
+          "type": "string",
+          "tags": [
+            "frequency_penalty"
+          ],
+          "default": "0",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "presence_penalty",
+          "type": "string",
+          "tags": [
+            "presence_penalty"
+          ],
+          "default": "0",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "message",
+          "role": "messages",
+          "tags": [
+            "message"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "response_format",
+          "role": null,
+          "tags": [
+            "response_format"
+          ],
+          "cardinality": "one-to-one",
+          "flags": "is-one-to-one ",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "response_format",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "response_format"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "children jsonObjectInclude"
+      ]
+    },
+    {
+      "name": "message",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "message"
+      ],
+      "flags": "",
+      "attributes": [
+        {
+          "name": "role",
+          "type": "string",
+          "tags": [
+            "role"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "tags": [
+            "content"
+          ],
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
+        }
+      ],
+      "relations": [
+        {
+          "name": "json_content",
+          "role": null,
+          "tags": [
+            "json_content"
+          ],
+          "cardinality": "one-to-one",
+          "flags": "is-one-to-one ",
+          "inheritedFrom": null,
+          "comments": []
+        },
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "json_content",
+      "super": "node",
+      "isRoot": false,
+      "tags": [
+        "json_content"
+      ],
+      "flags": "",
+      "attributes": [],
+      "relations": [
+        {
+          "name": "node",
+          "role": "nodes",
+          "tags": [
+            "node"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "node",
+          "comments": []
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": [
+        "children jsonObjectInclude, jsonArrayInclude"
+      ]
     },
     {
       "name": "crewai",
@@ -2612,188 +2952,6 @@
             "A list of executions (kickoffs)"
           ]
         },
-        {
-          "name": "node",
-          "role": "nodes",
-          "tags": [
-            "node"
-          ],
-          "cardinality": "one-to-many",
-          "flags": "",
-          "inheritedFrom": "node",
-          "comments": []
-        }
-      ],
-      "derived": [],
-      "restricts": [],
-      "methods": [],
-      "comments": []
-    },
-    {
-      "name": "call",
-      "super": "node",
-      "isRoot": false,
-      "tags": [
-        "call"
-      ],
-      "flags": "",
-      "attributes": [
-        {
-          "name": "kind",
-          "type": "string",
-          "tags": [
-            "kind"
-          ],
-          "flags": "",
-          "inheritedFrom": null,
-          "restricts": [],
-          "comments": []
-        },
-        {
-          "name": "description",
-          "type": "string",
-          "tags": [
-            "description"
-          ],
-          "flags": "",
-          "inheritedFrom": null,
-          "restricts": [],
-          "comments": []
-        },
-        {
-          "name": "prompt",
-          "type": "string",
-          "tags": [
-            "prompt"
-          ],
-          "flags": "",
-          "inheritedFrom": null,
-          "restricts": [],
-          "comments": []
-        },
-        {
-          "name": "max_tokens",
-          "type": "string",
-          "tags": [
-            "max_tokens"
-          ],
-          "default": "1500",
-          "flags": "",
-          "inheritedFrom": null,
-          "restricts": [],
-          "comments": []
-        },
-        {
-          "name": "temperature",
-          "type": "string",
-          "tags": [
-            "temperature"
-          ],
-          "default": "0.7",
-          "flags": "",
-          "inheritedFrom": null,
-          "restricts": [],
-          "comments": []
-        },
-        {
-          "name": "top_p",
-          "type": "string",
-          "tags": [
-            "top_p"
-          ],
-          "default": "1",
-          "flags": "",
-          "inheritedFrom": null,
-          "restricts": [],
-          "comments": []
-        },
-        {
-          "name": "frequency_penalty",
-          "type": "string",
-          "tags": [
-            "frequency_penalty"
-          ],
-          "default": "0",
-          "flags": "",
-          "inheritedFrom": null,
-          "restricts": [],
-          "comments": []
-        },
-        {
-          "name": "presence_penalty",
-          "type": "string",
-          "tags": [
-            "presence_penalty"
-          ],
-          "default": "0",
-          "flags": "",
-          "inheritedFrom": null,
-          "restricts": [],
-          "comments": []
-        }
-      ],
-      "relations": [
-        {
-          "name": "message",
-          "role": "messages",
-          "tags": [
-            "message"
-          ],
-          "cardinality": "one-to-many",
-          "flags": "",
-          "inheritedFrom": null,
-          "comments": []
-        },
-        {
-          "name": "node",
-          "role": "nodes",
-          "tags": [
-            "node"
-          ],
-          "cardinality": "one-to-many",
-          "flags": "",
-          "inheritedFrom": "node",
-          "comments": []
-        }
-      ],
-      "derived": [],
-      "restricts": [],
-      "methods": [],
-      "comments": []
-    },
-    {
-      "name": "message",
-      "super": "node",
-      "isRoot": false,
-      "tags": [
-        "message"
-      ],
-      "flags": "",
-      "attributes": [
-        {
-          "name": "role",
-          "type": "string",
-          "tags": [
-            "role"
-          ],
-          "flags": "",
-          "inheritedFrom": null,
-          "restricts": [],
-          "comments": []
-        },
-        {
-          "name": "content",
-          "type": "string",
-          "tags": [
-            "content"
-          ],
-          "flags": "",
-          "inheritedFrom": null,
-          "restricts": [],
-          "comments": []
-        }
-      ],
-      "relations": [
         {
           "name": "node",
           "role": "nodes",

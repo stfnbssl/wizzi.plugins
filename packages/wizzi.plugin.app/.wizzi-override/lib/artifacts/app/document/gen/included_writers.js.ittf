@@ -1,0 +1,27 @@
+module
+    kind es6
+    +
+    var myname = 'app.document.included_writers'
+    +
+    var verify = require('@wizzi/utils').verify
+    +
+    var md = module.exports = {}
+    set md.writeIncludeJson
+        function
+            param ctx
+            param element
+            param callback
+            # loog myname, 'enter writeIncludeJson'
+            _ element.get_json
+                a_cb( jsonModel )
+                    _ ctx.wizziFactory.generateArtifact
+                        @ jsonModel
+                        @ 'generated from app model'
+                        @ 'json/document'
+                        {
+                        a_cb( artifactText )
+                            _ ctx.indent
+                            _ ctx.writeAligned(artifactText)
+                            _ ctx.deindent
+                            return
+                                _ callback

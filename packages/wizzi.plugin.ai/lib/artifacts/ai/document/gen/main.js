@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ai\.wizzi-override\lib\artifacts\ai\document\gen\main.js.ittf
-    utc time: Thu, 07 Nov 2024 16:13:20 GMT
+    utc time: Wed, 22 Jan 2025 15:19:02 GMT
 */
 
 
@@ -14,6 +14,7 @@ var lineParser = require('@wizzi/utils').helpers.lineParser;
 var errors = require('../../../../../errors');
 var axios = require('axios');
 var marked = require('marked');
+var included_writers = require('./writers/included');
 var api = null;
 
 var myname = 'wizzi.plugin.ai.artifacts.ai.document.gen.main';
@@ -44,27 +45,39 @@ md.gen = function(model, ctx, callback) {
             if (err) {
                 return callback(err);
             }
+            console.log('ctx.artifactGenerationErrors.length', ctx.artifactGenerationErrors.length, __filename);
             if (ctx.artifactGenerationErrors.length > 0) {
                 return callback(ctx.artifactGenerationErrors);
             }
+            else if (false) {
+                ctx.w(JSON.stringify(ctx.__json, null, 4))
+                return callback(null, ctx);
+            }
             // generation OK
             else {
+                var schema;
+                if (false) {
+                    schema = "html";
+                }
+                else {
+                    schema = "ittf";
+                }
                 ctx.wizziFactory.createFsFactory({
                     reuse: true
                  }, (err, fsWf) => {
                     if (err) {
                         return callback(err);
                     }
-                    fsWf.loadModelAndGenerateArtifact(path.join(__dirname, 'ittf', 'document.html.ittf'), {
+                    fsWf.loadModelAndGenerateArtifact(path.join(__dirname, schema, 'document.' + schema + '.ittf'), {
                         modelRequestContext: {
                             schema: ctx.__json
                          }, 
                         artifactRequestContext: {}
-                     }, 'html/document', (err, artifactText) => {
+                     }, schema + '/document', (err, artifactText) => {
                         if (err) {
                             return callback(err);
                         }
-                        // loog 'logbot-document', artifactText
+                        // loog 'ai-document', artifactText
                         ctx.w(artifactText);
                         return callback(null, ctx);
                     }
@@ -160,62 +173,155 @@ md.call = function(model, ctx, callback) {
     ctx.__current.name = model.wzName;
     ctx.__current.description = model.description;
     ctx.__current.prompt = model.prompt;
-    if (model.messages.length > 0) {
-        ctx.__current.messages = [];
-        var i, i_items=model.messages, i_len=model.messages.length, message;
-        for (i=0; i<i_len; i++) {
-            message = model.messages[i];
-            ctx.__current.messages.push({
-                role: message.role, 
-                content: message.content
-             })
+    ctx.__current.messages = [];
+    md.genItems(model.messages, ctx, {
+        indent: true
+     }, (err, notUsed) => {
+        if (err) {
+            return callback(err);
         }
+        setResponseFormat(model.response_format, ctx, (err, notUsed) => {
+            if (err) {
+                return callback(err);
+            }
+            if (api && ctx.__current.messages && ctx.__current.messages.length > 0) {
+                try {
+                    api.post('aiapicall', {
+                        model: model.model, 
+                        max_tokens: parseInt(model.max_tokens), 
+                        temperature: parseFloat(model.temperature), 
+                        frequency_penalty: parseInt(model.frequency_penalty), 
+                        presence_penalty: parseInt(model.presence_penalty), 
+                        messages: ctx.__current.messages, 
+                        response_format: ctx.__current.response_format, 
+                        prompt: ctx.__current.prompt
+                     }).then((response) => {
+                        console.log(model.prompt, ' -> ', response.data, __filename);
+                        ctx.__current.info = response.data.info;
+                        ctx.__current.response = response.data.result;
+                        ctx.__current.usage = response.usage;
+                        ctx.__current.finish_reason = response.finish_reason;
+                        try {
+                            ctx.__current.response = JSON.parse(response.data.result)
+                            ;
+                            if (verify.isObject(ctx.__current.main_data_message)) {
+                                ctx.__current.response = Object.assign({}, ctx.__current.main_data_message, ctx.__current.response)
+                                ;
+                            }
+                            console.log('Object.keys(ctx.__current.response)', Object.keys(ctx.__current.response), __filename);
+                        } 
+                        catch (ex) {
+                            ctx.__current.response = {
+                                message: 'error parsing ai apicall'
+                             };
+                        } 
+                        ctx.__current.responseHTML = marked.parse(response.data.result)
+                        ;
+                        return callback(null);
+                    }
+                    ).catch((err) => {
+                        console.log("[31m%s[0m", 'Error code:', err.code);
+                        console.log("[31m%s[0m", err.errors);
+                        callback(ctx.error('Error calling aiapicall: ' + err.code, model))
+                    }
+                    )
+                } 
+                catch (ex) {
+                    console.log("[31m%s[0m", 'Exception.message:', ex.message);
+                    console.log("[31m%s[0m", 'Exception:', ex);
+                    ctx.__current.ex = {
+                        message: ex.message
+                     };
+                    return callback(null);
+                } 
+            }
+            else {
+                return callback(null);
+            }
+        }
+        )
     }
-    console.log('call, model.messages', ctx.__current.messages, __filename);
-    if (api && ctx.__current.messages && ctx.__current.messages.length > 0) {
-        try {
-            api.post('aiapicall', {
-                model: model.model, 
-                max_tokens: parseInt(model.max_tokens), 
-                temperature: parseFloat(model.temperature), 
-                frequency_penalty: parseInt(model.frequency_penalty), 
-                presence_penalty: parseInt(model.presence_penalty), 
-                messages: ctx.__current.messages, 
-                prompt: ctx.__current.prompt
-             }).then((response) => {
-                console.log(model.prompt, ' -> ', response.data, __filename);
-                ctx.__current.info = response.data.info;
-                ctx.__current.response = response.data.result;
-                ctx.__current.usage = response.usage;
-                ctx.__current.finish_reason = response.finish_reason;
-                ctx.__current.responseHTML = marked.parse(response.data.result)
-                ;
-                return callback(null);
+    )
+}
+;
+md.message = function(model, ctx, callback) {
+    if (model.json_content) {
+        md.json_format(model.json_content, ctx, (err, notUsed) => {
+            if (err) {
+                return callback(err);
             }
-            ).catch((err) => {
-                console.log("[31m%s[0m", 'Error:', err.message);
-                console.log("[31m%s[0m", 'Error:', err);
-                ctx.__current.err = {
-                    message: err.message
-                 };
-                if (err.response) {
-                    ctx.__current.err.data = err.response.data;
-                    ctx.__current.err.status = err.response.status;
-                }
-                return callback(null);
-            }
-            )
-        } 
-        catch (ex) {
-            console.log("[31m%s[0m", 'Exception.message:', ex.message);
-            console.log("[31m%s[0m", 'Exception:', ex);
-            ctx.__current.ex = {
-                message: ex.message
-             };
+            ctx.__current.messages.push({
+                role: model.role, 
+                content: ctx.__current.json_format.jsonText
+             })
+            ctx.__current.main_data_message = JSON.parse(ctx.__current.json_format.jsonText)
+            ;
             return callback(null);
-        } 
+        }
+        )
     }
     else {
+        ctx.__current.messages.push({
+            role: model.role, 
+            content: model.content
+         })
+        return callback(null);
+    }
+}
+;
+function setResponseFormat(model, ctx, callback) {
+    if (!model) {
+        ctx.__current.response_format = null;
+        return callback(null);
+    }
+    md.json_format(model, ctx, (err, notUsed) => {
+        if (err) {
+            return callback(err);
+        }
+        ctx.__current.response_format = ctx.__current.json_format.json;
+        return callback(null);
+    }
+    )
+}
+md.json_format = function(model, ctx, callback) {
+    const jsonEl = {
+        name: model.wzName
+     };
+    ctx.__current.json_format = jsonEl;
+    // log 'model', model
+    // log 'model.nodes[0]', model.nodes[0]
+    if (model.nodes.length = 1) {
+        let jsonModel = model.nodes[0];
+        if (jsonModel) {
+            if (jsonModel.get_json) {
+                included_writers.getIncludeJsonArtifact(ctx, jsonModel, (err, artifactText) => {
+                    if (err) {
+                        return callback(err);
+                    }
+                    jsonEl.jsonText = artifactText;
+                    jsonEl.json = JSON.parse(artifactText);
+                    return callback(null);
+                }
+                )
+            }
+            else {
+                jsonEl.err = {
+                    message: "something went wrong processing json"
+                 };
+                return callback(null);
+            }
+        }
+        else {
+            jsonEl.err = {
+                message: "no data"
+             };
+            return callback(null);
+        }
+    }
+    else {
+        jsonEl.err = {
+            message: "no data"
+         };
         return callback(null);
     }
 }

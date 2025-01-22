@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ai\.wizzi-override\lib\wizzi\models\ai-mtree-preprocessor.g.js.ittf
-    utc time: Thu, 07 Nov 2024 16:13:20 GMT
+    utc time: Wed, 22 Jan 2025 15:19:02 GMT
 */
 var verify = require('@wizzi/utils').verify;
 module.exports = function(mTree, context) {
@@ -33,7 +33,7 @@ function traverse(node, state) {
 function preprocessNode(node, state) {
     // loog '-> preprocessNode', node.n
     
-    // loog '@@@@@@@@@@ inferJsonArrayInclude'
+    // loog '@@@@@@@@@@ inferJsonArrayInclude', node
     if (inferJsonArrayInclude(node)) {
         wrapChilds(node, {
             n: '::json-array', 
@@ -41,7 +41,7 @@ function preprocessNode(node, state) {
          })
     }
     
-    // loog '@@@@@@@@@@ inferJsonObjectInclude'
+    // loog '@@@@@@@@@@ inferJsonObjectInclude', node
     else if (inferJsonObjectInclude(node)) {
         wrapChilds(node, {
             n: '::json-object', 
@@ -59,7 +59,7 @@ function preprocessNode(node, state) {
     }
 }
 function inferJsonArrayInclude(node) {
-    if (node.n === 'input') {
+    if (['response_format','json_content'].indexOf(node.n) > -1) {
         if (childNameIsOneOf(node, ['[']) == true) {
             return true;
         }
@@ -69,7 +69,7 @@ function inferJsonArrayInclude(node) {
 function inferJsonObjectInclude(node) {
     
     // loog '------------>', node.children[0]
-    if (node.n === 'input') {
+    if (['response_format','json_content'].indexOf(node.n) > -1) {
         if (childNameIsOneOf(node, ['{']) == true) {
             return true;
         }

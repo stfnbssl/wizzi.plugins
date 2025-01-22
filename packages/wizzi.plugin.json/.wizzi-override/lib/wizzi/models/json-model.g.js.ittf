@@ -69,6 +69,27 @@
 							checked_call_return_set( value )
 								_ toJsonArray(node.children)
 						set ret[node.v] = value
+				elif node.n.startsWith('"')
+					const line = node.n + ' ' + node.v
+					const regex = /^"([^"]*)"(.*)$/
+						# ^"     = start of line + literal double quote
+						# ([^"]*)  = capture everything up to the next double quote
+						# "      = closing quote
+						# (.*)   = capture everything that follows
+    				const match = line.match(regex)
+    				if match
+        				const name = match[1]
+        				let value = match[2]
+						if value
+							set value = value.trim()
+							checked_call_return_set( value )
+								_ jsonValue(value, node)
+						set ret[name] = value
+					else
+						return
+							_ error
+								@ 'A json object must contain property items. Found: ' + node.n + ' ' + node.v
+								@ node
 				elif node.v && node.v.length > 0
 					checked_call_return( value )
 						_ jsonValue(node.v, node)

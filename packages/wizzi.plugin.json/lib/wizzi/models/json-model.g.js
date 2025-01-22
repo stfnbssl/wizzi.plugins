@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.json\.wizzi-override\lib\wizzi\models\json-model.g.js.ittf
-    utc time: Mon, 16 Dec 2024 13:12:13 GMT
+    utc time: Tue, 21 Jan 2025 16:37:12 GMT
 */
 /**
      Pseudo schema json
@@ -70,6 +70,31 @@ function toJsonObject(mTreeNodeChilds) {
                         }
                     }
                     ret[node.v] = value;
+                }
+            }
+            else if (node.n.startsWith('"')) {
+                const line = node.n + ' ' + node.v;
+                // ^"     = start of line + literal double quote
+                // ([^"]*)  = capture everything up to the next double quote
+                // "      = closing quote
+                // (.*)   = capture everything that follows
+                const regex = /^"([^"]*)"(.*)$/;
+                const match = line.match(regex);
+                if (match) {
+                    const name = match[1];
+                    let value = match[2];
+                    if (value) {
+                        value = value.trim();
+                        value = jsonValue(value, node);
+                        ;
+                        if (value && value.__is_error) {
+                            return value;
+                        }
+                    }
+                    ret[name] = value;
+                }
+                else {
+                    return error('A json object must contain property items. Found: ' + node.n + ' ' + node.v, node);
                 }
             }
             else if (node.v && node.v.length > 0) {

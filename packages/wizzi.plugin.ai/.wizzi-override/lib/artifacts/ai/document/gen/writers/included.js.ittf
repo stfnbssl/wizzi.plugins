@@ -1,0 +1,27 @@
+module
+	kind jsfile
+	+
+	var myname = 'ai.document.writers.included'
+	+
+	var verify = require('@wizzi/utils').verify
+	+
+	var md = module.exports = {}
+
+    set md.getIncludeJsonArtifact
+        function
+            param ctx
+            param element
+            param callback
+            # loog myname, 'enter getIncludeJsonArtifact'
+            _ element.get_json
+                a_cb( jsonModel )
+                    _ ctx.wizziFactory.generateArtifact
+                        @ jsonModel
+                        @ 'generated from ia model'
+                        @ 'json/document'
+                        {
+                        a_cb( artifactText )
+                            return
+                                _ callback  
+                                    @ null
+                                    @ artifactText

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.json\.wizzi-override\lib\wizzifiers\json\wizzifier.js.ittf
-    utc time: Mon, 16 Dec 2024 13:12:13 GMT
+    utc time: Tue, 21 Jan 2025 16:37:12 GMT
 */
 var util = require('util');
 var async = require('async');
@@ -58,7 +58,7 @@ function parseInternal(tobeWizzified, options, callback) {
         }, 
         onPropName: function(name) {
             var n = {
-                tag: name, 
+                tag: parseName(name), 
                 name: '', 
                 children: []
              };
@@ -68,7 +68,7 @@ function parseInternal(tobeWizzified, options, callback) {
         }, 
         onProp: function(name, value) {
             var n = {
-                tag: name, 
+                tag: parseName(name), 
                 name: value, 
                 children: []
              };
@@ -195,6 +195,16 @@ md.getWizzifierIncludes = function(options, callback) {
     return callback(null);
 }
 ;
+
+function parseName(name) {
+    if (name.length > 0) {
+        var retval = (/\s/.test(name)) ? '"' + name + '"' : name;
+        return verify.replaceAll(retval, "(", "$" + "{'('}");
+    }
+    else {
+        return name;
+    }
+}
 
 function wizzify(tobeWizzified, options, callback) {
     options = options || {};
