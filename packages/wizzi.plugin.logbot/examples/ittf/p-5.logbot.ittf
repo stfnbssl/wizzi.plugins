@@ -1,0 +1,158 @@
+logbot
+
+    $include metas
+
+    manufacturer manuacme1
+        device_model hello
+            protocol modbustcp
+            metric 3001
+                $$ tipo sensore
+                description Temperatura Magazzino - Sensore temperatura interna
+                interval 1000
+                property memoryAddress
+                    value 200
+                static geohash
+                    value 1234
+                dynamic dyn1
+                    value_ref acme1+101+1001+dt1
+                dynamic dyn2
+                    value_ref acme1+101+1001+dt2
+                script_ref unique
+
+        
+    user_group acme2_ug1
+        $$ description Gestione Supermercati XYZ
+        gateway_model GW_MODEL_1
+            dynamic dt1
+                ref_device_xid device1
+                ref_metric_name met1
+                default_value 122.2
+            device_model DEVICE_MODEL_1
+                protocol modbustcp
+                metric 3005
+                    $$ tipo sensore
+                    description Temperatura Frigorifero - Sensore temperatura frigorifero
+                    interval 1000
+                    property memoryAddress
+                        value 200        
+        gateway Z_9001
+            description Gateway Principale Magazzino
+        plant 101
+            description Magazzino Centrale
+            address via Serafino 12, Roma, Italia
+            static geohash
+                value 357
+            gateway 1001
+                description Gateway Principale Magazzino
+                $$ iot_xid GTWMC001
+                status activated
+                orderCode order_1023
+                deviceVersion x2.1.4
+                serialCode zxcdf
+                batching
+                    maxSize 5
+                    period 100
+                dynamic dt1
+                    ref_device_xid device1
+                    ref_metric_name met1
+                    default_value 122.2
+                dynamic dt2
+                    ref_device_xid device1
+                    ref_metric_name met2
+                    default_value 123
+                    description some description
+                    allowed_value 1 
+                    allowed_value 2 
+                    allowed_value 3 
+                dynamic dt3
+                    ref_device_xid device1
+                    ref_metric_name met3
+                    default_value 124
+                    allowed_value 111
+                    regex_allowed_value .*111.* 
+                script unique
+                    script_content "({\"currentSent\": currentRead, \"fire\": currentRead !== lastSent , \"error\": false})"
+                    script_type pre_publish
+                    script_timeout 1000
+                    script_description Sends a value only if it differs from the last sent one
+                device 2001
+                    description PLC Controllo Temperatura
+                    $$ device_xid PLCCT001
+                    protocol modbustcp
+                    connection_value host
+                        value 89.0.142.86
+                    connection_value port
+                        value 502
+                    connection_value unitId
+                        value 1
+                    metric 3001
+                        $$ tipo sensore
+                        description Temperatura Magazzino - Sensore temperatura interna
+                        interval 1000
+                        property memoryAddress
+                            value 200
+                        static geohash
+                            value 1234
+                        dynamic dyn1
+                            value_ref acme1+101+1001+dt1
+                        dynamic dyn2
+                            value_ref acme1+101+1001+dt2
+                        script_ref unique
+                    metric 3002
+                        $$ tipo sensore
+                        description Umidità Magazzino - Sensore umidità interna
+                        interval 1000
+                        property memoryAddress
+                            value 300
+                device 2002
+                    description PLC Controllo Sicurezza
+                    $$ device_xid PLCSC001
+                    protocol s7
+                    metric 3003
+                        $$ tipo attuatore
+                        description Stato Allarme - Controllo stato allarme sicurezza
+                        interval 1000
+                        property memoryAddress
+                            value 200
+            $if TODO
+                gateway 1002
+                    description Gateway Backup Magazzino
+                    iot_xid GTWMC002
+                    model_schema gatway-schema
+                    device 2003
+                        description PLC Backup Temperatura
+                        device_xid PLCBT002
+                        protocol modbusrtu
+                        model_schema device-schema
+                        metric 3004
+                            $$ tipo sensore
+                            description Backup Temperatura Magazzino - Sensore backup temperatura interna
+                            interval 1000
+                            property memoryAddress
+                                value 200
+        $if TODO
+            plant 102
+                description Supermercato Centrale
+                plant_xid xf348
+                model_schema plant-schema
+                gateway 1003
+                    description Gateway Principale Supermercato
+                    iot_xid GTWSMC001
+                    model_schema gatway-schema
+                    device 2004
+                        description PLC Controllo Frigoriferi
+                        device_xid PLCF001
+                        protocol modbustcp
+                        model_schema device-schema
+                        connection_value host
+                            value 89.0.142.86
+                        connection_value port
+                            value 504
+                        connection_value unitId
+                            value 1
+                        metric 3005
+                            $$ tipo sensore
+                            description Temperatura Frigorifero - Sensore temperatura frigorifero
+                            interval 1000
+                            property memoryAddress
+                                value 200

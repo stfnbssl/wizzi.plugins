@@ -70,19 +70,24 @@ $group
         a type
             # the json type
 
-    e tenant : node
-        # the wzName is the `name` attribute
-        $$ a name
-        a description
-        r userGroup/s
-        r plant/s
-        r userGatewayModel/s
-        r userDeviceModel/s
+    $if false
+        e tenant : node
+            # the wzName is the `name` attribute
+            $$ a name
+            a description
+            r userGroup/s
+            r plant/s
+            r userGatewayModel/s
+            r userDeviceModel/s
     
-    e userGroup
+    e userGroup : node
         tag user_group
         # the wzName is the `name` attribute
-        $$ a name
+        r plant/s
+        r gateway/s
+        r device/s
+        r gatewayModel/s
+        r deviceModel/s
     
     e modelSchema : node
         tag model_schema
@@ -93,13 +98,15 @@ $group
     e plant
         # the wzName is the `name` attribute
         a description
+        a address
         a groupId
-        a plant_xid
-        a modelSchema
-            tag model_schema
+        $if false
+            a modelSchema
+                tag model_schema
         $include instance_states    
         r staticTag/s                    
-        r userGroup/s
+        $if false
+            r userGroup/s
         r gateway/s
     
     e gateway
@@ -107,22 +114,32 @@ $group
         a description
         a groupId
         a message_version
-        a gw_xid
-        a iot_xid
-        a modelSchema
-            tag model_schema
+        $if false
+            a gw_xid
+            a iot_xid
+            a modelSchema
+                tag model_schema
         a balenaId
-        a deviceModel
-        a settings
+        a status
+            restrict
+                enum activated
+                enum deactivated
+                enum inventory
+                enum retired
+        a orderCode
+        a deviceVersion
+        a serialCode
+
         $include instance_states                    
         r batching
             one-to-one
         r staticTag/s
         r dynamicTag/s
         r script/s
-        r userGatewayModel
+        r gatewayModel
             one-to-one
-        r userGroup/s
+        $if false
+            r userGroup/s
         r device/s
     
     e batching
@@ -137,21 +154,35 @@ $group
         # the wzName is the `name` attribute
         a description
         a groupId
-        a device_xid
+        $if false
+            a device_xid
         a protocol
-        a deviceModel
-        a modelConnectionSchema
-            tag model_connection_schema
-        a modelSchema
-            tag model_schema
-        $include instance_states            
+        a status
+            restrict
+                enum activated
+                enum deactivated
+                enum inventory
+                enum retired
+        a orderCode
+        a deviceVersion
+        a serialCode
+        $if false
+            a modelConnectionSchema
+                tag model_connection_schema
+            a modelSchema
+                tag model_schema
+        $include instance_states      
         r connectionValue/s
         r staticTag/s
-        r manufacturerDeviceModel
+        r metric/s
+        r deviceModel
             one-to-one
-        r userDeviceModel
-            one-to-one
-        r userGroup/s
+        $if false
+            r manufacturerDeviceModel
+                one-to-one
+            r userDeviceModel
+                one-to-one
+            r userGroup/s
     
     e connectionValue
         tag connection_value
@@ -167,6 +198,18 @@ $group
         a description
         a topic
         a ret_policy
+        a accessLevel
+			restrict
+				enum 1
+				enum 2
+                enum 3
+        a category
+        	restrict
+				enum alarm
+				enum data
+        a min
+        a max
+        a unit
         a script_value
         r metricValue/s
         r staticTag/s

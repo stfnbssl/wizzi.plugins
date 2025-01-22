@@ -329,9 +329,11 @@ wzschema prisma
             set field.maxLength = this.wzName
     e regExp : fieldConstraint 
         tag reg-exp|pattern
+        a explain
         m setField
             param field
             set field.regExp = this.wzName
+            set field.regExpExplain = this.explain
     e enum : fieldConstraint 
         r enumValue/s
         m wzInitialize        

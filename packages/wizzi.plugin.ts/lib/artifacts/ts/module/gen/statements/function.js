@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\.wizzi-override\lib\artifacts\ts\module\gen\statements\function.js.ittf
-    utc time: Wed, 30 Oct 2024 04:22:27 GMT
+    utc time: Tue, 07 Jan 2025 04:22:48 GMT
 */
 var util = require('util');
 var verify = require('@wizzi/utils').verify;
@@ -434,7 +434,7 @@ md.load = function(cnt) {
         var async_str = model.xasync ? 'async ' : '';
         u.genAccessorsAndExtra(model, ctx)
         if (model.wzName.length > 0) {
-            ctx.write(model.wzName + async_str);
+            ctx.write(model.wzName);
         }
         else {
             ctx.write(async_str);
@@ -446,7 +446,12 @@ md.load = function(cnt) {
             if (ctx.__is_react_class && model.wzParent.wzElement == 'reactComponent') {
                 var implicitReturn = u.isImplicitReturn(model);
                 var firstChildIsTemplate = u.firstChildIs(model, ['template']);
-                ctx.w(' = (');
+                if (model.wzName.length > 0) {
+                    ctx.w(' = ' + async_str + '(');
+                }
+                else {
+                    ctx.w(' = ' + '(');
+                }
                 u.genTSParams(model, ctx, cnt, (err, notUsed) => {
                     if (err) {
                         return callback(err);
@@ -470,7 +475,7 @@ md.load = function(cnt) {
             }
             else if (u.onlyChildIs(model, 'callOnValue') || u.onlyChildIsHtmlElement(model)) {
                 if (model.wzName.length > 0) {
-                    ctx.write(' = (');
+                    ctx.write(' = ' + async_str + '(');
                 }
                 else {
                     ctx.write('(');
@@ -499,7 +504,7 @@ md.load = function(cnt) {
             }
             else if (u.onlyChildIs(model, 'arrowfunction')) {
                 if (model.wzName.length > 0) {
-                    ctx.write(' = (');
+                    ctx.write(' = ' + async_str + '(');
                 }
                 else {
                     ctx.write('(');
@@ -535,7 +540,7 @@ md.load = function(cnt) {
                 var isSingleParam = u.isSingleParamForArrowFunction(model);
                 var firstChildIsTemplate = u.firstChildIs(model, ['template']);
                 if (model.wzName.length > 0) {
-                    ctx.write(isSingleParam ? '' : '(');
+                    ctx.write(isSingleParam ? async_str : async_str + '(');
                 }
                 else {
                     ctx.write(isSingleParam ? '' : '(');
@@ -563,7 +568,7 @@ md.load = function(cnt) {
             }
             else {
                 if (model.wzName.length > 0) {
-                    ctx.write('(');
+                    ctx.write(' = ' + async_str + '(');
                 }
                 else {
                     ctx.write('(');

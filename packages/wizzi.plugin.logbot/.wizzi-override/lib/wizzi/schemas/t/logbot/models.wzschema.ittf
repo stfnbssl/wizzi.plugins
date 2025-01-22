@@ -7,6 +7,7 @@ $group
             r manufacturerDeviceModel/s
         $else
             r deviceModel/s
+            r gatewayModel/s
     
     $if false
         e manufacturerDeviceModel
@@ -35,7 +36,7 @@ $group
     
     $$ e userGatewayModel
     e gatewayModel
-        tag user_gateway_model
+        tag gateway_model
         # the wzName is the `name` attribute
         a version
         a description

@@ -89,13 +89,20 @@ module
                     _ ctx.w('};')
                     _ ctx.w('')
                     _ ctx.w('// Create document')
-                    _ ctx.w('var printer = new pdfmake(fonts);')
-                    _ ctx.w('var pdfDoc = printer.createPdfKitDocument(documentDefinition);')
-                    _ ctx.w('pdfDoc.pipe(fs.createWriteStream(__dirname + "/' + (model.wzName || 'created') + '.pdf"));')
-                    _ ctx.w('pdfDoc.end();')
+                    _ ctx.w('// old var printer = new pdfmake(fonts);')
+                    _ ctx.w('pdfmake.addFonts(fonts);')
+                    _ ctx.w('// old var pdfDoc = printer.createPdfKitDocument(documentDefinition);')
+                    _ ctx.w('// old pdfDoc.pipe(fs.createWriteStream(__dirname + "/' + (model.wzName || 'created') + '.pdf"));')
+                    _ ctx.w('// old pdfDoc.end();')
+                    _ ctx.w('var pdf = pdfmake.createPdf(documentDefinition);')
+                    _ ctx.w('// old pdfDoc.pipe(fs.createWriteStream(__dirname + "/' + (model.wzName || 'created') + '.pdf"));')
+                    _ ctx.w('pdf.write(__dirname + "/' + (model.wzName || 'created') + '.pdf").then(() => {');
+                    _ ctx.w('    console.log(new Date() - now);');
+                    _ ctx.w('}, err => {');
+                    _ ctx.w('    console.error(err);');
+                    _ ctx.w('    });');
                     _ ctx.w('console.log("DONE written", new Date() - now)')
                     r_cb()
-
         +
         async-md( section )
             $$ loog'tag section, value', model.wzName
@@ -126,22 +133,34 @@ module
             if !verify.isEmpty(model.wzName)
                 _ ctx.w(pdfNode + '.text.push("' + respace(model.wzName) + '");')
             $append close
-                _ ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');')
+                if pdfParentArrayName != null
+                    _ ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');')
+                else
+                    _ ctx.w(pdfParent + '.push(' + pdfNode + ');')
 
         objectNode.js( columns, columns )   
             _ ctx.w(pdfNode + '.columns = [];')
             $append close
-                _ ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');')
+                if pdfParentArrayName != null
+                    _ ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');')
+                else
+                    _ ctx.w(pdfParent + '.push(' + pdfNode + ');')
 
         objectNode.js( stack, stack )   
             _ ctx.w(pdfNode + '.stack = [];')
             $append close
-                _ ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');')
+                if pdfParentArrayName != null
+                    _ ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');')
+                else
+                    _ ctx.w(pdfParent + '.push(' + pdfNode + ');')
 
         objectNode.js( image )
             _ ctx.w(pdfNode + '.image = "' + model.wzName + '";')
             $append close
-                _ ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');')
+                if pdfParentArrayName != null            
+                    _ ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');')
+                else
+                    _ ctx.w(pdfParent + '.push(' + pdfNode + ');')
 
         async-md( imageDef )
             if ctx.values.mainObjectCreated == false
@@ -175,9 +194,61 @@ module
             _ ctx.w(pdfNode + '.italics = true;')
         textNode.js( underline ) 
             _ ctx.w(pdfNode + '.underline = true;')
-        
+
+        textNode.js( a )
+            _ ctx.w(pdfNode + '.decoration = "underline";')
+            if verify.isNotEmpty(model.href)
+                _ ctx.w(pdfNode + '.link = "' + model.href + '";')
+            elif verify.isNotEmpty(model.page)
+                _ ctx.w(pdfNode + '.linkToPage = "' + model.page + '";')
+            elif verify.isNotEmpty(model.destination)
+                _ ctx.w(pdfNode + '.linkToDestination = "' + model.destination + '";')
+
+        $*
+        textNode.js( json )
+            var tab = model.tab || '2'
+            _ ctx.w('// json')
+            _ ctx.w(pdfNode + '.text = JSON.stringify(JSON.parse(' + pdfNode + '.text), null, ' + tab + ');')
+            var lines = parseIndentedJSONLines            
+        *$
+
+        async-md( json )
+            var tab = model.tab || '2'
+            var tabN = parseInt(tab)
+            _ ctx.w('// json')
+            pdfNode.js( txt )
+            _ ctx.w('const ' + pdfNode + ' = {};')
+            _ ctx.w(pdfNode + '.stack = []');
+            var prettyJSON
+                _ JSON.stringify
+                    _ JSON.parse
+                        @ model.wzName
+                    @ null
+                    @ tabN
+            var lines
+                _ parseIndentedJSONLines
+                    @ prettyJSON
+            foreach line in lines
+                var escapedLine
+                    _ verify.replaceAll
+                        _ verify.replaceAll
+                            @ line.lineText
+                            @ '\\'
+                            @ '\\\\'
+                        @ '"'
+                        @ '\\"'
+                _ ctx.w(pdfNode + '.stack.push({')
+                _ ctx.w('  text:"' + escapedLine + '", margin: [' + line.indentation*4 + ',0,0,0]')
+                _ ctx.w('});')
+            if pdfParentArrayName != null
+                _ ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');')                
+            else
+                _ ctx.w(pdfParent + '.push(' + pdfNode + ');')
+            _ ctx.values.pdfStack.pop()
+            r_cb()
         
         nodeProperty.js( pageOrientation, pageOrientation, string )
+        nodeProperty.js( pageBreak, pageBreak, string )
         nodeProperty.js( pageSize, pageSize, string )
         nodeProperty.js( pageMargins, pageMargins, array )
         nodeProperty.js( boldProp, bold, true )
@@ -295,14 +366,34 @@ module
         objectNode.js( table, body )
             _ ctx.w(pdfNode + '.table = { body: [] };')
             $append close
-                _ ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');')                
+                if pdfParentArrayName != null
+                    _ ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');')                
+                else
+                    _ ctx.w(pdfParent + '.push(' + pdfNode + ');')
 
-        objectNode.js( tr, tds )   
+        objectNode.js( tr, tds )
             _ ctx.w(pdfNode + '.tds = [];')
             $append close
-                _ ctx.w(pdfParent + '.table.body.push(' + pdfNode + '.tds);')
+                _ ctx.w('if (' + pdfNode + '.tds.length > 0) {' +  pdfParent + '.table.body.push(' + pdfNode + '.tds); }')
 
-        objectNode.js( underline )   
+        arrayNode.js( td )
+            if verify.isNotEmpty(model.wzName)
+                _ ctx.w(pdfNode + '.push("' + respace(model.wzName) + '");')
+            $append close
+                _ ctx.w(pdfParent + '.tds.push(' + pdfNode + ');')
+
+        $*
+        objectNode.js( td, items )
+            _ ctx.w(pdfNode + '.items = [];')
+            if !verify.isEmpty(model.wzName)
+                _ ctx.w(pdfNode + '.items.push("' + respace(model.wzName) + '");')
+            $append close
+                if verify.isEmpty(model.wzName)
+                    _ ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');')
+                _ ctx.w(pdfParent + '.tds.push(' + pdfNode + '.items);')
+        *$
+
+        objectNode.js( underline )
             $append close
                 _ ctx.w(pdfNode + '.underline = ' + pdfNode + ';')
 
@@ -365,15 +456,98 @@ module
         objectNode.js( ul, ul )
             _ ctx.w(pdfNode + '.ul = [];')
             $append close
-                _ ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');')
+                if pdfParentArrayName != null            
+                    _ ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');')
+                else
+                    _ ctx.w(pdfParent + '.push(' + pdfNode + ');')
 
         objectNode.js( ol, ol )
-            _ ctx.w(pdfNode + '.ul = [];')
+            _ ctx.w(pdfNode + '.ol = [];')
             $append close
-                _ ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');')
+                if pdfParentArrayName != null            
+                    _ ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');')
+                else
+                    _ ctx.w(pdfParent + '.push(' + pdfNode + ');')
 
         objectNode.js( li, text )
             _ ctx.w(pdfNode + '.text = [];')
+            if model.wzName.length > 0
+                _ ctx.w(pdfNode + '.text.push("' + respace(model.wzName) + '");')
             $append close
-                _ ctx.w(pdfParent + '.children.push(' + pdfNode + 'Obj);')
-                _ ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');')                
+                # _ ctx.w(pdfParent + '.children.push(' + pdfNode + 'Obj);')
+                if pdfParentArrayName != null                
+                    _ ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');')                
+                else
+                    _ ctx.w(pdfParent + '.push(' + pdfNode + ');')
+
+        async-md( svg )
+            log '***** known model', model.wzElement, model.svgInclude
+            if model.svgInclude
+                log '***** known model', model.svgInclude.wzElement, model.svgInclude.get_svg
+                if model.svgInclude.get_svg
+                    $*
+                    return
+                        _ included_writers.writeIncludeSvg
+                            @ ctx
+                            @ model
+                            a_cb( notUsed )
+                                r_cb( true )
+                    *$
+                    pdfNode.js( svg )                
+                    _ ctx.w('const ' + pdfNode + ' = {};')
+                    _ md.genItems
+                        @ model.nodes
+                        @ ctx
+                        @ noindent
+                        a_cb()
+                            _ model.svgInclude.get_svg
+                                a_cb( svgModel )
+                                    $$ loogmyname, 'svgModel', svgModel
+                                    _ ctx.wizziFactory.generateArtifact
+                                        @ svgModel
+                                        @ 'generated from html model'
+                                        @ 'svg/document'
+                                        {
+                                            @ forHtmlSvgElement true
+                                        a_cb( artifactText )
+                                            $$ loogmyname, 'svg module artifactText', artifactText
+                                            var escapedSvg
+                                                _ verify.replaceAll
+                                                    _ verify.replaceAll
+                                                        @ artifactText
+                                                        @ '\n'
+                                                        @ ''
+                                                    @ '"'
+                                                    @ '&quot;'
+                                            _ ctx.w(pdfNode + '.svg = "' + escapedSvg + '"')
+                                            _ ctx.w(pdfNode + '.width = ' + (model.width || 600)  + ';')
+                                            _ ctx.w(pdfNode + '.height = ' + (model.height || 400) + ';')
+                                            if pdfParentArrayName != null
+                                                _ ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');')                
+                                            else
+                                                _ ctx.w(pdfParent + '.push(' + pdfNode + ');')
+                                            _ ctx.values.pdfStack.pop()
+                                            r_cb()
+                else
+                    r_cb( false )
+            else
+                r_cb( false )
+
+    function parseIndentedJSONLines
+        param prettyJSON
+        const lines = prettyJSON.split(/\r?\n/)
+        return 
+            _ lines.map
+                => 
+                    param line
+                    const match = line.match(/^(\s*)/)
+                        # Match leading whitespace
+                    const leadingSpaces
+                        iif match
+                            then match[1].length
+                            else 0
+                    const indentation = leadingSpaces
+                    return 
+                        { 
+                            @ lineText line.trim()
+                            @ indentation

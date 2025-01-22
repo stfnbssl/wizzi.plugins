@@ -5,6 +5,7 @@ $group
     async-md( ${elname} )
 
         pdfNode.js( txt )
+        _ ctx.w('// textNode elname: ${elname}')
         _ ctx.w('const ' + pdfNode + ' = {};')
         _ ctx.w(pdfNode + '.text = "' + respace(model.wzName) + '";')
         $hook
@@ -15,6 +16,8 @@ $group
             @ noindent
             a_cb()
                 $$ 21/4/23 _ ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');')
-                _ ctx.w(pdfParent + '_items.push(' + pdfNode + ');')
+                $$ 24/12/24 _ ctx.w(pdfParent + '_items.push(' + pdfNode + ');')
+                _ ctx.w('// textNode elname: ${elname} model.wzName: ' + model.wzName)
+                _ ctx.w(pdfParent + '.text.push(' + pdfNode + ');')
                 _ ctx.values.pdfStack.pop()
                 r_cb()

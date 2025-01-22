@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.logbot\.wizzi-override\lib\artifacts\logbot\document\gen\included_writers.js.ittf
-    utc time: Tue, 29 Oct 2024 10:22:29 GMT
+    utc time: Tue, 17 Dec 2024 17:22:41 GMT
 */
 
 var myname = 'lbot.document.included_writers';

@@ -11,6 +11,7 @@ $group
             @ ctx
             @ noindent
             a_cb()
+                _ ctx.w('// objectNodeSimple elname: ${elname}, propname: ${propname}')
                 _ ctx.w(pdfParent + '.${propname == null ? elname : propname} = ' + pdfNode + ';')
                 _ ctx.values.pdfStack.pop()
                 r_cb()

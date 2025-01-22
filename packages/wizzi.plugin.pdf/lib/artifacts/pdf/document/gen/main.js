@@ -1,17 +1,16 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.pdf\.wizzi-override\lib\artifacts\pdf\document\gen\main.js.ittf
-    utc time: Wed, 13 Mar 2024 07:02:05 GMT
+    utc time: Sat, 28 Dec 2024 06:59:28 GMT
 */
-'use strict';
 
 
 var util = require('util');
 var path = require('path');
 var async = require('async');
-var verify = require('wizzi-utils').verify;
-var lineParser = require('wizzi-utils').helpers.lineParser;
+var verify = require('@wizzi/utils').verify;
+var lineParser = require('@wizzi/utils').helpers.lineParser;
 var errors = require('../../../../../errors');
 
 var myname = 'wizzi.plugin.pdf.artifacts.pdf.document.gen.main';
@@ -31,7 +30,6 @@ md.gen = function(model, ctx, callback) {
     }
     try {
         md.pdf(model, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -76,7 +74,6 @@ md.genItems = function(items, ctx, options, callback) {
         goitems.push(items[i]);
     }
     async.mapSeries(goitems, md.mapItem(ctx), (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -132,7 +129,6 @@ md.pdf = function(model, ctx, callback) {
     ctx.w('');
     ctx.w('const ' + pdfNode + ' = { content: [], styles: {} };');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -163,10 +159,18 @@ md.pdf = function(model, ctx, callback) {
         ctx.w('};');
         ctx.w('');
         ctx.w('// Create document');
-        ctx.w('var printer = new pdfmake(fonts);');
-        ctx.w('var pdfDoc = printer.createPdfKitDocument(documentDefinition);');
-        ctx.w('pdfDoc.pipe(fs.createWriteStream(__dirname + "/' + (model.wzName || 'created') + '.pdf"));');
-        ctx.w('pdfDoc.end();');
+        ctx.w('// old var printer = new pdfmake(fonts);');
+        ctx.w('pdfmake.addFonts(fonts);');
+        ctx.w('// old var pdfDoc = printer.createPdfKitDocument(documentDefinition);');
+        ctx.w('// old pdfDoc.pipe(fs.createWriteStream(__dirname + "/' + (model.wzName || 'created') + '.pdf"));');
+        ctx.w('// old pdfDoc.end();');
+        ctx.w('var pdf = pdfmake.createPdf(documentDefinition);');
+        ctx.w('// old pdfDoc.pipe(fs.createWriteStream(__dirname + "/' + (model.wzName || 'created') + '.pdf"));');
+        ctx.w('pdf.write(__dirname + "/' + (model.wzName || 'created') + '.pdf").then(() => {');
+        ctx.w('    console.log(new Date() - now);');
+        ctx.w('}, err => {');
+        ctx.w('    console.error(err);');
+        ctx.w('    });');
         ctx.w('console.log("DONE written", new Date() - now)');
         return callback(null);
     }
@@ -183,7 +187,6 @@ md.section = function(model, ctx, callback) {
      })
     ctx.w('const ' + pdfNode + ' = { content: [], styles: {} };');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -210,17 +213,25 @@ md.p = function(model, ctx, callback) {
         node: pdfNode, 
         arrayName: "text"
      })
+    ctx.w('// objectNode elname: p, arrayName: text');
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.text = [];');
     if (!verify.isEmpty(model.wzName)) {
         ctx.w(pdfNode + '.text.push("' + respace(model.wzName) + '");');
     }
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
-        ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');');
+        if (!pdfNode.text) {
+            pdfNode.text = [];
+        }
+        if (pdfParentArrayName != null) {
+            ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');');
+        }
+        else {
+            ctx.w(pdfParent + '.push(' + pdfNode + ');');
+        }
         ctx.values.pdfStack.pop();
         return callback(null);
     }
@@ -235,14 +246,22 @@ md.columns = function(model, ctx, callback) {
         node: pdfNode, 
         arrayName: "columns"
      })
+    ctx.w('// objectNode elname: columns, arrayName: columns');
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.columns = [];');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
-        ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');');
+        if (!pdfNode.columns) {
+            pdfNode.columns = [];
+        }
+        if (pdfParentArrayName != null) {
+            ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');');
+        }
+        else {
+            ctx.w(pdfParent + '.push(' + pdfNode + ');');
+        }
         ctx.values.pdfStack.pop();
         return callback(null);
     }
@@ -257,14 +276,22 @@ md.stack = function(model, ctx, callback) {
         node: pdfNode, 
         arrayName: "stack"
      })
+    ctx.w('// objectNode elname: stack, arrayName: stack');
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.stack = [];');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
-        ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');');
+        if (!pdfNode.stack) {
+            pdfNode.stack = [];
+        }
+        if (pdfParentArrayName != null) {
+            ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');');
+        }
+        else {
+            ctx.w(pdfParent + '.push(' + pdfNode + ');');
+        }
         ctx.values.pdfStack.pop();
         return callback(null);
     }
@@ -279,14 +306,19 @@ md.image = function(model, ctx, callback) {
         node: pdfNode, 
         arrayName: ""
      })
+    ctx.w('// objectNode elname: image, arrayName: ');
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.image = "' + model.wzName + '";');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
-        ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');');
+        if (pdfParentArrayName != null) {
+            ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');');
+        }
+        else {
+            ctx.w(pdfParent + '.push(' + pdfNode + ');');
+        }
         ctx.values.pdfStack.pop();
         return callback(null);
     }
@@ -319,13 +351,12 @@ md.h1 = function(model, ctx, callback) {
     var pdfNode = "pdf_par_" + (++ctx.values.pdfCounter);
     ctx.values.pdfStack.push({
         node: pdfNode, 
-        arrayName: ""
+        arrayName: null
      })
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.text = "' + respace(model.wzName) + '";');
     ctx.w(pdfNode + '.heading = pdf.HeadingLevel.HEADING_1;');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -343,13 +374,12 @@ md.h2 = function(model, ctx, callback) {
     var pdfNode = "pdf_par_" + (++ctx.values.pdfCounter);
     ctx.values.pdfStack.push({
         node: pdfNode, 
-        arrayName: ""
+        arrayName: null
      })
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.text = "' + respace(model.wzName) + '";');
     ctx.w(pdfNode + '.heading = pdf.HeadingLevel.HEADING_2;');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -367,13 +397,12 @@ md.h3 = function(model, ctx, callback) {
     var pdfNode = "pdf_par_" + (++ctx.values.pdfCounter);
     ctx.values.pdfStack.push({
         node: pdfNode, 
-        arrayName: ""
+        arrayName: null
      })
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.text = "' + respace(model.wzName) + '";');
     ctx.w(pdfNode + '.heading = pdf.HeadingLevel.HEADING_3;');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -391,13 +420,12 @@ md.h4 = function(model, ctx, callback) {
     var pdfNode = "pdf_par_" + (++ctx.values.pdfCounter);
     ctx.values.pdfStack.push({
         node: pdfNode, 
-        arrayName: ""
+        arrayName: null
      })
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.text = "' + respace(model.wzName) + '";');
     ctx.w(pdfNode + '.heading = pdf.HeadingLevel.HEADING_4;');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -415,13 +443,12 @@ md.h5 = function(model, ctx, callback) {
     var pdfNode = "pdf_par_" + (++ctx.values.pdfCounter);
     ctx.values.pdfStack.push({
         node: pdfNode, 
-        arrayName: ""
+        arrayName: null
      })
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.text = "' + respace(model.wzName) + '";');
     ctx.w(pdfNode + '.heading = pdf.HeadingLevel.HEADING_5;');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -439,13 +466,12 @@ md.h6 = function(model, ctx, callback) {
     var pdfNode = "pdf_par_" + (++ctx.values.pdfCounter);
     ctx.values.pdfStack.push({
         node: pdfNode, 
-        arrayName: ""
+        arrayName: null
      })
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.text = "' + respace(model.wzName) + '";');
     ctx.w(pdfNode + '.heading = pdf.HeadingLevel.HEADING_6;');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -463,16 +489,17 @@ md.text = function(model, ctx, callback) {
     var pdfNode = "pdf_txt_" + (++ctx.values.pdfCounter);
     ctx.values.pdfStack.push({
         node: pdfNode, 
-        arrayName: ""
+        arrayName: null
      })
+    ctx.w('// textNode elname: text');
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.text = "' + respace(model.wzName) + '";');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
-        ctx.w(pdfParent + '_items.push(' + pdfNode + ');');
+        ctx.w('// textNode elname: text model.wzName: ' + model.wzName);
+        ctx.w(pdfParent + '.text.push(' + pdfNode + ');');
         ctx.values.pdfStack.pop();
         return callback(null);
     }
@@ -485,17 +512,18 @@ md.bold = function(model, ctx, callback) {
     var pdfNode = "pdf_txt_" + (++ctx.values.pdfCounter);
     ctx.values.pdfStack.push({
         node: pdfNode, 
-        arrayName: ""
+        arrayName: null
      })
+    ctx.w('// textNode elname: bold');
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.text = "' + respace(model.wzName) + '";');
     ctx.w(pdfNode + '.bold = true;');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
-        ctx.w(pdfParent + '_items.push(' + pdfNode + ');');
+        ctx.w('// textNode elname: bold model.wzName: ' + model.wzName);
+        ctx.w(pdfParent + '.text.push(' + pdfNode + ');');
         ctx.values.pdfStack.pop();
         return callback(null);
     }
@@ -508,17 +536,18 @@ md.italics = function(model, ctx, callback) {
     var pdfNode = "pdf_txt_" + (++ctx.values.pdfCounter);
     ctx.values.pdfStack.push({
         node: pdfNode, 
-        arrayName: ""
+        arrayName: null
      })
+    ctx.w('// textNode elname: italics');
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.text = "' + respace(model.wzName) + '";');
     ctx.w(pdfNode + '.italics = true;');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
-        ctx.w(pdfParent + '_items.push(' + pdfNode + ');');
+        ctx.w('// textNode elname: italics model.wzName: ' + model.wzName);
+        ctx.w(pdfParent + '.text.push(' + pdfNode + ');');
         ctx.values.pdfStack.pop();
         return callback(null);
     }
@@ -531,26 +560,99 @@ md.underline = function(model, ctx, callback) {
     var pdfNode = "pdf_txt_" + (++ctx.values.pdfCounter);
     ctx.values.pdfStack.push({
         node: pdfNode, 
-        arrayName: ""
+        arrayName: null
      })
+    ctx.w('// textNode elname: underline');
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.text = "' + respace(model.wzName) + '";');
     ctx.w(pdfNode + '.underline = true;');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
-        ctx.w(pdfParent + '_items.push(' + pdfNode + ');');
+        ctx.w('// textNode elname: underline model.wzName: ' + model.wzName);
+        ctx.w(pdfParent + '.text.push(' + pdfNode + ');');
         ctx.values.pdfStack.pop();
         return callback(null);
     }
     )
 }
 ;
+md.a = function(model, ctx, callback) {
+    var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
+    var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
+    var pdfNode = "pdf_txt_" + (++ctx.values.pdfCounter);
+    ctx.values.pdfStack.push({
+        node: pdfNode, 
+        arrayName: null
+     })
+    ctx.w('// textNode elname: a');
+    ctx.w('const ' + pdfNode + ' = {};');
+    ctx.w(pdfNode + '.text = "' + respace(model.wzName) + '";');
+    ctx.w(pdfNode + '.decoration = "underline";');
+    if (verify.isNotEmpty(model.href)) {
+        ctx.w(pdfNode + '.link = "' + model.href + '";');
+    }
+    else if (verify.isNotEmpty(model.page)) {
+        ctx.w(pdfNode + '.linkToPage = "' + model.page + '";');
+    }
+    else if (verify.isNotEmpty(model.destination)) {
+        ctx.w(pdfNode + '.linkToDestination = "' + model.destination + '";');
+    }
+    md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+        if (err) {
+            return callback(err);
+        }
+        ctx.w('// textNode elname: a model.wzName: ' + model.wzName);
+        ctx.w(pdfParent + '.text.push(' + pdfNode + ');');
+        ctx.values.pdfStack.pop();
+        return callback(null);
+    }
+    )
+}
+;
+md.json = function(model, ctx, callback) {
+    var tab = model.tab || '2';
+    var tabN = parseInt(tab);
+    ctx.w('// json');
+    var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
+    var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
+    var pdfNode = "pdf_txt_" + (++ctx.values.pdfCounter);
+    ctx.values.pdfStack.push({
+        node: pdfNode, 
+        arrayName: null
+     })
+    ctx.w('const ' + pdfNode + ' = {};');
+    ctx.w(pdfNode + '.stack = []');
+    var prettyJSON = JSON.stringify(JSON.parse(model.wzName), null, tabN);
+    var lines = parseIndentedJSONLines(prettyJSON);
+    var i, i_items=lines, i_len=lines.length, line;
+    for (i=0; i<i_len; i++) {
+        line = lines[i];
+        var escapedLine = verify.replaceAll(verify.replaceAll(line.lineText, '\\', '\\\\'), '"', '\\"');
+        ctx.w(pdfNode + '.stack.push({');
+        ctx.w('  text:"' + escapedLine + '", margin: [' + line.indentation*4 + ',0,0,0]');
+        ctx.w('});');
+    }
+    if (pdfParentArrayName != null) {
+        ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');');
+    }
+    else {
+        ctx.w(pdfParent + '.push(' + pdfNode + ');');
+    }
+    ctx.values.pdfStack.pop();
+    return callback(null);
+}
+;
 md.pageOrientation = function(model, ctx, callback) {
     var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
     ctx.w(pdfParent + '.pageOrientation = "' + respace(model.wzName) + '";');
+    return callback(null);
+}
+;
+md.pageBreak = function(model, ctx, callback) {
+    var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
+    ctx.w(pdfParent + '.pageBreak = "' + respace(model.wzName) + '";');
     return callback(null);
 }
 ;
@@ -851,11 +953,10 @@ md.font = function(model, ctx, callback) {
     var pdfNode = "pdf_fnt_" + (++ctx.values.pdfCounter);
     ctx.values.pdfStack.push({
         node: pdfNode, 
-        arrayName: ""
+        arrayName: null
      })
     ctx.w('const ' + pdfNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -873,11 +974,10 @@ md.shading = function(model, ctx, callback) {
     var pdfNode = "pdf_shd_" + (++ctx.values.pdfCounter);
     ctx.values.pdfStack.push({
         node: pdfNode, 
-        arrayName: ""
+        arrayName: null
      })
     ctx.w('const ' + pdfNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -896,14 +996,22 @@ md.table = function(model, ctx, callback) {
         node: pdfNode, 
         arrayName: "body"
      })
+    ctx.w('// objectNode elname: table, arrayName: body');
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.table = { body: [] };');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
-        ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');');
+        if (!pdfNode.body) {
+            pdfNode.body = [];
+        }
+        if (pdfParentArrayName != null) {
+            ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');');
+        }
+        else {
+            ctx.w(pdfParent + '.push(' + pdfNode + ');');
+        }
         ctx.values.pdfStack.pop();
         return callback(null);
     }
@@ -918,14 +1026,40 @@ md.tr = function(model, ctx, callback) {
         node: pdfNode, 
         arrayName: "tds"
      })
+    ctx.w('// objectNode elname: tr, arrayName: tds');
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.tds = [];');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
-        ctx.w(pdfParent + '.table.body.push(' + pdfNode + '.tds);');
+        if (!pdfNode.tds) {
+            pdfNode.tds = [];
+        }
+        ctx.w('if (' + pdfNode + '.tds.length > 0) {' +  pdfParent + '.table.body.push(' + pdfNode + '.tds); }');
+        ctx.values.pdfStack.pop();
+        return callback(null);
+    }
+    )
+}
+;
+md.td = function(model, ctx, callback) {
+    var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
+    var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
+    var pdfNode = "pdf_td_" + (++ctx.values.pdfCounter);
+    ctx.values.pdfStack.push({
+        node: pdfNode, 
+        arrayName: null
+     })
+    ctx.w('const ' + pdfNode + ' = [];');
+    if (verify.isNotEmpty(model.wzName)) {
+        ctx.w(pdfNode + '.push("' + respace(model.wzName) + '");');
+    }
+    md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+        if (err) {
+            return callback(err);
+        }
+        ctx.w(pdfParent + '.tds.push(' + pdfNode + ');');
         ctx.values.pdfStack.pop();
         return callback(null);
     }
@@ -940,9 +1074,9 @@ md.underline = function(model, ctx, callback) {
         node: pdfNode, 
         arrayName: ""
      })
+    ctx.w('// objectNode elname: underline, arrayName: ');
     ctx.w('const ' + pdfNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -961,9 +1095,9 @@ md.styles = function(model, ctx, callback) {
         node: pdfNode, 
         arrayName: ""
      })
+    ctx.w('// objectNode elname: styles, arrayName: ');
     ctx.w('const ' + pdfNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -982,9 +1116,9 @@ md.xdefault = function(model, ctx, callback) {
         node: pdfNode, 
         arrayName: ""
      })
+    ctx.w('// objectNode elname: xdefault, arrayName: ');
     ctx.w('const ' + pdfNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -1003,9 +1137,9 @@ md.run = function(model, ctx, callback) {
         node: pdfNode, 
         arrayName: ""
      })
+    ctx.w('// objectNode elname: run, arrayName: ');
     ctx.w('const ' + pdfNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -1024,9 +1158,9 @@ md.tabStop = function(model, ctx, callback) {
         node: pdfNode, 
         arrayName: ""
      })
+    ctx.w('// objectNode elname: tabStop, arrayName: ');
     ctx.w('const ' + pdfNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -1045,12 +1179,12 @@ md.styleDef = function(model, ctx, callback) {
         node: pdfNode, 
         arrayName: ""
      })
+    ctx.w('// objectNode elname: styleDef, arrayName: ');
     ctx.w('const ' + pdfNode + ' = {};');
     if (model.wzParent.wzElement == 'paragraphStyles') {
         ctx.w(pdfNode + '.id = "' + model.wzName + '";');
     }
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -1074,9 +1208,9 @@ md.defaultStyleDef = function(model, ctx, callback) {
         node: pdfNode, 
         arrayName: ""
      })
+    ctx.w('// objectNode elname: defaultStyleDef, arrayName: ');
     ctx.w('const ' + pdfNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -1095,9 +1229,9 @@ md.spacing = function(model, ctx, callback) {
         node: pdfNode, 
         arrayName: ""
      })
+    ctx.w('// objectNode elname: spacing, arrayName: ');
     ctx.w('const ' + pdfNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -1116,9 +1250,9 @@ md.hyperlinks = function(model, ctx, callback) {
         node: pdfNode, 
         arrayName: ""
      })
+    ctx.w('// objectNode elname: hyperlinks, arrayName: ');
     ctx.w('const ' + pdfNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -1137,9 +1271,9 @@ md.hyperlinkDef = function(model, ctx, callback) {
         node: pdfNode, 
         arrayName: ""
      })
+    ctx.w('// objectNode elname: hyperlinkDef, arrayName: ');
     ctx.w('const ' + pdfNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -1158,9 +1292,9 @@ md.border = function(model, ctx, callback) {
         node: pdfNode, 
         arrayName: ""
      })
+    ctx.w('// objectNode elname: border, arrayName: ');
     ctx.w('const ' + pdfNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -1177,14 +1311,14 @@ md.top = function(model, ctx, callback) {
     var pdfNode = "pdf_top_" + (++ctx.values.pdfCounter);
     ctx.values.pdfStack.push({
         node: pdfNode, 
-        arrayName: ""
+        arrayName: null
      })
     ctx.w('const ' + pdfNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
+        ctx.w('// objectNodeSimple elname: top, propname: ');
         ctx.w(pdfParent + '.top = ' + pdfNode + ';');
         ctx.values.pdfStack.pop();
         return callback(null);
@@ -1198,14 +1332,14 @@ md.left = function(model, ctx, callback) {
     var pdfNode = "pdf_left_" + (++ctx.values.pdfCounter);
     ctx.values.pdfStack.push({
         node: pdfNode, 
-        arrayName: ""
+        arrayName: null
      })
     ctx.w('const ' + pdfNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
+        ctx.w('// objectNodeSimple elname: left, propname: ');
         ctx.w(pdfParent + '.left = ' + pdfNode + ';');
         ctx.values.pdfStack.pop();
         return callback(null);
@@ -1219,14 +1353,14 @@ md.right = function(model, ctx, callback) {
     var pdfNode = "pdf_right_" + (++ctx.values.pdfCounter);
     ctx.values.pdfStack.push({
         node: pdfNode, 
-        arrayName: ""
+        arrayName: null
      })
     ctx.w('const ' + pdfNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
+        ctx.w('// objectNodeSimple elname: right, propname: ');
         ctx.w(pdfParent + '.right = ' + pdfNode + ';');
         ctx.values.pdfStack.pop();
         return callback(null);
@@ -1240,14 +1374,14 @@ md.bottom = function(model, ctx, callback) {
     var pdfNode = "pdf_bottom_" + (++ctx.values.pdfCounter);
     ctx.values.pdfStack.push({
         node: pdfNode, 
-        arrayName: ""
+        arrayName: null
      })
     ctx.w('const ' + pdfNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
+        ctx.w('// objectNodeSimple elname: bottom, propname: ');
         ctx.w(pdfParent + '.bottom = ' + pdfNode + ';');
         ctx.values.pdfStack.pop();
         return callback(null);
@@ -1261,11 +1395,10 @@ md.paragraphStyles = function(model, ctx, callback) {
     var pdfNode = "pdf_paragraphStyles_" + (++ctx.values.pdfCounter);
     ctx.values.pdfStack.push({
         node: pdfNode, 
-        arrayName: ""
+        arrayName: null
      })
     ctx.w('const ' + pdfNode + ' = [];');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -1284,14 +1417,22 @@ md.ul = function(model, ctx, callback) {
         node: pdfNode, 
         arrayName: "ul"
      })
+    ctx.w('// objectNode elname: ul, arrayName: ul');
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.ul = [];');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
-        ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');');
+        if (!pdfNode.ul) {
+            pdfNode.ul = [];
+        }
+        if (pdfParentArrayName != null) {
+            ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');');
+        }
+        else {
+            ctx.w(pdfParent + '.push(' + pdfNode + ');');
+        }
         ctx.values.pdfStack.pop();
         return callback(null);
     }
@@ -1306,14 +1447,22 @@ md.ol = function(model, ctx, callback) {
         node: pdfNode, 
         arrayName: "ol"
      })
+    ctx.w('// objectNode elname: ol, arrayName: ol');
     ctx.w('const ' + pdfNode + ' = {};');
-    ctx.w(pdfNode + '.ul = [];');
+    ctx.w(pdfNode + '.ol = [];');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
-        ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');');
+        if (!pdfNode.ol) {
+            pdfNode.ol = [];
+        }
+        if (pdfParentArrayName != null) {
+            ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');');
+        }
+        else {
+            ctx.w(pdfParent + '.push(' + pdfNode + ');');
+        }
         ctx.values.pdfStack.pop();
         return callback(null);
     }
@@ -1328,19 +1477,85 @@ md.li = function(model, ctx, callback) {
         node: pdfNode, 
         arrayName: "text"
      })
+    ctx.w('// objectNode elname: li, arrayName: text');
     ctx.w('const ' + pdfNode + ' = {};');
     ctx.w(pdfNode + '.text = [];');
+    if (model.wzName.length > 0) {
+        ctx.w(pdfNode + '.text.push("' + respace(model.wzName) + '");');
+    }
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
-        ctx.w(pdfParent + '.children.push(' + pdfNode + 'Obj);');
-        ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');');
+        if (!pdfNode.text) {
+            pdfNode.text = [];
+        }
+        // _ ctx.w(pdfParent + '.children.push(' + pdfNode + 'Obj);')
+        if (pdfParentArrayName != null) {
+            ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');');
+        }
+        else {
+            ctx.w(pdfParent + '.push(' + pdfNode + ');');
+        }
         ctx.values.pdfStack.pop();
         return callback(null);
     }
     )
+}
+;
+md.svg = function(model, ctx, callback) {
+    console.log('***** known model', model.wzElement, model.svgInclude, __filename);
+    if (model.svgInclude) {
+        console.log('***** known model', model.svgInclude.wzElement, model.svgInclude.get_svg, __filename);
+        if (model.svgInclude.get_svg) {
+            var pdfParent = ctx.values.pdfStack[ctx.values.pdfStack.length-1].node;
+            var pdfParentArrayName = ctx.values.pdfStack[ctx.values.pdfStack.length-1].arrayName;
+            var pdfNode = "pdf_svg_" + (++ctx.values.pdfCounter);
+            ctx.values.pdfStack.push({
+                node: pdfNode, 
+                arrayName: null
+             })
+            ctx.w('const ' + pdfNode + ' = {};');
+            md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
+                if (err) {
+                    return callback(err);
+                }
+                model.svgInclude.get_svg((err, svgModel) => {
+                    if (err) {
+                        return callback(err);
+                    }
+                    ctx.wizziFactory.generateArtifact(svgModel, 'generated from html model', 'svg/document', {
+                        forHtmlSvgElement: true
+                     }, (err, artifactText) => {
+                        if (err) {
+                            return callback(err);
+                        }
+                        var escapedSvg = verify.replaceAll(verify.replaceAll(artifactText, '\n', ''), '"', '&quot;');
+                        ctx.w(pdfNode + '.svg = "' + escapedSvg + '"');
+                        ctx.w(pdfNode + '.width = ' + (model.width || 600)  + ';');
+                        ctx.w(pdfNode + '.height = ' + (model.height || 400) + ';');
+                        if (pdfParentArrayName != null) {
+                            ctx.w(pdfParent + '["' + pdfParentArrayName + '"].push(' + pdfNode + ');');
+                        }
+                        else {
+                            ctx.w(pdfParent + '.push(' + pdfNode + ');');
+                        }
+                        ctx.values.pdfStack.pop();
+                        return callback(null);
+                    }
+                    )
+                }
+                )
+            }
+            )
+        }
+        else {
+            return callback(null, false);
+        }
+    }
+    else {
+        return callback(null, false);
+    }
 }
 ;
 
@@ -1363,4 +1578,18 @@ function error(errorName, method, message, model, innerError) {
             sourcePath: __filename, 
             inner: innerError
          });
+}
+function parseIndentedJSONLines(prettyJSON) {
+    const lines = prettyJSON.split(/\r?\n/);
+    return lines.map((line) => {
+            // Match leading whitespace
+            const match = line.match(/^(\s*)/);
+            const leadingSpaces = match ? match[1].length : 0;
+            const indentation = leadingSpaces;
+            return {
+                    lineText: line.trim(), 
+                    indentation
+                 };
+        }
+        );
 }
