@@ -1,5 +1,5 @@
 $group
-    $params elname, styled:boolean|false
+    $params elname, styled:boolean|false, noCallback:boolean|false
 
     $ var openPar = "(";
     async-md( ${elname} )
@@ -17,5 +17,8 @@ $group
             @ noindent
             a_cb()
                 $hook close
-                _ ctx.values.pptStack.pop()
-                r_cb()
+                
+                $if noCallback
+                $else
+                    _ ctx.values.pptStack.pop()
+                    r_cb()

@@ -1,0 +1,25 @@
+$group
+    {
+        requirement_id "IEC 62443-4-2: CR 1.1"
+        title "Identification and Authentication Control"
+        description "This requirement focuses on ensuring that all users and devices interacting
+            +b with the industrial control system (ICS) are properly identified and
+            +b authenticated before being granted access. The goal is to prevent unauthorized
+            +b access and ensure that entities accessing the system are verified and trusted."
+        { key_aspects
+            user_identification "All users must have unique identifiers to ensure accountability and
+                +b traceability of actions within the system."
+            authentication_mechanisms "Robust authentication mechanisms such as passwords, biometrics, or multi-factor
+                +b authentication should be employed to verify the identity of users and devices."
+            device_identification "Devices that connect to the network should also be uniquely identified to
+                +b prevent unauthorized devices from gaining access."
+            "credential management" "There should be processes in place for securely managing user and device
+                +b credentials, including creation, distribution, storage, and revocation."
+            "access control" "Once identified and authenticated, users and devices should only have access to
+                +b resources that are necessary for their role."
+            auditability "The system should maintain logs of identification and authentication attempts,
+                +b both successful and unsuccessful, to detect potential security breaches."
+        [ related_standards
+            "ISO/IEC 27001:2013 - Information technology — Security techniques — Information security management systems — Requirements"
+            "NIST SP 800-53 - Security and Privacy Controls for Information Systems and Organizations"
+            "IEC 62443-3-3:2013 - System security requirements and security levels"

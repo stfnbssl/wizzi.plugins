@@ -1,0 +1,51 @@
+svg 
+    width 1100
+    height 500
+    xmlns http://www.w3.org/2000/svg
+    font-family Arial, sans-serif
+    ::style
+        css 
+            . step-box
+                fill #fff
+                stroke #ccc
+                stroke-width 1
+            . step-title
+                font-weight bold
+                font-size 14px
+            . step-text
+                font-size 13px
+                fill #333
+            . circle
+                fill none
+                stroke #0ca
+                stroke-width 3
+            . circle-text
+                font-size 14px
+                font-weight bold
+                fill #333    
+    g
+        transform translate(40, 80)
+        g
+            transform translate(0, 0)
+            $
+                var opt = {};
+                opt.num = 1;
+                opt.title = "Step One";
+                opt.cx = 70;
+                opt.cy = -40;
+                opt.r = 20;
+                opt.lineLength = 200;
+                opt.lines = ['aaa','bbb','ccc'];
+                //
+            svg-items/step1(&opt)
+            $if false
+                circle
+                    cx 70
+                    cy -40
+                    r 20
+                    class circle
+                path
+                    d M50,-40 L0,-40 L0,120 L10,130 L0,140 L0,250
+                    stroke #fff
+                    stroke-width 2
+                    fill none                

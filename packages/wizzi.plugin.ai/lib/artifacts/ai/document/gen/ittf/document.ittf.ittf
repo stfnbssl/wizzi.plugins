@@ -60,12 +60,12 @@ ${'$'}group
         $param o
         $foreach k in Object.keys(o)
             $if _.isArray(o[k])
-                [ ${k}
+                [ ${''+cleanName(k)}
                     $_ toArray
                         $@ o[k]
 
             $elif _.isObject(o[k])
-                { ${k}
+                { ${''+cleanName(k)}
                     $_ toObject
                         $@ o[k]
 
@@ -75,7 +75,7 @@ ${'$'}group
                     $@ o[k]
 
             $else   
-                ${k} ${o[k]}
+                ${''+cleanName(k)} ${o[k]}
 
     $foreach call in schema.ai.calls
         $$ $ _.log(call.response)

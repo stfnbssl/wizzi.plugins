@@ -1,18 +1,18 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ppt\.wizzi-override\lib\artifacts\ppt\document\gen\main.js.ittf
-    utc time: Wed, 13 Mar 2024 07:02:15 GMT
+    utc time: Fri, 06 Jun 2025 19:59:24 GMT
 */
-'use strict';
 
 
 var util = require('util');
 var path = require('path');
 var async = require('async');
-var verify = require('wizzi-utils').verify;
-var lineParser = require('wizzi-utils').helpers.lineParser;
+var verify = require('@wizzi/utils').verify;
+var lineParser = require('@wizzi/utils').helpers.lineParser;
 var errors = require('../../../../../errors');
+var included_writers = require('./included_writers');
 
 var myname = 'wizzi.plugin.ppt.artifacts.ppt.document.gen.main';
 
@@ -31,7 +31,6 @@ md.gen = function(model, ctx, callback) {
     }
     try {
         md.ppt(model, ctx, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -76,7 +75,6 @@ md.genItems = function(items, ctx, options, callback) {
         goitems.push(items[i]);
     }
     async.mapSeries(goitems, md.mapItem(ctx), (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -136,19 +134,27 @@ md.ppt = function(model, ctx, callback) {
     ctx.values.pptMainInternalObject = pptNode;
     ctx.w('const fs = require("fs");');
     ctx.w('const pptx = require("pptxgenjs");');
+    ctx.w('const sharp = require("sharp");');
     ctx.w('');
     ctx.w('const ' + ctx.values.pptMainInstance + ' = new pptx();');
     ctx.w('const ' + ctx.values.pptMainInstance + '_debug = { defaultStyle: {}, styles: {}, slides: [] };');
+    ctx.w('async function generatePresentation(callback) {');
+    ctx.indent();
     ctx.w('const defaultStyle = { content: {} };');
     ctx.w('const styles = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
+        ctx.deindent();
+        ctx.w('    callback();');
+        ctx.w('}');
+        writeSvgStringToBase64Png(ctx)
+        ctx.w('generatePresentation(() => {');
+        ctx.indent();
         ctx.w('');
         ctx.w('// Dump for test');
-        ctx.w('    fs.writeFileSync(__dirname + "/' + model.wzName + '.ppt.json", JSON.stringify(' + ctx.values.pptMainInstance + '_debug, null, "\t"));');
+        ctx.w('fs.writeFileSync(__dirname + "/' + model.wzName + '.ppt.json", JSON.stringify(' + ctx.values.pptMainInstance + '_debug, null, "\t"));');
         ctx.w('');
         ctx.w('// Make Ppt');
         ctx.w('');
@@ -159,6 +165,8 @@ md.ppt = function(model, ctx, callback) {
         ctx.w(').then(fileName => {');
         ctx.w('    console.log(`created file: ${fileName}`);');
         ctx.w('    console.log("DONE written", new Date() - now)');
+        ctx.w('});');
+        ctx.deindent();
         ctx.w('});');
         return callback(null);
     }
@@ -182,7 +190,6 @@ md.slide = function(model, ctx, callback) {
     ctx.w('const ' + pptNode + ' = ' + ctx.values.pptMainInstance + '.addSlide(' + master + ');');
     ctx.w('const ' + pptNode + '_debug = { items: [] };');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -203,7 +210,6 @@ md.slideMaster = function(model, ctx, callback) {
         arrayName: null
      })
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -224,7 +230,6 @@ md.number = function(model, ctx, callback) {
      })
     ctx.w('const ' + pptNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -245,7 +250,6 @@ md.p = function(model, ctx, callback) {
     ctx.w('var ' + pptNode + ' = Object.assign({}, defaultStyle.content);');
     ctx.w('const ' + pptNode + '_text = "' + respace(model.wzName) + '";');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -278,7 +282,6 @@ md.pStack = function(model, ctx, callback) {
     ctx.w('const ' + pptNode + ' = [];');
     ctx.w('const ' + pptNode + '_items = [];');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -306,25 +309,70 @@ md.image = function(model, ctx, callback) {
         node: pptNode
      })
     ctx.w('const ' + pptNode + ' = {};');
+    var modelSvgNode = null;
+    var nodes = [];
     if (verify.isEmpty(model.wzName) == false) {
         ctx.w(pptNode + '.path = "' + model.wzName + '";');
     }
+    else {
+        var i, i_items=model.nodes, i_len=model.nodes.length, node;
+        for (i=0; i<i_len; i++) {
+            node = model.nodes[i];
+            if (node.wzElement == 'svgInclude') {
+                modelSvgNode = node;
+            }
+            else {
+                nodes.push(node)
+            }
+        }
+        model.nodes = nodes;
+    }
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
-        if (model.wzParent.wzElement == 'slide') {
-            ctx.w(pptParent + '.addImage(' + pptNode + ');');
+        if (modelSvgNode) {
+            const svgNode = 'svgString_' + ++ctx.values.pptCounter;
+            const base64Png = 'base64Png_' + ++ctx.values.pptCounter;
+            ctx.w('const ' + svgNode + ' = `');
+            md.svgInclude(modelSvgNode, ctx, (err, notUsed) => {
+                if (err) {
+                    return callback(err);
+                }
+                console.log('°°°°°°°°°°°°°°°° image svgInclude done', __filename);
+                ctx.w('`');
+                ctx.w('const ' + base64Png + ' = await svgStringToBase64Png(' + svgNode + ');');
+                ctx.w(pptNode + '.data = ' + base64Png + ';');
+                ctx.w('console.log("data", ' + base64Png + ')');
+                if (model.wzParent.wzElement == 'slide') {
+                    ctx.w(pptParent + '.addImage(' + pptNode + ');');
+                }
+                else {
+                    throw new Error("Image not child of slide not managed");
+                }
+                if (model.wzParent.wzElement == 'slide') {
+                    ctx.w(pptParent + '_debug.items.push({ image: ' + pptNode + ' });');
+                }
+                ctx.values.pptStack.pop();
+                console.log('°°°°°°°°°°°°°°°° image done', __filename);
+                return callback(null);
+            }
+            )
         }
         else {
-            throw new Error("Image not child of slide not managed");
+            if (model.wzParent.wzElement == 'slide') {
+                ctx.w(pptParent + '.addImage(' + pptNode + ');');
+            }
+            else {
+                throw new Error("Image not child of slide not managed");
+            }
+            if (model.wzParent.wzElement == 'slide') {
+                ctx.w(pptParent + '_debug.items.push({ image: ' + pptNode + ' });');
+            }
+            ctx.values.pptStack.pop();
+            console.log('°°°°°°°°°°°°°°°° image done', __filename);
+            return callback(null);
         }
-        if (model.wzParent.wzElement == 'slide') {
-            ctx.w(pptParent + '_debug.items.push({ image: ' + pptNode + ' });');
-        }
-        ctx.values.pptStack.pop();
-        return callback(null);
     }
     )
 }
@@ -338,7 +386,6 @@ md.shape = function(model, ctx, callback) {
      })
     ctx.w('const ' + pptNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -366,7 +413,6 @@ md.link = function(model, ctx, callback) {
      })
     ctx.w('const ' + pptNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -386,7 +432,6 @@ md.border = function(model, ctx, callback) {
      })
     ctx.w('const ' + pptNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -406,7 +451,6 @@ md.fill = function(model, ctx, callback) {
      })
     ctx.w('const ' + pptNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -426,7 +470,6 @@ md.bulletObj = function(model, ctx, callback) {
      })
     ctx.w('const ' + pptNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -446,7 +489,6 @@ md.top = function(model, ctx, callback) {
      })
     ctx.w('const ' + pptNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -471,7 +513,6 @@ md.right = function(model, ctx, callback) {
      })
     ctx.w('const ' + pptNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -496,7 +537,6 @@ md.bottom = function(model, ctx, callback) {
      })
     ctx.w('const ' + pptNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -521,7 +561,6 @@ md.left = function(model, ctx, callback) {
      })
     ctx.w('const ' + pptNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -546,7 +585,6 @@ md.sizing = function(model, ctx, callback) {
      })
     ctx.w('const ' + pptNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -566,7 +604,6 @@ md.line = function(model, ctx, callback) {
      })
     ctx.w('const ' + pptNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -586,7 +623,6 @@ md.shadow = function(model, ctx, callback) {
      })
     ctx.w('const ' + pptNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -606,7 +642,6 @@ md.outline = function(model, ctx, callback) {
      })
     ctx.w('const ' + pptNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -626,7 +661,6 @@ md.blur = function(model, ctx, callback) {
      })
     ctx.w('const ' + pptNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -668,7 +702,6 @@ md.h1 = function(model, ctx, callback) {
     ctx.w(pptNode + '.text = "' + respace(model.wzName) + '";');
     ctx.w(pptNode + '.heading = ppt.HeadingLevel.HEADING_1;');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -691,7 +724,6 @@ md.h2 = function(model, ctx, callback) {
     ctx.w(pptNode + '.text = "' + respace(model.wzName) + '";');
     ctx.w(pptNode + '.heading = ppt.HeadingLevel.HEADING_2;');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -714,7 +746,6 @@ md.h3 = function(model, ctx, callback) {
     ctx.w(pptNode + '.text = "' + respace(model.wzName) + '";');
     ctx.w(pptNode + '.heading = ppt.HeadingLevel.HEADING_3;');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -737,7 +768,6 @@ md.h4 = function(model, ctx, callback) {
     ctx.w(pptNode + '.text = "' + respace(model.wzName) + '";');
     ctx.w(pptNode + '.heading = ppt.HeadingLevel.HEADING_4;');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -760,7 +790,6 @@ md.h5 = function(model, ctx, callback) {
     ctx.w(pptNode + '.text = "' + respace(model.wzName) + '";');
     ctx.w(pptNode + '.heading = ppt.HeadingLevel.HEADING_5;');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -783,7 +812,6 @@ md.h6 = function(model, ctx, callback) {
     ctx.w(pptNode + '.text = "' + respace(model.wzName) + '";');
     ctx.w(pptNode + '.heading = ppt.HeadingLevel.HEADING_6;');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -807,7 +835,6 @@ md.text = function(model, ctx, callback) {
     ctx.w(pptNode + '.text = "' + respace(model.wzName) + '";');
     ctx.w(pptNode + '.options = Object.assign({}, defaultStyle.content);');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -831,7 +858,6 @@ md.bold = function(model, ctx, callback) {
     ctx.w(pptNode + '.options = Object.assign({}, defaultStyle.content);');
     ctx.w(pptNode + '.options.bold = true;');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -855,7 +881,6 @@ md.italic = function(model, ctx, callback) {
     ctx.w(pptNode + '.options = Object.assign({}, defaultStyle.content);');
     ctx.w(pptNode + 'options.italic = true;');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -879,7 +904,6 @@ md.underline = function(model, ctx, callback) {
     ctx.w(pptNode + '.options = Object.assign({}, defaultStyle.content);');
     ctx.w(pptNode + '.options.underline = true;');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -1709,7 +1733,6 @@ md.shading = function(model, ctx, callback) {
      })
     ctx.w('const ' + pptNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -1730,7 +1753,6 @@ md.table = function(model, ctx, callback) {
     ctx.w('const ' + pptNode + ' = {};');
     ctx.w(pptNode + '_rows = [];');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -1751,7 +1773,6 @@ md.tr = function(model, ctx, callback) {
      })
     ctx.w('const ' + pptNode + ' = [];');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -1771,7 +1792,6 @@ md.td = function(model, ctx, callback) {
      })
     ctx.w('const ' + pptNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -1791,7 +1811,6 @@ md.underline = function(model, ctx, callback) {
      })
     ctx.w('const ' + pptNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -1811,7 +1830,6 @@ md.styles = function(model, ctx, callback) {
      })
     ctx.w('const ' + pptNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -1831,7 +1849,6 @@ md.xdefault = function(model, ctx, callback) {
      })
     ctx.w('const ' + pptNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -1851,7 +1868,6 @@ md.styleDef = function(model, ctx, callback) {
      })
     ctx.w('const ' + pptNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -1872,7 +1888,6 @@ md.defaultStyleDef = function(model, ctx, callback) {
      })
     ctx.w('const ' + pptNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -1893,7 +1908,6 @@ md.spacing = function(model, ctx, callback) {
      })
     ctx.w('const ' + pptNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -1913,7 +1927,6 @@ md.border = function(model, ctx, callback) {
      })
     ctx.w('const ' + pptNode + ' = {};');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -1934,7 +1947,6 @@ md.colW = function(model, ctx, callback) {
      })
     ctx.w('const ' + pptNode + ' = [];');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -1954,7 +1966,6 @@ md.rowH = function(model, ctx, callback) {
      })
     ctx.w('const ' + pptNode + ' = [];');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -1975,7 +1986,6 @@ md.ul = function(model, ctx, callback) {
     ctx.w('const ' + pptNode + ' = {};');
     ctx.w(pptNode + '.ul = [];');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -1996,7 +2006,6 @@ md.ol = function(model, ctx, callback) {
     ctx.w('const ' + pptNode + ' = {};');
     ctx.w(pptNode + '.ul = [];');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -2017,7 +2026,6 @@ md.li = function(model, ctx, callback) {
     ctx.w('const ' + pptNode + ' = {};');
     ctx.w(pptNode + '.text = [];');
     md.genItems(model.nodes, ctx, noindent, (err, notUsed) => {
-    
         if (err) {
             return callback(err);
         }
@@ -2029,6 +2037,35 @@ md.li = function(model, ctx, callback) {
     )
 }
 ;
+
+md.svgInclude = function(model, ctx, callback) {
+    console.log('***** svgInclude enter', model.wzElement, model.get_svg, __filename);
+    if (model.get_svg) {
+        return included_writers.writeIncludeSvg(ctx, model, (err, notUsed) => {
+                if (err) {
+                    return callback(err);
+                }
+                console.log('***** svgInclude exit', __filename);
+                return callback(null, true);
+            }
+            );
+    }
+    else {
+        return callback(null, false);
+    }
+}
+;
+
+function writeSvgStringToBase64Png(ctx) {
+    ctx.w('async function svgStringToBase64Png(svgString) {');
+    ctx.w('    const buffer = await sharp(Buffer.from(svgString))');
+    ctx.w('    .resize(800) // Optional resize');
+    ctx.w('    .png()');
+    ctx.w('    .toBuffer();');
+    ctx.w('    return `data:image/png;base64,${buffer.toString("base64")}`;');
+    ctx.w('}');
+}
+
 var noattrs = [
     'wzTag', 
     'wzName', 

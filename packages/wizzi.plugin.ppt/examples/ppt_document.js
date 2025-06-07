@@ -1,10 +1,9 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ppt\.wizzi-override\examples\ppt_document.js.ittf
-    utc time: Wed, 13 Mar 2024 07:02:14 GMT
+    utc time: Fri, 06 Jun 2025 19:59:24 GMT
 */
-'use strict';
 var path = require('path');
 var fs = require('fs');
 var async = require('async');
@@ -25,13 +24,11 @@ function executeExample() {
         dot: '.', 
         comma: ','
      }, (err, wzCtx) => {
-    
         console.log('err', err, __filename);
         console.log('wzCtx', wzCtx, __filename);
         executeGenerateModules([
             moduleName
         ], wzCtx, (err, result) => {
-        
             if (err) {
                 console.log("[31m%s[0m", 'ppt/document.examples.executeGenerateModules.err', err);
                 console.log("[31m%s[0m", 'ppt/document.examples.executeGenerateModules.err.toString()', err.toString());
@@ -47,13 +44,11 @@ function executeExample() {
     )
     function executeGenerateModules(modules, wzCtx, callback) {
         async.mapSeries(modules, (module, callback) => {
-        
             var ittfDocumentUri = path.join(__dirname, 'ittf', module + '.ppt.ittf');
             var outputPath = path.join(__dirname, 'results', 'ppt', module + '-document.g.ppt.js');
             loadModelAndGenerateArtifact(ittfDocumentUri, {
                 wzCtx: wzCtx
              }, 'ppt/document', (err, artifactText) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -80,7 +75,6 @@ function executeExample() {
                 pptProcess.on('exit', function(code) {
                 })
                 pptProcess.stdout.on('data', (msg) => {
-                
                     console.log(msg.toString(), __filename);
                 }
                 )
@@ -102,7 +96,10 @@ function createWizziFactory(globalContext, callback) {
         plugins: {
             items: [
                 './wizzi.plugin.ppt/index.js', 
-                './wizzi.plugin.json/index.js'
+                './wizzi.plugin.json/index.js', 
+                './wizzi.plugin.svg/index.js', 
+                './wizzi.plugin.css/index.js', 
+                './wizzi.plugin.js/index.js'
             ], 
             pluginsBaseFolder: path.resolve(__dirname, '..', '..')
          }, 
@@ -111,7 +108,6 @@ function createWizziFactory(globalContext, callback) {
 }
 function loadMTree(ittfDocumentUri, context, callback) {
     createWizziFactory({}, (err, wf) => {
-    
         if (err) {
             return callback(err);
         }
@@ -121,7 +117,6 @@ function loadMTree(ittfDocumentUri, context, callback) {
 }
 function loadMTreeBuildupScript(ittfDocumentUri, context, callback) {
     createWizziFactory({}, (err, wf) => {
-    
         if (err) {
             return callback(err);
         }
@@ -132,7 +127,6 @@ function loadMTreeBuildupScript(ittfDocumentUri, context, callback) {
 function loadWizziModel(ittfDocumentUri, context, callback) {
     var fi = fileInfoByPath(ittfDocumentUri);
     createWizziFactory({}, (err, wf) => {
-    
         if (err) {
             return callback(err);
         }
@@ -146,7 +140,6 @@ function loadWizziModel(ittfDocumentUri, context, callback) {
 function loadWizziModelAndSaveToJson(ittfDocumentUri, context, outputFolder, callback) {
     var fi = fileInfoByPath(ittfDocumentUri);
     loadWizziModel(ittfDocumentUri, context, (err, model) => {
-    
         if (err) {
             return callback(err);
         }
@@ -158,7 +151,6 @@ function loadWizziModelAndSaveToJson(ittfDocumentUri, context, outputFolder, cal
 function loadModelAndGenerateArtifact(ittfDocumentUri, context, artifactName, callback) {
     var fi = fileInfoByPath(ittfDocumentUri);
     createWizziFactory({}, (err, wf) => {
-    
         if (err) {
             return callback(err);
         }
@@ -171,7 +163,6 @@ function loadModelAndGenerateArtifact(ittfDocumentUri, context, artifactName, ca
 }
 function loadModelAndGenerateArtifactFromText(ittfContent, context, artifactName, callback) {
     createWizziFactory({}, (err, wf) => {
-    
         if (err) {
             return callback(err);
         }
@@ -185,12 +176,10 @@ function loadModelAndGenerateArtifactFromText(ittfContent, context, artifactName
 function loadModelAndTransform(ittfDocumentUri, context, transformName, callback) {
     var fi = fileInfoByPath(ittfDocumentUri);
     createWizziFactory({}, (err, wf) => {
-    
         if (err) {
             return callback(err);
         }
         loadWizziModel(ittfDocumentUri, context, (err, model) => {
-        
             if (err) {
                 return callback(err);
             }
@@ -202,7 +191,6 @@ function loadModelAndTransform(ittfDocumentUri, context, transformName, callback
 }
 function executeWizziJob(ittfDocumentUri, context, callback) {
     createWizziFactory({}, (err, wf) => {
-    
         if (err) {
             return callback(err);
         }
@@ -262,7 +250,6 @@ function executeWizziJob_2(wzjobDocumentUri, options) {
 }
 function executegenerateModelDoms(wfschemaIttfDocumentUri, outputPackagePath, wfschemaName, mTreeBuildUpContext, callback) {
     createWizziFactory({}, (err, wf) => {
-    
         if (err) {
             return callback(err);
         }
@@ -272,7 +259,6 @@ function executegenerateModelDoms(wfschemaIttfDocumentUri, outputPackagePath, wf
 }
 function getIttfFilesBySchema(srcpath, schema) {
     return fs.readdirSync(srcpath).filter((file) => {
-        
             return fs.lstatSync(path.join(srcpath, file)).isFile() && verify.endsWith(file, (schema === 'ittf' ? '.ittf' : '.' + schema + '.ittf'));
         }
         )

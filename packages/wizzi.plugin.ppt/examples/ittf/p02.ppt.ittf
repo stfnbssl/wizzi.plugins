@@ -1,0 +1,31 @@
+ppt p02
+
+    $
+        var fontFamilies = ['Montserrat', 'Roboto', 'Source Sans Pro'];
+        var fontSizes = [ 6, 8, 10, 14, 20, 28, 34 ];
+
+    $
+        var fontFamily = 'Montserrat';
+
+    $foreach ff in fontFamilies
+        $foreach fs in fontSizes
+            style-def Text_${ff}_${fs}
+                font ${ff}
+                font-size ${fs}
+                color 000000
+
+    $foreach ff in fontFamilies
+        slide
+            $
+                var y = 10;
+
+            $foreach fs in fontSizes
+                p Proxit sed albis in iura ${ff} ${fs}
+                    style Text_${ff}_${fs}
+                    y ${y}%
+                    x 10%
+                    align left
+
+                $
+                    y += fs/2;
+

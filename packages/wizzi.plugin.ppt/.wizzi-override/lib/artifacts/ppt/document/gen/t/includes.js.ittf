@@ -1,0 +1,15 @@
+$group
+
+	async-md( svgInclude )
+		log '***** svgInclude enter', model.wzElement, model.get_svg
+		if model.get_svg
+			return
+				_ included_writers.writeIncludeSvg
+					@ ctx
+					@ model
+					a_cb( notUsed )
+						log '***** svgInclude exit'
+						r_cb( true )
+		else
+			r_cb( false )
+

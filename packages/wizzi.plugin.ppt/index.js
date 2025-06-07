@@ -1,10 +1,9 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ppt\.wizzi-override\root\index.js.ittf
-    utc time: Wed, 13 Mar 2024 07:02:13 GMT
+    utc time: Fri, 06 Jun 2025 19:59:23 GMT
 */
-'use strict';
 
 var util = require('util');
 var path = require('path');
@@ -228,7 +227,6 @@ module.exports = {
     createFactoryPlugin: function(wizziPackage, options, callback) {
         var plugin = new FactoryPlugin(wizziPackage, this.provides);
         plugin.initialize(options, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }

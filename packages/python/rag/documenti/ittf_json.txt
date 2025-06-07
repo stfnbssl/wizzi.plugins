@@ -1,0 +1,30 @@
+The ITTF format with schema JSON is an ITTF representation of a JSON file.
+Objects have node name '{'
+Arrays have node name '['
+Properties have node name equal to property name.
+If a property is an object is written '{ property-name'
+If a property is an array is written '[ property-name'.
+
+Example
+Below is an example of how an order from a supplier might be represented in the ITTF format:
+
+{
+    { order
+        number 12345
+        date "2023-10-05"
+        { supplier
+            name "ABC S.p.A."
+            address "Via Roma 10"
+            city "Milan"
+        [ products
+            {
+                code "P001"
+                description "Laptop"
+                quantity 10
+                unit_price 1500.00
+            {
+                code "P002"
+                description "Mouse"
+                quantity 50
+                unit_price 4.00
+        total 15200.00

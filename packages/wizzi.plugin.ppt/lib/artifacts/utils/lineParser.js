@@ -1,12 +1,11 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ppt\.wizzi-override\lib\artifacts\utils\lineParser.js.ittf
-    utc time: Wed, 13 Mar 2024 07:02:15 GMT
+    utc time: Fri, 06 Jun 2025 19:59:24 GMT
 */
-'use strict';
 
-var verify = require('wizzi-utils').verify;
+var verify = require('@wizzi/utils').verify;
 
 var md = module.exports = {};
 /**

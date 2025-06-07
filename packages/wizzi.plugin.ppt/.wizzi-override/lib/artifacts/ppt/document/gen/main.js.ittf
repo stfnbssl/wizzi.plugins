@@ -12,6 +12,7 @@ module
 
     gen( &md )
         $append imports
+            var included_writers = require('./included_writers')
         $append main
             _ md.ppt
                 @ model
@@ -59,9 +60,12 @@ module
             
             _ ctx.w('const fs = require("fs");')
             _ ctx.w('const pptx = require("pptxgenjs");')
+            _ ctx.w('const sharp = require("sharp");')
             _ ctx.w('')
             _ ctx.w('const ' + ctx.values.pptMainInstance + ' = new pptx();')
             _ ctx.w('const ' + ctx.values.pptMainInstance + '_debug = { defaultStyle: {}, styles: {}, slides: [] };')
+            _ ctx.w('async function generatePresentation(callback) {');
+            _ ctx.indent
             _ ctx.w('const defaultStyle = { content: {} };')
             _ ctx.w('const styles = {};')
             _ md.genItems
@@ -69,10 +73,17 @@ module
                 @ ctx
                 @ noindent
                 a_cb()
+                    _ ctx.deindent
+                    _ ctx.w('    callback();');
+                    _ ctx.w('}');
+                    _ writeSvgStringToBase64Png                    
+                        @ ctx
+                    _ ctx.w('generatePresentation(() => {');
+                    _ ctx.indent
                     $if wzConfigIsDevelopment
                         _ ctx.w('')
                         _ ctx.w('// Dump for test')
-                        _ ctx.w('    fs.writeFileSync(__dirname + "/' + model.wzName + '.ppt.json", JSON.stringify(' + ctx.values.pptMainInstance + '_debug, null, "\t"));')
+                        _ ctx.w('fs.writeFileSync(__dirname + "/' + model.wzName + '.ppt.json", JSON.stringify(' + ctx.values.pptMainInstance + '_debug, null, "\t"));')
                     _ ctx.w('')
                     _ ctx.w('// Make Ppt')
                     _ ctx.w('')
@@ -83,6 +94,8 @@ module
                     _ ctx.w(').then(fileName => {')
                     _ ctx.w('    console.log(`created file: ${fileName}`);')
                     _ ctx.w('    console.log("DONE written", new Date() - now)')
+                    _ ctx.w('});')
+                    _ ctx.deindent
                     _ ctx.w('});')
                     r_cb()
 
@@ -172,17 +185,54 @@ module
                         _ ctx.w(pptParent + '_debug.items.push({ pStack: ' + pptNode + '_items, options: ' + pptNode + ' });')
 
 
-        objectNode.js( image )
+        objectNode.js( image, false, true )
+            var modelSvgNode = null
+            var nodes = []
             if verify.isEmpty(model.wzName) == false
                 _ ctx.w(pptNode + '.path = "' + model.wzName + '";')
+            else
+                foreach node in model.nodes
+                    if node.wzElement == 'svgInclude'
+                        set modelSvgNode = node
+                    else
+                        _ nodes.push
+                            @ node
+                set model.nodes = nodes
             $append close
-                if model.wzParent.wzElement == 'slide'
-                    _ ctx.w(pptParent + '.addImage(' + pptNode + ');')
+                if modelSvgNode
+                    const svgNode = 'svgString_' + ++ctx.values.pptCounter
+                    const base64Png = 'base64Png_' + ++ctx.values.pptCounter
+                    _ ctx.w('const ' + svgNode + ' = `')
+                    _ md.svgInclude                        
+                        @ modelSvgNode
+                        @ ctx
+                        a_cb( )
+                            log '°°°°°°°°°°°°°°°° image svgInclude done'
+                            _ ctx.w('`')
+                            _ ctx.w('const ' + base64Png + ' = await svgStringToBase64Png(' + svgNode + ');');
+                            _ ctx.w(pptNode + '.data = ' + base64Png + ';')
+                            _ ctx.w('console.log("data", ' + base64Png + ')')
+                            if model.wzParent.wzElement == 'slide'
+                                _ ctx.w(pptParent + '.addImage(' + pptNode + ');')
+                            else
+                                throw new Error("Image not child of slide not managed")
+                            $if wzConfigIsDevelopment
+                                if model.wzParent.wzElement == 'slide'
+                                    _ ctx.w(pptParent + '_debug.items.push({ image: ' + pptNode + ' });')
+                            _ ctx.values.pptStack.pop()
+                            log '°°°°°°°°°°°°°°°° image done'
+                            r_cb()
                 else
-                    throw new Error("Image not child of slide not managed")
-                $if wzConfigIsDevelopment
                     if model.wzParent.wzElement == 'slide'
-                        _ ctx.w(pptParent + '_debug.items.push({ image: ' + pptNode + ' });')
+                        _ ctx.w(pptParent + '.addImage(' + pptNode + ');')
+                    else
+                        throw new Error("Image not child of slide not managed")
+                    $if wzConfigIsDevelopment
+                        if model.wzParent.wzElement == 'slide'
+                            _ ctx.w(pptParent + '_debug.items.push({ image: ' + pptNode + ' });')
+                    _ ctx.values.pptStack.pop()
+                    log '°°°°°°°°°°°°°°°° image done'
+                    r_cb()
 
         objectNode.js( shape )
             $append close
@@ -438,8 +488,19 @@ module
                 _ ctx.w(pptParent + '.children.push(' + pptNode + 'Obj);')
                 _ ctx.w(pptParent + '["' + pptParentArrayName + '"].push(' + pptNode + ');')                
         
-        
-        
+        +
+        $include includes
+        +
+        function writeSvgStringToBase64Png
+            param ctx
+            _ ctx.w('async function svgStringToBase64Png(svgString) {')
+            _ ctx.w('    const buffer = await sharp(Buffer.from(svgString))')
+            _ ctx.w('    .resize(800) // Optional resize')
+            _ ctx.w('    .png()')
+            _ ctx.w('    .toBuffer();')
+            _ ctx.w('    return `data:image/png;base64,${buffer.toString("base64")}`;')
+            _ ctx.w('}')
+        +
         var noattrs
             [
                 @ 'wzTag'

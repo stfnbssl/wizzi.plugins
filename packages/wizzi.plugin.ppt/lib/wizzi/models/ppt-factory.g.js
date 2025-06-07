@@ -1,10 +1,12 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.13
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\lib\artifacts\wfschema\factory\gen\ittf\wfschema-factory.js.ittf
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: @wizzi/plugin.js@0.8.9
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.wzschema\lib\artifacts\wzschema\factory\gen\ittf\wfschema-factory.js.ittf
+    utc time: Fri, 06 Jun 2025 19:59:25 GMT
 */
-'use strict';
-//
+/**
+     ppt WizziModelFactory
+*/
 var path = require('path');
 var util = require('util');
 var _ = require('lodash');
@@ -18,7 +20,20 @@ var md = module.exports = {};
 
 //
 // called from the wizzi.wizziFactory.getLoadModel method
-// params
+/**
+    params
+        { wizziObject
+            func loadMTree
+             api-ref wizzi-mtree.loader.loadMTree
+            { file
+             api-ref wizzi-utils.file
+            { verify
+             api-ref wizzi-utils.verify
+            { errors
+             type WizziModelLoadError
+            { wizziFactory
+             api-ref wizzi.wizziFactory
+*/
 md.createLoadModel = function(wizziObject) {
     var options = wizziObject.options || {};
     var loadMTree = wizziObject.loadMTree;
@@ -185,4 +200,3 @@ function error(code, method, message) {
             source: __filename
          };
 }
-

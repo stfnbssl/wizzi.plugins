@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.svg\.wizzi-override\lib\artifacts\svg\document\gen\main.js.ittf
-    utc time: Tue, 17 Sep 2024 11:08:13 GMT
+    utc time: Wed, 04 Jun 2025 09:04:12 GMT
 */
 // Language artifact that targets
 // the Scalable Vector Graphics (SVG) 1.1 (Second Edition) specification.
@@ -202,8 +202,13 @@ md.myGetGenItem = function(ctx) {
 }
 ;
 const attributeTags = {
+    attributeName: 'attribute-name', 
+    repeatCount: 'repeat-count', 
     stopColor: 'stop-color', 
-    stopOpacity: 'stop-opacity'
+    stopOpacity: 'stop-opacity', 
+    markerStart: 'marker-start', 
+    markerMid: 'marker-mid', 
+    markerEnd: 'marker-end'
  };
 function writeAttributes(model, ctx) {
     var v;
@@ -211,6 +216,7 @@ function writeAttributes(model, ctx) {
     for (i=0; i<i_len; i++) {
         a = model.getAttributes()[i];
         v = encodeValue(ctx, a.value);
+        // loog 'writeAttributes', a.name, attributeTags[a.name]
         ctx.write(" " + (attributeTags[a.name] || a.name) + "='" + v + "'")
     }
     if (model.attributes) {

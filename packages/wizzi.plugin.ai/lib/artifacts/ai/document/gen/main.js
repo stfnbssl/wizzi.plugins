@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ai\.wizzi-override\lib\artifacts\ai\document\gen\main.js.ittf
-    utc time: Wed, 22 Jan 2025 15:19:02 GMT
+    utc time: Thu, 20 Feb 2025 12:19:37 GMT
 */
 
 
@@ -77,7 +77,7 @@ md.gen = function(model, ctx, callback) {
                         if (err) {
                             return callback(err);
                         }
-                        // loog 'ai-document', artifactText
+                        console.log('ai-document', artifactText, __filename);
                         ctx.w(artifactText);
                         return callback(null, ctx);
                     }
@@ -196,24 +196,28 @@ md.call = function(model, ctx, callback) {
                         response_format: ctx.__current.response_format, 
                         prompt: ctx.__current.prompt
                      }).then((response) => {
-                        console.log(model.prompt, ' -> ', response.data, __filename);
+                        console.log('ctx.__current.main_message_data', ctx.__current.main_message_data, __filename);
+                        console.log('response.data -> ', response.data, __filename);
                         ctx.__current.info = response.data.info;
                         ctx.__current.response = response.data.result;
                         ctx.__current.usage = response.usage;
                         ctx.__current.finish_reason = response.finish_reason;
                         try {
-                            ctx.__current.response = JSON.parse(response.data.result)
+                            ctx.__current.response = JSON.parse(getCleanJsonString(response.data.result))
                             ;
-                            if (verify.isObject(ctx.__current.main_data_message)) {
-                                ctx.__current.response = Object.assign({}, ctx.__current.main_data_message, ctx.__current.response)
+                            if (verify.isObject(ctx.__current.main_message_data)) {
+                                ctx.__current.response = Object.assign({}, ctx.__current.main_message_data, ctx.__current.response)
                                 ;
                             }
                             console.log('Object.keys(ctx.__current.response)', Object.keys(ctx.__current.response), __filename);
                         } 
                         catch (ex) {
-                            ctx.__current.response = {
-                                message: 'error parsing ai apicall'
-                             };
+                            console.log("[31m%s[0m", 'Error parsing ai apicall: ' + ex.message);
+                            console.log("[31m%s[0m", ex);
+                            ctx.__current.response = Object.assign({}, ctx.__current.main_message_data, {
+                                ERROR_MESSAGE: 'Error parsing ai apicall: ' + ex.message
+                             })
+                            ;
                         } 
                         ctx.__current.responseHTML = marked.parse(response.data.result)
                         ;
@@ -246,16 +250,21 @@ md.call = function(model, ctx, callback) {
 ;
 md.message = function(model, ctx, callback) {
     if (model.json_content) {
-        md.json_format(model.json_content, ctx, (err, notUsed) => {
+        md.json_message_format(model.json_content, ctx, (err, notUsed) => {
             if (err) {
                 return callback(err);
             }
+            var content = ctx.__current.json_message_format.jsonText;
+            var data = ctx.__current.json_message_format.json;
+            if (verify.isNotEmpty(ctx.__current.json_message_format.json.content)) {
+                content = ctx.__current.json_message_format.json.content;
+                data = ctx.__current.json_message_format.json.data;
+            }
             ctx.__current.messages.push({
                 role: model.role, 
-                content: ctx.__current.json_format.jsonText
+                content: content
              })
-            ctx.__current.main_data_message = JSON.parse(ctx.__current.json_format.jsonText)
-            ;
+            ctx.__current.main_message_data = data;
             return callback(null);
         }
         )
@@ -274,20 +283,20 @@ function setResponseFormat(model, ctx, callback) {
         ctx.__current.response_format = null;
         return callback(null);
     }
-    md.json_format(model, ctx, (err, notUsed) => {
+    md.json_message_format(model, ctx, (err, notUsed) => {
         if (err) {
             return callback(err);
         }
-        ctx.__current.response_format = ctx.__current.json_format.json;
+        ctx.__current.response_format = ctx.__current.json_message_format.json;
         return callback(null);
     }
     )
 }
-md.json_format = function(model, ctx, callback) {
+md.json_message_format = function(model, ctx, callback) {
     const jsonEl = {
         name: model.wzName
      };
-    ctx.__current.json_format = jsonEl;
+    ctx.__current.json_message_format = jsonEl;
     // log 'model', model
     // log 'model.nodes[0]', model.nodes[0]
     if (model.nodes.length = 1) {
@@ -326,6 +335,15 @@ md.json_format = function(model, ctx, callback) {
     }
 }
 ;
+function getCleanJsonString(response) {
+    const match = response.match(/```json\n([\s\S]*?)\n```|{[\s\S]*}/);
+    if (match) {
+        return match[1] || match[0]; // Extract JSON content;
+    }
+    else {
+        return response.replace(/```(?:json)?\n?([\s\S]*?)\n?```/, '$1').trim();
+    }
+}
 var noattrs = [
     'wzTag', 
     'wzName', 

@@ -1,0 +1,40 @@
+ITTF Format
+The ITTF (Indented Text Tree Format) is a text-based format designed to represent complex hierarchical data using indentation to denote parent-child relationships between nodes.
+Structure of a Node: Each line of text represents a node and consists of a "name" (the first word, indicating the data's meaning) followed by a single space and a "value" (the subsequent words or characters). For example: address 123 Main Street.
+
+Hierarchy via Indentation: Lines indented beneath a node are its child nodes, forming a hierarchical structure. The level of indentation (e.g., using spaces or tabs) determines the depth of the hierarchy.
+
+Complex Entities: A node representing a complex entity (e.g., an object) has a single parent node with the entity's name and, optionally, an identifier as its value. Its child nodes contain the entity's attributes or nested complex entities.
+
+Node Types: Child nodes can represent either simple attributes (e.g., a string or number) or complex entities with their own child nodes.
+
+Additional Notes:
+Nodes at the same indentation level are siblings, sharing the same parent.
+
+Values can be empty (e.g., note ) or consist of multiple words (e.g., description Wireless Mouse).
+
+Multiple instances of the same entity type (e.g., multiple products) are represented by repeating the entity name at the same indentation level.
+
+Example
+Below is an example of how an order from a supplier might be represented in the ITTF format:
+
+order
+    number 12345
+    date 2023-10-05
+    supplier
+        name ABC S.p.A.
+        address Via Roma 10
+        city Milan
+        postal_code 20100
+        country Italy
+    product
+        code P001
+        description Laptop
+        quantity 10
+        unit_price 1500.00
+    product
+        code P002
+        description Mouse
+        quantity 50
+        unit_price 4.00
+    total 15200.00

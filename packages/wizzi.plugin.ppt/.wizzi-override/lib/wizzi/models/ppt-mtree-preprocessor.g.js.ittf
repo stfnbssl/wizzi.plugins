@@ -23,6 +23,8 @@ module
     function preprocessNode
         param node
         param state
+
+        # loog 'preprocessNode', node.n
         
         # write here your prepocessing code
         
@@ -32,6 +34,16 @@ module
                 _ f
                     @ node
                     @ state
+        elif inferSvgInclude(node)
+            set node.n = '::media'
+            if node.children[0] && node.children[0].n !== 'svg'
+                _ wrapChilds
+                    @ node
+                    {
+                        @ n 'svg'
+                        @ v ''
+                        [ children
+            return true
         else
             return false
     
@@ -57,6 +69,16 @@ module
             _ traverse(item, state)
         set state.parent = saveParent
     
+    
+    function inferSvgInclude
+        param node
+        # loog 'inferSvgInclude', node.n
+        if node.n === '::media' && descendentNameIsOneOf(node, ['svg'])
+            return true
+        if node.n === 'svg'
+            if descendentNameIsOneOf(node, ['src']) == false
+                return true
+        return false
     
     function childNameIsOneOf
         param node

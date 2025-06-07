@@ -1,11 +1,10 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ppt\.wizzi-override\lib\wizzi\models\ppt-mtree-preprocessor.g.js.ittf
-    utc time: Wed, 13 Mar 2024 07:02:15 GMT
+    utc time: Fri, 06 Jun 2025 19:59:24 GMT
 */
-'use strict';
-var verify = require('wizzi-utils').verify;
+var verify = require('@wizzi/utils').verify;
 var mdfs = {};
 mdfs['p'] = function(node, state) {
     var i, i_items=node.children, i_len=node.children.length, item;
@@ -37,10 +36,24 @@ mdfs['bullet'] = function(node, state) {
 }
 ;
 function preprocessNode(node, state) {
+    // loog 'preprocessNode', node.n
     // write here your prepocessing code
     var f = mdfs[node.n];
     if (f) {
         return f(node, state);
+    }
+    else if (inferSvgInclude(node)) {
+        node.n = '::media';
+        if (node.children[0] && node.children[0].n !== 'svg') {
+            wrapChilds(node, {
+                n: 'svg', 
+                v: '', 
+                children: [
+                    
+                ]
+             })
+        }
+        return true;
     }
     else {
         return false;
@@ -70,6 +83,18 @@ function traverse(node, state) {
         traverse(item, state);
     }
     state.parent = saveParent;
+}
+function inferSvgInclude(node) {
+    // loog 'inferSvgInclude', node.n
+    if (node.n === '::media' && descendentNameIsOneOf(node, ['svg'])) {
+        return true;
+    }
+    if (node.n === 'svg') {
+        if (descendentNameIsOneOf(node, ['src']) == false) {
+            return true;
+        }
+    }
+    return false;
 }
 function childNameIsOneOf(node, names) {
     var i, i_items=node.children, i_len=node.children.length, child;

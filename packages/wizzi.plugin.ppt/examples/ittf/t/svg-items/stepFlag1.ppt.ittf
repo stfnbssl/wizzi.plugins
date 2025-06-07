@@ -1,0 +1,69 @@
+$group
+    $params &opt
+    $
+        var radius1 = (opt.bottom-opt.top)/2;
+        var radius2 = radius1/3; 
+        var flagX = opt.left+radius1+radius1/1.5;
+        var flagY = opt.top+(opt.bottom-opt.top)/2-opt.flagHeight;
+        //
+
+    path
+        d M ${opt.left},${opt.top}A ${radius1},${radius1} 0 0 1 ${opt.left},${opt.bottom}
+            \b H${opt.right} A ${radius1},${radius1} 0 1 0 ${opt.right},${opt.top} Z
+        stroke #333
+        stroke-width 1        
+        fill url(#barGradient)
+    circle
+        cx ${flagX}
+        cy ${opt.top+(opt.bottom-opt.top)/2}
+        r ${radius2}
+        fill white
+    line
+        x1 ${flagX}
+        y1 ${opt.top+(opt.bottom-opt.top)/2-radius2}
+        x2 ${flagX}
+        y2 ${flagY}
+        stroke #000
+        stroke-width 1
+    circle
+        cx ${flagX}
+        cy ${flagY}
+        r ${radius1}
+        stroke #000
+        stroke-width 1
+        fill #fff
+    $if true
+        text 01
+            x ${flagX}
+            y ${flagY+8}
+            text-anchor middle
+            font-family Arial, sans-serif
+            font-size 24
+            font-weight bold
+            fill #333333
+    $if false
+        path
+            d M ${opt.left},${opt.top}A ${radius1},${radius1} 0 0 1 ${opt.left},${opt.bottom}
+                \b H${opt.right} A ${radius1},${radius1} 0 1 0 ${opt.right},${opt.top} Z
+            stroke #333
+            stroke-width 1        
+            fill url(#barGradient)
+    $if true
+        $ 
+            var lineYStep = 0;
+            //
+        $foreach line in opt.lines
+            text ${line}
+                x ${flagX+radius1*2}
+                y ${flagY+lineYStep}
+                text-anchor middle
+                class step-text
+            $
+                lineYStep += 15;
+                //
+
+
+
+
+
+

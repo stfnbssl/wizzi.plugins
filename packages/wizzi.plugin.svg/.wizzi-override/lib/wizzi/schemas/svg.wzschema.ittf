@@ -21,8 +21,9 @@
 			'cursor,direction,display,dominant-baseline,enable-background,/*fill,*/fill-opacity,fill-rule,' +
 			'filter,flood-color,flood-opacity,font-family,font-size,font-size-adjust,font-stretch,' +
 			'font-style,font-variant,font-weight,glyph-orientation-horizontal,glyph-orientation-vertical,' +
-			'image-rendering,kerning,letter-spacing,lighting-color,marker-end,marker-mid,marker-start,' +
-			'mask,/*opacity,*/overflow,pointer-events,shape-rendering,/*stop-color,stop-opacity,stroke,*/'+ 
+			'image-rendering,kerning,letter-spacing,lighting-color,' +
+			'mask,' +
+			'/*opacity,*/overflow,pointer-events,shape-rendering,/*stop-color,stop-opacity,stroke,*/'+ 
 			'stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,' +
 			'stroke-opacity,stroke-width,text-anchor,text-decoration,text-rendering,unicode-bidi,' +
 			'visibility,word-spacing,writing-mode';
@@ -145,13 +146,19 @@
 		a y1
 		a x2
 		a y2
+		a_tag( markerEnd, marker-end
+		a_tag( markerMid, marker-mid
+		a_tag( markerStart, marker-start
 
-		svg/getAttrs( x1;y1;x2;y2;, element )
+		svg/getAttrs( x1;y1;x2;y2;markerEnd;markerMid;markerStart, element )
 
 	e polyline : element
 		a points
+		a_tag( markerEnd, marker-end
+		a_tag( markerMid, marker-mid
+		a_tag( markerStart, marker-start
 		
-		svg/getAttrs( points, element )
+		svg/getAttrs( points;markerEnd;markerMid;markerStart, element )
 
 	
 	e polygon : element
@@ -239,6 +246,12 @@
 	e altGlyphDef : element
 	e altGlyphItem : element
 	e animate : element
+		a_tag( attributeName, attribute-name
+		a values
+		a dur
+		a_tag( repeatCount, repeat-count
+		a begin		
+		svg/getAttrs( attributeName;values;dur;repeatCount;begin, element )
 	e animateColor : element
 	e animateMotion : element
 	e animateTransform : element
@@ -289,6 +302,14 @@
 		tag linear-gradient
         a gradientUnits
 	e marker : element
+		a_tag( refX, ref-x
+		a_tag( refY, ref-y
+		a_tag( markerWidth, marker-width
+		a_tag( markerHeight, marker-height
+		a_tag( markerUnits, marker-units
+		a_tag( viewBox, view-box
+		a orient
+		svg/getAttrs( refX;refY;markerWidth;markerHeight;markerUnits;orient;viewBox, element )
 	e mask : element
 	e metadata : element
 	e missing-glyph : element
