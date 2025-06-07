@@ -321,6 +321,9 @@ md.aiResult = function(model, ctx, callback) {
     else {
         return callback(null);
     }
+    else {
+        return callback(null);
+    }
 }
 ;
 md.jsonata = function(model, ctx, callback) {

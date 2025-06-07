@@ -89,7 +89,9 @@
                 <li><a href="#element_manufacturer">manufacturer</a>
                 </li>
                 <li><a href="#element_deviceModel">deviceModel</a>
+                <li><a href="#element_deviceModel">deviceModel</a>
                 </li>
+                <li><a href="#element_gatewayModel">gatewayModel</a>
                 <li><a href="#element_gatewayModel">gatewayModel</a>
                 </li>
                 <li><a href="#element_jsInclude">jsInclude</a>
@@ -516,6 +518,7 @@
                 </table>
             </small>
             <table id="element_userGroup" class="pretty-table">
+            <table id="element_userGroup" class="pretty-table">
                 <thead>
                     <tr>
                         <th>Element</th>
@@ -528,7 +531,9 @@
                     <tr>
                         <td>
                             <b>userGroup</b>
+                            <b>userGroup</b>
                         </td>
+                        <td>user_group</td>
                         <td>user_group</td>
                         <td>node</td>
                         <td></td>
@@ -540,11 +545,14 @@
                 <span>the wzName is the `name` attribute &nbsp;</span>
             </div>
             <h5>Relations</h5>
+            <h5>Relations</h5>
             <small>
                 <table class="table table-condensed table-bordered" style="width:100%;">
                     <thead>
                         <tr>
                             <th>Name</th>
+                            <th>Role</th>
+                            <th>Cardinality</th>
                             <th>Role</th>
                             <th>Cardinality</th>
                             <th>Inherited</th>
@@ -557,10 +565,16 @@
                             <td>plant</td>
                             <td>plants</td>
                             <td>one-to-many</td>
+                            <td>plant</td>
+                            <td>plants</td>
+                            <td>one-to-many</td>
                             <td></td>
                             <td></td>
                             <td></td>
                         </tr>
+                        <tr>
+                            <td>gateway</td>
+                            <td>gateways</td>
                         <tr>
                             <td>gateway</td>
                             <td>gateways</td>
@@ -572,6 +586,8 @@
                         <tr>
                             <td>device</td>
                             <td>devices</td>
+                            <td>device</td>
+                            <td>devices</td>
                             <td>one-to-many</td>
                             <td></td>
                             <td></td>
@@ -580,12 +596,16 @@
                         <tr>
                             <td>gatewayModel</td>
                             <td>gatewayModels</td>
+                            <td>gatewayModel</td>
+                            <td>gatewayModels</td>
                             <td>one-to-many</td>
                             <td></td>
                             <td></td>
                             <td></td>
                         </tr>
                         <tr>
+                            <td>deviceModel</td>
+                            <td>deviceModels</td>
                             <td>deviceModel</td>
                             <td>deviceModels</td>
                             <td>one-to-many</td>
@@ -740,6 +760,8 @@
                         <tr>
                             <td>address</td>
                             <td>address</td>
+                            <td>address</td>
+                            <td>address</td>
                             <td>string</td>
                             <td></td>
                             <td></td>
@@ -747,6 +769,8 @@
                             <td></td>
                         </tr>
                         <tr>
+                            <td>groupId</td>
+                            <td>groupId</td>
                             <td>groupId</td>
                             <td>groupId</td>
                             <td>string</td>
@@ -979,6 +1003,8 @@
                         <tr>
                             <td>groupId</td>
                             <td>groupId</td>
+                            <td>groupId</td>
+                            <td>groupId</td>
                             <td>string</td>
                             <td></td>
                             <td></td>
@@ -997,6 +1023,8 @@
                         <tr>
                             <td>balenaId</td>
                             <td>balenaId</td>
+                            <td>balenaId</td>
+                            <td>balenaId</td>
                             <td>string</td>
                             <td></td>
                             <td></td>
@@ -1004,6 +1032,8 @@
                             <td></td>
                         </tr>
                         <tr>
+                            <td>status</td>
+                            <td>status</td>
                             <td>status</td>
                             <td>status</td>
                             <td>string</td>
@@ -1037,8 +1067,37 @@
                                     </tr>
                                 </table>
                             </td>
+                            <td>
+                                <h5>restrict</h5>
+                                <table>
+                                    <tr>
+                                        <td> activated</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> deactivated</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> inventory</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> retired</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </td>
                         </tr>
                         <tr>
+                            <td>orderCode</td>
+                            <td>orderCode</td>
                             <td>orderCode</td>
                             <td>orderCode</td>
                             <td>string</td>
@@ -1050,6 +1109,8 @@
                         <tr>
                             <td>deviceVersion</td>
                             <td>deviceVersion</td>
+                            <td>deviceVersion</td>
+                            <td>deviceVersion</td>
                             <td>string</td>
                             <td></td>
                             <td></td>
@@ -1057,6 +1118,8 @@
                             <td></td>
                         </tr>
                         <tr>
+                            <td>serialCode</td>
+                            <td>serialCode</td>
                             <td>serialCode</td>
                             <td>serialCode</td>
                             <td>string</td>
@@ -1253,6 +1316,7 @@
                         </tr>
                         <tr>
                             <td>gatewayModel</td>
+                            <td>gatewayModel</td>
                             <td></td>
                             <td>one-to-one</td>
                             <td></td>
@@ -1381,6 +1445,8 @@
                         <tr>
                             <td>groupId</td>
                             <td>groupId</td>
+                            <td>groupId</td>
+                            <td>groupId</td>
                             <td>string</td>
                             <td></td>
                             <td></td>
@@ -1388,6 +1454,8 @@
                             <td></td>
                         </tr>
                         <tr>
+                            <td>protocol</td>
+                            <td>protocol</td>
                             <td>protocol</td>
                             <td>protocol</td>
                             <td>string</td>
@@ -1399,10 +1467,43 @@
                         <tr>
                             <td>status</td>
                             <td>status</td>
+                            <td>status</td>
+                            <td>status</td>
                             <td>string</td>
                             <td></td>
                             <td></td>
                             <td></td>
+                            <td>
+                                <h5>restrict</h5>
+                                <table>
+                                    <tr>
+                                        <td> activated</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> deactivated</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> inventory</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> retired</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>orderCode</td>
+                            <td>orderCode</td>
                             <td>
                                 <h5>restrict</h5>
                                 <table>
@@ -1443,6 +1544,8 @@
                         <tr>
                             <td>deviceVersion</td>
                             <td>deviceVersion</td>
+                            <td>deviceVersion</td>
+                            <td>deviceVersion</td>
                             <td>string</td>
                             <td></td>
                             <td></td>
@@ -1450,6 +1553,8 @@
                             <td></td>
                         </tr>
                         <tr>
+                            <td>serialCode</td>
+                            <td>serialCode</td>
                             <td>serialCode</td>
                             <td>serialCode</td>
                             <td>string</td>
@@ -1632,11 +1737,15 @@
                             <td>metric</td>
                             <td>metrics</td>
                             <td>one-to-many</td>
+                            <td>metric</td>
+                            <td>metrics</td>
+                            <td>one-to-many</td>
                             <td></td>
                             <td></td>
                             <td></td>
                         </tr>
                         <tr>
+                            <td>deviceModel</td>
                             <td>deviceModel</td>
                             <td></td>
                             <td>one-to-one</td>
@@ -1767,6 +1876,85 @@
                         <tr>
                             <td>ret_policy</td>
                             <td>ret_policy</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>accessLevel</td>
+                            <td>accessLevel</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <h5>restrict</h5>
+                                <table>
+                                    <tr>
+                                        <td> 1</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> 2</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> 3</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>category</td>
+                            <td>category</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <h5>restrict</h5>
+                                <table>
+                                    <tr>
+                                        <td> alarm</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td> data</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>min</td>
+                            <td>min</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>max</td>
+                            <td>max</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>unit</td>
+                            <td>unit</td>
                             <td>string</td>
                             <td></td>
                             <td></td>
@@ -2377,12 +2565,16 @@
                         <tr>
                             <td>deviceModel</td>
                             <td>deviceModels</td>
+                            <td>deviceModel</td>
+                            <td>deviceModels</td>
                             <td>one-to-many</td>
                             <td></td>
                             <td></td>
                             <td></td>
                         </tr>
                         <tr>
+                            <td>gatewayModel</td>
+                            <td>gatewayModels</td>
                             <td>gatewayModel</td>
                             <td>gatewayModels</td>
                             <td>one-to-many</td>
@@ -2393,7 +2585,14 @@
                         <tr>
                             <td>node</td>
                             <td>nodes</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>node</td>
+                            <td>nodes</td>
                             <td>one-to-many</td>
+                            <td>node</td>
                             <td>node</td>
                             <td></td>
                             <td></td>
@@ -2401,6 +2600,7 @@
                     </tbody>
                 </table>
             </small>
+            <table id="element_deviceModel" class="pretty-table">
             <table id="element_deviceModel" class="pretty-table">
                 <thead>
                     <tr>
@@ -2414,7 +2614,9 @@
                     <tr>
                         <td>
                             <b>deviceModel</b>
+                            <b>deviceModel</b>
                         </td>
+                        <td>device_model</td>
                         <td>device_model</td>
                         <td></td>
                         <td></td>
@@ -2470,6 +2672,8 @@
                         <tr>
                             <td>groupId</td>
                             <td>groupId</td>
+                            <td>groupId</td>
+                            <td>groupId</td>
                             <td>string</td>
                             <td></td>
                             <td></td>
@@ -2505,6 +2709,7 @@
                 </table>
             </small>
             <table id="element_gatewayModel" class="pretty-table">
+            <table id="element_gatewayModel" class="pretty-table">
                 <thead>
                     <tr>
                         <th>Element</th>
@@ -2517,7 +2722,9 @@
                     <tr>
                         <td>
                             <b>gatewayModel</b>
+                            <b>gatewayModel</b>
                         </td>
+                        <td>gateway_model</td>
                         <td>gateway_model</td>
                         <td></td>
                         <td></td>
@@ -2564,6 +2771,8 @@
                         <tr>
                             <td>groupId</td>
                             <td>groupId</td>
+                            <td>groupId</td>
+                            <td>groupId</td>
                             <td>string</td>
                             <td></td>
                             <td></td>
@@ -2604,6 +2813,8 @@
                             <td></td>
                         </tr>
                         <tr>
+                            <td>deviceModel</td>
+                            <td>deviceModels</td>
                             <td>deviceModel</td>
                             <td>deviceModels</td>
                             <td>one-to-many</td>

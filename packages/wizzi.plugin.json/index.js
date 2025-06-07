@@ -46,6 +46,7 @@ class FactoryPlugin {
     
     getVersion() {
         return '0.8.9';
+        return '0.8.9';
     }
     
     getFilename() {

@@ -11,6 +11,7 @@ var util = require('util');
 var verify = require('@wizzi/utils').verify;
 var errors = require('@wizzi/utils').errors;
 var stringify = require('json-stringify-safe');
+var stringify = require('json-stringify-safe');
 
 module.exports = function(mTree, ittfDocumentUri, request, callback) {
     // loog 'wizzi-core.wizzi.models.json-model.g', mTree
@@ -51,6 +52,7 @@ function toJsonObject(mTreeNodeChilds) {
             }
             else if (node.n === '{' || node.n === '[') {
                 if (!node.v || node.v.length == 0) {
+                    console.log("[31m%s[0m", "json-model.g.toJsonObject.node", node);
                     console.log("[31m%s[0m", "json-model.g.toJsonObject.node", node);
                     return error('A json object must contain property items. Found: ' + node.n + ' ' + node.v, node);
                 }
@@ -107,6 +109,7 @@ function toJsonObject(mTreeNodeChilds) {
             else {
                 if (!node.children || node.children.length == 0) {
                     console.log("[31m%s[0m", "json-model.g.toJsonObject.node", node);
+                    console.log("[31m%s[0m", "json-model.g.toJsonObject.node", node);
                     return error('A json property must have a value or a child object or array. Found: ' + node.n + ' ' + node.v, node);
                 }
                 else if (node.children.length == 1) {
@@ -126,10 +129,12 @@ function toJsonObject(mTreeNodeChilds) {
                     }
                     else {
                         console.log("[31m%s[0m", "json-model.g.toJsonObject.node", node);
+                        console.log("[31m%s[0m", "json-model.g.toJsonObject.node", node);
                         return error('A json property must have a value or a child object or array. Found: ' + node.n + ' ' + node.v + ' first child: ' + node.children[0].n + ' ' + node.children[0].v, node);
                     }
                 }
                 else {
+                    console.log("[31m%s[0m", "json-model.g.toJsonObject.node", node);
                     console.log("[31m%s[0m", "json-model.g.toJsonObject.node", node);
                     return error('A json property must have a value or a single child, object or array. Found: ' + node.n + ' ' + node.v + ' children count: ' + node.children.length, node);
                 }
@@ -163,6 +168,7 @@ function toJsonArray(mTreeNodeChilds) {
                 ret.push(value)
             }
             else if (node.v && node.v.length && isQuoted(node.n + ' ' + node.v) == false) {
+                console.log("[31m%s[0m", "json-model.g.toJsonArray.node", node);
                 console.log("[31m%s[0m", "json-model.g.toJsonArray.node", node);
                 return error('A json array item must be an object, an array or a value not a property. Found: ' + node.n + ' ' + node.v, node);
             }
@@ -204,12 +210,40 @@ function jsonValue(value, node) {
     }
     var jsonString = "{ \"value\": " + check(sb.join('')) + "}";
     // log 'jsonString', jsonString
+    // log 'jsonValue', value, node.children
+    var sb = [value];
+    if (node.children && node.children.length > 0) {
+        var i, i_items=node.children, i_len=node.children.length, item;
+        for (i=0; i<i_len; i++) {
+            item = node.children[i];
+            if (item.n == '+') {
+                sb.push(item.v);
+            }
+            else if (item.n == '+b') {
+                sb.push(' ' + item.v);
+            }
+            else if (item.n == '+t') {
+                sb.push('\t' + item.v);
+            }
+            else if (item.n == '+n') {
+                sb.push('\n' + item.v);
+            }
+            else {
+                console.log("[31m%s[0m", "json-model.g.toJsonObject.node", node);
+                return error('A json property node cannot have children nodes. Found: ' + node.n + ' ' + node.v + ' children.length: ' + node.children.length, node);
+            }
+        }
+    }
+    var jsonString = "{ \"value\": " + check(sb.join('')) + "}";
+    // log 'jsonString', jsonString
     try {
         var json = JSON.parse(jsonString);
+        node.children = [];
         node.children = [];
         return json.value;
     } 
     catch (ex) {
+        return error('Error parsing json value. Message: ' + ex.message + '. Value: ' + sb.join(''), node);
         return error('Error parsing json value. Message: ' + ex.message + '. Value: ' + sb.join(''), node);
     } 
 }
