@@ -215,6 +215,9 @@ var node = (function (logbotBase) {
         if (name === 'user_group') {
             return this.wzLoadToChildColl(child, _md.userGroup, this.nodes);
         }
+        if (name === 'user_group') {
+            return this.wzLoadToChildColl(child, _md.userGroup, this.nodes);
+        }
         if (name === '::jsonarray') {
             return this.wzLoadToChildColl(child, _md.jsonArrayInclude, this.nodes);
         }
@@ -464,8 +467,15 @@ var metricProperty = (function (node) {
 _md.metricProperty = metricProperty;
 /**
     element userGroup
+    element userGroup
      the wzName is the `name` attribute
 */
+var userGroup = (function (node) {
+    _inherits(userGroup, node);
+    function userGroup(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(userGroup.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, userGroup);
+        this.wzElement = "userGroup";
 var userGroup = (function (node) {
     _inherits(userGroup, node);
     function userGroup(name, sourceLineInfo) {
@@ -482,15 +492,28 @@ var userGroup = (function (node) {
         this.gatewayModels = [];
         // relation deviceModel
         this.deviceModels = [];
+        // relation gateway
+        this.gateways = [];
+        // relation device
+        this.devices = [];
+        // relation gatewayModel
+        this.gatewayModels = [];
+        // relation deviceModel
+        this.deviceModels = [];
     }
+    userGroup.prototype.addPlant = function(name, sourceLineInfo) {
+        var retval = new _md.plant(name, sourceLineInfo);
     userGroup.prototype.addPlant = function(name, sourceLineInfo) {
         var retval = new _md.plant(name, sourceLineInfo);
         retval.wzParent = this;
         this.plants.push(retval);
+        this.plants.push(retval);
         return retval;
     }
     userGroup.prototype.getPlant = function(name) {
+    userGroup.prototype.getPlant = function(name) {
         var found = null;
+        this.plants.forEach(function(item) {
         this.plants.forEach(function(item) {
             found = found || (item.wzName === name ? item : null);
         })
@@ -498,12 +521,17 @@ var userGroup = (function (node) {
     }
     userGroup.prototype.addGateway = function(name, sourceLineInfo) {
         var retval = new _md.gateway(name, sourceLineInfo);
+    userGroup.prototype.addGateway = function(name, sourceLineInfo) {
+        var retval = new _md.gateway(name, sourceLineInfo);
         retval.wzParent = this;
+        this.gateways.push(retval);
         this.gateways.push(retval);
         return retval;
     }
     userGroup.prototype.getGateway = function(name) {
+    userGroup.prototype.getGateway = function(name) {
         var found = null;
+        this.gateways.forEach(function(item) {
         this.gateways.forEach(function(item) {
             found = found || (item.wzName === name ? item : null);
         })
@@ -511,12 +539,17 @@ var userGroup = (function (node) {
     }
     userGroup.prototype.addDevice = function(name, sourceLineInfo) {
         var retval = new _md.device(name, sourceLineInfo);
+    userGroup.prototype.addDevice = function(name, sourceLineInfo) {
+        var retval = new _md.device(name, sourceLineInfo);
         retval.wzParent = this;
+        this.devices.push(retval);
         this.devices.push(retval);
         return retval;
     }
     userGroup.prototype.getDevice = function(name) {
+    userGroup.prototype.getDevice = function(name) {
         var found = null;
+        this.devices.forEach(function(item) {
         this.devices.forEach(function(item) {
             found = found || (item.wzName === name ? item : null);
         })
@@ -524,17 +557,36 @@ var userGroup = (function (node) {
     }
     userGroup.prototype.addGatewayModel = function(name, sourceLineInfo) {
         var retval = new _md.gatewayModel(name, sourceLineInfo);
+    userGroup.prototype.addGatewayModel = function(name, sourceLineInfo) {
+        var retval = new _md.gatewayModel(name, sourceLineInfo);
         retval.wzParent = this;
+        this.gatewayModels.push(retval);
         this.gatewayModels.push(retval);
         return retval;
     }
     userGroup.prototype.getGatewayModel = function(name) {
+    userGroup.prototype.getGatewayModel = function(name) {
         var found = null;
+        this.gatewayModels.forEach(function(item) {
         this.gatewayModels.forEach(function(item) {
             found = found || (item.wzName === name ? item : null);
         })
         return found;
     }
+    userGroup.prototype.addDeviceModel = function(name, sourceLineInfo) {
+        var retval = new _md.deviceModel(name, sourceLineInfo);
+        retval.wzParent = this;
+        this.deviceModels.push(retval);
+        return retval;
+    }
+    userGroup.prototype.getDeviceModel = function(name) {
+        var found = null;
+        this.deviceModels.forEach(function(item) {
+            found = found || (item.wzName === name ? item : null);
+        })
+        return found;
+    }
+    userGroup.prototype.loadChild = function(child) {
     userGroup.prototype.addDeviceModel = function(name, sourceLineInfo) {
         var retval = new _md.deviceModel(name, sourceLineInfo);
         retval.wzParent = this;
@@ -555,19 +607,28 @@ var userGroup = (function (node) {
         }
         if (name === 'device') {
             return this.wzLoadToChildColl(child, _md.device, this.devices);
+        if (name === 'device') {
+            return this.wzLoadToChildColl(child, _md.device, this.devices);
         }
+        if (name === 'gateway') {
+            return this.wzLoadToChildColl(child, _md.gateway, this.gateways);
         if (name === 'gateway') {
             return this.wzLoadToChildColl(child, _md.gateway, this.gateways);
         }
         if (name === 'device_model') {
             return this.wzLoadToChildColl(child, _md.deviceModel, this.deviceModels);
+        if (name === 'device_model') {
+            return this.wzLoadToChildColl(child, _md.deviceModel, this.deviceModels);
         }
+        if (name === 'gateway_model') {
+            return this.wzLoadToChildColl(child, _md.gatewayModel, this.gatewayModels);
         if (name === 'gateway_model') {
             return this.wzLoadToChildColl(child, _md.gatewayModel, this.gatewayModels);
         }
         ok = _md.node.prototype.loadChild.call(this, child);
         return ok;
     }
+    userGroup.prototype.loadFromNode = function(node) {
     userGroup.prototype.loadFromNode = function(node) {
         node.children.forEach((item) => {
             var loaded = this.loadChild(item);
@@ -579,14 +640,22 @@ var userGroup = (function (node) {
     }
     userGroup.prototype.wzVerify = function(ctx) {
         this.plants.forEach(item => 
+    userGroup.prototype.wzVerify = function(ctx) {
+        this.plants.forEach(item => 
             item.wzVerify(ctx)
         )
+        this.gateways.forEach(item => 
         this.gateways.forEach(item => 
             item.wzVerify(ctx)
         )
         this.devices.forEach(item => 
+        this.devices.forEach(item => 
             item.wzVerify(ctx)
         )
+        this.gatewayModels.forEach(item => 
+            item.wzVerify(ctx)
+        )
+        this.deviceModels.forEach(item => 
         this.gatewayModels.forEach(item => 
             item.wzVerify(ctx)
         )
@@ -597,14 +666,22 @@ var userGroup = (function (node) {
     }
     userGroup.prototype.wzInitialize = function(ctx) {
         this.plants.forEach(item => 
+    userGroup.prototype.wzInitialize = function(ctx) {
+        this.plants.forEach(item => 
             item.wzInitialize(ctx)
         )
+        this.gateways.forEach(item => 
         this.gateways.forEach(item => 
             item.wzInitialize(ctx)
         )
         this.devices.forEach(item => 
+        this.devices.forEach(item => 
             item.wzInitialize(ctx)
         )
+        this.gatewayModels.forEach(item => 
+            item.wzInitialize(ctx)
+        )
+        this.deviceModels.forEach(item => 
         this.gatewayModels.forEach(item => 
             item.wzInitialize(ctx)
         )
@@ -613,6 +690,7 @@ var userGroup = (function (node) {
         )
         _md.node.prototype.wzInitialize.call(this, ctx);
     }
+    return userGroup;
     return userGroup;
 })(node);
 
@@ -750,10 +828,16 @@ var plant = (function (logbotBase) {
         }
         if (name === 'address') {
             this.address = child.v; return true;
+        if (name === 'address') {
+            this.address = child.v; return true;
         }
         if (name === 'groupid') {
             this.groupId = child.v; return true;
+        if (name === 'groupid') {
+            this.groupId = child.v; return true;
         }
+        else if (name === 'gateway') {
+            return this.wzLoadToChildColl(child, _md.gateway, this.gateways);
         else if (name === 'gateway') {
             return this.wzLoadToChildColl(child, _md.gateway, this.gateways);
         }
@@ -841,6 +925,11 @@ var gateway = (function (logbotBase) {
         this.STATUS_DEACTIVATED = "deactivated";
         this.STATUS_INVENTORY = "inventory";
         this.STATUS_RETIRED = "retired";
+        this.allowedSTATUSES = [ "activated", "deactivated", "inventory", "retired"];
+        this.STATUS_ACTIVATED = "activated";
+        this.STATUS_DEACTIVATED = "deactivated";
+        this.STATUS_INVENTORY = "inventory";
+        this.STATUS_RETIRED = "retired";
         this.allowedCONFIGSTATES = [ "creating", "modifyingPrevious", "modifyingCloned", "completed", "eliminating"];
         this.CONFIGSTATE_CREATING = "creating";
         this.CONFIGSTATE_MODIFYINGPREVIOUS = "modifyingPrevious";
@@ -874,9 +963,19 @@ var gateway = (function (logbotBase) {
         this.scripts = [];
         // relation gatewayModel
         this.gatewayModel = null;
+        // relation gatewayModel
+        this.gatewayModel = null;
         // relation device
         this.devices = [];
     }
+    gateway.STATUS_ACTIVATED = "activated";
+    
+    gateway.STATUS_DEACTIVATED = "deactivated";
+    
+    gateway.STATUS_INVENTORY = "inventory";
+    
+    gateway.STATUS_RETIRED = "retired";
+    
     gateway.STATUS_ACTIVATED = "activated";
     
     gateway.STATUS_DEACTIVATED = "deactivated";
@@ -972,7 +1071,10 @@ var gateway = (function (logbotBase) {
         }
         if (name === 'status') {
             this.status = child.v; return true;
+        if (name === 'status') {
+            this.status = child.v; return true;
         }
+        else if (name === 'static') {
         else if (name === 'static') {
             return this.wzLoadToChildColl(child, _md.staticTag, this.staticTags);
         }
@@ -984,6 +1086,8 @@ var gateway = (function (logbotBase) {
         }
         if (name === 'groupid') {
             this.groupId = child.v; return true;
+        if (name === 'groupid') {
+            this.groupId = child.v; return true;
         }
         if (name === 'balenaid') {
             this.balenaId = child.v; return true;
@@ -993,7 +1097,11 @@ var gateway = (function (logbotBase) {
         }
         if (name === 'ordercode') {
             this.orderCode = child.v; return true;
+        if (name === 'ordercode') {
+            this.orderCode = child.v; return true;
         }
+        if (name === 'serialcode') {
+            this.serialCode = child.v; return true;
         if (name === 'serialcode') {
             this.serialCode = child.v; return true;
         }
@@ -1012,6 +1120,11 @@ var gateway = (function (logbotBase) {
         else if (name === 'config_state') {
             this.configState = child.v; return true;
         }
+        if (name === 'deviceversion') {
+            this.deviceVersion = child.v; return true;
+        }
+        if (name === 'gateway_model') {
+            return this.wzLoadOneToOne(child, _md.gatewayModel, 'gatewayModel');
         if (name === 'deviceversion') {
             this.deviceVersion = child.v; return true;
         }
@@ -1052,6 +1165,7 @@ var gateway = (function (logbotBase) {
     }
     gateway.prototype.wzVerify = function(ctx) {
         ctx.verifyEnum("gateway", "status", this.status, this.allowedSTATUSES, this);
+        ctx.verifyEnum("gateway", "status", this.status, this.allowedSTATUSES, this);
         ctx.verifyEnum("gateway", "configState", this.configState, this.allowedCONFIGSTATES, this);
         ctx.verifyEnum("gateway", "instanceRole", this.instanceRole, this.allowedINSTANCEROLES, this);
         ctx.verifyEnum("gateway", "itemConfigState", this.itemConfigState, this.allowedITEMCONFIGSTATES, this);
@@ -1068,6 +1182,8 @@ var gateway = (function (logbotBase) {
         this.scripts.forEach(item => 
             item.wzVerify(ctx)
         )
+        if (this.gatewayModel != null) {
+            this.gatewayModel.wzVerify(ctx);
         if (this.gatewayModel != null) {
             this.gatewayModel.wzVerify(ctx);
         }
@@ -1089,6 +1205,8 @@ var gateway = (function (logbotBase) {
         this.scripts.forEach(item => 
             item.wzInitialize(ctx)
         )
+        if (this.gatewayModel != null) {
+            this.gatewayModel.wzInitialize(ctx);
         if (this.gatewayModel != null) {
             this.gatewayModel.wzInitialize(ctx);
         }
@@ -1149,6 +1267,11 @@ var device = (function (logbotBase) {
         this.STATUS_DEACTIVATED = "deactivated";
         this.STATUS_INVENTORY = "inventory";
         this.STATUS_RETIRED = "retired";
+        this.allowedSTATUSES = [ "activated", "deactivated", "inventory", "retired"];
+        this.STATUS_ACTIVATED = "activated";
+        this.STATUS_DEACTIVATED = "deactivated";
+        this.STATUS_INVENTORY = "inventory";
+        this.STATUS_RETIRED = "retired";
         this.allowedCONFIGSTATES = [ "creating", "modifyingPrevious", "modifyingCloned", "completed", "eliminating"];
         this.CONFIGSTATE_CREATING = "creating";
         this.CONFIGSTATE_MODIFYINGPREVIOUS = "modifyingPrevious";
@@ -1176,6 +1299,19 @@ var device = (function (logbotBase) {
         this.connectionValues = [];
         // relation staticTag
         this.staticTags = [];
+        // relation metric
+        this.metrics = [];
+        // relation deviceModel
+        this.deviceModel = null;
+    }
+    device.STATUS_ACTIVATED = "activated";
+    
+    device.STATUS_DEACTIVATED = "deactivated";
+    
+    device.STATUS_INVENTORY = "inventory";
+    
+    device.STATUS_RETIRED = "retired";
+    
         // relation metric
         this.metrics = [];
         // relation deviceModel
@@ -1245,12 +1381,17 @@ var device = (function (logbotBase) {
     }
     device.prototype.addMetric = function(name, sourceLineInfo) {
         var retval = new _md.metric(name, sourceLineInfo);
+    device.prototype.addMetric = function(name, sourceLineInfo) {
+        var retval = new _md.metric(name, sourceLineInfo);
         retval.wzParent = this;
+        this.metrics.push(retval);
         this.metrics.push(retval);
         return retval;
     }
     device.prototype.getMetric = function(name) {
+    device.prototype.getMetric = function(name) {
         var found = null;
+        this.metrics.forEach(function(item) {
         this.metrics.forEach(function(item) {
             found = found || (item.wzName === name ? item : null);
         })
@@ -1260,7 +1401,13 @@ var device = (function (logbotBase) {
         var name = child.n.toLowerCase();
         if (name === 'metric') {
             return this.wzLoadToChildColl(child, _md.metric, this.metrics);
+        if (name === 'metric') {
+            return this.wzLoadToChildColl(child, _md.metric, this.metrics);
         }
+        if (name === 'status') {
+            this.status = child.v; return true;
+        }
+        else if (name === 'static') {
         if (name === 'status') {
             this.status = child.v; return true;
         }
@@ -1270,12 +1417,19 @@ var device = (function (logbotBase) {
         if (name === 'groupid') {
             this.groupId = child.v; return true;
         }
+        if (name === 'groupid') {
+            this.groupId = child.v; return true;
+        }
         if (name === 'protocol') {
             this.protocol = child.v; return true;
         }
         if (name === 'ordercode') {
             this.orderCode = child.v; return true;
+        if (name === 'ordercode') {
+            this.orderCode = child.v; return true;
         }
+        if (name === 'serialcode') {
+            this.serialCode = child.v; return true;
         if (name === 'serialcode') {
             this.serialCode = child.v; return true;
         }
@@ -1294,6 +1448,11 @@ var device = (function (logbotBase) {
         else if (name === 'config_state') {
             this.configState = child.v; return true;
         }
+        if (name === 'device_model') {
+            return this.wzLoadOneToOne(child, _md.deviceModel, 'deviceModel');
+        }
+        if (name === 'deviceversion') {
+            this.deviceVersion = child.v; return true;
         if (name === 'device_model') {
             return this.wzLoadOneToOne(child, _md.deviceModel, 'deviceModel');
         }
@@ -1334,6 +1493,7 @@ var device = (function (logbotBase) {
     }
     device.prototype.wzVerify = function(ctx) {
         ctx.verifyEnum("device", "status", this.status, this.allowedSTATUSES, this);
+        ctx.verifyEnum("device", "status", this.status, this.allowedSTATUSES, this);
         ctx.verifyEnum("device", "configState", this.configState, this.allowedCONFIGSTATES, this);
         ctx.verifyEnum("device", "instanceRole", this.instanceRole, this.allowedINSTANCEROLES, this);
         ctx.verifyEnum("device", "itemConfigState", this.itemConfigState, this.allowedITEMCONFIGSTATES, this);
@@ -1345,8 +1505,12 @@ var device = (function (logbotBase) {
             item.wzVerify(ctx)
         )
         this.metrics.forEach(item => 
+        this.metrics.forEach(item => 
             item.wzVerify(ctx)
         )
+        if (this.deviceModel != null) {
+            this.deviceModel.wzVerify(ctx);
+        }
         if (this.deviceModel != null) {
             this.deviceModel.wzVerify(ctx);
         }
@@ -1360,8 +1524,12 @@ var device = (function (logbotBase) {
             item.wzInitialize(ctx)
         )
         this.metrics.forEach(item => 
+        this.metrics.forEach(item => 
             item.wzInitialize(ctx)
         )
+        if (this.deviceModel != null) {
+            this.deviceModel.wzInitialize(ctx);
+        }
         if (this.deviceModel != null) {
             this.deviceModel.wzInitialize(ctx);
         }
@@ -1418,6 +1586,13 @@ var metric = (function (logbotBase) {
         this.allowedCATEGORIES = [ "alarm", "data"];
         this.CATEGORY_ALARM = "alarm";
         this.CATEGORY_DATA = "data";
+        this.allowedACCESSLEVELS = [ "1", "2", "3"];
+        this.ACCESSLEVEL_1 = "1";
+        this.ACCESSLEVEL_2 = "2";
+        this.ACCESSLEVEL_3 = "3";
+        this.allowedCATEGORIES = [ "alarm", "data"];
+        this.CATEGORY_ALARM = "alarm";
+        this.CATEGORY_DATA = "data";
         this.wzElement = "metric";
         // relation metricValue
         this.metricValues = [];
@@ -1428,6 +1603,16 @@ var metric = (function (logbotBase) {
         // relation scriptRef
         this.scriptRef = null;
     }
+    metric.ACCESSLEVEL_1 = "1";
+    
+    metric.ACCESSLEVEL_2 = "2";
+    
+    metric.ACCESSLEVEL_3 = "3";
+    
+    metric.CATEGORY_ALARM = "alarm";
+    
+    metric.CATEGORY_DATA = "data";
+    
     metric.ACCESSLEVEL_1 = "1";
     
     metric.ACCESSLEVEL_2 = "2";
@@ -1488,6 +1673,15 @@ var metric = (function (logbotBase) {
         if (name === 'unit') {
             this.unit = child.v; return true;
         }
+        if (name === 'min') {
+            this.min = child.v; return true;
+        }
+        else if (name === 'max') {
+            this.max = child.v; return true;
+        }
+        if (name === 'unit') {
+            this.unit = child.v; return true;
+        }
         if (name === 'topic') {
             this.topic = child.v; return true;
         }
@@ -1496,6 +1690,9 @@ var metric = (function (logbotBase) {
         }
         if (name === 'dynamic') {
             return this.wzLoadToChildColl(child, _md.dynamicTagRef, this.dynamicTagRefs);
+        }
+        if (name === 'category') {
+            this.category = child.v; return true;
         }
         if (name === 'category') {
             this.category = child.v; return true;
@@ -1511,6 +1708,9 @@ var metric = (function (logbotBase) {
         }
         if (name === 'script_ref') {
             return this.wzLoadOneToOne(child, _md.scriptRef, 'scriptRef');
+        }
+        if (name === 'accesslevel') {
+            this.accessLevel = child.v; return true;
         }
         if (name === 'accesslevel') {
             this.accessLevel = child.v; return true;
@@ -1533,6 +1733,8 @@ var metric = (function (logbotBase) {
         )
     }
     metric.prototype.wzVerify = function(ctx) {
+        ctx.verifyEnum("metric", "accessLevel", this.accessLevel, this.allowedACCESSLEVELS, this);
+        ctx.verifyEnum("metric", "category", this.category, this.allowedCATEGORIES, this);
         ctx.verifyEnum("metric", "accessLevel", this.accessLevel, this.allowedACCESSLEVELS, this);
         ctx.verifyEnum("metric", "category", this.category, this.allowedCATEGORIES, this);
         this.metricValues.forEach(item => 
@@ -1857,15 +2059,37 @@ var manufacturer = (function (node) {
         this.deviceModels = [];
         // relation gatewayModel
         this.gatewayModels = [];
+        // relation deviceModel
+        this.deviceModels = [];
+        // relation gatewayModel
+        this.gatewayModels = [];
     }
+    manufacturer.prototype.addDeviceModel = function(name, sourceLineInfo) {
+        var retval = new _md.deviceModel(name, sourceLineInfo);
     manufacturer.prototype.addDeviceModel = function(name, sourceLineInfo) {
         var retval = new _md.deviceModel(name, sourceLineInfo);
         retval.wzParent = this;
         this.deviceModels.push(retval);
+        this.deviceModels.push(retval);
         return retval;
     }
     manufacturer.prototype.getDeviceModel = function(name) {
+    manufacturer.prototype.getDeviceModel = function(name) {
         var found = null;
+        this.deviceModels.forEach(function(item) {
+            found = found || (item.wzName === name ? item : null);
+        })
+        return found;
+    }
+    manufacturer.prototype.addGatewayModel = function(name, sourceLineInfo) {
+        var retval = new _md.gatewayModel(name, sourceLineInfo);
+        retval.wzParent = this;
+        this.gatewayModels.push(retval);
+        return retval;
+    }
+    manufacturer.prototype.getGatewayModel = function(name) {
+        var found = null;
+        this.gatewayModels.forEach(function(item) {
         this.deviceModels.forEach(function(item) {
             found = found || (item.wzName === name ? item : null);
         })
@@ -1888,7 +2112,11 @@ var manufacturer = (function (node) {
         var ok = false, name = child.n.toLowerCase();
         if (name === 'device_model') {
             return this.wzLoadToChildColl(child, _md.deviceModel, this.deviceModels);
+        if (name === 'device_model') {
+            return this.wzLoadToChildColl(child, _md.deviceModel, this.deviceModels);
         }
+        if (name === 'gateway_model') {
+            return this.wzLoadToChildColl(child, _md.gatewayModel, this.gatewayModels);
         if (name === 'gateway_model') {
             return this.wzLoadToChildColl(child, _md.gatewayModel, this.gatewayModels);
         }
@@ -1909,11 +2137,19 @@ var manufacturer = (function (node) {
             item.wzVerify(ctx)
         )
         this.gatewayModels.forEach(item => 
+        this.deviceModels.forEach(item => 
+            item.wzVerify(ctx)
+        )
+        this.gatewayModels.forEach(item => 
             item.wzVerify(ctx)
         )
         _md.node.prototype.wzVerify.call(this, ctx);
     }
     manufacturer.prototype.wzInitialize = function(ctx) {
+        this.deviceModels.forEach(item => 
+            item.wzInitialize(ctx)
+        )
+        this.gatewayModels.forEach(item => 
         this.deviceModels.forEach(item => 
             item.wzInitialize(ctx)
         )
@@ -1928,8 +2164,15 @@ var manufacturer = (function (node) {
 _md.manufacturer = manufacturer;
 /**
     element deviceModel
+    element deviceModel
      the wzName is the `name` attribute
 */
+var deviceModel = (function (logbotBase) {
+    _inherits(deviceModel, logbotBase);
+    function deviceModel(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(deviceModel.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, deviceModel);
+        this.wzElement = "deviceModel";
 var deviceModel = (function (logbotBase) {
     _inherits(deviceModel, logbotBase);
     function deviceModel(name, sourceLineInfo) {
@@ -1940,11 +2183,13 @@ var deviceModel = (function (logbotBase) {
         this.metrics = [];
     }
     deviceModel.prototype.addMetric = function(name, sourceLineInfo) {
+    deviceModel.prototype.addMetric = function(name, sourceLineInfo) {
         var retval = new _md.metric(name, sourceLineInfo);
         retval.wzParent = this;
         this.metrics.push(retval);
         return retval;
     }
+    deviceModel.prototype.getMetric = function(name) {
     deviceModel.prototype.getMetric = function(name) {
         var found = null;
         this.metrics.forEach(function(item) {
@@ -1953,10 +2198,13 @@ var deviceModel = (function (logbotBase) {
         return found;
     }
     deviceModel.prototype.loadChild = function(child) {
+    deviceModel.prototype.loadChild = function(child) {
         var name = child.n.toLowerCase();
         if (name === 'metric') {
             return this.wzLoadToChildColl(child, _md.metric, this.metrics);
         }
+        if (name === 'groupid') {
+            this.groupId = child.v; return true;
         if (name === 'groupid') {
             this.groupId = child.v; return true;
         }
@@ -1972,6 +2220,7 @@ var deviceModel = (function (logbotBase) {
         return false;
     }
     deviceModel.prototype.loadFromNode = function(node) {
+    deviceModel.prototype.loadFromNode = function(node) {
         node.children.forEach((item) => {
             var loaded = this.loadChild(item);
             if (!loaded) {
@@ -1981,11 +2230,13 @@ var deviceModel = (function (logbotBase) {
         )
     }
     deviceModel.prototype.wzVerify = function(ctx) {
+    deviceModel.prototype.wzVerify = function(ctx) {
         this.metrics.forEach(item => 
             item.wzVerify(ctx)
         )
         _md.logbotBase.prototype.wzVerify.call(this, ctx);
     }
+    deviceModel.prototype.wzInitialize = function(ctx) {
     deviceModel.prototype.wzInitialize = function(ctx) {
         this.metrics.forEach(item => 
             item.wzInitialize(ctx)
@@ -1993,13 +2244,22 @@ var deviceModel = (function (logbotBase) {
         _md.logbotBase.prototype.wzInitialize.call(this, ctx);
     }
     return deviceModel;
+    return deviceModel;
 })(logbotBase);
 
 _md.deviceModel = deviceModel;
+_md.deviceModel = deviceModel;
 /**
+    element gatewayModel
     element gatewayModel
      the wzName is the `name` attribute
 */
+var gatewayModel = (function (logbotBase) {
+    _inherits(gatewayModel, logbotBase);
+    function gatewayModel(name, sourceLineInfo) {
+        _get(Object.getPrototypeOf(gatewayModel.prototype), 'constructor', this).call(this, name,sourceLineInfo);
+        _classCallCheck(this, gatewayModel);
+        this.wzElement = "gatewayModel";
 var gatewayModel = (function (logbotBase) {
     _inherits(gatewayModel, logbotBase);
     function gatewayModel(name, sourceLineInfo) {
@@ -2012,13 +2272,17 @@ var gatewayModel = (function (logbotBase) {
         this.scripts = [];
         // relation deviceModel
         this.deviceModels = [];
+        // relation deviceModel
+        this.deviceModels = [];
     }
+    gatewayModel.prototype.addDynamicTag = function(name, sourceLineInfo) {
     gatewayModel.prototype.addDynamicTag = function(name, sourceLineInfo) {
         var retval = new _md.dynamicTag(name, sourceLineInfo);
         retval.wzParent = this;
         this.dynamicTags.push(retval);
         return retval;
     }
+    gatewayModel.prototype.getDynamicTag = function(name) {
     gatewayModel.prototype.getDynamicTag = function(name) {
         var found = null;
         this.dynamicTags.forEach(function(item) {
@@ -2027,11 +2291,13 @@ var gatewayModel = (function (logbotBase) {
         return found;
     }
     gatewayModel.prototype.addScript = function(name, sourceLineInfo) {
+    gatewayModel.prototype.addScript = function(name, sourceLineInfo) {
         var retval = new _md.script(name, sourceLineInfo);
         retval.wzParent = this;
         this.scripts.push(retval);
         return retval;
     }
+    gatewayModel.prototype.getScript = function(name) {
     gatewayModel.prototype.getScript = function(name) {
         var found = null;
         this.scripts.forEach(function(item) {
@@ -2041,17 +2307,23 @@ var gatewayModel = (function (logbotBase) {
     }
     gatewayModel.prototype.addDeviceModel = function(name, sourceLineInfo) {
         var retval = new _md.deviceModel(name, sourceLineInfo);
+    gatewayModel.prototype.addDeviceModel = function(name, sourceLineInfo) {
+        var retval = new _md.deviceModel(name, sourceLineInfo);
         retval.wzParent = this;
+        this.deviceModels.push(retval);
         this.deviceModels.push(retval);
         return retval;
     }
     gatewayModel.prototype.getDeviceModel = function(name) {
+    gatewayModel.prototype.getDeviceModel = function(name) {
         var found = null;
+        this.deviceModels.forEach(function(item) {
         this.deviceModels.forEach(function(item) {
             found = found || (item.wzName === name ? item : null);
         })
         return found;
     }
+    gatewayModel.prototype.loadChild = function(child) {
     gatewayModel.prototype.loadChild = function(child) {
         var name = child.n.toLowerCase();
         if (name === 'script') {
@@ -2059,6 +2331,9 @@ var gatewayModel = (function (logbotBase) {
         }
         if (name === 'dynamic') {
             return this.wzLoadToChildColl(child, _md.dynamicTag, this.dynamicTags);
+        }
+        if (name === 'groupid') {
+            this.groupId = child.v; return true;
         }
         if (name === 'groupid') {
             this.groupId = child.v; return true;
@@ -2071,9 +2346,12 @@ var gatewayModel = (function (logbotBase) {
         }
         if (name === 'device_model') {
             return this.wzLoadToChildColl(child, _md.deviceModel, this.deviceModels);
+        if (name === 'device_model') {
+            return this.wzLoadToChildColl(child, _md.deviceModel, this.deviceModels);
         }
         return false;
     }
+    gatewayModel.prototype.loadFromNode = function(node) {
     gatewayModel.prototype.loadFromNode = function(node) {
         node.children.forEach((item) => {
             var loaded = this.loadChild(item);
@@ -2084,6 +2362,7 @@ var gatewayModel = (function (logbotBase) {
         )
     }
     gatewayModel.prototype.wzVerify = function(ctx) {
+    gatewayModel.prototype.wzVerify = function(ctx) {
         this.dynamicTags.forEach(item => 
             item.wzVerify(ctx)
         )
@@ -2091,10 +2370,12 @@ var gatewayModel = (function (logbotBase) {
             item.wzVerify(ctx)
         )
         this.deviceModels.forEach(item => 
+        this.deviceModels.forEach(item => 
             item.wzVerify(ctx)
         )
         _md.logbotBase.prototype.wzVerify.call(this, ctx);
     }
+    gatewayModel.prototype.wzInitialize = function(ctx) {
     gatewayModel.prototype.wzInitialize = function(ctx) {
         this.dynamicTags.forEach(item => 
             item.wzInitialize(ctx)
@@ -2103,13 +2384,16 @@ var gatewayModel = (function (logbotBase) {
             item.wzInitialize(ctx)
         )
         this.deviceModels.forEach(item => 
+        this.deviceModels.forEach(item => 
             item.wzInitialize(ctx)
         )
         _md.logbotBase.prototype.wzInitialize.call(this, ctx);
     }
     return gatewayModel;
+    return gatewayModel;
 })(logbotBase);
 
+_md.gatewayModel = gatewayModel;
 _md.gatewayModel = gatewayModel;
 // element jsInclude
 var jsInclude = (function (node) {
@@ -2757,6 +3041,7 @@ var apply = (function (node) {
 })(node);
 
 _md.apply = apply;
+_md.__tagElementMapping = { 'user_group': 'userGroup', 'model_schema': 'modelSchema', '::js': 'jsInclude', '::json-object': 'jsonObjectInclude', '::jsonobject': 'jsonObjectInclude', '::json-array': 'jsonArrayInclude', '::jsonarray': 'jsonArrayInclude', 'ai-call': 'aiCall', 'aicall': 'aiCall', 'ai-message': 'aiMessage', 'aimessage': 'aiMessage', 'ai-result': 'aiResult', 'airesult': 'aiResult', 'gateway_model': 'gatewayModel', 'device_model': 'deviceModel', 'static': 'staticTag', 'dynamic': 'dynamicTag', 'connection_value': 'connectionValue', 'property': 'metricValue', 'script_ref': 'scriptRef', 'allowed_value': 'dynamicTagAllowedValue', 'regex_allowed_value': 'dynamicTagRegexAllowedValue' };
 _md.__tagElementMapping = { 'user_group': 'userGroup', 'model_schema': 'modelSchema', '::js': 'jsInclude', '::json-object': 'jsonObjectInclude', '::jsonobject': 'jsonObjectInclude', '::json-array': 'jsonArrayInclude', '::jsonarray': 'jsonArrayInclude', 'ai-call': 'aiCall', 'aicall': 'aiCall', 'ai-message': 'aiMessage', 'aimessage': 'aiMessage', 'ai-result': 'aiResult', 'airesult': 'aiResult', 'gateway_model': 'gatewayModel', 'device_model': 'deviceModel', 'static': 'staticTag', 'dynamic': 'dynamicTag', 'connection_value': 'connectionValue', 'property': 'metricValue', 'script_ref': 'scriptRef', 'allowed_value': 'dynamicTagAllowedValue', 'regex_allowed_value': 'dynamicTagRegexAllowedValue' };
 // model/replaceUnknownElement( )
 var logbotModelException = (function () {
